@@ -323,7 +323,7 @@
                 }
             });
 
-            // Add Another Evidence Line (only for Chat)
+            // Another Evidence Line (only for Chat)
             newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`).addEventListener('click', function () {
                 const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
                 const newEvidenceLine = document.createElement('div');
@@ -343,10 +343,7 @@
         document.getElementById('banForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            // Get the selected theme
             const selectedTheme = document.getElementById('theme').value;
-
-            // Save the theme in localStorage
             localStorage.setItem('theme', selectedTheme);
     
             // Validate all fields
@@ -416,8 +413,7 @@
                     location = assetId; // Set location as Asset ID
                 }
                 if (evidenceType === "Game") {
-                    const gameId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                    location = gameId; // Set location as Asset ID
+                    location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
                 }
                 // Collect all evidence lines (except for Voice Chat and Avatar)
                 if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
