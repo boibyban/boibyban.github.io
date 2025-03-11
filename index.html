@@ -413,7 +413,8 @@
                     location = assetId; // Set location as Asset ID
                 }
                 if (evidenceType === "Game") {
-                    location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                    location = assetId; // Set location as Asset ID
                 }
                 // Collect all evidence lines (except for Voice Chat and Avatar)
                 if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
