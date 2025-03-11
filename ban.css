@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+.ban-box {
+    max-width: 710px;
+    background-color: #303030;
+    margin: 90px auto;
+    padding: 15px;
+    border-radius: 0;
+}
+.evidence-box {
+    border: 1px solid #bbb;
+    padding: 12px;
+    border-radius: 0;
+    margin-bottom: 12px;
+}
+body {
+    background-color: #1d1d1d;
+    line-height: 1.5em;
+}
+a:visited {
+    text-decoration: none;
+    color: #d19efa;
+}
+a {
+    text-decoration: none;
+    color: #7eaaff;
+}
+.logoutlink {
+    color: #ddd!important;
+    font-weight: 400!important;
+}
+.logout {
+    color: #ccc;
+    text-align: center;
+    text-decoration: none;
+    background-color: #303030;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    display: block;
+    margin: 30px auto 16px auto;
+    width: 88px;
+    height: 38px;
+    font-size: 16px;
+    font-weight: 400;
+}
+h1, h2, h3 {
+    line-height: 1.4em;
+    font-weight: bold;
+    font-size: 33px;
+    padding: 0;
+    margin: 0;
+    margin-top: 2px;
+    margin-bottom: 16px;
+    font-family: 'Inter', ui-sans-serif;
+    color: #ddd
+}
+p {
+    line-height: 1.5em;
+    font-weight: 300;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 12px;
+    font-family: 'Inter', ui-sans-serif;
+    color: #ddd
+}
+b {
+    line-height: 1.5em;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 12px;
+    font-family: 'Inter', ui-sans-serif;
+    color: #ddd
+}
+.offensive-img {
+    max-width: 350px;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-left: 40px;
+    display: block;
+}
