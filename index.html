@@ -1,1 +1,462 @@
-<h1>test</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ban Panel</title>
+    <link id="themeStylesheet" href="/ban-light.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+        select {
+            max-width: 800px;
+        }
+        .namebox {
+            width: 600px;
+        }
+        .evidence-box {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            position: relative;
+        }
+        .theme-toggle {
+            margin-bottom: 20px;
+        }
+        .remove-box {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .remove-box:hover {
+            background-color: #ff1a1a;
+        }
+        .remove-evidence {
+            background-color: #ff8080;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .remove-evidence:hover {
+            background-color: #ff4d4d;
+        }
+        #cautionWarningMessage {
+            color: red;
+            font-weight: bold;
+        }
+        .evidence-image {
+            max-width: 500px;
+            height: auto;
+        }
+        .evidence-line {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body style="padding:16px">
+
+    <h3>Moderation Panel</h3>
+    <form id="banForm">
+    <div class="theme-toggle">
+        <label for="theme">Theme (shows on ban page):</label>
+        <select id="theme" name="theme">
+            <option value="light">Light Mode</option>
+            <option value="dark">Dark Mode</option>
+        </select>
+    </div>
+        <p>Punishment</p>
+        <input type="radio" id="Warn" name="State" value="Warn">
+        <label for="Warn">Warn</label><br>
+        <input type="radio" id="Ban1Hour" name="State" value="Ban1Hour">
+        <label for="Ban1Hour">Ban 1 Hour</label><br>
+        <input type="radio" id="Ban3Hours" name="State" value="Ban3Hours">
+        <label for="Ban3Hours">Ban 3 Hours</label><br>
+        <input type="radio" id="Ban6Hours" name="State" value="Ban6Hours">
+        <label for="Ban6Hours">Ban 6 Hours</label><br>
+        <input type="radio" id="Ban12Hours" name="State" value="Ban12Hours">
+        <label for="Ban12Hours">Ban 12 Hours</label><br>
+        <input type="radio" id="Ban1Day" name="State" value="Ban1Day">
+        <label for="Ban1Day">Ban 1 Day</label><br>
+        <input type="radio" id="Ban3Day" name="State" value="Ban3Day">
+        <label for="Ban3Day">Ban 3 Days</label><br>
+        <input type="radio" id="Ban1Week" name="State" value="Ban1Week">
+        <label for="Ban1Week">Ban 1 Week</label><br>
+        <input type="radio" id="Ban2Weeks" name="State" value="Ban2Weeks">
+        <label for="Ban2Weeks">Ban 2 Weeks</label><br>
+
+        <input type="radio" id="Delete" name="State" value="Delete">
+        <label for="Delete">Delete</label><br>
+        <!-- <input type="radio" id="Poison" name="State" value="Poison"> -->
+        <!-- <label for="Poison">Delete All Accounts</label> -->
+        <br>
+        <label for="premiumMembership">
+        <input type="checkbox" id="premiumMembership" name="premiumMembership"> User has active Boiby Premium Membership (this is being deprecated)
+        </label><br>
+        <label for="note">Moderator Note (presets):</label><br>
+        <select id="note" name="note">
+            <option value="nonote">No moderator note</option>
+            <option value="terrorism">TERRORISM/EXTREMISM: Boiby strictly prohibits associations with terrorism and violent extremism.</option>
+            <option value="impersonation">IMPERSONATION OLD: Impersonation is a violation of our rules. If you continue, your account may receive additional moderation actions.</option>
+            <option value="ipviolation">IP VIOLATION: We received a copyright removal request for one or more of your creations. After reviewing the request, we have removed your creation. If you believe you were reported by mistake, you can contest the removal request by submitting a counter-notice.</option>
+            <option value="ip_perm">IP VIOLATION (PERM): Your account has been closed/deleted due to violations of our DMCA Repeat Infringer Policy. Please review the Boiby Community Standards for more information. You are prohibited from creating a new account on Boiby.</option>
+            <option value="impersonation2">IMPERSONATION: Boiby does not permit users to mislead others by impersonating other people’s identity or affiliations.</option>
+            <option value="harassment">ACCOUNT FOR RULE BREAK: Do not create accounts just to harass others or break rules.</option>
+            <option value="profanity">PROFANITY: Boiby prohibits the use of profane language or slurs.</option>
+            <option value="profanity2">PROFANITY 2: Do not swear, use profanity, or otherwise say inappropriate things on Boiby.</option>
+            <option value="misinformation">MISINFORMATION: Boiby prohibits the spreading of misinformation or content intended to mislead others.</option>
+            <option value="bullying">BULLYING: Boiby does not permit bullying or harassment towards community members.</option>
+            <option value="bullying2">BULLYING 2: Do not harass, bully, or otherwise say mean things about other users.</option>
+            <option value="scamming">SCAMS: Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.</option>
+            <option value="pii">PII: Boiby does not allow the exchange of Personal Information between users.</option>
+            <option value="discriminatory_language">DISCRIMINATION: Boiby does not permit discriminatory language, behavior, or content of any kind.</option>
+            <option value="be">BOIBY ENDANGERMENT: Your account has been permanently banned due to violating our Boiby Endangerment Community Standard. Our policies prohibit this sort of content and behaviour.</option>
+            <option value="emp">ABUSE OF BOIBY EMPLOYEES: Boiby prohibits any harassment or abuse of Boiby Employees or Affiliates.</option>
+            <option value="adult_content">ADULT CONTENT: Adult content is not tolerated on Boiby!</option>
+            <option value="sexual_content">SEXUAL CONTENT: Boiby does not allow sexual content in any form.</option>
+            <option value="cheats">CHEATS AND EXPLOITS: Boiby prohibits the use of unauthorized third-party software in order to modify the client.</option>
+            <option value="cheats2">CHEATS AND EXPLOITS 2: Your account has been moderated for violating our Terms of Service for exploiting.</option>
+            <option value="spam">SPAM: Boiby does not permit spamming in the form of clickbait, or repetitive, large volume messaging.</option>
+            <option value="illegalcontent">ILLEGAL AND REGULATED CONTENT: Boiby prohibits illegal and regulated content in all forms. This can include alcohol, drugs, tobacco products, or bomb or weapon making.</option>
+            <option value="blackmail">EXTORTION/BLACKMAIL: Boiby does not permit attempts to threaten users in order to force them to do something they do not want to do.</option>
+            <option value="political_content">POLITICS: Boiby prohibits the discussion or posting of content pertaining to political content or figures.</option>
+            <option value="gore">VIOLENT: Boiby does not permit violent content and gore, including excessive use of blood.</option>
+            <option value="purchases">BUYING OFF-PLATFORM: Boiby prohibits users to buy, trade, or sell Boibybucks or virtual items on third-party sites or marketplaces.</option>
+            <option value="disruptive2">DISRUPTIVE AUDIO: Boiby prohibits any uploads of audio that is unintelligible, excessively loud, or contains high-pitched noises.</option>
+            <option value="dating">DATING: Boiby does not permit dating or romantic exchanges between users.</option>
+            <option value="misuse">BYPASSES: Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.</option>
+            <option value="tragedy">TRAGEDY: Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.</option>
+            <option value="scam_games">SCAM GAMES (PERMANENT): This account has been closed due to a violation of our Terms of Service. Do not create games or advertisements intended to scam other players.</option>
+            <option value="name">USERNAME: Your username contains inappropriate content that is not allowed on Boiby.</option>
+            <option value="threats">THREATS: Your account has been moderated for making threats against other users.</option>
+            <option value="audio">AUDIO (GENERAL): This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.</option>
+            <option value="image">IMAGE (GENERAL): This image is not appropriate. Please review our rules and only upload appropriate content.</option>
+            <option value="displayname">DISPLAY NAME: This display name is not appropriate for Boiby.</option>
+            <option value="malware">MALICIOUS SOFTWARE: Boiby prohibits uploads of malicious or harmful software, including adware, spyware, stealers, remote access trojans, or any other unwanted software.</option>
+            <option value="evasion">BAN EVASION: You created or used an account to avoid a moderation action taken against another account</option>
+            <option value="multiple">MULTIPLE ACCOUNT VIOLATION: Your account has been deleted for repeatedly violating the Terms of Service on multiple accounts.</option>
+            <option value="modaction">MOD ACTIONS: Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss your bans, please use the Appeals Portal to contact us.</option>
+            <option value="accounttheft2">ACCOUNT THEFT: Your account has been moderated for violating our Terms of Service for theft of an account and/or assets.</option>
+            <option value="tos">SEVERE VIOLATIONS (PERMANENT): Your account has been permanently banned due to multiple and/or severe violations of our Terms of Service.</option>
+            <option value="inappropriate_behavior">INAPPROPRIATE CONTENT: Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. This is a violation of our Terms of Service.</option>
+            <option value="disputedcharges">DISUPTED CHARGES: Your account has been suspended for unauthorized/disupted charges.</option>
+            <option value="comped2">STOLEN ACCOUNT 1: This account has been closed. Do not steal accounts!</option>
+            <option value="comped1">STOLEN ACCOUNT 2: This account has been closed as compromised.</option>
+            <option value="creating">ACCOUNTS TO SPAM: Creating accounts just to spam can get you permanently banned from the site.</option>
+        </select><br><br>
+        <label for="notecustom">Custom Moderator Note (optional):</label><br>
+        <textarea id="notecustom" name="notecustom" rows="4" cols="50"></textarea><br>
+        <div id="cautionWarningContainer" style="display: none;">
+            <label for="cautionWarning">Caution Warning:</label><br>
+            <select id="cautionWarning" name="cautionWarning">
+                <option value="none">None</option>
+                <option value="future">(WARNINGS) CAUTION: If you violate the Community Standards again, you may be banned in the future.</option>
+                <option value="permanent">CAUTION: If you violate the Community Standards again, you will be permanently banned.</option>
+            </select><br><br>
+        </div>
+
+        <!-- Evidence and Violation Box -->
+        <div id="evidenceViolationContainer"></div>
+        <button type="button" id="addEvidenceViolationBox">Add Evidence and Violation</button><br><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+
+    <script>
+        let evidenceViolationCount = 0;
+
+        // Show/hide caution warning based on punishment type
+        const cautionWarningContainer = document.getElementById('cautionWarningContainer');
+        const punishmentRadios = document.querySelectorAll('input[name="State"]');
+        punishmentRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                const selectedPunishment = this.value;
+                if (selectedPunishment === "Warn" || selectedPunishment.startsWith("Ban")) {
+                    cautionWarningContainer.style.display = "block";
+                } else {
+                    cautionWarningContainer.style.display = "none";
+                }
+            });
+        });
+        
+        // Add Evidence and Violation Box
+        document.getElementById('addEvidenceViolationBox').addEventListener('click', function () {
+            evidenceViolationCount++;
+            const newBox = document.createElement('div');
+            newBox.className = 'evidence-box';
+            newBox.innerHTML = `
+                <button type="button" class="remove-box">Remove Box</button>
+                <label for="evidenceType${evidenceViolationCount}">Evidence Type:</label>
+                <select id="evidenceType${evidenceViolationCount}" class="evidenceType" required>
+                    <option value="">-- Select Evidence Type --</option>
+                    <option value="Chat">Text Chat</option>
+                    <option value="Image">Image</option>
+                    <option value="Voice Chat">Voice Chat</option>
+                    <option value="Username">Username</option>
+                    <option value="Display Name">Display Name</option>
+                    <option value="Game">Game</option>
+                    <option value="Message">Message/Other</option>
+                    <option value="Avatar">Avatar</option>
+                    <option value="Asset">Asset</option>
+                </select><br><br>
+                <label for="violation${evidenceViolationCount}">Violation (select up to 3):</label>
+                <select id="violation${evidenceViolationCount}" class="violation" multiple required>
+                    <option value="">-- Select a Violation --</option>
+                    <option value="Harassment">Harassment</option>
+                    <option value="Inappropriate Content">Inappropriate Content</option>
+                    <option value="Political Content">Political Content</option>
+                    <option value="Privacy">Privacy</option>
+                    <option value="Adult Content">Adult Content</option>
+                    <option value="Sexual Content">Sexual Content</option>
+                    <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
+                    <option value="Terrorism/Extremism">Terrorism/Extremism</option>
+                    <option value="Boiby Endangerment">Boiby Endangerment</option>
+                    <option value="Discriminatory Content">Discriminatory</option>
+                    <option value="Violent Content and Gore">Violent Content and Gore</option>
+                    <option value="Privacy: Sharing PII">Privacy: Sharing PII</option>
+                    <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
+                    <option value="Doxxing">Doxxing</option>
+                    <option value="Seeking Sexual Content">Seeking Sexual Content</option>
+                    <option value="IP Violation">IP Violation</option>
+                    <option value="Scamming">Scamming</option>
+                    <option value="Misinformation">Misinformation</option>
+                    <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
+                    <option value="Swearing">Profanity</option>
+                    <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
+                    <option value="Boiby Economy">Boiby Economy</option>
+                    <option value="Compromised Account">Compromised Account</option>
+                    <option value="Cheats and Exploits">Cheats and Exploits</option>
+                    <option value="Spam">Spam</option>
+                    <option value="Other">Other</option>
+                    <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                    <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
+                    <option value="Gambling Content">Gambling Content</option>
+                    <option value="Real-Life Threats">Real-Life Threats</option>
+                    <option value="Real-World Tragic Events">Real-World Tragedy</option>
+                    <option value="Impersonation">Impersonation</option>
+                    <option value="Dangerous Activities">Dangerous Activities</option>
+                    <option value="Disruptive Audio">Disruptive Audio</option>
+                    <option value="Dating">Dating</option>
+                    <option value="Romantic Content">Romantic Content</option>
+                    <option value="Malicious Software">Malicious Software</option>
+                </select><br><br>
+                <div id="locationContainer${evidenceViolationCount}" style="display: none;">
+                    <label for="location${evidenceViolationCount}">Location:</label>
+                    <input type="text" id="location${evidenceViolationCount}" class="location"><br><br>
+                </div>
+                <div id="evidenceInput${evidenceViolationCount}" style="display: none;">
+                    <div class="evidence-line">
+                        <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                        <input type="text" id="evidence${evidenceViolationCount}" class="evidence"><br><br>
+                    </div>
+                </div>
+                <button type="button" id="addEvidenceLine${evidenceViolationCount}" class="add-evidence-line" style="display: none;">Add Another Evidence Line</button>
+                <button type="button" class="remove-evidence">Remove Evidence</button>
+            `;
+            document.getElementById('evidenceViolationContainer').appendChild(newBox);
+
+            // Remove Box
+            newBox.querySelector('.remove-box').addEventListener('click', function () {
+                newBox.remove();
+                document.getElementById('addEvidenceViolationBox').style.display = "inline-block";
+            });
+
+            // Remove Evidence
+            newBox.querySelector('.remove-evidence').addEventListener('click', function () {
+                newBox.querySelector('.evidence').value = '';
+            });
+
+            // Show/Hide Location and Evidence Inputs
+            newBox.querySelector('.evidenceType').addEventListener('change', function () {
+                const evidenceType = this.value;
+                const locationContainer = newBox.querySelector(`#locationContainer${evidenceViolationCount}`);
+                const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
+                const addEvidenceLineButton = newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`);
+
+                if (evidenceType === "Chat" || evidenceType === "Voice Chat") {
+                    locationContainer.style.display = "block";
+                } else {
+                    locationContainer.style.display = "none";
+                }
+
+                if (evidenceType === "Image") {
+                    evidenceInput.innerHTML = `
+                        <div class="evidence-line">
+                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                            <input type="file" id="evidence${evidenceViolationCount}" class="evidence" accept="image/*" required><br><br>
+                        </div>
+                    `;
+                    evidenceInput.style.display = "block";
+                    addEvidenceLineButton.style.display = "none";
+                } else if (evidenceType === "Voice Chat") {
+                    evidenceInput.innerHTML = ``; // No evidence input for Voice Chat
+                    evidenceInput.style.display = "none";
+                    addEvidenceLineButton.style.display = "none";
+                } else if (evidenceType === "Chat") {
+                    evidenceInput.innerHTML = `
+                        <div class="evidence-line">
+                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                            <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
+                        </div>
+                    `;
+                    evidenceInput.style.display = "block";
+                    addEvidenceLineButton.style.display = "inline-block";
+                } else if (evidenceType === "Username" || evidenceType === "Display Name" || evidenceType === "Game" || evidenceType === "Message") {
+                    evidenceInput.innerHTML = `
+                        <div class="evidence-line">
+                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                            <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
+                        </div>
+                    `;
+                    evidenceInput.style.display = "block";
+                    addEvidenceLineButton.style.display = "none";
+                } else if (evidenceType === "Avatar") {
+                    evidenceInput.style.display = "none";
+                    addEvidenceLineButton.style.display = "none";
+                    locationContainer.style.display = "none";
+                } else if (evidenceType === "Asset") {
+                    evidenceInput.innerHTML = `
+                        <div class="evidence-line">
+                            <label for="evidence${evidenceViolationCount}">Asset Name:</label>
+                            <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
+                        </div>
+                    `;
+                    evidenceInput.style.display = "block";
+                    addEvidenceLineButton.style.display = "none";
+                    locationContainer.style.display = "none"; // Hide location field
+                } else {
+                    evidenceInput.style.display = "none";
+                    addEvidenceLineButton.style.display = "none";
+                }
+            });
+
+            // Add Another Evidence Line (only for Chat)
+            newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`).addEventListener('click', function () {
+                const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
+                const newEvidenceLine = document.createElement('div');
+                newEvidenceLine.className = 'evidence-line';
+                newEvidenceLine.innerHTML = `
+                    <label for="evidence${evidenceViolationCount}-${evidenceInput.children.length + 1}">Evidence:</label>
+                    <input type="text" id="evidence${evidenceViolationCount}-${evidenceInput.children.length + 1}" class="evidence" required><br><br>
+                `;
+                evidenceInput.appendChild(newEvidenceLine);
+            });
+
+            // Hide the "Add Evidence and Violation" button after adding a box
+            document.getElementById('addEvidenceViolationBox').style.display = "none";
+        });
+
+        // Form Submission
+        document.getElementById('banForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            // Get the selected theme
+            const selectedTheme = document.getElementById('theme').value;
+
+            // Save the theme in localStorage
+            localStorage.setItem('theme', selectedTheme);
+    
+            // Validate all fields
+            const evidenceBoxes = document.querySelectorAll('.evidence-box');
+            let isValid = true;
+
+            evidenceBoxes.forEach(box => {
+                const evidenceType = box.querySelector('.evidenceType').value;
+                const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
+                const evidenceInput = box.querySelector('.evidence');
+                const locationInput = box.querySelector('.location');
+
+                // Check if evidence type is selected
+                if (!evidenceType) {
+                    alert("Please select an evidence type for all boxes.");
+                    isValid = false;
+                    return;
+                }
+
+                // Check if at least one violation is selected
+                if (violations.length === 0 || violations.includes("")) {
+                    alert("Please select at least one violation for all boxes.");
+                    isValid = false;
+                    return;
+                }
+
+                // Check if evidence field is filled (except for Voice Chat and Avatar)
+                if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar" && evidenceType !== "Asset" && (!evidenceInput || !evidenceInput.value.trim())) {
+                    alert("Please fill out the evidence field for all boxes.");
+                    isValid = false;
+                    return;
+                }
+
+                // Check if location is filled for Chat and Voice Chat
+                if ((evidenceType === "Chat" || evidenceType === "Voice Chat") && (!locationInput || !locationInput.value.trim())) {
+                    alert("Please fill out the location field for Chat and Voice Chat bans.");
+                    isValid = false;
+                    return;
+                }
+            });
+
+            if (!isValid) return;
+
+            // Proceed with form submission
+            const formData = {
+                state: document.querySelector('input[name="State"]:checked').value,
+                note: document.getElementById('note').value,
+                customNote: document.getElementById('notecustom').value,
+                cautionWarning: document.getElementById('cautionWarning').value,
+                theme: document.getElementById('theme').value,
+                premiumMembership: document.getElementById('premiumMembership').checked,
+                evidenceViolations: []
+            };
+
+            for (const box of evidenceBoxes) {
+                const evidenceType = box.querySelector('.evidenceType').value;
+                const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
+                let location = box.querySelector('.location') ? box.querySelector('.location').value : (evidenceType === "Chat" ? "Chat" : null);
+                const evidence = [];
+
+                // Generate Asset ID for Asset type
+                if (evidenceType === "Asset") {
+                    location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                }
+                if (evidenceType === "Image") {
+                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                    location = assetId; // Set location as Asset ID
+                }
+                // Collect all evidence lines (except for Voice Chat and Avatar)
+                if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
+                    const evidenceInputs = box.querySelectorAll('.evidence-line input');
+                    for (const input of evidenceInputs) {
+                        if (input.type === "file" && input.files[0]) {
+                            const file = input.files[0];
+                            const reader = new FileReader();
+
+                            // Wait for the file to be read
+                            const fileData = await new Promise((resolve) => {
+                                reader.onload = (e) => resolve(e.target.result);
+                                reader.readAsDataURL(file);
+                            });
+
+                            evidence.push(fileData); // Store base64 data
+                        } else if (input.type === "text" && input.value.trim()) {
+                            evidence.push(input.value.trim());
+                        }
+                    }
+                }
+
+                formData.evidenceViolations.push({
+                    evidenceType,
+                    violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
+                    location,
+                    evidence
+                });
+            }
+
+            // Save form data to localStorage and redirect
+            localStorage.setItem('banFormData', JSON.stringify(formData));
+            window.location.href = '/not-approved';
+        });
+    </script>
+</body>
+</html>
