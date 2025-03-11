@@ -82,7 +82,7 @@
 
             document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
-            // Map preset notes to their full text
+            // Map preset notes to their full text (keep consistent!)
             const presetNotesMap = {
                 impersonation: "Impersonation is a violation of our rules. If you continue, your account may receive additional moderation actions.",
                 impersonation2: "Boiby does not permit users to mislead others by impersonating other people’s identity or affiliations.",
@@ -263,7 +263,7 @@ if (
                         violationSection.appendChild(locationElement);
                     }
 
-                    if (violation.evidenceType === "Game" {
+                    if (violation.evidenceType === "Game") {
                         const locationElement = document.createElement('p');
                         locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
                         violationSection.appendChild(locationElement);
