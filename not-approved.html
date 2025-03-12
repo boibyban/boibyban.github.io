@@ -175,6 +175,7 @@ function addReactivateTextForWarnings() {
             const logoutButton = document.querySelector('.logout');
             if (formData.state === "Warn") {
                 document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Service.";
+                document.getElementById('reactivateMessage').styleDisplay = "none";
                 document.getElementById('reactivateButton').style.display = "block";
                 // document.getElementById('appealsMessage').style.display = "none";
                 logoutButton.classList.add('warning-margin');
