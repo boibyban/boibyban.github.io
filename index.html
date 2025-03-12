@@ -415,115 +415,159 @@ document.getElementById('addClassicViolationBox').addEventListener('click', func
         });
 
         // Form Submission
-        document.getElementById('banForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
+        // Form Submission
+document.getElementById('banForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
 
-            const selectedTheme = document.getElementById('theme').value;
-            localStorage.setItem('theme', selectedTheme);
+    const selectedTheme = document.getElementById('theme').value;
+    localStorage.setItem('theme', selectedTheme);
+
+    // Validate all fields
+    let isValid = true;
     
-            // Validate all fields
-            const evidenceBoxes = document.querySelectorAll('.evidence-box');
-            let isValid = true;
-
-            evidenceBoxes.forEach(box => {
-                const evidenceType = box.querySelector('.evidenceType').value;
-                const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
-                const evidenceInput = box.querySelector('.evidence');
-                const locationInput = box.querySelector('.location');
-
-                // Check if evidence type is selected
-                if (!evidenceType) {
-                    alert("Please select an evidence type for all boxes.");
+    // Check if we have classic violations or regular violations
+    const hasClassicViolations = document.querySelector('.classicViolation');
+    const hasRegularViolations = document.querySelector('.evidenceType');
+    
+    // Initialize form data
+    const formData = {
+        state: document.querySelector('input[name="State"]:checked').value,
+        note: document.getElementById('note').value,
+        customNote: document.getElementById('notecustom').value,
+        cautionWarning: document.getElementById('cautionWarning').value,
+        theme: document.getElementById('theme').value,
+        premiumMembership: document.getElementById('premiumMembership').checked
+    };
+    
+    // Validate and collect data based on violation type
+    if (hasClassicViolations) {
+        // Using classic violations
+        formData.useClassicViolation = true;
+        formData.classicViolations = [];
+        
+        const classicBoxes = document.querySelectorAll('.evidence-box');
+        for (const box of classicBoxes) {
+            const violationSelect = box.querySelector('.classicViolation');
+            const evidenceInput = box.querySelector('.classicEvidence');
+            
+            if (violationSelect && evidenceInput) {
+                // Validate this box
+                if (!violationSelect.value) {
+                    alert("Please select a violation for all classic violation boxes.");
                     isValid = false;
-                    return;
+                    break;
                 }
-
-                // Check if at least one violation is selected
-                if (violations.length === 0 || violations.includes("")) {
-                    alert("Please select at least one violation for all boxes.");
+                
+                if (!evidenceInput.value.trim()) {
+                    alert("Please provide evidence for all classic violation boxes.");
                     isValid = false;
-                    return;
+                    break;
                 }
-
-                // Check if evidence field is filled (except for Voice Chat and Avatar)
-                if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar" && evidenceType !== "Asset" && (!evidenceInput || !evidenceInput.value.trim())) {
-                    alert("Please fill out the evidence field for all boxes.");
-                    isValid = false;
-                    return;
-                }
-
-                // Check if location is filled for Chat and Voice Chat
-                if ((evidenceType === "Chat" || evidenceType === "Voice Chat") && (!locationInput || !locationInput.value.trim())) {
-                    alert("Please fill out the location field for Chat and Voice Chat bans.");
-                    isValid = false;
-                    return;
-                }
-            });
-
-            if (!isValid) return;
-
-            // Proceed with form submission
-            const formData = {
-                state: document.querySelector('input[name="State"]:checked').value,
-                note: document.getElementById('note').value,
-                customNote: document.getElementById('notecustom').value,
-                cautionWarning: document.getElementById('cautionWarning').value,
-                theme: document.getElementById('theme').value,
-                premiumMembership: document.getElementById('premiumMembership').checked,
-                evidenceViolations: []
-            };
-
-            for (const box of evidenceBoxes) {
-                const evidenceType = box.querySelector('.evidenceType').value;
-                const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
-                let location = box.querySelector('.location') ? box.querySelector('.location').value : (evidenceType === "Chat" ? "Chat" : null);
-                const evidence = [];
-
-                // Generate Asset ID for Asset type
-                if (evidenceType === "Asset") {
-                    location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                }
-                if (evidenceType === "Image") {
-                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                    location = assetId; // Set location as Asset ID
-                }
-                if (evidenceType === "Game") {
-                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                    location = assetId; // Set location as Asset ID
-                }
-                // Collect all evidence lines (except for Voice Chat and Avatar)
-                if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
-                    const evidenceInputs = box.querySelectorAll('.evidence-line input');
-                    for (const input of evidenceInputs) {
-                        if (input.type === "file" && input.files[0]) {
-                            const file = input.files[0];
-                            const reader = new FileReader();
-
-                            // Wait for the file to be read
-                            const fileData = await new Promise((resolve) => {
-                                reader.onload = (e) => resolve(e.target.result);
-                                reader.readAsDataURL(file);
-                            });
-
-                            evidence.push(fileData); // Store base64 data
-                        } else if (input.type === "text" && input.value.trim()) {
-                            evidence.push(input.value.trim());
-                        }
-                    }
-                }
-
-                formData.evidenceViolations.push({
-                    evidenceType,
-                    violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
-                    location,
-                    evidence
+                
+                // Collect data
+                formData.classicViolations.push({
+                    violation: violationSelect.value,
+                    evidence: evidenceInput.value.trim()
                 });
             }
+        }
+    } else if (hasRegularViolations) {
+        // Using regular violations
+        formData.useClassicViolation = false;
+        formData.evidenceViolations = [];
+        
+        const evidenceBoxes = document.querySelectorAll('.evidence-box');
+        for (const box of evidenceBoxes) {
+            const evidenceType = box.querySelector('.evidenceType').value;
+            const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
+            const evidenceInput = box.querySelector('.evidence');
+            const locationInput = box.querySelector('.location');
 
-            // Save form data to localStorage and redirect
-            localStorage.setItem('banFormData', JSON.stringify(formData));
-            window.location.href = '/not-approved';
-        });
+            // Check if evidence type is selected
+            if (!evidenceType) {
+                alert("Please select an evidence type for all boxes.");
+                isValid = false;
+                break;
+            }
+
+            // Check if at least one violation is selected
+            if (violations.length === 0 || violations.includes("")) {
+                alert("Please select at least one violation for all boxes.");
+                isValid = false;
+                break;
+            }
+
+            // Check if evidence field is filled (except for Voice Chat and Avatar)
+            if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar" && evidenceType !== "Asset" && (!evidenceInput || !evidenceInput.value.trim())) {
+                alert("Please fill out the evidence field for all boxes.");
+                isValid = false;
+                break;
+            }
+
+            // Check if location is filled for Chat and Voice Chat
+            if ((evidenceType === "Chat" || evidenceType === "Voice Chat") && (!locationInput || !locationInput.value.trim())) {
+                alert("Please fill out the location field for Chat and Voice Chat bans.");
+                isValid = false;
+                break;
+            }
+            
+            // Generate location/data
+            let location = locationInput ? locationInput.value : null;
+            const evidence = [];
+            
+            // Generate Asset ID for Asset type
+            if (evidenceType === "Asset") {
+                location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+            }
+            if (evidenceType === "Image") {
+                const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                location = assetId; // Set location as Asset ID
+            }
+            if (evidenceType === "Game") {
+                const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                location = assetId; // Set location as Asset ID
+            }
+            
+            // Collect all evidence lines (except for Voice Chat and Avatar)
+            if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
+                const evidenceInputs = box.querySelectorAll('.evidence-line input');
+                for (const input of evidenceInputs) {
+                    if (input.type === "file" && input.files[0]) {
+                        const file = input.files[0];
+                        const reader = new FileReader();
+
+                        // Wait for the file to be read
+                        const fileData = await new Promise((resolve) => {
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.readAsDataURL(file);
+                        });
+
+                        evidence.push(fileData); // Store base64 data
+                    } else if (input.type === "text" && input.value.trim()) {
+                        evidence.push(input.value.trim());
+                    }
+                }
+            }
+
+            formData.evidenceViolations.push({
+                evidenceType,
+                violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
+                location,
+                evidence
+            });
+        }
+    } else {
+        // No violations added
+        alert("Please add at least one violation to proceed.");
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // Save form data to localStorage and redirect
+    localStorage.setItem('banFormData', JSON.stringify(formData));
+    window.location.href = '/not-approved';
+});
     </script>
 </body>
 </html>
