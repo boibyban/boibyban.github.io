@@ -168,7 +168,7 @@
             if (formData.state === "Warn") {
                 document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Service.";
                 document.getElementById('reactivateButton').style.display = "block";
-                document.getElementById('appealsMessage').style.display = "none";
+                // document.getElementById('appealsMessage').style.display = "none";
                 logoutButton.classList.add('warning-margin');
             } else if (formData.state === "Delete") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
@@ -179,7 +179,7 @@
             } else if (formData.state === "Poison") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
                 // document.getElementById('reactivateMessage').style.fontWeight = "500";
-                // document.getElementById('communityStandards').outerHTML = "";
+                document.getElementById('communityStandards').outerHTML = "";
                 document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
