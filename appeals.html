@@ -156,7 +156,7 @@
                 } else if (violation.evidenceType === "Chat") {
                     evidenceElement.innerHTML = `Chat`;
                     violation.evidence.forEach(evidence => {
-                        evidenceElement.innerHTML += `You: <b class="inneritem">${evidence}</b>`;
+                        evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
                     });
                 } else if (violation.evidenceType === "Voice Chat") {
                     evidenceElement.innerHTML = `Voice Chat<b class="inneritem">Conversation on ${new Date().toLocaleDateString()}</b>`;
