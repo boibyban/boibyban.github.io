@@ -163,13 +163,22 @@
             const now = new Date();
             const reviewedDate = formatDate(now);
             document.getElementById('reviewedDate').textContent = reviewedDate;
-
+function addReactivateTextForWarnings() {
+    if (formData.state === "Warn") {
+        const appealsMessage = document.getElementById('appealsMessage');
+        const reactivateText = document.createElement('p');
+        reactivateText.textContent = "By re-activating your account, you agree to our Terms of Service.";
+        reactivateText.style.marginTop = "10px"; // Optional: Add some spacing
+        appealsMessage.insertAdjacentElement('afterend', reactivateText);
+    }
+}
             const logoutButton = document.querySelector('.logout');
             if (formData.state === "Warn") {
                 document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Service.";
                 document.getElementById('reactivateButton').style.display = "block";
                 // document.getElementById('appealsMessage').style.display = "none";
                 logoutButton.classList.add('warning-margin');
+                addReactivateTextForWarnings();
             } else if (formData.state === "Delete") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
                 document.getElementById('communityStandards').outerHTML = "";
@@ -300,6 +309,7 @@ if (
         themeStylesheet.href = "/ban-light.css"; // Path to light theme CSS
     }
 }
+
 function escapeHTML(str) { if (!str) return ''; return str .replace(/&/g, '&amp;') .replace(/</g, '&lt;') .replace(/>/g, '&gt;') .replace(/"/g, '&quot;') .replace(/'/g, '&#039;'); }
 // Load saved theme preference on page load
 const savedTheme = localStorage.getItem('theme') || "light"; // Default to light theme
