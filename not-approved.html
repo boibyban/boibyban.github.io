@@ -292,10 +292,7 @@ if (
 
                 evidenceContainer.appendChild(violationSection);
             });
-        } else {
-            evidenceContainer.remove();
-        }
-            if (formData && formData.useClassicViolation && formData.classicViolations && formData.classicViolations.length > 0) {
+                if (formData && formData.useClassicViolation && formData.classicViolations && formData.classicViolations.length > 0) {
     formData.classicViolations.forEach((violation, index) => {
         const violationSection = document.createElement('div');
         violationSection.classList.add('violation-section');
@@ -313,6 +310,10 @@ if (
         // Append to evidence container
         evidenceContainer.appendChild(violationSection);
     });
+        } else {
+            evidenceContainer.remove();
+        }
+            
 }
         }
         function setTheme(theme) {
