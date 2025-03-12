@@ -174,7 +174,8 @@ function addReactivateTextForWarnings() {
 }
             const logoutButton = document.querySelector('.logout');
             if (formData.state === "Warn") {
-                document.getElementById('reactivateMessage').styleDisplay = "none";
+                document.getElementById('reactivateMessage').style.display = "none";
+                document.getElementById('reactivateMessage').textContent = "";
                 document.getElementById('reactivateButton').style.display = "block";
                 // document.getElementById('appealsMessage').style.display = "none";
                 logoutButton.classList.add('warning-margin');
