@@ -242,47 +242,44 @@ if (
     membershipNotice.style.display = "none";
 }
             const evidenceContainer = document.getElementById('evidenceContainer');
-            if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
-                formData.evidenceViolations.forEach((violation, index) => {
-                    const violationSection = document.createElement('div');
-                    violationSection.classList.add('violation-section');
+            if (formData && formData.evidenceViolations && formData.evidenceViolations.length > 0) {
+            formData.evidenceViolations.forEach((violation, index) => {
+                const violationSection = document.createElement('div');
+                violationSection.classList.add('violation-section');
 
-                    const violationHeader = document.createElement('p');
-                    violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
-                    violationSection.appendChild(violationHeader);
+                const violationHeader = document.createElement('p');
+                violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
+                violationSection.appendChild(violationHeader);
 
-                    if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
-                        violationSection.appendChild(locationElement);
-                    }
-                    
-                    if (violation.evidenceType === "Asset" || violation.evidenceType === "Image") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
-                        violationSection.appendChild(locationElement);
-                    }
+                if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Asset" || violation.evidenceType === "Image") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
 
-                    const evidenceElement = document.createElement('p');
-                    if (violation.evidenceType === "Image") {
-                        evidenceElement.innerHTML = `Image`;
-                        const imgElement = document.createElement('img');
-                        imgElement.src = violation.evidence[0]; // Use base64 data as src
-                        imgElement.classList.add('evidence-image');
-                        evidenceElement.appendChild(imgElement);
-
-                    } else if (violation.evidenceType === "Chat") {
-                        evidenceElement.innerHTML = `Chat`;
-                        violation.evidence.forEach(evidence => {
-                            evidenceElement.innerHTML += `<b class="inneritem">${evidence}</b>`;
-                        });
-                    } else if (violation.evidenceType === "Voice Chat") {
-                        evidenceElement.innerHTML = `Voice Chat<b class="inneritem">Conversation on ${new Date().toLocaleDateString()}</b>`;
-                    } else if (violation.evidenceType === "Username") {
-                        evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
-                    } else if (violation.evidenceType === "Display Name") {
-                        evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                    
+                const evidenceElement = document.createElement('p');
+                if (violation.evidenceType === "Image") {
+                    evidenceElement.innerHTML = `Image`;
+                    const imgElement = document.createElement('img');
+                    imgElement.src = violation.evidence[0]; // Use base64 data as src
+                    imgElement.classList.add('evidence-image');
+                    evidenceElement.appendChild(imgElement);
+                } else if (violation.evidenceType === "Chat") {
+                    evidenceElement.innerHTML = `Chat`;
+                    violation.evidence.forEach(evidence => {
+                        evidenceElement.innerHTML += `<b class="inneritem">${evidence}</b>`;
+                    });
+                } else if (violation.evidenceType === "Voice Chat") {
+                    evidenceElement.innerHTML = `Voice Chat<b class="inneritem">Conversation on ${new Date().toLocaleDateString()}</b>`;
+                } else if (violation.evidenceType === "Username") {
+                    evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Display Name") {
+                    evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
                 } else if (violation.evidenceType === "Game") {
                     evidenceElement.innerHTML = `Game Name<b class="inneritem">${violation.evidence[0]}</b>`;
                 } else if (violation.evidenceType === "Message") {
@@ -290,13 +287,14 @@ if (
                 } else if (violation.evidenceType === "Asset") {
                     evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
                 }
-                    violationSection.appendChild(evidenceElement);
+                
+                violationSection.appendChild(evidenceElement);
 
-                    evidenceContainer.appendChild(violationSection);
-                });
-            } else {
-                evidenceContainer.remove();
-            }
+                evidenceContainer.appendChild(violationSection);
+            });
+        } else {
+            evidenceContainer.remove();
+        }
         }
         function setTheme(theme) {
     const themeStylesheet = document.getElementById('themeStylesheet');
