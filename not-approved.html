@@ -186,14 +186,14 @@ function addReactivateTextForWarnings() {
                 addReactivateTextForWarnings();
             } else if (formData.state === "Delete") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
-                document.getElementById('communityStandards').outerHTML = "";
+                // document.getElementById('communityStandards').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
                 document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
             } else if (formData.state === "Poison") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
                 // document.getElementById('reactivateMessage').style.fontWeight = "500";
-                document.getElementById('communityStandards').outerHTML = "";
+                // document.getElementById('communityStandards').outerHTML = "";
                 document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
