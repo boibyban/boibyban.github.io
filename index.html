@@ -146,324 +146,321 @@
     </form>
 
     <script>
-        let evidenceViolationCount = 0;
+    let evidenceViolationCount = 0;
 
-        // Show/hide caution warning based on punishment type
-        const cautionWarningContainer = document.getElementById('cautionWarningContainer');
-        const punishmentRadios = document.querySelectorAll('input[name="State"]');
-        punishmentRadios.forEach(radio => {
-            radio.addEventListener('change', function () {
-                const selectedPunishment = this.value;
-                if (selectedPunishment === "Warn" || selectedPunishment.startsWith("Ban")) {
-                    cautionWarningContainer.style.display = "block";
-                } else {
-                    cautionWarningContainer.style.display = "none";
-                }
-            });
+    // Show/hide caution warning based on punishment type
+    const cautionWarningContainer = document.getElementById('cautionWarningContainer');
+    const punishmentRadios = document.querySelectorAll('input[name="State"]');
+    punishmentRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            const selectedPunishment = this.value;
+            if (selectedPunishment === "Warn" || selectedPunishment.startsWith("Ban")) {
+                cautionWarningContainer.style.display = "block";
+            } else {
+                cautionWarningContainer.style.display = "none";
+            }
+        });
+    });
+
+    // Add Evidence and Violation Box
+    document.getElementById('addEvidenceViolationBox').addEventListener('click', function () {
+        evidenceViolationCount++;
+        const newBox = document.createElement('div');
+        newBox.className = 'evidence-box';
+        newBox.innerHTML = `
+            <button type="button" class="remove-box">Remove Box</button>
+            <label for="evidenceType${evidenceViolationCount}">Evidence Type:</label>
+            <select id="evidenceType${evidenceViolationCount}" class="evidenceType" required>
+                <option value="">-- Select Evidence Type --</option>
+                <option value="Chat">Text Chat</option>
+                <option value="Image">Image</option>
+                <option value="Voice Chat">Voice Chat</option>
+                <option value="Username">Username</option>
+                <option value="Display Name">Display Name</option>
+                <option value="Game">Game</option>
+                <option value="Message">Message/Other</option>
+                <option value="Avatar">Avatar</option>
+                <option value="Asset">Asset</option>
+                <option value="Audio">Audio</option> <!-- Added Audio option -->
+            </select><br><br>
+            <label for="violation${evidenceViolationCount}">Violation (select up to 3):</label>
+            <select id="violation${evidenceViolationCount}" class="violation" multiple required>
+                <option value="">-- Select a Violation --</option>
+                <option value="Harassment">Harassment</option>
+                <option value="Inappropriate Content">Inappropriate Content</option>
+                <option value="Political Content">Political Content</option>
+                <option value="Privacy">Privacy</option>
+                <option value="Adult Content">Adult Content</option>
+                <option value="Sexual Content">Sexual Content</option>
+                <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
+                <option value="Terrorism/Extremism">Terrorism/Extremism</option>
+                <option value="Boiby Endangerment">Boiby Endangerment</option>
+                <option value="Discriminatory Content">Discriminatory</option>
+                <option value="Violent Content and Gore">Violent Content and Gore</option>
+                <option value="Privacy: Sharing PII">Privacy: Sharing PII</option>
+                <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
+                <option value="Doxxing">Doxxing</option>
+                <option value="Seeking Sexual Content">Seeking Sexual Content</option>
+                <option value="IP Violation">IP Violation</option>
+                <option value="Scamming">Scamming</option>
+                <option value="Misinformation">Misinformation</option>
+                <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
+                <option value="Swearing">Profanity</option>
+                <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
+                <option value="Boiby Economy">Boiby Economy</option>
+                <option value="Compromised Account">Compromised Account</option>
+                <option value="Cheats and Exploits">Cheats and Exploits</option>
+                <option value="Spam">Spam</option>
+                <option value="Other">Other</option>
+                <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
+                <option value="Gambling Content">Gambling Content</option>
+                <option value="Real-Life Threats">Real-Life Threats</option>
+                <option value="Real-World Tragic Events">Real-World Tragedy</option>
+                <option value="Impersonation">Impersonation</option>
+                <option value="Dangerous Activities">Dangerous Activities</option>
+                <option value="Disruptive Audio">Disruptive Audio</option>
+                <option value="Dating">Dating</option>
+                <option value="Romantic Content">Romantic Content</option>
+                <option value="Malicious Software">Malicious Software</option>
+            </select><br><br>
+            <div id="locationContainer${evidenceViolationCount}" style="display: none;">
+                <label for="location${evidenceViolationCount}">Location:</label>
+                <input type="text" id="location${evidenceViolationCount}" class="location"><br><br>
+            </div>
+            <div id="evidenceInput${evidenceViolationCount}" style="display: none;">
+                <div class="evidence-line">
+                    <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                    <input type="text" id="evidence${evidenceViolationCount}" class="evidence"><br><br>
+                </div>
+            </div>
+            <button type="button" id="addEvidenceLine${evidenceViolationCount}" class="add-evidence-line" style="display: none;">Add Another Evidence Item</button>
+            <button type="button" class="remove-evidence">Remove Evidence</button>
+        `;
+        document.getElementById('evidenceViolationContainer').appendChild(newBox);
+
+        // Remove Box
+        newBox.querySelector('.remove-box').addEventListener('click', function () {
+            newBox.remove();
+            document.getElementById('addEvidenceViolationBox').style.display = "inline-block";
         });
 
-        // Add Evidence and Violation Box
-        document.getElementById('addEvidenceViolationBox').addEventListener('click', function () {
-            evidenceViolationCount++;
-            const newBox = document.createElement('div');
-            newBox.className = 'evidence-box';
-            newBox.innerHTML = `
-                <button type="button" class="remove-box">Remove Box</button>
-                <label for="evidenceType${evidenceViolationCount}">Evidence Type:</label>
-                <select id="evidenceType${evidenceViolationCount}" class="evidenceType" required>
-                    <option value="">-- Select Evidence Type --</option>
-                    <option value="Chat">Text Chat</option>
-                    <option value="Image">Image</option>
-                    <option value="Voice Chat">Voice Chat</option>
-                    <option value="Username">Username</option>
-                    <option value="Display Name">Display Name</option>
-                    <option value="Game">Game</option>
-                    <option value="Message">Message/Other</option>
-                    <option value="Avatar">Avatar</option>
-                    <option value="Asset">Asset</option>
-                    <option value="Audio">Audio</option>
-                </select><br><br>
-                <label for="violation${evidenceViolationCount}">Violation (select up to 3):</label>
-                <select id="violation${evidenceViolationCount}" class="violation" multiple required>
-                    <option value="">-- Select a Violation --</option>
-                    <option value="Harassment">Harassment</option>
-                    <option value="Inappropriate Content">Inappropriate Content</option>
-                    <option value="Political Content">Political Content</option>
-                    <option value="Privacy">Privacy</option>
-                    <option value="Adult Content">Adult Content</option>
-                    <option value="Sexual Content">Sexual Content</option>
-                    <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
-                    <option value="Terrorism/Extremism">Terrorism/Extremism</option>
-                    <option value="Boiby Endangerment">Boiby Endangerment</option>
-                    <option value="Discriminatory Content">Discriminatory</option>
-                    <option value="Violent Content and Gore">Violent Content and Gore</option>
-                    <option value="Privacy: Sharing PII">Privacy: Sharing PII</option>
-                    <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
-                    <option value="Doxxing">Doxxing</option>
-                    <option value="Seeking Sexual Content">Seeking Sexual Content</option>
-                    <option value="IP Violation">IP Violation</option>
-                    <option value="Scamming">Scamming</option>
-                    <option value="Misinformation">Misinformation</option>
-                    <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
-                    <option value="Swearing">Profanity</option>
-                    <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
-                    <option value="Boiby Economy">Boiby Economy</option>
-                    <option value="Compromised Account">Compromised Account</option>
-                    <option value="Cheats and Exploits">Cheats and Exploits</option>
-                    <option value="Spam">Spam</option>
-                    <option value="Other">Other</option>
-                    <option value="Extortion and Blackmail">Extortion and Blackmail</option>
-                    <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
-                    <option value="Gambling Content">Gambling Content</option>
-                    <option value="Real-Life Threats">Real-Life Threats</option>
-                    <option value="Real-World Tragic Events">Real-World Tragedy</option>
-                    <option value="Impersonation">Impersonation</option>
-                    <option value="Dangerous Activities">Dangerous Activities</option>
-                    <option value="Disruptive Audio">Disruptive Audio</option>
-                    <option value="Dating">Dating</option>
-                    <option value="Romantic Content">Romantic Content</option>
-                    <option value="Malicious Software">Malicious Software</option>
-                </select><br><br>
-                <div id="locationContainer${evidenceViolationCount}" style="display: none;">
-                    <label for="location${evidenceViolationCount}">Location:</label>
-                    <input type="text" id="location${evidenceViolationCount}" class="location"><br><br>
-                </div>
-                <div id="evidenceInput${evidenceViolationCount}" style="display: none;">
+        // Remove Evidence
+        newBox.querySelector('.remove-evidence').addEventListener('click', function () {
+            newBox.querySelector('.evidence').value = '';
+        });
+
+        // Show/Hide Location and Evidence Inputs
+        newBox.querySelector('.evidenceType').addEventListener('change', function () {
+            const evidenceType = this.value;
+            const locationContainer = newBox.querySelector(`#locationContainer${evidenceViolationCount}`);
+            const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
+            const addEvidenceLineButton = newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`);
+
+            if (evidenceType === "Chat" || evidenceType === "Voice Chat") {
+                locationContainer.style.display = "block";
+            } else {
+                locationContainer.style.display = "none";
+            }
+
+            if (evidenceType === "Image") {
+                evidenceInput.innerHTML = `
                     <div class="evidence-line">
                         <label for="evidence${evidenceViolationCount}">Evidence:</label>
-                        <input type="text" id="evidence${evidenceViolationCount}" class="evidence"><br><br>
+                        <input type="file" id="evidence${evidenceViolationCount}" class="evidence" accept="image/*" required><br><br>
                     </div>
-                </div>
-                <button type="button" id="addEvidenceLine${evidenceViolationCount}" class="add-evidence-line" style="display: none;">Add Another Evidence Item</button>
-                <button type="button" class="remove-evidence">Remove Evidence</button>
-            `;
-            document.getElementById('evidenceViolationContainer').appendChild(newBox);
-
-            // Remove Box
-            newBox.querySelector('.remove-box').addEventListener('click', function () {
-                newBox.remove();
-                document.getElementById('addEvidenceViolationBox').style.display = "inline-block";
-            });
-
-            // Remove Evidence
-            newBox.querySelector('.remove-evidence').addEventListener('click', function () {
-                newBox.querySelector('.evidence').value = '';
-            });
-
-            // Show/Hide Location and Evidence Inputs
-            newBox.querySelector('.evidenceType').addEventListener('change', function () {
-                const evidenceType = this.value;
-                const locationContainer = newBox.querySelector(`#locationContainer${evidenceViolationCount}`);
-                const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
-                const addEvidenceLineButton = newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`);
-
-                if (evidenceType === "Chat" || evidenceType === "Voice Chat") {
-                    locationContainer.style.display = "block";
-                } else {
-                    locationContainer.style.display = "none";
-                }
-
-                if (evidenceType === "Image") {
-                    evidenceInput.innerHTML = `
-                        <div class="evidence-line">
-                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
-                            <input type="file" id="evidence${evidenceViolationCount}" class="evidence" accept="image/*" required><br><br>
-                        </div>
-                    `;
-                    evidenceInput.style.display = "block";
-                    addEvidenceLineButton.style.display = "none";
-                } else if (evidenceType === "Voice Chat") {
-                    evidenceInput.innerHTML = ``; // No evidence input for Voice Chat
-                    evidenceInput.style.display = "none";
-                    addEvidenceLineButton.style.display = "none";
-                } else if (evidenceType === "Chat") {
-                    evidenceInput.innerHTML = `
-                        <div class="evidence-line">
-                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
-                            <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
-                        </div>
-                    `;
-                    evidenceInput.style.display = "block";
-                    addEvidenceLineButton.style.display = "inline-block";
-                } else if (evidenceType === "Username" || evidenceType === "Display Name" || evidenceType === "Game" || evidenceType === "Message") {
-                    evidenceInput.innerHTML = `
-                        <div class="evidence-line">
-                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
-                            <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
-                        </div>
-                    `;
-                    evidenceInput.style.display = "block";
-                    addEvidenceLineButton.style.display = "none";
-                } else if (evidenceType === "Avatar") {
-                    evidenceInput.style.display = "none";
-                    addEvidenceLineButton.style.display = "none";
-                    locationContainer.style.display = "none";
-                } else if (evidenceType === "Asset") {
-                    evidenceInput.innerHTML = `
-                        <div class="evidence-line">
-                            <label for="evidence${evidenceViolationCount}">Asset Name:</label>
-                            <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
-                        </div>
-                    `;
-                    evidenceInput.style.display = "block";
-                    addEvidenceLineButton.style.display = "none";
-                    locationContainer.style.display = "none"; // Hide location field
-                } else if (evidenceType === "Audio") {
-                    evidenceInput.innerHTML = `
-                        <div class="evidence-line">
-                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
-                            <input type="file" id="evidence${evidenceViolationCount}" class="evidence" accept=".wav,.mp3" required><br><br>
-                        </div>
-                    `;
-                    evidenceInput.style.display = "block";
-                    addEvidenceLineButton.style.display = "none";
-                    locationContainer.style.display = "none"; // Hide location field
-                } else {
-                    evidenceInput.style.display = "none";
-                    addEvidenceLineButton.style.display = "none";
-                }
-            });
-
-            // Add Another Evidence Line (only for Chat)
-            newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`).addEventListener('click', function () {
-                const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
-                const newEvidenceLine = document.createElement('div');
-                newEvidenceLine.className = 'evidence-line';
-                newEvidenceLine.innerHTML = `
-                    <label for="evidence${evidenceViolationCount}-${evidenceInput.children.length + 1}">Evidence:</label>
-                    <input type="text" id="evidence${evidenceViolationCount}-${evidenceInput.children.length + 1}" class="evidence" required><br><br>
                 `;
-                evidenceInput.appendChild(newEvidenceLine);
-            });
-
-            // Hide the "Add Evidence and Violation" button after adding a box
-            document.getElementById('addEvidenceViolationBox').style.display = "none";
-        });
-
-        // Form Submission
-        document.getElementById('banForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
-
-            // Get the selected theme
-            const selectedTheme = document.getElementById('theme').value;
-
-            // Save the theme in localStorage
-            localStorage.setItem('theme', selectedTheme);
-
-            // Validate all fields
-            const evidenceBoxes = document.querySelectorAll('.evidence-box');
-            let isValid = true;
-
-            evidenceBoxes.forEach(box => {
-                const evidenceType = box.querySelector('.evidenceType').value;
-                const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
-                const evidenceInput = box.querySelector('.evidence');
-                const locationInput = box.querySelector('.location');
-
-                // Check if evidence type is selected
-                if (!evidenceType) {
-                    alert("Please select an evidence type for all boxes.");
-                    isValid = false;
-                    return;
-                }
-
-                // Check if at least one violation is selected
-                if (violations.length === 0 || violations.includes("")) {
-                    alert("Please select at least one violation for all boxes.");
-                    isValid = false;
-                    return;
-                }
-
-                // Check if evidence field is filled (except for Voice Chat and Avatar!!!)
-                if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar" && evidenceType !== "Asset" && (!evidenceInput || !evidenceInput.value.trim())) {
-                    alert("Please fill out the evidence field for all boxes.");
-                    isValid = false;
-                    return;
-                }
-
-                // Check if location is filled for Chat and Voice Chat
-                if ((evidenceType === "Chat" || evidenceType === "Voice Chat") && (!locationInput || !locationInput.value.trim())) {
-                    alert("Please fill out the location field for Chat and Voice Chat bans.");
-                    isValid = false;
-                    return;
-                }
-
-            });
-
-            if (!isValid) return;
-
-            // Proceed with form submission
-            const formData = {
-                state: document.querySelector('input[name="State"]:checked').value,
-                note: document.getElementById('note').value,
-                customNote: document.getElementById('notecustom').value,
-                cautionWarning: document.getElementById('cautionWarning').value,
-                theme: document.getElementById('theme').value,
-                evidenceViolations: []
-            };
-
-            for (const box of evidenceBoxes) {
-    const evidenceType = box.querySelector('.evidenceType').value;
-    const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
-    let location = box.querySelector('.location') ? box.querySelector('.location').value : (evidenceType === "Chat" ? "Chat" : null);
-    const evidence = [];
-
-    // Generate Asset ID for Asset type
-    if (evidenceType === "Asset") {
-        location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-    }
-    if (evidenceType === "Image") {
-        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-        location = assetId; // Set location as Asset ID
-    }
-    if (evidenceType === "Avatar") {
-        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-        location = assetId; // Set location as Asset ID
-    }
-    if (evidenceType === "Game") {
-        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-        location = assetId; // Set location as Asset ID
-    }
-
-    // Add this block for Audio evidence type
-    if (evidenceType === "Audio") {
-        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-        location = assetId; // Set location as Asset ID
-    }
-
-    // Collect all evidence lines
-    if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
-        const evidenceInputs = box.querySelectorAll('.evidence-line input');
-        for (const input of evidenceInputs) {
-            if (input.type === "file" && input.files[0]) {
-                const file = input.files[0];
-                const reader = new FileReader();
-
-                // Wait for the file to be read
-                const fileData = await new Promise((resolve) => {
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(file);
-                });
-
-                evidence.push(fileData); // Store base64 data
-            } else if (input.type === "text" && input.value.trim()) {
-                evidence.push(input.value.trim());
+                evidenceInput.style.display = "block";
+                addEvidenceLineButton.style.display = "none";
+            } else if (evidenceType === "Voice Chat") {
+                evidenceInput.innerHTML = ``; // No evidence input for Voice Chat
+                evidenceInput.style.display = "none";
+                addEvidenceLineButton.style.display = "none";
+            } else if (evidenceType === "Chat") {
+                evidenceInput.innerHTML = `
+                    <div class="evidence-line">
+                        <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                        <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
+                    </div>
+                `;
+                evidenceInput.style.display = "block";
+                addEvidenceLineButton.style.display = "inline-block";
+            } else if (evidenceType === "Username" || evidenceType === "Display Name" || evidenceType === "Game" || evidenceType === "Message") {
+                evidenceInput.innerHTML = `
+                    <div class="evidence-line">
+                        <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                        <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
+                    </div>
+                `;
+                evidenceInput.style.display = "block";
+                addEvidenceLineButton.style.display = "none";
+            } else if (evidenceType === "Avatar") {
+                evidenceInput.style.display = "none";
+                addEvidenceLineButton.style.display = "none";
+                locationContainer.style.display = "none";
+            } else if (evidenceType === "Asset") {
+                evidenceInput.innerHTML = `
+                    <div class="evidence-line">
+                        <label for="evidence${evidenceViolationCount}">Asset Name:</label>
+                        <input type="text" id="evidence${evidenceViolationCount}" class="evidence" required><br><br>
+                    </div>
+                `;
+                evidenceInput.style.display = "block";
+                addEvidenceLineButton.style.display = "none";
+                locationContainer.style.display = "none";
+            } else if (evidenceType === "Audio") {
+                evidenceInput.innerHTML = `
+                    <div class="evidence-line">
+                        <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                        <input type="file" id="evidence${evidenceViolationCount}" class="evidence" accept=".wav,.mp3" required><br><br>
+                    </div>
+                `;
+                evidenceInput.style.display = "block";
+                addEvidenceLineButton.style.display = "none";
+                locationContainer.style.display = "none";
+            } else {
+                evidenceInput.style.display = "none";
+                addEvidenceLineButton.style.display = "none";
             }
-        }
-    }
-
-    formData.evidenceViolations.push({
-        evidenceType,
-        violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
-        location,
-        evidence
-    });
-}
-
-            // Save form data to localStorage and redirect
-            localStorage.setItem('banFormData', JSON.stringify(formData));
-            window.location.href = '/not-approved';
         });
-    </script>
+
+        // Add Another Evidence Line (only for Chat)
+        newBox.querySelector(`#addEvidenceLine${evidenceViolationCount}`).addEventListener('click', function () {
+            const evidenceInput = newBox.querySelector(`#evidenceInput${evidenceViolationCount}`);
+            const newEvidenceLine = document.createElement('div');
+            newEvidenceLine.className = 'evidence-line';
+            newEvidenceLine.innerHTML = `
+                <label for="evidence${evidenceViolationCount}-${evidenceInput.children.length + 1}">Evidence:</label>
+                <input type="text" id="evidence${evidenceViolationCount}-${evidenceInput.children.length + 1}" class="evidence" required><br><br>
+            `;
+            evidenceInput.appendChild(newEvidenceLine);
+        });
+
+        // Hide the "Add Evidence and Violation" button after adding a box
+        document.getElementById('addEvidenceViolationBox').style.display = "none";
+    });
+
+    // Form Submission
+    document.getElementById('banForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        // Get the selected theme
+        const selectedTheme = document.getElementById('theme').value;
+
+        // Save the theme in localStorage
+        localStorage.setItem('theme', selectedTheme);
+
+        // Validate all fields
+        const evidenceBoxes = document.querySelectorAll('.evidence-box');
+        let isValid = true;
+
+        evidenceBoxes.forEach(box => {
+            const evidenceType = box.querySelector('.evidenceType').value;
+            const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
+            const evidenceInput = box.querySelector('.evidence');
+            const locationInput = box.querySelector('.location');
+
+            // Check if evidence type is selected
+            if (!evidenceType) {
+                alert("Please select an evidence type for all boxes.");
+                isValid = false;
+                return;
+            }
+
+            // Check if at least one violation is selected
+            if (violations.length === 0 || violations.includes("")) {
+                alert("Please select at least one violation for all boxes.");
+                isValid = false;
+                return;
+            }
+
+            // Check if evidence field is filled (except for Voice Chat and Avatar)
+            if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar" && evidenceType !== "Asset" && (!evidenceInput || !evidenceInput.value.trim())) {
+                alert("Please fill out the evidence field for all boxes.");
+                isValid = false;
+                return;
+            }
+
+            // Check if location is filled for Chat and Voice Chat
+            if ((evidenceType === "Chat" || evidenceType === "Voice Chat") && (!locationInput || !locationInput.value.trim())) {
+                alert("Please fill out the location field for Chat and Voice Chat bans.");
+                isValid = false;
+                return;
+            }
+        });
+
+        if (!isValid) return;
+
+        // Proceed with form submission
+        const formData = {
+            state: document.querySelector('input[name="State"]:checked').value,
+            note: document.getElementById('note').value,
+            customNote: document.getElementById('notecustom').value,
+            cautionWarning: document.getElementById('cautionWarning').value,
+            theme: document.getElementById('theme').value,
+            evidenceViolations: []
+        };
+
+        for (const box of evidenceBoxes) {
+            const evidenceType = box.querySelector('.evidenceType').value;
+            const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
+            let location = box.querySelector('.location') ? box.querySelector('.location').value : (evidenceType === "Chat" ? "Chat" : null);
+            const evidence = [];
+
+            // Generate Asset ID for Asset type
+            if (evidenceType === "Asset") {
+                location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+            }
+            if (evidenceType === "Image") {
+                const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                location = assetId; // Set location as Asset ID
+            }
+            if (evidenceType === "Avatar") {
+                const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                location = assetId; // Set location as Asset ID
+            }
+            if (evidenceType === "Game") {
+                const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                location = assetId; // Set location as Asset ID
+            }
+            if (evidenceType === "Audio") {
+                const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                location = assetId; // Set location as Asset ID
+            }
+
+            // Collect all evidence lines
+            if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
+                const evidenceInputs = box.querySelectorAll('.evidence-line input');
+                for (const input of evidenceInputs) {
+                    if (input.type === "file" && input.files[0]) {
+                        const file = input.files[0];
+                        const reader = new FileReader();
+
+                        // Wait for the file to be read
+                        const fileData = await new Promise((resolve) => {
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.readAsDataURL(file);
+                        });
+
+                        evidence.push(fileData); // Store base64 data
+                    } else if (input.type === "text" && input.value.trim()) {
+                        evidence.push(input.value.trim());
+                    }
+                }
+            }
+
+            formData.evidenceViolations.push({
+                evidenceType,
+                violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
+                location,
+                evidence
+            });
+        }
+
+        // Save form data to localStorage and redirect
+        localStorage.setItem('banFormData', JSON.stringify(formData));
+        window.location.href = '/not-approved';
+    });
+</script>
 </body>
 </html>
