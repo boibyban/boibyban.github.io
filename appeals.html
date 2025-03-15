@@ -103,8 +103,7 @@
             Ban1Week: "Your account is currently banned for 1 week.",
             Ban2Weeks: "Your account is currently banned for 2 weeks.",
             Ban1Month: "Your account is currently banned for 1 month.",
-            Delete: "Your account has been permanently banned.",
-            Poison: "Your account has been permanently banned."
+            Delete: "Your account has been permanently banned."
         };
 
         // Show punishment box if applicable
@@ -143,7 +142,7 @@
                     locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
                     violationSection.appendChild(locationElement);
                 }
-                if (violation.evidenceType === "Asset" || violation.evidenceType === "Image") {
+                if (violation.evidenceType === "Asset" || violation.evidenceType === "Image" || violation.evidenceType === "Game" || violation.evidenceType === "Avatar") {
                     const locationElement = document.createElement('p');
                     locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
                     violationSection.appendChild(locationElement);
@@ -162,7 +161,10 @@
                         evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
                     });
                 } else if (violation.evidenceType === "Voice Chat") {
-                    evidenceElement.innerHTML = `Voice Chat<b class="inneritem">Conversation on ${new Date().toLocaleDateString()}</b>`;
+                    const date = new Date();
+                    date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
+                    const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+                    evidenceElement.innerHTML = `Voice Chat Start Time<b class="inneritem">${formattedDate}</b>`;
                 } else if (violation.evidenceType === "Username") {
                     evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
                 } else if (violation.evidenceType === "Display Name") {
@@ -173,6 +175,8 @@
                     evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
                 } else if (violation.evidenceType === "Asset") {
                     evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Avatar") {
+                    evidenceElement.innerHTML = `Avatar<b class="inneritem">${violation.evidence[0]}</b>`;
                 }
                 
                 violationSection.appendChild(evidenceElement);
@@ -182,7 +186,16 @@
         } else {
             evidenceContainer.remove();
         }
-function escapeHTML(str) { if (!str) return ''; return str .replace(/&/g, '&amp;') .replace(/</g, '&lt;') .replace(/>/g, '&gt;') .replace(/"/g, '&quot;') .replace(/'/g, '&#039;'); }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
     </script>
 </body>
 </html>
