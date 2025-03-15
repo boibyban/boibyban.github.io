@@ -147,6 +147,11 @@
                     locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
                     violationSection.appendChild(locationElement);
                 }
+                if (violation.evidenceType === "Avatar") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
 
                 const evidenceElement = document.createElement('p');
                 if (violation.evidenceType === "Image") {
@@ -175,8 +180,6 @@
                     evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
                 } else if (violation.evidenceType === "Asset") {
                     evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                } else if (violation.evidenceType === "Avatar") {
-                    evidenceElement.innerHTML = `Avatar<b class="inneritem">${violation.evidence[0]}</b>`;
                 }
                 
                 violationSection.appendChild(evidenceElement);
