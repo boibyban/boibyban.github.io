@@ -285,7 +285,7 @@ if (
                             evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
                         });
                     } else if (violation.evidenceType === "Voice Chat") {
-                        evidenceElement.innerHTML = `Evidence<b class="inneritem">Voice Chat Conversation on ${new Date().toLocaleDateString()}</b>`;
+                        evidenceElement.innerHTML = `Voice Chat<b class="inneritem">Conversation on ${new Date().toLocaleDateString()}</b>`;
                     } else if (violation.evidenceType === "Username") {
                         evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
                     } else if (violation.evidenceType === "Display Name") {
