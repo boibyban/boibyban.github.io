@@ -233,7 +233,7 @@
                         <input type="text" id="evidence${evidenceViolationCount}" class="evidence"><br><br>
                     </div>
                 </div>
-                <button type="button" id="addEvidenceLine${evidenceViolationCount}" class="add-evidence-line" style="display: none;">Add Another Evidence Line</button>
+                <button type="button" id="addEvidenceLine${evidenceViolationCount}" class="add-evidence-line" style="display: none;">Add Another Evidence Item</button>
                 <button type="button" class="remove-evidence">Remove Evidence</button>
             `;
             document.getElementById('evidenceViolationContainer').appendChild(newBox);
@@ -363,7 +363,7 @@
                     return;
                 }
 
-                // Check if evidence field is filled (except for Voice Chat and Avatar)
+                // Check if evidence field is filled (except for Voice Chat and Avatar!!!)
                 if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar" && evidenceType !== "Asset" && (!evidenceInput || !evidenceInput.value.trim())) {
                     alert("Please fill out the evidence field for all boxes.");
                     isValid = false;
@@ -404,7 +404,15 @@
                     const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
                     location = assetId; // Set location as Asset ID
                 }
-                // Collect all evidence lines (except for Voice Chat and Avatar)
+                if (evidenceType === "Avatar") {
+                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                    location = assetId; // Set location as Asset ID
+                }
+                if (evidenceType === "Game") {
+                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+                    location = assetId; // Set location as Asset ID
+                }
+                // Collect all evidence lines
                 if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
                     const evidenceInputs = box.querySelectorAll('.evidence-line input');
                     for (const input of evidenceInputs) {
