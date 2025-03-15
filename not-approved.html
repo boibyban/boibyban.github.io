@@ -62,7 +62,7 @@
         <div class="evidence-box" id="evidenceContainer"></div>
         <p id="communityStandards">Please abide by the <a href="/community-standards.html">Boiby Community Standards</a> so that Boiby can be a safe place for all users.</p>
         <p id="reactivateMessage">Your account has been disabled. You may re-activate it after: <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
-        <p id="membershipNotice">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). If you wish to cancel this recurring membership, please contact our billing department by sending an email to boibyappeals@gmail.com.</p>
+        <p id="membershipNotice">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
         <p id="appealsMessage">If you wish to appeal, please visit the <a href="appeals.html">Appeals Portal</a>.</p>
         <button id="reactivateButton" class="reactivate">Re-activate Account</button>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink">Logout</a></button>
@@ -246,7 +246,7 @@ if (
     (formData.state === "Ban1Month" || formData.state === "Delete" || formData.state === "Poison")
 ) {
     const renewalDate = addDays(now, 15); // Calculate 15 days from now
-    membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. If you wish to cancel this recurring membership, please contact our billing department by sending an email to boibyappeals@gmail.com.`;
+    membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.`;
     membershipNotice.style.display = "block";
 }
             const evidenceContainer = document.getElementById('evidenceContainer');
