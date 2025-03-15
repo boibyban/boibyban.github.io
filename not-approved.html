@@ -247,7 +247,7 @@ if (
 ) {
     const renewalDate = addDays(now, 15); // Calculate 15 days from now
     membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. If you wish to cancel this recurring membership, please contact our billing department by sending an email to boibyappeals@gmail.com.`;
-    membershipNotice.style.display = "none";
+    membershipNotice.style.display = "block";
 }
             const evidenceContainer = document.getElementById('evidenceContainer');
             if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
