@@ -74,7 +74,7 @@
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink">Logout</a></button>
     </div>
 
-    <script>
+<script>
     const formData = JSON.parse(localStorage.getItem('banFormData'));
     if (formData) {
         const banDurationMap = {
@@ -95,8 +95,8 @@
 
         document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
-        // Set moderator note (directly from formData.note or formData.customNote)
-        const moderatorNote = formData.note === "nonote" ? "" : formData.note || formData.customNote || "";
+        // Set moderator note (custom note overrides preset note)
+        const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
         document.getElementById('moderatorNote').textContent = moderatorNote;
 
         function formatDate(date, includeTime = true) {
