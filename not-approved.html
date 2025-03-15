@@ -206,7 +206,7 @@
                     }
                     if (violation.evidenceType === "Image") {
                         const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Image ID<b class="inneritem">${violation.location}</b>`;
+                        locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
                         violationSection.appendChild(locationElement);
                     }
                     if (violation.evidenceType === "Game") {
