@@ -184,6 +184,7 @@ function addReactivateTextForWarnings() {
                 document.getElementById('reactivateMessage').style.display = "none";
                 document.getElementById('reactivateMessage').textContent = "";
                 document.getElementById('reactivateButton').style.display = "block";
+                document.getElementById('membershipNotice').outerHTML = "";
                 // document.getElementById('appealsMessage').style.display = "none";
                 logoutButton.classList.add('warning-margin');
                 addReactivateTextForWarnings();
@@ -192,13 +193,11 @@ function addReactivateTextForWarnings() {
                 // document.getElementById('communityStandards').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
                 document.getElementById('abideRules').outerHTML = "";
-                document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
             } else if (formData.state === "Poison") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
                 // document.getElementById('reactivateMessage').style.fontWeight = "500";
                 // document.getElementById('communityStandards').outerHTML = "";
-                document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('abideRules').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
