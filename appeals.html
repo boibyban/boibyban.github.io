@@ -142,9 +142,14 @@
                     locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
                     violationSection.appendChild(locationElement);
                 }
-                if (violation.evidenceType === "Asset" || violation.evidenceType === "Image" || violation.evidenceType === "Game" || violation.evidenceType === "Avatar") {
+                if (violation.evidenceType === "Asset" || violation.evidenceType === "Image") {
                     const locationElement = document.createElement('p');
                     locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Game") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
                     violationSection.appendChild(locationElement);
                 }
                 if (violation.evidenceType === "Avatar") {
