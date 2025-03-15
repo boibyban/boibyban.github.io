@@ -17,6 +17,11 @@
             margin-top: 5px;
             max-width: 100%;
         }
+        audio {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 10px;
+        }
         .evidence-box {
             margin-top: 0px;
             padding: 15px;
@@ -220,6 +225,7 @@
                         violationSection.appendChild(locationElement);
                     }
 
+
                     const evidenceElement = document.createElement('p');
                     if (violation.evidenceType === "Image") {
                         evidenceElement.innerHTML = `Image`;
@@ -227,6 +233,13 @@
                         imgElement.src = violation.evidence[0]; // Use base64 data as src
                         imgElement.classList.add('evidence-image');
                         evidenceElement.appendChild(imgElement);
+else if (violation.evidenceType === "Audio") {
+    evidenceElement.innerHTML = `Audio`;
+    const audioElement = document.createElement('audio');
+    audioElement.controls = true;
+    audioElement.src = violation.evidence[0]; // Use base64 data as src
+    evidenceElement.appendChild(audioElement);
+}
                     } else if (violation.evidenceType === "Chat") {
                         evidenceElement.innerHTML = `Chat`;
                         violation.evidence.forEach(evidence => {
