@@ -81,62 +81,48 @@
         <label for="Ban1Week">Ban 1 Week</label><br>
         <input type="radio" id="Delete" name="State" value="Delete">
         <label for="Delete">Delete</label><br>
-        <!-- <input type="radio" id="Poison" name="State" value="Poison"> -->
-        <!-- <label for="Poison">Delete All Accounts</label> -->
         <br>
-        <label for="premiumMembership">
-        <input type="checkbox" id="premiumMembership" name="premiumMembership"> User has active Boiby Premium Membership (this is being deprecated)
-        </label><br>
         <label for="note">Moderator Note (presets):</label><br>
         <select id="note" name="note">
             <option value="nonote">No moderator note</option>
-            <option value="terrorism">TERRORISM/EXTREMISM: Boiby strictly prohibits associations with terrorism and violent extremism.</option>
-            <option value="impersonation">IMPERSONATION OLD: Impersonation is a violation of our rules. If you continue, your account may receive additional moderation actions.</option>
-            <option value="ipviolation">IP VIOLATION: We received a copyright removal request for one or more of your creations. After reviewing the request, we have removed your creation. If you believe you were reported by mistake, you can contest the removal request by submitting a counter-notice.</option>
-            <option value="ip_perm">IP VIOLATION (PERM): Your account has been closed/deleted due to violations of our DMCA Repeat Infringer Policy. Please review the Boiby Community Standards for more information. You are prohibited from creating a new account on Boiby.</option>
-            <option value="impersonation2">IMPERSONATION: Boiby does not permit users to mislead others by impersonating other people’s identity or affiliations.</option>
-            <option value="harassment">ACCOUNT FOR RULE BREAK: Do not create accounts just to harass others or break rules.</option>
-            <option value="profanity">PROFANITY: Boiby prohibits the use of profane language or slurs.</option>
-            <option value="profanity2">PROFANITY 2: Do not swear, use profanity, or otherwise say inappropriate things on Boiby.</option>
-            <option value="misinformation">MISINFORMATION: Boiby prohibits the spreading of misinformation or content intended to mislead others.</option>
-            <option value="bullying">BULLYING: Boiby does not permit bullying or harassment towards community members.</option>
-            <option value="bullying2">BULLYING 2: Do not harass, bully, or otherwise say mean things about other users.</option>
-            <option value="scamming">SCAMS: Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.</option>
-            <option value="pii">PII: Boiby does not allow the exchange of Personal Information between users.</option>
-            <option value="discriminatory_language">DISCRIMINATION: Boiby does not permit discriminatory language, behavior, or content of any kind.</option>
-            <option value="be">BOIBY ENDANGERMENT: Your account has been permanently banned due to violating our Boiby Endangerment Community Standard. Our policies prohibit this sort of content and behaviour.</option>
-            <option value="emp">ABUSE OF BOIBY EMPLOYEES: Boiby prohibits any harassment or abuse of Boiby Employees or Affiliates.</option>
-            <option value="adult_content">ADULT CONTENT: Adult content is not tolerated on Boiby!</option>
-            <option value="sexual_content">SEXUAL CONTENT: Boiby does not allow sexual content in any form.</option>
-            <option value="cheats">CHEATS AND EXPLOITS: Boiby prohibits the use of unauthorized third-party software in order to modify the client.</option>
-            <option value="cheats2">CHEATS AND EXPLOITS 2: Your account has been moderated for violating our Terms of Service for exploiting.</option>
-            <option value="spam">SPAM: Boiby does not permit spamming in the form of clickbait, or repetitive, large volume messaging.</option>
-            <option value="illegalcontent">ILLEGAL AND REGULATED CONTENT: Boiby prohibits illegal and regulated content in all forms. This can include alcohol, drugs, tobacco products, or bomb or weapon making.</option>
-            <option value="blackmail">EXTORTION/BLACKMAIL: Boiby does not permit attempts to threaten users in order to force them to do something they do not want to do.</option>
-            <option value="political_content">POLITICS: Boiby prohibits the discussion or posting of content pertaining to political content or figures.</option>
-            <option value="gore">VIOLENT: Boiby does not permit violent content and gore, including excessive use of blood.</option>
-            <option value="purchases">BUYING OFF-PLATFORM: Boiby prohibits users to buy, trade, or sell Boibybucks or virtual items on third-party sites or marketplaces.</option>
-            <option value="disruptive2">DISRUPTIVE AUDIO: Boiby prohibits any uploads of audio that is unintelligible, excessively loud, or contains high-pitched noises.</option>
-            <option value="dating">DATING: Boiby does not permit dating or romantic exchanges between users.</option>
-            <option value="misuse">BYPASSES: Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.</option>
-            <option value="tragedy">TRAGEDY: Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.</option>
-            <option value="scam_games">SCAM GAMES (PERMANENT): This account has been closed due to a violation of our Terms of Service. Do not create games or advertisements intended to scam other players.</option>
-            <option value="name">USERNAME: Your username contains inappropriate content that is not allowed on Boiby.</option>
-            <option value="threats">THREATS: Your account has been moderated for making threats against other users.</option>
-            <option value="audio">AUDIO (GENERAL): This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.</option>
-            <option value="image">IMAGE (GENERAL): This image is not appropriate. Please review our rules and only upload appropriate content.</option>
-            <option value="displayname">DISPLAY NAME: This display name is not appropriate for Boiby.</option>
-            <option value="malware">MALICIOUS SOFTWARE: Boiby prohibits uploads of malicious or harmful software, including adware, spyware, stealers, remote access trojans, or any other unwanted software.</option>
-            <option value="evasion">BAN EVASION: You created or used an account to avoid a moderation action taken against another account</option>
-            <option value="multiple">MULTIPLE ACCOUNT VIOLATION: Your account has been deleted for repeatedly violating the Terms of Service on multiple accounts.</option>
-            <option value="modaction">MOD ACTIONS: Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss your bans, please use the Appeals Portal to contact us.</option>
-            <option value="accounttheft2">ACCOUNT THEFT: Your account has been moderated for violating our Terms of Service for theft of an account and/or assets.</option>
-            <option value="tos">SEVERE VIOLATIONS (PERMANENT): Your account has been permanently banned due to multiple and/or severe violations of our Terms of Service.</option>
-            <option value="inappropriate_behavior">INAPPROPRIATE CONTENT: Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. This is a violation of our Terms of Service.</option>
-            <option value="disputedcharges">DISUPTED CHARGES: Your account has been suspended for unauthorized/disupted charges.</option>
-            <option value="comped2">STOLEN ACCOUNT 1: This account has been closed. Do not steal accounts!</option>
-            <option value="comped1">STOLEN ACCOUNT 2: This account has been closed as compromised.</option>
-            <option value="creating">ACCOUNTS TO SPAM: Creating accounts just to spam can get you permanently banned from the site.</option>
+            <option value="Boiby strictly prohibits associations with terrorism and violent extremism.">TERRORISM/EXTREMISM: Boiby strictly prohibits associations with terrorism and violent extremism.</option>
+            <option value="Boiby does not permit users to mislead others by impersonating other people’s identity or affiliations.">IMPERSONATION: Boiby does not permit users to mislead others by impersonating other people’s identity or affiliations.</option>
+            <option value="We received a copyright removal request for one or more of your creations. After reviewing the request, we have removed your creation.">IP VIOLATION: We received a copyright removal request for one or more of your creations. After reviewing the request, we have removed your creation.</option>
+            <option value="Do not create accounts just to harass others or break rules.">HARASSMENT: Do not create accounts just to harass others or break rules.</option>
+            <option value="Boiby prohibits the use of profane language or slurs.">PROFANITY: Boiby prohibits the use of profane language or slurs.</option>
+            <option value="Boiby prohibits the spreading of misinformation or content intended to mislead others.">MISINFORMATION: Boiby prohibits the spreading of misinformation or content intended to mislead others.</option>
+            <option value="Boiby does not permit bullying or harassment towards community members.">BULLYING: Boiby does not permit bullying or harassment towards community members.</option>
+            <option value="Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.">SCAMS: Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.</option>
+            <option value="Adult content is not tolerated on Boiby!">ADULT CONTENT: Adult content is not tolerated on Boiby!</option>
+            <option value="Boiby does not allow sexual content in any form.">SEXUAL CONTENT: Boiby does not allow sexual content in any form.</option>
+            <option value="Boiby prohibits the use of unauthorized third-party software in order to modify the client.">CHEATS AND EXPLOITS: Boiby prohibits the use of unauthorized third-party software in order to modify the client.</option>
+            <option value="Boiby does not permit spamming in the form of clickbait, or repetitive, large volume messaging.">SPAM: Boiby does not permit spamming in the form of clickbait, or repetitive, large volume messaging.</option>
+            <option value="Boiby prohibits illegal and regulated content in all forms. This can include alcohol, drugs, tobacco products, or bomb or weapon making.">ILLEGAL AND REGULATED CONTENT: Boiby prohibits illegal and regulated content in all forms. This can include alcohol, drugs, tobacco products, or bomb or weapon making.</option>
+            <option value="Boiby does not permit attempts to threaten users in order to force them to do something they do not want to do.">EXTORTION/BLACKMAIL: Boiby does not permit attempts to threaten users in order to force them to do something they do not want to do.</option>
+            <option value="Boiby prohibits the discussion or posting of content pertaining to political content or figures.">POLITICS: Boiby prohibits the discussion or posting of content pertaining to political content or figures.</option>
+            <option value="Boiby does not permit violent content and gore, including excessive use of blood.">VIOLENT CONTENT AND GORE: Boiby does not permit violent content and gore, including excessive use of blood.</option>
+            <option value="Boiby prohibits users to buy, trade, or sell Boibybucks or virtual items on third-party sites or marketplaces.">BUYING OFF-PLATFORM: Boiby prohibits users to buy, trade, or sell Boibybucks or virtual items on third-party sites or marketplaces.</option>
+            <option value="Boiby prohibits any uploads of audio that is unintelligible, excessively loud, or contains high-pitched noises.">DISRUPTIVE AUDIO: Boiby prohibits any uploads of audio that is unintelligible, excessively loud, or contains high-pitched noises.</option>
+            <option value="Boiby does not permit dating or romantic exchanges between users.">DATING: Boiby does not permit dating or romantic exchanges between users.</option>
+            <option value="Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.">BYPASSES: Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.</option>
+            <option value="Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.">TRAGEDY: Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.</option>
+            <option value="This account has been closed due to a violation of our Terms of Service. Do not create games or advertisements intended to scam other players.">SCAM GAMES (PERMANENT): This account has been closed due to a violation of our Terms of Service. Do not create games or advertisements intended to scam other players.</option>
+            <option value="Your username contains inappropriate content that is not allowed on Boiby.">USERNAME: Your username contains inappropriate content that is not allowed on Boiby.</option>
+            <option value="Your account has been moderated for making threats against other users.">THREATS: Your account has been moderated for making threats against other users.</option>
+            <option value="This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.">AUDIO (GENERAL): This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.</option>
+            <option value="This image is not appropriate. Please review our rules and only upload appropriate content.">IMAGE (GENERAL): This image is not appropriate. Please review our rules and only upload appropriate content.</option>
+            <option value="This display name is not appropriate for Boiby.">DISPLAY NAME: This display name is not appropriate for Boiby.</option>
+            <option value="Boiby prohibits uploads of malicious or harmful software, including adware, spyware, stealers, remote access trojans, or any other unwanted software.">MALICIOUS SOFTWARE: Boiby prohibits uploads of malicious or harmful software, including adware, spyware, stealers, remote access trojans, or any other unwanted software.</option>
+            <option value="You created or used an account to avoid a moderation action taken against another account.">BAN EVASION: You created or used an account to avoid a moderation action taken against another account.</option>
+            <option value="Your account has been deleted for repeatedly violating the Terms of Service on multiple accounts.">MULTIPLE ACCOUNT VIOLATION: Your account has been deleted for repeatedly violating the Terms of Service on multiple accounts.</option>
+            <option value="Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss your bans, please use the Appeals Portal to contact us.">MOD ACTIONS: Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss your bans, please use the Appeals Portal to contact us.</option>
+            <option value="Your account has been moderated for violating our Terms of Service for theft of an account and/or assets.">ACCOUNT THEFT: Your account has been moderated for violating our Terms of Service for theft of an account and/or assets.</option>
+            <option value="Your account has been permanently banned due to multiple and/or severe violations of our Terms of Service.">SEVERE VIOLATIONS (PERMANENT): Your account has been permanently banned due to multiple and/or severe violations of our Terms of Service.</option>
+            <option value="Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. This is a violation of our Terms of Service.">INAPPROPRIATE CONTENT: Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. This is a violation of our Terms of Service.</option>
+            <option value="Your account has been suspended for unauthorized/disputed charges.">DISPUTED CHARGES: Your account has been suspended for unauthorized/disputed charges.</option>
+            <option value="This account has been closed. Do not steal accounts!">STOLEN ACCOUNT 1: This account has been closed. Do not steal accounts!</option>
+            <option value="This account has been closed as compromised.">STOLEN ACCOUNT 2: This account has been closed as compromised.</option>
+            <option value="Creating accounts just to spam can get you permanently banned from the site.">ACCOUNTS TO SPAM: Creating accounts just to spam can get you permanently banned from the site.</option>
         </select><br><br>
         <label for="notecustom">Custom Moderator Note (optional):</label><br>
         <textarea id="notecustom" name="notecustom" rows="4" cols="50"></textarea><br>
@@ -175,7 +161,7 @@
                 }
             });
         });
-        
+
         // Add Evidence and Violation Box
         document.getElementById('addEvidenceViolationBox').addEventListener('click', function () {
             evidenceViolationCount++;
@@ -352,7 +338,7 @@
 
             // Save the theme in localStorage
             localStorage.setItem('theme', selectedTheme);
-    
+
             // Validate all fields
             const evidenceBoxes = document.querySelectorAll('.evidence-box');
             let isValid = true;
@@ -401,7 +387,6 @@
                 customNote: document.getElementById('notecustom').value,
                 cautionWarning: document.getElementById('cautionWarning').value,
                 theme: document.getElementById('theme').value,
-                premiumMembership: document.getElementById('premiumMembership').checked,
                 evidenceViolations: []
             };
 
