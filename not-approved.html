@@ -246,7 +246,7 @@ if (
     (formData.state === "Ban1Month" || formData.state === "Delete" || formData.state === "Poison")
 ) {
     const renewalDate = addDays(now, 15); // Calculate 15 days from now
-    membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.`;
+    membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. Your membership has been automatically cancelled.`;
     membershipNotice.style.display = "block";
 }
             const evidenceContainer = document.getElementById('evidenceContainer');
