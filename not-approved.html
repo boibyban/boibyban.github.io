@@ -74,214 +74,217 @@
     </div>
 
     <script>
-        const formData = JSON.parse(localStorage.getItem('banFormData'));
-        if (formData) {
-            const banDurationMap = {
-                Warn: "Warning",
-                Ban1Hour: "Banned for 1 Hour",
-                Ban3Hours: "Banned for 3 Hours",
-                Ban6Hours: "Banned for 6 Hours",
-                Ban12Hours: "Banned for 12 Hours",
-                Ban1Day: "Banned for 1 Day",
-                Ban2Day: "Banned for 2 Days",
-                Ban3Day: "Banned for 3 Days",
-                Ban1Week: "Banned for 1 Week",
-                Ban2Weeks: "Banned for 2 Weeks",
-                Ban1Month: "Banned for 1 Month",
-                Delete: "Account Deleted",
-                Poison: "Account Deleted",
-            };
+    const formData = JSON.parse(localStorage.getItem('banFormData'));
+    if (formData) {
+        const banDurationMap = {
+            Warn: "Warning",
+            Ban1Hour: "Banned for 1 Hour",
+            Ban3Hours: "Banned for 3 Hours",
+            Ban6Hours: "Banned for 6 Hours",
+            Ban12Hours: "Banned for 12 Hours",
+            Ban1Day: "Banned for 1 Day",
+            Ban2Day: "Banned for 2 Days",
+            Ban3Day: "Banned for 3 Days",
+            Ban1Week: "Banned for 1 Week",
+            Ban2Weeks: "Banned for 2 Weeks",
+            Ban1Month: "Banned for 1 Month",
+            Delete: "Account Deleted",
+            Poison: "Account Deleted",
+        };
 
-            document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
+        document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
-            // Set moderator note (directly from formData.note or formData.customNote)
-            const moderatorNote = formData.note === "nonote" ? "" : formData.note || formData.customNote || "";
-            document.getElementById('moderatorNote').textContent = moderatorNote;
+        // Set moderator note (directly from formData.note or formData.customNote)
+        const moderatorNote = formData.note === "nonote" ? "" : formData.note || formData.customNote || "";
+        document.getElementById('moderatorNote').textContent = moderatorNote;
 
-            function formatDate(date, includeTime = true) {
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                if (includeTime) {
-                    const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
-                    const minutes = String(date.getMinutes()).padStart(2, '0');
-                    const seconds = String(date.getSeconds()).padStart(2, '0');
-                    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-                } else {
-                    return `${day}/${month}/${year}`; // Date only
-                }
+        function formatDate(date, includeTime = true) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            if (includeTime) {
+                const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            } else {
+                return `${day}/${month}/${year}`; // Date only
             }
+        }
 
-            const now = new Date();
-            const reviewedDate = formatDate(now);
-            document.getElementById('reviewedDate').textContent = reviewedDate;
+        const now = new Date();
+        const reviewedDate = formatDate(now);
+        document.getElementById('reviewedDate').textContent = reviewedDate;
 
-            function addReactivateTextForWarnings() {
-                if (formData.state === "Warn") {
-                    const appealsMessage = document.getElementById('appealsMessage');
-                    const reactivateText = document.createElement('p');
-                    reactivateText.textContent = "By re-activating your account, you agree to our Terms of Service.";
-                    reactivateText.style.marginTop = "10px"; // Optional: Add some spacing
-                    appealsMessage.insertAdjacentElement('afterend', reactivateText);
-                }
-            }
-
-            const logoutButton = document.querySelector('.logout');
+        function addReactivateTextForWarnings() {
             if (formData.state === "Warn") {
-                document.getElementById('reactivateMessage').style.display = "none";
-                document.getElementById('reactivateMessage').textContent = "";
-                document.getElementById('reactivateButton').style.display = "block";
-                document.getElementById('membershipNotice').outerHTML = "";
-                logoutButton.classList.add('warning-margin');
-                addReactivateTextForWarnings();
-            } else if (formData.state === "Delete") {
-                document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
-                document.getElementById('membershipNotice').outerHTML = "";
-                document.getElementById('cautionWarningMessage').outerHTML = "";
-                document.getElementById('reactivateButton').outerHTML = "";
-            } else if (formData.state === "Poison") {
-                document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
-                document.getElementById('membershipNotice').outerHTML = "";
-                document.getElementById('cautionWarningMessage').outerHTML = "";
-                document.getElementById('reactivateButton').outerHTML = "";
-            } else {
-                const banDurationHoursMap = {
-                    Ban1Hour: 1, // 1 hour
-                    Ban3Hours: 3, // 3 hours
-                    Ban6Hours: 6, // 6 hours
-                    Ban12Hours: 12, // 12 hours
-                    Ban1Day: 24, // 1 day = 24 hours
-                    Ban2Day: 48, // 2 days = 48 hours
-                    Ban3Day: 72, // 3 days = 72 hours
-                    Ban1Week: 168, // 1 week = 168 hours
-                    Ban2Weeks: 336, // 2 weeks = 336 hours
-                };
-                const banDurationHours = banDurationHoursMap[formData.state] || 0;
-                const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
-                document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
-                document.getElementById('reactivateButton').style.display = "none";
+                const appealsMessage = document.getElementById('appealsMessage');
+                const reactivateText = document.createElement('p');
+                reactivateText.textContent = "By re-activating your account, you agree to our Terms of Service.";
+                reactivateText.style.marginTop = "10px"; // Optional: Add some spacing
+                appealsMessage.insertAdjacentElement('afterend', reactivateText);
             }
+        }
 
-            const cautionWarningMap = {
-                "6hours": "If you violate the Community Standards again, your account may be temporarily banned for at least 6 hours.",
-                "1day": "If you violate the Community Standards again, your account may be temporarily banned for at least 1 day.",
-                "3days": "If you violate the Community Standards again, your account may be temporarily banned for at least 3 days.",
-                "1week": "If you violate the Community Standards again, your account may be temporarily banned for at least 1 week.",
-                "future": "If you violate the Community Standards again, your account may be suspended in the future.",
-                "permanent": "If you violate the Community Standards again, your account may be permanently banned from Boiby."
+        const logoutButton = document.querySelector('.logout');
+        if (formData.state === "Warn") {
+            document.getElementById('reactivateMessage').style.display = "none";
+            document.getElementById('reactivateMessage').textContent = "";
+            document.getElementById('reactivateButton').style.display = "block";
+            document.getElementById('membershipNotice').outerHTML = "";
+            logoutButton.classList.add('warning-margin');
+            addReactivateTextForWarnings();
+        } else if (formData.state === "Delete") {
+            document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
+            document.getElementById('membershipNotice').outerHTML = "";
+            document.getElementById('cautionWarningMessage').outerHTML = "";
+            document.getElementById('reactivateButton').outerHTML = "";
+        } else if (formData.state === "Poison") {
+            document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
+            document.getElementById('membershipNotice').outerHTML = "";
+            document.getElementById('cautionWarningMessage').outerHTML = "";
+            document.getElementById('reactivateButton').outerHTML = "";
+        } else {
+            const banDurationHoursMap = {
+                Ban1Hour: 1, // 1 hour
+                Ban3Hours: 3, // 3 hours
+                Ban6Hours: 6, // 6 hours
+                Ban12Hours: 12, // 12 hours
+                Ban1Day: 24, // 1 day = 24 hours
+                Ban2Day: 48, // 2 days = 48 hours
+                Ban3Day: 72, // 3 days = 72 hours
+                Ban1Week: 168, // 1 week = 168 hours
+                Ban2Weeks: 336, // 2 weeks = 336 hours
             };
-
-            const cautionWarningMessage = document.getElementById('cautionWarningMessage');
-            if (formData.cautionWarning && formData.cautionWarning !== "none" && (formData.state === "Warn" || formData.state.startsWith("Ban"))) {
-                const cautionText = cautionWarningMap[formData.cautionWarning];
-                cautionWarningMessage.innerHTML = `<span style="color: red; font-weight: bold;">CAUTION</span> ${cautionText}`;
-                cautionWarningMessage.style.display = "block";
-            }
-
-            const membershipNotice = document.getElementById('membershipNotice');
-            if (
-                formData.premiumMembership &&
-                (formData.state === "Ban1Month" || formData.state === "Delete" || formData.state === "Poison")
-            ) {
-                const renewalDate = new Date(now);
-                renewalDate.setDate(renewalDate.getDate() + 15); // Calculate 15 days from now
-                membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. Your membership has been automatically cancelled.`;
-                membershipNotice.style.display = "none";
-            }
-
-            const evidenceContainer = document.getElementById('evidenceContainer');
-            if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
-                formData.evidenceViolations.forEach((violation, index) => {
-                    const violationSection = document.createElement('div');
-                    violationSection.classList.add('violation-section');
-
-                    const violationHeader = document.createElement('p');
-                    violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
-                    violationSection.appendChild(violationHeader);
-
-                    if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
-                        violationSection.appendChild(locationElement);
-                    }
-                    if (violation.evidenceType === "Asset") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
-                        violationSection.appendChild(locationElement);
-                    }
-                    if (violation.evidenceType === "Image") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
-                        violationSection.appendChild(locationElement);
-                    }
-                    if (violation.evidenceType === "Game") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
-                        violationSection.appendChild(locationElement);
-                    }
-                    if (violation.evidenceType === "Avatar") {
-                        const locationElement = document.createElement('p');
-                        locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
-                        violationSection.appendChild(locationElement);
-                    }
-
-
-                    const evidenceElement = document.createElement('p');
-                    if (violation.evidenceType === "Image") {
-                        evidenceElement.innerHTML = `Image`;
-                        const imgElement = document.createElement('img');
-                        imgElement.src = violation.evidence[0]; // Use base64 data as src
-                        imgElement.classList.add('evidence-image');
-                        evidenceElement.appendChild(imgElement);
-else if (violation.evidenceType === "Audio") {
-    evidenceElement.innerHTML = `Audio`;
-    const audioElement = document.createElement('audio');
-    audioElement.controls = true;
-    audioElement.src = violation.evidence[0]; // Use base64 data as src
-    evidenceElement.appendChild(audioElement);
-}
-                    } else if (violation.evidenceType === "Chat") {
-                        evidenceElement.innerHTML = `Chat`;
-                        violation.evidence.forEach(evidence => {
-                            evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
-                        });
-                    } else if (violation.evidenceType === "Voice Chat") {
-                        const date = new Date();
-                        date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
-                        const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                        evidenceElement.innerHTML = `Voice Chat Start Time<b class="inneritem">${formattedDate}</b>`;
-                    } else if (violation.evidenceType === "Username") {
-                        evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
-                    } else if (violation.evidenceType === "Display Name") {
-                        evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                    } else if (violation.evidenceType === "Game") {
-                        evidenceElement.innerHTML = `Game Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                    } else if (violation.evidenceType === "Message") {
-                        evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
-                    } else if (violation.evidenceType === "Asset") {
-                        evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                    }
-                    violationSection.appendChild(evidenceElement);
-
-                    evidenceContainer.appendChild(violationSection);
-                });
-            } else {
-                evidenceContainer.remove();
-            }
+            const banDurationHours = banDurationHoursMap[formData.state] || 0;
+            const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
+            document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
+            document.getElementById('reactivateButton').style.display = "none";
         }
 
-        function setTheme(theme) {
-            const themeStylesheet = document.getElementById('themeStylesheet');
-            if (theme === "dark") {
-                themeStylesheet.href = "/ban.css"; // Path to dark theme CSS
-            } else {
-                themeStylesheet.href = "/ban-light.css"; // Path to light theme CSS
-            }
+        const cautionWarningMap = {
+            "6hours": "If you violate the Community Standards again, your account may be temporarily banned for at least 6 hours.",
+            "1day": "If you violate the Community Standards again, your account may be temporarily banned for at least 1 day.",
+            "3days": "If you violate the Community Standards again, your account may be temporarily banned for at least 3 days.",
+            "1week": "If you violate the Community Standards again, your account may be temporarily banned for at least 1 week.",
+            "future": "If you violate the Community Standards again, your account may be suspended in the future.",
+            "permanent": "If you violate the Community Standards again, your account may be permanently banned from Boiby."
+        };
+
+        const cautionWarningMessage = document.getElementById('cautionWarningMessage');
+        if (formData.cautionWarning && formData.cautionWarning !== "none" && (formData.state === "Warn" || formData.state.startsWith("Ban"))) {
+            const cautionText = cautionWarningMap[formData.cautionWarning];
+            cautionWarningMessage.innerHTML = `<span style="color: red; font-weight: bold;">CAUTION</span> ${cautionText}`;
+            cautionWarningMessage.style.display = "block";
         }
 
-        // Load saved theme preference on page load
-        const savedTheme = localStorage.getItem('theme') || "light"; // Default to light theme
-        setTheme(savedTheme);
-    </script>
+        const membershipNotice = document.getElementById('membershipNotice');
+        if (
+            formData.premiumMembership &&
+            (formData.state === "Ban1Month" || formData.state === "Delete" || formData.state === "Poison")
+        ) {
+            const renewalDate = new Date(now);
+            renewalDate.setDate(renewalDate.getDate() + 15); // Calculate 15 days from now
+            membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. Your membership has been automatically cancelled.`;
+            membershipNotice.style.display = "none";
+        }
+
+        const evidenceContainer = document.getElementById('evidenceContainer');
+        if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
+            formData.evidenceViolations.forEach((violation, index) => {
+                const violationSection = document.createElement('div');
+                violationSection.classList.add('violation-section');
+
+                const violationHeader = document.createElement('p');
+                violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
+                violationSection.appendChild(violationHeader);
+
+                if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Asset") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Image") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Game") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Avatar") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+                if (violation.evidenceType === "Audio") {
+                    const locationElement = document.createElement('p');
+                    locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                    violationSection.appendChild(locationElement);
+                }
+
+                const evidenceElement = document.createElement('p');
+                if (violation.evidenceType === "Image") {
+                    evidenceElement.innerHTML = `Image`;
+                    const imgElement = document.createElement('img');
+                    imgElement.src = violation.evidence[0]; // Use base64 data as src
+                    imgElement.classList.add('evidence-image');
+                    evidenceElement.appendChild(imgElement);
+                } else if (violation.evidenceType === "Chat") {
+                    evidenceElement.innerHTML = `Chat`;
+                    violation.evidence.forEach(evidence => {
+                        evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
+                    });
+                } else if (violation.evidenceType === "Voice Chat") {
+                    const date = new Date();
+                    date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
+                    const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+                    evidenceElement.innerHTML = `Voice Chat Start Time<b class="inneritem">${formattedDate}</b>`;
+                } else if (violation.evidenceType === "Username") {
+                    evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Display Name") {
+                    evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Game") {
+                    evidenceElement.innerHTML = `Game Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Message") {
+                    evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Asset") {
+                    evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                } else if (violation.evidenceType === "Audio") {
+                    evidenceElement.innerHTML = `Audio`;
+                    const audioElement = document.createElement('audio');
+                    audioElement.controls = true;
+                    audioElement.src = violation.evidence[0]; // Use base64 data as src
+                    evidenceElement.appendChild(audioElement);
+                }
+                violationSection.appendChild(evidenceElement);
+
+                evidenceContainer.appendChild(violationSection);
+            });
+        } else {
+            evidenceContainer.remove();
+        }
+    }
+
+    function setTheme(theme) {
+        const themeStylesheet = document.getElementById('themeStylesheet');
+        if (theme === "dark") {
+            themeStylesheet.href = "/ban.css"; // Path to dark theme CSS
+        } else {
+            themeStylesheet.href = "/ban-light.css"; // Path to light theme CSS
+        }
+    }
+
+    // Load saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme') || "light"; // Default to light theme
+    setTheme(savedTheme);
+</script>
 </body>
 </html>
