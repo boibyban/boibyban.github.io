@@ -181,6 +181,7 @@
                     <option value="Message">Message/Other</option>
                     <option value="Avatar">Avatar</option>
                     <option value="Asset">Asset</option>
+                    <option value="Audio">Audio</option>
                 </select><br><br>
                 <label for="violation${evidenceViolationCount}">Violation (select up to 3):</label>
                 <select id="violation${evidenceViolationCount}" class="violation" multiple required>
@@ -307,6 +308,16 @@
                     evidenceInput.style.display = "block";
                     addEvidenceLineButton.style.display = "none";
                     locationContainer.style.display = "none"; // Hide location field
+                } else if (evidenceType === "Audio") {
+                    evidenceInput.innerHTML = `
+                        <div class="evidence-line">
+                            <label for="evidence${evidenceViolationCount}">Evidence:</label>
+                            <input type="file" id="evidence${evidenceViolationCount}" class="evidence" accept=".wav,.mp3" required><br><br>
+                        </div>
+                    `;
+                    evidenceInput.style.display = "block";
+                    addEvidenceLineButton.style.display = "none";
+                    locationContainer.style.display = "none"; // Hide location field
                 } else {
                     evidenceInput.style.display = "none";
                     addEvidenceLineButton.style.display = "none";
@@ -376,6 +387,7 @@
                     isValid = false;
                     return;
                 }
+
             });
 
             if (!isValid) return;
@@ -391,55 +403,62 @@
             };
 
             for (const box of evidenceBoxes) {
-                const evidenceType = box.querySelector('.evidenceType').value;
-                const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
-                let location = box.querySelector('.location') ? box.querySelector('.location').value : (evidenceType === "Chat" ? "Chat" : null);
-                const evidence = [];
+    const evidenceType = box.querySelector('.evidenceType').value;
+    const violations = Array.from(box.querySelector('.violation').selectedOptions).map(option => option.value);
+    let location = box.querySelector('.location') ? box.querySelector('.location').value : (evidenceType === "Chat" ? "Chat" : null);
+    const evidence = [];
 
-                // Generate Asset ID for Asset type
-                if (evidenceType === "Asset") {
-                    location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                }
-                if (evidenceType === "Image") {
-                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                    location = assetId; // Set location as Asset ID
-                }
-                if (evidenceType === "Avatar") {
-                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                    location = assetId; // Set location as Asset ID
-                }
-                if (evidenceType === "Game") {
-                    const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
-                    location = assetId; // Set location as Asset ID
-                }
-                // Collect all evidence lines
-                if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
-                    const evidenceInputs = box.querySelectorAll('.evidence-line input');
-                    for (const input of evidenceInputs) {
-                        if (input.type === "file" && input.files[0]) {
-                            const file = input.files[0];
-                            const reader = new FileReader();
+    // Generate Asset ID for Asset type
+    if (evidenceType === "Asset") {
+        location = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+    }
+    if (evidenceType === "Image") {
+        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+        location = assetId; // Set location as Asset ID
+    }
+    if (evidenceType === "Avatar") {
+        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+        location = assetId; // Set location as Asset ID
+    }
+    if (evidenceType === "Game") {
+        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+        location = assetId; // Set location as Asset ID
+    }
 
-                            // Wait for the file to be read
-                            const fileData = await new Promise((resolve) => {
-                                reader.onload = (e) => resolve(e.target.result);
-                                reader.readAsDataURL(file);
-                            });
+    // Add this block for Audio evidence type
+    if (evidenceType === "Audio") {
+        const assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // Generate 12-digit number
+        location = assetId; // Set location as Asset ID
+    }
 
-                            evidence.push(fileData); // Store base64 data
-                        } else if (input.type === "text" && input.value.trim()) {
-                            evidence.push(input.value.trim());
-                        }
-                    }
-                }
+    // Collect all evidence lines
+    if (evidenceType !== "Voice Chat" && evidenceType !== "Avatar") {
+        const evidenceInputs = box.querySelectorAll('.evidence-line input');
+        for (const input of evidenceInputs) {
+            if (input.type === "file" && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
 
-                formData.evidenceViolations.push({
-                    evidenceType,
-                    violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
-                    location,
-                    evidence
+                // Wait for the file to be read
+                const fileData = await new Promise((resolve) => {
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
                 });
+
+                evidence.push(fileData); // Store base64 data
+            } else if (input.type === "text" && input.value.trim()) {
+                evidence.push(input.value.trim());
             }
+        }
+    }
+
+    formData.evidenceViolations.push({
+        evidenceType,
+        violations: [...new Set(violations)].sort((a, b) => a.localeCompare(b)), // Sort and remove duplicates
+        location,
+        evidence
+    });
+}
 
             // Save form data to localStorage and redirect
             localStorage.setItem('banFormData', JSON.stringify(formData));
