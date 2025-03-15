@@ -192,12 +192,14 @@ function addReactivateTextForWarnings() {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
                 document.getElementById('communityStandards').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
+                document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('abideRules').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
             } else if (formData.state === "Poison") {
                 document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
                 // document.getElementById('reactivateMessage').style.fontWeight = "500";
                 // document.getElementById('communityStandards').outerHTML = "";
+                document.getElementById('membershipNotice').outerHTML = "";
                 document.getElementById('abideRules').outerHTML = "";
                 document.getElementById('cautionWarningMessage').outerHTML = "";
                 document.getElementById('reactivateButton').outerHTML = "";
@@ -247,7 +249,7 @@ if (
 ) {
     const renewalDate = addDays(now, 15); // Calculate 15 days from now
     membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. Your membership has been automatically cancelled.`;
-    membershipNotice.style.display = "block";
+    membershipNotice.style.display = "none";
 }
             const evidenceContainer = document.getElementById('evidenceContainer');
             if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
