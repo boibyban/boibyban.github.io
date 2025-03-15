@@ -87,129 +87,139 @@
         <button class="logout"><a href="/not-approved" class="logoutlink">Back</a></button>
     </div>
     <script>
-        const formData = JSON.parse(localStorage.getItem('banFormData'));
-        const evidenceContainer = document.getElementById('evidenceContainer');
-        const punishmentBox = document.getElementById('punishmentBox');
+    const formData = JSON.parse(localStorage.getItem('banFormData'));
+    const evidenceContainer = document.getElementById('evidenceContainer');
+    const punishmentBox = document.getElementById('punishmentBox');
 
-        // Map punishment states to display text
-        const punishmentMap = {
-            Ban1Hour: "Your account is currently banned for 1 hour.",
-            Ban3Hours: "Your account is currently banned for 3 hours.",
-            Ban6Hours: "Your account is currently banned for 6 hours.",
-            Ban12Hours: "Your account is currently banned for 12 hours.",
-            Ban1Day: "Your account is currently banned for 1 day.",
-            Ban2Day: "Your account is currently banned for 2 days.",
-            Ban3Day: "Your account is currently banned for 3 days.",
-            Ban1Week: "Your account is currently banned for 1 week.",
-            Ban2Weeks: "Your account is currently banned for 2 weeks.",
-            Ban1Month: "Your account is currently banned for 1 month.",
-            Delete: "Your account has been permanently banned."
-        };
+    // Map punishment states to display text
+    const punishmentMap = {
+        Ban1Hour: "Your account is currently banned for 1 hour.",
+        Ban3Hours: "Your account is currently banned for 3 hours.",
+        Ban6Hours: "Your account is currently banned for 6 hours.",
+        Ban12Hours: "Your account is currently banned for 12 hours.",
+        Ban1Day: "Your account is currently banned for 1 day.",
+        Ban2Day: "Your account is currently banned for 2 days.",
+        Ban3Day: "Your account is currently banned for 3 days.",
+        Ban1Week: "Your account is currently banned for 1 week.",
+        Ban2Weeks: "Your account is currently banned for 2 weeks.",
+        Ban1Month: "Your account is currently banned for 1 month.",
+        Delete: "Your account has been permanently banned."
+    };
 
-        // Show punishment box if applicable
-        if (formData && formData.state && punishmentMap[formData.state]) {
-            punishmentBox.textContent = punishmentMap[formData.state];
-            punishmentBox.style.display = "inline-block";
-        }
+    // Show punishment box if applicable
+    if (formData && formData.state && punishmentMap[formData.state]) {
+        punishmentBox.textContent = punishmentMap[formData.state];
+        punishmentBox.style.display = "inline-block";
+    }
 
-        if (formData && formData.evidenceViolations && formData.evidenceViolations.length > 0) {
-            document.getElementById('evidenceHeading').textContent = `Your ${formData.evidenceViolations[0].evidenceType.toLowerCase()} broke the rules:`;
-            document.getElementById('evidenceHeading').style.display = "block";
-            document.getElementById('active').style.display = "block";
-        } else {
-            document.getElementById('evidenceHeading').style.display = "none";
-            document.getElementById('active').style.display = "none";
-        }
+    if (formData && formData.evidenceViolations && formData.evidenceViolations.length > 0) {
+        document.getElementById('evidenceHeading').textContent = `Your ${formData.evidenceViolations[0].evidenceType.toLowerCase()} broke the rules:`;
+        document.getElementById('evidenceHeading').style.display = "block";
+        document.getElementById('active').style.display = "block";
+    } else {
+        document.getElementById('evidenceHeading').style.display = "none";
+        document.getElementById('active').style.display = "none";
+    }
 
-        // Generate a random 12-digit Asset ID and store it in localStorage
-        let assetId = localStorage.getItem('assetId');
-        if (!assetId) {
-            assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // 12-digit number
-            localStorage.setItem('assetId', assetId);
-        }
+    // Generate a random 12-digit Asset ID and store it in localStorage
+    let assetId = localStorage.getItem('assetId');
+    if (!assetId) {
+        assetId = String(Math.floor(100000000000 + Math.random() * 900000000000)); // 12-digit number
+        localStorage.setItem('assetId', assetId);
+    }
 
-        if (formData && formData.evidenceViolations && formData.evidenceViolations.length > 0) {
-            formData.evidenceViolations.forEach((violation, index) => {
-                const violationSection = document.createElement('div');
-                violationSection.classList.add('violation-section');
+    if (formData && formData.evidenceViolations && formData.evidenceViolations.length > 0) {
+        formData.evidenceViolations.forEach((violation, index) => {
+            const violationSection = document.createElement('div');
+            violationSection.classList.add('violation-section');
 
-                const violationHeader = document.createElement('p');
-                violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
-                violationSection.appendChild(violationHeader);
+            const violationHeader = document.createElement('p');
+            violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
+            violationSection.appendChild(violationHeader);
 
-                if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
-                    const locationElement = document.createElement('p');
-                    locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
-                    violationSection.appendChild(locationElement);
-                }
-                if (violation.evidenceType === "Asset") {
-                    const locationElement = document.createElement('p');
-                    locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
-                    violationSection.appendChild(locationElement);
-                }
-                if (violation.evidenceType === "Image") {
-                    const locationElement = document.createElement('p');
-                    locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
-                    violationSection.appendChild(locationElement);
-                }
-                if (violation.evidenceType === "Game") {
-                    const locationElement = document.createElement('p');
-                    locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
-                    violationSection.appendChild(locationElement);
-                }
-                if (violation.evidenceType === "Avatar") {
-                    const locationElement = document.createElement('p');
-                    locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
-                    violationSection.appendChild(locationElement);
-                }
-                // There is a better way to do this, but I don't care at this point.
+            if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Asset") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Image") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Game") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Avatar") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Audio") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
 
-                const evidenceElement = document.createElement('p');
-                if (violation.evidenceType === "Image") {
-                    evidenceElement.innerHTML = `Image`;
-                    const imgElement = document.createElement('img');
-                    imgElement.src = violation.evidence[0]; // Use base64 data as src
-                    imgElement.classList.add('evidence-image');
-                    evidenceElement.appendChild(imgElement);
-                } else if (violation.evidenceType === "Chat") {
-                    evidenceElement.innerHTML = `Chat`;
-                    violation.evidence.forEach(evidence => {
-                        evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
-                    });
-                } else if (violation.evidenceType === "Voice Chat") {
-                    const date = new Date();
-                    date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
-                    const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                    evidenceElement.innerHTML = `Voice Chat Start Time<b class="inneritem">${formattedDate}</b>`;
-                } else if (violation.evidenceType === "Username") {
-                    evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
-                } else if (violation.evidenceType === "Display Name") {
-                    evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                } else if (violation.evidenceType === "Game") {
-                    evidenceElement.innerHTML = `Game Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                } else if (violation.evidenceType === "Message") {
-                    evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
-                } else if (violation.evidenceType === "Asset") {
-                    evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
-                }
-                
-                violationSection.appendChild(evidenceElement);
+            const evidenceElement = document.createElement('p');
+            if (violation.evidenceType === "Image") {
+                evidenceElement.innerHTML = `Image`;
+                const imgElement = document.createElement('img');
+                imgElement.src = violation.evidence[0]; // Use base64 data as src
+                imgElement.classList.add('evidence-image');
+                evidenceElement.appendChild(imgElement);
+            } else if (violation.evidenceType === "Chat") {
+                evidenceElement.innerHTML = `Chat`;
+                violation.evidence.forEach(evidence => {
+                    evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
+                });
+            } else if (violation.evidenceType === "Voice Chat") {
+                const date = new Date();
+                date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
+                const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+                evidenceElement.innerHTML = `Voice Chat Start Time<b class="inneritem">${formattedDate}</b>`;
+            } else if (violation.evidenceType === "Username") {
+                evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
+            } else if (violation.evidenceType === "Display Name") {
+                evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
+            } else if (violation.evidenceType === "Game") {
+                evidenceElement.innerHTML = `Game Name<b class="inneritem">${violation.evidence[0]}</b>`;
+            } else if (violation.evidenceType === "Message") {
+                evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
+            } else if (violation.evidenceType === "Asset") {
+                evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
+            } else if (violation.evidenceType === "Audio") {
+                evidenceElement.innerHTML = `Audio`;
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.src = violation.evidence[0]; // Use base64 data as src
+                evidenceElement.appendChild(audioElement);
+            }
 
-                evidenceContainer.appendChild(violationSection);
-            });
-        } else {
-            evidenceContainer.remove();
-        }
+            violationSection.appendChild(evidenceElement);
 
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-    </script>
+            evidenceContainer.appendChild(violationSection);
+        });
+    } else {
+        evidenceContainer.remove();
+    }
+
+    function escapeHTML(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+</script>
 </body>
 </html>
