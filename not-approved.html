@@ -25,10 +25,7 @@
         }
         .evidence-box {
             margin-top: 0px;
-            padding: 15px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 0px;
+            padding: 12px;
             display: block;
             border-radius: 0px;
         }
@@ -38,6 +35,8 @@
         }
         .violation-section {
             margin-bottom: 20px;
+            padding-right: 8px;
+            padding-left: 8px;
         }
         .classic-violation {
             margin-bottom: 20px;
@@ -136,13 +135,11 @@ if (formData) {
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
-        // document.getElementById('communityStandards').outerHTML = "";
     } else if (formData.state === "Poison") {
         document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
-        // document.getElementById('communityStandards').outerHTML = "";
     } else {
         const banDurationHoursMap = {
             Ban1Day: 24, // 1 day = 24 hours
@@ -186,44 +183,21 @@ if (formData) {
     const evidenceContainer = document.getElementById('evidenceContainer');
     if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
         formData.evidenceViolations.forEach((violation, index) => {
-            const violationSection = document.createElement('div');
-            violationSection.classList.add('evidence-box');
+            const violationDetails = document.createElement('div');
 
+            // Add Violation Type
             const violationHeader = document.createElement('p');
-            violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
-            violationSection.appendChild(violationHeader);
+            violationHeader.innerHTML = `Violation<br><b>${violation.violations.join(', ')}</b>`;
+            violationDetails.appendChild(violationHeader);
 
+            // Add Location (if applicable)
             if (violation.evidenceType === "Chat" || violation.evidenceType === "Voice Chat") {
                 const locationElement = document.createElement('p');
-                locationElement.innerHTML = `Location<b class="inneritem">${violation.location}</b>`;
-                violationSection.appendChild(locationElement);
-            }
-            if (violation.evidenceType === "Asset") {
-                const locationElement = document.createElement('p');
-                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
-                violationSection.appendChild(locationElement);
-            }
-            if (violation.evidenceType === "Image") {
-                const locationElement = document.createElement('p');
-                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
-                violationSection.appendChild(locationElement);
-            }
-            if (violation.evidenceType === "Game") {
-                const locationElement = document.createElement('p');
-                locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
-                violationSection.appendChild(locationElement);
-            }
-            if (violation.evidenceType === "Avatar") {
-                const locationElement = document.createElement('p');
-                locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
-                violationSection.appendChild(locationElement);
-            }
-            if (violation.evidenceType === "Audio") {
-                const locationElement = document.createElement('p');
-                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
-                violationSection.appendChild(locationElement);
+                locationElement.innerHTML = `Location<br><b>${violation.location}</b>`;
+                violationDetails.appendChild(locationElement);
             }
 
+            // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.evidenceType === "Image") {
                 evidenceElement.innerHTML = `Image`;
@@ -234,23 +208,23 @@ if (formData) {
             } else if (violation.evidenceType === "Chat") {
                 evidenceElement.innerHTML = `Chat`;
                 violation.evidence.forEach(evidence => {
-                    evidenceElement.innerHTML += `<b class="inneritem">You: ${evidence}</b>`;
+                    evidenceElement.innerHTML += `<br><b>You: ${evidence}</b>`;
                 });
             } else if (violation.evidenceType === "Voice Chat") {
                 const date = new Date();
                 date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Voice Chat Start Time<b class="inneritem">${formattedDate}</b>`;
+                evidenceElement.innerHTML = `Voice Chat Start Time<br><b>${formattedDate}</b>`;
             } else if (violation.evidenceType === "Username") {
-                evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence[0]}</b>`;
+                evidenceElement.innerHTML = `Username<br><b>${violation.evidence[0]}</b>`;
             } else if (violation.evidenceType === "Display Name") {
-                evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                evidenceElement.innerHTML = `Display Name<br><b>${violation.evidence[0]}</b>`;
             } else if (violation.evidenceType === "Game") {
-                evidenceElement.innerHTML = `Game Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                evidenceElement.innerHTML = `Game Name<br><b>${violation.evidence[0]}</b>`;
             } else if (violation.evidenceType === "Message") {
-                evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence[0]}</b>`;
+                evidenceElement.innerHTML = `Evidence<br><b>${violation.evidence[0]}</b>`;
             } else if (violation.evidenceType === "Asset") {
-                evidenceElement.innerHTML = `Asset Name<b class="inneritem">${violation.evidence[0]}</b>`;
+                evidenceElement.innerHTML = `Asset Name<br><b>${violation.evidence[0]}</b>`;
             } else if (violation.evidenceType === "Audio") {
                 evidenceElement.innerHTML = `Audio`;
                 const audioElement = document.createElement('audio');
@@ -258,19 +232,27 @@ if (formData) {
                 audioElement.src = violation.evidence[0]; // Use base64 data as src
                 evidenceElement.appendChild(audioElement);
             }
-            violationSection.appendChild(evidenceElement);
+            violationDetails.appendChild(evidenceElement);
 
-            evidenceContainer.appendChild(violationSection);
+            // Append to evidenceContainer
+            evidenceContainer.appendChild(violationDetails);
         });
     } else if (formData.classicViolations && formData.classicViolations.length > 0) {
         formData.classicViolations.forEach((violation, index) => {
-        const violationHeader = document.createElement('p');
-            violationHeader.innerHTML = `Reason<b class="inneritem">${violation.reason}</b>`;
-            violationSection.appendChild(violationHeader);
+            const violationDetails = document.createElement('div');
 
+            // Add Reason
+            const reasonElement = document.createElement('p');
+            reasonElement.innerHTML = `Reason: <b>${violation.reason}</b>`;
+            violationDetails.appendChild(reasonElement);
+
+            // Add Evidence
             const evidenceElement = document.createElement('p');
-            evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence}</b>`;
-            violationSection.appendChild(evidenceElement);
+            evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
+            violationDetails.appendChild(evidenceElement);
+
+            // Append to evidenceContainer
+            evidenceContainer.appendChild(violationDetails);
         });
     } else {
         evidenceContainer.remove();
