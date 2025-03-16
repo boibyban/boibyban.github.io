@@ -146,6 +146,9 @@
         <input type="submit" value="Submit"><br>
     </form>
 <script>
+let evidenceViolationCount = 0;
+let classicViolationCount = 0;
+
 // Show/hide caution warning based on punishment type
 const cautionWarningContainer = document.getElementById('cautionWarningContainer');
 const punishmentRadios = document.querySelectorAll('input[name="State"]');
@@ -159,27 +162,13 @@ punishmentRadios.forEach(radio => {
         }
     });
 });
-let evidenceViolationCount = 0;
-let classicViolationCount = 0;
 
-// Function to update button visibility
-function updateButtonVisibility() {
-    if (classicViolationCount > 0) {
-        // Hide "Add Evidence and Violation" button if Classic Violations are present
-        document.getElementById('addEvidenceViolationBox').style.display = "none";
-    } else {
-        // Show "Add Evidence and Violation" button if no Classic Violations are present
-        document.getElementById('addEvidenceViolationBox').style.display = "inline-block";
+// Add Evidence and Violation Box
+document.getElementById('addEvidenceViolationBox').addEventListener('click', function () {
+    if (classicViolationCount > 0 || evidenceViolationCount > 0) {
+        alert("You cannot add normal violations when Classic Violations are present or when a normal violation already exists.");
+        return;
     }
-
-    if (evidenceViolationCount > 0) {
-        // Hide "Add Classic Violation" button if Normal Violations are present
-        document.getElementById('addClassicViolationBox').style.display = "none";
-    } else {
-        // Show "Add Classic Violation" button if no Normal Violations are present
-        document.getElementById('addClassicViolationBox').style.display = "inline-block";
-    }
-}
 
     evidenceViolationCount++;
     const newBox = document.createElement('div');
@@ -358,6 +347,7 @@ function updateButtonVisibility() {
 
     // Hide the "Add Classic Violation" button when a normal violation is added
     document.getElementById('addClassicViolationBox').style.display = "none";
+    document.getElementById('addEvidenceViolationBox').style.display = "none";
 });
 
 // Add Classic Violation Box
