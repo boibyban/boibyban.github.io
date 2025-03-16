@@ -146,7 +146,7 @@
         <input type="submit" value="Submit"><br>
     </form>
 <script>
-    let evidenceViolationCount = 0;
+let evidenceViolationCount = 0;
 let classicViolationCount = 0;
 
 // Show/hide caution warning based on punishment type
@@ -248,7 +248,10 @@ document.getElementById('addEvidenceViolationBox').addEventListener('click', fun
     // Remove Box
     newBox.querySelector('.remove-box').addEventListener('click', function () {
         newBox.remove();
-        document.getElementById('addEvidenceViolationBox').style.display = "inline-block";
+        evidenceViolationCount--;
+        if (evidenceViolationCount === 0) {
+            document.getElementById('addClassicViolationBox').style.display = "inline-block";
+        }
     });
 
     // Remove Evidence
@@ -342,8 +345,8 @@ document.getElementById('addEvidenceViolationBox').addEventListener('click', fun
         evidenceInput.appendChild(newEvidenceLine);
     });
 
-    // Hide the "Add Evidence and Violation" button after adding a box
-    document.getElementById('addEvidenceViolationBox').style.display = "none";
+    // Hide the "Add Classic Violation" button when a normal violation is added
+    document.getElementById('addClassicViolationBox').style.display = "none";
 });
 
 // Add Classic Violation Box
@@ -413,7 +416,7 @@ document.getElementById('addClassicViolationBox').addEventListener('click', func
         }
     });
 
-    // Disable the normal violation button if Classic Violations are added
+    // Hide the "Add Evidence and Violation" button when a Classic Violation is added
     document.getElementById('addEvidenceViolationBox').style.display = "none";
 });
 
