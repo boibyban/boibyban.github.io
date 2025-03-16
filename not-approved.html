@@ -26,8 +26,8 @@
         .evidence-box {
             margin-top: 0px;
             padding: 15px;
-            padding-right: 20px;
-            padding-left: 20px;
+            padding-right: 16px;
+            padding-left: 16px;
             padding-bottom: 0px;
             display: block;
             border-radius: 0px;
@@ -266,11 +266,11 @@ if (formData) {
             violationSection.classList.add('violation-section');
 
             const violationHeader = document.createElement('p');
-            violationHeader.innerHTML = `Reason<b>${violation.reason}</b>`;
+            violationHeader.innerHTML = `Reason: <b>${violation.reason}</b>`;
             violationSection.appendChild(violationHeader);
 
             const evidenceElement = document.createElement('p');
-            evidenceElement.innerHTML = `Evidence<b>${violation.evidence}</b>`;
+            evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
             violationSection.appendChild(evidenceElement);
 
             evidenceContainer.appendChild(violationSection);
