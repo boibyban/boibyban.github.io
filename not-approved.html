@@ -76,9 +76,8 @@
         <button id="reactivateButton" class="reactivate">Re-activate Account</button>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink">Logout</a></button>
     </div>
-
 <script>
-    const formData = JSON.parse(localStorage.getItem('banFormData'));
+const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
         Warn: "Warning",
@@ -188,7 +187,7 @@ if (formData) {
     if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
         formData.evidenceViolations.forEach((violation, index) => {
             const violationSection = document.createElement('div');
-            violationSection.classList.add('violation-section');
+            violationSection.classList.add('evidence-box');
 
             const violationHeader = document.createElement('p');
             violationHeader.innerHTML = `Violation<br><b class="inneritem">${violation.violations.join(', ')}</b>`;
@@ -266,14 +265,14 @@ if (formData) {
     } else if (formData.classicViolations && formData.classicViolations.length > 0) {
         formData.classicViolations.forEach((violation, index) => {
             const violationSection = document.createElement('div');
-            violationSection.classList.add('classic-violation');
+            violationSection.classList.add('evidence-box');
 
             const violationHeader = document.createElement('p');
-            violationHeader.innerHTML = `Reason: <b>${violation.reason}</b>`;
+            violationHeader.innerHTML = `Reason<b class="inneritem">${violation.reason}</b>`;
             violationSection.appendChild(violationHeader);
 
             const evidenceElement = document.createElement('p');
-            evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
+            evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence}</b>`;
             violationSection.appendChild(evidenceElement);
 
             evidenceContainer.appendChild(violationSection);
