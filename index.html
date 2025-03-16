@@ -430,8 +430,8 @@ document.getElementById('banForm').addEventListener('submit', async function (ev
     localStorage.setItem('theme', selectedTheme);
 
     // Validate all fields
-    const evidenceBoxes = document.querySelectorAll('.evidence-box');
-    const classicViolationBoxes = document.querySelectorAll('#classicViolationContainer .evidence-box');
+    const evidenceBoxes = document.querySelectorAll('#evidenceViolationContainer .evidence-box'); // Only select normal violation boxes
+    const classicViolationBoxes = document.querySelectorAll('#classicViolationContainer .evidence-box'); // Only select Classic Violation boxes
     let isValid = true;
 
     // Validate normal violations (if any)
