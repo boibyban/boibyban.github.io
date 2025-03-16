@@ -197,6 +197,31 @@ if (formData) {
                 locationElement.innerHTML = `Location<br><b>${violation.location}</b>`;
                 violationDetails.appendChild(locationElement);
             }
+            if (violation.evidenceType === "Asset") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Image") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`; // Maybe imageID in future
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Game") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Game ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Avatar") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Avatar ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
+            if (violation.evidenceType === "Audio") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<b class="inneritem">${violation.location}</b>`;
+                violationSection.appendChild(locationElement);
+            }
 
             // Add Evidence
             const evidenceElement = document.createElement('p');
