@@ -264,18 +264,13 @@ if (formData) {
         });
     } else if (formData.classicViolations && formData.classicViolations.length > 0) {
         formData.classicViolations.forEach((violation, index) => {
-            const violationSection = document.createElement('div');
-            violationSection.classList.add('evidence-box');
-
-            const violationHeader = document.createElement('p');
+        const violationHeader = document.createElement('p');
             violationHeader.innerHTML = `Reason<b class="inneritem">${violation.reason}</b>`;
             violationSection.appendChild(violationHeader);
 
             const evidenceElement = document.createElement('p');
             evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence}</b>`;
             violationSection.appendChild(evidenceElement);
-
-            evidenceContainer.appendChild(violationSection);
         });
     } else {
         evidenceContainer.remove();
