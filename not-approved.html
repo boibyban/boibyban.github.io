@@ -263,7 +263,7 @@ if (formData) {
     } else if (formData.classicViolations && formData.classicViolations.length > 0) {
         formData.classicViolations.forEach((violation, index) => {
             const violationSection = document.createElement('div');
-            violationSection.classList.add('violation-section');
+            violationSection.classList.add('classic-violation');
 
             const violationHeader = document.createElement('p');
             violationHeader.innerHTML = `Reason: <b>${violation.reason}</b>`;
