@@ -184,7 +184,7 @@ if (formData) {
     if (formData.evidenceViolations && formData.evidenceViolations.length > 0) {
         formData.evidenceViolations.forEach((violation, index) => {
             const violationDetails = document.createElement('div');
-            violationDetails.appendClass(violation-section);
+            violationDetails.classList.add('violation-section');
 
             // Add Violation Type
             const violationHeader = document.createElement('p');
