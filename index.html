@@ -420,7 +420,6 @@ document.getElementById('addClassicViolationBox').addEventListener('click', func
     document.getElementById('addEvidenceViolationBox').style.display = "none";
 });
 
-// Form Submission
 document.getElementById('banForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -494,7 +493,7 @@ document.getElementById('banForm').addEventListener('submit', async function (ev
         state: document.querySelector('input[name="State"]:checked').value,
         note: document.getElementById('note').value,
         customNote: document.getElementById('notecustom').value,
-        cautionWarning: document.getElementById('cautionWarning').value,
+        cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none", // Check if cautionWarning exists
         theme: document.getElementById('theme').value,
         evidenceViolations: [],
         classicViolations: []
