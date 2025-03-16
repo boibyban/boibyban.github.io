@@ -266,11 +266,11 @@ if (formData) {
             violationSection.classList.add('violation-section');
 
             const violationHeader = document.createElement('p');
-            violationHeader.innerHTML = `Reason<b class="inneritem">${violation.reason}</b>`;
+            violationHeader.innerHTML = `Reason<b>${violation.reason}</b>`;
             violationSection.appendChild(violationHeader);
 
             const evidenceElement = document.createElement('p');
-            evidenceElement.innerHTML = `Evidence<b class="inneritem">${violation.evidence}</b>`;
+            evidenceElement.innerHTML = `Evidence<b>${violation.evidence}</b>`;
             violationSection.appendChild(evidenceElement);
 
             evidenceContainer.appendChild(violationSection);
