@@ -6,6 +6,13 @@
     padding: 15px;
     border-radius: 0;
 }
+#header {
+    width: 100%;
+    height: 40px;
+    display: block;
+    background-color: #303030;
+    border-radius: 8px;
+}
 .evidence-box {
     border: 1px solid #bbb;
     padding: 12px;
