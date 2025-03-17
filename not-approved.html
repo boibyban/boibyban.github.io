@@ -196,6 +196,26 @@ if (formData) {
                 const locationElement = document.createElement('p');
                 locationElement.innerHTML = `Location<br><b>${violation.location}</b>`;
                 violationDetails.appendChild(locationElement);
+            } else if (violation.evidenceType === "Asset") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<br><b>${violation.location}</b>`;
+                violationDetails.appendChild(locationElement);
+            } else if (violation.evidenceType === "Image") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<br><b>${violation.location}</b>`; // Maybe imageID in future
+                violationDetails.appendChild(locationElement);
+            } else if (violation.evidenceType === "Game") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Game ID<br><b>${violation.location}</b>`;
+                violationDetails.appendChild(locationElement);
+            } else if (violation.evidenceType === "Avatar") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Avatar ID<br><b>${violation.location}</b>`;
+                violationDetails.appendChild(locationElement);
+            } else if (violation.evidenceType === "Audio") {
+                const locationElement = document.createElement('p');
+                locationElement.innerHTML = `Asset ID<br><b>${violation.location}</b>`;
+                violationDetails.appendChild(locationElement);
             }
 
             // Add Evidence
