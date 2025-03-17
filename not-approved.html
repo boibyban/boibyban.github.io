@@ -267,6 +267,7 @@ if (formData) {
     } else if (formData.classicViolations && formData.classicViolations.length > 0) {
         formData.classicViolations.forEach((violation, index) => {
             const violationDetails = document.createElement('div');
+            violationDetails.classList.add('evidenceItemDiv');
 
             // Add Reason
             const reasonElement = document.createElement('p');
