@@ -12,7 +12,7 @@
     display: block;
     background-color: #303030;
     border-radius: 8px;
-    padding: 8px;
+    margin: 8px;
 }
 #username {
     padding-top: 6px;
