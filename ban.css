@@ -13,8 +13,9 @@
     border-radius: 8px;
 }
 #username {
-    padding-top: 6px;
+    padding-top: 8px;
     padding-left: 10px;
+    display: flex;
 }
 .evidence-box {
     border: 1px solid #bbb;
