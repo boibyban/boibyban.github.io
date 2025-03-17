@@ -68,7 +68,9 @@
             <option value="dark">Dark Mode</option>
         </select>
     </div>
-        <p>Punishment</p>
+    <label for="username">Username (required):</label><br>
+        <input type="text" id="username" name="username" pattern="[A-Za-z0-9_]{1,20}" title="Only uppercase, lowercase, numbers, and underscores are allowed. Maximum 20 characters." required><br>
+    <p>Punishment</p>
         <input type="radio" id="Warn" name="State" value="Warn">
         <label for="Warn">Warn</label><br>
         <input type="radio" id="Ban6Hours" name="State" value="Ban6Hours">
@@ -128,6 +130,7 @@
             <option value="This account has been closed as compromised.">STOLEN ACCOUNT 2: This account has been closed as compromised.</option>
             <option value="Creating accounts just to spam can get you permanently banned from the site.">ACCOUNTS TO SPAM: Creating accounts just to spam can get you permanently banned from the site.</option>
         </select><br><br>
+        
         <label for="notecustom">Custom Moderator Note (optional):</label><br>
         <textarea id="notecustom" name="notecustom" rows="4" cols="50"></textarea><br>
         <div id="cautionWarningContainer" style="display: none;">
@@ -427,6 +430,15 @@ document.getElementById('addClassicViolationBox').addEventListener('click', func
 
 document.getElementById('banForm').addEventListener('submit', async function (event) {
     event.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    if (!username) {
+        alert("Username is required.");
+        return;
+    }
+
+    // Save the username in localStorage
+    localStorage.setItem('username', username);
 
     // Get the selected theme
     const selectedTheme = document.getElementById('theme').value;
