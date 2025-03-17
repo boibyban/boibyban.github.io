@@ -80,6 +80,7 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
         Warn: "Warning",
+        Ban6Hours: "Banned for 6 Hours",
         Ban1Day: "Banned for 1 Day",
         Ban3Days: "Banned for 3 Days",
         Ban7Days: "Banned for 7 Days",
@@ -146,6 +147,7 @@ if (formData) {
         document.getElementById('communityStandards').outerHTML = "";
     } else {
         const banDurationHoursMap = {
+            Ban6Hours: 6,
             Ban1Day: 24, // 1 day = 24 hours
             Ban3Days: 72, // 3 days = 72 hours
             Ban7Days: 168, // 1 week = 168 hours
@@ -158,6 +160,7 @@ if (formData) {
     }
 
     const cautionWarningMap = {
+        "6hours": "If you violate the rules again, your account may be banned for at least 6 hours.",
         "1day": "If you violate the rules again, your account may be banned for at least 1 day.",
         "3days": "If you violate the rules again, your account may be banned for at least 3 days.",
         "7days": "If you violate the rules again, your account may be banned for at least 7 days.",
