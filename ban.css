@@ -54,6 +54,21 @@ a {
     font-size: 16px;
     font-weight: 400;
 }
+.reactivate {
+    color: #ccc;
+    text-align: center;
+    text-decoration: none;
+    background-color: #303030;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    display: block;
+    margin: 35px auto 1px auto;
+    width: 200px;
+    height: 38px;
+    font-size: 16px;
+    font-family: 'Inter', ui-sans-serif;
+    font-weight: 400;
+}
 h1, h2, h3 {
     line-height: 1.4em;
     font-weight: bold;
