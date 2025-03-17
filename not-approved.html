@@ -59,16 +59,11 @@
         #abideRules {
             line-height: 1;
         }
-        header {
-            width: 100%;
-            height: 40px;
-            display: block;
-        }
     </style>
 </head>
 <body>
     <div id="header">
-        <p id="username">Username</p>
+        <b id="username">Username</b>
     </div>
     <div class="ban-box">
         <h3 id="banDuration">Banned</h3>
@@ -307,6 +302,12 @@ function setTheme(theme) {
 // Load saved theme preference on page load
 const savedTheme = localStorage.getItem('theme') || "light"; // Default to light theme
 setTheme(savedTheme);
+
+// Load saved username from localStorage
+const savedUsername = localStorage.getItem('username');
+if (savedUsername) {
+    document.getElementById('username').textContent = savedUsername;
+}
 </script>
 </body>
 </html>
