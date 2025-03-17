@@ -12,9 +12,11 @@
     display: block;
     background-color: #303030;
     border-radius: 8px;
+    padding: 8px;
 }
 #username {
-    margin-top: 6px;
+    padding-top: 6px;
+    padding-left: 10px;
 }
 .evidence-box {
     border: 1px solid #bbb;
