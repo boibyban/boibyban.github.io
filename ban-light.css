@@ -12,6 +12,7 @@
     height: 40px;
     display: block;
     background-color: #ffffff;
+    border-radius: 8px;
 }
 label, input, select, option {
     font-size: 14px;
