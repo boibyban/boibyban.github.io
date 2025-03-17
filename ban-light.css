@@ -14,8 +14,9 @@
     border-radius: 8px;
 }
 #username {
-    padding-top: 6px;
+    padding-top: 8px;
     padding-left: 10px;
+    display: flex;
 }
 label, input, select, option {
     font-size: 14px;
