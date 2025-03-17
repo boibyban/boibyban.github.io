@@ -10,6 +10,7 @@
     height: 40px;
     display: block;
     background-color: #303030;
+    border-radius: 8px;
 }
 #username {
     padding-top: 6px;
