@@ -221,6 +221,16 @@ if (formData) {
                 audioElement.controls = true;
                 audioElement.src = violation.evidence; // Use base64 data as src
                 evidenceElement.appendChild(audioElement);
+            } else if (violation.violationType === "User Profile About") {
+                evidenceElement.innerHTML = `Evidence: <b>User Profile About: ${violation.evidence}</b>`;
+            } else if (violation.violationType === "Group Wall Post") {
+                evidenceElement.innerHTML = `Evidence: <b>Group Wall Post: ${violation.evidence}</b>`;
+            } else if (violation.violationType === "Username") {
+                evidenceElement.innerHTML = `Evidence: <b>Username: ${violation.evidence}</b>`;
+            } else if (violation.violationType === "Display Name") {
+                evidenceElement.innerHTML = `Evidence: <b>Display Name: ${violation.evidence}</b>`;
+            } else if (violation.violationType === "Web Chat") {
+                evidenceElement.innerHTML = `Evidence: <b>Web Chat: ${violation.evidence}</b>`;
             } else {
                 evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
             }
