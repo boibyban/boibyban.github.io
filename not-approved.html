@@ -201,7 +201,7 @@ if (formData) {
             // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Evidence: <b>Asset Name:${violation.evidence} Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}`;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
