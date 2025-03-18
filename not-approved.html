@@ -212,11 +212,11 @@ if (formData) {
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
                 evidenceElement.innerHTML = `Evidence: Voice chat conversation on <b>${formattedDate}</b>`;
             } else if (violation.violationType === "Game") {
-                evidenceElement.innerHTML = `Evidence: Game Name: <b>${violation.evidence}</b> Game ID: <b>${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Game Name:${violation.evidence} Game ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "Asset") {
-                evidenceElement.innerHTML = `Evidence: Asset Name: <b>${violation.evidence}</b> Asset ID: <b>${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset Name:${violation.evidence} Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "Audio") {
-                evidenceElement.innerHTML = `Evidence: Asset ID: <b>${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
                 const audioElement = document.createElement('audio');
                 audioElement.controls = true;
                 audioElement.src = violation.evidence; // Use base64 data as src
