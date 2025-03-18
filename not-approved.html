@@ -201,7 +201,7 @@ if (formData) {
             // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Evidence: `;
+                evidenceElement.innerHTML = `Evidence: <b>Asset Name:${violation.evidence} Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}`;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
@@ -210,7 +210,7 @@ if (formData) {
                 const date = new Date();
                 date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Evidence: Voice chat conversation on <b>${formattedDate}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
             } else if (violation.violationType === "Game") {
                 evidenceElement.innerHTML = `Evidence: <b>Game Name:${violation.evidence} Game ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "Asset") {
