@@ -120,7 +120,7 @@ if (formData) {
         if (formData.state === "Warn") {
             const appealsMessage = document.getElementById('appealsMessage');
             const reactivateText = document.createElement('p');
-            reactivateText.textContent = "By re-activating your account, you agree to our Terms of Service.";
+            reactivateText.textContent = "By re-activating your account, you agree to our Terms of Use.";
             reactivateText.style.marginTop = "10px"; // Optional: Add some spacing
             appealsMessage.insertAdjacentElement('afterend', reactivateText);
         }
@@ -129,7 +129,7 @@ if (formData) {
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
         document.getElementById('reactivateMessage').style.display = "none";
-        document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Service.";
+        document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Use.";
         document.getElementById('reactivateButton').style.display = "block";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('appealsMessage').style.display = "none";
