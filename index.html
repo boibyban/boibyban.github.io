@@ -76,8 +76,6 @@
     <p>Punishment</p>
         <input type="radio" id="Warn" name="State" value="Warn">
         <label for="Warn">Warn</label><br>
-        <input type="radio" id="Ban6Hours" name="State" value="Ban6Hours">
-        <label for="Ban6Hours">Ban 6 Hours</label><br>
         <input type="radio" id="Ban1Day" name="State" value="Ban1Day">
         <label for="Ban1Day">Ban 1 Day</label><br>
         <input type="radio" id="Ban3Days" name="State" value="Ban3Days">
@@ -102,7 +100,7 @@
             <option value="Do not swear, use profanity, or otherwise say inappropriate things on Boiby.">SWEARING/PROFANITY: Do not swear, use profanity, or otherwise say inappropriate things on Boiby.</option>
             <option value="Misinformation is not allowed. Do not spread misinformation or content intended to mislead others.">MISINFORMATION: Misinformation is not allowed. Do not spread misinformation or content intended to mislead others.</option>
             <option value="Do not harass other users. Do not say inappropriate or mean things about others on Boiby.">HARASSMENT: Do not harass other users. Do not say inappropriate or mean things about others on Boiby.</option>
-            <option value="Discriminatory content/speech about other groups or classes of people is not allowed.">DISCRIMINATORY: Discriminatory content/speech about other groups or classes of people is not allowed.</option>
+            <option value="Boiby does not permit discriminatory speech, content, or actions based on race or ethnic origin, national origin, religion or religious affiliation, gender, gender identity, or sexual orientation.">DISCRIMINATORY: Boiby does not permit discriminatory speech, content, or actions based on race or ethnic origin, national origin, religion or religious affiliation, gender, gender identity, or sexual orientation.</option>
             <option value="Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.">SCAMS: Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.</option>
             <option value="Adult content is not tolerated on Boiby!">ADULT CONTENT: Adult content is not tolerated on Boiby!</option>
             <option value="Your account has been permanently banned due to violating our Boiby Endangerment Community Rule. Our policies prohibit this sort of content and behavior.">BOIBY ENDANGERMENT: Your account has been permanently banned due to violating our Boiby Endangerment Community Rule. Our policies prohibit this sort of content and behavior.</option>
@@ -139,7 +137,6 @@
             <select id="cautionWarning" name="cautionWarning">
                 <option value="none">None</option>
                 <option value="future">Warning/Future Ban</option>
-                <option value="6hours">6 Hours</option>
                 <option value="1day">1 Day</option>
                 <option value="3days">3 Days</option>
                 <option value="7days">7 Days</option>
@@ -161,7 +158,7 @@ punishmentRadios.forEach(radio => {
     radio.addEventListener('change', function () {
         const selectedPunishment = this.value;
         if (selectedPunishment === "Warn" || selectedPunishment.startsWith("Ban")) {
-            cautionWarningContainer.style.display = "block";
+            cautionWarningContainer.style.display = "none";
         } else {
             cautionWarningContainer.style.display = "none";
         }
