@@ -83,7 +83,6 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
         Warn: "Warning",
-        Ban6Hours: "Banned for 6 Hours",
         Ban1Day: "Banned for 1 Day",
         Ban3Days: "Banned for 3 Days",
         Ban7Days: "Banned for 7 Days",
@@ -121,7 +120,7 @@ if (formData) {
             const appealsMessage = document.getElementById('appealsMessage');
             const reactivateText = document.createElement('p');
             reactivateText.textContent = "By re-activating your account, you agree to our Terms of Use.";
-            reactivateText.style.marginTop = "10px"; // Optional: Add some spacing
+            reactivateText.style.marginTop = "10px"; 
             appealsMessage.insertAdjacentElement('afterend', reactivateText);
         }
     }
@@ -210,7 +209,7 @@ if (formData) {
                 evidenceElement.appendChild(imgElement);
             } else if (violation.violationType === "Voice Chat") {
                 const date = new Date();
-                date.setMinutes(date.getMinutes() - 5); // 5 minutes ago
+                date.setMinutes(date.getMinutes() - 5);
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
                 evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
             } else if (violation.violationType === "Game") {
@@ -259,14 +258,14 @@ if (formData) {
 function setTheme(theme) {
     const themeStylesheet = document.getElementById('themeStylesheet');
     if (theme === "dark") {
-        themeStylesheet.href = "/ban.css"; // Path to dark theme CSS
+        themeStylesheet.href = "/ban.css"; 
     } else {
-        themeStylesheet.href = "/ban-light.css"; // Path to light theme CSS
+        themeStylesheet.href = "/ban-light.css";
     }
 }
 
 // Load saved theme preference on page load
-const savedTheme = localStorage.getItem('theme') || "light"; // Default to light theme
+const savedTheme = localStorage.getItem('theme') || "light"; 
 setTheme(savedTheme);
 
 // Load saved username from localStorage
