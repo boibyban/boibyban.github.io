@@ -98,7 +98,7 @@
         <div class="evidence-box" id="evidenceContainer"></div> 
         <div class="appeal-actions" id="appealActions" style="display: none;">
             <select id="appealDecision">
-                <option value="accept">Accept Appeal</option>
+                <option value="">Select appeal type</option>
                 <option value="reject">Reject Appeal</option>
             </select>
             <select id="newReason" style="display: none;">
@@ -145,7 +145,6 @@
         <button id="requestAppeal">Request Appeal</button>
         <button class="logout"><a href="/not-approved" class="logoutlink">Back</a></button>
     </div>
-    <div id="appealResult" class="appeal-result"></div>
     <script>
         const formData = JSON.parse(localStorage.getItem('banFormData'));
         const evidenceContainer = document.getElementById('evidenceContainer');
@@ -156,7 +155,6 @@
         const appealDecision = document.getElementById('appealDecision');
         const newReason = document.getElementById('newReason');
         const submitAppealDecision = document.getElementById('submitAppealDecision');
-        const appealResult = document.getElementById('appealResult');
 
         const punishmentMap = {
             Ban1Day: "Your account is currently banned for 1 day.",
@@ -194,50 +192,7 @@
                 violationDetails.appendChild(reasonElement);
 
                 const evidenceElement = document.createElement('p');
-                if (violation.violationType === "Image") {
-                    evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                    const imgElement = document.createElement('img');
-                    imgElement.src = violation.evidence;
-                    imgElement.classList.add('evidence-image');
-                    evidenceElement.appendChild(imgElement);
-                } else if (violation.violationType === "Voice Chat") {
-                    const date = new Date();
-                    date.setMinutes(date.getMinutes() - 5);
-                    const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                    evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Game") {
-                    evidenceElement.innerHTML = `Evidence: <b>Game Name: ${violation.evidence}; Game ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                } else if (violation.violationType === "Group Shout") {
-                    evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Shout: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Group Description") {
-                    evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Description: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Group Roleset") {
-                    evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Roleset Name: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "UGC Bundle") {
-                    evidenceElement.innerHTML = `Evidence: <b>UGC Bundle Name: ${violation.evidence}; Bundle ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                } else if (violation.violationType === "UGC Accessory") {
-                    evidenceElement.innerHTML = `Evidence: <b>UGC Accessory Name: ${violation.evidence}; Accessory ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                } else if (violation.violationType === "Asset") {
-                    evidenceElement.innerHTML = `Evidence: <b>Asset Name: ${violation.evidence} Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                } else if (violation.violationType === "Audio") {
-                    evidenceElement.innerHTML = `Evidence: <b>Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                    const audioElement = document.createElement('audio');
-                    audioElement.controls = true;
-                    audioElement.src = violation.evidence;
-                    evidenceElement.appendChild(audioElement);
-                } else if (violation.violationType === "User Profile About") {
-                    evidenceElement.innerHTML = `Evidence: <b>User Profile About: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Group Wall Post") {
-                    evidenceElement.innerHTML = `Evidence: <b>Group ID: 1; Group Wall Post: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Username") {
-                    evidenceElement.innerHTML = `Evidence: <b>Username: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Display Name") {
-                    evidenceElement.innerHTML = `Evidence: <b>Display Name: ${violation.evidence}</b>`;
-                } else if (violation.violationType === "Web Chat") {
-                    evidenceElement.innerHTML = `Evidence: <b>Web Chat: ${violation.evidence}</b>`;
-                } else {
-                    evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
-                }
+                evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
                 violationDetails.appendChild(evidenceElement);
 
                 evidenceContainer.appendChild(violationDetails);
@@ -269,14 +224,7 @@
 
         submitAppealDecision.addEventListener('click', () => {
             const decision = appealDecision.value;
-            if (decision === 'accept') {
-                appealResult.innerHTML = `
-                    <h4>Appeal Accepted</h4>
-                    <p>Your appeal has been accepted, and your ban has been lifted.</p>
-                `;
-                localStorage.removeItem('banFormData');
-                window.location.href = '/';
-            } else if (decision === 'reject') {
+            if (decision === 'reject') {
                 const selectedReason = newReason.value;
                 if (!selectedReason) {
                     alert('Please select a reason for rejection.');
@@ -286,25 +234,13 @@
                 const originalViolations = formData.classicViolations;
                 const originalState = formData.state;
 
-                if (selectedReason !== originalViolations[0].reason) {
-                    appealResult.innerHTML = `
-                        <h4>Appeal Rejected</h4>
-                        <p>Your appeal has been reviewed. This activity still violates Boiby Community Rules. However, we've updated the Violation category:</p>
-                        <p>Violation: <b>${selectedReason}</b></p>
-                        <button id="requestAnotherAppeal">Request Another Appeal</button>
-                    `;
+                evidenceHeading.innerHTML = `Your appeal has been rejected. However, we've changed the violation category:`;
+                evidenceContainer.innerHTML = `<div class="violation-section" style="display: inline-block; margin-right: 10px;"><p>Violation: <b>${selectedReason}</b></p></div>`;
 
-                    if (selectedReason === "Boiby Endangerment") {
-                        formData.state = "Delete";
-                    } else if (originalState === "Delete" && selectedReason !== "Boiby Endangerment") {
-                        formData.state = "Ban1Day";
-                    }
-                } else {
-                    appealResult.innerHTML = `
-                        <h4>Appeal Rejected</h4>
-                        <p>Your appeal has been reviewed. This activity still violates Boiby Community Rules.</p>
-                        <button id="requestAnotherAppeal">Request Another Appeal</button>
-                    `;
+                if (selectedReason === "Boiby Endangerment") {
+                    formData.state = "Delete";
+                } else if (originalState === "Delete" && selectedReason !== "Boiby Endangerment") {
+                    formData.state = "Ban1Day";
                 }
 
                 formData.classicViolations.forEach(violation => {
