@@ -144,161 +144,167 @@
         <button class="logout"><a href="/not-approved" class="logoutlink">Back</a></button>
     </div>
     <script>
-    const formData = JSON.parse(localStorage.getItem('banFormData'));
-    const evidenceContainer = document.getElementById('evidenceContainer');
-    const punishmentBox = document.getElementById('punishmentBox');
-    const evidenceHeading = document.getElementById('evidenceHeading');
-    const appealActions = document.getElementById('appealActions');
-    const requestAppealButton = document.getElementById('requestAppeal');
-    const appealDecision = document.getElementById('appealDecision');
-    const newReason = document.getElementById('newReason');
-    const submitAppealDecision = document.getElementById('submitAppealDecision');
+        const formData = JSON.parse(localStorage.getItem('banFormData'));
+        const evidenceContainer = document.getElementById('evidenceContainer');
+        const punishmentBox = document.getElementById('punishmentBox');
+        const evidenceHeading = document.getElementById('evidenceHeading');
+        const appealActions = document.getElementById('appealActions');
+        const requestAppealButton = document.getElementById('requestAppeal');
+        const appealDecision = document.getElementById('appealDecision');
+        const newReason = document.getElementById('newReason');
+        const submitAppealDecision = document.getElementById('submitAppealDecision');
 
-    // Map punishment states to display text
-    const punishmentMap = {
-        Ban1Day: "Your account is currently banned for 1 day.",
-        Ban3Days: "Your account is currently banned for 3 days.",
-        Ban7Days: "Your account is currently banned for 7 days.",
-        Ban14Days: "Your account is currently banned for 14 days.",
-        Delete: "Your account has been permanently banned.",
-        Poison: "Your account has been permanently banned, and account creation is permanently suspended."
-    };
+        // Map punishment states to display text
+        const punishmentMap = {
+            Ban1Day: "Your account is currently banned for 1 day.",
+            Ban3Days: "Your account is currently banned for 3 days.",
+            Ban7Days: "Your account is currently banned for 7 days.",
+            Ban14Days: "Your account is currently banned for 14 days.",
+            Delete: "Your account has been permanently banned.",
+            Poison: "Your account has been permanently banned, and account creation is permanently suspended."
+        };
 
-    // Show punishment box if applicable
-    if (formData && formData.state && punishmentMap[formData.state]) {
-        punishmentBox.textContent = punishmentMap[formData.state];
-        punishmentBox.style.display = "inline-block";
-    }
+        // Show punishment box if applicable
+        if (formData && formData.state && punishmentMap[formData.state]) {
+            punishmentBox.textContent = punishmentMap[formData.state];
+            punishmentBox.style.display = "inline-block";
+        }
 
-    // Display evidence items
-    if (formData && formData.classicViolations && formData.classicViolations.length > 0) {
-        formData.classicViolations.forEach((violation, index) => {
-            const violationDetails = document.createElement('div');
-            violationDetails.classList.add('violation-section');
-            violationDetails.style.display = 'inline-block';
-            violationDetails.style.marginRight = '10px';
+        // Display evidence items
+        if (formData && formData.classicViolations && formData.classicViolations.length > 0) {
+            formData.classicViolations.forEach((violation, index) => {
+                const violationDetails = document.createElement('div');
+                violationDetails.classList.add('violation-section');
+                violationDetails.style.display = 'inline-block';
+                violationDetails.style.marginRight = '10px';
 
-            // Add Violation Type Heading
-            let violationTypeText = '';
-            if (violation.violationType === "General/Chat") {
-                violationTypeText = "You violated our rules.";
-            } else if (violation.violationType === "Model") {
-                violationTypeText = "Model removed.";
-            } else {
-                violationTypeText = `Your ${violation.violationType} broke the rules.`;
-            }
-            evidenceHeading.textContent = violationTypeText;
+                // Add Violation Type Heading
+                let violationTypeText = '';
+                if (violation.violationType === "General/Chat") {
+                    violationTypeText = "You violated our rules.";
+                } else if (violation.violationType === "Model") {
+                    violationTypeText = "Model removed.";
+                } else {
+                    violationTypeText = `Your ${violation.violationType} broke the rules.`;
+                }
+                evidenceHeading.textContent = violationTypeText;
 
-            // Add Reason
-            const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `Violation: <b>${violation.reason}</b>`;
-            violationDetails.appendChild(reasonElement);
+                // Add Reason
+                const reasonElement = document.createElement('p');
+                reasonElement.innerHTML = `Violation: <b>${violation.reason}</b>`;
+                violationDetails.appendChild(reasonElement);
 
-            // Add Evidence
-            const evidenceElement = document.createElement('p');
-            if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                const imgElement = document.createElement('img');
-                imgElement.src = violation.evidence; // Use base64 data as src
-                imgElement.classList.add('evidence-image');
-                evidenceElement.appendChild(imgElement);
-            } else if (violation.violationType === "Voice Chat") {
-                const date = new Date();
-                date.setMinutes(date.getMinutes() - 5);
-                const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Game") {
-                evidenceElement.innerHTML = `Evidence: <b>Game Name: ${violation.evidence}; Game ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-            } else if (violation.violationType === "Group Shout") {
-                evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Shout: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Group Description") {
-                evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Description: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Group Roleset") {
-                evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Roleset Name: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "UGC Bundle") {
-                evidenceElement.innerHTML = `Evidence: <b>UGC Bundle Name: ${violation.evidence}; Bundle ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-            } else if (violation.violationType === "UGC Accessory") {
-                evidenceElement.innerHTML = `Evidence: <b>UGC Accessory Name: ${violation.evidence}; Accessory ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-            } else if (violation.violationType === "Asset") {
-                evidenceElement.innerHTML = `Evidence: <b>Asset Name: ${violation.evidence} Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-            } else if (violation.violationType === "Audio") {
-                evidenceElement.innerHTML = `Evidence: <b>Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
-                const audioElement = document.createElement('audio');
-                audioElement.controls = true;
-                audioElement.src = violation.evidence; // Use base64 data as src
-                evidenceElement.appendChild(audioElement);
-            } else if (violation.violationType === "User Profile About") {
-                evidenceElement.innerHTML = `Evidence: <b>User Profile About: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Group Wall Post") {
-                evidenceElement.innerHTML = `Evidence: <b>Group ID: 1; Group Wall Post: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Username") {
-                evidenceElement.innerHTML = `Evidence: <b>Username: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Display Name") {
-                evidenceElement.innerHTML = `Evidence: <b>Display Name: ${violation.evidence}</b>`;
-            } else if (violation.violationType === "Web Chat") {
-                evidenceElement.innerHTML = `Evidence: <b>Web Chat: ${violation.evidence}</b>`;
-            } else {
-                evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
-            }
-            violationDetails.appendChild(evidenceElement);
+                // Add Evidence
+                const evidenceElement = document.createElement('p');
+                if (violation.violationType === "Image") {
+                    evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                    const imgElement = document.createElement('img');
+                    imgElement.src = violation.evidence; // Use base64 data as src
+                    imgElement.classList.add('evidence-image');
+                    evidenceElement.appendChild(imgElement);
+                } else if (violation.violationType === "Voice Chat") {
+                    const date = new Date();
+                    date.setMinutes(date.getMinutes() - 5);
+                    const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+                    evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Game") {
+                    evidenceElement.innerHTML = `Evidence: <b>Game Name: ${violation.evidence}; Game ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                } else if (violation.violationType === "Group Shout") {
+                    evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Shout: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Group Description") {
+                    evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Description: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Group Roleset") {
+                    evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Roleset Name: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "UGC Bundle") {
+                    evidenceElement.innerHTML = `Evidence: <b>UGC Bundle Name: ${violation.evidence}; Bundle ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                } else if (violation.violationType === "UGC Accessory") {
+                    evidenceElement.innerHTML = `Evidence: <b>UGC Accessory Name: ${violation.evidence}; Accessory ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                } else if (violation.violationType === "Asset") {
+                    evidenceElement.innerHTML = `Evidence: <b>Asset Name: ${violation.evidence} Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                } else if (violation.violationType === "Audio") {
+                    evidenceElement.innerHTML = `Evidence: <b>Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                    const audioElement = document.createElement('audio');
+                    audioElement.controls = true;
+                    audioElement.src = violation.evidence; // Use base64 data as src
+                    evidenceElement.appendChild(audioElement);
+                } else if (violation.violationType === "User Profile About") {
+                    evidenceElement.innerHTML = `Evidence: <b>User Profile About: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Group Wall Post") {
+                    evidenceElement.innerHTML = `Evidence: <b>Group ID: 1; Group Wall Post: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Username") {
+                    evidenceElement.innerHTML = `Evidence: <b>Username: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Display Name") {
+                    evidenceElement.innerHTML = `Evidence: <b>Display Name: ${violation.evidence}</b>`;
+                } else if (violation.violationType === "Web Chat") {
+                    evidenceElement.innerHTML = `Evidence: <b>Web Chat: ${violation.evidence}</b>`;
+                } else {
+                    evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
+                }
+                violationDetails.appendChild(evidenceElement);
 
-            // Append to evidenceContainer
-            evidenceContainer.appendChild(violationDetails);
-        });
-    }
+                // Append to evidenceContainer
+                evidenceContainer.appendChild(violationDetails);
+            });
+        }
 
-    // Load saved username from localStorage
-    const savedUsername = localStorage.getItem('username');
-    if (savedUsername) {
-        document.getElementById('username').textContent = savedUsername;
-    }
+        // Load saved username from localStorage
+        const savedUsername = localStorage.getItem('username');
+        if (savedUsername) {
+            document.getElementById('username').textContent = savedUsername;
+        }
 
-    // Request Appeal Button
-    requestAppealButton.addEventListener('click', () => {
-        appealActions.style.display = 'block';
-    });
-
-    // Appeal Decision Logic
-    appealDecision.addEventListener('change', (e) => {
-        if (e.target.value === 'reject') {
-            newReason.style.display = 'block';
+        // Only show appeal system for bot-issued bans
+        if (formData && formData.botBan) {
+            requestAppealButton.style.display = 'block';
         } else {
-            newReason.style.display = 'none';
+            requestAppealButton.style.display = 'none';
         }
-    });
 
-    submitAppealDecision.addEventListener('click', () => {
-        const decision = appealDecision.value;
-        if (decision === 'accept') {
-            alert('Appeal accepted. The ban will be lifted.');
-            // Logic to lift the ban (e.g., update localStorage and redirect)
-        } else if (decision === 'reject') {
-            const selectedReason = newReason.value;
-            if (!selectedReason) {
-                alert('Please select a reason for rejection.');
-                return;
+        // Request Appeal Button
+        requestAppealButton.addEventListener('click', () => {
+            appealActions.style.display = 'block';
+        });
+
+        // Appeal Decision Logic
+        appealDecision.addEventListener('change', (e) => {
+            if (e.target.value === 'reject') {
+                newReason.style.display = 'block';
+            } else {
+                newReason.style.display = 'none';
             }
+        });
 
-            // Update the ban data
-            formData.classicViolations[0].reason = selectedReason; // Update the first violation's reason
-            if (selectedReason === "Boiby Endangerment") {
-                formData.state = "Delete"; // Change ban state to Delete
-                formData.note = ""; // Wipe moderator note
+        submitAppealDecision.addEventListener('click', () => {
+            const decision = appealDecision.value;
+            if (decision === 'accept') {
+                alert('Appeal accepted. The ban will be lifted.');
+            } else if (decision === 'reject') {
+                const selectedReason = newReason.value;
+                if (!selectedReason) {
+                    alert('Please select a reason for rejection.');
+                    return;
+                }
+
+                // Update the ban data
+                formData.classicViolations[0].reason = selectedReason; 
+                if (selectedReason === "Boiby Endangerment") {
+                    formData.state = "Delete";
+                    formData.note = "";
+                }
+
+                // Save updated data to localStorage
+                localStorage.setItem('banFormData', JSON.stringify(formData));
+
+                // Add a new punishment box
+                const newPunishmentBox = document.createElement('div');
+                newPunishmentBox.className = 'punishment-box';
+                newPunishmentBox.textContent = `Violation Changed: ${selectedReason}`;
+                punishmentBox.insertAdjacentElement('afterend', newPunishmentBox);
+
+                // Reload the page to reflect changes
+                window.location.reload();
             }
-
-            // Save updated data to localStorage
-            localStorage.setItem('banFormData', JSON.stringify(formData));
-
-            // Add a new punishment box
-            const newPunishmentBox = document.createElement('div');
-            newPunishmentBox.className = 'punishment-box';
-            newPunishmentBox.textContent = `Violation Changed: ${selectedReason}`;
-            punishmentBox.insertAdjacentElement('afterend', newPunishmentBox);
-
-            // Reload the page to reflect changes
-            window.location.reload();
-        }
-    });
+        });
     </script>
 </body>
 </html>
