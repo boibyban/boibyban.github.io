@@ -140,6 +140,9 @@
                 <option value="Dating and Romantic Content">Dating and Romantic Content</option>
                 <option value="Malicious Software">Malicious Software</option>
             </select>
+            <select id="newPunishment" style="display: none;">
+                <option value="">-- Select Punishment --</option>
+            </select>
             <button id="submitAppealDecision">Submit</button>
         </div>
         <button id="requestAppeal">Request Appeal</button>
@@ -154,6 +157,7 @@
         const requestAppealButton = document.getElementById('requestAppeal');
         const appealDecision = document.getElementById('appealDecision');
         const newReason = document.getElementById('newReason');
+        const newPunishment = document.getElementById('newPunishment');
         const submitAppealDecision = document.getElementById('submitAppealDecision');
 
         const punishmentMap = {
@@ -217,17 +221,75 @@
         appealDecision.addEventListener('change', (e) => {
             if (e.target.value === 'reject') {
                 newReason.style.display = 'block';
+                newPunishment.style.display = 'block';
+                updatePunishmentOptions(newReason.value);
             } else {
                 newReason.style.display = 'none';
+                newPunishment.style.display = 'none';
             }
         });
+
+        newReason.addEventListener('change', (e) => {
+            updatePunishmentOptions(e.target.value);
+        });
+
+        function updatePunishmentOptions(reason) {
+            newPunishment.innerHTML = '<option value="">-- Select Punishment --</option>';
+            const punishments = getPunishmentsForReason(reason);
+            punishments.forEach(punishment => {
+                const option = document.createElement('option');
+                option.value = punishment.value;
+                option.textContent = punishment.label;
+                newPunishment.appendChild(option);
+            });
+        }
+
+        function getPunishmentsForReason(reason) {
+            const warningReasons = [
+                "Profanity", "Spam", "Disruptive Audio", "Harassment", "Dating and Romantic Content",
+                "Privacy: Sharing PII", "Privacy: Asking for PII", "Directing Users Off-Platform",
+                "Impersonation", "Gambling Content", "Real-World Tragic Events", "Violent Content and Gore"
+            ];
+            const strictReasons = ["Real-Life Threats", "Terrorism/Extremism", "Doxxing"];
+            const deleteOnlyReasons = ["Boiby Endangerment"];
+
+            if (warningReasons.includes(reason)) {
+                return [
+                    { value: "Warn", label: "Warning" },
+                    { value: "Ban1Day", label: "1 Day" },
+                    { value: "Ban3Days", label: "3 Days" },
+                    { value: "Ban7Days", label: "7 Days" },
+                    { value: "Ban14Days", label: "14 Days" },
+                    { value: "Delete", label: "Delete" }
+                ];
+            } else if (strictReasons.includes(reason)) {
+                return [
+                    { value: "Ban7Days", label: "7 Days" },
+                    { value: "Ban14Days", label: "14 Days" },
+                    { value: "Delete", label: "Delete" }
+                ];
+            } else if (deleteOnlyReasons.includes(reason)) {
+                return [
+                    { value: "Delete", label: "Delete" }
+                ];
+            } else {
+                return [
+                    { value: "Ban1Day", label: "1 Day" },
+                    { value: "Ban3Days", label: "3 Days" },
+                    { value: "Ban7Days", label: "7 Days" },
+                    { value: "Ban14Days", label: "14 Days" },
+                    { value: "Delete", label: "Delete" }
+                ];
+            }
+        }
 
         submitAppealDecision.addEventListener('click', () => {
             const decision = appealDecision.value;
             if (decision === 'reject') {
                 const selectedReason = newReason.value;
-                if (!selectedReason) {
-                    alert('Please select a reason for rejection.');
+                const selectedPunishment = newPunishment.value;
+                if (!selectedReason || !selectedPunishment) {
+                    alert('Please select a reason and punishment for rejection.');
                     return;
                 }
 
@@ -237,12 +299,7 @@
                 evidenceHeading.innerHTML = `Your appeal has been rejected. However, we've changed the violation category:`;
                 evidenceContainer.innerHTML = `<div class="violation-section" style="display: inline-block; margin-right: 10px;"><p>Violation: <b>${selectedReason}</b></p></div>`;
 
-                if (selectedReason === "Boiby Endangerment") {
-                    formData.state = "Delete";
-                } else if (originalState === "Delete" && selectedReason !== "Boiby Endangerment") {
-                    formData.state = "Ban1Day";
-                }
-
+                formData.state = selectedPunishment;
                 formData.classicViolations.forEach(violation => {
                     violation.reason = selectedReason;
                 });
