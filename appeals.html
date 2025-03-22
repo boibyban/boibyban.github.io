@@ -128,7 +128,7 @@
         <button class="logout"><a href="/not-approved" class="logoutlink">Back</a></button>
     </div>
     <script>
-        const formData = JSON.parse(localStorage.getItem('banFormData'));
+        let formData = JSON.parse(localStorage.getItem('banFormData')) || { classicViolations: [] };
         const evidenceContainer = document.getElementById('evidenceContainer');
         const evidenceHeading = document.getElementById('evidenceHeading');
         const appealActions = document.getElementById('appealActions');
@@ -139,7 +139,7 @@
 
         function displayViolations() {
             evidenceContainer.innerHTML = '';
-            if (formData && formData.classicViolations && formData.classicViolations.length > 0) {
+            if (formData.classicViolations && formData.classicViolations.length > 0) {
                 formData.classicViolations.forEach((violation, index) => {
                     const violationDetails = document.createElement('div');
                     violationDetails.classList.add('violation-section');
@@ -147,7 +147,7 @@
                     violationDetails.style.marginRight = '10px';
 
                     let violationTypeText = '';
-                    violationTypeText = `You broke the rules.`;
+                    violationTypeText = "You violated the Boiby Community Rules:";
                     evidenceHeading.textContent = violationTypeText;
 
                     const reasonElement = document.createElement('p');
@@ -244,9 +244,7 @@
             }
 
             formData.state = selectedPunishment;
-            formData.classicViolations.forEach(violation => {
-                violation.reason = selectedReason;
-            });
+            formData.classicViolations[0].reason = selectedReason; // Update only the topmost violation
 
             localStorage.setItem('banFormData', JSON.stringify(formData));
 
