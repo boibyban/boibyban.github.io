@@ -77,6 +77,9 @@
         .appeal-actions button {
             margin-right: 10px;
         }
+        .appeal-result {
+            margin-top: 20px;
+        }
     </style>
     <div id="header">
         <b id="username">Username</b>
@@ -143,6 +146,7 @@
         <button id="requestAppeal">Request Appeal</button>
         <button class="logout"><a href="/not-approved" class="logoutlink">Back</a></button>
     </div>
+    <div id="appealResult" class="appeal-result"></div>
     <script>
         const formData = JSON.parse(localStorage.getItem('banFormData'));
         const evidenceContainer = document.getElementById('evidenceContainer');
@@ -153,6 +157,7 @@
         const appealDecision = document.getElementById('appealDecision');
         const newReason = document.getElementById('newReason');
         const submitAppealDecision = document.getElementById('submitAppealDecision');
+        const appealResult = document.getElementById('appealResult');
 
         // Map punishment states to display text
         const punishmentMap = {
@@ -277,7 +282,14 @@
         submitAppealDecision.addEventListener('click', () => {
             const decision = appealDecision.value;
             if (decision === 'accept') {
-                alert('Appeal accepted. The ban will be lifted.');
+                // Appeal Accepted
+                appealResult.innerHTML = `
+                    <h4>Appeal Accepted</h4>
+                    <p>Your appeal has been accepted, and your ban has been lifted.</p>
+                `;
+                // Logic to lift the ban (e.g., update localStorage and redirect)
+                localStorage.removeItem('banFormData');
+                window.location.href = '/';
             } else if (decision === 'reject') {
                 const selectedReason = newReason.value;
                 if (!selectedReason) {
@@ -286,11 +298,34 @@
                 }
 
                 // Update the ban data
-                formData.classicViolations[0].reason = selectedReason; 
-                if (selectedReason === "Boiby Endangerment") {
-                    formData.state = "Delete";
-                    formData.note = "";
+                const originalViolation = formData.classicViolations[0];
+                const originalReason = originalViolation.reason;
+                const originalState = formData.state;
+
+                if (selectedReason !== originalReason) {
+                    // Violation type changed
+                    appealResult.innerHTML = `
+                        <h4>Appeal Rejected</h4>
+                        <p>Your appeal has been reviewed. This activity still violates Boiby Community Rules. However, we've updated the Violation category:</p>
+                        <p>Violation: <b>${selectedReason}</b></p>
+                        <button id="requestAnotherAppeal">Request Another Appeal</button>
+                    `;
+
+                    // Revert ban length if necessary
+                    if (originalReason === "Boiby Endangerment" || originalReason === "Terrorism/Extremism" || originalReason === "Real-Life Threats") {
+                        formData.state = originalState || "Ban1Day"; // Fallback to 1-day ban
+                    }
+                } else {
+                    // Violation type unchanged
+                    appealResult.innerHTML = `
+                        <h4>Appeal Rejected</h4>
+                        <p>Your appeal has been reviewed. This activity still violates Boiby Community Rules.</p>
+                        <button id="requestAnotherAppeal">Request Another Appeal</button>
+                    `;
                 }
+
+                // Update the violation reason
+                originalViolation.reason = selectedReason;
 
                 // Save updated data to localStorage
                 localStorage.setItem('banFormData', JSON.stringify(formData));
