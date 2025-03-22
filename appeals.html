@@ -147,13 +147,7 @@
                     violationDetails.style.marginRight = '10px';
 
                     let violationTypeText = '';
-                    if (violation.violationType === "General/Chat") {
-                        violationTypeText = "You violated our rules.";
-                    } else if (violation.violationType === "Model") {
-                        violationTypeText = "Model removed.";
-                    } else {
-                        violationTypeText = `Your ${violation.violationType} broke the rules.`;
-                    }
+                    violationTypeText = `You broke the rules.`;
                     evidenceHeading.textContent = violationTypeText;
 
                     const reasonElement = document.createElement('p');
