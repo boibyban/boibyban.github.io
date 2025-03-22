@@ -155,6 +155,13 @@
                 const selectedReason = event.target.value;
                 const isBotBan = botBanCheckbox.checked;
 
+                // Disallowed violation types for bot bans
+                if (isBotBan && (selectedReason === "Inappropriate" || selectedReason === "Adult Content")) {
+                    alert("This violation type is not allowed for bot bans.");
+                    event.target.value = ""; // Reset the selection
+                    return;
+                }
+
                 if (isBotBan) {
                     if (selectedReason === "Terrorism/Extremism" || selectedReason === "Real-Life Threats") {
                         // Only allow 7-day ban or higher
@@ -290,6 +297,19 @@
                     evidenceInput.style.display = "block";
                 }
             });
+
+            // For bot bans, update all violations when one is changed
+            if (botBanCheckbox.checked) {
+                newBox.querySelector('.classicReason').addEventListener('change', function () {
+                    const selectedReason = this.value;
+                    const allReasons = document.querySelectorAll('.classicReason');
+                    allReasons.forEach(reason => {
+                        if (reason !== this) {
+                            reason.value = selectedReason;
+                        }
+                    });
+                });
+            }
         });
 
         // Form Submission
