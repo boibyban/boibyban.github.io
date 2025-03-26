@@ -176,6 +176,7 @@ if (formData) {
         const cautionText = cautionWarningMap[formData.cautionWarning];
         cautionWarningMessage.innerHTML = `<span style="color: red; font-weight: bold;">CAUTION</span> ${cautionText}`;
         cautionWarningMessage.style.display = "block";
+        cautionWarningMessage.style.fontWeight = "bold";
     }
 
     const membershipNotice = document.getElementById('membershipNotice');
