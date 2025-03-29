@@ -98,7 +98,12 @@ if (formData) {
         Delete: "ACCOUNT DELETED",
         Poison: "ACCOUNT DELETED",
     };
-
+    const banDurationTextMap = {
+        Ban1Day: "1 day",
+        Ban3Days: "3 days",
+        Ban7Days: "7 days",
+        Ban14Days: "14 days"
+    };
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
     // Set moderator note (custom note overrides preset note)
