@@ -216,9 +216,9 @@ if (formData) {
             } else if (violation.violationType === "Group Description") {
                 evidenceElement.innerHTML = `Group Description: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Roleset") {
-                evidenceElement.innerHTML = `Group Roleset Name: <b>$${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Group Roleset: <b>$${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Bundle") {
-                evidenceElement.innerHTML = `UGC Bundle: <b>Name: ${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
+                evidenceElement.innerHTML = `UGC Bundle: <b>${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
             } else if (violation.violationType === "UGC Accessory") {
                 evidenceElement.innerHTML = `UGC Accessory: <b>${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
             } else if (violation.violationType === "Asset") {
