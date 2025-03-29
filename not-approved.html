@@ -164,6 +164,8 @@ if (formData) {
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
         document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
         document.getElementById('reactivateButton').style.display = "none";
+
+        document.getElementById('reactivateMessage').textContent = `Your account has been disabled for ${banDurationTextMap[formData.state]}. You may re-activate it after:`;
     }
 
     const cautionWarningMap = {
