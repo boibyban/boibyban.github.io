@@ -6,12 +6,6 @@
     border-radius: 0;
     border: 1px solid black;
 }
-.evidence-box {
-    border: 1px solid #000000;
-    padding: 12px;
-    border-radius: 0;
-    margin-bottom: 10px;
-}
 body {
     background-color: #ffffff;
     line-height: 1.4em;
