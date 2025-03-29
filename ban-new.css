@@ -14,7 +14,7 @@
 }
 body {
     background-color: #ffffff;
-    line-height: 1.5em;
+    line-height: 1.4em;
 }
 a {
     text-decoration: none;
@@ -35,7 +35,7 @@ a {
     margin: auto;
 }
 h1, h2, h3 {
-    line-height: 1.35em;
+    line-height: 1.3em;
     font-weight: 600;
     font-size: 20px;
     padding: 0;
@@ -46,7 +46,7 @@ h1, h2, h3 {
     color: #111
 }
 p {
-    line-height: 1.5em;
+    line-height: 1.4em;
     font-weight: 300;
     font-size: 14px;
     padding: 0;
@@ -56,7 +56,7 @@ p {
     color: #111
 }
 b {
-    line-height: 1.5em;
+    line-height: 1.4em;
     font-weight: 600;
     font-size: 14px;
     padding: 0;
