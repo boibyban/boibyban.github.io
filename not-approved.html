@@ -225,6 +225,7 @@ if (formData.state === "Warn") {
             const reasonElement = document.createElement('p');
             reasonElement.innerHTML = `Violation: <b>${violation.reason}</b>`;
             violationDetails.appendChild(reasonElement);
+            reasonElement.classList.add('evidy');
 
             // Add Evidence
             const evidenceElement = document.createElement('p');
