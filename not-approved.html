@@ -144,6 +144,7 @@ if (formData) {
         document.getElementById('reactivateButton').outerHTML = "";
     } else if (formData.state === "Poison") {
         document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
+        document.getElementById('reactivateMessage').fontWeight = "bold";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
