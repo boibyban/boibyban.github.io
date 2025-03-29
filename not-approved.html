@@ -14,7 +14,7 @@
             height: auto;
             max-height: 240px;
             display: flex;
-            margin-top: 5px;
+            margin-top: 8px;
             max-width: 100%;
         }
         audio {
@@ -199,7 +199,7 @@ if (formData) {
             // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}`;
+                evidenceElement.innerHTML = `Image: `;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
