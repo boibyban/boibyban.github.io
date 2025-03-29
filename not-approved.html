@@ -228,12 +228,12 @@ if (formData.state === "Warn") {
 
             // Add Evidence
             const evidenceElement = document.createElement('p');
+            evidenceElement.classList.add('evidy');
             if (violation.violationType === "Image") {
                 evidenceElement.innerHTML = `Evidence:`;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
-                evidenceElement.classList.add('evidy');
                 evidenceElement.appendChild(imgElement);
             } else if (violation.violationType === "Voice Chat") {
                 const date = new Date();
