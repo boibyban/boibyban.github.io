@@ -9,24 +9,13 @@
         .logout.warning-margin {
             margin: 20px auto 16px auto;
         }
-        .evidy {
-            margin-bottom: 4px;
-        }
         .evidence-image {
-            max-width: 400px;
+            max-width: 600px;
             height: auto;
             max-height: 240px;
             display: flex;
             margin-top: 5px;
             max-width: 100%;
-            margin-left: 20px;
-            margin-right: 20px;
-            margin-top: 15px;
-            margin-bottom: 8px;
-        }
-        .evidence-box {
-            padding-top: 0;
-            padding-bottom: 2px;
         }
         audio {
             width: 100%;
@@ -34,20 +23,18 @@
             display: block;
             margin-top: 8px;
         }
+        .evidence-box {
+            margin-top: 0px;
+            padding: 12px;
+            display: block;
+            border-radius: 0px;
+        }
         .inneritem {
             display: block;
             margin: 0px;
-            margin-left: 28px;
-            margin-right: 28px;
-            margin-top: 12px;
-            margin-bottom: 10px;
         }
         .violation-section {
             margin-bottom: 0px;
-            border: 1px solid black;
-            margin-bottom: 8px;
-            padding: 10px;
-            margin-top: 4px;
         }
         .classic-violation {
             margin-bottom: 20px;
@@ -63,6 +50,10 @@
         #violationtype {
             font-size: 14px;
         }
+        .ban-box {
+            border-radius: 8px;
+            max-width: 715px;
+        }
         #abideRules {
             line-height: 1;
         }
@@ -74,15 +65,15 @@
 <body>
     <div class="ban-box">
         <h3 id="banDuration">Banned</h3>
-        <p id="termsOfUse">We have determined that your behaviour at Boiby has been in violation of our <a href="https://boibyban.github.io/info/terms">Terms of Service</a>.</p>
+        <p id="termsOfUse">We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Use</a>.</p>
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
         <div class="evidence-box" id="evidenceContainer"></div>
-        <p id="communityRules">Please abide by the <a href="https://boibyban.github.io/info/community-rules">Boiby Community Rules</a> so that Boiby can be a safe place for all users.</p>
+        <p id="communityRules">Please abide by the <a href="/info/community-standards">Boiby Community Standards</a> so that Boiby can be a safe place for all users.</p>
         <p id="cautionWarningMessage" style="display: none;"></p>
-        <p id="reactivateMessage">Your account has been temporarily disabled. You may re-activate it after <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
+        <p id="reactivateMessage">Your account has been disabled. You may re-activate it after: <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
         <p id="membershipNotice" style="display:none">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
-        <p id="appealsMessage">If you wish to appeal, please send an email to boibyappeals@gmail.com.</p>
+        <p id="appealsMessage">If you wish to appeal, contact us via the <a href="/appeals">Appeals Portal</a>.</p>
         <button id="reactivateButton" class="reactivate">Re-activate Account</button>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink">Logout</a></button>
     </div>
@@ -90,14 +81,15 @@
 const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
-        Warn: "WARNING",
-        Ban1Day: "BANNED FOR 1 DAY",
-        Ban3Days: "BANNED FOR 3 DAYS",
-        Ban7Days: "BANNED FOR 7 DAYS",
-        Ban14Days: "BANNED FOR 14 DAYS",
-        Delete: "ACCOUNT DELETED",
-        Poison: "ACCOUNT DELETED",
+        Warn: "Warning",
+        Ban1Day: "Banned for 1 Day",
+        Ban3Days: "Banned for 3 Days",
+        Ban7Days: "Banned for 7 Days",
+        Ban14Days: "Banned for 14 Days",
+        Delete: "Account Deleted",
+        Poison: "Account Deleted",
     };
+
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
     // Set moderator note (custom note overrides preset note)
@@ -131,21 +123,13 @@ if (formData) {
             appealsMessage.insertAdjacentElement('afterend', reactivateText);
         }
     }
-const termsOfUseElement = document.getElementById('termsOfUse');
-if (formData.state === "Warn") {
-    termsOfUseElement.innerHTML = `We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you don't abide by the rules.`;
-} else if (formData.state.startsWith("Ban")) {
-    termsOfUseElement.innerHTML = `We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you don't abide by the rules.`;
-} else {
-    termsOfUseElement.innerHTML = `We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>.`;
-}
+
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
         document.getElementById('reactivateMessage').style.display = "none";
         document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Use.";
         document.getElementById('reactivateButton').style.display = "block";
         document.getElementById('membershipNotice').outerHTML = "";
-        document.getElementById('appealsMessage').style.display = "none";
         logoutButton.classList.add('warning-margin');
         addReactivateTextForWarnings();
     } else if (formData.state === "Delete") {
@@ -153,39 +137,24 @@ if (formData.state === "Warn") {
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
-        document.getElementById('communityRules').outerHTML = "";
     } else if (formData.state === "Poison") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
-        document.getElementById('reactivateMessage').fontWeight = "bold";
+        document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
-        document.getElementById('communityRules').outerHTML = "";
-} else {
-    const banDurationHoursMap = {
-        Ban1Day: 24,
-        Ban3Days: 72, 
-        Ban7Days: 168,
-        Ban14Days: 336,
-    };
-    const banDurationTextMap = {
-        Ban1Day: "1 day",
-        Ban3Days: "3 days",
-        Ban7Days: "7 days",
-        Ban14Days: "14 days"
-    };
-
-    const banDurationHours = banDurationHoursMap[formData.state] || 0;
-    const reactivateDate = new Date();
-    reactivateDate.setHours(reactivateDate.getHours() + banDurationHours);
-    
-    // Update the message to include duration
-    document.getElementById('reactivateMessage').innerHTML = 
-        `Your account has been temporarily disabled for ${banDurationTextMap[formData.state]}. ` +
-        `You may re-activate it after ${formatDate(reactivateDate)}.`;
-    
-    document.getElementById('reactivateButton').style.display = "none";
-}
+    } else {
+        const banDurationHoursMap = {
+            Ban6Hours: 6,
+            Ban1Day: 24, // 1 day = 24 hours
+            Ban3Days: 72, // 3 days = 72 hours
+            Ban7Days: 168, // 1 week = 168 hours
+            Ban14Days: 336, // 2 weeks = 336 hours
+        };
+        const banDurationHours = banDurationHoursMap[formData.state] || 0;
+        const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
+        document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
+        document.getElementById('reactivateButton').style.display = "none";
+    }
 
     const cautionWarningMap = {
         "6hours": "If you violate the rules again, your account may be banned for at least 6 hours.",
@@ -200,8 +169,9 @@ if (formData.state === "Warn") {
     const cautionWarningMessage = document.getElementById('cautionWarningMessage');
     if (formData.cautionWarning && formData.cautionWarning !== "none" && (formData.state === "Warn" || formData.state.startsWith("Ban"))) {
         const cautionText = cautionWarningMap[formData.cautionWarning];
-        cautionWarningMessage.innerHTML = "";
-        cautionWarningMessage.style.display = "none";
+        cautionWarningMessage.innerHTML = `<span style="color: red; font-weight: bold;">CAUTION</span> ${cautionText}`;
+        cautionWarningMessage.style.display = "block";
+        cautionWarningMessage.style.fontWeight = "500";
     }
 
     const membershipNotice = document.getElementById('membershipNotice');
@@ -225,13 +195,11 @@ if (formData.state === "Warn") {
             const reasonElement = document.createElement('p');
             reasonElement.innerHTML = `Violation: <b>${violation.reason}</b>`;
             violationDetails.appendChild(reasonElement);
-            reasonElement.classList.add('evidy');
 
             // Add Evidence
             const evidenceElement = document.createElement('p');
-            evidenceElement.classList.add('evidy');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Evidence:`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset ID:${Math.floor(100000000000 + Math.random() * 900000000000)}`;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
@@ -240,37 +208,37 @@ if (formData.state === "Warn") {
                 const date = new Date();
                 date.setMinutes(date.getMinutes() - 5);
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
             } else if (violation.violationType === "Game") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Game Name: ${violation.evidence}; Game ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Game Name: ${violation.evidence}; Game ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "Group Shout") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Shout: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Shout: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Description") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Description: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Description: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Roleset") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Roleset Name: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group ID: ${Math.floor(100000 + Math.random() * 900000)}; Group Roleset Name: ${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Bundle") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">UGC Bundle Name: ${violation.evidence}; Bundle ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>UGC Bundle Name: ${violation.evidence}; Bundle ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "UGC Accessory") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">UGC Accessory Name: ${violation.evidence}; Accessory ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>UGC Accessory Name: ${violation.evidence}; Accessory ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "Asset") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Asset Name: ${violation.evidence} Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset Name: ${violation.evidence} Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
             } else if (violation.violationType === "Audio") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}</b>`;
                 const audioElement = document.createElement('audio');
                 audioElement.controls = true;
                 audioElement.src = violation.evidence; // Use base64 data as src
                 evidenceElement.appendChild(audioElement);
             } else if (violation.violationType === "User Profile About") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">User Profile About: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>User Profile About: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Wall Post") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Group ID: 1; Group Wall Post: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group ID: 1; Group Wall Post: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Username") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Username: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Username: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Display Name") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Display Name: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Display Name: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Web Chat") {
-                evidenceElement.innerHTML = `Evidence: <b class="inneritem">Web Chat: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Web Chat: ${violation.evidence}</b>`;
             } else {
                 evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
             }
