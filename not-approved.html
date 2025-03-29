@@ -159,20 +159,27 @@ if (formData) {
         document.getElementById('reactivateButton').outerHTML = "";
     } else {
     const banDurationHoursMap = {
-        Ban6Hours: 6,
         Ban1Day: 24, // 1 day = 24 hours
         Ban3Days: 72, // 3 days = 72 hours
         Ban7Days: 168, // 1 week = 168 hours
         Ban14Days: 336, // 2 weeks = 336 hours
     };
+    const banDurationTextMap = {
+        Ban1Day: "1 day",
+        Ban3Days: "3 days",
+        Ban7Days: "7 days",
+        Ban14Days: "14 days"
+    };
+
     const banDurationHours = banDurationHoursMap[formData.state] || 0;
-    const reactivateDate = new Date(); // Create new Date object
-    reactivateDate.setHours(reactivateDate.getHours() + banDurationHours); // Modify this new object
+    const reactivateDate = new Date();
+    reactivateDate.setHours(reactivateDate.getHours() + banDurationHours);
+    
+    // Set the duration text
+    document.getElementById('banDurationText').textContent = banDurationTextMap[formData.state];
+    // Set the reactivation date
     document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
     document.getElementById('reactivateButton').style.display = "none";
-    
-    // Add the duration text
-    document.getElementById('reactivateMessage').textContent = `Your account has been disabled for ${banDurationTextMap[formData.state]}. You may re-activate it after:`;
 }
 
     const cautionWarningMap = {
