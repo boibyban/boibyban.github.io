@@ -138,6 +138,7 @@ if (formData) {
         document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Use.";
         document.getElementById('reactivateButton').style.display = "block";
         document.getElementById('membershipNotice').outerHTML = "";
+        document.getElementById('appealsMessage').style.display = "none";
         logoutButton.classList.add('warning-margin');
         addReactivateTextForWarnings();
     } else if (formData.state === "Delete") {
@@ -145,12 +146,14 @@ if (formData) {
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
+        document.getElementById('communityRules').outerHTML = "";
     } else if (formData.state === "Poison") {
         document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
         document.getElementById('reactivateMessage').fontWeight = "bold";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
+        document.getElementById('communityRules').outerHTML = "";
 } else {
     const banDurationHoursMap = {
         Ban1Day: 24,
@@ -191,8 +194,7 @@ if (formData) {
     if (formData.cautionWarning && formData.cautionWarning !== "none" && (formData.state === "Warn" || formData.state.startsWith("Ban"))) {
         const cautionText = cautionWarningMap[formData.cautionWarning];
         cautionWarningMessage.innerHTML = "";
-        cautionWarningMessage.style.display = "block";
-        cautionWarningMessage.style.fontWeight = "500";
+        cautionWarningMessage.style.display = "none";
     }
 
     const membershipNotice = document.getElementById('membershipNotice');
