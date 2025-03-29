@@ -208,9 +208,9 @@ if (formData) {
                 const date = new Date();
                 date.setMinutes(date.getMinutes() - 5);
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Evidence: <b>Voice chat conversation on ${formattedDate} at ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Voice Chat: <b>Conversation Time: ${formattedDate} Location: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Game") {
-                evidenceElement.innerHTML = `Game: <b>${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
+                evidenceElement.innerHTML = `Game: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Shout") {
                 evidenceElement.innerHTML = `Group Shout: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Description") {
@@ -218,11 +218,11 @@ if (formData) {
             } else if (violation.violationType === "Group Roleset") {
                 evidenceElement.innerHTML = `Group Roleset: <b>$${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Bundle") {
-                evidenceElement.innerHTML = `UGC Bundle: <b>${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
+                evidenceElement.innerHTML = `UGC Bundle: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Accessory") {
-                evidenceElement.innerHTML = `UGC Accessory: <b>${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
+                evidenceElement.innerHTML = `UGC Accessory: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Asset") {
-                evidenceElement.innerHTML = `Evidence: <b>Asset Name: ${violation.evidence} [ID: ${Math.floor(100000000000 + Math.random() * 900000000000)}]</b>`;
+                evidenceElement.innerHTML = `Asset: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Audio") {
                 evidenceElement.innerHTML = `Audio:`;
                 const audioElement = document.createElement('audio');
@@ -232,7 +232,7 @@ if (formData) {
             } else if (violation.violationType === "User Profile About") {
                 evidenceElement.innerHTML = `User Profile About: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Wall Post") {
-                evidenceElement.innerHTML = `Group Wall Post: <b>${violation.evidence} [Group ID: 1]</b>`;
+                evidenceElement.innerHTML = `Group Wall Post: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Username") {
                 evidenceElement.innerHTML = `Username: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Display Name") {
