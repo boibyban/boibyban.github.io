@@ -77,13 +77,13 @@
 const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
-        Warn: "Warning",
-        Ban1Day: "Banned for 1 Day",
-        Ban3Days: "Banned for 3 Days",
-        Ban7Days: "Banned for 7 Days",
-        Ban14Days: "Banned for 14 Days",
-        Delete: "Account Deleted",
-        Poison: "Account Deleted",
+        Warn: "WARNING",
+        Ban1Day: "BANNED FOR 1 DAY",
+        Ban3Days: "BANNED FOR 3 DAYS",
+        Ban7Days: "BANNED FOR 7 DAYS",
+        Ban14Days: "BANNED FOR 14 DAYS",
+        Delete: "ACCOUNT DELETED",
+        Poison: "ACCOUNT DELETED",
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
