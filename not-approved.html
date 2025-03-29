@@ -131,7 +131,14 @@ if (formData) {
             appealsMessage.insertAdjacentElement('afterend', reactivateText);
         }
     }
-
+const termsOfUseElement = document.getElementById('termsOfUse');
+if (formData.state === "Warn") {
+    termsOfUseElement.innerHTML = `We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you do not abide by the rules.`;
+} else if (formData.state.startsWith("Ban")) {
+    termsOfUseElement.innerHTML = `We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you do not abide by the rules.`;
+} else {
+    termsOfUseElement.innerHTML = `We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>.`;
+}
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
         document.getElementById('reactivateMessage').style.display = "none";
