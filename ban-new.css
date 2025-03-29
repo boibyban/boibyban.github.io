@@ -25,14 +25,14 @@ a {
 .logout {
     text-align: center;
     text-decoration: none;
-    border-radius: 10px;
     display: block;
+    margin: auto;
 }
 .reactivate {
     text-align: center;
     text-decoration: none;
-    border-radius: 10px;
     display: block;
+    margin: auto;
 }
 h1, h2, h3 {
     line-height: 1.35em;
