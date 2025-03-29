@@ -172,7 +172,7 @@ if (formData) {
     // Update the message to include duration
     document.getElementById('reactivateMessage').innerHTML = 
         `Your account has been disabled for ${banDurationTextMap[formData.state]}. ` +
-        `You may re-activate it after ${formatDate(reactivateDate)}`;
+        `You may re-activate it after ${formatDate(reactivateDate)}.`;
     
     document.getElementById('reactivateButton').style.display = "none";
 }
@@ -190,7 +190,7 @@ if (formData) {
     const cautionWarningMessage = document.getElementById('cautionWarningMessage');
     if (formData.cautionWarning && formData.cautionWarning !== "none" && (formData.state === "Warn" || formData.state.startsWith("Ban"))) {
         const cautionText = cautionWarningMap[formData.cautionWarning];
-        cautionWarningMessage.innerHTML = `<span style="color: red; font-weight: bold;">CAUTION</span> ${cautionText}`;
+        cautionWarningMessage.innerHTML = "";
         cautionWarningMessage.style.display = "block";
         cautionWarningMessage.style.fontWeight = "500";
     }
