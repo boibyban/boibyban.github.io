@@ -74,7 +74,7 @@
 <body>
     <div class="ban-box">
         <h3 id="banDuration">Banned</h3>
-        <p id="termsOfUse">We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>.</p>
+        <p id="termsOfUse">We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>.</p>
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
         <div class="evidence-box" id="evidenceContainer"></div>
@@ -133,11 +133,11 @@ if (formData) {
     }
 const termsOfUseElement = document.getElementById('termsOfUse');
 if (formData.state === "Warn") {
-    termsOfUseElement.innerHTML = `We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you do not abide by the rules.`;
+    termsOfUseElement.innerHTML = `We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you do not abide by the rules.`;
 } else if (formData.state.startsWith("Ban")) {
-    termsOfUseElement.innerHTML = `We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you do not abide by the rules.`;
+    termsOfUseElement.innerHTML = `We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>. We may terminate your account if you do not abide by the rules.`;
 } else {
-    termsOfUseElement.innerHTML = `We have determined that your recent behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>.`;
+    termsOfUseElement.innerHTML = `We have determined that your behaviour at Boiby has been in violation of our <a href="/info/terms">Terms of Service</a>.`;
 }
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
@@ -181,7 +181,7 @@ if (formData.state === "Warn") {
     
     // Update the message to include duration
     document.getElementById('reactivateMessage').innerHTML = 
-        `Your account has been disabled for ${banDurationTextMap[formData.state]}. ` +
+        `Your account has been temporarily disabled for ${banDurationTextMap[formData.state]}. ` +
         `You may re-activate it after ${formatDate(reactivateDate)}.`;
     
     document.getElementById('reactivateButton').style.display = "none";
