@@ -209,7 +209,7 @@ if (formData) {
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
-                evidenceELement.classList.add('evidy');
+                evidenceElement.classList.add('evidy');
                 evidenceElement.appendChild(imgElement);
             } else if (violation.violationType === "Voice Chat") {
                 const date = new Date();
