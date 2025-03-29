@@ -138,11 +138,10 @@ if (formData) {
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
     } else if (formData.state === "Poison") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been terminated, and new account creation has been disabled.";
+        document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
-        document.getElementById('communityRules').outerHTML = "";
     } else {
         const banDurationHoursMap = {
             Ban6Hours: 6,
