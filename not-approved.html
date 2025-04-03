@@ -54,7 +54,7 @@
         }
         .ban-box {
             border-radius: 8px;
-            max-width: 715px;
+            max-width: 805px;
         }
         #abideRules {
             line-height: 1;
@@ -68,11 +68,11 @@
     <div class="ban-box">
         <h3 id="banDuration">Banned</h3>
         <p id="cautionWarningMessage" style="display: none;"></p>
-        <p id="termsOfUse">We have determined that your recent behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a> and <a href="/info/community-rules">Community Rules</a>.</p>
+        <p id="termsOfUse">We have determined that your recent behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a>.</p>
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
         <div class="evidence-box" id="evidenceContainer"></div>
-        <p id="communityRules">Please abide by the <a href="/info/community-rules">Boiby Community Rules</a> so that Boiby can be a safe place for all users.</p>
+        <p id="communityRules">Please abide by the <a href="/info/community-rules">Boiby Community Rules</a> so that Boiby can remain a safe and fun place for all users.</p>
         <p id="reactivateMessage">Your account has been disabled. You may re-activate it after: <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
         <p id="membershipNotice" style="display:none">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
         <p id="appealsMessage">If you wish to appeal, please contact us via the <a href="/appeals">Appeals Portal</a>.</p>
@@ -159,13 +159,13 @@ if (formData) {
     }
 
     const cautionWarningMap = {
-        "6hours": "If you violate the rules again, your account may be banned for at least 6 hours.",
-        "1day": "If you violate the rules again, your account may be banned for at least 1 day.",
-        "3days": "If you violate the rules again, your account may be banned for at least 3 days.",
-        "7days": "If you violate the rules again, your account may be banned for at least 7 days.",
-        "14days": "If you violate the rules again, your account may be banned for at least 14 days.",
-        "future": "If you violate the rules again, your account may be banned in the future.",
-        "permanent": "If you violate the rules again, your account may be permanently banned."
+        "6hours": "If you violate the Community Rules again, your account may be banned for at least 6 hours.",
+        "1day": "If you violate the Community Rules again, your account may be banned for at least 1 day.",
+        "3days": "If you violate the Community Rules again, your account may be banned for at least 3 days.",
+        "7days": "If you violate the Community Rules again, your account may be banned for at least 7 days.",
+        "14days": "If you violate the Community Rules again, your account may be banned for at least 14 days.",
+        "future": "If you violate the Community Rules again, your account may be banned in the future.",
+        "permanent": "If you violate the Community Rules again, your account may be permanently banned."
     };
 
     const cautionWarningMessage = document.getElementById('cautionWarningMessage');
@@ -195,13 +195,13 @@ if (formData) {
 
             // Add Reason
             const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `Violation<b class="inneritem">${violation.reason}</b>`;
+            reasonElement.innerHTML = `Violation: <b>${violation.reason}</b>`;
             violationDetails.appendChild(reasonElement);
 
             // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Image`;
+                evidenceElement.innerHTML = `Image: `;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
@@ -210,21 +210,21 @@ if (formData) {
                 const date = new Date();
                 date.setMinutes(date.getMinutes() - 5);
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Voice Chat<b class="inneritem">Conversation Time: ${formattedDate} Location: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Voice Chat: <b>Conversation Time: ${formattedDate} Location: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Game") {
-                evidenceElement.innerHTML = `Game<b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Game: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Shout") {
-                evidenceElement.innerHTML = `Group Shout<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Group Shout: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Description") {
-                evidenceElement.innerHTML = `Group Description<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Group Description: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Roleset") {
-                evidenceElement.innerHTML = `Group Roleset<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Group Roleset: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Bundle") {
-                evidenceElement.innerHTML = `UGC Bundle<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `UGC Bundle: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Accessory") {
-                evidenceElement.innerHTML = `UGC Accessory<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `UGC Accessory: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Asset") {
-                evidenceElement.innerHTML = `Asset<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Asset: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Audio") {
                 evidenceElement.innerHTML = `Audio`;
                 const audioElement = document.createElement('audio');
@@ -232,17 +232,17 @@ if (formData) {
                 audioElement.src = violation.evidence; // Use base64 data as src
                 evidenceElement.appendChild(audioElement);
             } else if (violation.violationType === "User Profile About") {
-                evidenceElement.innerHTML = `User Profile About<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `User Profile About: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Wall Post") {
-                evidenceElement.innerHTML = `Group Wall Post<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Group Wall Post: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Username") {
-                evidenceElement.innerHTML = `Username<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Username: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Display Name") {
-                evidenceElement.innerHTML = `Display Name<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Display Name: <b>${violation.evidence}</b>`;
             } else if (violation.violationType === "Web Chat") {
-                evidenceElement.innerHTML = `Chat Message<b class="inneritem">${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Chat Message: <b>${violation.evidence}</b>`;
             } else {
-                evidenceElement.innerHTML = `Evidence<b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
             }
             violationDetails.appendChild(evidenceElement);
 
