@@ -35,8 +35,8 @@
         }
         .violation-section {
             margin-bottom: 0px;
-            padding-left: 6px;
-            padding-right: 6px;
+            padding-left: 2px;
+            padding-right: 2px;
         }
         .classic-violation {
             margin-bottom: 20px;
@@ -146,7 +146,6 @@ if (formData) {
         document.getElementById('reactivateButton').outerHTML = "";
     } else {
         const banDurationHoursMap = {
-            Ban6Hours: 6,
             Ban1Day: 24, // 1 day = 24 hours
             Ban3Days: 72, // 3 days = 72 hours
             Ban7Days: 168, // 1 week = 168 hours
@@ -159,7 +158,6 @@ if (formData) {
     }
 
     const cautionWarningMap = {
-        "6hours": "If you violate the Community Rules again, your account may be banned for at least 6 hours.",
         "1day": "If you violate the Community Rules again, your account may be banned for at least 1 day.",
         "3days": "If you violate the Community Rules again, your account may be banned for at least 3 days.",
         "7days": "If you violate the Community Rules again, your account may be banned for at least 7 days.",
