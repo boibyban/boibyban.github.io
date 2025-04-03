@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 .ban-box {
     max-width: 710px;
@@ -20,7 +20,7 @@
 }
 label, input, select, option {
     font-size: 14px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
 }
 .evidence-box {
     border: 1px solid #000000;
@@ -56,7 +56,7 @@ a {
     width: 88px;
     height: 38px;
     font-size: 16px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     font-weight: 400;
 }
 .reactivate {
@@ -71,7 +71,7 @@ a {
     width: 195px;
     height: 38px;
     font-size: 16px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     font-weight: 400;
 }
 h1, h2, h3 {
@@ -82,7 +82,7 @@ h1, h2, h3 {
     margin: 0;
     margin-top: 2px;
     margin-bottom: 16px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     color: #111
 }
 h4 {
@@ -93,7 +93,7 @@ h4 {
     margin: 0;
     margin-top: 2px;
     margin-bottom: 16px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     color: #111
 }
 h5 {
@@ -104,12 +104,12 @@ h5 {
     margin: 0;
     margin-top: 2px;
     margin-bottom: 16px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     color: #111
 }
 li {
-  text-decoration: none;
-  font-family: 'Inter', ui-sans-serif;
+    text-decoration: none;
+    font-family: "Noto Sans", serif;
     color: #111
 }
 p {
@@ -119,7 +119,7 @@ p {
     padding: 0;
     margin: 0;
     margin-bottom: 12px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     color: #111
 }
 b {
@@ -129,7 +129,7 @@ b {
     padding: 0;
     margin: 0;
     margin-bottom: 12px;
-    font-family: 'Inter', ui-sans-serif;
+    font-family: "Noto Sans", serif;
     color: #111
 }
 .offensive-img {
