@@ -149,10 +149,10 @@ if (formData) {
         document.getElementById('reactivateButton').outerHTML = "";
     } else {
         const banDurationHoursMap = {
-            Ban1Day: 24, // 1 day = 24 hours
-            Ban3Days: 72, // 3 days = 72 hours
-            Ban7Days: 168, // 1 week = 168 hours
-            Ban14Days: 336, // 2 weeks = 336 hours
+            Ban1Day: 24,
+            Ban3Days: 72,
+            Ban7Days: 168, 
+            Ban14Days: 336, 
         };
         const banDurationHours = banDurationHoursMap[formData.state] || 0;
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
