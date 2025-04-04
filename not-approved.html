@@ -76,7 +76,7 @@
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
         <div class="evidence-box" id="evidenceContainer"></div>
         <p id="communityRules">Please abide by the <a href="/info/community-rules">Boiby Community Rules</a> so that Boiby can be a safe and enjoyable place for everyone.</p>
-        <p id="reactivateMessage">Your account has been temporarily disabled. You may re-activate it after: <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
+        <p id="reactivateMessage">Your account has been suspended. You may re-activate it after: <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
         <p id="membershipNotice" style="display:none">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
         <p id="appealsMessage">If you wish to appeal, please visit the <a href="/appeals">Appeals Portal</a>.</p>
         <button id="reactivateButton" class="reactivate">Re-activate Account</button>
@@ -91,8 +91,8 @@ if (formData) {
         Ban3Days: "Banned for 3 Days",
         Ban7Days: "Banned for 7 Days",
         Ban14Days: "Banned for 14 Days",
-        Delete: "Account Terminated",
-        Poison: "Account Terminated",
+        Delete: "Account Deleted",
+        Poison: "Account Deleted",
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
@@ -258,9 +258,9 @@ if (formData) {
 function setTheme(theme) {
     const themeStylesheet = document.getElementById('themeStylesheet');
     if (theme === "dark") {
-        themeStylesheet.href = "/ban-new.css"; 
+        themeStylesheet.href = "/ban.css"; 
     } else {
-        themeStylesheet.href = "/ban-new.css";
+        themeStylesheet.href = "/ban-light.css";
     }
 }
 
