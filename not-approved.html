@@ -202,7 +202,7 @@ if (formData) {
             // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Image: `;
+                evidenceElement.innerHTML = `Evidence: `;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
@@ -211,37 +211,37 @@ if (formData) {
                 const date = new Date();
                 date.setMinutes(date.getMinutes() - 5);
                 const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                evidenceElement.innerHTML = `Voice Chat: <b>Conversation Time: ${formattedDate} Location: ${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Voice Chat: Conversation Time: ${formattedDate} Location: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Game") {
-                evidenceElement.innerHTML = `Game: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Game: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Shout") {
-                evidenceElement.innerHTML = `Group Shout: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group Shout: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Description") {
-                evidenceElement.innerHTML = `Group Description: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group Description: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Roleset") {
-                evidenceElement.innerHTML = `Group Roleset: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group Roleset: ${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Bundle") {
-                evidenceElement.innerHTML = `UGC Bundle: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>UGC Bundle: ${violation.evidence}</b>`;
             } else if (violation.violationType === "UGC Accessory") {
-                evidenceElement.innerHTML = `UGC Accessory: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>UGC Accessory: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Asset") {
-                evidenceElement.innerHTML = `Asset: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Asset: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Audio") {
-                evidenceElement.innerHTML = `Audio`;
+                evidenceElement.innerHTML = `Evidence:`;
                 const audioElement = document.createElement('audio');
                 audioElement.controls = true;
                 audioElement.src = violation.evidence; // Use base64 data as src
                 evidenceElement.appendChild(audioElement);
             } else if (violation.violationType === "User Profile About") {
-                evidenceElement.innerHTML = `User Profile About: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>User Profile About: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Group Wall Post") {
-                evidenceElement.innerHTML = `Group Wall Post: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Group Wall Post: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Username") {
-                evidenceElement.innerHTML = `Username: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Username: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Display Name") {
-                evidenceElement.innerHTML = `Display Name: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Display Name: ${violation.evidence}</b>`;
             } else if (violation.violationType === "Web Chat") {
-                evidenceElement.innerHTML = `Chat Message: <b>${violation.evidence}</b>`;
+                evidenceElement.innerHTML = `Evidence: <b>Web Chat: ${violation.evidence}</b>`;
             } else {
                 evidenceElement.innerHTML = `Evidence: <b>${violation.evidence}</b>`;
             }
