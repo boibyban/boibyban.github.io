@@ -87,12 +87,12 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
         Warn: "Warning",
-        Ban1Day: "Banned for 1 Day",
-        Ban3Days: "Banned for 3 Days",
-        Ban7Days: "Banned for 7 Days",
-        Ban14Days: "Banned for 14 Days",
-        Delete: "Account Deleted",
-        Poison: "Account Deleted",
+        Ban1Day: "Suspended for 1 Day",
+        Ban3Days: "Suspended for 3 Days",
+        Ban7Days: "Suspended for 7 Days",
+        Ban14Days: "Suspended for 14 Days",
+        Delete: "Account Terminated",
+        Poison: "Account Terminated",
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
@@ -161,12 +161,12 @@ if (formData) {
     }
 
     const cautionWarningMap = {
-        "1day": "If you violate the Community Rules again, your account may be banned for at least 1 day.",
-        "3days": "If you violate the Community Rules again, your account may be banned for at least 3 days.",
-        "7days": "If you violate the Community Rules again, your account may be banned for at least 7 days.",
-        "14days": "If you violate the Community Rules again, your account may be banned for at least 14 days.",
-        "future": "If you violate the Community Rules again, your account may be banned in the future.",
-        "permanent": "If you violate the Community Rules again, your account may be permanently banned."
+        "1day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
+        "3days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
+        "7days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
+        "14days": "If you violate the Community Rules again, your account may be suspended for at least 14 days.",
+        "future": "If you violate the Community Rules again, your account may be suspended in the future.",
+        "permanent": "If you violate the Community Rules again, your account may be permanently suspended."
     };
 
     const cautionWarningMessage = document.getElementById('cautionWarningMessage');
@@ -258,9 +258,9 @@ if (formData) {
 function setTheme(theme) {
     const themeStylesheet = document.getElementById('themeStylesheet');
     if (theme === "dark") {
-        themeStylesheet.href = "/ban.css"; 
+        themeStylesheet.href = "/ban-new.css"; 
     } else {
-        themeStylesheet.href = "/ban-light.css";
+        themeStylesheet.href = "/ban-new.css";
     }
 }
 
