@@ -17,6 +17,11 @@
             margin-top: 8px;
             max-width: 100%;
         }
+        .margins-for-image {
+            margin-top: 2px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
         audio {
             width: 100%;
             max-width: 400px;
@@ -202,7 +207,9 @@ if (formData) {
             // Add Evidence
             const evidenceElement = document.createElement('p');
             if (violation.violationType === "Image") {
-                evidenceElement.innerHTML = `Evidence: `;
+                reasonElement.innerHTML = `Violation<b class="inneritem">${violation.reason}</b>`;
+                violationDetails.classList.add('margins-for-img');
+                evidenceElement.innerHTML = `Image`;
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence; // Use base64 data as src
                 imgElement.classList.add('evidence-image');
