@@ -6,6 +6,14 @@
     padding: 15px;
     border-radius: 0;
 }
+a:visited {
+    text-decoration: none;
+    color: #d19efa;
+}
+a {
+    text-decoration: none;
+    color: #7eaaff;
+}
 .evidence-box {
     border: 1px solid #eee;
     padding: 12px;
