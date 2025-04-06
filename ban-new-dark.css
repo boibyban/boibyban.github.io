@@ -31,11 +31,11 @@ a {
     margin-left: 40px;
 }
 .logout {
-    color: #222;
+    color: #eee;
     text-align: center;
     text-decoration: none;
-    background-color: #ffffff;
-    border: 1px solid #000000;
+    background-color: #222;
+    border: 1px solid #eee;
     border-radius: 10px;
     display: block;
     margin: 22px auto 14px auto;
