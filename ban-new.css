@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 .ban-box {
     max-width: 715px;
-    background-color: #ffffff;
+    background-color: #222;
     margin: 90px auto;
     padding: 15px;
     border-radius: 0;
 }
 .evidence-box {
-    border: 1px solid #000000;
+    border: 1px solid #eee;
     padding: 12px;
     border-radius: 0;
     margin-bottom: 12px;
 }
 body {
-    background-color: #f3f3f3;
+    background-color: #111;
     line-height: 1.35em;
 }
 a {
@@ -23,7 +23,7 @@ a {
     margin-left: 40px;
 }
 .logout {
-    color: #111;
+    color: #222;
     text-align: center;
     text-decoration: none;
     background-color: #ffffff;
@@ -37,11 +37,11 @@ a {
     font-weight: 400;
 }
 .reactivate {
-    color: #111;
+    color: #eee;
     text-align: center;
     text-decoration: none;
-    background-color: #ffffff;
-    border: 1px solid #000000;
+    background-color: #222;
+    border: 1px solid #eee;
     border-radius: 10px;
     display: block;
     margin: 35px auto 1px auto;
@@ -59,7 +59,7 @@ h1, h2, h3 {
     margin-top: 2px;
     margin-bottom: 16px;
     font-family: "Noto Sans", serif;
-    color: #111
+    color: #eee
 }
 p {
     line-height: 1.35em;
@@ -69,7 +69,7 @@ p {
     margin: 0;
     margin-bottom: 12px;
     font-family: "Noto Sans", serif;
-    color: #111
+    color: #eee
 }
 b {
     line-height: 1.35em;
@@ -79,7 +79,7 @@ b {
     margin: 0;
     margin-bottom: 12px;
     font-family: "Noto Sans", serif;
-    color: #111
+    color: #eee
 }
 .offensive-img {
     max-width: 350px;
