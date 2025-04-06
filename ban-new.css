@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+.ban-box {
+    max-width: 715px;
+    background-color: #ffffff;
+    margin: 90px auto;
+    padding: 15px;
+    border-radius: 0;
+}
+.evidence-box {
+    border: 1px solid #000000;
+    padding: 12px;
+    border-radius: 0;
+    margin-bottom: 12px;
+}
+body {
+    background-color: #f3f3f3;
+    line-height: 1.35em;
+}
+a {
+    text-decoration: none;
+}
+.evidence {
+    margin-left: 40px;
+}
+.logout {
+    color: #111;
+    text-align: center;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    display: block;
+    margin: 22px auto 14px auto;
+    width: 80px;
+    height: 36px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.reactivate {
+    color: #111;
+    text-align: center;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    display: block;
+    margin: 35px auto 1px auto;
+    width: 200px;
+    height: 38px;
+    font-size: 16px;
+    font-weight: 400;
+}
+h1, h2, h3 {
+    line-height: 1.35em;
+    font-weight: 600;
+    font-size: 32px;
+    padding: 0;
+    margin: 0;
+    margin-top: 2px;
+    margin-bottom: 16px;
+    font-family: "Noto Sans", serif;
+    color: #111
+}
+p {
+    line-height: 1.35em;
+    font-weight: 300;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 12px;
+    font-family: "Noto Sans", serif;
+    color: #111
+}
+b {
+    line-height: 1.35em;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 12px;
+    font-family: "Noto Sans", serif;
+    color: #111
+}
+.offensive-img {
+    max-width: 350px;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-left: 40px;
+    display: block;
+}
