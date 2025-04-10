@@ -60,6 +60,8 @@
 
      <p id="communityRules">Please remember the <a href="/info/community-rules">Boiby Community Rules</a>.</p>
      <b>DO NOT spam appeals or your email WILL be blocked (Seriously).</b>
+
+    <input type="hidden" id="usernameField" name="Username" value="">
     <div class="form-group">
         <label for="discordname">Discord Name (optional):</label>
         <input type="text" id="name" name="Discord Name">
@@ -75,13 +77,10 @@
         <textarea id="message" name="message" required></textarea>
     </div>
     
-    <!-- Hidden fields that will be populated from ban data -->
-    <input type="hidden" id="usernameField" name="Username" value="">
     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
     <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
     
-    <!-- Container for dynamic violation/evidence fields -->
     <div id="violationEvidenceFields"></div>
     
     <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
