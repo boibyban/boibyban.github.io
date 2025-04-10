@@ -75,7 +75,7 @@
 <body>
     <div class="ban-box">
         <h3 id="banDuration">Suspended</h3>
-        <p id="usernameItem">Addressed to: <b id="username">Username</b></p>
+        <p id="usernameItem">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display: none;"></p>
         <p id="termsOfUse">We have determined that your recent behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a>.</p>
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
@@ -287,6 +287,7 @@ setTheme(savedTheme);
 const savedUsername = localStorage.getItem('username');
 if (savedUsername) {
     document.getElementById('username').textContent = savedUsername;
+    document.getElementById('usernameB').textContent = savedUsername;
 }
 </script>
 </body>
