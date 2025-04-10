@@ -150,7 +150,7 @@ if (banData) {
             if (violation.violationType === "Image" || violation.violationType === "Audio") {
                 evidenceInput.value = `${violation.violationType} evidence provided`;
             } else {
-                evidenceInput.value = `${violation.violationType}: violation.evidence`;
+                evidenceInput.value = `${violation.violationType}: ${violation.evidence}`;
             }
             
             // Add to container
