@@ -5,29 +5,87 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Appeals Form</title>
      <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+     </style>
 </head>
 <body>
 <form action="https://api.web3forms.com/submit" method="POST">
 
     <input type="hidden" name="access_key" value="20e7c358-c2e2-408c-a16d-41aed88a8200">
-    <input type="hidden" name="subject" value="Boiby Support Form">
+    <input type="hidden" id="formSubject" name="subject" value="Boiby Support Form">
 
-    <input type="text" name="name" required>
-    <input type="email" name="email" required>
-    <textarea name="message" required></textarea>
-    
-    <!-- Hidden fields that will be populated from ban data -->
-    <input type="hidden" id="banDurationField" name="Ban Duration" value="">
+     <input type="hidden" id="usernameField" name="Username" value="">
+     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
     <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
-    <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
-    <input type="hidden" id="usernameField" name="Username" value="">
+     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
+
+     <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+     
+    <div class="form-group">
+        <label for="discordname">Discord Username (optional):</label>
+        <input type="text" id="name" name="name">
+    </div>
+    
+    <div class="form-group">
+        <label for="message">Appeal Description:</label>
+        <textarea id="message" name="message" required></textarea>
+    </div>
+
+
     
     <!-- Container for dynamic violation/evidence fields -->
     <div id="violationEvidenceFields"></div>
     
     <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
-    <button type="submit">Submit Form</button>
+    <button type="submit">Submit Appeal</button>
 </form>
 
 <script>
@@ -39,17 +97,25 @@ if (banData) {
     // Map ban states to human-readable durations
     const banDurationMap = {
         Warn: "Warning",
-        Ban1Day: "Suspend 1 Day",
-        Ban2Days: "Suspend 2 Days",
-        Ban3Days: "Suspend 3 Days",
-        Ban7Days: "Suspend 7 Days",
-        Ban14Days: "Suspend 14 Days",
-        Delete: "Account Deleted",
-        Poison: "Account Deleted"
+        Ban1Day: "1 Day Suspension",
+        Ban2Days: "2 Day Suspension", 
+        Ban3Days: "3 Day Suspension",
+        Ban7Days: "7 Day Suspension",
+        Ban14Days: "14 Day Suspension",
+        Delete: "Terminated",
+        Poison: "Poison Ban"
     };
     
+    // Get the punishment type
+    const punishmentType = banDurationMap[banData.state] || "Suspension";
+    
+    // Update form subject
+    if (username) {
+        document.getElementById('formSubject').value = `Appeal for ${username} - ${punishmentType}`;
+    }
+    
     // Set ban duration
-    document.getElementById('banDurationField').value = banDurationMap[banData.state] || "Suspended";
+    document.getElementById('banDurationField').value = punishmentType;
     
     // Set reviewed date (current date/time)
     const now = new Date();
