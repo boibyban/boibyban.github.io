@@ -8,7 +8,7 @@
      <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 600px;
+            max-width: 640px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -50,15 +50,21 @@
         .form-group {
             margin-bottom: 15px;
         }
+     #appeal-box {
+          background-color: #fff;
+          padding: 15px;
+     }
      </style>
 </head>
 <body>
+     
+<div id="appeal-box">
 <form action="https://api.web3forms.com/submit" method="POST">
 
     <input type="hidden" name="access_key" value="20e7c358-c2e2-408c-a16d-41aed88a8200">
     <input type="hidden" id="formSubject" name="subject" value="Boiby Support Form">
 
-     <h3>Appeal Form</h3>
+     <h3>Appeals Form</h3>
      <p id="communityRules">Appeals are based on <a href="/info/community-rules">Boiby Community Rules</a>.</p>
      <b>DO NOT spam appeals or your email WILL be blocked.</b>
 
@@ -88,7 +94,8 @@
 
     <button type="submit">Submit Appeal</button>
 </form>
-
+</div>
+     
 <script>
 // Get ban data from localStorage
 const banData = JSON.parse(localStorage.getItem('banFormData'));
