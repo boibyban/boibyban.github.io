@@ -76,7 +76,7 @@
     <div class="ban-box">
         <h3 id="banDuration">Suspended</h3>
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
-        <p id="cautionWarningMessage" style="display: none;"></p>
+        <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse">We have determined that your recent behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a>.</p>
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
@@ -142,19 +142,16 @@ if (formData) {
         document.getElementById('reactivateMessage').textContent = "By re-activating your account, you agree to our Terms of Use.";
         document.getElementById('reactivateButton').style.display = "block";
         document.getElementById('membershipNotice').outerHTML = "";
-        document.getElementById('banDuration').style.color = "orange";
         logoutButton.classList.add('warning-margin');
         addReactivateTextForWarnings();
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
-        document.getElementById('banDuration').style.color = "red";
         document.getElementById('reactivateButton').outerHTML = "";
     } else if (formData.state === "Poison") {
         document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
         document.getElementById('membershipNotice').outerHTML = "";
-        document.getElementById('banDuration').style.color = "red";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
     } else {
@@ -166,7 +163,6 @@ if (formData) {
             Ban14Days: 336, 
         };
         const banDurationHours = banDurationHoursMap[formData.state] || 0;
-        document.getElementById('banDuration').style.color = "orange";
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
         document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
         document.getElementById('reactivateButton').style.display = "none";
