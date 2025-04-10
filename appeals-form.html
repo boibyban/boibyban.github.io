@@ -58,28 +58,27 @@
     <input type="hidden" name="access_key" value="20e7c358-c2e2-408c-a16d-41aed88a8200">
     <input type="hidden" id="formSubject" name="subject" value="Boiby Support Form">
 
-
-
-     <div class="form-group">
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-     
     <div class="form-group">
-        <label for="discordname">Discord Username (optional):</label>
+        <label for="name">Discord Name (optional):</label>
         <input type="text" id="name" name="name">
     </div>
     
     <div class="form-group">
-        <label for="message">Appeal Description:</label>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="message">Appeal Message:</label>
         <textarea id="message" name="message" required></textarea>
     </div>
-
-
-     <input type="hidden" id="usernameField" name="Username" value="">
-     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
+    
+    <!-- Hidden fields that will be populated from ban data -->
+    <input type="hidden" id="banDurationField" name="Ban Duration" value="">
     <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
-     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
+    <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
+    <input type="hidden" id="usernameField" name="Username" value="">
+    
     <!-- Container for dynamic violation/evidence fields -->
     <div id="violationEvidenceFields"></div>
     
@@ -97,12 +96,12 @@ if (banData) {
     // Map ban states to human-readable durations
     const banDurationMap = {
         Warn: "Warning",
-        Ban1Day: "1 Day Suspension",
-        Ban2Days: "2 Day Suspension", 
-        Ban3Days: "3 Day Suspension",
-        Ban7Days: "7 Day Suspension",
-        Ban14Days: "14 Day Suspension",
-        Delete: "Terminated",
+        Ban1Day: "Suspend 1 Day",
+        Ban2Days: "Suspend 2 Days", 
+        Ban3Days: "Suspend 3 Days",
+        Ban7Days: "Suspend 7 Days",
+        Ban14Days: "Suspend 14 Days",
+        Delete: "Termination",
         Poison: "Poison Ban"
     };
     
@@ -122,7 +121,7 @@ if (banData) {
     const reviewedDate = formatDate(now);
     document.getElementById('reviewedDateField').value = reviewedDate;
     
-    // Set moderator note (custom note takes priority over preset note)
+    // Set moderator note (custom note takes precedence over preset note)
     const moderatorNote = banData.customNote || (banData.note === "nonote" ? "" : banData.note) || "";
     document.getElementById('moderatorNoteField').value = moderatorNote;
     
@@ -147,11 +146,11 @@ if (banData) {
             evidenceInput.type = 'hidden';
             evidenceInput.name = `Evidence ${index + 1}`;
             
-            // For file-based evidence (images/audio) just note the type lol
+            // For file-based evidence (images/audio), just note the type
             if (violation.violationType === "Image" || violation.violationType === "Audio") {
                 evidenceInput.value = `${violation.violationType} evidence provided`;
             } else {
-                evidenceInput.value = ${violation.violationType}: ${violation.evidence};
+                evidenceInput.value = `${violation.violationType}: violation.evidence`;
             }
             
             // Add to container
