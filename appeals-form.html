@@ -7,20 +7,21 @@
      <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
-<form action="https://formsubmit.co/b541c2c201cb049fabdc1ae828856015" method="POST">
-     <div class="form-group">
-          <label for="name">Username*</label>
-          <input type="text" name="name" required>
-          <label for="email">Email Address*</label>
-          <input type="email" name="email" placeholder="Email Address">
-          <label for="message">Appeal Description*</label>
-          <input type="text" name="message" placeholder="Appeal Description">
-          <label for="duration">Ban Duration*</label>
-          <input type="text" name="duration" placeholder="Ban Duration">
-          <label for="modnote">Moderator Note*</label>
-          <input type="text" name="modnote" placeholder="Moderator Note">
-          <button type="submit">Send</button>
-          <input type="hidden" name="_captcha" value="false">
-     </div>
+<form action="https://api.web3forms.com/submit" method="POST">
+
+    <input type="hidden" name="access_key" value="20e7c358-c2e2-408c-a16d-41aed88a8200">
+     <input type="hidden" name="subject" value="Boiby Support Form">
+
+    <input type="text" name="name" required>
+    <input type="email" name="email" required>
+    <textarea name="message" required></textarea>
+
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+    <!-- <input type="hidden" name="redirect" value="https://"> -->
+
+    <button type="submit">Submit Form</button>
+
+</form>
 </form> 
 </body>
