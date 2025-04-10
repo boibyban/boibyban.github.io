@@ -58,10 +58,7 @@
     <input type="hidden" name="access_key" value="20e7c358-c2e2-408c-a16d-41aed88a8200">
     <input type="hidden" id="formSubject" name="subject" value="Boiby Support Form">
 
-     <input type="hidden" id="usernameField" name="Username" value="">
-     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
-    <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
-     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
+
 
      <div class="form-group">
         <label for="email">Email Address:</label>
@@ -79,7 +76,10 @@
     </div>
 
 
-    
+     <input type="hidden" id="usernameField" name="Username" value="">
+     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
+    <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
+     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
     <!-- Container for dynamic violation/evidence fields -->
     <div id="violationEvidenceFields"></div>
     
@@ -122,7 +122,7 @@ if (banData) {
     const reviewedDate = formatDate(now);
     document.getElementById('reviewedDateField').value = reviewedDate;
     
-    // Set moderator note (custom note takes precedence over preset note)
+    // Set moderator note (custom note takes priority over preset note)
     const moderatorNote = banData.customNote || (banData.note === "nonote" ? "" : banData.note) || "";
     document.getElementById('moderatorNoteField').value = moderatorNote;
     
@@ -140,18 +140,18 @@ if (banData) {
             const violationInput = document.createElement('input');
             violationInput.type = 'hidden';
             violationInput.name = `Violation ${index + 1}`;
-            violationInput.value = `${violation.violationType}: ${violation.reason}`;
+            violationInput.value = `${violation.reason}`;
             
             // Create hidden input for evidence
             const evidenceInput = document.createElement('input');
             evidenceInput.type = 'hidden';
             evidenceInput.name = `Evidence ${index + 1}`;
             
-            // For file-based evidence (images/audio), just note the type
+            // For file-based evidence (images/audio) just note the type lol
             if (violation.violationType === "Image" || violation.violationType === "Audio") {
                 evidenceInput.value = `${violation.violationType} evidence provided`;
             } else {
-                evidenceInput.value = violation.evidence;
+                evidenceInput.value = ${violation.violationType}: ${violation.evidence};
             }
             
             // Add to container
