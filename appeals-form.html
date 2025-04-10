@@ -10,20 +10,102 @@
 <form action="https://api.web3forms.com/submit" method="POST">
 
     <input type="hidden" name="access_key" value="20e7c358-c2e2-408c-a16d-41aed88a8200">
-     <input type="hidden" name="subject" value="Boiby Support Form">
+    <input type="hidden" name="subject" value="Boiby Support Form">
 
     <input type="text" name="name" required>
     <input type="email" name="email" required>
     <textarea name="message" required></textarea>
-     <input type="hidden" name="Ban Duration" value="Placeholder test" required>
-     <input type="hidden" name="Note" value="Placeholder test" required>
-
+    
+    <!-- Hidden fields that will be populated from ban data -->
+    <input type="hidden" id="banDurationField" name="Ban Duration" value="">
+    <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
+    <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
+    <input type="hidden" id="usernameField" name="Username" value="">
+    
+    <!-- Container for dynamic violation/evidence fields -->
+    <div id="violationEvidenceFields"></div>
+    
     <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
-    <!-- <input type="hidden" name="redirect" value="https://"> -->
-
     <button type="submit">Submit Form</button>
-
 </form>
-</form> 
+
+<script>
+// Get ban data from localStorage
+const banData = JSON.parse(localStorage.getItem('banFormData'));
+const username = localStorage.getItem('username');
+
+if (banData) {
+    // Map ban states to human-readable durations
+    const banDurationMap = {
+        Warn: "Warning",
+        Ban1Day: "1 Day Suspension",
+        Ban2Days: "2 Days Suspension",
+        Ban3Days: "3 Days Suspension",
+        Ban7Days: "7 Days Suspension",
+        Ban14Days: "14 Days Suspension",
+        Delete: "Account Termination",
+        Poison: "Account Termination"
+    };
+    
+    // Set ban duration
+    document.getElementById('banDurationField').value = banDurationMap[banData.state] || "Suspended";
+    
+    // Set reviewed date (current date/time)
+    const now = new Date();
+    const reviewedDate = formatDate(now);
+    document.getElementById('reviewedDateField').value = reviewedDate;
+    
+    // Set moderator note (custom note takes precedence over preset note)
+    const moderatorNote = banData.customNote || (banData.note === "nonote" ? "" : banData.note) || "";
+    document.getElementById('moderatorNoteField').value = moderatorNote;
+    
+    // Set username
+    if (username) {
+        document.getElementById('usernameField').value = username;
+    }
+    
+    // Add violation/evidence fields if they exist
+    if (banData.classicViolations && banData.classicViolations.length > 0) {
+        const container = document.getElementById('violationEvidenceFields');
+        
+        banData.classicViolations.forEach((violation, index) => {
+            // Create hidden input for violation
+            const violationInput = document.createElement('input');
+            violationInput.type = 'hidden';
+            violationInput.name = `Violation ${index + 1}`;
+            violationInput.value = `${violation.violationType}: ${violation.reason}`;
+            
+            // Create hidden input for evidence
+            const evidenceInput = document.createElement('input');
+            evidenceInput.type = 'hidden';
+            evidenceInput.name = `Evidence ${index + 1}`;
+            
+            // For file-based evidence (images/audio), just note the type
+            if (violation.violationType === "Image" || violation.violationType === "Audio") {
+                evidenceInput.value = `${violation.violationType} evidence provided`;
+            } else {
+                evidenceInput.value = violation.evidence;
+            }
+            
+            // Add to container
+            container.appendChild(violationInput);
+            container.appendChild(evidenceInput);
+        });
+    }
+}
+
+// Helper function to format date
+function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+}
+</script>
 </body>
+</html>
