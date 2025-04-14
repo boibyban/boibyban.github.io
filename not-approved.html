@@ -145,12 +145,12 @@ if (formData) {
         logoutButton.classList.add('warning-margin');
         addReactivateTextForWarnings();
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been terminated. You can no longer use Boiby.";
+        document.getElementById('reactivateMessage').textContent = "Your account has been permanently banned. You can no longer use Boiby.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
     } else if (formData.state === "Poison") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been terminated. You can no longer use Boiby.";
+        document.getElementById('reactivateMessage').textContent = "Your account has been permanently banned. You can no longer use Boiby.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
