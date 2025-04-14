@@ -98,8 +98,8 @@ if (formData) {
         Ban3Days: "Suspended for 3 Days",
         Ban7Days: "Suspended for 7 Days",
         Ban14Days: "Suspended for 14 Days",
-        Delete: "Account Terminated",
-        Poison: "Account Terminated",
+        Delete: "Permanently Banned",
+        Poison: "Permanently Banned",
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
@@ -175,7 +175,7 @@ if (formData) {
         "7days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
         "14days": "If you violate the Community Rules again, your account may be suspended for at least 14 days.",
         "future": "If you violate the Community Rules again, your account may be suspended in the future.",
-        "permanent": "If you violate the Community Rules again, your account may be permanently suspended."
+        "permanent": "If you violate the Community Rules again, your account may be permanently banned."
     };
 
     const cautionWarningMessage = document.getElementById('cautionWarningMessage');
