@@ -87,7 +87,7 @@
     
     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
     <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
-     <input type="hidden" id="detectionField" name="Detection/Decision" value="">
+    <input type="hidden" id="automationField" name="Detection/Decision" value="">
     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
     
     <div id="violationEvidenceFields"></div>
@@ -112,7 +112,7 @@ const automationTextMap = {
     "full_auto": "Fully automated: Automated detection, automated review"
 };
 
-if (banData) {
+if (banData || username) {
     // Map ban states to human-readable durations
     const banDurationMap = {
         Warn: "Warning",
@@ -126,61 +126,59 @@ if (banData) {
     };
     
     // Get the punishment type
-    const punishmentType = banDurationMap[banData.state] || "Suspension";
+    const punishmentType = banData ? banDurationMap[banData.state] || "Suspension" : "Suspension";
     
     // Update form subject
     if (username) {
         document.getElementById('formSubject').value = `Appeal for ${username} - ${punishmentType}`;
-    }
-    
-    // Set ban duration
-    document.getElementById('banDurationField').value = punishmentType;
-    
-    // Set reviewed date (current date/time)
-    const now = new Date();
-    const reviewedDate = formatDate(now);
-    document.getElementById('reviewedDateField').value = reviewedDate;
-    
-    // Set moderator note (custom note takes precedence over preset note)
-    const moderatorNote = banData.customNote || (banData.note === "nonote" ? "" : banData.note) || "";
-    document.getElementById('moderatorNoteField').value = moderatorNote;
-    
-    // Set detection/automation field
-    document.getElementById('automationField').value = 
-        automationTextMap[banData.automation] || "Not Automated: Manually detected and reviewed";
-    
-    // Set username
-    if (username) {
         document.getElementById('usernameField').value = username;
     }
     
-    // Add violation/evidence fields if they exist
-    if (banData.classicViolations && banData.classicViolations.length > 0) {
-        const container = document.getElementById('violationEvidenceFields');
+    if (banData) {
+        // Set ban duration
+        document.getElementById('banDurationField').value = punishmentType;
         
-        banData.classicViolations.forEach((violation, index) => {
-            // Create hidden input for violation
-            const violationInput = document.createElement('input');
-            violationInput.type = 'hidden';
-            violationInput.name = `Violation ${index + 1}`;
-            violationInput.value = `${violation.reason}`;
+        // Set reviewed date (current date/time)
+        const now = new Date();
+        const reviewedDate = formatDate(now);
+        document.getElementById('reviewedDateField').value = reviewedDate;
+        
+        // Set moderator note (custom note takes precedence over preset note)
+        const moderatorNote = banData.customNote || (banData.note === "nonote" ? "" : banData.note) || "";
+        document.getElementById('moderatorNoteField').value = moderatorNote;
+        
+        // Set detection/automation field
+        document.getElementById('automationField').value = 
+            automationTextMap[banData.automation] || "Not Automated: Manually detected and reviewed";
+        
+        // Add violation/evidence fields if they exist
+        if (banData.classicViolations && banData.classicViolations.length > 0) {
+            const container = document.getElementById('violationEvidenceFields');
             
-            // Create hidden input for evidence
-            const evidenceInput = document.createElement('input');
-            evidenceInput.type = 'hidden';
-            evidenceInput.name = `Evidence ${index + 1}`;
-            
-            // For file-based evidence (images/audio), just note the type
-            if (violation.violationType === "Image" || violation.violationType === "Audio") {
-                evidenceInput.value = `${violation.violationType} evidence provided`;
-            } else {
-                evidenceInput.value = `${violation.violationType}: ${violation.evidence}`;
-            }
-            
-            // Add to container
-            container.appendChild(violationInput);
-            container.appendChild(evidenceInput);
-        });
+            banData.classicViolations.forEach((violation, index) => {
+                // Create hidden input for violation
+                const violationInput = document.createElement('input');
+                violationInput.type = 'hidden';
+                violationInput.name = `Violation ${index + 1}`;
+                violationInput.value = `${violation.reason}`;
+                
+                // Create hidden input for evidence
+                const evidenceInput = document.createElement('input');
+                evidenceInput.type = 'hidden';
+                evidenceInput.name = `Evidence ${index + 1}`;
+                
+                // For file-based evidence (images/audio), just note the type
+                if (violation.violationType === "Image" || violation.violationType === "Audio") {
+                    evidenceInput.value = `${violation.violationType} evidence provided`;
+                } else {
+                    evidenceInput.value = `${violation.violationType}: ${violation.evidence}`;
+                }
+                
+                // Add to container
+                container.appendChild(violationInput);
+                container.appendChild(evidenceInput);
+            });
+        }
     }
 }
 
