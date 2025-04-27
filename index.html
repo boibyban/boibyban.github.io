@@ -158,6 +158,17 @@
                 <option value="permanent">Permanent</option>
             </select><br><br>
         </div>
+
+        <div id="automationContainer" style="display: block;">
+    <label for="automation">Automation Level:</label><br>
+    <select id="automation" name="automation">
+        <option value="manual">Not Automated: Manually detected and reviewed</option>
+        <option value="manual_detect_auto_review">Partially automated: Manual detection, automated review</option>
+        <option value="auto_detect_manual_review">Partially automated: Automated detection, manual review</option>
+        <option value="full_auto">Fully automated: Automated detection, automated review</option>
+    </select><br><br>
+</div>    
+
         <div id="classicViolationContainer"></div>
         <button type="button" id="addClassicViolationBox">Add Violation</button><br><br>
         <input type="submit" value="Submit"><br>
@@ -400,14 +411,15 @@
 
             // Proceed with form submission
             const formData = {
-                state: document.querySelector('input[name="State"]:checked').value,
-                note: document.getElementById('note').value,
-                customNote: document.getElementById('notecustom').value,
-                cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
-                theme: document.getElementById('theme').value,
-                botBan: document.getElementById('botBan').checked,
-                classicViolations: []
-            };
+    state: document.querySelector('input[name="State"]:checked').value,
+    note: document.getElementById('note').value,
+    customNote: document.getElementById('notecustom').value,
+    cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
+    automation: document.getElementById('automation').value, // Add this line
+    theme: document.getElementById('theme').value,
+    botBan: document.getElementById('botBan').checked,
+    classicViolations: []
+};
 
             // Collect Classic Violations
             for (const box of classicViolationBoxes) {
