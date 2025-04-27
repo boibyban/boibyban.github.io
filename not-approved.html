@@ -127,6 +127,15 @@ if (formData) {
     const reviewedDate = formatDate(now);
     document.getElementById('reviewedDate').textContent = reviewedDate;
 
+    const automationTextMap = {
+    "manual": "Not Automated: Manually detected and reviewed",
+    "manual_detect_auto_review": "Partially automated: Manual detection, automated review",
+    "auto_detect_manual_review": "Partially automated: Automated detection, manual review",
+    "full_auto": "Fully automated: Automated detection, automated review"
+};
+
+document.getElementById('detectionField').textContent = automationTextMap[formData.automation] || "Not Automated: Manually detected and reviewed";
+
     function addReactivateTextForWarnings() {
         if (formData.state === "Warn") {
             const appealsMessage = document.getElementById('appealsMessage');
