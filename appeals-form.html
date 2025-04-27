@@ -87,6 +87,7 @@
     
     <input type="hidden" id="banDurationField" name="Ban Duration" value="">
     <input type="hidden" id="reviewedDateField" name="Reviewed" value="">
+     <input type="hidden" id="detectionField" name="Detection/Decision" value="">
     <input type="hidden" id="moderatorNoteField" name="Moderator Note" value="">
     
     <div id="violationEvidenceFields"></div>
@@ -103,17 +104,25 @@
 const banData = JSON.parse(localStorage.getItem('banFormData'));
 const username = localStorage.getItem('username');
 
+// Automation level mapping
+const automationTextMap = {
+    "manual": "Not Automated: Manually detected and reviewed",
+    "manual_detect_auto_review": "Partially automated: Manual detection, automated review",
+    "auto_detect_manual_review": "Partially automated: Automated detection, manual review",
+    "full_auto": "Fully automated: Automated detection, automated review"
+};
+
 if (banData) {
     // Map ban states to human-readable durations
     const banDurationMap = {
         Warn: "Warning",
-        Ban1Day: "1 Day Suspension",
-        Ban2Days: "2 Day Suspension", 
-        Ban3Days: "3 Day Suspension",
-        Ban7Days: "7 Day Suspension",
-        Ban14Days: "14 Day Suspension",
+        Ban1Day: "Temporary Suspension",
+        Ban2Days: "Temporary Suspension", 
+        Ban3Days: "Temporary Suspension",
+        Ban7Days: "Temporary Suspension",
+        Ban14Days: "Temporary Suspension",
         Delete: "Permanent Ban",
-        Poison: "Poison Ban"
+        Poison: "Permanent Ban (Poison)"
     };
     
     // Get the punishment type
@@ -135,6 +144,10 @@ if (banData) {
     // Set moderator note (custom note takes precedence over preset note)
     const moderatorNote = banData.customNote || (banData.note === "nonote" ? "" : banData.note) || "";
     document.getElementById('moderatorNoteField').value = moderatorNote;
+    
+    // Set detection/automation field
+    document.getElementById('automationField').value = 
+        automationTextMap[banData.automation] || "Not Automated: Manually detected and reviewed";
     
     // Set username
     if (username) {
