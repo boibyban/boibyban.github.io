@@ -4,7 +4,7 @@
         <img src="ohnoes.svg" alt="Oh Noes!" style="width: 150px; height: 150px; filter: invert(90%);">
     </div>
     
-    <h2 style="text-align: center; font-weight: bold; margin-bottom: 15px; color: #fff;">Your account has been suspended for 7 days</h2>
+    <h2 id="banTitle" style="text-align: center; font-weight: bold; margin-bottom: 15px; color: #fff;"></h2>
     
     <p style="text-align: center; margin-bottom: 20px; line-height: 1.5; color: #ccc;">
         We recently received a report for or detected behaviour by your account that violates our rules. 
@@ -12,28 +12,25 @@
     </p>
   
     <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
-     <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 20px; margin-right: 20px;">
-        Reviewed: <strong style="color: #fff;">(date here)</strong>
+    <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 20px; margin-right: 20px;">
+        Reviewed: <strong id="reviewedDate" style="color: #fff;"></strong>
     </p>
     <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 20px; margin-right: 20px;">
-        Decision: <strong style="color: #fff;">Not automated: Manually detected and reviewed</strong>
+        Decision: <strong id="decision" style="color: #fff;"></strong>
     </p>
+
+    <div id="moderatorNoteContainer" style="display: none;">
+        <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 20px; margin-right: 20px;">
+            Moderator Note: <strong id="moderatorNote" style="color: #fff;"></strong>
+        </p>
+    </div>
 
     <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 20px; margin-right: 20px;">
-        Moderator Note: <strong style="color: #fff;">(note here)</strong>
+        Reason: <strong id="reason" style="color: #fff;"></strong>
     </p>
 
-    <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 20px; margin-right: 20px;">
-        Reason: <strong style="color: #fff;">(reason here)</strong>
-    </p>
-
-    
-
-    
     <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
-    <p style="text-align: center; margin-bottom: 20px; line-height: 1.5;">
-        <strong style="color: #fff;">Your account has been temporarily suspended. Your suspension will end on (endDate).</strong> 
-    </p>  
+    <p id="banMessage" style="text-align: center; margin-bottom: 20px; line-height: 1.5;"></p>  
     <p style="text-align: center; margin-bottom: 20px; color: #ccc;">
         To learn more about Boiby moderation, visit <a href="#" style="color: #4dabf7;">(placeholder link)</a>
     </p>
@@ -46,5 +43,46 @@
             Request Appeal
         </button>
     </div>
+
+    <script>
+        // Get ban data from localStorage
+        const banData = JSON.parse(localStorage.getItem('banData'));
+        
+        if (banData) {
+            // Set ban title based on duration
+            const banTitle = document.getElementById('banTitle');
+            if (banData.duration === 'permanent') {
+                banTitle.textContent = 'Your account has been permanently banned';
+            } else {
+                banTitle.textContent = `Your account has been suspended for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}`;
+            }
+            
+            // Set reviewed date
+            document.getElementById('reviewedDate').textContent = banData.reviewedDate;
+            
+            // Set decision
+            document.getElementById('decision').textContent = banData.decision;
+            
+            // Set moderator note if exists
+            if (banData.moderatorNote) {
+                document.getElementById('moderatorNoteContainer').style.display = 'block';
+                document.getElementById('moderatorNote').textContent = banData.moderatorNote;
+            }
+            
+            // Set reason
+            document.getElementById('reason').textContent = banData.reason;
+            
+            // Set ban message
+            const banMessage = document.getElementById('banMessage');
+            if (banData.duration === 'permanent') {
+                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been permanently banned and cannot be reactivated. You can no longer use Boiby.</strong>';
+            } else {
+                banMessage.innerHTML = `<strong style="color: #fff;">Your account has been temporarily suspended. Your suspension will end on ${banData.endDate}.</strong>`;
+            }
+        } else {
+            // No ban data found - redirect back to form
+            window.location.href = 'banpanel-v2.html';
+        }
+    </script>
 </div>
 </body>
