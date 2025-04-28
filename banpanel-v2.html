@@ -4,7 +4,7 @@
         <h1 style="color: #fff;">Boiby Ban Panel V2</h1>
     </div>
     
-    <form action="suspension-v2.html" method="post" style="margin: 0 20px;">
+    <form id="banForm" style="margin: 0 20px;">
         <!-- Username Field -->
         <div style="margin-bottom: 20px;">
             <label for="username" style="display: block; margin-bottom: 5px; color: #ccc;">Username:</label>
@@ -17,7 +17,7 @@
             <label style="display: block; margin-bottom: 5px; color: #ccc;">Ban Duration:</label>
             <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                 <label style="display: flex; align-items: center;">
-                    <input type="radio" name="duration" value="1" style="margin-right: 5px;"> 1 day
+                    <input type="radio" name="duration" value="1" style="margin-right: 5px;" required> 1 day
                 </label>
                 <label style="display: flex; align-items: center;">
                     <input type="radio" name="duration" value="3" style="margin-right: 5px;"> 3 days
@@ -41,7 +41,8 @@
         <!-- Reason -->
         <div style="margin-bottom: 20px;">
             <label for="reason" style="display: block; margin-bottom: 5px; color: #ccc;">Reason:</label>
-            <select id="reason" name="reason" style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+            <select id="reason" name="reason" required style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+                <option value="">Select a reason</option>
                 <option value="Excessive Profanity">Excessive Profanity</option>
                 <option value="Harassment">Harassment</option>
                 <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
@@ -59,7 +60,8 @@
         <!-- Decision -->
         <div style="margin-bottom: 20px;">
             <label for="decision" style="display: block; margin-bottom: 5px; color: #ccc;">Decision:</label>
-            <select id="decision" name="decision" style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+            <select id="decision" name="decision" required style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+                <option value="">Select decision type</option>
                 <option value="Not automated: Manually detected and reviewed">Not automated: Manually detected and reviewed</option>
                 <option value="Partially automated: Automated detection, manual review">Partially automated: Automated detection, manual review</option>
                 <option value="Partially automated: Manual detection, automated review">Partially automated: Manual detection, automated review</option>
@@ -74,9 +76,53 @@
         <!-- Submit Button -->
         <div style="text-align: center;">
             <button type="submit" style="background-color: #1971c2; color: white; border: none; border-radius: 4px; padding: 10px 20px; cursor: pointer; transition: background-color 0.2s;">
-                Submit
+                Submit Ban
             </button>
         </div>
     </form>
+
+    <script>
+        document.getElementById('banForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                username: document.getElementById('username').value,
+                duration: document.querySelector('input[name="duration"]:checked').value,
+                moderatorNote: document.getElementById('moderatorNote').value,
+                reason: document.getElementById('reason').value,
+                decision: document.getElementById('decision').value,
+                reviewedDate: new Date().toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }).replace(',', '')
+            };
+            
+            // Calculate end date if not permanent
+            if (formData.duration !== 'permanent') {
+                const days = parseInt(formData.duration);
+                const endDate = new Date();
+                endDate.setDate(endDate.getDate() + days);
+                formData.endDate = endDate.toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }).replace(',', '');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('banData', JSON.stringify(formData));
+            
+            // Redirect to suspension page
+            window.location.href = 'suspension-v2.html';
+        });
+    </script>
 </div>
 </body>
