@@ -1,47 +1,47 @@
 <body style="background-color: #111">
-<div style="margin-top: 90px!important; width: 750px; margin: 0 auto; font-family: Arial, sans-serif; border: 0px; border-radius: 8px; padding: 20px; background-color: #222; color: #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+<div style="margin-top: 90px!important; width: 750px; max-width: 95%; margin: 0 auto; font-family: Arial, sans-serif; border: 0px; border-radius: 8px; padding: 20px; background-color: #222; color: #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
     <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="color: #fff;">Boiby Ban Panel V2</h1>
+        <h1 style="color: #fff; font-size: clamp(1.5rem, 4vw, 2rem);">Boiby Ban Panel V2</h1>
     </div>
     
-    <form id="banForm" style="margin: 0 20px;">
+    <form id="banForm" style="margin: 0 10px;">
         <!-- Username Field -->
         <div style="margin-bottom: 20px;">
-            <label for="username" style="display: block; margin-bottom: 5px; color: #ccc;">Username:</label>
+            <label for="username" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Username:</label>
             <input type="text" id="username" name="username" maxlength="20" pattern="[^\s]+" title="No spaces allowed" required 
-                   style="width: 100%; padding: 8px; background-color: #333; border: border: 0px; border-radius: 4px; color: #e0e0e0;">
+                   style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
         </div>
         
         <!-- Ban Duration -->
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 5px; color: #ccc;">Ban Duration:</label>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <label style="display: flex; align-items: center;">
-                    <input type="radio" name="duration" value="1" style="margin-right: 5px;" required> 1 day
+            <label style="display: block; margin-bottom: 10px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Ban Duration:</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
+                    <input type="radio" name="duration" value="1" style="margin-right: 8px;" required> 1 day
                 </label>
-                <label style="display: flex; align-items: center;">
-                    <input type="radio" name="duration" value="3" style="margin-right: 5px;"> 3 days
+                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
+                    <input type="radio" name="duration" value="3" style="margin-right: 8px;"> 3 days
                 </label>
-                <label style="display: flex; align-items: center;">
-                    <input type="radio" name="duration" value="7" style="margin-right: 5px;"> 7 days
+                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
+                    <input type="radio" name="duration" value="7" style="margin-right: 8px;"> 7 days
                 </label>
-                <label style="display: flex; align-items: center;">
-                    <input type="radio" name="duration" value="permanent" style="margin-right: 5px;"> Permanent
+                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
+                    <input type="radio" name="duration" value="permanent" style="margin-right: 8px;"> Permanent
                 </label>
             </div>
         </div>
         
         <!-- Moderator Note -->
         <div style="margin-bottom: 20px;">
-            <label for="moderatorNote" style="display: block; margin-bottom: 5px; color: #ccc;">Moderator Note:</label>
+            <label for="moderatorNote" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Moderator Note:</label>
             <textarea id="moderatorNote" name="moderatorNote" maxlength="1000" 
-                      style="width: 100%; height: 100px; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0; resize: vertical;"></textarea>
+                      style="width: 100%; height: 120px; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; resize: vertical; font-size: clamp(0.9rem, 3vw, 1rem);"></textarea>
         </div>
         
         <!-- Reason -->
         <div style="margin-bottom: 20px;">
-            <label for="reason" style="display: block; margin-bottom: 5px; color: #ccc;">Reason:</label>
-            <select id="reason" name="reason" required style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+            <label for="reason" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Reason:</label>
+            <select id="reason" name="reason" required style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
                 <option value="">Select a reason</option>
                 <option value="Excessive Profanity">Excessive Profanity</option>
                 <option value="Harassment">Harassment</option>
@@ -59,8 +59,8 @@
         
         <!-- Decision -->
         <div style="margin-bottom: 20px;">
-            <label for="decision" style="display: block; margin-bottom: 5px; color: #ccc;">Decision:</label>
-            <select id="decision" name="decision" required style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+            <label for="decision" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Decision:</label>
+            <select id="decision" name="decision" required style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
                 <option value="">Select decision type</option>
                 <option value="Not automated: Manually detected and reviewed">Not automated: Manually detected and reviewed</option>
                 <option value="Partially automated: Automated detection, manual review">Partially automated: Automated detection, manual review</option>
@@ -69,13 +69,13 @@
             </select>
         </div>
         
-        <p style="color: #ccc; font-style: italic; margin-bottom: 20px;">Ability to add evidence items coming soon.</p>
+        <p style="color: #ccc; font-style: italic; margin-bottom: 20px; font-size: clamp(0.8rem, 3vw, 0.9rem);">Ability to add evidence items coming soon.</p>
         
         <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
         
         <!-- Submit Button -->
-        <div style="text-align: center;">
-            <button type="submit" style="background-color: #1971c2; color: white; border: none; border-radius: 4px; padding: 10px 20px; cursor: pointer; transition: background-color 0.2s;">
+        <div style="text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <button type="submit" style="background-color: #1971c2; color: white; border: none; border-radius: 4px; padding: 12px 24px; cursor: pointer; transition: background-color 0.2s; font-size: clamp(0.9rem, 3vw, 1rem); width: 100%; max-width: 200px;">
                 Submit Ban
             </button>
         </div>
