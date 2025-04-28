@@ -1,0 +1,82 @@
+<body style="background-color: #111">
+<div style="margin-top: 90px!important; width: 750px; margin: 0 auto; font-family: Arial, sans-serif; border: 1px solid #444; border-radius: 8px; padding: 20px; background-color: #222; color: #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h1 style="color: #fff;">Boiby Ban Panel V2</h1>
+    </div>
+    
+    <form action="suspension-v2.html" method="post" style="margin: 0 20px;">
+        <!-- Username Field -->
+        <div style="margin-bottom: 20px;">
+            <label for="username" style="display: block; margin-bottom: 5px; color: #ccc;">Username:</label>
+            <input type="text" id="username" name="username" maxlength="20" pattern="[^\s]+" title="No spaces allowed" required 
+                   style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+        </div>
+        
+        <!-- Ban Duration -->
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 5px; color: #ccc;">Ban Duration:</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <label style="display: flex; align-items: center;">
+                    <input type="radio" name="duration" value="1" style="margin-right: 5px;"> 1 day
+                </label>
+                <label style="display: flex; align-items: center;">
+                    <input type="radio" name="duration" value="3" style="margin-right: 5px;"> 3 days
+                </label>
+                <label style="display: flex; align-items: center;">
+                    <input type="radio" name="duration" value="7" style="margin-right: 5px;"> 7 days
+                </label>
+                <label style="display: flex; align-items: center;">
+                    <input type="radio" name="duration" value="permanent" style="margin-right: 5px;"> Permanent
+                </label>
+            </div>
+        </div>
+        
+        <!-- Moderator Note -->
+        <div style="margin-bottom: 20px;">
+            <label for="moderatorNote" style="display: block; margin-bottom: 5px; color: #ccc;">Moderator Note:</label>
+            <textarea id="moderatorNote" name="moderatorNote" maxlength="1000" 
+                      style="width: 100%; height: 100px; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0; resize: vertical;"></textarea>
+        </div>
+        
+        <!-- Reason -->
+        <div style="margin-bottom: 20px;">
+            <label for="reason" style="display: block; margin-bottom: 5px; color: #ccc;">Reason:</label>
+            <select id="reason" name="reason" style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+                <option value="Excessive Profanity">Excessive Profanity</option>
+                <option value="Harassment">Harassment</option>
+                <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
+                <option value="Sexual Content">Sexual Content</option>
+                <option value="Violent Content and Gore">Violent Content and Gore</option>
+                <option value="Personal Information">Personal Information</option>
+                <option value="Spam">Spam</option>
+                <option value="Scamming">Scamming</option>
+                <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                <option value="Cheats and Exploits">Cheats and Exploits</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <!-- Decision -->
+        <div style="margin-bottom: 20px;">
+            <label for="decision" style="display: block; margin-bottom: 5px; color: #ccc;">Decision:</label>
+            <select id="decision" name="decision" style="width: 100%; padding: 8px; background-color: #333; border: 1px solid #444; border-radius: 4px; color: #e0e0e0;">
+                <option value="Not automated: Manually detected and reviewed">Not automated: Manually detected and reviewed</option>
+                <option value="Partially automated: Automated detection, manual review">Partially automated: Automated detection, manual review</option>
+                <option value="Partially automated: Manual detection, automated review">Partially automated: Manual detection, automated review</option>
+                <option value="Fully automated: Automated detection, manual review">Fully automated: Automated detection, manual review</option>
+            </select>
+        </div>
+        
+        <p style="color: #ccc; font-style: italic; margin-bottom: 20px;">Ability to add evidence items coming soon.</p>
+        
+        <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
+        
+        <!-- Submit Button -->
+        <div style="text-align: center;">
+            <button type="submit" style="background-color: #1971c2; color: white; border: none; border-radius: 4px; padding: 10px 20px; cursor: pointer; transition: background-color 0.2s;">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
+</body>
