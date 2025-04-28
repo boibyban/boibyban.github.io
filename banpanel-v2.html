@@ -44,7 +44,7 @@
                 <label for="customDays" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Custom ban length (days):</label>
                 <input type="number" id="customDays" name="customDays" min="1" max="32768" 
                        style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
-                <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Enter number of days (1-32768)</p>
+                <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Enter number of days</p>
             </div>
         </div>
         
@@ -121,7 +121,7 @@
             if (durationValue === 'custom') {
                 const customDays = document.getElementById('customDays').value;
                 if (!customDays || customDays < 1) {
-                    alert('Please enter a valid number of days (1-32768)');
+                    alert('Please enter a valid number of days (cannot be 0 or negative, cannot be too long)');
                     return;
                 }
                 durationValue = customDays;
