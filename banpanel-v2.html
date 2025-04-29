@@ -86,7 +86,17 @@
             </select>
         </div>
         
-        <p style="color: #ccc; font-style: italic; margin-bottom: 20px; font-size: clamp(0.8rem, 3vw, 0.9rem);">Ability to add evidence items coming soon.</p>
+        <!-- Evidence Items -->
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Evidence Items:</label>
+            <div id="evidenceItemsContainer" style="margin-bottom: 10px;">
+                <!-- Evidence items will be added here dynamically -->
+            </div>
+            <button type="button" id="addEvidenceBtn" style="background-color: #2b8a3e; color: white; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer; transition: background-color 0.2s; font-size: clamp(0.85rem, 3vw, 0.95rem);">
+                Add Evidence Item
+            </button>
+            <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Add links, message IDs, or descriptions of evidence</p>
+        </div>
         
         <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
         
@@ -111,6 +121,60 @@
                     document.getElementById('customDays').required = false;
                 }
             });
+        });
+
+        // Evidence items functionality
+        let evidenceCounter = 0;
+        const evidenceItemsContainer = document.getElementById('evidenceItemsContainer');
+        const addEvidenceBtn = document.getElementById('addEvidenceBtn');
+        
+        addEvidenceBtn.addEventListener('click', function() {
+            const evidenceId = 'evidence-' + evidenceCounter++;
+            
+            const evidenceItemDiv = document.createElement('div');
+            evidenceItemDiv.style.display = 'flex';
+            evidenceItemDiv.style.gap = '10px';
+            evidenceItemDiv.style.marginBottom = '10px';
+            evidenceItemDiv.style.alignItems = 'center';
+            
+            const evidenceInput = document.createElement('input');
+            evidenceInput.type = 'text';
+            evidenceInput.id = evidenceId;
+            evidenceInput.name = 'evidence';
+            evidenceInput.maxLength = '500';
+            evidenceInput.placeholder = 'Enter evidence (link, message ID, description)';
+            evidenceInput.style.flex = '1';
+            evidenceInput.style.padding = '10px';
+            evidenceInput.style.backgroundColor = '#333';
+            evidenceInput.style.border = '0px';
+            evidenceInput.style.borderRadius = '4px';
+            evidenceInput.style.color = '#e0e0e0';
+            evidenceInput.style.fontSize = 'clamp(0.9rem, 3vw, 1rem)';
+            evidenceInput.style.resize = 'both';
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = 'Remove';
+            removeBtn.style.backgroundColor = '#c92a2a';
+            removeBtn.style.color = 'white';
+            removeBtn.style.border = 'none';
+            removeBtn.style.borderRadius = '4px';
+            removeBtn.style.padding = '8px 12px';
+            removeBtn.style.cursor = 'pointer';
+            removeBtn.style.transition = 'background-color 0.2s';
+            removeBtn.style.fontSize = 'clamp(0.85rem, 3vw, 0.95rem)';
+            removeBtn.style.flexShrink = '0';
+            
+            removeBtn.addEventListener('click', function() {
+                evidenceItemsContainer.removeChild(evidenceItemDiv);
+            });
+            
+            evidenceItemDiv.appendChild(evidenceInput);
+            evidenceItemDiv.appendChild(removeBtn);
+            evidenceItemsContainer.appendChild(evidenceItemDiv);
+            
+            // Focus the new input
+            evidenceInput.focus();
         });
 
         document.getElementById('banForm').addEventListener('submit', function(e) {
