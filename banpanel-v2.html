@@ -60,6 +60,9 @@
             <label for="reason" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Reason:</label>
             <select id="reason" name="reason" required style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
                 <option value="">Select a reason</option>
+                <option value="Ban Evasion">Ban Evasion</option>
+                <option value="Real-Life Threats">Real-Life Threats</option>
+                <option value="Real-World Tragic/Sensitive Events">Real-World Tragic/Sensitive Events</option>
                 <option value="Excessive Profanity">Excessive Profanity</option>
                 <option value="Harassment">Harassment</option>
                 <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
@@ -95,7 +98,7 @@
             <button type="button" id="addEvidenceBtn" style="background-color: #2b8a3e; color: white; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer; transition: background-color 0.2s; font-size: clamp(0.85rem, 3vw, 0.95rem);">
                 Add Evidence Item
             </button>
-            <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Add links, message IDs, or descriptions of evidence</p>
+            <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Add evidence items</p>
         </div>
         
         <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
@@ -142,7 +145,7 @@
             evidenceInput.id = evidenceId;
             evidenceInput.name = 'evidence';
             evidenceInput.maxLength = '500';
-            evidenceInput.placeholder = 'Enter evidence (link, message ID, description)';
+            evidenceInput.placeholder = 'Enter evidence';
             evidenceInput.style.flex = '1';
             evidenceInput.style.padding = '10px';
             evidenceInput.style.backgroundColor = '#333';
@@ -177,57 +180,66 @@
             evidenceInput.focus();
         });
 
-        document.getElementById('banForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            let durationValue = document.querySelector('input[name="duration"]:checked').value;
-            if (durationValue === 'custom') {
-                const customDays = document.getElementById('customDays').value;
-                if (!customDays || customDays < 1) {
-                    alert('Please enter a valid number of days (cannot be 0 or negative, cannot be too long)');
-                    return;
-                }
-                durationValue = customDays;
-            }
-            
-            const formData = {
-                username: document.getElementById('username').value,
-                duration: durationValue,
-                moderatorNote: document.getElementById('moderatorNote').value,
-                reason: document.getElementById('reason').value,
-                decision: document.getElementById('decision').value,
-                reviewedDate: new Date().toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                }).replace(',', '')
-            };
-            
-            // Calculate end date if not permanent
-            if (formData.duration !== 'permanent') {
-                const days = parseInt(formData.duration);
-                const endDate = new Date();
-                endDate.setDate(endDate.getDate() + days);
-                formData.endDate = endDate.toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                }).replace(',', '');
-            }
-            
-            // Save to localStorage
-            localStorage.setItem('banData', JSON.stringify(formData));
-            
-            // Redirect to suspension page
-            window.location.href = 'suspension-v2.html';
-        });
+document.getElementById('banForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    let durationValue = document.querySelector('input[name="duration"]:checked').value;
+    if (durationValue === 'custom') {
+        const customDays = document.getElementById('customDays').value;
+        if (!customDays || customDays < 1) {
+            alert('Please enter a valid number of days (cannot be 0 or negative, cannot be too long)');
+            return;
+        }
+        durationValue = customDays;
+    }
+    
+    // Collect evidence items
+    const evidenceItems = [];
+    document.querySelectorAll('input[name="evidence"]').forEach(input => {
+        if (input.value.trim()) {
+            evidenceItems.push(input.value.trim());
+        }
+    });
+    
+    const formData = {
+        username: document.getElementById('username').value,
+        duration: durationValue,
+        moderatorNote: document.getElementById('moderatorNote').value,
+        reason: document.getElementById('reason').value,
+        decision: document.getElementById('decision').value,
+        evidence: evidenceItems,
+        reviewedDate: new Date().toLocaleString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).replace(',', '')
+    };
+    
+    // Calculate end date if not permanent
+    if (formData.duration !== 'permanent') {
+        const days = parseInt(formData.duration);
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + days);
+        formData.endDate = endDate.toLocaleString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).replace(',', '');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('banData', JSON.stringify(formData));
+    
+    // Redirect to suspension page
+    window.location.href = 'suspension-v2.html';
+});
     </script>
 </div>
 </body>
