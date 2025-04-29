@@ -63,7 +63,7 @@
             // Set ban title based on duration
             const banTitle = document.getElementById('banTitle');
             if (banData.duration === 'permanent') {
-                banTitle.textContent = 'Your account has been permanently banned';
+                banTitle.textContent = 'Your account has been terminated';
             } else {
                 banTitle.textContent = `Your account has been banned for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}`;
             }
