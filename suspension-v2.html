@@ -88,7 +88,7 @@
             if (banData.duration === 'permanent') {
                 banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. You can no longer use Boiby.</strong>';
             } else {
-                banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. You may re-activate it after ${banData.endDate}.</strong>`;
+                banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. Your suspension ends on ${banData.endDate}.</strong>`;
             }
             
             // Display evidence if exists
