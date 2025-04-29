@@ -16,7 +16,6 @@
         Reviewed: <strong id="reviewedDate" style="color: #fff;"></strong>
     </p>
 
-
     <div id="moderatorNoteContainer" style="display: none;">
         <p style="text-align: left; margin-bottom: 10px; color: #ccc; margin-left: 15px; margin-right: 15px;">
             Moderator Note: <strong id="moderatorNote" style="color: #fff;"></strong>
@@ -31,17 +30,11 @@
         Decision: <strong id="decision" style="color: #fff;"></strong>
     </p>
 
-    <div id="evidenceContainer" style="display: none; margin-top: 20px;">
-    <p style="text-align: left; margin-bottom: 15px; color: #ccc; margin-left: 15px; margin-right: 15px;">
-        Evidence:
-    </p>
-    <div id="evidenceItems" style="display: flex; flex-direction: column; gap: 10px; margin-left: 15px; margin-right: 15px;">
-        <!-- Evidence items will dynamically get added here -->
+    <div id="evidenceMainContainer" style="margin-top: 20px;">
+        <!-- Evidence containers will be added here dynamically -->
     </div>
-</div>
     
     <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
-
 
     <p id="banMessage" style="text-align: center; margin-bottom: 20px; line-height: 1.5;"></p>  
 
@@ -63,78 +56,87 @@
     </div>
 
     <script>
-    // Get ban data from localStorage
-    const banData = JSON.parse(localStorage.getItem('banData'));
-    
-    if (banData) {
-        // Set ban title based on duration
-        const banTitle = document.getElementById('banTitle');
-        if (banData.duration === 'permanent') {
-            banTitle.textContent = 'Your account has been permanently banned';
-        } else {
-            banTitle.textContent = `Your account has been banned for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}`;
-        }
+        // Get ban data from localStorage
+        const banData = JSON.parse(localStorage.getItem('banData'));
         
-        // Set reviewed date
-        document.getElementById('reviewedDate').textContent = banData.reviewedDate;
-        
-        // Set decision
-        document.getElementById('decision').textContent = banData.decision;
-        
-        // Set moderator note if exists
-        if (banData.moderatorNote) {
-            document.getElementById('moderatorNoteContainer').style.display = 'block';
-            document.getElementById('moderatorNote').textContent = banData.moderatorNote;
-        }
-        
-        // Set reason
-        document.getElementById('reason').textContent = banData.reason;
-        
-        // Set ban message
-        const banMessage = document.getElementById('banMessage');
-        if (banData.duration === 'permanent') {
-            banMessage.innerHTML = '<strong style="color: #fff;">Your account has been permanently banned. You can no longer use Boiby.</strong>';
-        } else {
-            banMessage.innerHTML = `<strong style="color: #fff;">Your account has been temporarily suspended. Your suspension will end on ${banData.endDate}.</strong>`;
-        }
-        
-        // Display evidence if exists
-        if (banData.evidence && banData.evidence.length > 0) {
-            const evidenceContainer = document.getElementById('evidenceContainer');
-            const evidenceItemsContainer = document.getElementById('evidenceItems');
+        if (banData) {
+            // Set ban title based on duration
+            const banTitle = document.getElementById('banTitle');
+            if (banData.duration === 'permanent') {
+                banTitle.textContent = 'Your account has been permanently banned';
+            } else {
+                banTitle.textContent = `Your account has been banned for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}`;
+            }
             
-            evidenceContainer.style.display = 'block';
+            // Set reviewed date
+            document.getElementById('reviewedDate').textContent = banData.reviewedDate;
             
-            banData.evidence.forEach((item, index) => {
-                const evidenceItem = document.createElement('div');
-                evidenceItem.style.backgroundColor = '#333';
-                evidenceItem.style.border = '1px solid #555';
-                evidenceItem.style.borderRadius = '8px';
-                evidenceItem.style.padding = '12px';
-                evidenceItem.style.wordWrap = 'break-word';
-                evidenceItem.style.overflowWrap = 'break-word';
+            // Set decision
+            document.getElementById('decision').textContent = banData.decision;
+            
+            // Set moderator note if exists
+            if (banData.moderatorNote) {
+                document.getElementById('moderatorNoteContainer').style.display = 'block';
+                document.getElementById('moderatorNote').textContent = banData.moderatorNote;
+            }
+            
+            // Set reason
+            document.getElementById('reason').textContent = banData.reason;
+            
+            // Set ban message
+            const banMessage = document.getElementById('banMessage');
+            if (banData.duration === 'permanent') {
+                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been permanently banned. You can no longer use Boiby.</strong>';
+            } else {
+                banMessage.innerHTML = `<strong style="color: #fff;">Your account has been temporarily suspended. Your suspension will end on ${banData.endDate}.</strong>`;
+            }
+            
+            // Display evidence if exists
+            if (banData.evidence && banData.evidence.length > 0) {
+                const evidenceMainContainer = document.getElementById('evidenceMainContainer');
                 
-                const evidenceHeader = document.createElement('p');
-                evidenceHeader.textContent = `Evidence Item ${index + 1}:`;
-                evidenceHeader.style.color = '#ccc';
-                evidenceHeader.style.marginBottom = '8px';
-                evidenceHeader.style.fontWeight = 'bold';
-                
-                const evidenceContent = document.createElement('p');
-                evidenceContent.textContent = item;
-                evidenceContent.style.color = '#fff';
-                evidenceContent.style.margin = '0';
-                evidenceContent.style.fontWeight = 'bold';
-                
-                evidenceItem.appendChild(evidenceHeader);
-                evidenceItem.appendChild(evidenceContent);
-                evidenceItemsContainer.appendChild(evidenceItem);
-            });
+                banData.evidence.forEach((item, index) => {
+                    // Create container for this evidence item
+                    const evidenceContainer = document.createElement('div');
+                    evidenceContainer.style.marginBottom = '15px';
+                    
+                    // Create header for this evidence item
+                    const evidenceHeader = document.createElement('p');
+                    evidenceHeader.textContent = `Evidence Item ${index + 1}:`;
+                    evidenceHeader.style.textAlign = 'left';
+                    evidenceHeader.style.marginBottom = '8px';
+                    evidenceHeader.style.color = '#ccc';
+                    evidenceHeader.style.marginLeft = '15px';
+                    evidenceHeader.style.marginRight = '15px';
+                    
+                    // Create box for evidence content
+                    const evidenceBox = document.createElement('div');
+                    evidenceBox.style.backgroundColor = '#333';
+                    evidenceBox.style.border = '1px solid #555';
+                    evidenceBox.style.borderRadius = '8px';
+                    evidenceBox.style.padding = '12px';
+                    evidenceBox.style.overflowWrap = 'break-word';
+                    evidenceBox.style.marginLeft = '15px';
+                    evidenceBox.style.marginRight = '15px';
+                    
+                    // Create content paragraph
+                    const evidenceContent = document.createElement('p');
+                    evidenceContent.textContent = item;
+                    evidenceContent.style.color = '#fff';
+                    evidenceContent.style.margin = '0';
+                    evidenceContent.style.fontWeight = 'bold';
+                    
+                    // Assemble the elements
+                    evidenceBox.appendChild(evidenceContent);
+                    evidenceContainer.appendChild(evidenceHeader);
+                    evidenceContainer.appendChild(evidenceBox);
+                    evidenceMainContainer.appendChild(evidenceContainer);
+                });
+            }
+        } else {
+            // No ban data found - redirect back to form
+            window.location.href = 'banpanel-v2.html';
         }
-    } else {
-        // No ban data found - redirect back to form
-        window.location.href = 'banpanel-v2.html';
-    }
     </script>
 </div>
 </body>
