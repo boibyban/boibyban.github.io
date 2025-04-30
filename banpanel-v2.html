@@ -177,10 +177,13 @@
         
         <!-- Ban Duration -->
         <div style="margin-bottom: 20px;">
-            <label>Ban Duration:</label>
+            <label>Action:</label>
             <div class="radio-grid">
                 <label class="radio-label">
-                    <input type="radio" name="duration" value="1" required> 1 day
+                    <input type="radio" name="duration" value="limit" required> Limit Account
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="1"> 1 day
                 </label>
                 <label class="radio-label">
                     <input type="radio" name="duration" value="2"> 2 days
@@ -267,7 +270,7 @@
         <!-- Submit Button -->
         <div class="btn-group">
             <button type="submit" class="btn-primary">
-                Submit Ban
+                Submit Action
             </button>
         </div>
     </form>
@@ -362,8 +365,8 @@
             }).replace(',', '')
         };
         
-        // Calculate end date if not permanent
-        if (formData.duration !== 'permanent') {
+        // Calculate end date if not permanent or limit
+        if (formData.duration !== 'permanent' && formData.duration !== 'limit') {
             const days = parseInt(formData.duration);
             const endDate = new Date();
             endDate.setDate(endDate.getDate() + days);
