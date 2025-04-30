@@ -10,7 +10,11 @@
             -webkit-tap-highlight-color: transparent;
             font-family: Arial, sans-serif;
         }
-        
+
+        .evidence-header {
+            margin-top: 0px;
+        }
+
         body {
             background-color: #111;
             margin: 0;
@@ -122,6 +126,7 @@
         .evidence-header {
             margin-bottom: 8px;
             color: #ccc;
+            margin-top: 0px;
         }
         
         .evidence-content {
@@ -283,7 +288,7 @@
                 banData.evidence.forEach((item, index) => {
                     // Create container for this evidence item
                     const evidenceContainer = document.createElement('div');
-                    evidenceContainer.style.marginBottom = '15px';
+                    evidenceContainer.style.marginBottom = '0px';
                     
                     // Create header for this evidence item
                     const evidenceHeader = document.createElement('p');
