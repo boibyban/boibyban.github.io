@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boiby Ban Panel V2</title>
+    <title>Account Suspension</title>
     <style>
         * {
             box-sizing: border-box;
@@ -28,113 +28,14 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
-        h1 {
+        h1, h2 {
             color: #fff;
             font-size: clamp(1.5rem, 4vw, 2rem);
             margin: 0 0 20px;
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #ccc;
+        p {
             font-size: clamp(0.9rem, 3vw, 1rem);
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            background-color: #333;
-            border: 1px solid #444;
-            border-radius: 6px;
-            color: #e0e0e0;
-            font-size: clamp(0.9rem, 3vw, 1rem);
-            margin-bottom: 5px;
-            transition: border-color 0.2s;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #1971c2;
-        }
-        
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .radio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .radio-label {
-            display: flex;
-            align-items: center;
-            font-size: clamp(0.85rem, 3vw, 0.95rem);
-            cursor: pointer;
-        }
-        
-        .radio-label input {
-            width: auto;
-            margin-right: 8px;
-            margin-bottom: 0;
-        }
-        
-        .evidence-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-        
-        .evidence-item input {
-            flex: 1;
-            margin-bottom: 0;
-        }
-        
-        button {
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            border: none;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: clamp(0.9rem, 3vw, 1rem);
-        }
-        
-        button:active {
-            transform: scale(0.98);
-        }
-        
-        .btn-primary {
-            background-color: #1971c2;
-            color: white;
-            padding: 12px 24px;
-        }
-        
-        .btn-secondary {
-            background-color: #2b8a3e;
-            color: white;
-            padding: 8px 16px;
-            font-size: clamp(0.85rem, 3vw, 0.95rem);
-        }
-        
-        .btn-danger {
-            background-color: #c92a2a;
-            color: white;
-            padding: 8px 12px;
-            font-size: clamp(0.85rem, 3vw, 0.95rem);
-            flex-shrink: 0;
-        }
-        
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
         }
         
         hr {
@@ -144,10 +45,104 @@
             margin: 20px 0;
         }
         
+        .btn {
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            padding: 10px 20px;
+            margin: 0 10px;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary {
+            background-color: #1971c2;
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: #2b8a3e;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #444;
+            color: white;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-left {
+            text-align: left;
+        }
+        
+        .margin-bottom {
+            margin-bottom: 20px;
+        }
+        
+        .margin-sides {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+        
+        .violation-box {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .violation-reason {
+            font-size: clamp(1rem, 3.5vw, 1.2rem);
+            margin-bottom: 15px;
+        }
+        
+        .violation-reason span:first-child {
+            font-weight: 600;
+        }
+        
+        .violation-reason span:last-child {
+            font-weight: bold;
+        }
+        
+        .evidence-container {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .evidence-header {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+        
+        .evidence-content {
+            color: #fff;
+            margin: 0;
+            font-weight: bold;
+        }
+        
         .helper-text {
             color: #999;
             font-size: 0.8rem;
             margin-top: 5px;
+        }
+        
+        a {
+            color: #4dabf7;
+            text-decoration: none;
+        }
+        
+        .svg-icon {
+            filter: invert(100%);
         }
         
         @media (max-width: 480px) {
@@ -156,223 +151,179 @@
                 padding: 15px;
             }
             
-            .radio-grid {
-                grid-template-columns: 1fr 1fr;
+            .btn {
+                margin: 5px;
+                width: 100%;
+            }
+            
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div style="text-align: center; margin-bottom: 20px;">
-        <h1>Boiby Ban Panel V2</h1>
+    <div class="text-center margin-bottom">
+        <img src="ohnoes.svg" alt="Boiby" class="svg-icon" style="width: 128px; height: 128px;">
     </div>
     
-    <form id="banForm">
-        <!-- Username Field -->
-        <div style="margin-bottom: 20px;">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" maxlength="20" pattern="[^\s]+" title="No spaces allowed" required>
-        </div>
-        
-        <!-- Ban Duration -->
-        <div style="margin-bottom: 20px;">
-            <label>Action:</label>
-            <div class="radio-grid">
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="limit" required> Limit Account
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="1"> 1 day
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="2"> 2 days
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="3"> 3 days
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="7"> 7 days
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="14"> 14 days
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="permanent"> Termination
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="duration" value="custom" id="customDurationRadio"> Custom
-                </label>
-            </div>
-            
-            <!-- Custom Duration Input (hidden by default) -->
-            <div id="customDurationContainer" style="display: none; margin-top: 10px;">
-                <label for="customDays">Custom ban length (days):</label>
-                <input type="number" id="customDays" name="customDays" min="1" max="65536">
-                <p class="helper-text">Enter number of days</p>
-            </div>
-        </div>
-        
-        <!-- Moderator Note -->
-        <div style="margin-bottom: 20px;">
-            <label for="moderatorNote">Moderator Note:</label>
-            <textarea id="moderatorNote" name="moderatorNote" maxlength="1000"></textarea>
-        </div>
-        
-        <!-- Reason -->
-        <div style="margin-bottom: 20px;">
-            <label for="reason">Reason:</label>
-            <select id="reason" name="reason" required>
-                <option value="">Select a reason</option>
-                <option value="Ban Evasion">Ban Evasion</option>
-                <option value="Real-Life Threats">Real-Life Threats</option>
-                <option value="Real-World Tragic/Sensitive Events">Real-World Tragic/Sensitive Events</option>
-                <option value="Excessive Profanity">Excessive Profanity</option>
-                <option value="Harassment">Harassment</option>
-                <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
-                <option value="Sexual Content">Sexual Content</option>
-                <option value="Violent Content and Gore">Violent Content and Gore</option>
-                <option value="Personal Information">Personal Information</option>
-                <option value="Spam">Spam</option>
-                <option value="Scamming">Scamming</option>
-                <option value="Extortion and Blackmail">Extortion and Blackmail</option>
-                <option value="Cheats and Exploits">Cheats and Exploits</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-        
-        <!-- Evidence Items -->
-        <div style="margin-bottom: 20px;">
-            <label>Evidence Items:</label>
-            <div id="evidenceItemsContainer" style="margin-bottom: 10px;">
-                <!-- Evidence items will be added here dynamically -->
-            </div>
-            <button type="button" id="addEvidenceBtn" class="btn-secondary">
-                Add Evidence Item
-            </button>
-            <p class="helper-text">Add evidence items</p>
-        </div>
-        
-        <hr>
-        
-        <!-- Submit Button -->
-        <div class="btn-group">
-            <button type="submit" class="btn-primary">
-                Submit Action
-            </button>
-        </div>
-    </form>
-</div>
-
-<script>
-    // Show/hide custom duration input based on radio selection
-    document.querySelectorAll('input[name="duration"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const customContainer = document.getElementById('customDurationContainer');
-            if (this.value === 'custom') {
-                customContainer.style.display = 'block';
-                document.getElementById('customDays').required = true;
-            } else {
-                customContainer.style.display = 'none';
-                document.getElementById('customDays').required = false;
-            }
-        });
-    });
-
-    // Evidence items functionality
-    let evidenceCounter = 0;
-    const evidenceItemsContainer = document.getElementById('evidenceItemsContainer');
-    const addEvidenceBtn = document.getElementById('addEvidenceBtn');
+    <h2 id="banTitle" class="text-center margin-bottom"></h2>
     
-    addEvidenceBtn.addEventListener('click', function() {
-        const evidenceId = 'evidence-' + evidenceCounter++;
-        
-        const evidenceItemDiv = document.createElement('div');
-        evidenceItemDiv.className = 'evidence-item';
-        
-        const evidenceInput = document.createElement('input');
-        evidenceInput.type = 'text';
-        evidenceInput.id = evidenceId;
-        evidenceInput.name = 'evidence';
-        evidenceInput.maxLength = '500';
-        evidenceInput.placeholder = 'Enter evidence';
-        
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.textContent = 'Remove';
-        removeBtn.className = 'btn-danger';
-        
-        removeBtn.addEventListener('click', function() {
-            evidenceItemsContainer.removeChild(evidenceItemDiv);
-        });
-        
-        evidenceItemDiv.appendChild(evidenceInput);
-        evidenceItemDiv.appendChild(removeBtn);
-        evidenceItemsContainer.appendChild(evidenceItemDiv);
-        
-        // Focus the new input
-        evidenceInput.focus();
-    });
+    <p id="mainMessage" class="text-center margin-bottom">
+        We recently received a report for or detected bad behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules.
+    </p>
+  
+    <hr>
+    <p class="text-left margin-bottom margin-sides">
+        Reviewed: <strong id="reviewedDate" style="color: #fff;"></strong>
+    </p>
 
-    document.getElementById('banForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    <div id="moderatorNoteContainer" style="display: none;">
+        <p class="text-left margin-bottom margin-sides">
+            Moderator Note: <strong id="moderatorNote" style="color: #fff;"></strong>
+        </p>
+    </div>
+
+    <div class="violation-box">
+        <div class="violation-reason">
+            <span>You broke Boiby's rules for </span>
+            <span id="reason" style="color: #fff;"></span>
+        </div>
         
-        // Get form data
-        let durationValue = document.querySelector('input[name="duration"]:checked').value;
-        if (durationValue === 'custom') {
-            const customDays = document.getElementById('customDays').value;
-            if (!customDays || customDays < 1) {
-                alert('Please enter a valid number of days (cannot be 0 or negative, cannot be too long)');
-                return;
+        <div class="evidence-container" id="evidenceMainContainer">
+            <!-- Evidence containers will be added here dynamically -->
+            <p id="noEvidenceMessage" style="color: #999; text-align: center; margin: 0;">No evidence items provided</p>
+        </div>
+    </div>
+    
+    <hr>
+
+    <p id="banMessage" class="text-center margin-bottom"></p>  
+
+    <p class="text-center margin-bottom">
+        To learn more about Boiby moderation, visit <a href="#">About Boiby Moderation</a>
+    </p>
+    
+    <div class="text-center" id="buttonContainer">
+        <button id="actionBtn" class="btn btn-success">
+            Acknowledge
+        </button>
+        <button class="btn btn-primary">
+            Request Appeal
+        </button>
+    </div>
+
+    <script>
+        // Get ban data from localStorage
+        const banData = JSON.parse(localStorage.getItem('banData'));
+        
+        if (banData) {
+            // Set ban title based on duration
+            const banTitle = document.getElementById('banTitle');
+            const mainMessage = document.getElementById('mainMessage');
+            const actionBtn = document.getElementById('actionBtn');
+            
+            if (banData.duration === 'permanent') {
+                banTitle.innerHTML = 'Your account is <span style="color: #FF0000">terminated</span>';
+                
+                // Update main message for termination
+                mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been terminated. You can no longer use your Boiby account.';
+                
+                // Change button for termination
+                actionBtn.textContent = 'Logout';
+                actionBtn.className = 'btn btn-secondary';
+            } else if (banData.duration === 'limit') {
+                banTitle.innerHTML = 'Your account is <span style="color: #FFA500">limited</span>';
+                
+                // Update main message for account limitation
+                mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, some features on your account have been temporarily disabled or limited. Future violations may result in additional actions being taken against your account.';
+            } else {
+                banTitle.innerHTML = `Your account is <span style="color: #FFA500">suspended for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}</span>`;
+                
+                // Update main message for temporary ban with additional text
+                mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, your account has been temporarily suspended. Future violations may result in additional actions being taken against your account.';
+                
+                // Change button for suspension
+                actionBtn.textContent = 'Logout';
+                actionBtn.className = 'btn btn-secondary';
             }
-            durationValue = customDays;
+            
+            // Set reviewed date
+            document.getElementById('reviewedDate').textContent = banData.reviewedDate;
+            
+            // Set moderator note if exists
+            if (banData.moderatorNote) {
+                document.getElementById('moderatorNoteContainer').style.display = 'block';
+                document.getElementById('moderatorNote').textContent = banData.moderatorNote;
+            }
+            
+            // Set reason
+            document.getElementById('reason').textContent = banData.reason;
+            
+            // Set ban message
+            const banMessage = document.getElementById('banMessage');
+            if (banData.duration === 'permanent') {
+                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. You can no longer use Boiby.</strong>';
+            } else if (banData.duration === 'limit') {
+                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but access to some features have been temporarily disabled or limited.</strong>';
+            } else {
+                banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. Your suspension ends on ${banData.endDate}.</strong>`;
+            }
+            
+            // Display evidence if exists
+            const evidenceMainContainer = document.getElementById('evidenceMainContainer');
+            const noEvidenceMessage = document.getElementById('noEvidenceMessage');
+            
+            if (banData.evidence && banData.evidence.length > 0) {
+                noEvidenceMessage.style.display = 'none';
+                
+                banData.evidence.forEach((item, index) => {
+                    // Create container for this evidence item
+                    const evidenceContainer = document.createElement('div');
+                    evidenceContainer.style.marginBottom = '15px';
+                    
+                    // Create header for this evidence item
+                    const evidenceHeader = document.createElement('p');
+                    evidenceHeader.textContent = `Evidence Item ${index + 1}:`;
+                    evidenceHeader.className = 'evidence-header';
+                    
+                    // Create box for evidence content
+                    const evidenceBox = document.createElement('div');
+                    evidenceBox.className = 'evidence-content';
+                    evidenceBox.textContent = item;
+                    
+                    // Assemble the elements
+                    evidenceContainer.appendChild(evidenceHeader);
+                    evidenceContainer.appendChild(evidenceBox);
+                    evidenceMainContainer.appendChild(evidenceContainer);
+                });
+            } else {
+                noEvidenceMessage.style.display = 'block';
+            }
+            
+            // Make buttons stack on mobile
+            if (window.innerWidth <= 480) {
+                const buttonContainer = document.getElementById('buttonContainer');
+                buttonContainer.className = 'text-center btn-group';
+            }
+        } else {
+            // No ban data found - redirect back to form
+            window.location.href = 'banpanel-v2.html';
         }
         
-        // Collect evidence items
-        const evidenceItems = [];
-        document.querySelectorAll('input[name="evidence"]').forEach(input => {
-            if (input.value.trim()) {
-                evidenceItems.push(input.value.trim());
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const buttonContainer = document.getElementById('buttonContainer');
+            if (window.innerWidth <= 480) {
+                buttonContainer.className = 'text-center btn-group';
+            } else {
+                buttonContainer.className = 'text-center';
             }
         });
-        
-        const formData = {
-            username: document.getElementById('username').value,
-            duration: durationValue,
-            moderatorNote: document.getElementById('moderatorNote').value,
-            reason: document.getElementById('reason').value,
-            evidence: evidenceItems,
-            reviewedDate: new Date().toLocaleString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            }).replace(',', '')
-        };
-        
-        // Calculate end date if not permanent or limit
-        if (formData.duration !== 'permanent' && formData.duration !== 'limit') {
-            const days = parseInt(formData.duration);
-            const endDate = new Date();
-            endDate.setDate(endDate.getDate() + days);
-            formData.endDate = endDate.toLocaleString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            }).replace(',', '');
-        }
-        
-        // Save to localStorage
-        localStorage.setItem('banData', JSON.stringify(formData));
-        
-        // Redirect to suspension page
-        window.location.href = 'suspension-v2.html';
-    });
-</script>
+    </script>
+</div>
 </body>
 </html>
