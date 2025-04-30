@@ -1,64 +1,225 @@
-<body style="background-color: #111">
-<div style="margin-top: 90px!important; width: 750px; max-width: 95%; margin: 0 auto; font-family: Arial, sans-serif; border: 0px; border-radius: 8px; padding: 20px; background-color: #222; color: #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boiby Ban Panel V2</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #111;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            width: min(750px, 95%);
+            margin: 90px auto 20px;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin: 0 0 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            margin-bottom: 5px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1971c2;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .radio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .radio-label {
+            display: flex;
+            align-items: center;
+            font-size: clamp(0.85rem, 3vw, 0.95rem);
+            cursor: pointer;
+        }
+        
+        .radio-label input {
+            width: auto;
+            margin-right: 8px;
+            margin-bottom: 0;
+        }
+        
+        .evidence-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .evidence-item input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        button {
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary {
+            background-color: #1971c2;
+            color: white;
+            padding: 12px 24px;
+        }
+        
+        .btn-secondary {
+            background-color: #2b8a3e;
+            color: white;
+            padding: 8px 16px;
+            font-size: clamp(0.85rem, 3vw, 0.95rem);
+        }
+        
+        .btn-danger {
+            background-color: #c92a2a;
+            color: white;
+            padding: 8px 12px;
+            font-size: clamp(0.85rem, 3vw, 0.95rem);
+            flex-shrink: 0;
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #444;
+            margin: 20px 0;
+        }
+        
+        .helper-text {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 20px;
+                padding: 15px;
+            }
+            
+            .radio-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
     <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="color: #fff; font-size: clamp(1.5rem, 4vw, 2rem);">Boiby Ban Panel V2</h1>
+        <h1>Boiby Ban Panel V2</h1>
     </div>
     
-    <form id="banForm" style="margin: 0 10px;">
+    <form id="banForm">
         <!-- Username Field -->
         <div style="margin-bottom: 20px;">
-            <label for="username" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Username:</label>
-            <input type="text" id="username" name="username" maxlength="20" pattern="[^\s]+" title="No spaces allowed" required 
-                   style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" maxlength="20" pattern="[^\s]+" title="No spaces allowed" required>
         </div>
         
         <!-- Ban Duration -->
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 10px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Ban Duration:</label>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="1" style="margin-right: 8px;" required> 1 day
+            <label>Ban Duration:</label>
+            <div class="radio-grid">
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="1" required> 1 day
                 </label>
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="2" style="margin-right: 8px;"> 2 days
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="2"> 2 days
                 </label>
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="3" style="margin-right: 8px;"> 3 days
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="3"> 3 days
                 </label>
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="7" style="margin-right: 8px;"> 7 days
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="7"> 7 days
                 </label>
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="14" style="margin-right: 8px;"> 14 days
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="14"> 14 days
                 </label>
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="permanent" style="margin-right: 8px;"> Termination
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="permanent"> Termination
                 </label>
-                <label style="display: flex; align-items: center; font-size: clamp(0.85rem, 3vw, 0.95rem);">
-                    <input type="radio" name="duration" value="custom" id="customDurationRadio" style="margin-right: 8px;"> Custom
+                <label class="radio-label">
+                    <input type="radio" name="duration" value="custom" id="customDurationRadio"> Custom
                 </label>
             </div>
             
             <!-- Custom Duration Input (hidden by default) -->
             <div id="customDurationContainer" style="display: none; margin-top: 10px;">
-                <label for="customDays" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Custom ban length (days):</label>
-                <input type="number" id="customDays" name="customDays" min="1" max="65536" 
-                       style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
-                <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Enter number of days</p>
+                <label for="customDays">Custom ban length (days):</label>
+                <input type="number" id="customDays" name="customDays" min="1" max="65536">
+                <p class="helper-text">Enter number of days</p>
             </div>
         </div>
         
         <!-- Moderator Note -->
         <div style="margin-bottom: 20px;">
-            <label for="moderatorNote" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Moderator Note:</label>
-            <textarea id="moderatorNote" name="moderatorNote" maxlength="1000" 
-                      style="width: 100%; height: 120px; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; resize: vertical; font-size: clamp(0.9rem, 3vw, 1rem);"></textarea>
+            <label for="moderatorNote">Moderator Note:</label>
+            <textarea id="moderatorNote" name="moderatorNote" maxlength="1000"></textarea>
         </div>
         
         <!-- Reason -->
         <div style="margin-bottom: 20px;">
-            <label for="reason" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Reason:</label>
-            <select id="reason" name="reason" required style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
+            <label for="reason">Reason:</label>
+            <select id="reason" name="reason" required>
                 <option value="">Select a reason</option>
                 <option value="Ban Evasion">Ban Evasion</option>
                 <option value="Real-Life Threats">Real-Life Threats</option>
@@ -79,8 +240,8 @@
         
         <!-- Decision -->
         <div style="margin-bottom: 20px;">
-            <label for="decision" style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Decision:</label>
-            <select id="decision" name="decision" required style="width: 100%; padding: 10px; background-color: #333; border: 0px; border-radius: 4px; color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1rem);">
+            <label for="decision">Decision:</label>
+            <select id="decision" name="decision" required>
                 <option value="">Select decision type</option>
                 <option value="Not automated: Manually detected and reviewed">Not automated: Manually detected and reviewed</option>
                 <option value="Partially automated: Automated detection, manual review">Partially automated: Automated detection, manual review</option>
@@ -91,155 +252,137 @@
         
         <!-- Evidence Items -->
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 5px; color: #ccc; font-size: clamp(0.9rem, 3vw, 1rem);">Evidence Items:</label>
+            <label>Evidence Items:</label>
             <div id="evidenceItemsContainer" style="margin-bottom: 10px;">
                 <!-- Evidence items will be added here dynamically -->
             </div>
-            <button type="button" id="addEvidenceBtn" style="background-color: #2b8a3e; color: white; border: none; border-radius: 4px; padding: 8px 16px; cursor: pointer; transition: background-color 0.2s; font-size: clamp(0.85rem, 3vw, 0.95rem);">
+            <button type="button" id="addEvidenceBtn" class="btn-secondary">
                 Add Evidence Item
             </button>
-            <p style="color: #999; font-size: 0.8rem; margin-top: 5px;">Add evidence items</p>
+            <p class="helper-text">Add evidence items</p>
         </div>
         
-        <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
+        <hr>
         
         <!-- Submit Button -->
-        <div style="text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-            <button type="submit" style="background-color: #1971c2; color: white; border: none; border-radius: 4px; padding: 12px 24px; cursor: pointer; transition: background-color 0.2s; font-size: clamp(0.9rem, 3vw, 1rem); width: 100%; max-width: 200px;">
+        <div class="btn-group">
+            <button type="submit" class="btn-primary">
                 Submit Ban
             </button>
         </div>
     </form>
-
-    <script>
-        // Show/hide custom duration input based on radio selection
-        document.querySelectorAll('input[name="duration"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const customContainer = document.getElementById('customDurationContainer');
-                if (this.value === 'custom') {
-                    customContainer.style.display = 'block';
-                    document.getElementById('customDays').required = true;
-                } else {
-                    customContainer.style.display = 'none';
-                    document.getElementById('customDays').required = false;
-                }
-            });
-        });
-
-        // Evidence items functionality
-        let evidenceCounter = 0;
-        const evidenceItemsContainer = document.getElementById('evidenceItemsContainer');
-        const addEvidenceBtn = document.getElementById('addEvidenceBtn');
-        
-        addEvidenceBtn.addEventListener('click', function() {
-            const evidenceId = 'evidence-' + evidenceCounter++;
-            
-            const evidenceItemDiv = document.createElement('div');
-            evidenceItemDiv.style.display = 'flex';
-            evidenceItemDiv.style.gap = '10px';
-            evidenceItemDiv.style.marginBottom = '10px';
-            evidenceItemDiv.style.alignItems = 'center';
-            
-            const evidenceInput = document.createElement('input');
-            evidenceInput.type = 'text';
-            evidenceInput.id = evidenceId;
-            evidenceInput.name = 'evidence';
-            evidenceInput.maxLength = '500';
-            evidenceInput.placeholder = 'Enter evidence';
-            evidenceInput.style.flex = '1';
-            evidenceInput.style.padding = '10px';
-            evidenceInput.style.backgroundColor = '#333';
-            evidenceInput.style.border = '0px';
-            evidenceInput.style.borderRadius = '4px';
-            evidenceInput.style.color = '#e0e0e0';
-            evidenceInput.style.fontSize = 'clamp(0.9rem, 3vw, 1rem)';
-            evidenceInput.style.resize = 'both';
-            
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.textContent = 'Remove';
-            removeBtn.style.backgroundColor = '#c92a2a';
-            removeBtn.style.color = 'white';
-            removeBtn.style.border = 'none';
-            removeBtn.style.borderRadius = '4px';
-            removeBtn.style.padding = '8px 12px';
-            removeBtn.style.cursor = 'pointer';
-            removeBtn.style.transition = 'background-color 0.2s';
-            removeBtn.style.fontSize = 'clamp(0.85rem, 3vw, 0.95rem)';
-            removeBtn.style.flexShrink = '0';
-            
-            removeBtn.addEventListener('click', function() {
-                evidenceItemsContainer.removeChild(evidenceItemDiv);
-            });
-            
-            evidenceItemDiv.appendChild(evidenceInput);
-            evidenceItemDiv.appendChild(removeBtn);
-            evidenceItemsContainer.appendChild(evidenceItemDiv);
-            
-            // Focus the new input
-            evidenceInput.focus();
-        });
-
-document.getElementById('banForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Get form data
-    let durationValue = document.querySelector('input[name="duration"]:checked').value;
-    if (durationValue === 'custom') {
-        const customDays = document.getElementById('customDays').value;
-        if (!customDays || customDays < 1) {
-            alert('Please enter a valid number of days (cannot be 0 or negative, cannot be too long)');
-            return;
-        }
-        durationValue = customDays;
-    }
-    
-    // Collect evidence items
-    const evidenceItems = [];
-    document.querySelectorAll('input[name="evidence"]').forEach(input => {
-        if (input.value.trim()) {
-            evidenceItems.push(input.value.trim());
-        }
-    });
-    
-    const formData = {
-        username: document.getElementById('username').value,
-        duration: durationValue,
-        moderatorNote: document.getElementById('moderatorNote').value,
-        reason: document.getElementById('reason').value,
-        decision: document.getElementById('decision').value,
-        evidence: evidenceItems,
-        reviewedDate: new Date().toLocaleString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        }).replace(',', '')
-    };
-    
-    // Calculate end date if not permanent
-    if (formData.duration !== 'permanent') {
-        const days = parseInt(formData.duration);
-        const endDate = new Date();
-        endDate.setDate(endDate.getDate() + days);
-        formData.endDate = endDate.toLocaleString('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        }).replace(',', '');
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('banData', JSON.stringify(formData));
-    
-    // Redirect to suspension page
-    window.location.href = 'suspension-v2.html';
-});
-    </script>
 </div>
+
+<script>
+    // Show/hide custom duration input based on radio selection
+    document.querySelectorAll('input[name="duration"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const customContainer = document.getElementById('customDurationContainer');
+            if (this.value === 'custom') {
+                customContainer.style.display = 'block';
+                document.getElementById('customDays').required = true;
+            } else {
+                customContainer.style.display = 'none';
+                document.getElementById('customDays').required = false;
+            }
+        });
+    });
+
+    // Evidence items functionality
+    let evidenceCounter = 0;
+    const evidenceItemsContainer = document.getElementById('evidenceItemsContainer');
+    const addEvidenceBtn = document.getElementById('addEvidenceBtn');
+    
+    addEvidenceBtn.addEventListener('click', function() {
+        const evidenceId = 'evidence-' + evidenceCounter++;
+        
+        const evidenceItemDiv = document.createElement('div');
+        evidenceItemDiv.className = 'evidence-item';
+        
+        const evidenceInput = document.createElement('input');
+        evidenceInput.type = 'text';
+        evidenceInput.id = evidenceId;
+        evidenceInput.name = 'evidence';
+        evidenceInput.maxLength = '500';
+        evidenceInput.placeholder = 'Enter evidence';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = 'Remove';
+        removeBtn.className = 'btn-danger';
+        
+        removeBtn.addEventListener('click', function() {
+            evidenceItemsContainer.removeChild(evidenceItemDiv);
+        });
+        
+        evidenceItemDiv.appendChild(evidenceInput);
+        evidenceItemDiv.appendChild(removeBtn);
+        evidenceItemsContainer.appendChild(evidenceItemDiv);
+        
+        // Focus the new input
+        evidenceInput.focus();
+    });
+
+    document.getElementById('banForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        let durationValue = document.querySelector('input[name="duration"]:checked').value;
+        if (durationValue === 'custom') {
+            const customDays = document.getElementById('customDays').value;
+            if (!customDays || customDays < 1) {
+                alert('Please enter a valid number of days (cannot be 0 or negative, cannot be too long)');
+                return;
+            }
+            durationValue = customDays;
+        }
+        
+        // Collect evidence items
+        const evidenceItems = [];
+        document.querySelectorAll('input[name="evidence"]').forEach(input => {
+            if (input.value.trim()) {
+                evidenceItems.push(input.value.trim());
+            }
+        });
+        
+        const formData = {
+            username: document.getElementById('username').value,
+            duration: durationValue,
+            moderatorNote: document.getElementById('moderatorNote').value,
+            reason: document.getElementById('reason').value,
+            decision: document.getElementById('decision').value,
+            evidence: evidenceItems,
+            reviewedDate: new Date().toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).replace(',', '')
+        };
+        
+        // Calculate end date if not permanent
+        if (formData.duration !== 'permanent') {
+            const days = parseInt(formData.duration);
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + days);
+            formData.endDate = endDate.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }).replace(',', '');
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('banData', JSON.stringify(formData));
+        
+        // Redirect to suspension page
+        window.location.href = 'suspension-v2.html';
+    });
+</script>
 </body>
+</html>
