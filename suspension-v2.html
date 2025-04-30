@@ -1,13 +1,13 @@
 <body style="background-color: #111">
 <div style="margin-top: 90px!important; width: 750px; margin: 0 auto; font-family: Arial, sans-serif; border: 0px; border-radius: 8px; padding: 20px; background-color: #222; color: #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
     <div style="text-align: center; margin-bottom: 20px;">
-        <img src="boiby.jpg" alt="Boiby" style="width: 128px; height: 128px;">
+        <img src="ohnoes.svg" alt="Boiby" style="width: 128px; height: 128px;">
     </div>
     
     <h2 id="banTitle" style="text-align: center; font-weight: bold; margin-bottom: 15px; color: #fff;"></h2>
     
     <p id="mainMessage" style="text-align: center; margin-bottom: 20px; line-height: 1.5; color: #ccc;">
-        We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules.
+        We recently received a report for or detected bad behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules.
     </p>
   
     <hr style="border: 0; height: 1px; background-color: #444; margin: 20px 0;">
@@ -64,7 +64,7 @@
                 banTitle.innerHTML = 'Your account is <span style="color: #FF0000">terminated</span>';
                 
                 // Update main message for termination
-                mainMessage.textContent = 'We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules.';
+                mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been terminated. You can no longer use your Boiby account.';
                 
                 // Change button for termination
                 actionBtn.textContent = 'Logout';
@@ -73,12 +73,12 @@
                 banTitle.innerHTML = 'Your account is <span style="color: #FFA500">limited</span>';
                 
                 // Update main message for account limitation
-                mainMessage.textContent = 'We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules. Please abide by the Boiby Community Rules in the future, or additional actions may be taken against your account.';
+                mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, some features on your account have been temporarily disabled or limited. Future violations may result in additional actions being taken against your account.';
             } else {
                 banTitle.innerHTML = `Your account is <span style="color: #FFA500">suspended for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}</span>`;
                 
                 // Update main message for temporary ban with additional text
-                mainMessage.textContent = 'We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules. Please abide by the Boiby Community Rules in the future, or additional actions may be taken against your account.';
+                mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, your account has been temporarily suspended. Future violations may result in additional actions being taken against your account.';
                 
                 // Change button for suspension
                 actionBtn.textContent = 'Logout';
@@ -105,7 +105,7 @@
             if (banData.duration === 'permanent') {
                 banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. You can no longer use Boiby.</strong>';
             } else if (banData.duration === 'limit') {
-                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but access to some features have been temporarily disabled.</strong>';
+                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but access to some features have been temporarily disabled or limited.</strong>';
             } else {
                 banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. Your suspension ends on ${banData.endDate}.</strong>`;
             }
