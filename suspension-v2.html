@@ -1,7 +1,7 @@
 <body style="background-color: #111">
 <div style="margin-top: 90px!important; width: 750px; margin: 0 auto; font-family: Arial, sans-serif; border: 0px; border-radius: 8px; padding: 20px; background-color: #222; color: #e0e0e0; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
     <div style="text-align: center; margin-bottom: 20px;">
-        <img src="ohnoes.svg" alt="Oh Noes!" style="width: 128px; height: 128px; filter: invert(90%);">
+        <img src="boiby.png" alt="Boiby" style="width: 128px; height: 128px;">
     </div>
     
     <h2 id="banTitle" style="text-align: center; font-weight: bold; margin-bottom: 15px; color: #fff;"></h2>
@@ -42,8 +42,8 @@
     </p>
     
     <div style="text-align: center;">
-        <button style="background-color: #444; color: #e0e0e0; border: 0px; border-radius: 4px; padding: 10px 20px; margin: 0 10px; cursor: pointer; transition: background-color 0.2s;">
-            Logout
+        <button id="actionBtn" style="background-color: #2b8a3e; color: white; border: none; border-radius: 4px; padding: 10px 20px; margin: 0 10px; cursor: pointer; transition: background-color 0.2s;">
+            Acknowledge
         </button>
         <button style="background-color: #1971c2; color: white; border: none; border-radius: 4px; padding: 10px 20px; margin: 0 10px; cursor: pointer; transition: background-color 0.2s;">
             Request Appeal
@@ -58,17 +58,31 @@
             // Set ban title based on duration
             const banTitle = document.getElementById('banTitle');
             const mainMessage = document.getElementById('mainMessage');
+            const actionBtn = document.getElementById('actionBtn');
             
             if (banData.duration === 'permanent') {
                 banTitle.innerHTML = 'Your account is <span style="color: #FF0000">terminated</span>';
                 
                 // Update main message for termination
                 mainMessage.textContent = 'We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules.';
+                
+                // Change button for termination
+                actionBtn.textContent = 'Logout';
+                actionBtn.style.backgroundColor = '#444';
+            } else if (banData.duration === 'limit') {
+                banTitle.innerHTML = 'Your account is <span style="color: #FFA500">limited</span>';
+                
+                // Update main message for account limitation
+                mainMessage.textContent = 'We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules. Please abide by the Boiby Community Rules in the future, or additional actions may be taken against your account.';
             } else {
                 banTitle.innerHTML = `Your account is <span style="color: #FFA500">banned for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}</span>`;
                 
                 // Update main message for temporary ban with additional text
                 mainMessage.textContent = 'We recently received a report for or detected behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules. Please abide by the Boiby Community Rules in the future, or additional actions may be taken against your account.';
+                
+                // Change button for suspension
+                actionBtn.textContent = 'Logout';
+                actionBtn.style.backgroundColor = '#444';
             }
             
             // Set reviewed date
@@ -90,6 +104,8 @@
             const banMessage = document.getElementById('banMessage');
             if (banData.duration === 'permanent') {
                 banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. You can no longer use Boiby.</strong>';
+            } else if (banData.duration === 'limit') {
+                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but some functions have been temporarily disabled.</strong>';
             } else {
                 banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. Your suspension ends on ${banData.endDate}.</strong>`;
             }
