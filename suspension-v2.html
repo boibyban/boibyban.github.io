@@ -254,7 +254,7 @@
             
             if (!isNaN(durationDays)) {
                 if (durationDays % 36500 === 0) {
-                    const years = durationDays / 36500;
+                    const centuries = durationDays / 36500;
                     durationText = `${centuries} Centur${centuries !== 1 ? 'ies' : 'y'}`;
                 } else if (durationDays % 3650 === 0) {
                     const decades = durationDays / 3650;
