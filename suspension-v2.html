@@ -234,7 +234,7 @@
             const actionBtn = document.getElementById('actionBtn');
             
             if (banData.duration === 'permanent') {
-                banTitle.innerHTML = 'Your account is <span style="color: #FF0000">terminated</span>';
+                banTitle.innerHTML = '<span style="color: #FFF">Account Terminated</span>';
                 
                 // Update main message for termination
                 mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been terminated. You can no longer use your Boiby account.';
@@ -243,12 +243,12 @@
                 actionBtn.textContent = 'Logout';
                 actionBtn.className = 'btn btn-secondary';
             } else if (banData.duration === 'limit') {
-                banTitle.innerHTML = 'Your account is <span style="color: #FFA500">limited</span>';
+                banTitle.innerHTML = 'Your account is <span style="color: #FFF">limited</span>';
                 
                 // Update main message for account limitation
                 mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, some features on your account have been temporarily disabled or limited. Future violations may result in additional actions being taken against your account.';
             } else {
-                banTitle.innerHTML = `Your account is <span style="color: #FFA500">banned for ${banData.duration} day${banData.duration !== '1' ? 's' : ''}</span>`;
+                banTitle.innerHTML = `<span style="color: #FFF">Banned for ${banData.duration} Day${banData.duration !== '1' ? 's' : ''}</span>`;
                 
                 // Update main message for temporary ban with additional text
                 mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, your account has been temporarily suspended. Future violations may result in additional actions being taken against your account.';
