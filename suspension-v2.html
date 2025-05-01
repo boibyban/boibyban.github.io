@@ -1,336 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Not Approved</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            font-family: Arial, sans-serif;
-        }
-
-        .evidence-header {
-            margin-top: 0px;
-        }
-
-        body {
-            background-color: #111;
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-            color: #e0e0e0;
-        }
-        
-        .container {
-            width: min(750px, 95%);
-            margin: 90px auto 20px;
-            padding: 20px;
-            background-color: #222;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        
-        h1, h2 {
-            color: #fff;
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            margin: 0 0 20px;
-        }
-        
-        p {
-            font-size: clamp(0.9rem, 3vw, 1rem);
-        }
-        
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: #444;
-            margin: 20px 0;
-        }
-        
-        .btn {
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            border: none;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: clamp(0.9rem, 3vw, 1rem);
-            padding: 10px 20px;
-            margin: 0 10px;
-        }
-        
-        .btn:active {
-            transform: scale(0.98);
-        }
-        
-        .btn-primary {
-            background-color: #1971c2;
-            color: white;
-        }
-        
-        .btn-success {
-            background-color: #2b8a3e;
-            color: white;
-        }
-        
-        .btn-secondary {
-            background-color: #444;
-            color: white;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .text-left {
-            text-align: left;
-        }
-        
-        .margin-bottom {
-            margin-bottom: 20px;
-        }
-        
-        .margin-sides {
-            margin-left: 15px;
-            margin-right: 15px;
-        }
-        
-        .violation-box {
-            background-color: #333;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        
-        .violation-reason {
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
-            margin-bottom: 15px;
-        }
-        
-        .violation-reason span:first-child {
-            font-weight: 500;
-        }
-        
-        .violation-reason span:last-child {
-            font-weight: bold;
-        }
-        
-        .evidence-container {
-            background-color: #222;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-        
-        .evidence-header {
-            margin-bottom: 8px;
-            color: #ccc;
-            margin-top: 0px;
-        }
-        
-        .evidence-content {
-            color: #fff;
-            margin: 0;
-            margin-bottom: 14px;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        
-        .helper-text {
-            color: #999;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-        
-        a {
-            color: #4dabf7;
-            text-decoration: none;
-        }
-        
-        .svg-icon {
-            filter: invert(100%);
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                margin-top: 20px;
-                padding: 15px;
-            }
-            
-            .btn {
-                margin: 5px;
-                width: 100%;
-            }
-            
-            .btn-group {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="text-center margin-bottom">
-        <img src="ohnoes.svg" alt="Boiby" class="svg-icon" style="width: 128px; height: 128px;">
-    </div>
+<script>
+    // Get ban data from localStorage
+    const banData = JSON.parse(localStorage.getItem('banData'));
     
-    <h2 id="banTitle" class="text-center margin-bottom"></h2>
-    
-    <p id="mainMessage" class="text-center margin-bottom">
-        We recently received a report for or detected bad behaviour by your account. After review of your case, our moderators have determined it goes against Boiby Community Rules.
-    </p>
-  
-    <hr>
-    <p class="text-left margin-bottom margin-sides">
-        Reviewed: <strong id="reviewedDate" style="color: #fff;"></strong>
-    </p>
-
-    <div id="moderatorNoteContainer" style="display: none;">
-        <p class="text-left margin-bottom margin-sides">
-            Moderator Note: <strong id="moderatorNote" style="color: #fff;"></strong>
-        </p>
-    </div>
-
-    <div class="violation-box">
-        <div class="violation-reason">
-            <span>You broke the rules for </span>
-            <span id="reason" style="color: #fff;"></span>
-        </div>
+    if (banData) {
+        // Set ban title based on duration
+        const banTitle = document.getElementById('banTitle');
+        const mainMessage = document.getElementById('mainMessage');
+        const actionBtn = document.getElementById('actionBtn');
         
-        <div class="evidence-container" id="evidenceMainContainer">
-            <!-- Evidence containers will be added here dynamically -->
-            <p id="noEvidenceMessage" style="color: #999; text-align: center; margin: 0;">No evidence items provided</p>
-        </div>
-    </div>
-    
-    <hr>
-
-    <p id="banMessage" class="text-center margin-bottom"></p>  
-
-    <p class="text-center margin-bottom">
-        To learn more about Boiby moderation, visit <a href="#">About Boiby Moderation</a>
-    </p>
-    
-    <div class="text-center" id="buttonContainer">
-        <button id="actionBtn" class="btn btn-success">
-            Acknowledge
-        </button>
-        <button class="btn btn-primary">
-            Request Appeal
-        </button>
-    </div>
-
-    <script>
-        // Get ban data from localStorage
-        const banData = JSON.parse(localStorage.getItem('banData'));
-        
-        if (banData) {
-            // Set ban title based on duration
-            const banTitle = document.getElementById('banTitle');
-            const mainMessage = document.getElementById('mainMessage');
-            const actionBtn = document.getElementById('actionBtn');
+        if (banData.duration === 'permanent') {
+            banTitle.innerHTML = '<span style="color: #FFF">Account Terminated</span>';
             
-            if (banData.duration === 'permanent') {
-                banTitle.innerHTML = '<span style="color: #FFF">Account Terminated</span>';
-                
-                // Update main message for termination
-                mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been permanently banned. You can no longer use your Boiby account.';
-                
-                // Change button for termination
-                actionBtn.textContent = 'Logout';
-                actionBtn.className = 'btn btn-secondary';
-            } else if (banData.duration === 'limit') {
-                banTitle.innerHTML = 'Your account is <span style="color: #FFF">limited</span>';
-                
-                // Update main message for account limitation
-                mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, some features on your account have been temporarily disabled or limited. Future violations may result in additional actions being taken against your account.';
-            } else {
-                banTitle.innerHTML = `<span style="color: #FFF">Banned for ${banData.duration} Day${banData.duration !== '1' ? 's' : ''}</span>`;
-                
-                // Update main message for temporary ban with additional text
-                mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, your account has been temporarily suspended. Future violations may result in additional actions being taken against your account.';
-                
-                // Change button for suspension
-                actionBtn.textContent = 'Logout';
-                actionBtn.className = 'btn btn-secondary';
-            }
+            // Update main message for termination
+            mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been permanently banned. You can no longer use your Boiby account.';
             
-            // Set reviewed date
-            document.getElementById('reviewedDate').textContent = banData.reviewedDate;
+            // Change button for termination
+            actionBtn.textContent = 'Logout';
+            actionBtn.className = 'btn btn-secondary';
+        } else if (banData.duration === 'limit') {
+            banTitle.innerHTML = 'Your account is <span style="color: #FFF">limited</span>';
             
-            // Set moderator note if exists
-            if (banData.moderatorNote) {
-                document.getElementById('moderatorNoteContainer').style.display = 'block';
-                document.getElementById('moderatorNote').textContent = banData.moderatorNote;
-            }
-            
-            // Set reason
-            document.getElementById('reason').textContent = banData.reason;
-            
-            // Set ban message
-            const banMessage = document.getElementById('banMessage');
-            if (banData.duration === 'permanent') {
-                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. You can no longer use Boiby.</strong>';
-            } else if (banData.duration === 'limit') {
-                banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but access to some features have been temporarily disabled or limited.</strong>';
-            } else {
-                banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. Your suspension ends on ${banData.endDate}.</strong>`;
-            }
-            
-            // Display evidence if exists
-            const evidenceMainContainer = document.getElementById('evidenceMainContainer');
-            const noEvidenceMessage = document.getElementById('noEvidenceMessage');
-            
-            if (banData.evidence && banData.evidence.length > 0) {
-                noEvidenceMessage.style.display = 'none';
-                
-                banData.evidence.forEach((item, index) => {
-                    // Create container for this evidence item
-                    const evidenceContainer = document.createElement('div');
-                    evidenceContainer.style.marginBottom = '0px';
-                    
-                    // Create header for this evidence item
-                    const evidenceHeader = document.createElement('p');
-                    evidenceHeader.textContent = `Evidence Item ${index + 1}:`;
-                    evidenceHeader.className = 'evidence-header';
-                    
-                    // Create box for evidence content
-                    const evidenceBox = document.createElement('div');
-                    evidenceBox.className = 'evidence-content';
-                    evidenceBox.textContent = item;
-                    
-                    // Assemble the elements
-                    evidenceContainer.appendChild(evidenceHeader);
-                    evidenceContainer.appendChild(evidenceBox);
-                    evidenceMainContainer.appendChild(evidenceContainer);
-                });
-            } else {
-                noEvidenceMessage.style.display = 'block';
-            }
-            
-            // Make buttons stack on mobile
-            if (window.innerWidth <= 480) {
-                const buttonContainer = document.getElementById('buttonContainer');
-                buttonContainer.className = 'text-center btn-group';
-            }
+            // Update main message for account limitation
+            mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, some features on your account have been temporarily disabled or limited. Future violations may result in additional actions being taken against your account.';
         } else {
-            // No ban data found - redirect back to form
-            window.location.href = 'banpanel-v2.html';
+            // Convert day counts to years/decades if exact multiples
+            let durationText = '';
+            const durationDays = parseInt(banData.duration);
+            
+            if (!isNaN(durationDays)) {
+                if (durationDays % 3650 === 0) {
+                    const decades = durationDays / 3650;
+                    durationText = `${decades} Decade${decades !== 1 ? 's' : ''}`;
+                } else if (durationDays % 365 === 0) {
+                    const years = durationDays / 365;
+                    durationText = `${years} Year${years !== 1 ? 's' : ''}`;
+                } else {
+                    durationText = `${durationDays} Day${durationDays !== 1 ? 's' : ''}`;
+                }
+            } else {
+                durationText = `${banData.duration} Day${banData.duration !== '1' ? 's' : ''}`;
+            }
+            
+            banTitle.innerHTML = `<span style="color: #FFF">Banned for ${durationText}</span>`;
+            
+            // Update main message for temporary ban with additional text
+            mainMessage.textContent = 'Due to violations of our Terms of Use and Community Rules, your account has been temporarily suspended. Future violations may result in additional actions being taken against your account.';
+            
+            // Change button for suspension
+            actionBtn.textContent = 'Logout';
+            actionBtn.className = 'btn btn-secondary';
         }
         
-        // Handle window resize
-        window.addEventListener('resize', function() {
+        // Set reviewed date
+        document.getElementById('reviewedDate').textContent = banData.reviewedDate;
+        
+        // Set moderator note if exists
+        if (banData.moderatorNote) {
+            document.getElementById('moderatorNoteContainer').style.display = 'block';
+            document.getElementById('moderatorNote').textContent = banData.moderatorNote;
+        }
+        
+        // Set reason
+        document.getElementById('reason').textContent = banData.reason;
+        
+        // Set ban message
+        const banMessage = document.getElementById('banMessage');
+        if (banData.duration === 'permanent') {
+            banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. You can no longer use Boiby.</strong>';
+        } else if (banData.duration === 'limit') {
+            banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but access to some features have been temporarily disabled or limited.</strong>';
+        } else {
+            banMessage.innerHTML = `<strong style="color: #fff;">Your account has been suspended. Your suspension ends on ${banData.endDate}.</strong>`;
+        }
+        
+        // Display evidence if exists
+        const evidenceMainContainer = document.getElementById('evidenceMainContainer');
+        const noEvidenceMessage = document.getElementById('noEvidenceMessage');
+        
+        if (banData.evidence && banData.evidence.length > 0) {
+            noEvidenceMessage.style.display = 'none';
+            
+            banData.evidence.forEach((item, index) => {
+                // Create container for this evidence item
+                const evidenceContainer = document.createElement('div');
+                evidenceContainer.style.marginBottom = '0px';
+                
+                // Create header for this evidence item
+                const evidenceHeader = document.createElement('p');
+                evidenceHeader.textContent = `Evidence Item ${index + 1}:`;
+                evidenceHeader.className = 'evidence-header';
+                
+                // Create box for evidence content
+                const evidenceBox = document.createElement('div');
+                evidenceBox.className = 'evidence-content';
+                evidenceBox.textContent = item;
+                
+                // Assemble the elements
+                evidenceContainer.appendChild(evidenceHeader);
+                evidenceContainer.appendChild(evidenceBox);
+                evidenceMainContainer.appendChild(evidenceContainer);
+            });
+        } else {
+            noEvidenceMessage.style.display = 'block';
+        }
+        
+        // Make buttons stack on mobile
+        if (window.innerWidth <= 480) {
             const buttonContainer = document.getElementById('buttonContainer');
-            if (window.innerWidth <= 480) {
-                buttonContainer.className = 'text-center btn-group';
-            } else {
-                buttonContainer.className = 'text-center';
-            }
-        });
-    </script>
-</div>
-</body>
-</html>
+            buttonContainer.className = 'text-center btn-group';
+        }
+    } else {
+        // No ban data found - redirect back to form
+        window.location.href = 'banpanel-v2.html';
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const buttonContainer = document.getElementById('buttonContainer');
+        if (window.innerWidth <= 480) {
+            buttonContainer.className = 'text-center btn-group';
+        } else {
+            buttonContainer.className = 'text-center';
+        }
+    });
+</script>
