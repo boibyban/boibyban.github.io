@@ -253,15 +253,15 @@
             const durationDays = parseInt(banData.duration);
             
             if (!isNaN(durationDays)) {
-                if (durationDays % 3650 === 0) {
+                if (durationDays % 36500 === 0) {
+                    const years = durationDays / 36500;
+                    durationText = `${centuries} Centur${centuries !== 1 ? 'ies' : 'y'}`;
+                } else if (durationDays % 3650 === 0) {
                     const decades = durationDays / 3650;
                     durationText = `${decades} Decade${decades !== 1 ? 's' : ''}`;
                 } else if (durationDays % 365 === 0) {
                     const years = durationDays / 365;
                     durationText = `${years} Year${years !== 1 ? 's' : ''}`;
-                } else if (durationDays % 36500 === 0) {
-                    const years = durationDays / 36500;
-                    durationText = `${centuries} Centur${centuries !== 1 ? 'ies' : 'y'}`;
                 } else {
                     durationText = `${durationDays} Day${durationDays !== 1 ? 's' : ''}`;
                 }
