@@ -259,6 +259,9 @@
                 } else if (durationDays % 365 === 0) {
                     const years = durationDays / 365;
                     durationText = `${years} Year${years !== 1 ? 's' : ''}`;
+                } else if (durationDays % 36500 === 0) {
+                    const years = durationDays / 36500;
+                    durationText = `${centuries} Centur${centuries !== 1 ? 'ies' : 'y'}`;
                 } else {
                     durationText = `${durationDays} Day${durationDays !== 1 ? 's' : ''}`;
                 }
