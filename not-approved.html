@@ -83,7 +83,7 @@
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
         <div class="evidence-box" id="evidenceContainer"></div>
         <p id="communityRules">Remember to abide by the <a href="/info/community-rules">Boiby Community Rules</a> so Boiby can be a safe and enjoyable place for everyone.</p>
-        <p id="reactivateMessage">Your account has been temporarily suspended. Your suspension ends on <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
+        <p id="reactivateMessage">Your account has been suspended. Your suspension ends on <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
         <p id="membershipNotice" style="display:none">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
         <p id="appealsMessage">If you wish to appeal, please contact us via the <a href="/appeals-form">Appeals Form</a>.</p>
         <button id="reactivateButton" class="reactivate">Re-activate Account</button>
@@ -94,6 +94,7 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
         Warn: "Warning",
+        Ban3Hours: "Banned for 3 Hours",
         Ban1Day: "Banned for 1 Day",
         Ban2Days: "Banned for 2 Days",
         Ban3Days: "Banned for 3 Days",
@@ -131,10 +132,10 @@ if (formData) {
     document.getElementById('reviewedDate').textContent = reviewedDate;
 
     const automationTextMap = {
-    "manual": "Not Automated: Manually detected and reviewed",
-    "manual_detect_auto_review": "Partially automated: Manual detection, automated review",
-    "auto_detect_manual_review": "Partially automated: Automated detection, manual review",
-    "full_auto": "Fully automated: Automated detection, automated review"
+    "manual": "Not Automated",
+    "manual_detect_auto_review": "Partially Automated",
+    "auto_detect_manual_review": "Partially Automated",
+    "full_auto": "Fully Automated"
 };
 
 document.getElementById('detectionField').textContent = automationTextMap[formData.automation] || "Not Automated: Manually detected and reviewed";
