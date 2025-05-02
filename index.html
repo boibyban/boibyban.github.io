@@ -65,12 +65,13 @@
     <h3>Moderation Panel</h3>
     <form id="banForm">
         <div class="theme-toggle">
-            <label for="theme">Theme (shows on ban page):</label>
-            <select id="theme" name="theme">
-                <option value="light">Light Mode</option>
-                <option value="dark">Dark Mode</option>
-            </select>
-        </div>
+    <label for="theme">Theme (shows on ban page):</label>
+    <select id="theme" name="theme">
+        <option value="light">Light Mode</option>
+        <option value="dark">Dark Mode</option>
+    </select>
+    <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
+</div>
         <label for="username">Username (required):</label><br>
         <input type="text" id="username" name="username" pattern="[A-Za-z0-9_]{1,20}" title="Only uppercase, lowercase, numbers, and underscores are allowed. Maximum 20 characters." required><br><br>
         
@@ -459,5 +460,33 @@
             window.location.href = '/not-approved';
         });
     </script>
+
+<script>
+    document.getElementById('chargebackBanButton').addEventListener('click', function() {
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let randomString = 'pi__';
+        for (let i = 0; i < 20; i++) {
+            randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        document.getElementById('Ban1Year').checked = true;
+        document.getElementById('note').value = 'Your account has been suspended for making disputed charges.';
+        document.getElementById('automation').value = 'full_auto';
+        
+        // Add a violation if none exists
+        if (classicViolationCount === 0) {
+            document.getElementById('addClassicViolationBox').click();
+        }
+        
+        const firstBox = document.querySelector('.evidence-box');
+        if (firstBox) {
+            firstBox.querySelector('.violationType').value = 'General/Chat';
+            firstBox.querySelector('.classicReason').value = 'Chargeback';
+            firstBox.querySelector('.evidence').value = randomString;
+        }
+        
+        alert('Please enter a username and submit.');
+    });
+</script>
 </body>
 </html>
