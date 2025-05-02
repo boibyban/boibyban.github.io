@@ -70,8 +70,9 @@
         <option value="light">Light Mode</option>
         <option value="dark">Dark Mode</option>
     </select>
-    <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
+            <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
             <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
+            <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
 </div>
         <label for="username">Username (required):</label><br>
         <input type="text" id="username" name="username" pattern="[A-Za-z0-9_]{1,20}" title="Only uppercase, lowercase, numbers, and underscores are allowed. Maximum 20 characters." required><br><br>
@@ -511,6 +512,35 @@
             newBox.querySelector('.violationType').value = 'General/Chat';
             newBox.querySelector('.classicReason').value = 'Ban Evasion';
             newBox.querySelector('.evidence').value = 'Determined from your account information, network information, or device information';
+        }
+        
+        alert('Please enter a username and submit.');
+    });
+</script>
+    <script>
+    // Off-Platform Purchases Button
+    document.getElementById('offPlatformButton').addEventListener('click', function() {
+        // Generate random 10 digit number starting with 23
+        const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
+        
+        // Set form values
+        document.getElementById('Ban14Days').checked = true;
+        document.getElementById('notecustom').value = 'Your account has been suspended for purchasing virtual items or currency on third-party sites or marketplaces.';
+        document.getElementById('note').value = 'nonote'; // Clear preset note
+        
+        // Remove all existing violation boxes
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Boiby Economy';
+            newBox.querySelector('.evidence').value = randomNumber;
         }
         
         alert('Please enter a username and submit.');
