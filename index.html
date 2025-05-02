@@ -71,6 +71,7 @@
         <option value="dark">Dark Mode</option>
     </select>
     <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
+            <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
 </div>
         <label for="username">Username (required):</label><br>
         <input type="text" id="username" name="username" pattern="[A-Za-z0-9_]{1,20}" title="Only uppercase, lowercase, numbers, and underscores are allowed. Maximum 20 characters." required><br><br>
@@ -299,6 +300,7 @@
                     <option value="Spam">Spam</option>
                     <option value="Chargeback">Chargeback</option>
                     <option value="Minimum Age Requirement">Minimum Age Requirement</option>
+                    <option value="Ban Evasion">Ban Evasion</option>
                     <option value="Extortion and Blackmail">Extortion and Blackmail</option>
                     <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
                     <option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
@@ -484,6 +486,31 @@
             firstBox.querySelector('.violationType').value = 'General/Chat';
             firstBox.querySelector('.classicReason').value = 'Chargeback';
             firstBox.querySelector('.evidence').value = randomString;
+        }
+        
+        alert('Please enter a username and submit.');
+    });
+</script>
+    <script>
+    // Enforcement Ban Button - Standalone function
+    document.getElementById('enforcementBanButton').addEventListener('click', function() {
+        // Set form values for termination
+        document.getElementById('Delete').checked = true;
+        document.getElementById('note').value = 'You created or used an account to avoid a moderation action taken against another account.';
+        
+        // Remove all existing violation boxes
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box for ban evasion
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Ban Evasion';
+            newBox.querySelector('.evidence').value = 'Determined from your account information, network information, or device information';
         }
         
         alert('Please enter a username and submit.');
