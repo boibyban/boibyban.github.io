@@ -94,13 +94,13 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const banDurationMap = {
         Warn: "Warning",
-        Ban1Day: "Suspended for 1 Day",
-        Ban2Days: "Suspended for 2 Days",
-        Ban3Days: "Suspended for 3 Days",
-        Ban7Days: "Suspended for 7 Days",
-        Ban14Days: "Suspended for 14 Days",
-        Delete: "Permanently Banned",
-        Poison: "Permanently Banned",
+        Ban1Day: "Banned for 1 Day",
+        Ban2Days: "Banned for 2 Days",
+        Ban3Days: "Banned for 3 Days",
+        Ban7Days: "Banned for 7 Days",
+        Ban14Days: "Banned for 14 Days",
+        Delete: "Account Terminated",
+        Poison: "Account Terminated",
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
@@ -155,12 +155,12 @@ document.getElementById('detectionField').textContent = automationTextMap[formDa
         logoutButton.classList.add('warning-margin');
         addReactivateTextForWarnings();
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been permanently banned.";
+        document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
     } else if (formData.state === "Poison") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been permanently banned.";
+        document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
@@ -171,6 +171,9 @@ document.getElementById('detectionField').textContent = automationTextMap[formDa
             Ban3Days: 72,
             Ban7Days: 168, 
             Ban14Days: 336, 
+            Ban60Days: 1440, 
+            Ban6Months: 4392, 
+            Ban1Year: 8760, 
         };
         const banDurationHours = banDurationHoursMap[formData.state] || 0;
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
