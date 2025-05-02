@@ -493,18 +493,15 @@
     });
 </script>
     <script>
-    // Enforcement Ban Button - Standalone function
+    // Enforcement Ban Button
     document.getElementById('enforcementBanButton').addEventListener('click', function() {
-        // Set form values for termination
         document.getElementById('Delete').checked = true;
         document.getElementById('note').value = 'You created or used an account to avoid a moderation action taken against another account.';
         
-        // Remove all existing violation boxes
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
         classicViolationCount = 0;
         
-        // Add new violation box for ban evasion
         document.getElementById('addClassicViolationBox').click();
         const newBox = document.querySelector('.evidence-box:last-child');
         
@@ -520,20 +517,17 @@
     <script>
     // Off-Platform Purchases Button
     document.getElementById('offPlatformButton').addEventListener('click', function() {
-        // Generate random 10 digit number starting with 23
         const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
         
-        // Set form values
         document.getElementById('Ban14Days').checked = true;
-        document.getElementById('notecustom').value = 'Your account has been suspended for purchasing virtual items or currency on third-party sites or marketplaces.';
+        document.getElementById('notecustom').value = 'Your account has been suspended for purchasing virtual items or currency using third-party sites or marketplaces.';
         document.getElementById('note').value = 'nonote'; // Clear preset note
+        document.getElementById('cautionWarning').value = 'permanent'; 
         
-        // Remove all existing violation boxes
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
         classicViolationCount = 0;
         
-        // Add new violation box
         document.getElementById('addClassicViolationBox').click();
         const newBox = document.querySelector('.evidence-box:last-child');
         
