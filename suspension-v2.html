@@ -234,10 +234,10 @@
         const actionBtn = document.getElementById('actionBtn');
         
         if (banData.duration === 'permanent') {
-            banTitle.innerHTML = '<span style="color: #FFF">Account Erased</span>';
+            banTitle.innerHTML = '<span style="color: #FFF">Account Deleted</span>';
             
             // Update main message for termination
-            mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been permanently banned. You can no longer use your Boiby account.';
+            mainMessage.textContent = 'Due to repeated or severe violations of our Terms of Use and Community Rules, your account has been terminated. You can no longer use your Boiby account.';
             
             // Change button for termination
             actionBtn.textContent = 'Logout';
@@ -294,7 +294,7 @@
         // Set ban message
         const banMessage = document.getElementById('banMessage');
         if (banData.duration === 'permanent') {
-            banMessage.innerHTML = '<strong style="color: #fff;">Your account has been permanently banned. You can no longer use Boiby. Your account data will be permanently erased in 30 days.</strong>';
+            banMessage.innerHTML = '<strong style="color: #fff;">Your account has been terminated. Your account data will be permanently deleted in 30 days.</strong>';
         } else if (banData.duration === 'limit') {
             banMessage.innerHTML = '<strong style="color: #fff;">Your account has been limited. You can still use your account, but access to some features have been temporarily disabled or limited.</strong>';
         } else {
