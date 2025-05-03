@@ -116,6 +116,7 @@ if (banData || username) {
     // Map ban states to human-readable durations
     const banDurationMap = {
         Warn: "Warning",
+        Ban3Hours: "3 Hour Suspension",
         Ban1Day: "1 Day Suspension",
         Ban2Days: "2 Day Suspension", 
         Ban3Days: "3 Day Suspension",
@@ -124,8 +125,7 @@ if (banData || username) {
         Ban60Days: "60 Day Suspension",
         Ban6Months: "6 Month Suspension",
         Ban1Year: "1 Year Suspension",
-        Delete: "Termination",
-        Poison: "Termination"
+        Delete: "Deleted",
     };
     
     // Get the punishment type
