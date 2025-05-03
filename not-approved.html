@@ -79,7 +79,7 @@
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse">We have determined that your recent behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a>.</p>
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
-        <p id="detection" style="display:none">Decision: <b id="detectionField">Not Automated: Manually detected and reviewed</b></p>
+        <p id="detection">Decision: <b id="detectionField">Not Automated: Manually detected and reviewed</b></p>
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
         <div class="evidence-box" id="evidenceContainer"></div>
         <p id="communityRules">Remember to abide by the <a href="/info/community-rules">Boiby Community Rules</a> so Boiby can be a safe and enjoyable place for everyone.</p>
@@ -131,13 +131,18 @@ if (formData) {
     document.getElementById('reviewedDate').textContent = reviewedDate;
 
     const automationTextMap = {
-    "manual": "Not Automated",
-    "manual_detect_auto_review": "Partially Automated",
-    "auto_detect_manual_review": "Partially Automated",
-    "full_auto": "Fully Automated"
+    "manual": "",
+    "manual_detect_auto_review": "Automation was used when making this decision.",
+    "auto_detect_manual_review": "This violation was detected using automation.",
+    "full_auto": "This violation was detected using automation, and automation was used when making this decision."
 };
-
-document.getElementById('detectionField').textContent = automationTextMap[formData.automation] || "Not Automated: Manually detected and reviewed";
+    
+const automationText = automationTextMap[formData.automation];
+if (formData.automation === "manual" || !automationText) {
+    document.getElementById('detection').style.display = "none";
+} else {
+    document.getElementById('detectionField').textContent = automationText;
+}
 
     function addReactivateTextForWarnings() {
         if (formData.state === "Warn") {
