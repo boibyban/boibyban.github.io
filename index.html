@@ -88,6 +88,8 @@
         <p>Punishment</p>
         <input type="radio" id="Warn" name="State" value="Warn">
         <label for="Warn">Warn</label><br>
+        <input type="radio" id="Ban3Hours" name="State" value="Ban3Hours">
+        <label for="Ban3Hours">Ban 3 Hours</label><br>
         <input type="radio" id="Ban1Day" name="State" value="Ban1Day">
         <label for="Ban1Day">Ban 1 Day</label><br>
         <input type="radio" id="Ban2Days" name="State" value="Ban2Days">
@@ -105,7 +107,7 @@
         <input type="radio" id="Ban1Year" name="State" value="Ban1Year">
         <label for="Ban1Year">Ban 1 Year</label><br>
         <input type="radio" id="Delete" name="State" value="Delete">
-        <label for="Delete">Terminate</label><br>
+        <label for="Delete">Delete</label><br>
         <br>
 
         <!-- Moderator Note Section -->
@@ -191,7 +193,6 @@
         const punishmentRadios = document.querySelectorAll('input[name="State"]');
         const noteSelect = document.getElementById('note');
         const noteCustom = document.getElementById('notecustom');
-        const poisonRadio = document.getElementById('Poison');
 
         // Disable moderator note fields if bot ban is checked
         botBanCheckbox.addEventListener('change', function () {
@@ -199,10 +200,8 @@
                 moderatorNoteSection.style.display = 'none';
                 noteSelect.value = 'nonote';
                 noteCustom.value = '';
-                poisonRadio.disabled = true; // Disable Poison ban for bot-issued bans
             } else {
                 moderatorNoteSection.style.display = 'block';
-                poisonRadio.disabled = false; // Re-enable Poison ban for non-bot bans
             }
         });
 
@@ -227,7 +226,6 @@
                         document.getElementById('Ban7Days').disabled = false;
                         document.getElementById('Ban14Days').disabled = false;
                         document.getElementById('Delete').disabled = false;
-                        document.getElementById('Poison').disabled = true; // Poison ban not allowed
                     } else if (selectedReason === "Boiby Endangerment") {
                         // Only allow deletion
                         document.getElementById('Ban1Day').disabled = true;
@@ -235,11 +233,9 @@
                         document.getElementById('Ban7Days').disabled = true;
                         document.getElementById('Ban14Days').disabled = true;
                         document.getElementById('Delete').disabled = false;
-                        document.getElementById('Poison').disabled = true; // Poison ban not allowed
                     } else {
                         // Reset all options
                         punishmentRadios.forEach(radio => radio.disabled = false);
-                        document.getElementById('Poison').disabled = true; // Poison ban not allowed for bot bans
                     }
                 }
             }
