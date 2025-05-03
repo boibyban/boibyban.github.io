@@ -103,8 +103,7 @@ if (formData) {
         Ban60Days: "Banned for 60 Days",
         Ban6Months: "Banned for 6 Months",
         Ban1Year: "Banned for 1 Year",
-        Delete: "Account Terminated",
-        Poison: "Account Terminated",
+        Delete: "Account Deleted",
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
@@ -163,13 +162,9 @@ document.getElementById('detectionField').textContent = automationTextMap[formDa
         document.getElementById('membershipNotice').outerHTML = "";
         document.getElementById('cautionWarningMessage').outerHTML = "";
         document.getElementById('reactivateButton').outerHTML = "";
-    } else if (formData.state === "Poison") {
-        document.getElementById('reactivateMessage').textContent = "Your account has been terminated.";
-        document.getElementById('membershipNotice').outerHTML = "";
-        document.getElementById('cautionWarningMessage').outerHTML = "";
-        document.getElementById('reactivateButton').outerHTML = "";
     } else {
         const banDurationHoursMap = {
+            Ban3Hours: 3,
             Ban1Day: 24,
             Ban2Days: 48,
             Ban3Days: 72,
@@ -186,6 +181,7 @@ document.getElementById('detectionField').textContent = automationTextMap[formDa
     }
 
     const cautionWarningMap = {
+        "3hours": "If you violate the Community Rules again, your account may be suspended for at least 3 hours.",
         "1day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
         "2days": "If you violate the Community Rules again, your account may be suspended for at least 2 days.",
         "3days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
@@ -206,7 +202,7 @@ document.getElementById('detectionField').textContent = automationTextMap[formDa
     const membershipNotice = document.getElementById('membershipNotice');
     if (
         formData.premiumMembership &&
-        (formData.state === "Delete" || formData.state === "Poison")
+        formData.state === "Delete"
     ) {
         const renewalDate = new Date(now);
         renewalDate.setDate(renewalDate.getDate() + 15); // Calculate 15 days from now
