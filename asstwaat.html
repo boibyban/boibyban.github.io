@@ -20,6 +20,7 @@
             width: 560px;
             padding: 30px;
             border: 2px solid black;
+            background-color: white;
         }
         
         .ban-header {
@@ -53,11 +54,15 @@
         .poison {
             font-weight: bold;
         }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="ban-box">
-        <div class="ban-header" id="banTitle">Banned for X Days</div>
+        <div class="ban-header" id="banTitle">Banned</div>
         
         <div class="message-item">
             The moderators of AssTwaatCity have found your account to be in violation of our Terms of Service. We have taken action by banning your account.
@@ -67,8 +72,8 @@
             Reviewed: <span class="bold" id="reviewDate">4/11/2025 3:15:06 PM</span>
         </div>
         
-        <div class="message-item mod-note">
-            Moderator Note: <span class="bold" id="modNote">(note)</span>
+        <div class="message-item mod-note hidden" id="modNoteContainer">
+            Moderator Note: <span class="bold" id="modNoteText"></span>
         </div>
         
         <div class="message-item">
@@ -85,9 +90,14 @@
         const punishmentData = JSON.parse(localStorage.getItem('punishmentData'));
         
         if (punishmentData) {
-            // Set reviewed date and mod note
+            // Set reviewed date
             document.getElementById('reviewDate').textContent = punishmentData.reviewedDate;
-            document.getElementById('modNote').textContent = punishmentData.modNote || 'None provided';
+            
+            // Only show mod note if one exists
+            if (punishmentData.hasNote) {
+                document.getElementById('modNoteContainer').classList.remove('hidden');
+                document.getElementById('modNoteText').textContent = punishmentData.modNote;
+            }
             
             // Handle different punishment types
             switch(punishmentData.punishmentType) {
@@ -95,8 +105,9 @@
                 case 'ban3':
                 case 'ban7':
                 case 'ban14':
+                    const durationText = `${punishmentData.banDuration} day${punishmentData.banDuration !== 1 ? 's' : ''}`;
                     document.getElementById('banTitle').textContent = `Banned for ${punishmentData.banDuration} Day${punishmentData.banDuration !== 1 ? 's' : ''}`;
-                    document.getElementById('banDuration').textContent = `${punishmentData.banDuration} Day${punishmentData.banDuration !== 1 ? 's' : ''}`;
+                    document.getElementById('banDuration').textContent = durationText;
                     document.getElementById('expirationDate').textContent = punishmentData.expirationDate;
                     break;
                     
