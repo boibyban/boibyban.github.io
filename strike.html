@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Status</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #333;
+            --card-bg: #1e1e1e;
+            --all-good: #4CAF50;
+            --limited: #FFC107;
+            --very-limited: #FF9800;
+            --in-danger: #FF5722;
+            --terminated: #F44336;
+            --strike-empty: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .account-status {
+            margin-bottom: 30px;
+        }
+
+        .status-header {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .status-text {
+            font-weight: bold;
+        }
+
+        .all-good {
+            color: var(--all-good);
+        }
+
+        .limited {
+            color: var(--limited);
+        }
+
+        .very-limited {
+            color: var(--very-limited);
+        }
+
+        .in-danger {
+            color: var(--in-danger);
+        }
+
+        .terminated {
+            color: var(--terminated);
+        }
+
+        .strike-meter {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .strike-segment {
+            height: 20px;
+            flex: 1;
+            background-color: var(--strike-empty);
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .strike-count {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .violations-section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .section-header:hover {
+            background-color: #252525;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .section-content {
+            display: block;
+            padding: 0 10px;
+        }
+
+        .collapsed .section-content {
+            display: none;
+        }
+
+        .violation-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--strike-empty);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .violation-card.yellow {
+            border-left-color: var(--limited);
+        }
+
+        .violation-card.orange {
+            border-left-color: var(--very-limited);
+        }
+
+        .violation-card.red {
+            border-left-color: var(--terminated);
+        }
+
+        .violation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .violation-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .violation-details {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .violation-details div {
+            margin-bottom: 5px;
+        }
+
+        .appeal-link {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .appeal-link:hover {
+            text-decoration: underline;
+        }
+
+        .expired-tag {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="account-status">
+            <h1 class="status-header">Your account is <span class="status-text all-good" id="statusText">all good</span></h1>
+            <div class="strike-meter" id="strikeMeter">
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+            </div>
+            <div class="strike-count" id="strikeCount">0/7</div>
+        </div>
+
+        <div class="violations-section">
+            <div class="section-header" id="currentViolationsHeader">
+                <h2>Current Violations</h2>
+                <span>▼</span>
+            </div>
+            <div class="section-content" id="currentViolationsContent">
+                <!-- Example active violation cards -->
+                <div class="violation-card yellow">
+                    <div class="violation-header">
+                        <h3>Excessive Profanity (1 strike)</h3>
+                    </div>
+                    <div class="violation-details">
+                        <div>Date: May 1, 2023</div>
+                        <div>Expires: July 30, 2023</div>
+                        <div>Punishment: Suspended for 1 Day</div>
+                    </div>
+                    <a href="#" class="appeal-link">Request Appeal</a>
+                </div>
+
+                <div class="violation-card orange">
+                    <div class="violation-header">
+                        <h3>Harassment (3 strikes)</h3>
+                    </div>
+                    <div class="violation-details">
+                        <div>Date: April 15, 2023</div>
+                        <div>Expires: July 14, 2023</div>
+                        <div>Punishment: Suspended for 7 Days</div>
+                    </div>
+                    <a href="#" class="appeal-link">Request Appeal</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="violations-section">
+            <div class="section-header collapsed" id="pastViolationsHeader">
+                <h2>Past Violations</h2>
+                <span>►</span>
+            </div>
+            <div class="section-content" id="pastViolationsContent" style="display: none;">
+                <!-- Example past violation cards -->
+                <div class="violation-card yellow">
+                    <div class="violation-header">
+                        <h3>Spamming (2 strikes)</h3>
+                    </div>
+                    <div class="violation-details">
+                        <div>Date: January 10, 2023</div>
+                        <div>Expires: April 10, 2023</div>
+                        <div>Punishment: Suspended for 3 Days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="violations-section">
+            <div class="section-header collapsed" id="expiredViolationsHeader">
+                <h2>Expired Violations</h2>
+                <span>►</span>
+            </div>
+            <div class="section-content" id="expiredViolationsContent" style="display: none;">
+                <!-- Example expired violation cards -->
+                <div class="violation-card red">
+                    <div class="violation-header">
+                        <h3><span class="expired-tag">(Expired)</span> Hate Speech (5 strikes)</h3>
+                    </div>
+                    <div class="violation-details">
+                        <div>Date: October 5, 2022</div>
+                        <div>Expires: January 3, 2023</div>
+                        <div>Punishment: Suspended for 30 Days</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to update the strike meter and status text
+        function updateStrikeStatus(strikes) {
+            const statusText = document.getElementById('statusText');
+            const strikeMeter = document.getElementById('strikeMeter');
+            const strikeCount = document.getElementById('strikeCount');
+            const segments = strikeMeter.querySelectorAll('.strike-segment');
+            
+            // Update strike count display
+            strikeCount.textContent = `${strikes}/7`;
+            
+            // Update status text and color
+            statusText.classList.remove('all-good', 'limited', 'very-limited', 'in-danger', 'terminated');
+            
+            if (strikes === 0) {
+                statusText.textContent = 'all good';
+                statusText.classList.add('all-good');
+            } else if (strikes >= 1 && strikes <= 2) {
+                statusText.textContent = 'limited';
+                statusText.classList.add('limited');
+            } else if (strikes >= 3 && strikes <= 4) {
+                statusText.textContent = 'very limited';
+                statusText.classList.add('very-limited');
+            } else if (strikes >= 5 && strikes <= 6) {
+                statusText.textContent = 'in danger';
+                statusText.classList.add('in-danger');
+            } else if (strikes >= 7) {
+                statusText.textContent = 'terminated';
+                statusText.classList.add('terminated');
+            }
+            
+            // Update strike meter segments
+            segments.forEach((segment, index) => {
+                if (index < strikes) {
+                    if (strikes <= 2) {
+                        segment.style.backgroundColor = 'var(--limited)';
+                    } else if (strikes <= 4) {
+                        segment.style.backgroundColor = 'var(--very-limited)';
+                    } else if (strikes <= 6) {
+                        segment.style.backgroundColor = 'var(--in-danger)';
+                    } else {
+                        segment.style.backgroundColor = 'var(--terminated)';
+                    }
+                } else {
+                    segment.style.backgroundColor = 'var(--strike-empty)';
+                }
+            });
+        }
+
+        // Toggle section collapse/expand
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isCollapsed = content.style.display === 'none';
+                
+                if (isCollapsed) {
+                    content.style.display = 'block';
+                    header.classList.remove('collapsed');
+                    header.querySelector('span').textContent = '▼';
+                } else {
+                    content.style.display = 'none';
+                    header.classList.add('collapsed');
+                    header.querySelector('span').textContent = '►';
+                }
+            });
+        });
+
+        // Initialize with 1 strike for demo purposes
+        updateStrikeStatus(1);
+    </script>
+</body>
+</html>
