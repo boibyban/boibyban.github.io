@@ -128,12 +128,39 @@
             <label for="violationReason">Reason:</label>
             <select id="violationReason">
                 <option value="Excessive Profanity">Excessive Profanity</option>
-                <option value="Harassment">Harassment</option>
-                <option value="Spamming">Spamming</option>
-                <option value="Hate Speech">Hate Speech</option>
-                <option value="Cheating/Exploiting">Cheating/Exploiting</option>
-                <option value="Impersonation">Impersonation</option>
                 <option value="Ban Evasion">Ban Evasion</option>
+                <option value="Child Safety">Child Safety</option>
+                <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
+                <option value="Chargebacks">Chargebacks</option>
+                <option value="Unauthorized Purchases">Unauthorized Purchases</option>
+                <option value="Doxxing">Doxxing</option>
+                <option value="Violent Extremism and Terrorism">Violent Extremism and Terrorism</option>
+                <option value="Malicious Software">Malicious Software</option>
+                <option value="Poltical Content and Figures">Poltical Content and Figures</option>
+                <option value="Real-Life Financial Fraud">Real-Life Financial Fraud</option>
+                <option value="Real-Life Threats">Real-Life Threats</option>
+                <option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
+                <option value="Admin Impersonation">Admin Impersonation</option>
+                <option value="Impersonation">Impersonation</option>
+                <option value="Bypassing Safety Systems">Bypassing Safety Systems</option>
+                <option value="Real-World Tragic/Sensitive Events">Real-World Tragic/Sensitive Events</option>
+                <option value="Minimum Age Requirement">Minimum Age Requirement</option>
+                <option value="Harassment and Bullying">Harassment and Bullying</option>
+                <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
+                <option value="Sexual Content">Sexual Content</option>
+                <option value="Online Dating">Online Dating</option>
+                <option value="Romantic Content">Romatic Content</option>
+                <option value="Account Theft">Account Theft</option>
+                <option value="Account Sharing">Account Sharing</option>
+                <option value="Disruptive Content">Disruptive Content</option>
+                <option value="Gore and Violence">Gore and Violence</option>
+                <option value="Sharing Personal Information">Sharing Personal Information</option>
+                <option value="Asking for Personal Information">Asking for Personal Information</option>
+                <option value="Spam">Spam</option>
+                <option value="Scamming">Scamming</option>
+                <option value="Harmful Misinformation">Harmful Misinformation</option>
+                <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                <option value="Cheats and Exploits">Cheats and Exploits</option>
                 <option value="Other">Other</option>
             </select>
         </div>
@@ -188,55 +215,56 @@
         addExpiredBtn.addEventListener('click', () => addViolation(true));
 
         function addViolation(isExpired) {
-        const date = new Date(dateInput.value);
-        if (isNaN(date.getTime())) {
-            alert('Please select a valid date');
-            return;
+            const date = new Date(dateInput.value);
+            if (isNaN(date.getTime())) {
+                alert('Please select a valid date');
+                return;
+            }
+
+            const strikes = parseInt(strikesSelect.value);
+            const reason = reasonSelect.value;
+            
+            // Calculate expiry date (90 days from violation date)
+            const expiryDate = new Date(date);
+            expiryDate.setDate(expiryDate.getDate() + 90);
+            
+            // Create violation object
+            const violation = {
+                date: date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }),
+                expiryDate: expiryDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }),
+                strikes: strikes,
+                reason: reason,
+                punishment: punishmentMap[strikes],
+                timestamp: Date.now()
+            };
+            
+            // Get existing violations
+            const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
+            const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
+            
+            // Add new violation to beginning
+            existingViolations.unshift(violation);
+            localStorage.setItem(storageKey, JSON.stringify(existingViolations));
+            
+            alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
         }
 
-        const strikes = parseInt(strikesSelect.value);
-        const reason = reasonSelect.value;
-        
-        // Calculate expiry date (90 days from violation date)
-        const expiryDate = new Date(date);
-        expiryDate.setDate(expiryDate.getDate() + 90);
-        
-        // Get existing violations
-        const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
-        const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
-        
-        const violation = {
-            date: date.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            }),
-            expiryDate: expiryDate.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            }),
-            strikes: strikes,
-            reason: reason,
-            punishment: punishmentMap[strikes],
-            timestamp: Date.now()
-        };
-        
-        // Add new violation to beginning
-        existingViolations.unshift(violation);
-        localStorage.setItem(storageKey, JSON.stringify(existingViolations));
-        
-        alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
-    }
-
-    // Reset all violations
-    resetAllBtn.addEventListener('click', () => {
-        if (confirm('Are you sure you want to reset ALL violations? This cannot be undone.')) {
-            localStorage.removeItem('currentViolations');
-            localStorage.removeItem('expiredViolations');
-            alert('All violations have been reset.');
-        }
-    });
+        // Reset all violations
+        resetAllBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset ALL violations? This cannot be undone.')) {
+                localStorage.removeItem('currentViolations');
+                localStorage.removeItem('expiredViolations');
+                alert('All violations have been reset.');
+            }
+        });
     </script>
 </body>
 </html>
