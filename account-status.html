@@ -221,7 +221,7 @@
                 <div class="strike-segment"></div>
             </div>
             <div class="strike-count" id="strikeCount">0/7</div>
-            <div class="status-description" id="statusDescription">Your account has no active violations. Thanks for abiding by our Terms of Use and Community Standards. If you break the rules, it will show up here.</div>
+            <div class="status-description" id="statusDescription">Your account has no active violations. Thanks for abiding by the rules. If you break the rules, it will show up here.</div>
         </div>
 
         <div class="violations-section">
@@ -249,120 +249,120 @@
 
     <script>
         // Load violations from localStorage
-    function loadViolations() {
-        const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
-        const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
-        
-        // Sort violations by timestamp (newest first)
-        currentViolations.sort((a, b) => b.timestamp - a.timestamp);
-        expiredViolations.sort((a, b) => b.timestamp - a.timestamp);
-        
-        renderViolations(currentViolations, 'currentViolationsContent');
-        renderViolations(expiredViolations, 'expiredViolationsContent');
-        
-        // Calculate total strikes
-        const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
-        updateStrikeStatus(totalStrikes);
-    }
-
-    // Render violations to the DOM
-    function renderViolations(violations, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        
-        if (violations.length === 0) {
-            container.innerHTML = '<p style="color: var(--text-secondary);">No violations found</p>';
-            return;
+        function loadViolations() {
+            const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+            const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
+            
+            // Sort violations by timestamp (newest first)
+            currentViolations.sort((a, b) => b.timestamp - a.timestamp);
+            expiredViolations.sort((a, b) => b.timestamp - a.timestamp);
+            
+            renderViolations(currentViolations, 'currentViolationsContent');
+            renderViolations(expiredViolations, 'expiredViolationsContent');
+            
+            // Calculate total strikes
+            const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
+            updateStrikeStatus(totalStrikes);
         }
-        
-        const totalStrikes = JSON.parse(localStorage.getItem('currentViolations') || '[]')
-            .reduce((sum, v) => sum + v.strikes, 0);
-        const isTerminated = totalStrikes >= 7;
-        
-        violations.forEach(violation => {
-            const card = document.createElement('div');
-            let severityClass = 'yellow';
-            
-            if (violation.strikes >= 5) severityClass = 'red';
-            else if (violation.strikes >= 3) severityClass = 'orange';
-            
-            const isExpired = containerId === 'expiredViolationsContent';
-            const expiredTag = isExpired ? '<span class="expired-tag">(Expired)</span> ' : '';
-            
-            const appealLink = !isExpired && !isTerminated 
-                ? `<a href="#" class="appeal-link">Request Appeal</a>`
-                : '';
-            
-            card.className = `violation-card ${severityClass}`;
-            card.innerHTML = `
-                <div class="violation-header">
-                    <h3>${expiredTag}${violation.reason} (${violation.strikes} strike${violation.strikes !== 1 ? 's' : ''})</h3>
-                </div>
-                <div class="violation-details">
-                    <div>Date: ${violation.date}</div>
-                    ${!isTerminated ? `<div>Expires: ${violation.expiryDate}</div>` : ''}
-                    <div>Punishment: ${violation.punishment}</div>
-                </div>
-                ${appealLink}
-            `;
-            
-            container.appendChild(card);
-        });
-    }
 
-    // Function to update the strike meter and status text
-    function updateStrikeStatus(strikes) {
-        const statusText = document.getElementById('statusText');
-        const strikeMeter = document.getElementById('strikeMeter');
-        const strikeCount = document.getElementById('strikeCount');
-        const statusDescription = document.getElementById('statusDescription');
-        const segments = strikeMeter.querySelectorAll('.strike-segment');
-        
-        // Always show actual strike count (can be 8/7, 9/7 etc.)
-        strikeCount.textContent = `${strikes}/7`;
-        
-        // Update status text, color, and description
-        statusText.classList.remove('all-good', 'warning', 'high-warning', 'danger', 'terminated');
-        
-        if (strikes === 0) {
-            statusText.textContent = 'Your account is all good';
-            statusText.classList.add('all-good');
-            statusDescription.textContent = "Your account has no active violations. Thanks for abiding by the rules. If you break the rules, it will show up here.";
-        } else if (strikes <= 2) {
-            statusText.textContent = `Your account has ${strikes} strike${strikes !== 1 ? 's' : ''}`;
-            statusText.classList.add('warning');
-            statusDescription.textContent = "Your account has received strikes for violations of our rules. Future violations may result in additional strikes.";
-        } else if (strikes <= 4) {
-            statusText.textContent = `Your account has ${strikes} strikes`;
-            statusText.classList.add('high-warning');
-            statusDescription.textContent = "Your account has multiple strikes due to repeated or severe violations of our rules, and is at risk of termination.";
-        } else if (strikes <= 6) {
-            statusText.textContent = `Your account has ${strikes} strikes`;
-            statusText.classList.add('danger');
-            statusDescription.textContent = "Your account is at risk due to repeated or severe violations of our rules, and is approaching termination. Any future violations will result in account termination!";
-        } else {
-            statusText.textContent = `Your account is terminated (${strikes} strikes)`;
-            statusText.classList.add('terminated');
-            statusDescription.textContent = "Due to repeated violations of our rules, your account has been terminated. You can no longer use Boiby.";
-        }
-        
-        // Update strike meter segments
-        segments.forEach((segment, index) => {
-            if (index < Math.min(strikes, 7)) { // Only fill up to 7 segments max
-                if (strikes <= 2) {
-                    segment.style.backgroundColor = 'var(--warning)';
-                } else if (strikes <= 4) {
-                    segment.style.backgroundColor = 'var(--high-warning)';
-                } else if (strikes <= 6) {
-                    segment.style.backgroundColor = 'var(--danger)';
-                } else {
-                    segment.style.backgroundColor = 'var(--terminated)';
-                }
-            } else {
-                segment.style.backgroundColor = 'var(--strike-empty)';
+        // Render violations to the DOM
+        function renderViolations(violations, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (violations.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">No violations found</p>';
+                return;
             }
-        });
-    }
+            
+            const totalStrikes = JSON.parse(localStorage.getItem('currentViolations') || '[]')
+                .reduce((sum, v) => sum + v.strikes, 0);
+            const isTerminated = totalStrikes >= 7;
+            
+            violations.forEach(violation => {
+                const card = document.createElement('div');
+                let severityClass = 'yellow';
+                
+                if (violation.strikes >= 5) severityClass = 'red';
+                else if (violation.strikes >= 3) severityClass = 'orange';
+                
+                const isExpired = containerId === 'expiredViolationsContent';
+                const expiredTag = isExpired ? '<span class="expired-tag">(Expired)</span> ' : '';
+                
+                const appealLink = !isExpired && !isTerminated 
+                    ? `<a href="#" class="appeal-link">Request Appeal</a>`
+                    : '';
+                
+                card.className = `violation-card ${severityClass}`;
+                card.innerHTML = `
+                    <div class="violation-header">
+                        <h3>${expiredTag}${violation.reason} (${violation.strikes} strike${violation.strikes !== 1 ? 's' : ''})</h3>
+                    </div>
+                    <div class="violation-details">
+                        <div>Date: ${violation.date}</div>
+                        ${!isTerminated ? `<div>Expires: ${violation.expiryDate}</div>` : ''}
+                        <div>Punishment: ${violation.punishment}</div>
+                    </div>
+                    ${appealLink}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Update the strike meter and status text
+        function updateStrikeStatus(strikes) {
+            const statusText = document.getElementById('statusText');
+            const strikeMeter = document.getElementById('strikeMeter');
+            const strikeCount = document.getElementById('strikeCount');
+            const statusDescription = document.getElementById('statusDescription');
+            const segments = strikeMeter.querySelectorAll('.strike-segment');
+            
+            // Update strike count display
+            strikeCount.textContent = `${strikes}/7`;
+            
+            // Update status text, color, and description
+            statusText.classList.remove('all-good', 'warning', 'high-warning', 'danger', 'terminated');
+            
+            if (strikes === 0) {
+                statusText.textContent = 'Your account is all good';
+                statusText.classList.add('all-good');
+                statusDescription.textContent = "Your account has no active violations. Thanks for abiding by the rules. If you break the rules, it will show up here.";
+            } else if (strikes <= 2) {
+                statusText.textContent = `Your account has ${strikes} strike${strikes !== 1 ? 's' : ''}`;
+                statusText.classList.add('warning');
+                statusDescription.textContent = "Your account has received strikes for violations of our rules. Future violations may result in additional strikes.";
+            } else if (strikes <= 4) {
+                statusText.textContent = `Your account has ${strikes} strikes`;
+                statusText.classList.add('high-warning');
+                statusDescription.textContent = "Your account has multiple strikes due to repeated or severe violations of our rules, and is at risk of termination.";
+            } else if (strikes <= 6) {
+                statusText.textContent = `Your account has ${strikes} strikes`;
+                statusText.classList.add('danger');
+                statusDescription.textContent = "Your account is at risk due to repeated or severe violations of our rules, and is approaching termination. Any future violations will result in account termination!";
+            } else {
+                statusText.textContent = `Your account is terminated (${strikes} strikes)`;
+                statusText.classList.add('terminated');
+                statusDescription.textContent = "Due to repeated violations of our rules, your account has been terminated. You can no longer use Boiby.";
+            }
+            
+            // Update strike meter segments
+            segments.forEach((segment, index) => {
+                if (index < strikes) {
+                    if (strikes <= 2) {
+                        segment.style.backgroundColor = 'var(--warning)';
+                    } else if (strikes <= 4) {
+                        segment.style.backgroundColor = 'var(--high-warning)';
+                    } else if (strikes <= 6) {
+                        segment.style.backgroundColor = 'var(--danger)';
+                    } else {
+                        segment.style.backgroundColor = 'var(--terminated)';
+                    }
+                } else {
+                    segment.style.backgroundColor = 'var(--strike-empty)';
+                }
+            });
+        }
 
         // Toggle section collapse/expand
         document.querySelectorAll('.section-header').forEach(header => {
