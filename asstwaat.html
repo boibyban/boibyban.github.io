@@ -50,9 +50,8 @@
             color: #555;
         }
         
-        .terminated {
+        .poison {
             font-weight: bold;
-            color: #d00;
         }
     </style>
 </head>
@@ -103,12 +102,12 @@
                     
                 case 'delete':
                     document.getElementById('banTitle').textContent = 'Account Deleted';
-                    document.getElementById('banMessage').innerHTML = '<span class="terminated">Your account has been banned forever.</span>';
+                    document.getElementById('banMessage').innerHTML = '<span>Your account has been banned forever.</span>';
                     break;
                     
                 case 'poison':
                     document.getElementById('banTitle').textContent = 'Account Deleted';
-                    document.getElementById('banMessage').innerHTML = '<span class="terminated">Your account has been banned forever, and new account creation has been disabled.</span>';
+                    document.getElementById('banMessage').innerHTML = '<span class="poison">Your account has been banned forever, and new account creation has been disabled.</span>';
                     break;
             }
         } else {
