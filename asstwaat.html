@@ -17,9 +17,10 @@
         }
         
         .ban-box {
-            width: 570px;
+            width: 560px;
             padding: 30px;
             border: 2px solid black;
+            background-color: white;
         }
         
         .ban-header {
@@ -28,7 +29,6 @@
             font-size: 26px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #000;
         }
         
         .message-item {
@@ -57,14 +57,22 @@
         .hidden {
             display: none;
         }
+        
+        .membership-notice {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 15px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="ban-box">
-        <div class="ban-header" id="banTitle">Banned</div>
+        <div class="ban-header" id="banTitle">Banned for X Days</div>
         
-        <div class="message-item">
-            The moderators of AssTwaatCity have found your account to be in violation of our Terms of Service. We have taken action by banning your account.
+        <div class="message-item" id="violationMessage">
+            The moderators of AssTwaatCity have found your account to be in violation of our Terms of Service, and have taken action by banning your account.
         </div>
         
         <div class="message-item review-date">
@@ -82,6 +90,10 @@
         <div class="message-item" id="banMessage">
             Your account has been disabled for <span id="banDuration">(duration)</span>. You may re-activate it after <span id="expirationDate">5/11/2025 3:15:06 PM</span>.
         </div>
+        
+        <div class="membership-notice hidden" id="membershipNotice">
+            You currently have an AssTwaatCity membership that is set to renew on <span id="renewalDate"></span>. Please contact memberships@asstwaatcity.ca to cancel this membership.
+        </div>
     </div>
 
     <script>
@@ -91,6 +103,12 @@
         if (punishmentData) {
             // Set reviewed date
             document.getElementById('reviewDate').textContent = punishmentData.reviewedDate;
+            
+            // Update violation message based on ban type
+            if (punishmentData.isTempBan) {
+                document.getElementById('violationMessage').textContent = 
+                    "The moderators of AssTwaatCity have found your account to be in violation of our Terms of Service, and have taken action by banning your account. We will terminate your account if you do not abide by the rules.";
+            }
             
             // Only show mod note if one exists
             if (punishmentData.hasNote) {
@@ -119,6 +137,12 @@
                     document.getElementById('banTitle').textContent = 'Account Deleted';
                     document.getElementById('banMessage').innerHTML = '<span class="poison">Your account has been banned forever, and new account creation has been disabled.</span>';
                     break;
+            }
+            
+            // Show membership notice if applicable
+            if (punishmentData.hasMembership) {
+                document.getElementById('membershipNotice').classList.remove('hidden');
+                document.getElementById('renewalDate').textContent = punishmentData.renewalDate;
             }
         } else {
             // Default message if no data
