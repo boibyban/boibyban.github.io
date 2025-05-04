@@ -132,15 +132,15 @@
         </div>
         
         <div class="punishment-preview" id="punishmentPreview">
-            Selected punishment will appear here
+                Selected punishment will appear here
         </div>
         
         <div class="button-group">
-            <button id="addCurrent">Add as Current Violation</button>
-            <button id="addExpired">Add as Expired Violation</button>
+                <button id="addCurrent">Add as Current Violation</button>
+                <button id="addExpired">Add as Expired Violation</button>
+                <button id="resetAll" style="background-color: #f44336;">Reset All Violations</button>
         </div>
-        
-        <a href="account-status.html" class="back-link">← Back to Account Status</a>
+        <a href="account-status.html" class="back-link">Back to Account Status</a>
     </div>
 
     <script>
@@ -152,7 +152,7 @@
             4: "Suspended for 7 Days",
             5: "Suspended for 14 Days",
             6: "Suspended for 30 Days",
-            7: "Account Termination"
+            7: "Account Terminated"
         };
 
         // DOM elements
@@ -177,7 +177,13 @@
         // Add violation functions
         addCurrentBtn.addEventListener('click', () => addViolation(false));
         addExpiredBtn.addEventListener('click', () => addViolation(true));
-
+        resetAllBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset ALL violations? This cannot be undone.')) {
+                localStorage.removeItem('currentViolations');
+                localStorage.removeItem('expiredViolations');
+                alert('All violations have been reset.');
+            }
+        });
         function addViolation(isExpired) {
             const date = new Date(dateInput.value);
             if (isNaN(date.getTime())) {
@@ -219,6 +225,9 @@
                 day: 'numeric' 
             });
         }
+        const resetAllBtn = document.getElementById('resetAll');
+
+
     </script>
 </body>
 </html>
