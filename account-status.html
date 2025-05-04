@@ -197,18 +197,19 @@
 <body>
     <div class="container">
         <div class="account-status">
-            <h1 class="status-header">Your account is <span class="status-text all-good" id="statusText">all good</span></h1>
-            <div class="strike-meter" id="strikeMeter">
-                <div class="strike-segment"></div>
-                <div class="strike-segment"></div>
-                <div class="strike-segment"></div>
-                <div class="strike-segment"></div>
-                <div class="strike-segment"></div>
-                <div class="strike-segment"></div>
-                <div class="strike-segment"></div>
-            </div>
-            <div class="strike-count" id="strikeCount">0/7</div>
-        </div>
+    <h1 class="status-header">Your account is <span class="status-text all-good" id="statusText">all good</span></h1>
+    <div class="strike-meter" id="strikeMeter">
+        <div class="strike-segment"></div>
+        <div class="strike-segment"></div>
+        <div class="strike-segment"></div>
+        <div class="strike-segment"></div>
+        <div class="strike-segment"></div>
+        <div class="strike-segment"></div>
+        <div class="strike-segment"></div>
+    </div>
+    <div class="strike-count" id="strikeCount">0/7</div>
+    <div class="status-description" id="statusDescription">Your account has no active violations. Thanks for abiding by Boiby's Terms of Use and Community Standards. If you break the rules, it will show up here.</div>
+</div>
 
         <div class="violations-section">
             <div class="section-header" id="currentViolationsHeader">
@@ -289,53 +290,58 @@
         }
 
         // Function to update the strike meter and status text
-        function updateStrikeStatus(strikes) {
-            const statusText = document.getElementById('statusText');
-            const strikeMeter = document.getElementById('strikeMeter');
-            const strikeCount = document.getElementById('strikeCount');
-            const segments = strikeMeter.querySelectorAll('.strike-segment');
-            
-            // Update strike count display
-            strikeCount.textContent = `${strikes}/7`;
-            
-            // Update status text and color
-            statusText.classList.remove('all-good', 'limited', 'very-limited', 'in-danger', 'terminated');
-            
-            if (strikes === 0) {
-                statusText.textContent = 'all good';
-                statusText.classList.add('all-good');
-            } else if (strikes >= 1 && strikes <= 2) {
-                statusText.textContent = 'limited';
-                statusText.classList.add('limited');
-            } else if (strikes >= 3 && strikes <= 4) {
-                statusText.textContent = 'very limited';
-                statusText.classList.add('very-limited');
-            } else if (strikes >= 5 && strikes <= 6) {
-                statusText.textContent = 'in danger';
-                statusText.classList.add('in-danger');
-            } else if (strikes >= 7) {
-                statusText.textContent = 'terminated';
-                statusText.classList.add('terminated');
+function updateStrikeStatus(strikes) {
+    const statusText = document.getElementById('statusText');
+    const strikeMeter = document.getElementById('strikeMeter');
+    const strikeCount = document.getElementById('strikeCount');
+    const statusDescription = document.getElementById('statusDescription');
+    const segments = strikeMeter.querySelectorAll('.strike-segment');
+    
+    // Update strike count display
+    strikeCount.textContent = `${strikes}/7`;
+    
+    // Update status text, color, and description
+    statusText.classList.remove('all-good', 'limited', 'very-limited', 'in-danger', 'terminated');
+    
+    if (strikes === 0) {
+        statusText.textContent = 'all good';
+        statusText.classList.add('all-good');
+        statusDescription.textContent = "Your account has no active violations. Thanks for abiding by Boiby's Terms of Use and Community Standards. If you break the rules, it will show up here.";
+    } else if (strikes >= 1 && strikes <= 2) {
+        statusText.textContent = 'limited';
+        statusText.classList.add('limited');
+        statusDescription.textContent = "Due to violations of our Terms of Use and Community Rules, some features on your account have been temporarily disabled or limited. Future violations may result in additional actions being taken against your account.";
+    } else if (strikes >= 3 && strikes <= 4) {
+        statusText.textContent = 'very limited';
+        statusText.classList.add('very-limited');
+        statusDescription.textContent = "Due to violations of our Terms of Use and Community Rules, features on your account or features on it have been temporarily disabled or limited. Future violations will result in additional actions being taken against your account.";
+    } else if (strikes >= 5 && strikes <= 6) {
+        statusText.textContent = 'in danger';
+        statusText.classList.add('in-danger');
+        statusDescription.textContent = "Due to repeated violations of our Terms of Use and Community Rules, your account or features on your account have been disabled. If you violate the rules again, your account may be terminated.";
+    } else if (strikes >= 7) {
+        statusText.textContent = 'terminated';
+        statusText.classList.add('terminated');
+        statusDescription.textContent = "Due to repeated or severe violations of our Terms of Use and Community Standards, your account has been terminated. You can no longer use your Boiby account.";
+    }
+    
+    // Update strike meter segments
+    segments.forEach((segment, index) => {
+        if (index < strikes) {
+            if (strikes <= 2) {
+                segment.style.backgroundColor = 'var(--limited)';
+            } else if (strikes <= 4) {
+                segment.style.backgroundColor = 'var(--very-limited)';
+            } else if (strikes <= 6) {
+                segment.style.backgroundColor = 'var(--in-danger)';
+            } else {
+                segment.style.backgroundColor = 'var(--terminated)';
             }
-            
-            // Update strike meter segments
-            segments.forEach((segment, index) => {
-                if (index < strikes) {
-                    if (strikes <= 2) {
-                        segment.style.backgroundColor = 'var(--limited)';
-                    } else if (strikes <= 4) {
-                        segment.style.backgroundColor = 'var(--very-limited)';
-                    } else if (strikes <= 6) {
-                        segment.style.backgroundColor = 'var(--in-danger)';
-                    } else {
-                        segment.style.backgroundColor = 'var(--terminated)';
-                    }
-                } else {
-                    segment.style.backgroundColor = 'var(--strike-empty)';
-                }
-            });
+        } else {
+            segment.style.backgroundColor = 'var(--strike-empty)';
         }
-
+    });
+}
         // Toggle section collapse/expand
         document.querySelectorAll('.section-header').forEach(header => {
             header.addEventListener('click', () => {
