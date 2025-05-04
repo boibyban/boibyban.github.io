@@ -237,16 +237,20 @@
     <script>
         // Load violations from localStorage
         function loadViolations() {
-            const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
-            const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
-            
-            renderViolations(currentViolations, 'currentViolationsContent');
-            renderViolations(expiredViolations, 'expiredViolationsContent');
-            
-            // Calculate total strikes
-            const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
-            updateStrikeStatus(totalStrikes);
-        }
+    const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+    const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
+    
+    // Sort violations by date (newest first)
+    currentViolations.sort((a, b) => new Date(b.date) - new Date(a.date));
+    expiredViolations.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    renderViolations(currentViolations, 'currentViolationsContent');
+    renderViolations(expiredViolations, 'expiredViolationsContent');
+    
+    // Calculate total strikes
+    const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
+    updateStrikeStatus(totalStrikes);
+}
 
         // Render violations to the DOM
         function renderViolations(violations, containerId) {
