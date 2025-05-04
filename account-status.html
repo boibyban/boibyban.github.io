@@ -248,29 +248,30 @@
     </div>
 
     <script>
-        // Load violations from localStorage
-        function loadViolations() {
-            const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
-            const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
-            
-            // Sort violations by date (newest first), then by original order for same dates
-            currentViolations.sort((a, b) => {
-                const dateDiff = new Date(b.date) - new Date(a.date);
-                return dateDiff !== 0 ? dateDiff : a._order - b._order;
-            });
-            
-            expiredViolations.sort((a, b) => {
-                const dateDiff = new Date(b.date) - new Date(a.date);
-                return dateDiff !== 0 ? dateDiff : a._order - b._order;
-            });
-            
-            renderViolations(currentViolations, 'currentViolationsContent');
-            renderViolations(expiredViolations, 'expiredViolationsContent');
-            
-            // Calculate total strikes
-            const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
-            updateStrikeStatus(totalStrikes);
-        }
+        <script>
+    // Load violations from localStorage
+    function loadViolations() {
+        const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+        const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
+        
+        // Sort violations by date (newest first), then by timestamp (newest first)
+        currentViolations.sort((a, b) => {
+            const dateDiff = new Date(b.date) - new Date(a.date);
+            return dateDiff !== 0 ? dateDiff : b.timestamp - a.timestamp;
+        });
+        
+        expiredViolations.sort((a, b) => {
+            const dateDiff = new Date(b.date) - new Date(a.date);
+            return dateDiff !== 0 ? dateDiff : b.timestamp - a.timestamp;
+        });
+        
+        renderViolations(currentViolations, 'currentViolationsContent');
+        renderViolations(expiredViolations, 'expiredViolationsContent');
+        
+        // Calculate total strikes
+        const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
+        updateStrikeStatus(totalStrikes);
+    }
 
         // Render violations to the DOM
         function renderViolations(violations, containerId) {
