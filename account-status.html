@@ -341,9 +341,9 @@
                 statusText.classList.add('danger');
                 statusDescription.textContent = "Your account is at risk due to repeated or severe violations of our rules, and is approaching termination. Any future violations will result in account termination!";
             } else {
-                statusText.textContent = `Your account is terminated (${strikes} strikes)`;
+                statusText.textContent = `Your account is terminated`;
                 statusText.classList.add('terminated');
-                statusDescription.textContent = "Due to repeated violations of our rules, your account has been terminated. You can no longer use Boiby.";
+                statusDescription.textContent = "Due to repeated or severe violations of our rules, your account has been terminated. You can no longer use Boiby.";
             }
             
             // Update strike meter segments
