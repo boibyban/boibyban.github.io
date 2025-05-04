@@ -4,103 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AssTwaatCity Moderator Panel</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-        .panel-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        .radio-option {
-            margin-bottom: 10px;
-        }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            min-height: 100px;
-            resize: vertical;
-        }
-        .submit-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 0;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
 <body>
-    <div class="panel-container">
-        <h1>AssTwaatCity Moderator Panel</h1>
+    <h1>AssTwaatCity Moderator Panel</h1>
+    
+    <form id="punishmentForm">
+        <h2>Punishment Type:</h2>
+        <input type="radio" id="ban1" name="punishment" value="ban1" checked>
+        <label for="ban1">Ban 1 Day</label><br>
         
-        <form id="punishmentForm">
-            <div class="form-group">
-                <label>Punishment Type:</label>
-                <div class="radio-option">
-                    <input type="radio" id="ban1" name="punishment" value="ban1" checked>
-                    <label for="ban1">Ban 1 Day</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="ban3" name="punishment" value="ban3">
-                    <label for="ban3">Ban 3 Days</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="ban7" name="punishment" value="ban7">
-                    <label for="ban7">Ban 7 Days</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="ban14" name="punishment" value="ban14">
-                    <label for="ban14">Ban 14 Days</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="delete" name="punishment" value="delete">
-                    <label for="delete">Delete</label>
-                </div>
-                <div class="radio-option">
-                    <input type="radio" id="poison" name="punishment" value="poison">
-                    <label for="poison">Poison</label>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="modNote">Moderator Note:</label>
-                <textarea id="modNote" name="modNote" maxlength="1000" placeholder="Enter moderator note (max 1000 characters)"></textarea>
-            </div>
-            
-            <button type="submit" class="submit-btn">Submit Punishment</button>
-        </form>
-    </div>
+        <input type="radio" id="ban3" name="punishment" value="ban3">
+        <label for="ban3">Ban 3 Days</label><br>
+        
+        <input type="radio" id="ban7" name="punishment" value="ban7">
+        <label for="ban7">Ban 7 Days</label><br>
+        
+        <input type="radio" id="ban14" name="punishment" value="ban14">
+        <label for="ban14">Ban 14 Days</label><br>
+        
+        <input type="radio" id="delete" name="punishment" value="delete">
+        <label for="delete">Delete</label><br>
+        
+        <input type="radio" id="poison" name="punishment" value="poison">
+        <label for="poison">Poison</label><br>
+        
+        <h2>Moderator Note:</h2>
+        <textarea id="modNote" name="modNote" maxlength="1000" placeholder="Enter note (optional)"></textarea><br>
+        
+        <button type="submit">Submit Punishment</button>
+    </form>
 
     <script>
         document.getElementById('punishmentForm').addEventListener('submit', function(e) {
@@ -108,7 +40,7 @@
             
             // Get form values
             const punishment = document.querySelector('input[name="punishment"]:checked').value;
-            const modNote = document.getElementById('modNote').value;
+            const modNote = document.getElementById('modNote').value.trim();
             const now = new Date();
             
             // Format date as MM/DD/YYYY HH:MM:SS AM/PM
@@ -158,7 +90,8 @@
                 modNote: modNote,
                 reviewedDate: reviewedDate,
                 expirationDate: banDuration > 0 ? expirationDateStr : null,
-                banDuration: banDuration
+                banDuration: banDuration,
+                hasNote: modNote.length > 0
             }));
             
             // Redirect to ban page
