@@ -221,8 +221,11 @@
                 <div class="strike-segment"></div>
                 <div class="strike-segment"></div>
                 <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
+                <div class="strike-segment"></div>
             </div>
-            <div class="strike-count" id="strikeCount">0/7</div>
+            <div class="strike-count" id="strikeCount">0/10</div>
             <div class="status-description" id="statusDescription">Your account has no active violations. Thanks for abiding by the rules. If you break the rules, it will show up here.</div>
         </div>
 
@@ -279,14 +282,14 @@
             
             const totalStrikes = JSON.parse(localStorage.getItem('currentViolations') || '[]')
                 .reduce((sum, v) => sum + v.strikes, 0);
-            const isTerminated = totalStrikes >= 7;
+            const isTerminated = totalStrikes >= 10;
             
             violations.forEach(violation => {
                 const card = document.createElement('div');
                 let severityClass = 'yellow';
                 
-                if (violation.strikes >= 5) severityClass = 'red';
-                else if (violation.strikes >= 3) severityClass = 'orange';
+                if (violation.strikes >= 7) severityClass = 'red';
+                else if (violation.strikes >= 4) severityClass = 'orange';
                 
                 const isExpired = containerId === 'expiredViolationsContent';
                 const expiredTag = isExpired ? '<span class="expired-tag">(Expired)</span> ' : '';
@@ -321,7 +324,7 @@
             const segments = strikeMeter.querySelectorAll('.strike-segment');
             
             // Update strike count display
-            strikeCount.textContent = `${strikes}/7`;
+            strikeCount.textContent = `${strikes}/10`;
             
             // Update status text, color, and description
             statusText.classList.remove('all-good', 'warning', 'high-warning', 'danger', 'terminated');
@@ -330,15 +333,15 @@
                 statusText.textContent = 'Your account is all good';
                 statusText.classList.add('all-good');
                 statusDescription.textContent = "Your account has no active violations. Thanks for abiding by the rules. If you break the rules, it will show up here.";
-            } else if (strikes <= 2) {
+            } else if (strikes <= 3) {
                 statusText.textContent = `Your account has ${strikes} strike${strikes !== 1 ? 's' : ''}`;
                 statusText.classList.add('warning');
                 statusDescription.textContent = "Your account has received strikes for violations of our rules. Future violations may result in additional strikes.";
-            } else if (strikes <= 4) {
+            } else if (strikes <= 6) {
                 statusText.textContent = `Your account has ${strikes} strikes`;
                 statusText.classList.add('high-warning');
                 statusDescription.textContent = "Your account has multiple strikes due to repeated or severe violations of our rules, and is at risk of termination.";
-            } else if (strikes <= 6) {
+            } else if (strikes <= 9) {
                 statusText.textContent = `Your account has ${strikes} strikes`;
                 statusText.classList.add('danger');
                 statusDescription.textContent = "Your account is at risk due to repeated or severe violations of our rules, and is approaching termination. Any future violations will result in account termination!";
@@ -351,11 +354,11 @@
             // Update strike meter segments
             segments.forEach((segment, index) => {
                 if (index < strikes) {
-                    if (strikes <= 2) {
+                    if (strikes <= 3) {
                         segment.style.backgroundColor = 'var(--warning)';
-                    } else if (strikes <= 4) {
-                        segment.style.backgroundColor = 'var(--high-warning)';
                     } else if (strikes <= 6) {
+                        segment.style.backgroundColor = 'var(--high-warning)';
+                    } else if (strikes <= 9) {
                         segment.style.backgroundColor = 'var(--danger)';
                     } else {
                         segment.style.backgroundColor = 'var(--terminated)';
