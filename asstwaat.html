@@ -20,6 +20,7 @@
             width: 560px;
             padding: 30px;
             border: 2px solid black;
+            background-color: white;
         }
         
         .ban-header {
@@ -49,31 +50,73 @@
             font-style: italic;
             color: #555;
         }
+        
+        .terminated {
+            font-weight: bold;
+            color: #d00;
+        }
     </style>
 </head>
 <body>
     <div class="ban-box">
-        <div class="ban-header">Punishment here</div>
+        <div class="ban-header" id="banTitle">Banned for X Days</div>
         
-        <div class="message-item" id="violation-ban-message">
+        <div class="message-item">
             Our content monitors have determined that your behavior at AssTwaatCity has been in violation of our Terms of Service.
         </div>
         
-        <div class="message-item" id="reviewed-date">
-            Reviewed: <span class="bold">4/11/2025 3:15:06 PM</span>
+        <div class="message-item review-date">
+            Reviewed: <span class="bold" id="reviewDate">4/11/2025 3:15:06 PM</span>
         </div>
         
-        <div class="message-item" id="moderator-note">
-            Moderator Note: <span class="bold">(note)</span>
+        <div class="message-item mod-note">
+            Moderator Note: <span class="bold" id="modNote">(note)</span>
         </div>
         
-        <div class="message-item" id="guidelines-message">
+        <div class="message-item">
             Please abide by the AssTwaatCity Community Guidelines so that AssTwaatCity can be fun for users of all ages.
         </div>
         
-        <div class="message-item" id="ban-message">
-            Your account has been disabled for <span>(duration)</span>. You may re-activate it after <span>5/11/2025 3:15:06 PM</span>.
+        <div class="message-item" id="banMessage">
+            Your account has been disabled for <span id="banDuration">(duration)</span>. You may re-activate it after <span id="expirationDate">5/11/2025 3:15:06 PM</span>.
         </div>
     </div>
+
+    <script>
+        // Get punishment data from localStorage
+        const punishmentData = JSON.parse(localStorage.getItem('punishmentData'));
+        
+        if (punishmentData) {
+            // Set reviewed date and mod note
+            document.getElementById('reviewDate').textContent = punishmentData.reviewedDate;
+            document.getElementById('modNote').textContent = punishmentData.modNote || 'None provided';
+            
+            // Handle different punishment types
+            switch(punishmentData.punishmentType) {
+                case 'ban1':
+                case 'ban3':
+                case 'ban7':
+                case 'ban14':
+                    document.getElementById('banTitle').textContent = `Banned for ${punishmentData.banDuration} Day${punishmentData.banDuration !== 1 ? 's' : ''}`;
+                    document.getElementById('banDuration').textContent = `${punishmentData.banDuration} Day${punishmentData.banDuration !== 1 ? 's' : ''}`;
+                    document.getElementById('expirationDate').textContent = punishmentData.expirationDate;
+                    break;
+                    
+                case 'delete':
+                    document.getElementById('banTitle').textContent = 'Account Deleted';
+                    document.getElementById('banMessage').innerHTML = '<span class="terminated">Your account has been banned forever.</span>';
+                    break;
+                    
+                case 'poison':
+                    document.getElementById('banTitle').textContent = 'Account Deleted';
+                    document.getElementById('banMessage').innerHTML = '<span class="terminated">Your account has been banned forever, and new account creation has been disabled.</span>';
+                    break;
+            }
+        } else {
+            // Default message if no data
+            document.getElementById('banTitle').textContent = 'Banned';
+            document.getElementById('banMessage').textContent = 'Your account has been banned.';
+        }
+    </script>
 </body>
 </html>
