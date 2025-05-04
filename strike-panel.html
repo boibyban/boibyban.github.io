@@ -117,23 +117,54 @@
                 <option value="1">1 - Warning</option>
                 <option value="2">2 - 1 Day Suspension</option>
                 <option value="3">3 - 3 Day Suspension</option>
-                <option value="4">4 - 7 Day Suspension</option>
-                <option value="5">5 - 14 Day Suspension</option>
-                <option value="6">6 - 21 Day Suspension</option>
-                <option value="7">7 - Account Termination</option>
+                <option value="4">4 - 3 Day Suspension</option>
+                <option value="5">5 - 7 Day Suspension</option>
+                <option value="6">6 - 7 Day Suspension</option>
+                <option value="7">7 - 14 Day Suspension</option>
+                <option value="8">8 - 14 Day Suspension</option>
+                <option value="9">9 - 21 Day Suspension</option>
+                <option value="10">10 - Account Termination</option>
             </select>
         </div>
         
         <div class="form-group">
             <label for="violationReason">Reason:</label>
             <select id="violationReason">
-                <option value="Excessive Profanity">Excessive Profanity</option>
-                <option value="Harassment">Harassment</option>
-                <option value="Spamming">Spamming</option>
-                <option value="Hate Speech">Hate Speech</option>
-                <option value="Cheating/Exploiting">Cheating/Exploiting</option>
-                <option value="Impersonation">Impersonation</option>
+                <option value="">Select a reason</option>
                 <option value="Ban Evasion">Ban Evasion</option>
+                <option value="Child Safety">Child Safety</option>
+                <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
+                <option value="Chargebacks">Chargebacks</option>
+                <option value="Unauthorized Purchases">Unauthorized Purchases</option>
+                <option value="Doxxing">Doxxing</option>
+                <option value="Violent Extremism and Terrorism">Violent Extremism and Terrorism</option>
+                <option value="Malicious Software">Malicious Software</option>
+                <option value="Poltical Content and Figures">Poltical Content and Figures</option>
+                <option value="Real-Life Financial Fraud">Real-Life Financial Fraud</option>
+                <option value="Real-Life Threats">Real-Life Threats</option>
+                <option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
+                <option value="Admin Impersonation">Admin Impersonation</option>
+                <option value="Impersonation">Impersonation</option>
+                <option value="Bypassing Safety Systems">Bypassing Safety Systems</option>
+                <option value="Real-World Tragic/Sensitive Events">Real-World Tragic/Sensitive Events</option>
+                <option value="Excessive Profanity">Excessive Profanity</option>
+                <option value="Minimum Age Requirement">Minimum Age Requirement</option>
+                <option value="Harassment and Bullying">Harassment and Bullying</option>
+                <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
+                <option value="Sexual Content">Sexual Content</option>
+                <option value="Online Dating">Online Dating</option>
+                <option value="Romantic Content">Romatic Content</option>
+                <option value="Account Theft">Account Theft</option>
+                <option value="Account Sharing">Account Sharing</option>
+                <option value="Disruptive Content">Disruptive Content</option>
+                <option value="Gore and Violence">Gore and Violence</option>
+                <option value="Sharing Personal Information">Sharing Personal Information</option>
+                <option value="Asking for Personal Information">Asking for Personal Information</option>
+                <option value="Spam">Spam</option>
+                <option value="Scamming">Scamming</option>
+                <option value="Harmful Misinformation">Harmful Misinformation</option>
+                <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                <option value="Cheats and Exploits">Cheats and Exploits</option>
                 <option value="Other">Other</option>
             </select>
         </div>
@@ -157,10 +188,13 @@
             1: "Warning",
             2: "Suspended for 1 Day",
             3: "Suspended for 3 Days",
-            4: "Suspended for 7 Days",
-            5: "Suspended for 14 Days",
-            6: "Suspended for 21 Days",
-            7: "Account Termination"
+            4: "Suspended for 3 Days",
+            5: "Suspended for 7 Days",
+            6: "Suspended for 7 Days",
+            7: "Suspended for 14 Days",
+            8: "Suspended for 14 Days",
+            9: "Suspended for 21 Days",
+            10: "Account Termination"
         };
 
         // DOM elements
@@ -182,7 +216,7 @@
             const newStrikes = parseInt(strikesSelect.value);
             const newTotal = totalStrikes + newStrikes;
             
-            if (newTotal >= 7) {
+            if (newTotal >= 10) {
                 punishmentPreview.textContent = "Punishment: Account Termination";
             } else {
                 punishmentPreview.textContent = `Punishment: ${cumulativePunishmentMap[newTotal]}`;
@@ -205,13 +239,13 @@
             const newTotal = totalStrikes + newStrikes;
             
             // Determine punishment based on CUMULATIVE total
-            const punishment = newTotal >= 7 
+            const punishment = newTotal >= 10 
                 ? "Account Termination" 
                 : cumulativePunishmentMap[newTotal];
 
-            // Calculate expiry date (90 days from violation date)
+            // Calculate expiry date (365 days from violation date)
             const expiryDate = new Date(date);
-            expiryDate.setDate(expiryDate.getDate() + 90);
+            expiryDate.setDate(expiryDate.getDate() + 365);
             
             // Create violation object
             const violation = {
