@@ -133,6 +133,7 @@
                 <option value="Hate Speech">Hate Speech</option>
                 <option value="Cheating/Exploiting">Cheating/Exploiting</option>
                 <option value="Impersonation">Impersonation</option>
+                <option value="Ban Evasion">Ban Evasion</option>
                 <option value="Other">Other</option>
             </select>
         </div>
@@ -200,21 +201,30 @@
             const expiryDate = new Date(date);
             expiryDate.setDate(expiryDate.getDate() + 90);
             
+            // Get existing violations to determine order
+            const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
+            const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
+            
             const violation = {
                 date: formatDate(date),
                 expiryDate: formatDate(expiryDate),
                 strikes: strikes,
                 reason: reason,
-                punishment: punishmentMap[strikes]
+                punishment: punishmentMap[strikes],
+                _order: existingViolations.length // Maintain insertion order
             };
-            
-            // Get existing violations
-            const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
-            const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
             
             // Add new violation
             existingViolations.push(violation);
             localStorage.setItem(storageKey, JSON.stringify(existingViolations));
+            
+            // If this violation causes termination (7+ strikes total)
+            if (!isExpired) {
+                const totalStrikes = existingViolations.reduce((sum, v) => sum + v.strikes, 0);
+                if (totalStrikes >= 7) {
+                    localStorage.removeItem('expiredViolations');
+                }
+            }
             
             alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
         }
