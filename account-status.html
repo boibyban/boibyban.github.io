@@ -221,7 +221,7 @@
                 <div class="strike-segment"></div>
             </div>
             <div class="strike-count" id="strikeCount">0/7</div>
-            <div class="status-description" id="statusDescription">Your account has no active violations. Thanks for abiding by Boiby's Terms of Use and Community Standards. If you break the rules, it will show up here.</div>
+            <div class="status-description" id="statusDescription">Your account has no active violations. Thanks for abiding by our Terms of Use and Community Standards. If you break the rules, it will show up here.</div>
         </div>
 
         <div class="violations-section">
@@ -248,30 +248,22 @@
     </div>
 
     <script>
-        <script>
-    // Load violations from localStorage
-    function loadViolations() {
-        const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
-        const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
-        
-        // Sort violations by date (newest first), then by timestamp (newest first)
-        currentViolations.sort((a, b) => {
-            const dateDiff = new Date(b.date) - new Date(a.date);
-            return dateDiff !== 0 ? dateDiff : b.timestamp - a.timestamp;
-        });
-        
-        expiredViolations.sort((a, b) => {
-            const dateDiff = new Date(b.date) - new Date(a.date);
-            return dateDiff !== 0 ? dateDiff : b.timestamp - a.timestamp;
-        });
-        
-        renderViolations(currentViolations, 'currentViolationsContent');
-        renderViolations(expiredViolations, 'expiredViolationsContent');
-        
-        // Calculate total strikes
-        const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
-        updateStrikeStatus(totalStrikes);
-    }
+        // Load violations from localStorage
+        function loadViolations() {
+            const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+            const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
+            
+            // Sort violations by timestamp (newest first)
+            currentViolations.sort((a, b) => b.timestamp - a.timestamp);
+            expiredViolations.sort((a, b) => b.timestamp - a.timestamp);
+            
+            renderViolations(currentViolations, 'currentViolationsContent');
+            renderViolations(expiredViolations, 'expiredViolationsContent');
+            
+            // Calculate total strikes
+            const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
+            updateStrikeStatus(totalStrikes);
+        }
 
         // Render violations to the DOM
         function renderViolations(violations, containerId) {
@@ -314,7 +306,7 @@
             });
         }
 
-        // Function to update the strike meter and status text
+        // Update the strike meter and status text
         function updateStrikeStatus(strikes) {
             const statusText = document.getElementById('statusText');
             const strikeMeter = document.getElementById('strikeMeter');
@@ -331,34 +323,25 @@
             if (strikes === 0) {
                 statusText.textContent = 'Your account is all good';
                 statusText.classList.add('all-good');
-                statusDescription.textContent = "Your account has no active violations. Thanks for abiding by Boiby's Terms of Use and Community Standards. If you break the rules, it will show up here.";
-            } else if (strikes >= 1 && strikes <= 2) {
+                statusDescription.textContent = "Your account has no active violations. Thanks for abiding by our Terms of Use and Community Standards.";
+            } else if (strikes <= 2) {
                 statusText.textContent = `Your account has ${strikes} strike${strikes !== 1 ? 's' : ''}`;
                 statusText.classList.add('warning');
                 statusDescription.textContent = "Your account has received strikes for violating our Terms of Use. Additional violations may result in further restrictions.";
-            } else if (strikes >= 3 && strikes <= 4) {
+            } else if (strikes <= 4) {
                 statusText.textContent = `Your account has ${strikes} strikes`;
                 statusText.classList.add('high-warning');
                 statusDescription.textContent = "Your account has multiple strikes. Continued violations will result in severe restrictions or termination.";
-            } else if (strikes === 5) {
+            } else if (strikes === 5 || strikes === 6) {
                 statusText.textContent = `Your account has ${strikes} strikes`;
                 statusText.classList.add('danger');
-                statusDescription.textContent = "Your account is approaching termination. One more strike will put your account at risk of termination.";
-            } else if (strikes === 6) {
-                statusText.textContent = `Your account is at risk (6 strikes)`;
-                statusText.classList.add('danger');
-                statusDescription.textContent = "Your account is one strike away from termination. Any further violations will result in permanent termination.";
+                statusDescription.textContent = strikes === 5 
+                    ? "Your account is approaching termination. One more strike will put your account at risk of termination."
+                    : "Your account is one strike away from termination. Any further violations will result in permanent termination.";
             } else if (strikes >= 7) {
                 statusText.textContent = 'Your account is terminated';
                 statusText.classList.add('terminated');
-                statusDescription.textContent = "Due to repeated or severe violations of our Terms of Use and Community Standards, your account has been permanently terminated.";
-                
-                // Clear all violations when account is terminated
-                localStorage.removeItem('expiredViolations');
-                localStorage.removeItem('currentViolations');
-                
-                // Reload to reflect changes
-                loadViolations();
+                statusDescription.textContent = "Due to repeated or severe violations of our Terms of Use, your account has been terminated. You can no longer use Boiby.";
             }
             
             // Update strike meter segments
