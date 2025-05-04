@@ -177,6 +177,21 @@
             color: var(--text-secondary);
             font-style: italic;
         }
+
+        .admin-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 15px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .admin-link:hover {
+            background-color: #444;
+        }
     </style>
 </head>
 <body>
@@ -201,50 +216,7 @@
                 <span>▼</span>
             </div>
             <div class="section-content" id="currentViolationsContent">
-                <!-- Example active violation cards -->
-                <div class="violation-card yellow">
-                    <div class="violation-header">
-                        <h3>Excessive Profanity (1 strike)</h3>
-                    </div>
-                    <div class="violation-details">
-                        <div>Date: May 1, 2023</div>
-                        <div>Expires: July 30, 2023</div>
-                        <div>Punishment: Suspended for 1 Day</div>
-                    </div>
-                    <a href="#" class="appeal-link">Request Appeal</a>
-                </div>
-
-                <div class="violation-card orange">
-                    <div class="violation-header">
-                        <h3>Harassment (3 strikes)</h3>
-                    </div>
-                    <div class="violation-details">
-                        <div>Date: April 15, 2023</div>
-                        <div>Expires: July 14, 2023</div>
-                        <div>Punishment: Suspended for 7 Days</div>
-                    </div>
-                    <a href="#" class="appeal-link">Request Appeal</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="violations-section">
-            <div class="section-header collapsed" id="pastViolationsHeader">
-                <h2>Past Violations</h2>
-                <span>►</span>
-            </div>
-            <div class="section-content" id="pastViolationsContent" style="display: none;">
-                <!-- Example past violation cards -->
-                <div class="violation-card yellow">
-                    <div class="violation-header">
-                        <h3>Spamming (2 strikes)</h3>
-                    </div>
-                    <div class="violation-details">
-                        <div>Date: January 10, 2023</div>
-                        <div>Expires: April 10, 2023</div>
-                        <div>Punishment: Suspended for 3 Days</div>
-                    </div>
-                </div>
+                <!-- Violations will be loaded here -->
             </div>
         </div>
 
@@ -254,22 +226,68 @@
                 <span>►</span>
             </div>
             <div class="section-content" id="expiredViolationsContent" style="display: none;">
-                <!-- Example expired violation cards -->
-                <div class="violation-card red">
-                    <div class="violation-header">
-                        <h3><span class="expired-tag">(Expired)</span> Hate Speech (5 strikes)</h3>
-                    </div>
-                    <div class="violation-details">
-                        <div>Date: October 5, 2022</div>
-                        <div>Expires: January 3, 2023</div>
-                        <div>Punishment: Suspended for 30 Days</div>
-                    </div>
-                </div>
+                <!-- Expired violations will be loaded here -->
             </div>
         </div>
+
+        <a href="strike-panel.html" class="admin-link">Moderator Panel</a>
     </div>
 
     <script>
+        // Load violations from localStorage
+        function loadViolations() {
+            const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+            const expiredViolations = JSON.parse(localStorage.getItem('expiredViolations')) || [];
+            
+            renderViolations(currentViolations, 'currentViolationsContent');
+            renderViolations(expiredViolations, 'expiredViolationsContent');
+            
+            // Calculate total strikes
+            const totalStrikes = currentViolations.reduce((sum, violation) => sum + violation.strikes, 0);
+            updateStrikeStatus(totalStrikes);
+        }
+
+        // Render violations to the DOM
+        function renderViolations(violations, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            if (violations.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">No violations found</p>';
+                return;
+            }
+            
+            violations.forEach(violation => {
+                const card = document.createElement('div');
+                let severityClass = 'yellow';
+                
+                if (violation.strikes >= 5) severityClass = 'red';
+                else if (violation.strikes >= 3) severityClass = 'orange';
+                
+                const isExpired = containerId === 'expiredViolationsContent';
+                const expiredTag = isExpired ? '<span class="expired-tag">(Expired)</span> ' : '';
+                
+                const appealLink = !isExpired 
+                    ? `<a href="#" class="appeal-link">Request Appeal</a>`
+                    : '';
+                
+                card.className = `violation-card ${severityClass}`;
+                card.innerHTML = `
+                    <div class="violation-header">
+                        <h3>${expiredTag}${violation.reason} (${violation.strikes} strike${violation.strikes !== 1 ? 's' : ''})</h3>
+                    </div>
+                    <div class="violation-details">
+                        <div>Date: ${violation.date}</div>
+                        <div>Expires: ${violation.expiryDate}</div>
+                        <div>Punishment: ${violation.punishment}</div>
+                    </div>
+                    ${appealLink}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
         // Function to update the strike meter and status text
         function updateStrikeStatus(strikes) {
             const statusText = document.getElementById('statusText');
@@ -336,8 +354,8 @@
             });
         });
 
-        // Initialize with 1 strike for demo purposes
-        updateStrikeStatus(1);
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadViolations);
     </script>
 </body>
 </html>
