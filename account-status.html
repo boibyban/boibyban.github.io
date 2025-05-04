@@ -318,7 +318,7 @@ function updateStrikeStatus(strikes) {
     } else if (strikes >= 3 && strikes <= 4) {
         statusText.textContent = 'very limited';
         statusText.classList.add('very-limited');
-        statusDescription.textContent = "Due to violations of our Terms of Use and Community Rules, features on your account or features on it have been temporarily disabled or limited. Future violations will result in additional actions being taken against your account.";
+        statusDescription.textContent = "Due to violations of our Terms of Use and Community Rules, features on your account have been temporarily disabled or limited. Future violations will result in additional actions being taken against your account.";
     } else if (strikes >= 5 && strikes <= 6) {
         statusText.textContent = 'in danger';
         statusText.classList.add('in-danger');
@@ -327,6 +327,14 @@ function updateStrikeStatus(strikes) {
         statusText.textContent = 'terminated';
         statusText.classList.add('terminated');
         statusDescription.textContent = "Due to repeated or severe violations of our Terms of Use and Community Standards, your account has been terminated. You can no longer use your Boiby account.";
+        
+        // Clear all expired violations when account is terminated
+        localStorage.removeItem('expiredViolations');
+        // Also clear current violations since account is terminated
+        localStorage.removeItem('currentViolations');
+        
+        // Reload to reflect changes
+        loadViolations();
     }
     
     // Update strike meter segments
