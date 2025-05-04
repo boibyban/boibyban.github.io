@@ -187,50 +187,65 @@
         addCurrentBtn.addEventListener('click', () => addViolation(false));
         addExpiredBtn.addEventListener('click', () => addViolation(true));
 
-        
-    function addViolation(isExpired) {
-        const date = new Date(dateInput.value);
-        if (isNaN(date.getTime())) {
-            alert('Please select a valid date');
-            return;
-        }
-
-        const strikes = parseInt(strikesSelect.value);
-        const reason = reasonSelect.value;
-        
-        // Calculate expiry date (90 days from violation date)
-        const expiryDate = new Date(date);
-        expiryDate.setDate(expiryDate.getDate() + 90);
-        
-        // Get existing violations
-        const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
-        const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
-        
-        const violation = {
-            date: formatDate(date),
-            expiryDate: formatDate(expiryDate),
-            strikes: strikes,
-            reason: reason,
-            punishment: punishmentMap[strikes],
-            timestamp: Date.now() // Add timestamp for proper ordering
-        };
-        
-        // Add new violation
-        existingViolations.push(violation);
-        localStorage.setItem(storageKey, JSON.stringify(existingViolations));
-        
-        // If this violation causes termination (7+ strikes total)
-        if (!isExpired) {
-            const totalStrikes = existingViolations.reduce((sum, v) => sum + v.strikes, 0);
-            if (totalStrikes >= 7) {
-                // Move all current violations to expired when terminated
-                localStorage.setItem('expiredViolations', JSON.stringify(existingViolations));
-                localStorage.removeItem('currentViolations');
+        function addViolation(isExpired) {
+            const date = new Date(dateInput.value);
+            if (isNaN(date.getTime())) {
+                alert('Please select a valid date');
+                return;
             }
+
+            const strikes = parseInt(strikesSelect.value);
+            const reason = reasonSelect.value;
+            
+            // Calculate expiry date (90 days from violation date)
+            const expiryDate = new Date(date);
+            expiryDate.setDate(expiryDate.getDate() + 90);
+            
+            // Format dates for display
+            const formattedDate = date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const formattedExpiry = expiryDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Create violation object
+            const violation = {
+                date: formattedDate,
+                expiryDate: formattedExpiry,
+                strikes: strikes,
+                reason: reason,
+                punishment: punishmentMap[strikes],
+                timestamp: Date.now()
+            };
+            
+            // Get existing violations
+            const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
+            const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
+            
+            // Add new violation
+            existingViolations.unshift(violation); // Add to beginning to maintain order
+            localStorage.setItem(storageKey, JSON.stringify(existingViolations));
+            
+            // Check for termination if adding current violation
+            if (!isExpired) {
+                const totalStrikes = existingViolations.reduce((sum, v) => sum + v.strikes, 0);
+                if (totalStrikes >= 7) {
+                    // Move all current violations to expired
+                    const allExpired = JSON.parse(localStorage.getItem('expiredViolations')) || [];
+                    localStorage.setItem('expiredViolations', JSON.stringify([...existingViolations, ...allExpired]));
+                    localStorage.removeItem('currentViolations');
+                    alert('Account has reached 7+ strikes and has been terminated.');
+                }
+            }
+            
+            alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
         }
-        
-        alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
-    }
 
         // Reset all violations
         resetAllBtn.addEventListener('click', () => {
@@ -240,15 +255,6 @@
                 alert('All violations have been reset.');
             }
         });
-
-        // Helper function to format date as "Month Day, Year"
-        function formatDate(date) {
-            return date.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-        }
     </script>
 </body>
 </html>
