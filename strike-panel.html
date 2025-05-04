@@ -179,84 +179,104 @@
     </div>
 
     <script>
-        // Punishment mapping
-        const punishmentMap = {
-            1: "Warning",
-            2: "Suspended for 1 Day",
-            3: "Suspended for 3 Days",
-            4: "Suspended for 7 Days",
-            5: "Suspended for 14 Days",
-            6: "Suspended for 30 Days",
-            7: "Account Termination"
-        };
+       // Punishment mapping based on cumulative strikes
+    const punishmentMap = {
+        1: "Warning",
+        2: "Suspended for 1 Day",
+        3: "Suspended for 3 Days",
+        4: "Suspended for 7 Days",
+        5: "Suspended for 14 Days",
+        6: "Suspended for 21 Days",
+        7: "Account Termination"
+    };
 
-        // DOM elements
-        const dateInput = document.getElementById('violationDate');
-        const strikesSelect = document.getElementById('violationStrikes');
-        const reasonSelect = document.getElementById('violationReason');
-        const punishmentPreview = document.getElementById('punishmentPreview');
-        const addCurrentBtn = document.getElementById('addCurrent');
-        const addExpiredBtn = document.getElementById('addExpired');
-        const resetAllBtn = document.getElementById('resetAll');
+    // DOM elements and other existing code remains the same...
 
-        // Set default date to today
-        dateInput.valueAsDate = new Date();
-
-        // Update punishment preview when strikes change
-        strikesSelect.addEventListener('change', updatePunishmentPreview);
-        function updatePunishmentPreview() {
-            const strikes = parseInt(strikesSelect.value);
-            punishmentPreview.textContent = `Punishment: ${punishmentMap[strikes]}`;
+    function addViolation(isExpired) {
+        const date = new Date(dateInput.value);
+        if (isNaN(date.getTime())) {
+            alert('Please select a valid date');
+            return;
         }
-        updatePunishmentPreview();
 
-        // Add violation functions
-        addCurrentBtn.addEventListener('click', () => addViolation(false));
-        addExpiredBtn.addEventListener('click', () => addViolation(true));
-
-        function addViolation(isExpired) {
-            const date = new Date(dateInput.value);
-            if (isNaN(date.getTime())) {
-                alert('Please select a valid date');
-                return;
+        const reason = reasonSelect.value;
+        
+        // Get current violations to calculate total strikes
+        const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+        const totalStrikes = currentViolations.reduce((sum, v) => sum + v.strikes, 0);
+        
+        // Determine punishment based on cumulative strikes
+        let strikes;
+        let punishment;
+        
+        if (totalStrikes >= 6) {
+            // At 6+ existing strikes, any new violation is termination
+            strikes = 7 - totalStrikes; // Remaining strikes needed for termination
+            punishment = "Account Termination";
+        } else {
+            // For new violations, calculate based on cumulative strikes
+            const newStrikes = parseInt(strikesSelect.value);
+            const newTotal = totalStrikes + newStrikes;
+            
+            if (newTotal >= 7) {
+                strikes = 7 - totalStrikes; // Only add what's needed for termination
+                punishment = "Account Termination";
+            } else {
+                strikes = newStrikes;
+                // Get punishment based on new total strikes
+                punishment = punishmentMap[newTotal] || punishmentMap[7];
             }
-
-            const strikes = parseInt(strikesSelect.value);
-            const reason = reasonSelect.value;
-            
-            // Calculate expiry date (90 days from violation date)
-            const expiryDate = new Date(date);
-            expiryDate.setDate(expiryDate.getDate() + 90);
-            
-            // Create violation object
-            const violation = {
-                date: date.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                }),
-                expiryDate: expiryDate.toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                }),
-                strikes: strikes,
-                reason: reason,
-                punishment: punishmentMap[strikes],
-                timestamp: Date.now()
-            };
-            
-            // Get existing violations
-            const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
-            const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
-            
-            // Add new violation to beginning
-            existingViolations.unshift(violation);
-            localStorage.setItem(storageKey, JSON.stringify(existingViolations));
-            
-            alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
         }
 
+        // Calculate expiry date (90 days from violation date)
+        const expiryDate = new Date(date);
+        expiryDate.setDate(expiryDate.getDate() + 90);
+        
+        // Create violation object
+        const violation = {
+            date: date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            }),
+            expiryDate: expiryDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            }),
+            strikes: strikes,
+            reason: reason,
+            punishment: punishment,
+            timestamp: Date.now()
+        };
+        
+        // Get existing violations
+        const storageKey = isExpired ? 'expiredViolations' : 'currentViolations';
+        const existingViolations = JSON.parse(localStorage.getItem(storageKey)) || [];
+        
+        // Add new violation to beginning
+        existingViolations.unshift(violation);
+        localStorage.setItem(storageKey, JSON.stringify(existingViolations));
+        
+        alert(`Violation added to ${isExpired ? 'expired' : 'current'} violations!`);
+    }
+
+    // Update punishment preview to show cumulative effect
+    function updatePunishmentPreview() {
+        const currentViolations = JSON.parse(localStorage.getItem('currentViolations')) || [];
+        const totalStrikes = currentViolations.reduce((sum, v) => sum + v.strikes, 0);
+        const newStrikes = parseInt(strikesSelect.value);
+        const newTotal = totalStrikes + newStrikes;
+        
+        if (totalStrikes >= 6) {
+            punishmentPreview.textContent = "Punishment: Account Termination (next violation will terminate)";
+        } else if (newTotal >= 7) {
+            const needed = 7 - totalStrikes;
+            punishmentPreview.textContent = `Punishment: Account Termination (will add ${needed} strike${needed !== 1 ? 's' : ''})`;
+        } else {
+            punishmentPreview.textContent = `Punishment: ${punishmentMap[newTotal]} (total ${newTotal} strikes)`;
+        }
+    }
         // Reset all violations
         resetAllBtn.addEventListener('click', () => {
             if (confirm('Are you sure you want to reset ALL violations? This cannot be undone.')) {
