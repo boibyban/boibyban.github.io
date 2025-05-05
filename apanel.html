@@ -3,12 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AssTwaatCity Moderator Panel</title>
+    <title>Moderator Panel</title>
+    <style>
+        .violation-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .violation-item select, .violation-item textarea {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        .remove-violation {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 3px 6px;
+            cursor: pointer;
+        }
+        #addViolation {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h1>AssTwaatCity Moderator Panel</h1>
+    <h1>Moderator Panel</h1>
     
     <form id="punishmentForm">
+        <h2>Violations</h2>
+        <div id="violationsContainer">
+            <!-- Violation items will be added here -->
+        </div>
+        <button type="button" id="addViolation">Add Violation</button>
+        
         <h2>Punishment Type:</h2>
         <input type="radio" id="ban1" name="punishment" value="ban1" checked>
         <label for="ban1">Ban 1 Day</label><br>
@@ -38,6 +66,66 @@
     </form>
 
     <script>
+        // Violation reasons
+        const violationReasons = [
+            "Harassment",
+            "Spam",
+            "Inappropriate",
+            "Scamming",
+            "Adult Content",
+            "Privacy",
+            "Profanity",
+            "Other"
+        ];
+
+        // Add violation button functionality
+        document.getElementById('addViolation').addEventListener('click', function() {
+            const violationsContainer = document.getElementById('violationsContainer');
+            const violationId = Date.now();
+            
+            const violationItem = document.createElement('div');
+            violationItem.className = 'violation-item';
+            violationItem.id = `violation-${violationId}`;
+            
+            // Create reason dropdown
+            const reasonSelect = document.createElement('select');
+            reasonSelect.className = 'violation-reason';
+            reasonSelect.required = true;
+            
+            violationReasons.forEach(reason => {
+                const option = document.createElement('option');
+                option.value = reason;
+                option.textContent = reason;
+                reasonSelect.appendChild(option);
+            });
+            
+            // Create evidence textarea
+            const evidenceTextarea = document.createElement('textarea');
+            evidenceTextarea.className = 'violation-evidence';
+            evidenceTextarea.placeholder = 'Enter evidence/context for this violation';
+            evidenceTextarea.required = true;
+            evidenceTextarea.rows = 3;
+            
+            // Create remove button
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'remove-violation';
+            removeButton.textContent = 'Remove Violation';
+            removeButton.addEventListener('click', function() {
+                violationsContainer.removeChild(violationItem);
+            });
+            
+            // Append all elements
+            violationItem.appendChild(reasonSelect);
+            violationItem.appendChild(document.createElement('br'));
+            violationItem.appendChild(evidenceTextarea);
+            violationItem.appendChild(document.createElement('br'));
+            violationItem.appendChild(removeButton);
+            
+            violationsContainer.appendChild(violationItem);
+        });
+
+        // Form submission
         document.getElementById('punishmentForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -46,6 +134,22 @@
             const modNote = document.getElementById('modNote').value.trim();
             const hasMembership = document.getElementById('hasMembership').checked;
             const now = new Date();
+            
+            // Collect violations
+            const violations = [];
+            const violationItems = document.querySelectorAll('.violation-item');
+            
+            violationItems.forEach(item => {
+                const reason = item.querySelector('.violation-reason').value;
+                const evidence = item.querySelector('.violation-evidence').value.trim();
+                
+                if (reason && evidence) {
+                    violations.push({
+                        reason: reason,
+                        evidence: evidence
+                    });
+                }
+            });
             
             // Format date as MM/DD/YYYY HH:MM:SS AM/PM
             const reviewedDate = now.toLocaleString('en-US', {
@@ -107,12 +211,16 @@
                 hasNote: modNote.length > 0,
                 hasMembership: hasMembership,
                 renewalDate: renewalDateStr,
-                isTempBan: ['ban1', 'ban3', 'ban7', 'ban14'].includes(punishment)
+                isTempBan: ['ban1', 'ban3', 'ban7', 'ban14'].includes(punishment),
+                violations: violations
             }));
             
             // Redirect to ban page
             window.location.href = 'atwaat.html';
         });
+        
+        // Add one violation by default
+        document.getElementById('addViolation').click();
     </script>
 </body>
 </html>
