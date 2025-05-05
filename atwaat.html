@@ -140,33 +140,42 @@
                 document.getElementById('modNoteText').textContent = punishmentData.modNote;
             }
             
-            // Add violations if they exist
             if (punishmentData.violations && punishmentData.violations.length > 0) {
-                const violationsContainer = document.getElementById('violationsContainer');
-                
-                punishmentData.violations.forEach((violation, index) => {
-                    const violationBox = document.createElement('div');
-                    violationBox.className = 'violation-box';
-                    
-                    const reasonLine = document.createElement('b');
-                    reasonLine.className = 'violation-line';
-                    reasonLine.textContent = `Reason: ${violation.reason}`;
-                    
-                    const contextLabel = document.createElement('b');
-                    contextLabel.className = 'violation-line';
-                    contextLabel.textContent = 'Ban Context:';
-                    
-                    const contextContent = document.createElement('span');
-                    contextContent.className = 'evidenceContext';
-                    contextContent.textContent = violation.evidence;
-                    
-                    violationBox.appendChild(reasonLine);
-                    violationBox.appendChild(contextLabel);
-                    violationBox.appendChild(contextContent);
-                    
-                    violationsContainer.appendChild(violationBox);
-                });
-            }
+        const violationsContainer = document.getElementById('violationsContainer');
+        
+        punishmentData.violations.forEach((violation, index) => {
+            const violationBox = document.createElement('div');
+            violationBox.className = 'violation-box';
+            
+            // Create container for reason line
+            const reasonLine = document.createElement('div');
+            reasonLine.className = 'violation-line';
+            
+            const reasonLabel = document.createElement('b');
+            reasonLabel.textContent = 'Reason: ';
+            
+            const reasonText = document.createElement('span');
+            reasonText.textContent = violation.reason;
+            
+            // Append both to reason line
+            reasonLine.appendChild(reasonLabel);
+            reasonLine.appendChild(reasonText);
+            
+            const contextLabel = document.createElement('b');
+            contextLabel.className = 'violation-line';
+            contextLabel.textContent = 'Ban Context:';
+            
+            const contextContent = document.createElement('span');
+            contextContent.className = 'evidenceContext';
+            contextContent.textContent = violation.evidence;
+            
+            violationBox.appendChild(reasonLine);
+            violationBox.appendChild(contextLabel);
+            violationBox.appendChild(contextContent);
+            
+            violationsContainer.appendChild(violationBox);
+        });
+    }
             
             // Handle different punishment types
             switch(punishmentData.punishmentType) {
