@@ -110,7 +110,6 @@ const translations = {
         "Title.Ban1Week": "Banned for 1 Week", // no longer used
         "Title.Ban2Weeks": "Banned for 2 Weeks", // no longer used
         "Title.Ban1Month": "Banned for 1 Month", // no longer used
-// Suspensions are currently unused. When they are used, Ban1Day on the form data for example will map to Title.Suspend1Day for compatibility and to make things easier.
         "Title.Suspend3Hours": "Suspended for 3 Hours",
         "Title.Suspend1Day": "Suspended for 1 Day",
         "Title.Suspend2Days": "Suspended for 2 Days",
@@ -135,15 +134,15 @@ if (formData) {
     // Punishment type mapping using translations
     const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
-        Ban3Hours: translations[language]["Title.Ban3Hours"],
-        Ban1Day: translations[language]["Title.Ban1Day"],
-        Ban2Days: translations[language]["Title.Ban2Days"],
-        Ban3Days: translations[language]["Title.Ban3Days"],
-        Ban7Days: translations[language]["Title.Ban7Days"],
-        Ban14Days: translations[language]["Title.Ban14Days"],
-        Ban60Days: translations[language]["Title.Ban60Days"],
-        Ban6Months: translations[language]["Title.Ban6Months"],
-        Ban1Year: translations[language]["Title.Ban1Year"],
+        Ban3Hours: translations[language]["Title.Suspend3Hours"],
+        Ban1Day: translations[language]["Title.Suspend1Day"],
+        Ban2Days: translations[language]["Title.Suspend2Days"],
+        Ban3Days: translations[language]["Title.Suspend3Days"],
+        Ban7Days: translations[language]["Title.Suspend7Days"],
+        Ban14Days: translations[language]["Title.Suspend14Days"],
+        Ban60Days: translations[language]["Title.Suspend60Days"],
+        Ban6Months: translations[language]["Title.Suspend6Months"],
+        Ban1Year: translations[language]["Title.Suspend1Year"],
         Delete: translations[language]["Title.Terminate"],
     };
 
