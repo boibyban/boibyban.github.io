@@ -149,7 +149,6 @@ if (formData) {
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
-    // Rest of your existing code remains unchanged
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
     document.getElementById('moderatorNote').textContent = moderatorNote;
 
