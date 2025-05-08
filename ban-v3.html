@@ -434,9 +434,7 @@
                 return `
                     ${data.evidence ? '<li class="li-yellow">One message was removed, so no one else can see it.</li>' : ''}
                     <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
-                    <li>You won't be able to send messages for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
-                    <li>You won't be able to upload files for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
-                    <li>You won't be able to join servers for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
+                    <li>You won't be able to send or recieve messages for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
                     <li>This violation affects your account standing until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
                 `;
             }
