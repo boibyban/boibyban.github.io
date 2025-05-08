@@ -260,7 +260,7 @@
             </div>
             <div class="punishment-header">
                 <h3 class="term" id="punishment-title">Account Terminated</h3>
-                <p id="punishment-description">Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.</p>
+                <p id="punishment-description">Due to serious or repeated violations of the Boiby Community Standards, your account has been terminated. You can no longer use your BoibyChat account.</p>
             </div>
         </div>
 
@@ -296,13 +296,13 @@
         <div class="info-box">
             <ul class="consequences-list" id="consequences-list">
                 <li class="li-yellow">One piece of content you posted was removed, so no one can see it.</li>
-                <li class="li-red">Your account has been permanently banned.</li>
-                <li class="li-red">You cannot create new accounts on Boiby.</li>
+                <li class="li-red">Your account has been permanently suspended.</li>
+                <li class="li-red">You cannot create new accounts on BoibyChat.</li>
             </ul>
         </div>
 
         <div class="further-actions">
-            <p>Please review the Terms of Use and Boiby Community Standards for more information.</p>
+            <p>Please review the BoibyChat Terms of Use and Community Standards for more information.</p>
             <p style="margin-bottom: 6px;">Did we make a mistake? Let us know by requesting an appeal.</p>
             <div class="action-buttons">
                 <button class="btn btn-appeal">Request Appeal</button>
@@ -386,8 +386,8 @@
             
             if (punishmentDesc) {
                 punishmentDesc.textContent = isTerminated
-                    ? 'Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.'
-                    : `Due to violations of our Community Standards, your account has been temporarily suspended until ${getSuspensionEndDate(data.punishment)}. Future violations may result in additional actions, including account termination.`;
+                    ? 'Due to serious or repeated violations of the BoibyChat Community Standards, your account has been terminated. You can no longer use your BoibyChat account.'
+                    : `Due to violations of the BoibyChat Community Standards, your account has been temporarily suspended until ${getSuspensionEndDate(data.punishment)}. Future violations may result in additional actions, including account termination.`;
             }
             
             // Set consequences list
@@ -427,7 +427,7 @@
                 }
                 html += `
                     <li class="li-red">Your account has been permanently banned.</li>
-                    <li>You may not create new accounts on Boiby.</li>
+                    <li>You may not create new accounts on BoibyChat.</li>
                 `;
                 return html;
             } else {
