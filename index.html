@@ -74,6 +74,7 @@
             <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
             <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
             <button type="button" id="exploitingBanButton" style="margin-left: 10px;">Exploiting Ban</button>
+            <button type="button" id="modifiedClientBanButton" style="margin-left: 10px;">Modified Client Ban</button>
             <button type="button" id="theftButton" style="margin-left: 10px;">Account Theft Ban</button>
 </div>
         <label for="username">Username (required):</label><br>
@@ -298,6 +299,7 @@
                     <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
                     <option value="Boiby Economy">Boiby Economy</option>
                     <option value="Cheats and Exploits">Cheats and Exploits</option>
+                    <option value="Modified Client">Modified Client</option>
                     <option value="Spam">Spam</option>
                     <option value="Chargeback">Chargeback</option>
                     <option value="Minimum Age Requirement">Minimum Age Requirement</option>
@@ -587,6 +589,32 @@
             newBox.querySelector('.violationType').value = 'General/Chat';
             newBox.querySelector('.classicReason').value = 'Cheats and Exploits';
             newBox.querySelector('.evidence').value = `Exploit Detected - Place ID: ${placeId}`;
+        }
+        alert('Please enter a username and submit.');
+    });
+
+
+    <script>
+    document.getElementById('modifiedClientBanButton').addEventListener('click', function() {
+        const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
+        
+        document.getElementById('Ban1Day').checked = true;
+        document.getElementById('notecustom').value = 'We detected you are using a modified client. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official client. Continued use of modified clients may result in more account restrictions, including account termination.';
+        document.getElementById('note').value = 'nonote';
+        document.getElementById('cautionWarning').value = 'permanent'; 
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Modified Client';
+            newBox.querySelector('.evidence').value = `Modified client detected - Place ID: ${placeId}`;
         }
         alert('Please enter a username and submit.');
     });
