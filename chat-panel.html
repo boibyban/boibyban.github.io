@@ -184,36 +184,34 @@
             });
             
             // Handle form submission
-generateBtn.addEventListener('click', function() {
-    // Get all form values
-    const username = document.getElementById('username').value;
-    const reason = document.getElementById('reason').value;
-    const punishment = document.getElementById('punishment').value;
-    const evidence = document.getElementById('evidence').value;
-    
-    // Get image as base64 (or default if none)
-    let profileImage = imagePreview.src;
-    
-    // Create data object to pass
-    const banData = {
-        username: username || 'User',
-        reason: reason,
-        punishment: punishment,
-        evidence: evidence,
-        profileImage: profileImage,
-        timestamp: new Date().toISOString()
-    };
-    
-    // Store in localStorage with a unique key
-    const banKey = 'banData_' + Date.now();
-    localStorage.setItem(banKey, JSON.stringify(banData));
-    
-    // Store the reference to this ban
-    localStorage.setItem('currentBanKey', banKey);
-    
-    // Open ban screen
-    window.open('ban-v3.html', '_blank');
-});
+            const generateBtn = document.getElementById('generate-btn');
+            
+            generateBtn.addEventListener('click', function() {
+                // Get all form values
+                const username = document.getElementById('username').value;
+                const reason = document.getElementById('reason').value;
+                const punishment = document.getElementById('punishment').value;
+                const evidence = document.getElementById('evidence').value;
+                
+                // Get image as base64 (or default if none)
+                let profileImage = imagePreview.src;
+                
+                // Create data object to pass
+                const banData = {
+                    username: username || 'User',
+                    reason: reason,
+                    punishment: punishment,
+                    evidence: evidence,
+                    profileImage: profileImage,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Store in localStorage
+                localStorage.setItem('banScreenData', JSON.stringify(banData));
+                
+                // Open ban screen
+                window.open('ban-v3.html', '_blank');
+            });
         });
     </script>
 </body>
