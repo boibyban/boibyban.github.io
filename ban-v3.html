@@ -291,93 +291,124 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get data from localStorage
-            const banData = JSON.parse(localStorage.getItem('banScreenData'));
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all DOM elements first
+        const profileImgDisplay = document.getElementById('profile-img-display');
+        const profileImgSmall = document.getElementById('profile-img-small');
+        const usernameDisplay = document.getElementById('username-display');
+        const timestampDisplay = document.getElementById('timestamp-display');
+        const violationReason = document.getElementById('violation-reason');
+        const punishmentTitle = document.getElementById('punishment-title');
+        const punishmentDesc = document.getElementById('punishment-description');
+        const consequencesList = document.getElementById('consequences-list');
+        const evidenceDisplay = document.getElementById('evidence-display');
+        const activitySection = document.getElementById('activity-section');
+
+        // Get data from localStorage
+        const banData = JSON.parse(localStorage.getItem('banScreenData'));
+        
+        if (banData) {
+            displayBanScreen(banData);
+            // Clear the data after use
+            localStorage.removeItem('banScreenData');
+        } else {
+            // Fallback to default screen
+            console.log('No ban data found in localStorage');
+        }
+        
+        function displayBanScreen(data) {
+            if (!data) return;
             
-            if (banData) {
-                displayBanScreen(banData);
-                // Clear the data after use
-                localStorage.removeItem('banScreenData');
-            } else {
-                // Fallback to default screen
-                console.log('No ban data found in localStorage');
+            // Set profile images (fallback to default if not provided)
+            const defaultImage = 'boiby.jpg';
+            profileImgDisplay.src = data.profileImage || defaultImage;
+            profileImgSmall.src = data.profileImage || defaultImage;
+            
+            // Set username
+            if (usernameDisplay) {
+                usernameDisplay.textContent = data.username || 'User';
             }
             
-            function displayBanScreen(data) {
-                // Set profile images (fallback to default if not provided)
-                const defaultImage = 'boiby.png';
-                document.getElementById('profile-img-display').src = data.profileImage || defaultImage;
-                document.getElementById('profile-img-small').src = data.profileImage || defaultImage;
-                
-                // Set username
-                document.getElementById('username-display').textContent = data.username || 'User';
-                
-                // Format and display timestamp
-                if (data.timestamp) {
-                    const date = new Date(data.timestamp);
-                    const formattedDate = date.toLocaleString();
-                    document.getElementById('timestamp-display').textContent = `(${formattedDate})`;
-                }
-                
-                // Set violation reason
-                document.getElementById('violation-reason').textContent = data.reason || 'Violation';
-                
-                // Set punishment type
-                const isTerminated = data.punishment === 'terminated';
-                const punishmentTitle = document.getElementById('punishment-title');
-                const punishmentDesc = document.getElementById('punishment-description');
-                const consequencesList = document.getElementById('consequences-list');
-                
-                if (isTerminated) {
-                    punishmentTitle.textContent = 'Account Terminated';
-                    punishmentTitle.className = 'term';
-                    punishmentDesc.textContent = 'Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.';
-                    
-                    // Set consequences for termination
-                    consequencesList.innerHTML = '';
-                    if (data.evidence) {
-                        consequencesList.innerHTML += '<li>One message was removed, so no one else can see it.</li>';
-                    }
-                    consequencesList.innerHTML += `
-                        <li class="li-red">Your account has been permanently banned.</li>
-                        <li>You may not create new accounts on Boiby.</li>
-                    `;
-                } else {
-                    // Calculate suspension end date
-                    const days = parseInt(data.punishment) || 1;
-                    const endDate = new Date();
-                    endDate.setDate(endDate.getDate() + days);
-                    const formattedEndDate = endDate.toLocaleDateString();
-                    
-                    punishmentTitle.textContent = `Account Suspended for (${days} Day${days > 1 ? 's' : ''})`;
-                    punishmentTitle.className = 'li-orange';
-                    punishmentDesc.textContent = 'Due to violations of our Community Standards, your account has been temporarily suspended. Future violations may result in additional actions, including account termination.';
-                    
-                    // Set consequences for suspension
-                    consequencesList.innerHTML = '';
-                    if (data.evidence) {
-                        consequencesList.innerHTML += '<li class="li-yellow">One message was removed, so no one else can see it.</li>';
-                    }
-                    consequencesList.innerHTML += `
-                        <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${formattedEndDate}</li>
-                        <li>You won't be able to send messages for ${days} day${days > 1 ? 's' : ''}, until ${formattedEndDate}</li>
-                        <li>You won't be able to upload files for ${days} day${days > 1 ? 's' : ''}, until ${formattedEndDate}</li>
-                        <li>This violation affects your account standing until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
-                    `;
-                }
-                
-                // Set evidence if provided
-                const activitySection = document.getElementById('activity-section');
+            // Format and display timestamp
+            if (timestampDisplay && data.timestamp) {
+                const date = new Date(data.timestamp);
+                const formattedDate = date.toLocaleString();
+                timestampDisplay.textContent = `(${formattedDate})`;
+            }
+            
+            // Set violation reason
+            if (violationReason) {
+                violationReason.textContent = data.reason || 'Violation';
+            }
+            
+            // Set punishment type
+            const isTerminated = data.punishment === 'terminated';
+            
+            if (punishmentTitle) {
+                punishmentTitle.textContent = isTerminated 
+                    ? 'Account Terminated' 
+                    : `Account Suspended for (${parseInt(data.punishment) || 1} Day${parseInt(data.punishment) > 1 ? 's' : ''})`;
+                punishmentTitle.className = isTerminated ? 'term' : 'li-orange';
+            }
+            
+            if (punishmentDesc) {
+                punishmentDesc.textContent = isTerminated
+                    ? 'Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.'
+                    : `Due to violations of our Community Standards, your account has been temporarily suspended until ${getSuspensionEndDate(data.punishment)}. Future violations may result in additional actions, including account termination.`;
+            }
+            
+            // Set consequences list
+            if (consequencesList) {
+                consequencesList.innerHTML = getConsequencesHTML(data);
+            }
+            
+            // Set evidence if provided
+            if (activitySection) {
                 if (data.evidence) {
                     activitySection.classList.remove('hidden');
-                    document.getElementById('evidence-display').textContent = data.evidence;
+                    if (evidenceDisplay) {
+                        evidenceDisplay.textContent = data.evidence;
+                    }
                 } else {
                     activitySection.classList.add('hidden');
                 }
             }
-        });
-    </script>
+        }
+        
+        function getSuspensionEndDate(days) {
+            const suspensionDays = parseInt(days) || 1;
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + suspensionDays);
+            return endDate.toLocaleDateString();
+        }
+        
+        function getConsequencesHTML(data) {
+            const isTerminated = data.punishment === 'terminated';
+            const days = parseInt(data.punishment) || 1;
+            const endDate = getSuspensionEndDate(data.punishment);
+            
+            if (isTerminated) {
+                let html = '';
+                if (data.evidence) {
+                    html += '<li>One message was removed, so no one else can see it.</li>';
+                }
+                html += `
+                    <li class="li-red">Your account has been permanently banned.</li>
+                    <li>You may not create new accounts on Boiby.</li>
+                `;
+                return html;
+            } else {
+                return `
+                    ${data.evidence ? '<li>One message was removed, so no one else can see it.</li>' : ''}
+                    <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
+                    <li>You won't be able to send messages for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
+                    <li>You won't be able to upload files for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
+                    <li>This violation affects your account standing until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
+                `;
+            }
+        }
+    });
+</script>
 </body>
 </html>
