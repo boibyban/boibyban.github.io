@@ -592,7 +592,7 @@
         }
         alert('Please enter a username and submit.');
     });
-
+    </script>
 
     <script>
     document.getElementById('modifiedClientBanButton').addEventListener('click', function() {
@@ -601,7 +601,6 @@
         document.getElementById('Ban1Day').checked = true;
         document.getElementById('notecustom').value = 'We detected you are using a modified client. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official client. Continued use of modified clients may result in more account restrictions, including account termination.';
         document.getElementById('note').value = 'nonote';
-        document.getElementById('cautionWarning').value = 'permanent'; 
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
