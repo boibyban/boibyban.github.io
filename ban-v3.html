@@ -1,3 +1,5 @@
+ban-v3.html
+
 <html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,12 +30,12 @@
             box-sizing: border-box;
         }
         #moderator-note-display {
-            margin: 0;
-            line-height: 1.5;
-            color: var(--text-primary);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+    margin: 0;
+    line-height: 1.5;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
 
         .container {
             max-width: 720px;
@@ -105,45 +107,34 @@
             margin: 20px 0;
         }
 
-        .violation-box {
+        .reason-header {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .reason-header h3 {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .reason-header h3 span {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .info-box {
             background-color: var(--box-bg);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid #444;
+            border: 1px solid #444
         }
 
-        .violation-title {
+        .info-box-title {
+            color: var(--text-secondary);
             font-weight: bold;
             margin: 0 0 10px 0;
-            font-size: 16px;
-        }
-
-        .violation-reason {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .severity-yellow {
-            background-color: rgba(255, 187, 51, 0.2);
-            color: var(--accent-yellow);
-        }
-
-        .severity-orange {
-            background-color: rgba(255, 153, 51, 0.2);
-            color: var(--accent-orange);
-        }
-
-        .severity-red {
-            background-color: rgba(255, 68, 68, 0.2);
-            color: var(--accent-red);
-        }
-
-        .violation-content-title {
-            color: var(--text-secondary);
-            margin: 10px 0 5px 0;
             font-size: 14px;
         }
 
@@ -151,7 +142,6 @@
             display: flex;
             gap: 15px;
             align-items: flex-start;
-            margin-top: 10px;
         }
 
         .activity-img {
@@ -277,18 +267,20 @@
 
         <div class="divider"></div>
 
-        <div id="moderator-note-section" class="hidden">
-            <p class="info-box-title">Note from Moderator</p>
-            <div class="info-box">
-                <p id="moderator-note-display"></p>
-            </div>
+        <div class="reason-header">
+            <h3>You broke the rules for <span id="violation-reason">Violent Extremism and Terrorism</span></h3>
         </div>
+
+        <div id="moderator-note-section" class="hidden">
+    <p class="info-box-title">Note from Moderator</p>
+    <div class="info-box">
+        <p id="moderator-note-display"></p>
+    </div>
+</div>
         
-        <div id="violation-section">
-            <div class="violation-box">
-                <p class="violation-title">Violation Details</p>
-                <div id="violation-reason-display" class="violation-reason severity-red">Reason: Violent Extremism and Terrorism</div>
-                <p class="violation-content-title">Offending Content:</p>
+        <div id="activity-section" class="">
+            <p class="info-box-title">Your recent activity</p>
+            <div class="info-box"> 
                 <div class="activity-item">
                     <div class="activity-img">
                         <img id="profile-img-small" src="https://boibyban.github.io/boiby.jpg" alt="User Icon">
@@ -309,6 +301,7 @@
                 </ul>
         </div>
 
+    
         <div class="further-actions">
             <p class="info-box-title">What you can do</p>
             <p>Please review the BoibyChat Terms of Use and Community Standards to keep your account in good standing.</p>
@@ -320,45 +313,6 @@
     </div>
 
 <script>
-    // Severity mapping for each reason
-    const reasonSeverity = {
-        'Ban Evasion': 'red',
-        'Child Safety': 'red',
-        'Abuse of Boiby Employees': 'red',
-        'Chargebacks': 'red',
-        'Unauthorized Purchases': 'red',
-        'Doxxing': 'red',
-        'Violent Extremism and Terrorism': 'red',
-        'Malicious Software': 'red',
-        'Poltical Content and Figures': 'yellow',
-        'Real-Life Financial Fraud': 'red',
-        'Real-Life Threats': 'red',
-        'Encouragement of Self-Harm': 'red',
-        'Admin Impersonation': 'orange',
-        'Impersonation': 'yellow',
-        'Bypassing Safety Systems': 'orange',
-        'Real-World Tragic/Sensitive Events': 'orange',
-        'Excessive Profanity': 'yellow',
-        'Minimum Age Requirement': 'red',
-        'Harassment and Bullying': 'orange',
-        'Discrimination and Hate Speech': 'orange',
-        'Sexual Content': 'orange',
-        'Online Dating': 'orange',
-        'Romantic Content': 'yellow',
-        'Account Theft': 'red',
-        'Account Sharing': 'yellow',
-        'Disruptive Content': 'yellow',
-        'Gore and Violence': 'red',
-        'Sharing Personal Information': 'orange',
-        'Asking for Personal Information': 'orange',
-        'Spam': 'yellow',
-        'Scamming': 'orange',
-        'Harmful Misinformation': 'orange',
-        'Extortion and Blackmail': 'orange',
-        'Cheats and Exploits': 'orange',
-        'Other': 'yellow'
-    };
-
     document.addEventListener('DOMContentLoaded', function() {
         // Get all DOM elements first
         const profileImgDisplay = document.getElementById('profile-img-display');
@@ -367,12 +321,12 @@
         const moderatorNoteDisplay = document.getElementById('moderator-note-display');
         const moderatorNoteSection = document.getElementById('moderator-note-section');
         const timestampDisplay = document.getElementById('timestamp-display');
-        const violationReasonDisplay = document.getElementById('violation-reason-display');
+        const violationReason = document.getElementById('violation-reason');
         const punishmentTitle = document.getElementById('punishment-title');
         const punishmentDesc = document.getElementById('punishment-description');
         const consequencesList = document.getElementById('consequences-list');
         const evidenceDisplay = document.getElementById('evidence-display');
-        const violationSection = document.getElementById('violation-section');
+        const activitySection = document.getElementById('activity-section');
 
         // Get data from localStorage
         const banData = JSON.parse(localStorage.getItem('banScreenData'));
@@ -394,26 +348,31 @@
             profileImgSmall.src = data.profileImage || defaultImage;
 
             if (moderatorNoteSection) {
-                if (data.moderatorNote) {
-                    moderatorNoteSection.classList.remove('hidden');
-                    if (moderatorNoteDisplay) {
-                        moderatorNoteDisplay.textContent = data.moderatorNote;
-                    }
-                } else {
-                    moderatorNoteSection.classList.add('hidden');
-                }
+        if (data.moderatorNote) {
+            moderatorNoteSection.classList.remove('hidden');
+            if (moderatorNoteDisplay) {
+                moderatorNoteDisplay.textContent = data.moderatorNote;
             }
+        } else {
+            moderatorNoteSection.classList.add('hidden');
+        }
+    }
             
             // Set username
             if (usernameDisplay) {
                 usernameDisplay.textContent = data.username || 'User';
             }
             
-            // Set violation reason with severity
-            if (violationReasonDisplay && data.reason) {
-                const severity = reasonSeverity[data.reason] || 'yellow';
-                violationReasonDisplay.textContent = `Reason: ${data.reason}`;
-                violationReasonDisplay.className = `violation-reason severity-${severity}`;
+            // Format and display timestamp
+            if (timestampDisplay && data.timestamp) {
+                const date = new Date(data.timestamp);
+                const formattedDate = date.toLocaleString();
+                timestampDisplay.textContent = `(${formattedDate})`;
+            }
+            
+            // Set violation reason
+            if (violationReason) {
+                violationReason.textContent = data.reason || 'Violation';
             }
             
             // Set punishment type
@@ -438,14 +397,14 @@
             }
             
             // Set evidence if provided
-            if (violationSection) {
+            if (activitySection) {
                 if (data.evidence) {
+                    activitySection.classList.remove('hidden');
                     if (evidenceDisplay) {
                         evidenceDisplay.textContent = data.evidence;
                     }
                 } else {
-                    // Hide the entire violation section if no evidence
-                    violationSection.classList.add('hidden');
+                    activitySection.classList.add('hidden');
                 }
             }
         }
@@ -481,6 +440,9 @@
                 `;
             }
         }
+        
     });
 </script>
+
+
 </body></html>
