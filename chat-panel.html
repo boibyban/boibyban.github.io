@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoibyChat Moderation Panel</title>
+    <title>Ban Screen Generator</title>
     <style>
         :root {
             --dark-bg: #121212;
@@ -121,7 +121,7 @@
 </head>
 <body>
     <div class="panel-container">
-        <h1>BoibyChat Moderation Panel</h1>
+        <h1>Ban Screen Generator</h1>
         
         <div class="control-group">
             <h2>Profile Settings</h2>
@@ -130,7 +130,7 @@
             <input type="file" id="profile-image" accept="image/*">
             
             <div class="img-preview-container">
-                <img id="image-preview" class="preview-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="Profile Preview">
+                <img id="image-preview" class="preview-img" src="boiby.png" alt="Profile Preview">
             
             <label for="username">Username (max 20 characters)</label>
             <input type="text" id="username" maxlength="20" placeholder="Enter username">
@@ -151,9 +151,9 @@
             
             <label for="punishment">Punishment</label>
             <select id="punishment">
-                <option value="1">Suspended for 1 day</option>
-                <option value="3">Suspended for 3 days</option>
-                <option value="7">Suspended for 7 days</option>
+                <option value="1">Suspended for 1 Day</option>
+                <option value="3">Suspended for 3 Days</option>
+                <option value="7">Suspended for 7 Days</option>
                 <option value="terminated">Account Terminated</option>
             </select>
             
@@ -178,6 +178,8 @@
                         imagePreview.src = event.target.result;
                     };
                     reader.readAsDataURL(file);
+                } else {
+                    imagePreview.src = 'boiby.png';
                 }
             });
             
@@ -191,12 +193,12 @@
                 const punishment = document.getElementById('punishment').value;
                 const evidence = document.getElementById('evidence').value;
                 
-                // Get image as base64
+                // Get image as base64 (or default if none)
                 let profileImage = imagePreview.src;
                 
                 // Create data object to pass
                 const banData = {
-                    username: username,
+                    username: username || 'User',
                     reason: reason,
                     punishment: punishment,
                     evidence: evidence,
@@ -204,12 +206,11 @@
                     timestamp: new Date().toISOString()
                 };
                 
-                // Convert to JSON and base64 encode for URL
-                const jsonData = JSON.stringify(banData);
-                const encodedData = encodeURIComponent(btoa(jsonData));
+                // Store in localStorage
+                localStorage.setItem('banScreenData', JSON.stringify(banData));
                 
-                // Open ban screen with data
-                window.open(`ban-v3.html?data=${encodedData}`, '_blank');
+                // Open ban screen
+                window.open('ban-v3.html', '_blank');
             });
         });
     </script>
