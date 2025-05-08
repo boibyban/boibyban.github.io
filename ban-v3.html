@@ -13,6 +13,7 @@
             --accent-red: #ff4444;
             --accent-blue: #4285f4;
             --accent-yellow: #ffbb33;
+            --accent-orange: #ff9933;
             --border-color: #333333;
             --box-bg: #2a2a2a;
         }
@@ -75,9 +76,8 @@
         }
 
         .punishment-header h3 {
-            color: var(--accent-red);
             margin: 0;
-            font-size: 24px;
+            font-size: 20px;
         }
         
         .punishment-header {
@@ -104,7 +104,7 @@
         .reason-header h3 {
             color: var(--text-secondary);
             margin: 0;
-            font-size: 24px;
+            font-size: 16px;
         }
 
         .reason-header h3 span {
@@ -161,6 +161,7 @@
             color: var(--text-secondary);
             margin: 0;
             font-size: 14px;
+            word-wrap: break-word;
         }
 
         .consequences-list {
@@ -181,6 +182,9 @@
         }
         .li-yellow {
             color: var(--accent-yellow);
+        }
+        .li-orange {
+            color: var(--accent-orange);
         }
 
         .further-actions {
@@ -224,41 +228,54 @@
             opacity: 0.9;
             transform: translateY(-1px);
         }
+
+        .timestamp {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="ban-screen">
         <div class="header-container">
             <div class="punishment-img">
-                <img src="boiby.jpg" alt="Warning Icon">
+                <img id="profile-img-display" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="Warning Icon">
             </div>
             <div class="punishment-header">
-                <h3 class="term">Account Terminated</h3>
-                <p>Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.</p>
+                <h3 class="term" id="punishment-title"></h3>
+                <p id="punishment-description">Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.</p>
             </div>
         </div>
 
         <div class="divider"></div>
 
         <div class="reason-header">
-            <h3>You broke the rules for <span>Harassment</span></h3>
+            <h3>You broke the rules for <span id="violation-reason">Harassment</span></h3>
         </div>
-        <p class="info-box-title">Your recent activity</p>
-        <div class="info-box"> 
-            <div class="activity-item">
-                <div class="activity-img">
-                    <img src="boiby.jpg" alt="User Icon">
-                </div>
-                <div class="activity-content">
-                    <p class="activity-username">Username</p>
-                    <p class="activity-evidence">This is an evidence item.</p>
+        
+        <div id="activity-section" class="hidden">
+            <p class="info-box-title">Your recent activity</p>
+            <div class="info-box"> 
+                <div class="activity-item">
+                    <div class="activity-img">
+                        <img id="profile-img-small" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="User Icon">
+                    </div>
+                    <div class="activity-content">
+                        <p class="activity-username" id="username-display">Username <span class="timestamp" id="timestamp-display"></span></p>
+                        <p class="activity-evidence" id="evidence-display">This is an evidence item.</p>
+                    </div>
                 </div>
             </div>
         </div>
         
         <p class="info-box-title">What this means for you</p>
         <div class="info-box">
-            <ul class="consequences-list">
+            <ul class="consequences-list" id="consequences-list">
                 <li class="li-yellow">One piece of content you posted was removed, so no one can see it.</li>
                 <li class="li-red">Your account has been permanently banned.</li>
                 <li class="li-red">You cannot create new accounts on Boiby.</li>
@@ -273,5 +290,100 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get data from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const encodedData = urlParams.get('data');
+            
+            if (encodedData) {
+                try {
+                    // Decode and parse the data
+                    const jsonData = atob(decodeURIComponent(encodedData));
+                    const banData = JSON.parse(jsonData);
+                    
+                    // Display the data
+                    displayBanScreen(banData);
+                } catch (e) {
+                    console.error('Error parsing ban data:', e);
+                    // Fallback to default screen
+                }
+            }
+            
+            function displayBanScreen(data) {
+                // Set profile images
+                document.getElementById('profile-img-display').src = data.profileImage;
+                document.getElementById('profile-img-small').src = data.profileImage;
+                
+                // Set username if provided
+                if (data.username) {
+                    document.getElementById('username-display').textContent = data.username;
+                    
+                    // Format and display timestamp
+                    const date = new Date(data.timestamp);
+                    const formattedDate = date.toLocaleString();
+                    document.getElementById('timestamp-display').textContent = `(${formattedDate})`;
+                } else {
+                    document.getElementById('username-display').textContent = 'User';
+                }
+                
+                // Set violation reason
+                document.getElementById('violation-reason').textContent = data.reason;
+                
+                // Set punishment type
+                const isTerminated = data.punishment === 'terminated';
+                const punishmentTitle = document.getElementById('punishment-title');
+                const punishmentDesc = document.getElementById('punishment-description');
+                const consequencesList = document.getElementById('consequences-list');
+                
+                if (isTerminated) {
+                    punishmentTitle.textContent = 'Account Terminated';
+                    punishmentTitle.className = 'term';
+                    punishmentDesc.textContent = 'Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.';
+                    
+                    // Set consequences for termination
+                    consequencesList.innerHTML = '';
+                    if (data.evidence) {
+                        consequencesList.innerHTML += '<li>One message was removed, so no one else can see it.</li>';
+                    }
+                    consequencesList.innerHTML += `
+                        <li class="li-red">Your account has been permanently banned.</li>
+                        <li>You may not create new accounts on Boiby.</li>
+                    `;
+                } else {
+                    // Calculate suspension end date
+                    const days = parseInt(data.punishment);
+                    const endDate = new Date();
+                    endDate.setDate(endDate.getDate() + days);
+                    const formattedEndDate = endDate.toLocaleDateString();
+                    
+                    punishmentTitle.textContent = `Suspended for (${days} Day${days > 1 ? 's' : ''})`;
+                    punishmentTitle.className = 'li-orange';
+                    punishmentDesc.textContent = 'Due to violations of our Community Standards, your account has been temporarily suspended. Future violations may result in additional actions, including account termination.';
+                    
+                    // Set consequences for suspension
+                    consequencesList.innerHTML = '';
+                    if (data.evidence) {
+                        consequencesList.innerHTML += '<li class="li-yellow">One message was removed, so no one else can see it.</li>';
+                    }
+                    consequencesList.innerHTML += `
+                        <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${formattedEndDate}</li>
+                        <li>You won't be able to send messages for ${days} day${days > 1 ? 's' : ''}, until ${formattedEndDate}</li>
+                        <li>You won't be able to upload files for ${days} day${days > 1 ? 's' : ''}, until ${formattedEndDate}</li>
+                        <li>This violation affects your account standing until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
+                    `;
+                }
+                
+                // Set evidence if provided
+                if (data.evidence) {
+                    document.getElementById('activity-section').classList.remove('hidden');
+                    document.getElementById('evidence-display').textContent = data.evidence;
+                } else {
+                    document.getElementById('activity-section').classList.add('hidden');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
