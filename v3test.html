@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Terminated</title>
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --darker-bg: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-red: #ff4444;
+            --accent-blue: #4285f4;
+            --accent-yellow: #ffbb33;
+            --border-color: #333333;
+            --box-bg: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--darker-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .header-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        .punishment-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--border-color);
+            flex-shrink: 0;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .punishment-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .punishment-header h3 {
+            color: var(--accent-red);
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .punishment-header p {
+            color: var(--text-secondary);
+            margin: 10px 0 0;
+            line-height: 1.5;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 20px 0;
+        }
+
+        .reason-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .reason-header h5 {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .reason-header h5 span {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .info-box {
+            background-color: var(--box-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box-title {
+            color: var(--text-secondary);
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .activity-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .activity-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .activity-content {
+            flex-grow: 1;
+        }
+
+        .activity-username {
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+
+        .activity-evidence {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .consequences-list {
+            padding-left: 20px;
+            margin: 10px 0 0;
+        }
+
+        .consequences-list li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .consequences-list li:first-child {
+            color: var(--accent-yellow);
+        }
+
+        .further-actions {
+            margin: 25px 0 15px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .further-actions p {
+            margin: 0 0 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-appeal {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <div class="punishment-img">
+                <!-- Replace with your image or icon -->
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="Warning Icon">
+            </div>
+            <div class="punishment-header">
+                <h3>Account Terminated</h3>
+                <p>Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="reason-header">
+            <h5>You broke the rules for <span>Harassment</span></h5>
+        </div>
+
+        <div class="info-box">
+            <p class="info-box-title">Your recent activity</p>
+            <div class="activity-item">
+                <div class="activity-img">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="User Icon">
+                </div>
+                <div class="activity-content">
+                    <p class="activity-username">Username</p>
+                    <p class="activity-evidence">This is an evidence item.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <p class="info-box-title">What this means for you</p>
+            <ul class="consequences-list">
+                <li>One piece of content you posted was removed, so no one can see it.</li>
+                <li>Your account has been permanently banned.</li>
+                <li>You cannot create new accounts on Boiby.</li>
+            </ul>
+        </div>
+
+        <div class="further-actions">
+            <p>Please review the Terms of Use and Boiby Community Standards for more information.</p>
+            <div class="action-buttons">
+                <button class="btn btn-appeal">Request Appeal</button>
+                <button class="btn btn-logout">Logout</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
