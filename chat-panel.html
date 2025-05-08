@@ -11,6 +11,8 @@
             --text-primary: #ffffff;
             --text-secondary: #b3b3b3;
             --accent-blue: #4285f4;
+            --accent-red: #ff4444;
+            --accent-yellow: #ffbb33;
             --border-color: #333333;
             --box-bg: #2a2a2a;
         }
@@ -29,10 +31,10 @@
 
         .panel-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             background-color: var(--darker-bg);
             border-radius: 12px;
-            padding: 25px;
+            padding: 30px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
@@ -40,25 +42,31 @@
             color: var(--accent-blue);
             margin-top: 0;
             text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
         }
 
         .control-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
         }
 
         .control-group h2 {
             color: var(--accent-blue);
-            font-size: 18px;
+            font-size: 20px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 0;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 15px;
         }
 
         input[type="text"],
@@ -66,31 +74,32 @@
         select,
         textarea {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 15px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             background-color: var(--box-bg);
             color: var(--text-primary);
             font-family: inherit;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             box-sizing: border-box;
+            font-size: 15px;
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
         }
 
         .btn {
-            padding: 12px 24px;
-            border-radius: 6px;
+            padding: 14px 28px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             border: none;
             font-size: 16px;
             transition: all 0.2s;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .btn-generate {
@@ -99,23 +108,63 @@
         }
 
         .btn-generate:hover {
-            opacity: 0.9;
+            background-color: #3367d6;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .preview-img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 2px solid var(--border-color);
-            margin: 10px auto;
+            border: 3px solid var(--border-color);
+            margin: 15px auto;
             display: block;
             object-fit: cover;
+            background-color: #333;
         }
 
         .img-preview-container {
             text-align: center;
-            margin: 15px 0;
+            margin: 20px 0;
+        }
+
+        .severity-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .severity-high {
+            background-color: var(--accent-red);
+            color: white;
+        }
+
+        .severity-medium {
+            background-color: var(--accent-yellow);
+            color: #333;
+        }
+
+        .severity-low {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .option-group {
+            margin-bottom: 15px;
+        }
+
+        .option-group label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -124,78 +173,75 @@
         <h1>BoibyChat Moderation Panel</h1>
         
         <div class="control-group">
-            <h2>Profile Settings</h2>
-            
-            <label for="profile-image">Upload Profile Image</label>
-            <input type="file" id="profile-image" accept="image/*">
+            <h2>User Information</h2>
             
             <div class="img-preview-container">
-                <img id="image-preview" class="preview-img" src="boiby.jpg" alt="Profile Preview">
-            
-            <label for="username">Username (max 20 characters)</label>
-            <input type="text" id="username" maxlength="20" placeholder="Enter username">
+                <img id="image-preview" class="preview-img" src="default-profile.png" alt="Profile Preview">
+                <label for="profile-image">Upload Profile Image</label>
+                <input type="file" id="profile-image" accept="image/*">
             </div>
+            
+            <label for="username">Username</label>
+            <input type="text" id="username" maxlength="20" placeholder="Enter username">
+            
+            <label for="user-id">User ID (optional)</label>
+            <input type="text" id="user-id" placeholder="Enter user ID">
         </div>
         
         <div class="control-group">
             <h2>Violation Details</h2>
             
-            <label for="reason">Reason</label>
+            <label for="reason">Violation Reason</label>
             <select id="reason">
                 <option value="">Select a reason</option>
-                <option value="Ban Evasion">Ban Evasion</option>
-                <option value="Child Safety">Child Safety</option>
-                <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
-                <option value="Chargebacks">Chargebacks</option>
-                <option value="Unauthorized Purchases">Unauthorized Purchases</option>
-                <option value="Doxxing">Doxxing</option>
-                <option value="Violent Extremism and Terrorism">Violent Extremism and Terrorism</option>
-                <option value="Malicious Software">Malicious Software</option>
-                <option value="Poltical Content and Figures">Poltical Content and Figures</option>
-                <option value="Real-Life Financial Fraud">Real-Life Financial Fraud</option>
-                <option value="Real-Life Threats">Real-Life Threats</option>
-                <option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
-                <option value="Admin Impersonation">Admin Impersonation</option>
-                <option value="Impersonation">Impersonation</option>
-                <option value="Bypassing Safety Systems">Bypassing Safety Systems</option>
-                <option value="Real-World Tragic/Sensitive Events">Real-World Tragic/Sensitive Events</option>
-                <option value="Excessive Profanity">Excessive Profanity</option>
-                <option value="Minimum Age Requirement">Minimum Age Requirement</option>
-                <option value="Harassment and Bullying">Harassment and Bullying</option>
-                <option value="Discrimination and Hate Speech">Discrimination and Hate Speech</option>
-                <option value="Sexual Content">Sexual Content</option>
-                <option value="Online Dating">Online Dating</option>
-                <option value="Romantic Content">Romatic Content</option>
-                <option value="Account Theft">Account Theft</option>
-                <option value="Account Sharing">Account Sharing</option>
-                <option value="Disruptive Content">Disruptive Content</option>
-                <option value="Gore and Violence">Gore and Violence</option>
-                <option value="Sharing Personal Information">Sharing Personal Information</option>
-                <option value="Asking for Personal Information">Asking for Personal Information</option>
-                <option value="Spam">Spam</option>
-                <option value="Scamming">Scamming</option>
-                <option value="Harmful Misinformation">Harmful Misinformation</option>
-                <option value="Extortion and Blackmail">Extortion and Blackmail</option>
-                <option value="Cheats and Exploits">Cheats and Exploits</option>
-                <option value="Other">Other</option>
+                <optgroup label="Severe Violations">
+                    <option value="Ban Evasion">Ban Evasion</option>
+                    <option value="Child Safety">Child Safety</option>
+                    <option value="Violent Extremism">Violent Extremism</option>
+                    <option value="Real-Life Threats">Real-Life Threats</option>
+                </optgroup>
+                <optgroup label="High Severity">
+                    <option value="Doxxing">Doxxing</option>
+                    <option value="Harassment">Harassment</option>
+                    <option value="Hate Speech">Hate Speech</option>
+                    <option value="Sexual Content">Sexual Content</option>
+                </optgroup>
+                <optgroup label="Medium Severity">
+                    <option value="Profanity">Excessive Profanity</option>
+                    <option value="Spam">Spam</option>
+                    <option value="Impersonation">Impersonation</option>
+                    <option value="Scamming">Scamming</option>
+                </optgroup>
+                <optgroup label="Other">
+                    <option value="Other">Other</option>
+                </optgroup>
             </select>
             
-            <label for="punishment">Punishment</label>
+            <label for="severity">Violation Severity</label>
+            <div class="option-group">
+                <label><input type="radio" name="severity" value="low" checked> Low</label>
+                <label><input type="radio" name="severity" value="medium"> Medium</label>
+                <label><input type="radio" name="severity" value="high"> High</label>
+            </div>
+            
+            <label for="punishment">Action</label>
             <select id="punishment">
-                <option value="1">Suspended for 1 Day</option>
-                <option value="3">Suspended for 3 Days</option>
-                <option value="7">Suspended for 7 Days</option>
-                <option value="terminated">Account Terminated</option>
+                <option value="1">Warning</option>
+                <option value="1">1 Day Suspension</option>
+                <option value="3">3 Day Suspension</option>
+                <option value="7">7 Day Suspension</option>
+                <option value="30">30 Day Suspension</option>
+                <option value="terminated">Account Termination</option>
             </select>
             
-            <label for="evidence">Evidence Message (optional, max 1000 chars)</label>
-            <textarea id="evidence" maxlength="1000" placeholder="Enter the message that violated rules..."></textarea>
+            <label for="evidence">Offending Content (optional)</label>
+            <textarea id="evidence" maxlength="1000" placeholder="Paste the violating content here..."></textarea>
 
-            <label for="moderator-note">Moderator Note (optional, max 1000 chars)</label>
-<textarea id="moderator-note" maxlength="1000" placeholder="Enter moderator note for the user..."></textarea>
+            <label for="moderator-note">Moderator Note (visible to user)</label>
+            <textarea id="moderator-note" maxlength="1000" placeholder="Explain the violation to the user..."></textarea>
         </div>
         
-        <button id="generate-btn" class="btn btn-generate">Submit</button>
+        <button id="generate-btn" class="btn btn-generate">Generate Ban Notice</button>
     </div>
 
     <script>
@@ -212,8 +258,6 @@
                         imagePreview.src = event.target.result;
                     };
                     reader.readAsDataURL(file);
-                } else {
-                    imagePreview.src = 'boiby.jpg';
                 }
             });
             
@@ -221,33 +265,39 @@
             const generateBtn = document.getElementById('generate-btn');
             
             generateBtn.addEventListener('click', function() {
-    // Get all form values
-    const username = document.getElementById('username').value;
-    const reason = document.getElementById('reason').value;
-    const punishment = document.getElementById('punishment').value;
-    const evidence = document.getElementById('evidence').value;
-    const moderatorNote = document.getElementById('moderator-note').value; // New line
-    
-    // Get image as base64 (or default if none)
-    let profileImage = imagePreview.src;
-    
-    // Create data object to pass
-    const banData = {
-        username: username || 'User',
-        reason: reason,
-        punishment: punishment,
-        evidence: evidence,
-        moderatorNote: moderatorNote,
-        profileImage: profileImage,
-        timestamp: new Date().toISOString()
-    };
-    
-    // Store in localStorage
-    localStorage.setItem('banScreenData', JSON.stringify(banData));
-    
-    // Open ban screen
-    window.open('ban-v3.html', '_blank');
-});
+                // Get all form values
+                const username = document.getElementById('username').value;
+                const userId = document.getElementById('user-id').value;
+                const reason = document.getElementById('reason').value;
+                const severity = document.querySelector('input[name="severity"]:checked').value;
+                const punishment = document.getElementById('punishment').value;
+                const evidence = document.getElementById('evidence').value;
+                const moderatorNote = document.getElementById('moderator-note').value;
+                
+                // Get image as base64
+                let profileImage = imagePreview.src.includes('default-profile.png') 
+                    ? '' 
+                    : imagePreview.src;
+                
+                // Create data object to pass
+                const banData = {
+                    username: username || 'User',
+                    userId: userId,
+                    reason: reason,
+                    severity: severity,
+                    punishment: punishment,
+                    evidence: evidence,
+                    moderatorNote: moderatorNote,
+                    profileImage: profileImage,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Store in localStorage
+                localStorage.setItem('banScreenData', JSON.stringify(banData));
+                
+                // Open ban screen
+                window.open('ban-v3.html', '_blank');
+            });
         });
     </script>
 </body>
