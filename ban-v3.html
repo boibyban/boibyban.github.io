@@ -29,6 +29,13 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
+        #moderator-note-display {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
 
         .container {
             max-width: 700px;
@@ -257,6 +264,13 @@
         <div class="reason-header">
             <h3>You broke the rules for <span id="violation-reason">Harassment</span></h3>
         </div>
+
+        <div id="moderator-note-section" class="hidden">
+    <p class="info-box-title">Note from Moderator</p>
+    <div class="info-box">
+        <p id="moderator-note-display"></p>
+    </div>
+</div>
         
         <div id="activity-section" class="hidden">
             <p class="info-box-title">Your recent activity</p>
@@ -298,6 +312,8 @@
         const profileImgDisplay = document.getElementById('profile-img-display');
         const profileImgSmall = document.getElementById('profile-img-small');
         const usernameDisplay = document.getElementById('username-display');
+        const moderatorNoteDisplay = document.getElementById('moderator-note-display');
+        const moderatorNoteSection = document.getElementById('moderator-note-section');
         const timestampDisplay = document.getElementById('timestamp-display');
         const violationReason = document.getElementById('violation-reason');
         const punishmentTitle = document.getElementById('punishment-title');
@@ -324,6 +340,17 @@
             const defaultImage = 'boiby.jpg';
             profileImgDisplay.src = data.profileImage || defaultImage;
             profileImgSmall.src = data.profileImage || defaultImage;
+
+            if (moderatorNoteSection) {
+        if (data.moderatorNote) {
+            moderatorNoteSection.classList.remove('hidden');
+            if (moderatorNoteDisplay) {
+                moderatorNoteDisplay.textContent = data.moderatorNote;
+            }
+        } else {
+            moderatorNoteSection.classList.add('hidden');
+        }
+    }
             
             // Set username
             if (usernameDisplay) {
@@ -408,6 +435,7 @@
                 `;
             }
         }
+        
     });
 </script>
 </body>
