@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Terminated</title>
+    <title>Oh Noes!</title>
     <style>
         :root {
             --dark-bg: #121212;
@@ -305,16 +305,22 @@
         const evidenceDisplay = document.getElementById('evidence-display');
         const activitySection = document.getElementById('activity-section');
 
-        // Get data from localStorage
-        const banData = JSON.parse(localStorage.getItem('banScreenData'));
+        // Get the current ban key
+        const banKey = localStorage.getItem('currentBanKey');
         
-        if (banData) {
-            displayBanScreen(banData);
-            // Clear the data after use
-            localStorage.removeItem('banScreenData');
+        if (banKey) {
+            const banData = JSON.parse(localStorage.getItem(banKey));
+            
+            if (banData) {
+                displayBanScreen(banData);
+                
+                // Keep the data in localStorage unless explicitly cleared
+                // Don't remove it here to allow refreshes
+            } else {
+                console.log('No ban data found for key:', banKey);
+            }
         } else {
-            // Fallback to default screen
-            console.log('No ban data found in localStorage');
+            console.log('No current ban key found');
         }
         
         function displayBanScreen(data) {
@@ -348,14 +354,14 @@
             if (punishmentTitle) {
                 punishmentTitle.textContent = isTerminated 
                     ? 'Account Terminated' 
-                    : `Account Suspended for (${parseInt(data.punishment) || 1} Day${parseInt(data.punishment) > 1 ? 's' : ''})`;
+                    : `Account Suspended for ${parseInt(data.punishment) || 1} Day${parseInt(data.punishment) > 1 ? 's' : ''}`;
                 punishmentTitle.className = isTerminated ? 'term' : 'li-orange';
             }
             
             if (punishmentDesc) {
                 punishmentDesc.textContent = isTerminated
                     ? 'Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.'
-                    : `Due to violations of our Community Standards, your account has been temporarily suspended until ${getSuspensionEndDate(data.punishment)}. Future violations may result in additional actions, including account termination.`;
+                    : `Due to violations of our Community Standards, your account has been temporarily suspended. Future violations may result in additional actions, including account termination.`;
             }
             
             // Set consequences list
@@ -391,7 +397,7 @@
             if (isTerminated) {
                 let html = '';
                 if (data.evidence) {
-                    html += '<li>One message was removed, so no one else can see it.</li>';
+                    html += '<li class="li-yellow">One message was removed, so no one else can see it.</li>';
                 }
                 html += `
                     <li class="li-red">Your account has been permanently banned.</li>
@@ -400,7 +406,7 @@
                 return html;
             } else {
                 return `
-                    ${data.evidence ? '<li>One message was removed, so no one else can see it.</li>' : ''}
+                    ${data.evidence ? '<li class="li-yellow">One message was removed, so no one else can see it.</li>' : ''}
                     <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
                     <li>You won't be able to send messages for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
                     <li>You won't be able to upload files for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
