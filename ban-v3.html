@@ -77,7 +77,7 @@
 
         .punishment-header h3 {
             margin: 0;
-            font-size: 20px;
+            font-size: 24px;
         }
         
         .punishment-header {
@@ -244,10 +244,10 @@
     <div class="container" id="ban-screen">
         <div class="header-container">
             <div class="punishment-img">
-                <img id="profile-img-display" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="Warning Icon">
+                <img id="profile-img-display" src="boiby.jpg" alt="Warning Icon">
             </div>
             <div class="punishment-header">
-                <h3 class="term" id="punishment-title"></h3>
+                <h3 class="term" id="punishment-title">Account Terminated</h3>
                 <p id="punishment-description">Due to serious or repeated violations of our Community Standards, your account has been terminated. You can no longer use your Boiby account.</p>
             </div>
         </div>
@@ -263,7 +263,7 @@
             <div class="info-box"> 
                 <div class="activity-item">
                     <div class="activity-img">
-                        <img id="profile-img-small" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiwyQzYuNDgsMiAyLDYuNDggMiwxMnM0LjQ4LDEwLDEwLDEwczEwLTQuNDgsMTAtMTBTMTcuNTIsMiwxMiwyTTEyLDE4Yy0wLjU1LDAtMS0wLjQ1LTEtMXYtNmMwLTAuNTUsMC40NS0xLDEtMXMxLDAuNDUsMSwxdjZDMTMsMTcuNTUsMTIuNTUsMTgsMTIsMThNMTMsMTFjMC0wLjU1LTAuNDUtMS0xLTFzLTEsMC40NS0xLDFzMC40NSwxLDEsMVMxMywxMS41NSwxMywxMSIvPjwvc3ZnPg==" alt="User Icon">
+                        <img id="profile-img-small" src="boiby.jpg" alt="User Icon">
                     </div>
                     <div class="activity-content">
                         <p class="activity-username" id="username-display">Username <span class="timestamp" id="timestamp-display"></span></p>
@@ -293,43 +293,36 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get data from URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const encodedData = urlParams.get('data');
+            // Get data from localStorage
+            const banData = JSON.parse(localStorage.getItem('banScreenData'));
             
-            if (encodedData) {
-                try {
-                    // Decode and parse the data
-                    const jsonData = atob(decodeURIComponent(encodedData));
-                    const banData = JSON.parse(jsonData);
-                    
-                    // Display the data
-                    displayBanScreen(banData);
-                } catch (e) {
-                    console.error('Error parsing ban data:', e);
-                    // Fallback to default screen
-                }
+            if (banData) {
+                displayBanScreen(banData);
+                // Clear the data after use
+                localStorage.removeItem('banScreenData');
+            } else {
+                // Fallback to default screen
+                console.log('No ban data found in localStorage');
             }
             
             function displayBanScreen(data) {
-                // Set profile images
-                document.getElementById('profile-img-display').src = data.profileImage;
-                document.getElementById('profile-img-small').src = data.profileImage;
+                // Set profile images (fallback to default if not provided)
+                const defaultImage = 'boiby.png';
+                document.getElementById('profile-img-display').src = data.profileImage || defaultImage;
+                document.getElementById('profile-img-small').src = data.profileImage || defaultImage;
                 
-                // Set username if provided
-                if (data.username) {
-                    document.getElementById('username-display').textContent = data.username;
-                    
-                    // Format and display timestamp
+                // Set username
+                document.getElementById('username-display').textContent = data.username || 'User';
+                
+                // Format and display timestamp
+                if (data.timestamp) {
                     const date = new Date(data.timestamp);
                     const formattedDate = date.toLocaleString();
                     document.getElementById('timestamp-display').textContent = `(${formattedDate})`;
-                } else {
-                    document.getElementById('username-display').textContent = 'User';
                 }
                 
                 // Set violation reason
-                document.getElementById('violation-reason').textContent = data.reason;
+                document.getElementById('violation-reason').textContent = data.reason || 'Violation';
                 
                 // Set punishment type
                 const isTerminated = data.punishment === 'terminated';
@@ -353,12 +346,12 @@
                     `;
                 } else {
                     // Calculate suspension end date
-                    const days = parseInt(data.punishment);
+                    const days = parseInt(data.punishment) || 1;
                     const endDate = new Date();
                     endDate.setDate(endDate.getDate() + days);
                     const formattedEndDate = endDate.toLocaleDateString();
                     
-                    punishmentTitle.textContent = `Suspended for (${days} Day${days > 1 ? 's' : ''})`;
+                    punishmentTitle.textContent = `Account Suspended for (${days} Day${days > 1 ? 's' : ''})`;
                     punishmentTitle.className = 'li-orange';
                     punishmentDesc.textContent = 'Due to violations of our Community Standards, your account has been temporarily suspended. Future violations may result in additional actions, including account termination.';
                     
@@ -376,11 +369,12 @@
                 }
                 
                 // Set evidence if provided
+                const activitySection = document.getElementById('activity-section');
                 if (data.evidence) {
-                    document.getElementById('activity-section').classList.remove('hidden');
+                    activitySection.classList.remove('hidden');
                     document.getElementById('evidence-display').textContent = data.evidence;
                 } else {
-                    document.getElementById('activity-section').classList.add('hidden');
+                    activitySection.classList.add('hidden');
                 }
             }
         });
