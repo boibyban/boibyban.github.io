@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Action Notice</title>
+    <title>Oh Noes!</title>
     <style>
         :root {
             --dark-bg: #121212;
@@ -14,7 +12,6 @@
             --accent-blue: #4285f4;
             --accent-yellow: #ffbb33;
             --accent-orange: #ff9933;
-            --accent-green: #4CAF50;
             --border-color: #333333;
             --box-bg: #2a2a2a;
         }
@@ -30,455 +27,460 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
+        #moderator-note-display {
+            margin: 0;
+            line-height: 1.5;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
 
         .container {
             max-width: 720px;
             width: 100%;
-            margin: 40px 0;
+            margin-top: 80px;
+            height: fit-content;
             background-color: var(--darker-bg);
             border-radius: 12px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .header-container {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 25px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             .header-container {
                 flex-direction: column;
+                align-items: center;
                 text-align: center;
-                gap: 20px;
             }
         }
 
-        .profile-img {
-            width: 100px;
-            height: 100px;
+        .punishment-img {
+            width: 128px;
+            height: 128px;
             border-radius: 50%;
-            border: 3px solid var(--border-color);
+            border: 4px solid var(--border-color);
             flex-shrink: 0;
             background-color: #333;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            display:none;
         }
 
-        .profile-img img {
+        .punishment-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: none;
         }
 
-        .default-avatar {
-            width: 60%;
-            height: 60%;
-            opacity: 0.5;
-        }
-
-        .header-content {
-            flex-grow: 1;
-        }
-
-        .punishment-title {
+        .punishment-header h3 {
             margin: 0;
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 32px;
+            margin-top: 0px;
+            margin-bottom: 16px;
+        }
+        
+        .punishment-header {
+            align-self: center;
         }
 
-        .terminated {
-            color: var(--accent-red);
-        }
-
-        .suspended {
-            color: var(--accent-orange);
-        }
-
-        .warning {
-            color: var(--accent-yellow);
-        }
-
-        .punishment-description {
+        .punishment-header p {
             color: var(--text-secondary);
-            margin: 0;
+            margin: 10px 0 0;
             line-height: 1.5;
         }
 
         .divider {
             height: 1px;
             background-color: var(--border-color);
-            margin: 25px 0;
+            margin: 20px 0;
         }
 
-        .reason-section {
-            margin-bottom: 25px;
-        }
-
-        .reason-title {
-            color: var(--text-secondary);
-            font-size: 18px;
-            margin: 0 0 15px 0;
-        }
-
-        .reason-value {
-            font-weight: bold;
-            color: var(--text-primary);
-        }
-
-        .severity-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-left: 10px;
-            font-size: 14px;
-        }
-
-        .severity-high {
-            background-color: var(--accent-red);
-            color: white;
-        }
-
-        .severity-medium {
-            background-color: var(--accent-yellow);
-            color: #333;
-        }
-
-        .severity-low {
-            background-color: var(--accent-green);
-            color: white;
-        }
-
-        .moderator-note {
+        .violation-box {
             background-color: var(--box-bg);
             border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            border: 1px solid var(--border-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
         }
 
-        .moderator-note-title {
-            color: var(--text-secondary);
+        .violation-title {
             font-weight: bold;
             margin: 0 0 10px 0;
             font-size: 16px;
         }
 
-        .moderator-note-content {
-            margin: 0;
-            line-height: 1.6;
-            white-space: pre-wrap;
+        .violation-reason {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
 
-        .evidence-section {
-            background-color: var(--box-bg);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            border: 1px solid var(--border-color);
+        .severity-yellow {
+            background-color: rgba(255, 187, 51, 0.2);
+            color: var(--accent-yellow);
         }
 
-        .evidence-title {
+        .severity-orange {
+            background-color: rgba(255, 153, 51, 0.2);
+            color: var(--accent-orange);
+        }
+
+        .severity-red {
+            background-color: rgba(255, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        .violation-content-title {
             color: var(--text-secondary);
+            margin: 10px 0 5px 0;
+            font-size: 14px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        .activity-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .activity-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .activity-content {
+            flex-grow: 1;
+        }
+
+        .activity-username {
             font-weight: bold;
-            margin: 0 0 15px 0;
-            font-size: 16px;
+            margin: 0 0 5px 0;
         }
 
-        .evidence-content {
-            margin: 0;
-            line-height: 1.6;
-            white-space: pre-wrap;
-        }
-
-        .consequences-section {
-            margin: 30px 0;
-        }
-
-        .consequences-title {
+        .activity-evidence {
             color: var(--text-secondary);
-            font-size: 18px;
-            margin: 0 0 15px 0;
+            margin: 0;
+            font-size: 16px;
+            word-wrap: break-word;
         }
 
         .consequences-list {
             padding-left: 20px;
-            margin: 0;
+            margin: 10px 0 0;
         }
 
         .consequences-list li {
-            margin-bottom: 12px;
-            line-height: 1.5;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
-        .consequence-warning {
+        .li-red {
+            color: var(--accent-red);
+        }
+        .term {
+            color: var(--accent-red);
+        }
+        .li-yellow {
             color: var(--accent-yellow);
         }
-
-        .consequence-serious {
+        .li-orange {
             color: var(--accent-orange);
         }
 
-        .consequence-critical {
-            color: var(--accent-red);
+        .further-actions {
+            margin: 25px 0 15px;
+            text-align: left;
+            color: var(--text-secondary);
         }
 
-        .bold {
-            font-weight: bold;
+        .further-actions p {
+            margin: 0 0 15px;
         }
 
         .action-buttons {
             display: flex;
+            justify-content: left;
             gap: 15px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 500px) {
-            .action-buttons {
-                flex-direction: column;
-            }
+            margin-top: 24px
         }
 
         .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
             border: none;
-            font-size: 16px;
+            font-size: 14px;
             transition: all 0.2s;
-            flex: 1;
-            text-align: center;
         }
 
-        .btn-primary {
+        .btn-appeal {
             background-color: var(--accent-blue);
             color: white;
         }
 
-        .btn-primary:hover {
-            background-color: #3367d6;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
+        .btn-logout {
             background-color: transparent;
             color: var(--text-primary);
             border: 1px solid var(--border-color);
         }
 
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .timestamp {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: normal;
         }
 
         .hidden {
             display: none;
-        }
-
-        .user-id {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container" id="ban-screen">
         <div class="header-container">
-            <div class="profile-img">
-                <img id="profile-img-display" src="" alt="Profile Image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTEyLDNBOSw5IDAgMCwxIDIxLDEyQTksOSAwIDAsMSAxMiwyMUE5LDkgMCAwLDEgMywxMkE5LDkgMCAwLDEgMTIsM00xMiwxMEMxMC4zNCwxMCA5LDExLjM0IDksMTNDOSwxNC42NiAxMC4zNCwxNiAxMiwxNkMxMy42NiwxNiAxNSwxNC42NiAxNSwxM0MxNSwxMS4zNCAxMy42NiwxMCAxMiwxME0xMiwxMUMxMy4xLDExIDE0LDExLjkgMTQsMTNDMTQsMTQuMSAxMy4xLDE1IDEyLDE1QzEwLjksMTUgMTAsMTQuMSAxMCwxM0MxMCwxMS45IDEwLjksMTEgMTIsMTFNNyw5LjVDNyA4LjY3IDcuNjcsOCA4LjUsOEM5LjMzLDggMTAsOC42NyAxMCw5LjVDMTAsMTAuMzMgOS4zMywxMSA4LjUsMTFDNy42NywxMSA3LDEwLjMzIDcsOS41TTE0LDkuNUMxNCw4LjY3IDE0LjY3LDggMTUuNSw4QzE2LjMzLDggMTcsOC42NyAxNyw5LjVDMTcsMTAuMzMgMTYuMzMsMTEgMTUuNSwxMUMxNC42NywxMSAxNCwxMC4zMyAxNCw5LjUiIC8+PC9zdmc+'">
+            <div class="punishment-img">
+                <img id="profile-img-display" src="https://boibyban.github.io/boiby.jpg" alt="Warning Icon">
             </div>
-            <div class="header-content">
-                <h2 id="punishment-title" class="punishment-title">Account Warning</h2>
-                <p id="punishment-description" class="punishment-description">Your account has received a warning for violating our community standards.</p>
-                <p id="user-id-display" class="user-id"></p>
+            <div class="punishment-header">
+                <h3 class="term" id="punishment-title">Account Terminated</h3>
+                <p id="punishment-description">Due to serious or repeated violations of the BoibyChat Community Standards, your account has been terminated. You can no longer use your BoibyChat account.</p>
             </div>
         </div>
 
         <div class="divider"></div>
 
-        <div class="reason-section">
-            <h3 class="reason-title">Violation: <span id="violation-reason" class="reason-value">Unknown</span><span id="severity-badge" class="severity-badge">Low</span></h3>
-        </div>
-
-        <div id="moderator-note-section" class="moderator-note hidden">
-            <h4 class="moderator-note-title">Moderator Note</h4>
-            <p id="moderator-note-display" class="moderator-note-content"></p>
+        <div id="moderator-note-section" class="hidden">
+            <p class="info-box-title">Note from Moderator</p>
+            <div class="info-box">
+                <p id="moderator-note-display"></p>
+            </div>
         </div>
         
-        <div id="evidence-section" class="evidence-section hidden">
-            <h4 class="evidence-title">Offending Content</h4>
-            <p id="evidence-display" class="evidence-content"></p>
+        <div id="violation-section">
+            <div class="violation-box">
+                <p class="violation-title">Violation Details</p>
+                <div id="violation-reason-display" class="violation-reason severity-red">Reason: Violent Extremism and Terrorism</div>
+                <p class="violation-content-title">Offending Content:</p>
+                <div class="activity-item">
+                    <div class="activity-img">
+                        <img id="profile-img-small" src="https://boibyban.github.io/boiby.jpg" alt="User Icon">
+                    </div>
+                    <div class="activity-content">
+                        <p class="activity-username" id="username-display">boiby</p>
+                        <p class="activity-evidence" id="evidence-display">mrrrp</p>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="consequences-section">
-            <h3 class="consequences-title">Consequences</h3>
-            <ul class="consequences-list" id="consequences-list">
-                <li>Your account status has been updated</li>
-            </ul>
+        <p class="info-box-title">What this means for you</p>
+        <div class="box">
+            <ul class="consequences-list" id="consequences-list"><li class="li-yellow">One message was removed, so no one else can see it.</li>
+                    <li class="li-red">Your account has been permanently banned.</li>
+                    <li>You may not create new accounts on BoibyChat.</li>
+                </ul>
         </div>
 
-        <div class="action-buttons">
-            <button id="appeal-btn" class="btn btn-primary">Request Appeal</button>
-            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        <div class="further-actions">
+            <p class="info-box-title">What you can do</p>
+            <p>Please review the BoibyChat Terms of Use and Community Standards to keep your account in good standing.</p>
+            <div class="action-buttons">
+                <button class="btn btn-appeal">Request Appeal</button>
+                <button class="btn btn-logout">Logout</button>
+            </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all DOM elements
-            const profileImgDisplay = document.getElementById('profile-img-display');
-            const punishmentTitle = document.getElementById('punishment-title');
-            const punishmentDesc = document.getElementById('punishment-description');
-            const userIdDisplay = document.getElementById('user-id-display');
-            const violationReason = document.getElementById('violation-reason');
-            const severityBadge = document.getElementById('severity-badge');
-            const moderatorNoteSection = document.getElementById('moderator-note-section');
-            const moderatorNoteDisplay = document.getElementById('moderator-note-display');
-            const evidenceSection = document.getElementById('evidence-section');
-            const evidenceDisplay = document.getElementById('evidence-display');
-            const consequencesList = document.getElementById('consequences-list');
-            const appealBtn = document.getElementById('appeal-btn');
-            const logoutBtn = document.getElementById('logout-btn');
+<script>
+    // Severity mapping for each reason
+    const reasonSeverity = {
+        'Ban Evasion': 'red',
+        'Child Safety': 'red',
+        'Abuse of Boiby Employees': 'red',
+        'Chargebacks': 'red',
+        'Unauthorized Purchases': 'red',
+        'Doxxing': 'red',
+        'Violent Extremism and Terrorism': 'red',
+        'Malicious Software': 'red',
+        'Poltical Content and Figures': 'yellow',
+        'Real-Life Financial Fraud': 'red',
+        'Real-Life Threats': 'red',
+        'Encouragement of Self-Harm': 'red',
+        'Admin Impersonation': 'orange',
+        'Impersonation': 'yellow',
+        'Bypassing Safety Systems': 'orange',
+        'Real-World Tragic/Sensitive Events': 'orange',
+        'Excessive Profanity': 'yellow',
+        'Minimum Age Requirement': 'red',
+        'Harassment and Bullying': 'orange',
+        'Discrimination and Hate Speech': 'orange',
+        'Sexual Content': 'orange',
+        'Online Dating': 'orange',
+        'Romantic Content': 'yellow',
+        'Account Theft': 'red',
+        'Account Sharing': 'yellow',
+        'Disruptive Content': 'yellow',
+        'Gore and Violence': 'red',
+        'Sharing Personal Information': 'orange',
+        'Asking for Personal Information': 'orange',
+        'Spam': 'yellow',
+        'Scamming': 'orange',
+        'Harmful Misinformation': 'orange',
+        'Extortion and Blackmail': 'orange',
+        'Cheats and Exploits': 'orange',
+        'Other': 'yellow'
+    };
 
-            // Get data from localStorage
-            const banData = JSON.parse(localStorage.getItem('banScreenData'));
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all DOM elements first
+        const profileImgDisplay = document.getElementById('profile-img-display');
+        const profileImgSmall = document.getElementById('profile-img-small');
+        const usernameDisplay = document.getElementById('username-display');
+        const moderatorNoteDisplay = document.getElementById('moderator-note-display');
+        const moderatorNoteSection = document.getElementById('moderator-note-section');
+        const timestampDisplay = document.getElementById('timestamp-display');
+        const violationReasonDisplay = document.getElementById('violation-reason-display');
+        const punishmentTitle = document.getElementById('punishment-title');
+        const punishmentDesc = document.getElementById('punishment-description');
+        const consequencesList = document.getElementById('consequences-list');
+        const evidenceDisplay = document.getElementById('evidence-display');
+        const violationSection = document.getElementById('violation-section');
+
+        // Get data from localStorage
+        const banData = JSON.parse(localStorage.getItem('banScreenData'));
+        
+        if (banData) {
+            displayBanScreen(banData);
+            // do not clear
+        } else {
+            // Fallback to default screen
+            console.log('No ban data found in localStorage');
+        }
+        
+        function displayBanScreen(data) {
+            if (!data) return;
             
-            if (banData) {
-                displayBanScreen(banData);
-            } else {
-                // Fallback to default screen
-                console.log('No ban data found in localStorage');
+            // Set profile images (fallback to default if not provided)
+            const defaultImage = 'boiby.jpg';
+            profileImgDisplay.src = data.profileImage || defaultImage;
+            profileImgSmall.src = data.profileImage || defaultImage;
+
+            if (moderatorNoteSection) {
+                if (data.moderatorNote) {
+                    moderatorNoteSection.classList.remove('hidden');
+                    if (moderatorNoteDisplay) {
+                        moderatorNoteDisplay.textContent = data.moderatorNote;
+                    }
+                } else {
+                    moderatorNoteSection.classList.add('hidden');
+                }
             }
             
-            // Button event listeners
-            appealBtn.addEventListener('click', function() {
-                alert('Appeal request submitted. Our team will review your case.');
-            });
+            // Set username
+            if (usernameDisplay) {
+                usernameDisplay.textContent = data.username || 'User';
+            }
             
-            logoutBtn.addEventListener('click', function() {
-                // In a real app, this would log the user out
-                alert('You have been logged out.');
-            });
+            // Set violation reason with severity
+            if (violationReasonDisplay && data.reason) {
+                const severity = reasonSeverity[data.reason] || 'yellow';
+                violationReasonDisplay.textContent = `Reason: ${data.reason}`;
+                violationReasonDisplay.className = `violation-reason severity-${severity}`;
+            }
             
-            function displayBanScreen(data) {
-                if (!data) return;
-                
-                // Set profile image (with fallback)
-                if (data.profileImage) {
-                    profileImgDisplay.src = data.profileImage;
-                }
-                
-                // Set user info
-                punishmentTitle.textContent = getPunishmentTitle(data.punishment);
-                punishmentTitle.className = 'punishment-title ' + getPunishmentClass(data.punishment);
-                punishmentDesc.textContent = getPunishmentDescription(data.punishment);
-                
-                if (data.userId) {
-                    userIdDisplay.textContent = 'User ID: ' + data.userId;
-                }
-                
-                // Set violation info
-                violationReason.textContent = data.reason || 'Unknown';
-                setSeverityBadge(data.severity || 'low');
-                
-                // Set moderator note if available
-                if (data.moderatorNote) {
-                    moderatorNoteDisplay.textContent = data.moderatorNote;
-                    moderatorNoteSection.classList.remove('hidden');
-                }
-                
-                // Set evidence if available
-                if (data.evidence) {
-                    evidenceDisplay.textContent = data.evidence;
-                    evidenceSection.classList.remove('hidden');
-                }
-                
-                // Set consequences
+            // Set punishment type
+            const isTerminated = data.punishment === 'terminated';
+            
+            if (punishmentTitle) {
+                punishmentTitle.textContent = isTerminated 
+                    ? 'Account Terminated' 
+                    : `Suspended for ${parseInt(data.punishment) || 1} Day${parseInt(data.punishment) > 1 ? 's' : ''}`;
+                punishmentTitle.className = isTerminated ? 'term' : 'li-orange';
+            }
+            
+            if (punishmentDesc) {
+                punishmentDesc.textContent = isTerminated
+                    ? 'Due to serious or repeated violations of the BoibyChat Community Standards, your account has been terminated. You can no longer use your BoibyChat account.'
+                    : `Due to violations of the BoibyChat Community Standards, your account has been temporarily suspended until ${getSuspensionEndDate(data.punishment)}. Future violations may result in additional actions, including account termination.`;
+            }
+            
+            // Set consequences list
+            if (consequencesList) {
                 consequencesList.innerHTML = getConsequencesHTML(data);
             }
             
-            function getPunishmentTitle(punishment) {
-                switch(punishment) {
-                    case 'terminated':
-                        return 'Account Terminated';
-                    case '1':
-                        return 'Account Warning';
-                    default:
-                        return `Suspended for ${punishment} Days`;
-                }
-            }
-            
-            function getPunishmentClass(punishment) {
-                switch(punishment) {
-                    case 'terminated':
-                        return 'terminated';
-                    case '1':
-                        return 'warning';
-                    default:
-                        return 'suspended';
-                }
-            }
-            
-            function getPunishmentDescription(punishment) {
-                const terminationMsg = 'Due to serious violations of our community standards, your account has been permanently terminated.';
-                const warningMsg = 'Your account has received a warning for violating our community standards. Further violations may result in suspension or termination.';
-                
-                if (punishment === 'terminated') {
-                    return terminationMsg;
-                } else if (punishment === '1') {
-                    return warningMsg;
-                } else {
-                    return `Due to violations of our community standards, your account has been temporarily suspended for ${punishment} days.`;
-                }
-            }
-            
-            function setSeverityBadge(severity) {
-                severityBadge.textContent = severity.charAt(0).toUpperCase() + severity.slice(1);
-                severityBadge.className = 'severity-badge severity-' + severity;
-            }
-            
-            function getConsequencesHTML(data) {
-                let html = '';
-                const isTerminated = data.punishment === 'terminated';
-                const isWarning = data.punishment === '1';
-                
+            // Set evidence if provided
+            if (violationSection) {
                 if (data.evidence) {
-                    html += `<li class="consequence-warning">The violating content has been removed</li>`;
-                }
-                
-                if (isTerminated) {
-                    html += `
-                        <li class="consequence-critical"><span class="bold">Your account has been permanently banned</span></li>
-                        <li>All associated content may be removed</li>
-                        <li>Creating new accounts violates our terms</li>
-                    `;
-                } else if (isWarning) {
-                    html += `
-                        <li class="consequence-warning">This warning will remain on your account</li>
-                        <li>Future violations may result in suspension</li>
-                    `;
+                    if (evidenceDisplay) {
+                        evidenceDisplay.textContent = data.evidence;
+                    }
                 } else {
-                    html += `
-                        <li class="consequence-serious">Your account is suspended for ${data.punishment} days</li>
-                        <li>You cannot access any features during this time</li>
-                        <li>This violation will remain on your record</li>
-                    `;
+                    // Hide the entire violation section if no evidence
+                    violationSection.classList.add('hidden');
                 }
-                
-                html += `<li>Review our Community Guidelines to avoid future actions</li>`;
-                
-                return html;
             }
-        });
-    </script>
-</body>
-</html>
+        }
+        
+        function getSuspensionEndDate(days) {
+            const suspensionDays = parseInt(days) || 1;
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + suspensionDays);
+            return endDate.toLocaleDateString();
+        }
+        
+        function getConsequencesHTML(data) {
+            const isTerminated = data.punishment === 'terminated';
+            const days = parseInt(data.punishment) || 1;
+            const endDate = getSuspensionEndDate(data.punishment);
+            
+            if (isTerminated) {
+                let html = '';
+                if (data.evidence) {
+                    html += '<li class="li-yellow">One message was removed, so no one else can see it.</li>';
+                }
+                html += `
+                    <li class="li-red">Your account has been permanently banned.</li>
+                    <li>You may not create new accounts on BoibyChat.</li>
+                `;
+                return html;
+            } else {
+                return `
+                    ${data.evidence ? '<li class="li-yellow">One message was removed, so no one else can see it.</li>' : ''}
+                    <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
+                    <li>You won't be able to send or receive messages for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
+                    <li>This violation affects your account status until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
+                `;
+            }
+        }
+    });
+</script>
+</body></html>
