@@ -599,7 +599,7 @@
         const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
         document.getElementById('Ban1Day').checked = true;
-        document.getElementById('notecustom').value = 'We detected you are using a modified client. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official client. Continued use of modified clients may result in more account restrictions, including account termination.';
+        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby App. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official Boiby App on all your devices. Continued use of modified versions may result in more account restrictions, including account termination.';
         document.getElementById('note').value = 'nonote';
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
@@ -613,7 +613,7 @@
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
             newBox.querySelector('.classicReason').value = 'Modified Client';
-            newBox.querySelector('.evidence').value = `Modified client detected - Place ID: ${placeId}`;
+            newBox.querySelector('.evidence').value = `Client Modification Detected - Place ID: ${placeId}`;
         }
         alert('Please enter a username and submit.');
     });
