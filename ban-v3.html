@@ -304,7 +304,7 @@
     
         <div class="further-actions">
             <p class="info-box-title">What you can do</p>
-            <p>Please review the BoibyChat Terms of Use and Community Standards for more information.</p>
+            <p>Please review the BoibyChat Terms of Use and Community Standards to keep your account in good standing.</p>
             <p style="margin-bottom: 6px;">Did we make a mistake? Let us know by requesting an appeal.</p>
             <div class="action-buttons">
                 <button class="btn btn-appeal">Request Appeal</button>
@@ -437,7 +437,7 @@
                     ${data.evidence ? '<li class="li-yellow">One message was removed, so no one else can see it.</li>' : ''}
                     <li class="li-orange">Your account has been suspended for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
                     <li>You won't be able to send or receive messages for ${days} day${days > 1 ? 's' : ''}, until ${endDate}</li>
-                    <li>This violation affects your account standing until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
+                    <li>This violation affects your account status until ${new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString()}</li>
                 `;
             }
         }
