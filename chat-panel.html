@@ -159,6 +159,9 @@
             
             <label for="evidence">Evidence Message (optional, max 1000 chars)</label>
             <textarea id="evidence" maxlength="1000" placeholder="Enter the message that violated rules..."></textarea>
+
+            <label for="moderator-note">Moderator Note (optional, max 1000 chars)</label>
+<textarea id="moderator-note" maxlength="1000" placeholder="Enter internal note for the user..."></textarea>
         </div>
         
         <button id="generate-btn" class="btn btn-generate">Submit</button>
@@ -187,31 +190,33 @@
             const generateBtn = document.getElementById('generate-btn');
             
             generateBtn.addEventListener('click', function() {
-                // Get all form values
-                const username = document.getElementById('username').value;
-                const reason = document.getElementById('reason').value;
-                const punishment = document.getElementById('punishment').value;
-                const evidence = document.getElementById('evidence').value;
-                
-                // Get image as base64 (or default if none)
-                let profileImage = imagePreview.src;
-                
-                // Create data object to pass
-                const banData = {
-                    username: username || 'User',
-                    reason: reason,
-                    punishment: punishment,
-                    evidence: evidence,
-                    profileImage: profileImage,
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Store in localStorage
-                localStorage.setItem('banScreenData', JSON.stringify(banData));
-                
-                // Open ban screen
-                window.open('ban-v3.html', '_blank');
-            });
+    // Get all form values
+    const username = document.getElementById('username').value;
+    const reason = document.getElementById('reason').value;
+    const punishment = document.getElementById('punishment').value;
+    const evidence = document.getElementById('evidence').value;
+    const moderatorNote = document.getElementById('moderator-note').value; // New line
+    
+    // Get image as base64 (or default if none)
+    let profileImage = imagePreview.src;
+    
+    // Create data object to pass
+    const banData = {
+        username: username || 'User',
+        reason: reason,
+        punishment: punishment,
+        evidence: evidence,
+        moderatorNote: moderatorNote,
+        profileImage: profileImage,
+        timestamp: new Date().toISOString()
+    };
+    
+    // Store in localStorage
+    localStorage.setItem('banScreenData', JSON.stringify(banData));
+    
+    // Open ban screen
+    window.open('ban-v3.html', '_blank');
+});
         });
     </script>
 </body>
