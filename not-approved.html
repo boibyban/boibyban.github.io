@@ -81,7 +81,7 @@
         <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
         <p id="detection">Decision: <b id="detectionField">Not Automated: Manually detected and reviewed</b></p>
         <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
-        <div class="evidence-box" id="evidenceContainer"></div>
+        <div id="evidenceContainer"></div>
         <p id="communityRules">Remember to abide by the <a href="/info/community-rules">Boiby Community Rules</a> so Boiby can be a safe and enjoyable place for everyone.</p>
         <p id="reactivateMessage">Your account has been suspended. Your suspension ends on <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
         <p id="membershipNotice" style="display:none">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
@@ -259,7 +259,6 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
     formData.classicViolations.forEach((violation, index) => {
         // Create a new evidence box for each violation
         const evidenceBox = document.createElement('div');
-        evidenceBox.className = 'evidence-box';
         
         // Determine severity
         let severityClass = 'severity-mild';
