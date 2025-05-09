@@ -14,12 +14,6 @@ a {
     text-decoration: none;
     color: #7eaaff;
 }
-.evidence-box {
-    border: 1px solid #eee;
-    padding: 12px;
-    border-radius: 0;
-    margin-bottom: 12px;
-}
 body {
     background-color: #111;
     line-height: 1.35em;
