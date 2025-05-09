@@ -86,7 +86,8 @@ b {
     border: 2px solid #ddd;
     padding: 12px;
     border-radius: 10px!important;
-    margin-bottom: 12px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .evidence-item {
