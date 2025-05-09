@@ -99,3 +99,54 @@ b {
 .logoutlink {
     color: #eee!important
 }
+
+.evidence-box {
+    border: 1px solid #444;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    background-color: #2a2a2a;
+}
+
+.evidence-item {
+    background-color: #333;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+.severity-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.severity-mild {
+    background-color: #3a2e05;
+    color: #ffd351;
+    border: 1px solid #5a4a0a;
+}
+
+.severity-moderate {
+    background-color: #4a2c0d;
+    color: #ff9e3f;
+    border: 1px solid #6a4c1a;
+}
+
+.severity-severe {
+    background-color: #4a1a21;
+    color: #ff6b7d;
+    border: 1px solid #6a2a31;
+}
+
+.evidence-type {
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.violation-text {
+    font-weight: 400;
+}
