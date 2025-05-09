@@ -95,11 +95,11 @@ b {
 }
 
 .evidence-box {
-    border: 1px solid #444;
+    border: 2px solid #444;
     padding: 12px;
-    border-radius: 4px;
-    margin-bottom: 12px;
-    background-color: #2a2a2a;
+    border-radius: 10px!important;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .evidence-item {
