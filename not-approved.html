@@ -259,7 +259,7 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
     formData.classicViolations.forEach((violation, index) => {
         // Create a new evidence box for each violation
         const evidenceBox = document.createElement('div');
-        
+        evidenceBox.className = 'evidence-box';
         // Determine severity
         let severityClass = 'severity-mild';
         let severityText = 'Mild';
