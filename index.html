@@ -618,5 +618,29 @@
         alert('Please enter a username and submit.');
     });
 </script>
+    <script>
+    document.getElementById('harassmentBanButton').addEventListener('click', function() {
+        const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
+        
+        document.getElementById('Ban1Day').checked = true;
+        document.getElementById('notecustom').value = 'Boiby prohibits any form of bullying, harassment, or harmful behaviour directed at other users or community members.';
+        document.getElementById('note').value = 'nonote';
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Modified Client';
+            newBox.querySelector('.evidence').value = `Client Modification Detected - Place ID: ${placeId}`;
+        }
+        alert('Please enter a username and submit.');
+    });
+</script>
 </body>
 </html>
