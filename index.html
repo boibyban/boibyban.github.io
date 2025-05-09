@@ -76,6 +76,7 @@
             <button type="button" id="exploitingBanButton" style="margin-left: 10px;">Exploiting Ban</button>
             <button type="button" id="modifiedClientBanButton" style="margin-left: 10px;">Modified Client Ban</button>
             <button type="button" id="theftButton" style="margin-left: 10px;">Account Theft Ban</button>
+            <button type="button" id="harassmentBanButton" style="margin-left: 10px;">Harassment Ban</button>
 </div>
         <label for="username">Username (required):</label><br>
         <input type="text" id="username" name="username" pattern="[A-Za-z0-9_]{1,20}" title="Only uppercase, lowercase, numbers, and underscores are allowed. Maximum 20 characters." required><br><br>
@@ -619,12 +620,11 @@
     });
 </script>
     <script>
-    document.getElementById('harassmentBanButton').addEventListener('click', function() {
-        const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
-        
+    document.getElementById('harassmentBanButton').addEventListener('click', function() {        
         document.getElementById('Ban1Day').checked = true;
         document.getElementById('notecustom').value = 'Boiby prohibits any form of bullying, harassment, or harmful behaviour directed at other users or community members.';
         document.getElementById('note').value = 'nonote';
+        document.getElementById('cautionWarning').value = '3days'; 
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
@@ -636,8 +636,8 @@
         
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
-            newBox.querySelector('.classicReason').value = 'Modified Client';
-            newBox.querySelector('.evidence').value = `Client Modification Detected - Place ID: ${placeId}`;
+            newBox.querySelector('.classicReason').value = 'Harassment';
+            newBox.querySelector('.evidence').value = `Enter here`;
         }
         alert('Please enter a username and submit.');
     });
