@@ -257,9 +257,11 @@ if (formData) {
         const violationDetails = document.createElement('div');
         violationDetails.classList.add('violation-section');
 
+        // Determine severity class based on reason
         let severityClass = 'severity-mild';
         let severityText = 'Mild';
         
+        // Complete severity classification
         const severeReasons = [
             "Terrorism/Extremism", 
             "Boiby Endangerment",
@@ -267,18 +269,41 @@ if (formData) {
             "Sexual Content",
             "Child Safety",
             "Account Theft",
-            "Real-Life Threats"
+            "Real-Life Threats",
+            "Dangerous Activities",
+            "Malicious Software",
+            "Privacy: Sharing PII",
+            "Privacy: Asking for PII",
+            "Doxxing",
+            "Seeking Sexual Content",
+            "Abuse of Boiby Employees",
+            "Illegal and Regulated Content",
+            "Minimum Age Requirement",
+            "Real-World Tragic Events"
         ];
         
         const moderateReasons = [
             "Harassment",
+            "Inappropriate",
             "Violent Content and Gore",
             "Discriminatory Content",
-            "Doxxing",
             "Cheats and Exploits",
             "Modified Client",
             "Ban Evasion",
-            "Extortion and Blackmail"
+            "Extortion and Blackmail",
+            "Scamming",
+            "Misusing Boiby Systems",
+            "Political Content",
+            "Misinformation",
+            "Boiby Economy",
+            "Chargeback",
+            "Directing Users Off-Platform",
+            "Contests and Sweepstakes",
+            "Gambling Content",
+            "Impersonation",
+            "Disruptive Audio",
+            "Dating and Romantic Content",
+            "Intellectual Property Violation"
         ];
 
         if (severeReasons.includes(violation.reason)) {
@@ -307,7 +332,7 @@ if (formData) {
         evidenceTypeElement.textContent = `Type: ${violation.violationType}`;
         evidenceContent.appendChild(evidenceTypeElement);
 
-        // Handle different evidence types
+        // Handle all original evidence types
         if (violation.violationType === "Image") {
             const imgElement = document.createElement('img');
             imgElement.src = violation.evidence;
@@ -320,11 +345,59 @@ if (formData) {
             const evidenceText = document.createElement('div');
             evidenceText.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
             evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Game") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Game: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Group Shout") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Group Shout: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Group Description") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Group Description: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Group Roleset") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Group Roleset: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "UGC Bundle") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `UGC Bundle: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "UGC Accessory") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `UGC Accessory: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Asset") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Asset: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
         } else if (violation.violationType === "Audio") {
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
             audioElement.src = violation.evidence;
             evidenceContent.appendChild(audioElement);
+        } else if (violation.violationType === "User Profile About") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `User Profile About: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Group Wall Post") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Group Wall Post: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Username") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Username: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Display Name") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Display Name: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
+        } else if (violation.violationType === "Web Chat") {
+            const evidenceText = document.createElement('div');
+            evidenceText.textContent = `Web Chat: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceText);
         } else {
             // Default text evidence
             const evidenceText = document.createElement('div');
