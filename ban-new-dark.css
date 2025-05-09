@@ -111,34 +111,47 @@ b {
 
 .severity-tag {
     display: inline-block;
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 2px 8px;
+    border-radius: 12px;
     font-size: 12px;
     font-weight: 600;
     margin-left: 8px;
+    color: white;
 }
 
 .severity-mild {
-    background-color: #3a2e05;
-    color: #ffd351;
-    border: 1px solid #5a4a0a;
+    background-color: #ffc107;
 }
 
 .severity-moderate {
-    background-color: #4a2c0d;
-    color: #ff9e3f;
-    border: 1px solid #6a4c1a;
+    background-color: #fd7e14;
 }
 
 .severity-severe {
-    background-color: #4a1a21;
-    color: #ff6b7d;
-    border: 1px solid #6a2a31;
+    background-color: #dc3545;
 }
 
 .evidence-type {
     font-weight: 600;
-    margin-top: 6px;
+    margin-left: 5px;
+    margin-bottom: 4px;
+    color: #eee;
+}
+
+.violation-text {
+    font-weight: 400;
+    color: #eee;
+}
+
+.violation-section p {
+    margin-bottom: 6px;
+    color: #eee;
+}
+
+.evidence-item p {
+    margin-left: 5px;
+    margin-bottom: 0;
+    color: #eee;
 }
 
 .violation-text {
