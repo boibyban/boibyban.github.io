@@ -254,7 +254,7 @@ if (formData) {
     const evidenceContainer = document.getElementById('evidenceContainer');
 if (formData.classicViolations && formData.classicViolations.length > 0) {
     // Clear any existing content
-    evidenceContainer.innerHTML = '';
+    evidenceContainer.innerHTML = '<p>Recent Violation: </p>';
     
     formData.classicViolations.forEach((violation, index) => {
         // Create a new evidence box for each violation
