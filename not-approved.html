@@ -252,34 +252,38 @@ if (formData) {
     }
 
     const evidenceContainer = document.getElementById('evidenceContainer');
-    if (formData.classicViolations && formData.classicViolations.length > 0) {
+if (formData.classicViolations && formData.classicViolations.length > 0) {
     formData.classicViolations.forEach((violation, index) => {
+        // Create the main evidence box for this violation
+        const evidenceBox = document.createElement('div');
+        evidenceBox.className = 'evidence-box';
+        
+        // Create violation details container
         const violationDetails = document.createElement('div');
-        violationDetails.classList.add('violation-section');
+        violationDetails.className = 'violation-section';
 
         // Determine severity
         let severityClass = 'severity-mild';
         let severityText = 'Mild';
         
         const severeReasons = [
-            "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-            "Sexual Content", "Child Safety", "Account Theft", 
-            "Real-Life Threats", "Dangerous Activities", "Malicious Software",
-            "Privacy: Sharing PII", "Privacy: Asking for PII", "Doxxing",
-            "Seeking Sexual Content", "Abuse of Boiby Employees", 
-            "Illegal and Regulated Content", "Minimum Age Requirement",
-            "Real-World Tragic Events"
+            "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", "Child Safety", "Account Theft", 
+            "Real-Life Threats", "Dangerous Activities", "Malicious Software", "Doxxing",
+            "Abuse of Boiby Employees", "Minimum Age Requirement", "Ban Evasion"
+            
         ];
         
         const moderateReasons = [
             "Harassment", "Inappropriate", "Violent Content and Gore",
             "Discriminatory Content", "Cheats and Exploits", "Modified Client",
-            "Ban Evasion", "Extortion and Blackmail", "Scamming",
+            "Extortion and Blackmail", "Scamming",
             "Misusing Boiby Systems", "Political Content", "Misinformation",
             "Boiby Economy", "Chargeback", "Directing Users Off-Platform",
             "Contests and Sweepstakes", "Gambling Content", "Impersonation",
             "Disruptive Audio", "Dating and Romantic Content",
-            "Intellectual Property Violation", "Other"
+            "Intellectual Property Violation", "Other", "Sexual Content",
+            "Real-World Tragic Events", "Illegal and Regulated Content",
+            "Seeking Sexual Content", "Privacy: Sharing PII", "Privacy: Asking for PII"
         ];
 
         if (severeReasons.includes(violation.reason)) {
@@ -302,12 +306,15 @@ if (formData) {
 
         // Evidence content
         const evidenceContent = document.createElement('div');
-        evidenceContent.classList.add('evidence-item');
+        evidenceContent.className = 'evidence-item';
         
-        const evidenceTypeElement = document.createElement('p');
-        evidenceTypeElement.classList.add('evidence-type');
-        evidenceTypeElement.textContent = `Type: ${violation.violationType}`;
-        evidenceContent.appendChild(evidenceTypeElement);
+        // Only show evidence type if not General/Chat
+        if (violation.violationType !== "General/Chat") {
+            const evidenceTypeElement = document.createElement('p');
+            evidenceTypeElement.className = 'evidence-type';
+            evidenceTypeElement.textContent = `Type: ${violation.violationType}`;
+            evidenceContent.appendChild(evidenceTypeElement);
+        }
 
         // Handle all evidence types
         const evidenceTextElement = document.createElement('p');
@@ -315,7 +322,7 @@ if (formData) {
         if (violation.violationType === "Image") {
             const imgElement = document.createElement('img');
             imgElement.src = violation.evidence;
-            imgElement.classList.add('evidence-image');
+            imgElement.className = 'evidence-image';
             evidenceContent.appendChild(imgElement);
         } else if (violation.violationType === "Voice Chat") {
             const date = new Date();
@@ -335,7 +342,8 @@ if (formData) {
         }
 
         violationDetails.appendChild(evidenceContent);
-        evidenceContainer.appendChild(violationDetails);
+        evidenceBox.appendChild(violationDetails);
+        evidenceContainer.appendChild(evidenceBox);
     });
 } else {
     evidenceContainer.remove();
