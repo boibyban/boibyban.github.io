@@ -78,6 +78,8 @@
             <button type="button" id="theftButton" style="margin-left: 10px;">Account Theft Ban</button>
             <button type="button" id="harassmentBanButton" style="margin-left: 10px;">Harassment Ban</button>
             <button type="button" id="ceBanButton" style="margin-left: 10px;">CE Ban</button>
+            <button type="button" id="ExcessiveProfanityBanButton" style="margin-left: 10px">Excessive Profanity Ban</button>
+            <button type="button" id="ExtortionBanButton" style="margin-left: 10px">Extortion Ban</button>
 </div>
         <label for="username">Username (required):</label><br>
         <input type="text" id="username" name="username" pattern="[A-Za-z0-9_]{1,20}" title="Only uppercase, lowercase, numbers, and underscores are allowed. Maximum 20 characters." required><br><br>
@@ -660,6 +662,72 @@
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
             newBox.querySelector('.classicReason').value = 'Child Safety';
+            newBox.querySelector('.evidence').value = `Enter here`;
+        }
+        alert('Please enter a username and submit.');
+    });
+</script>
+<script>
+    document.getElementById('ceBanButton').addEventListener('click', function() {        
+        document.getElementById('Delete').checked = true;
+        document.getElementById('notecustom').value = 'Your account has been permanently banned due to violating our Child Safety policies. Boiby enforces an absolute zero-tolerance policy against any form of child exploitation, endangerment, or harmful behavior involving minors. In circumstances where Boiby believes users are at risk of harm, Boiby may file a report with relevant authorities.';
+        document.getElementById('note').value = 'nonote';
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Child Safety';
+            newBox.querySelector('.evidence').value = `Enter here`;
+        }
+        alert('Please enter a username and submit.');
+    });
+</script>
+    <script>
+    document.getElementById('ExcessiveProfanityBanButton').addEventListener('click', function() {        
+        document.getElementById('Warn').checked = true;
+        document.getElementById('notecustom').value = 'Boiby believes in free expression and allow the use of profanity in appropriate contexts. However, excessive, aggressive, or disruptive profanity that harms the community experience is not permitted.';
+        document.getElementById('note').value = 'nonote';
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Excessive Profanity';
+            newBox.querySelector('.evidence').value = `Enter here`;
+        }
+        alert('Please enter a username and submit.');
+    });
+</script>
+        <script>
+    document.getElementById('ExtortionBanButton').addEventListener('click', function() {        
+        document.getElementById('Ban1Day').checked = true;
+        document.getElementById('notecustom').value = 'Boiby prohibits any form of extortion, blackmail, or coercive threats towards other users.';
+        document.getElementById('note').value = 'nonote';
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Extortion and Blackmail';
             newBox.querySelector('.evidence').value = `Enter here`;
         }
         alert('Please enter a username and submit.');
