@@ -301,10 +301,12 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
         // Violation header
         const reasonElement = document.createElement('p');
         reasonElement.innerHTML = `Violation: <span class="violation-text">${violation.reason}</span> <span class="severity-tag ${severityClass}">${severityText}</span>`;
+        reasonElement.style.marginBottom = "6px";
         evidenceBox.appendChild(reasonElement);
 
         // Evidence label
         const evidenceLabel = document.createElement('p');
+        
         evidenceLabel.textContent = 'Evidence:';
         evidenceBox.appendChild(evidenceLabel);
 
@@ -316,7 +318,7 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
         if (violation.violationType !== "General/Chat") {
             const evidenceTypeElement = document.createElement('p');
             evidenceTypeElement.className = 'evidence-type';
-            evidenceTypeElement.textContent = `Type: ${violation.violationType}`;
+            evidenceTypeElement.textContent = `${violation.violationType}:`;
             evidenceContent.appendChild(evidenceTypeElement);
         }
 
