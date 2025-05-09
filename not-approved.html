@@ -253,141 +253,93 @@ if (formData) {
 
     const evidenceContainer = document.getElementById('evidenceContainer');
     if (formData.classicViolations && formData.classicViolations.length > 0) {
-        formData.classicViolations.forEach((violation, index) => {
-            const violationDetails = document.createElement('div');
-            violationDetails.classList.add('violation-section');
+    formData.classicViolations.forEach((violation, index) => {
+        const violationDetails = document.createElement('div');
+        violationDetails.classList.add('violation-section');
 
-            // Determine severity
-            let severityClass = 'severity-mild';
-            let severityText = 'Mild';
-            
-            const severeReasons = [
-                "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-                "Sexual Content", "Child Safety", "Account Theft", 
-                "Real-Life Threats", "Dangerous Activities", "Malicious Software",
-                "Privacy: Sharing PII", "Privacy: Asking for PII", "Doxxing",
-                "Seeking Sexual Content", "Abuse of Boiby Employees", 
-                "Illegal and Regulated Content", "Minimum Age Requirement",
-                "Real-World Tragic Events"
-            ];
-            
-            const moderateReasons = [
-                "Harassment", "Inappropriate", "Violent Content and Gore",
-                "Discriminatory Content", "Cheats and Exploits", "Modified Client",
-                "Ban Evasion", "Extortion and Blackmail", "Scamming",
-                "Misusing Boiby Systems", "Political Content", "Misinformation",
-                "Boiby Economy", "Chargeback", "Directing Users Off-Platform",
-                "Contests and Sweepstakes", "Gambling Content", "Impersonation",
-                "Disruptive Audio", "Dating and Romantic Content",
-                "Intellectual Property Violation", "Other"
-            ];
+        // Determine severity
+        let severityClass = 'severity-mild';
+        let severityText = 'Mild';
+        
+        const severeReasons = [
+            "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
+            "Sexual Content", "Child Safety", "Account Theft", 
+            "Real-Life Threats", "Dangerous Activities", "Malicious Software",
+            "Privacy: Sharing PII", "Privacy: Asking for PII", "Doxxing",
+            "Seeking Sexual Content", "Abuse of Boiby Employees", 
+            "Illegal and Regulated Content", "Minimum Age Requirement",
+            "Real-World Tragic Events"
+        ];
+        
+        const moderateReasons = [
+            "Harassment", "Inappropriate", "Violent Content and Gore",
+            "Discriminatory Content", "Cheats and Exploits", "Modified Client",
+            "Ban Evasion", "Extortion and Blackmail", "Scamming",
+            "Misusing Boiby Systems", "Political Content", "Misinformation",
+            "Boiby Economy", "Chargeback", "Directing Users Off-Platform",
+            "Contests and Sweepstakes", "Gambling Content", "Impersonation",
+            "Disruptive Audio", "Dating and Romantic Content",
+            "Intellectual Property Violation", "Other"
+        ];
 
-            if (severeReasons.includes(violation.reason)) {
-                severityClass = 'severity-severe';
-                severityText = 'Severe';
-            } else if (moderateReasons.includes(violation.reason)) {
-                severityClass = 'severity-moderate';
-                severityText = 'Moderate';
-            }
+        if (severeReasons.includes(violation.reason)) {
+            severityClass = 'severity-severe';
+            severityText = 'Severe';
+        } else if (moderateReasons.includes(violation.reason)) {
+            severityClass = 'severity-moderate';
+            severityText = 'Moderate';
+        }
 
-            // Violation header
-            const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `Violation: <span class="violation-text">${violation.reason}</span> <span class="severity-tag ${severityClass}">${severityText}</span>`;
-            violationDetails.appendChild(reasonElement);
+        // Violation header
+        const reasonElement = document.createElement('p');
+        reasonElement.innerHTML = `Violation: <span class="violation-text">${violation.reason}</span> <span class="severity-tag ${severityClass}">${severityText}</span>`;
+        violationDetails.appendChild(reasonElement);
 
-            // Evidence container
-            const evidenceElement = document.createElement('div');
-            evidenceElement.innerHTML = `Evidence:`;
-            
-            // Evidence content
-            const evidenceContent = document.createElement('div');
-            evidenceContent.classList.add('evidence-item');
-            
-            const evidenceTypeElement = document.createElement('div');
-            evidenceTypeElement.classList.add('evidence-type');
-            evidenceTypeElement.textContent = `Type: ${violation.violationType}`;
-            evidenceContent.appendChild(evidenceTypeElement);
+        // Evidence container
+        const evidenceElement = document.createElement('p');
+        evidenceElement.textContent = 'Evidence:';
+        violationDetails.appendChild(evidenceElement);
 
-            // Handle all evidence types
-            if (violation.violationType === "Image") {
-                const imgElement = document.createElement('img');
-                imgElement.src = violation.evidence;
-                imgElement.classList.add('evidence-image');
-                evidenceContent.appendChild(imgElement);
-            } else if (violation.violationType === "Voice Chat") {
-                const date = new Date();
-                date.setMinutes(date.getMinutes() - 5);
-                const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Game") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Game: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Group Shout") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Group Shout: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Group Description") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Group Description: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Group Roleset") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Group Roleset: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "UGC Bundle") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `UGC Bundle: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "UGC Accessory") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `UGC Accessory: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Asset") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Asset: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Audio") {
-                const audioElement = document.createElement('audio');
-                audioElement.controls = true;
-                audioElement.src = violation.evidence;
-                evidenceContent.appendChild(audioElement);
-            } else if (violation.violationType === "User Profile About") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `User Profile About: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Group Wall Post") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Group Wall Post: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Username") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Username: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Display Name") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Display Name: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else if (violation.violationType === "Web Chat") {
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = `Web Chat: ${violation.evidence}`;
-                evidenceContent.appendChild(evidenceText);
-            } else {
-                // Default text evidence
-                const evidenceText = document.createElement('div');
-                evidenceText.textContent = violation.evidence;
-                evidenceContent.appendChild(evidenceText);
-            }
+        // Evidence content
+        const evidenceContent = document.createElement('div');
+        evidenceContent.classList.add('evidence-item');
+        
+        const evidenceTypeElement = document.createElement('p');
+        evidenceTypeElement.classList.add('evidence-type');
+        evidenceTypeElement.textContent = `Type: ${violation.violationType}`;
+        evidenceContent.appendChild(evidenceTypeElement);
 
-            evidenceElement.appendChild(evidenceContent);
-            violationDetails.appendChild(evidenceElement);
-            evidenceContainer.appendChild(violationDetails);
-        });
-    } else {
-        evidenceContainer.remove();
-    }
+        // Handle all evidence types
+        const evidenceTextElement = document.createElement('p');
+        
+        if (violation.violationType === "Image") {
+            const imgElement = document.createElement('img');
+            imgElement.src = violation.evidence;
+            imgElement.classList.add('evidence-image');
+            evidenceContent.appendChild(imgElement);
+        } else if (violation.violationType === "Voice Chat") {
+            const date = new Date();
+            date.setMinutes(date.getMinutes() - 5);
+            const formattedDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+            evidenceTextElement.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+            evidenceContent.appendChild(evidenceTextElement);
+        } else if (violation.violationType === "Audio") {
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            audioElement.src = violation.evidence;
+            evidenceContent.appendChild(audioElement);
+        } else {
+            // Default text evidence
+            evidenceTextElement.textContent = violation.evidence;
+            evidenceContent.appendChild(evidenceTextElement);
+        }
+
+        violationDetails.appendChild(evidenceContent);
+        evidenceContainer.appendChild(violationDetails);
+    });
+} else {
+    evidenceContainer.remove();
+}
 }
 
 function setTheme(theme) {
