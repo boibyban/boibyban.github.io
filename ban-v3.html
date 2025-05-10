@@ -1,6 +1,6 @@
-ban-v3.html
+<html lang="en"><head></head><body>ban-v3.html
 
-<html lang="en"><head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oh Noes!</title>
@@ -25,30 +25,40 @@ ban-v3.html
             margin: 0;
             padding: 20px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
+            gap: 20px;
         }
         #moderator-note-display {
-    margin: 0;
-    line-height: 1.5;
-    color: var(--text-primary);
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
+            margin: 0;
+            line-height: 1.5;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
 
-        .container {
+        .header-container {
             max-width: 720px;
             width: 100%;
-            margin-top: 80px;
-            height: fit-content;
             background-color: var(--darker-bg);
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .header-container {
+        .content-container {
+            max-width: 720px;
+            width: 100%;
+            background-color: var(--darker-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .punishment-header-container {
             display: flex;
             align-items: flex-start;
             gap: 25px;
@@ -56,7 +66,7 @@ ban-v3.html
         }
 
         @media (max-width: 700px) {
-            .header-container {
+            .punishment-header-container {
                 flex-direction: column;
                 align-items: center;
                 text-align: center;
@@ -251,32 +261,45 @@ ban-v3.html
         .hidden {
             display: none;
         }
+        
+        .account-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .account-status-prefix {
+            color: var(--text-primary);
+        }
     </style>
-</head>
-<body>
-    <div class="container" id="ban-screen">
-        <div class="header-container">
+
+
+    <div class="header-container" id="account-status-header">
+        <div class="punishment-header-container">
             <div class="punishment-img">
                 <img id="profile-img-display" src="https://boibyban.github.io/boiby.jpg" alt="Warning Icon">
             </div>
             <div class="punishment-header">
-                <h3 class="term" id="punishment-title">Account Terminated</h3>
-                <p id="punishment-description">Due to serious or repeated violations of the BoibyChat Community Standards, your account has been terminated. You can no longer use your BoibyChat account.</p>
+                <div class="account-status">
+                    <span class="account-status-prefix">Your account is</span>
+                    <h3 class="li-orange" id="punishment-title">limited</h3>
+                </div>
+                <p id="punishment-description">Due to violations of the BoibyChat Community Standards, your account has been temporarily suspended until 5/11/2025. Future violations may result in additional actions, including account termination.</p>
             </div>
         </div>
+    </div>
 
-        <div class="divider"></div>
-
+    <div class="content-container" id="ban-screen-content">
         <div class="reason-header">
-            <h3>You broke the rules for <span id="violation-reason">Violent Extremism and Terrorism</span></h3>
+            <h3>You broke the rules for <span id="violation-reason">Real-World Tragic/Sensitive Events</span></h3>
         </div>
 
-        <div id="moderator-note-section" class="hidden">
-    <p class="info-box-title">Note from Moderator</p>
-    <div class="info-box">
-        <p id="moderator-note-display"></p>
-    </div>
-</div>
+        <div id="moderator-note-section" class="">
+            <p class="info-box-title">Note from Moderator</p>
+            <div class="info-box">
+                <p id="moderator-note-display">dsffdsfds</p>
+            </div>
+        </div>
         
         <div id="activity-section" class="">
             <p class="info-box-title">Your recent activity</p>
@@ -286,8 +309,8 @@ ban-v3.html
                         <img id="profile-img-small" src="https://boibyban.github.io/boiby.jpg" alt="User Icon">
                     </div>
                     <div class="activity-content">
-                        <p class="activity-username" id="username-display">boiby</p>
-                        <p class="activity-evidence" id="evidence-display">mrrrp</p>
+                        <p class="activity-username" id="username-display">User</p>
+                        <p class="activity-evidence" id="evidence-display">fdsfds</p>
                     </div>
                 </div>
             </div>
@@ -295,9 +318,11 @@ ban-v3.html
         
         <p class="info-box-title">What this means for you</p>
         <div class="box">
-            <ul class="consequences-list" id="consequences-list"><li class="li-yellow">One message was removed, so no one else can see it.</li>
-                    <li class="li-red">Your account has been permanently banned.</li>
-                    <li>You may not create new accounts on BoibyChat.</li>
+            <ul class="consequences-list" id="consequences-list">
+                    <li class="li-yellow">One message was removed, so no one else can see it.</li>
+                    <li class="li-orange">Your account has been suspended for 1 day, until 5/11/2025</li>
+                    <li>You won't be able to send or receive messages for 1 day, until 5/11/2025</li>
+                    <li>This violation affects your account status until 5/10/2026</li>
                 </ul>
         </div>
 
@@ -348,15 +373,15 @@ ban-v3.html
             profileImgSmall.src = data.profileImage || defaultImage;
 
             if (moderatorNoteSection) {
-        if (data.moderatorNote) {
-            moderatorNoteSection.classList.remove('hidden');
-            if (moderatorNoteDisplay) {
-                moderatorNoteDisplay.textContent = data.moderatorNote;
+                if (data.moderatorNote) {
+                    moderatorNoteSection.classList.remove('hidden');
+                    if (moderatorNoteDisplay) {
+                        moderatorNoteDisplay.textContent = data.moderatorNote;
+                    }
+                } else {
+                    moderatorNoteSection.classList.add('hidden');
+                }
             }
-        } else {
-            moderatorNoteSection.classList.add('hidden');
-        }
-    }
             
             // Set username
             if (usernameDisplay) {
@@ -377,12 +402,30 @@ ban-v3.html
             
             // Set punishment type
             const isTerminated = data.punishment === 'terminated';
+            const days = parseInt(data.punishment) || 1;
             
             if (punishmentTitle) {
-                punishmentTitle.textContent = isTerminated 
-                    ? 'Account Terminated' 
-                    : `Suspended for ${parseInt(data.punishment) || 1} Day${parseInt(data.punishment) > 1 ? 's' : ''}`;
-                punishmentTitle.className = isTerminated ? 'term' : 'li-orange';
+                let statusText = '';
+                let statusClass = '';
+                
+                if (isTerminated) {
+                    statusText = 'terminated';
+                    statusClass = 'term';
+                } else {
+                    statusClass = 'li-orange';
+                    if (days === 1) {
+                        statusText = 'limited';
+                    } else if (days === 3) {
+                        statusText = 'very limited';
+                    } else if (days === 7) {
+                        statusText = 'at risk';
+                    } else {
+                        statusText = 'limited';
+                    }
+                }
+                
+                punishmentTitle.textContent = statusText;
+                punishmentTitle.className = statusClass;
             }
             
             if (punishmentDesc) {
@@ -440,9 +483,5 @@ ban-v3.html
                 `;
             }
         }
-        
     });
 </script>
-
-
-</body></html>
