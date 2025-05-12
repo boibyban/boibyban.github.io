@@ -12,6 +12,21 @@
             padding: 20px;
         }
         
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .boibucks-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+        }
+        
         .tiers-container {
             display: flex;
             justify-content: space-between;
@@ -166,6 +181,21 @@
             background-color: darkgreen;
         }
         
+        .back-button {
+            background-color: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .back-button:hover {
+            background-color: #555;
+        }
+        
         /* Success page styles */
         .success-container {
             display: none;
@@ -250,13 +280,26 @@
         .boibucks-button:hover {
             background-color: #45a049;
         }
+        
+        .bonus-badge {
+            background-color: gold;
+            color: black;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
+    <!-- Header with Boibucks display -->
+    <div class="header">
+        <h1>Upgrade to Boiby Club</h1>
+        <div class="boibucks-display" id="boibucks-display">Boibucks: 0</div>
+    </div>
+    
     <!-- Main Upgrade Page -->
     <div id="upgrade-page">
-        <h1>Upgrade to Boiby Club</h1>
-        
         <div class="tiers-container">
             <!-- Free Tier -->
             <div class="tier">
@@ -485,15 +528,15 @@
                 </tr>
                 <tr>
                     <td>Starter Pack</td>
-                    <td>500 Boibucks</td>
+                    <td id="starter-pack-amount">500 Boibucks</td>
                     <td>$4.99</td>
-                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('500 Boibucks', 4.99)">Buy Now</button></td>
+                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('Starter Pack', 4.99, 500)">Buy Now</button></td>
                 </tr>
                 <tr>
                     <td>Starter Plus</td>
-                    <td>1000 Boibucks</td>
+                    <td id="starter-plus-amount">1000 Boibucks</td>
                     <td>$9.99</td>
-                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('1000 Boibucks', 9.99)">Buy Now</button></td>
+                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('Starter Plus', 9.99, 1000)">Buy Now</button></td>
                 </tr>
                 
                 <!-- Value Category -->
@@ -502,15 +545,15 @@
                 </tr>
                 <tr>
                     <td>Value Pack</td>
-                    <td>2000 Boibucks</td>
+                    <td id="value-pack-amount">2000 Boibucks</td>
                     <td>$17.99</td>
-                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('2000 Boibucks', 17.99)">Buy Now</button></td>
+                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('Value Pack', 17.99, 2000)">Buy Now</button></td>
                 </tr>
                 <tr>
                     <td>Value Plus</td>
-                    <td>4500 Boibucks</td>
+                    <td id="value-plus-amount">4500 Boibucks</td>
                     <td>$39.99</td>
-                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('4500 Boibucks', 39.99)">Buy Now</button></td>
+                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('Value Plus', 39.99, 4500)">Buy Now</button></td>
                 </tr>
                 
                 <!-- Extreme Category -->
@@ -519,9 +562,9 @@
                 </tr>
                 <tr>
                     <td>Extreme Pack</td>
-                    <td>12500 Boibucks</td>
+                    <td id="extreme-pack-amount">12500 Boibucks</td>
                     <td>$99.99</td>
-                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('12500 Boibucks', 99.99)">Buy Now</button></td>
+                    <td><button class="boibucks-button" onclick="showBoibucksPurchase('Extreme Pack', 99.99, 12500)">Buy Now</button></td>
                 </tr>
             </table>
         </div>
@@ -564,6 +607,7 @@
                     </div>
                     
                     <button type="submit" class="submit-button">Complete Purchase</button>
+                    <button type="button" class="back-button" onclick="backToHome()">Back to Home</button>
                 </form>
             </div>
         </div>
@@ -580,7 +624,8 @@
             <div id="success-price" class="price">$0.00</div>
         </div>
         
-        <p>Thank you for upgrading to Boiby Club!</p>
+        <p>Thank you for your purchase!</p>
+        <button class="back-button" onclick="backToHome()">Back to Home</button>
     </div>
     
     <script>
@@ -589,8 +634,111 @@
             plan: '',
             type: '',
             price: 0,
-            isBoibucks: false
+            isBoibucks: false,
+            boibucksAmount: 0
         };
+        
+        // Initialize the page
+        function initPage() {
+            document.getElementById('purchase-page').style.display = 'none';
+            document.getElementById('success-page').style.display = 'none';
+            
+            // Load saved data from local storage
+            loadUserData();
+            
+            // Update Boibucks amounts based on membership status
+            updateBoibucksOffers();
+        }
+        
+        // Load user data from local storage
+        function loadUserData() {
+            // Load Boibucks balance
+            let boibucks = localStorage.getItem('boibucks');
+            if (!boibucks) {
+                boibucks = 0;
+                localStorage.setItem('boibucks', boibucks);
+            }
+            document.getElementById('boibucks-display').textContent = `Boibucks: ${boibucks}`;
+            
+            // Load membership status
+            let membership = localStorage.getItem('membership');
+            if (!membership) {
+                membership = 'free';
+                localStorage.setItem('membership', membership);
+            }
+            
+            // Update current plan buttons
+            updateCurrentPlanButtons(membership);
+        }
+        
+        // Update current plan buttons based on membership
+        function updateCurrentPlanButtons(membership) {
+            // Reset all buttons to purchase buttons
+            const buttons = document.querySelectorAll('.purchase-button');
+            buttons.forEach(button => {
+                button.classList.remove('current-plan-button');
+                button.disabled = false;
+                button.textContent = button.textContent.includes('month') ? 
+                    button.textContent : 
+                    button.textContent.replace('Current Plan', 'Current Plan');
+            });
+            
+            // Set the current plan button
+            if (membership === 'classic') {
+                document.querySelectorAll('.tier.classic .purchase-button').forEach(button => {
+                    button.classList.add('current-plan-button');
+                    button.disabled = true;
+                    button.textContent = 'Current Plan';
+                });
+            } else if (membership === 'turbo') {
+                document.querySelectorAll('.tier.turbo .purchase-button').forEach(button => {
+                    button.classList.add('current-plan-button');
+                    button.disabled = true;
+                    button.textContent = 'Current Plan';
+                });
+            } else if (membership === 'outrageous') {
+                document.querySelectorAll('.tier.outrageous .purchase-button').forEach(button => {
+                    button.classList.add('current-plan-button');
+                    button.disabled = true;
+                    button.textContent = 'Current Plan';
+                });
+            }
+        }
+        
+        // Update Boibucks offers based on membership status
+        function updateBoibucksOffers() {
+            const membership = localStorage.getItem('membership') || 'free';
+            const hasPremium = membership !== 'free';
+            
+            // Update the amounts displayed with 10% bonus if premium
+            const packages = [
+                { id: 'starter-pack-amount', base: 500 },
+                { id: 'starter-plus-amount', base: 1000 },
+                { id: 'value-pack-amount', base: 2000 },
+                { id: 'value-plus-amount', base: 4500 },
+                { id: 'extreme-pack-amount', base: 12500 }
+            ];
+            
+            packages.forEach(pkg => {
+                const amount = hasPremium ? Math.floor(pkg.base * 1.1) : pkg.base;
+                const element = document.getElementById(pkg.id);
+                element.textContent = `${amount} Boibucks`;
+                
+                if (hasPremium) {
+                    // Add bonus badge if premium
+                    const badge = document.createElement('span');
+                    badge.className = 'bonus-badge';
+                    badge.textContent = '+10%';
+                    element.appendChild(badge);
+                } else {
+                    // Remove any existing badge
+                    const badge = element.querySelector('.bonus-badge');
+                    if (badge) {
+                        element.removeChild(badge);
+                    }
+                }
+            });
+        }
         
         // Show purchase page with selected plan
         function showPurchasePage(plan, type, price) {
@@ -598,6 +746,7 @@
             currentPurchase.type = type;
             currentPurchase.price = price;
             currentPurchase.isBoibucks = false;
+            currentPurchase.boibucksAmount = 0;
             
             // Hide upgrade page, show purchase page
             document.getElementById('upgrade-page').style.display = 'none';
@@ -636,11 +785,16 @@
         }
         
         // Show purchase page for Boibucks
-        function showBoibucksPurchase(plan, price) {
+        function showBoibucksPurchase(plan, price, baseAmount) {
+            const membership = localStorage.getItem('membership') || 'free';
+            const hasPremium = membership !== 'free';
+            const amount = hasPremium ? Math.floor(baseAmount * 1.1) : baseAmount;
+            
             currentPurchase.plan = plan;
             currentPurchase.type = 'one-time';
             currentPurchase.price = price;
             currentPurchase.isBoibucks = true;
+            currentPurchase.boibucksAmount = amount;
             
             // Hide upgrade page, show purchase page
             document.getElementById('upgrade-page').style.display = 'none';
@@ -648,7 +802,7 @@
             document.getElementById('success-page').style.display = 'none';
             
             // Update purchase page with plan details
-            document.getElementById('purchase-plan-name').textContent = plan;
+            document.getElementById('purchase-plan-name').textContent = `${amount} Boibucks`;
             document.getElementById('purchase-plan-price').textContent = `$${price.toFixed(2)} One-Time Purchase`;
             
             // Set the Boibucks image
@@ -670,6 +824,32 @@
         function showSuccessPage(event) {
             event.preventDefault();
             
+            // Save the purchase to local storage
+            if (currentPurchase.isBoibucks) {
+                // Add Boibucks to balance
+                let currentBoibucks = parseInt(localStorage.getItem('boibucks')) || 0;
+                currentBoibucks += currentPurchase.boibucksAmount;
+                localStorage.setItem('boibucks', currentBoibucks);
+            } else {
+                // Save membership
+                localStorage.setItem('membership', currentPurchase.plan);
+                
+                // If this is a membership purchase, give initial Boibucks
+                if (currentPurchase.plan === 'classic') {
+                    let currentBoibucks = parseInt(localStorage.getItem('boibucks')) || 0;
+                    currentBoibucks += 20; // Initial bonus for Classic
+                    localStorage.setItem('boibucks', currentBoibucks);
+                } else if (currentPurchase.plan === 'turbo') {
+                    let currentBoibucks = parseInt(localStorage.getItem('boibucks')) || 0;
+                    currentBoibucks += 45; // Initial bonus for Turbo
+                    localStorage.setItem('boibucks', currentBoibucks);
+                } else if (currentPurchase.plan === 'outrageous') {
+                    let currentBoibucks = parseInt(localStorage.getItem('boibucks')) || 0;
+                    currentBoibucks += 100; // Initial bonus for Outrageous
+                    localStorage.setItem('boibucks', currentBoibucks);
+                }
+            }
+            
             // Hide purchase page, show success page
             document.getElementById('upgrade-page').style.display = 'none';
             document.getElementById('purchase-page').style.display = 'none';
@@ -677,7 +857,7 @@
             
             // Update success page with plan details
             if (currentPurchase.isBoibucks) {
-                document.getElementById('success-plan-name').textContent = currentPurchase.plan;
+                document.getElementById('success-plan-name').textContent = `${currentPurchase.boibucksAmount} Boibucks`;
                 document.getElementById('success-plan-name').style.color = 'green';
                 document.getElementById('success-billing-type').textContent = 'One-Time Purchase';
                 document.getElementById('success-price').textContent = `$${currentPurchase.price.toFixed(2)}`;
@@ -703,11 +883,21 @@
                     : `$${currentPurchase.price.toFixed(2)} annual payment`;
                 document.getElementById('success-price').textContent = priceText;
             }
+            
+            // Update the UI with new data
+            loadUserData();
+            updateBoibucksOffers();
         }
         
-        // Initialize the page
-        document.getElementById('purchase-page').style.display = 'none';
-        document.getElementById('success-page').style.display = 'none';
+        // Go back to home page
+        function backToHome() {
+            document.getElementById('upgrade-page').style.display = 'block';
+            document.getElementById('purchase-page').style.display = 'none';
+            document.getElementById('success-page').style.display = 'none';
+        }
+        
+        // Initialize the page when loaded
+        window.onload = initPage;
     </script>
 </body>
 </html>
