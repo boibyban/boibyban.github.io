@@ -122,7 +122,7 @@ const translations = {
         "Title.Suspend1Year": "Suspended for 1 Year",
         "Title.Delete": "Account Deleted",  // deprecated
         "Title.Terminate": "Account Terminated",
-        "Title.PermanentlyBanned": "Permanently Banned", // unused
+        "Title.PermanentlyBanned": "Permanently Banned"
         "Title.UnusedTestReminderWhyDoIHaveThisIDontKnow": "Reminder" // unused
     }
 };
@@ -134,16 +134,16 @@ if (formData) {
     // Punishment type mapping using translations
     const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
-        Ban3Hours: translations[language]["Title.Ban3Hours"],
-        Ban1Day: translations[language]["Title.Ban1Day"],
-        Ban2Days: translations[language]["Title.Ban2Days"],
-        Ban3Days: translations[language]["Title.Ban3Days"],
-        Ban7Days: translations[language]["Title.Ban7Days"],
-        Ban14Days: translations[language]["Title.Ban14Days"],
-        Ban60Days: translations[language]["Title.Ban60Days"],
-        Ban6Months: translations[language]["Title.Ban6Months"],
-        Ban1Year: translations[language]["Title.Ban1Year"],
-        Delete: translations[language]["Title.Terminate"],
+        Ban3Hours: translations[language]["Title.Suspend3Hours"],
+        Ban1Day: translations[language]["Title.Suspend1Day"],
+        Ban2Days: translations[language]["Title.Suspend2Days"],
+        Ban3Days: translations[language]["Title.Suspend3Days"],
+        Ban7Days: translations[language]["Title.Suspend7Days"],
+        Ban14Days: translations[language]["Title.Suspend14Days"],
+        Ban60Days: translations[language]["Title.Suspend60Days"],
+        Ban6Months: translations[language]["Title.Suspend6Months"],
+        Ban1Year: translations[language]["Title.Suspend1Year"],
+        Delete: translations[language]["Title.PermanentlyBanned"],
     };
 
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
