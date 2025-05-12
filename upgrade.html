@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Boiby Club</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .tiers-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .tier {
+            text-align: center;
+            width: 23%;
+        }
+        
+        .tier-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .free { color: grey; }
+        .classic { color: blue; }
+        .turbo { color: orange; }
+        .outrageous { color: red; }
+        
+        .tier-image {
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .features-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .features-table td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .features-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .tick { color: green; font-weight: bold; }
+        .x { color: red; font-weight: bold; }
+        
+        .purchase-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .purchase-button:hover {
+            background-color: darkgreen;
+        }
+        
+        .current-plan-button {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+        
+        .disclaimer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        
+        /* Purchase page styles */
+        .purchase-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .purchase-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .purchase-content {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .plan-info {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .plan-info img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        
+        .separator {
+            width: 1px;
+            background-color: #ddd;
+        }
+        
+        .purchase-form {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .submit-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .submit-button:hover {
+            background-color: darkgreen;
+        }
+        
+        /* Success page styles */
+        .success-container {
+            display: none;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: green;
+            margin-bottom: 20px;
+        }
+        
+        .success-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .plan-name {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .billing-type, .price {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Upgrade Page -->
+    <div id="upgrade-page">
+        <h1>Upgrade to Boiby Club</h1>
+        
+        <div class="tiers-container">
+            <!-- Free Tier -->
+            <div class="tier">
+                <div class="tier-title free">Free</div>
+                <img src="bgrey.png" alt="Free" class="tier-image">
+                
+                <table class="features-table">
+                    <tr>
+                        <td>Feature 1</td>
+                        <td class="x">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 2</td>
+                        <td class="x">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 3</td>
+                        <td class="x">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 4</td>
+                        <td class="x">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 5</td>
+                        <td class="x">✗</td>
+                    </tr>
+                </table>
+                
+                <button class="purchase-button current-plan-button">Current Plan</button>
+                <button class="purchase-button current-plan-button">Current Plan</button>
+            </div>
+            
+            <!-- Classic Tier -->
+            <div class="tier">
+                <div class="tier-title classic">Classic</div>
+                <img src="bblue.png" alt="Classic" class="tier-image">
+                
+                <table class="features-table">
+                    <tr>
+                        <td>Feature 1</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 2</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 3</td>
+                        <td class="x">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 4</td>
+                        <td class="x">✗</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 5</td>
+                        <td class="x">✗</td>
+                    </tr>
+                </table>
+                
+                <button class="purchase-button" onclick="showPurchasePage('classic', 'monthly', 4.99)">$4.99/month</button>
+                <button class="purchase-button" onclick="showPurchasePage('classic', 'annual', 49.99)">$49.99/year</button>
+            </div>
+            
+            <!-- Turbo Tier -->
+            <div class="tier">
+                <div class="tier-title turbo">Turbo</div>
+                <img src="borange.png" alt="Turbo" class="tier-image">
+                
+                <table class="features-table">
+                    <tr>
+                        <td>Feature 1</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 2</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 3</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 4</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 5</td>
+                        <td class="x">✗</td>
+                    </tr>
+                </table>
+                
+                <button class="purchase-button" onclick="showPurchasePage('turbo', 'monthly', 9.99)">$9.99/month</button>
+                <button class="purchase-button" onclick="showPurchasePage('turbo', 'annual', 99.99)">$99.99/year</button>
+            </div>
+            
+            <!-- Outrageous Tier -->
+            <div class="tier">
+                <div class="tier-title outrageous">Outrageous</div>
+                <img src="bred.png" alt="Outrageous" class="tier-image">
+                
+                <table class="features-table">
+                    <tr>
+                        <td>Feature 1</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 2</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 3</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 4</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Feature 5</td>
+                        <td class="tick">✓</td>
+                    </tr>
+                </table>
+                
+                <button class="purchase-button" onclick="showPurchasePage('outrageous', 'monthly', 19.99)">$19.99/month</button>
+                <button class="purchase-button" onclick="showPurchasePage('outrageous', 'annual', 199.99)">$199.99/year</button>
+            </div>
+        </div>
+        
+        <div class="disclaimer">
+            <p>Disclaimer: These purchases are just demonstrational and not actually real.</p>
+        </div>
+    </div>
+    
+    <!-- Purchase Page -->
+    <div id="purchase-page" class="purchase-container">
+        <div class="purchase-header">
+            <h2>Complete Your Purchase</h2>
+        </div>
+        
+        <div class="purchase-content">
+            <div class="plan-info">
+                <img id="purchase-plan-image" src="" alt="Plan Image">
+                <h3 id="purchase-plan-name">Plan Name</h3>
+                <p id="purchase-plan-price">$0.00</p>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="purchase-form">
+                <form id="payment-form" onsubmit="showSuccessPage(event)">
+                    <div class="form-group">
+                        <label for="discord-username">Discord Username</label>
+                        <input type="text" id="discord-username" required placeholder="username#1234">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="identifier-code">Identifier Code</label>
+                        <input type="text" id="identifier-code" readonly value="BXY-7K9-2LM-4PQ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="checkbox" id="agree-terms" required>
+                        <label for="agree-terms">I agree to the Terms of Use</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Complete Purchase</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Page -->
+    <div id="success-page" class="success-container">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Your purchase was successful!</div>
+        
+        <div class="plan-info">
+            <div id="success-plan-name" class="plan-name">Plan Name</div>
+            <div id="success-billing-type" class="billing-type">Billing Type</div>
+            <div id="success-price" class="price">$0.00</div>
+        </div>
+        
+        <p>Thank you for upgrading to Boiby Club!</p>
+    </div>
+    
+    <script>
+        // Store purchase details
+        let currentPurchase = {
+            plan: '',
+            type: '',
+            price: 0
+        };
+        
+        // Show purchase page with selected plan
+        function showPurchasePage(plan, type, price) {
+            currentPurchase.plan = plan;
+            currentPurchase.type = type;
+            currentPurchase.price = price;
+            
+            // Hide upgrade page, show purchase page
+            document.getElementById('upgrade-page').style.display = 'none';
+            document.getElementById('purchase-page').style.display = 'block';
+            document.getElementById('success-page').style.display = 'none';
+            
+            // Update purchase page with plan details
+            const planName = `${plan.charAt(0).toUpperCase() + plan.slice(1)} Boiby Club`;
+            document.getElementById('purchase-plan-name').textContent = planName;
+            
+            const priceText = type === 'monthly' 
+                ? `$${price.toFixed(2)} Monthly, Recurring` 
+                : `$${price.toFixed(2)} Annually, Recurring`;
+            document.getElementById('purchase-plan-price').textContent = priceText;
+            
+            // Set the correct image
+            let imageSrc = '';
+            switch(plan) {
+                case 'classic': imageSrc = 'bblue.png'; break;
+                case 'turbo': imageSrc = 'borange.png'; break;
+                case 'outrageous': imageSrc = 'bred.png'; break;
+                default: imageSrc = 'bgrey.png';
+            }
+            document.getElementById('purchase-plan-image').src = imageSrc;
+            
+            // Generate random identifier code
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 3; i++) {
+                if (i > 0) code += '-';
+                for (let j = 0; j < 3; j++) {
+                    code += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+            }
+            document.getElementById('identifier-code').value = code;
+        }
+        
+        // Show success page after form submission
+        function showSuccessPage(event) {
+            event.preventDefault();
+            
+            // Hide purchase page, show success page
+            document.getElementById('upgrade-page').style.display = 'none';
+            document.getElementById('purchase-page').style.display = 'none';
+            document.getElementById('success-page').style.display = 'block';
+            
+            // Update success page with plan details
+            const planName = `${currentPurchase.plan.charAt(0).toUpperCase() + currentPurchase.plan.slice(1)} Boiby Club`;
+            document.getElementById('success-plan-name').textContent = planName;
+            
+            // Set color based on plan
+            let color = '';
+            switch(currentPurchase.plan) {
+                case 'classic': color = 'blue'; break;
+                case 'turbo': color = 'orange'; break;
+                case 'outrageous': color = 'red'; break;
+                default: color = 'grey';
+            }
+            document.getElementById('success-plan-name').style.color = color;
+            
+            const billingType = currentPurchase.type === 'monthly' ? 'Monthly' : 'Annual';
+            document.getElementById('success-billing-type').textContent = billingType;
+            
+            const priceText = currentPurchase.type === 'monthly' 
+                ? `$${currentPurchase.price.toFixed(2)} recurring payment` 
+                : `$${currentPurchase.price.toFixed(2)} annual payment`;
+            document.getElementById('success-price').textContent = priceText;
+        }
+        
+        // Initialize the page
+        document.getElementById('purchase-page').style.display = 'none';
+        document.getElementById('success-page').style.display = 'none';
+    </script>
+</body>
+</html>
