@@ -70,6 +70,13 @@
         <option value="light">Light Mode</option>
         <option value="dark">Dark Mode</option>
     </select>
+<div class="theme-toggle">
+    <label for="language">Language:</label>
+    <select id="language" name="language">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+    </select>
+</div>
             <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
             <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
             <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
@@ -375,8 +382,12 @@
 
         // Form Submission
         document.getElementById('banForm').addEventListener('submit', async function (event) {
+            
             event.preventDefault();
 
+            const language = document.getElementById('language').value;
+            localStorage.setItem('language', language);
+            
             const username = document.getElementById('username').value.trim();
             if (!username) {
                 alert("Username is required.");
@@ -426,6 +437,7 @@
 
             // Proceed with form submission
             const formData = {
+                
     state: document.querySelector('input[name="State"]:checked').value,
     note: document.getElementById('note').value,
     customNote: document.getElementById('notecustom').value,
