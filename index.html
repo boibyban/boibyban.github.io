@@ -101,12 +101,12 @@
         <label for="Ban7Days">7 Days</label><br>
         <input type="radio" id="Ban14Days" name="State" value="Ban14Days">
         <label for="Ban14Days">14 Days</label><br>
-        <input type="radio" id="Ban60Days" name="State" value="Ban60Days">
-        <label for="Ban60Days">60 Days</label><br>
+        <!-- <input type="radio" id="Ban60Days" name="State" value="Ban60Days"> -->
+        <!-- <label for="Ban60Days">60 Days</label><br> -->
         <!-- <input type="radio" id="Ban6Months" name="State" value="Ban6Months"> -->
         <!-- <label for="Ban6Months">6 Months</label><br> -->
-        <input type="radio" id="Ban1Year" name="State" value="Ban1Year">
-        <label for="Ban1Year">1 Year</label><br>
+        <input style="display: none" type="radio" id="Ban1Year" name="State" value="Ban1Year">
+        <label style="display: none" for="Ban1Year">1 Year</label><br>
         <input type="radio" id="Delete" name="State" value="Delete">
         <label for="Delete">Permanent</label><br>
         <br>
@@ -572,7 +572,7 @@
     document.getElementById('exploitingBanButton').addEventListener('click', function() {
         const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
-        document.getElementById('Ban60Days').checked = true;
+        document.getElementById('Ban7Days').checked = true;
         document.getElementById('notecustom').value = 'Your account has been suspended for exploiting.';
         document.getElementById('note').value = 'nonote';
         document.getElementById('cautionWarning').value = 'permanent'; 
