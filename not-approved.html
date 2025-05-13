@@ -216,7 +216,7 @@ function formatString(template, ...args) {
 
 const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
-    const language = 'en'; // Default to English
+    const language = localStorage.getItem('language') || 'en';
     
     // Punishment type mapping
     const banDurationMap = {
