@@ -244,7 +244,7 @@ reviewedContainer.appendChild(boldDate);
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
         
         document.getElementById('reactivateMessage').textContent = formatString(
-            translations[language]["Description.BanV2"],
+            translations[language]["Description.Ban"],
             formatDate(reactivateDate)
         );
         document.getElementById('reactivateButton').style.display = "none";
