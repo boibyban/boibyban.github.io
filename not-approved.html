@@ -67,24 +67,6 @@
         .logoutlink {
             color: #222;
         }
-        .severity-tag {
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-left: 8px;
-        }
-        .severity-mild {
-            background-color: #ffcc00;
-            color: #000;
-        }
-        .severity-moderate {
-            background-color: #ff9900;
-            color: #000;
-        }
-        .severity-severe {
-            background-color: #ff3333;
-            color: #fff;
-        }
     </style>
     <div id="header">
         <b id="username">Username</b>
@@ -95,17 +77,17 @@
         <h3 id="banDuration">Banned</h3>
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
-        <p id="termsOfUse">We have determined that your recent behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a>.</p>
-        <p id="reviewedContainer">Reviewed: <b id="reviewedDate">21/02/2025 01:48:00</b></p>
-        <p id="detection">Decision: <b id="detectionField">Not Automated: Manually detected and reviewed</b></p>
-        <p id="messageToUser">Moderator Note: <b id="moderatorNote"></b></p>
+        <p id="termsOfUse"></p>
+        <p id="reviewedContainer"></p>
+        <p id="detection" style="display:none"></p>
+        <p id="messageToUser"></p>
         <div id="evidenceContainer"></div>
-        <p id="communityRules">Remember to abide by the <a href="/info/community-rules">Boiby Community Rules</a> so Boiby can be a safe and enjoyable place for everyone.</p>
-        <p id="reactivateMessage">Your account has been suspended due to a recent violation. Your suspension ends on <b id="reactivateDate">21/02/2025 01:48:00</b>.</p>
-        <p id="membershipNotice" style="display:none">You currently have a Boiby Premium membership that is set to renew on (15daysfromnow). Your membership has been automatically cancelled.</p>
-        <p id="appealsMessage">If you wish to appeal, please contact us via the <a href="/appeals-form">Appeals Form</a>.</p>
-        <button id="reactivateButton" class="reactivate">Re-activate Account</button>
-        <button class="logout"><a href="https://boibyban.github.io" class="logoutlink">Logout</a></button>
+        <p id="communityRules"></p>
+        <p id="reactivateMessage"></p>
+        <p id="membershipNotice" style="display:none"></p>
+        <p id="appealsMessage"></p>
+        <button id="reactivateButton" class="reactivate"></button>
+        <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
     </div>
 <script>
 // Translation system
@@ -132,8 +114,8 @@ const translations = {
         "Title.PermanentlyBanned": "Permanently Banned",
 
         "Description.Warn": "By re-activating your account, you agree to our Terms of Use.",
-        "Description.Ban": "Your account has been disabled. You may re-activate it after (date).",
-        "Description.BanV2": "Your account has been suspended due to a recent violation. Your suspension ends on (date).",
+        "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
+        "Description.BanV2": "Your account has been suspended due to a recent violation. Your suspension ends on {0}.",
         "Description.Delete": "Your account has been terminated.",
         "Description.Poison": "Your account has been terminated, and new account creation has been disabled.",
 
@@ -169,13 +151,13 @@ const translations = {
 
         "Decision.ManualDetectionAutoReview": "Automation was used when making this decision.",
         "Decision.AutoDetectionManualReview": "This violation was detected using automation.",
-        "Decision.FullyAutomated": "This violation was detected using automation, and automation was used making this decision.",
+        "Decision.FullyAutomated": "This violation was detected using automation, and automation was used making this decision."
     }
 };
 
 // Helper function to format strings with placeholders
-function formatString(str, ...args) {
-    return str.replace(/{(\d+)}/g, (match, index) => {
+function formatString(template, ...args) {
+    return template.replace(/{(\d+)}/g, (match, index) => {
         return typeof args[index] !== 'undefined' ? args[index] : match;
     });
 }
@@ -184,22 +166,22 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = 'en'; // Default to English
     
-    // Set page title based on punishment type
+    // Punishment type mapping
     const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
         Ban1Day: translations[language]["Title.Ban1Day"],
         Ban3Days: translations[language]["Title.Ban3Days"],
         Ban7Days: translations[language]["Title.Ban7Days"],
         Ban14Days: translations[language]["Title.Ban14Days"],
-        Ban1Year: translations[language]["Title.Ban1Year"],
         Delete: translations[language]["Title.PermanentlyBanned"]
     };
 
-    document.getElementById('banDuration').textContent = banDurationMap[formData.state] || translations[language]["Title.PermanentlyBanned"];
+    // Set ban duration title
+    document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
-    document.getElementById('moderatorNote').textContent = moderatorNote;
+    document.getElementById('messageToUser').innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
 
     // Format dates
     function formatDate(date, includeTime = true) {
@@ -211,78 +193,49 @@ if (formData) {
             const minutes = String(date.getMinutes()).padStart(2, '0');
             const seconds = String(date.getSeconds()).padStart(2, '0');
             return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-        } else {
-            return `${day}/${month}/${year}`;
         }
+        return `${day}/${month}/${year}`;
     }
 
     const now = new Date();
     const reviewedDate = formatDate(now);
-    document.getElementById('reviewedContainer').textContent = `${translations[language]["Label.Reviewed"]}: `;
-    document.getElementById('reviewedDate').textContent = reviewedDate;
+    document.getElementById('reviewedContainer').textContent = `${translations[language]["Label.Reviewed"]} <b id="reviewedDate">${reviewedDate}</b>`;
 
-    // Set automation text
+    // Set automation decision text
     const automationTextMap = {
-        "manual": "",
         "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
         "auto_detect_manual_review": translations[language]["Decision.AutoDetectionManualReview"],
         "full_auto": translations[language]["Decision.FullyAutomated"]
     };
     
-    const automationText = automationTextMap[formData.automation];
-    if (formData.automation === "manual" || !automationText) {
-        document.getElementById('detection').style.display = "none";
-    } else {
-        document.getElementById('detection').textContent = `${translations[language]["Label.Decision"]}: `;
-        document.getElementById('detectionField').textContent = automationText;
+    if (formData.automation && formData.automation !== "manual") {
+        document.getElementById('detection').style.display = "block";
+        document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
     }
 
-    // Set terms of use message
-    document.getElementById('termsOfUse').innerHTML = formatString(
-        translations[language]["Text.TermsMessage"],
-        `<a href="/info/terms">${translations[language]["Label.TermsOfUse"]}</a>`
-    );
-
-    // Set community rules message
-    document.getElementById('communityRules').innerHTML = formatString(
-        translations[language]["Text.CommunityStandardMessage"],
-        `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`
-    );
-
-    // Set appeals message
-    document.getElementById('appealsMessage').innerHTML = formatString(
-        translations[language]["Text.AppealsMessage"],
-        `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
-    );
-
-    // Set button texts
-    document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
-    document.querySelector('.logout a').textContent = translations[language]["Button.Logout"];
-
-    // Handle different punishment states
+    // Set reactivation message based on ban type
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
-        document.getElementById('reactivateMessage').style.display = "none";
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
+        document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
         document.getElementById('reactivateButton').style.display = "block";
-        document.getElementById('membershipNotice').outerHTML = "";
+        document.getElementById('membershipNotice').style.display = "none";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
-        document.getElementById('membershipNotice').outerHTML = "";
-        document.getElementById('cautionWarningMessage').outerHTML = "";
-        document.getElementById('reactivateButton').outerHTML = "";
+        document.getElementById('membershipNotice').style.display = "none";
+        document.getElementById('reactivateButton').style.display = "none";
     } else {
         const banDurationHoursMap = {
             Ban1Day: 24,
             Ban3Days: 72,
-            Ban7Days: 168, 
-            Ban14Days: 336, 
-            Ban1Year: 8760, 
+            Ban7Days: 168,
+            Ban14Days: 336
         };
+        
         const banDurationHours = banDurationHoursMap[formData.state] || 0;
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
-        document.getElementById('reactivateDate').textContent = formatDate(reactivateDate);
+        
         document.getElementById('reactivateMessage').textContent = formatString(
             translations[language]["Description.BanV2"],
             formatDate(reactivateDate)
@@ -290,41 +243,56 @@ if (formData) {
         document.getElementById('reactivateButton').style.display = "none";
     }
 
-    // Set caution warning
+    // Set caution warning if applicable
     const cautionWarningMap = {
+        "future": translations[language]["Caution.Future"],
         "1day": translations[language]["Caution.1Day"],
         "3days": translations[language]["Caution.3Days"],
         "7days": translations[language]["Caution.7Days"],
         "14days": translations[language]["Caution.14Days"],
-        "future": translations[language]["Caution.Future"],
         "permanent": translations[language]["Caution.Permanent"]
     };
 
-    const cautionWarningMessage = document.getElementById('cautionWarningMessage');
-    if (formData.cautionWarning && formData.cautionWarning !== "none" && (formData.state === "Warn" || formData.state.startsWith("Ban"))) {
+    if (formData.cautionWarning && formData.cautionWarning !== "none") {
         const cautionText = cautionWarningMap[formData.cautionWarning];
-        cautionWarningMessage.innerHTML = `<span style="color: red; font-weight: bold;">${translations[language]["Caution.Title"]}</span> ${cautionText}`;
-        cautionWarningMessage.style.display = "block";
-        cautionWarningMessage.style.fontWeight = "500";
+        if (cautionText) {
+            document.getElementById('cautionWarningMessage').innerHTML = 
+                `<span style="color: red; font-weight: bold;">${translations[language]["Caution.Title"]}</span> ${cautionText}`;
+            document.getElementById('cautionWarningMessage').style.display = "block";
+        }
     }
 
-    // Handle membership notice for deleted accounts
-    const membershipNotice = document.getElementById('membershipNotice');
-    if (formData.premiumMembership && formData.state === "Delete") {
-        const renewalDate = new Date(now);
-        renewalDate.setDate(renewalDate.getDate() + 15);
-        membershipNotice.innerHTML = `You currently have a Boiby Premium membership that is set to renew on ${formatDate(renewalDate, false)}. Your membership has been automatically cancelled.`;
-        membershipNotice.style.display = "none";
+    // Set static text elements
+    document.getElementById('termsOfUse').innerHTML = formatString(
+        translations[language]["Text.TermsMessage"],
+        `<a href="/info/terms">${translations[language]["Label.TermsOfUse"]}</a>`
+    );
+    
+    document.getElementById('communityRules').innerHTML = formatString(
+        translations[language]["Text.CommunityStandardMessage"],
+        `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`
+    );
+    
+    document.getElementById('appealsMessage').innerHTML = formatString(
+        translations[language]["Text.AppealsMessage"],
+        `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
+    );
+    
+    document.querySelector('.logoutlink').textContent = translations[language]["Button.Logout"];
+
+    // Set username if available
+    const savedUsername = localStorage.getItem('username');
+    if (savedUsername) {
+        document.getElementById('username').textContent = savedUsername;
+        document.getElementById('usernameB').textContent = savedUsername;
     }
 
-    // Display evidence/violations
+    // Handle evidence display
     const evidenceContainer = document.getElementById('evidenceContainer');
     if (formData.classicViolations && formData.classicViolations.length > 0) {
-        // Clear any existing content
         evidenceContainer.innerHTML = `<p>${translations[language]["Label.RecentViolation"]}: </p>`;
         
         formData.classicViolations.forEach((violation, index) => {
-            // Create a new evidence box for each violation
             const evidenceBox = document.createElement('div');
             evidenceBox.className = 'evidence-box';
             
@@ -334,25 +302,12 @@ if (formData) {
             
             const severeReasons = [
                 "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-                "Child Safety", "Account Theft", "Real-Life Threats", 
-                "Malicious Software", "Doxxing", "Abuse of Boiby Employees",
-                "Minimum Age Requirement", "Ban Evasion", "Chargeback"
+                "Child Safety", "Account Theft", "Real-Life Threats"
             ];
             
             const moderateReasons = [
                 "Harassment", "Inappropriate", "Violent Content and Gore",
-                "Discriminatory Content", "Cheats and Exploits", "Modified Client",
-                "Extortion and Blackmail", "Scamming", "Dangerous Activities",
-                "Misusing Boiby Systems", "Misinformation", "Boiby Economy", 
-                "Directing Users Off-Platform", "Contests and Sweepstakes",
-                "Gambling Content", "Sexual Content", "Real-World Tragic Events",
-                "Illegal and Regulated Content", "Seeking Sexual Content",
-                "Privacy: Sharing PII", "Privacy: Asking for PII"
-            ];
-
-            const mildReasons = [
-                "Disruptive Audio", "Political Content", "Impersonation",
-                "Dating and Romantic Content", "Intellectual Property Violation", "Other"
+                "Discriminatory Content", "Cheats and Exploits", "Modified Client"
             ];
 
             if (severeReasons.includes(violation.reason)) {
@@ -361,9 +316,6 @@ if (formData) {
             } else if (moderateReasons.includes(violation.reason)) {
                 severityClass = 'severity-moderate';
                 severityText = translations[language]["Tag.Moderate"];
-            } else if (mildReasons.includes(violation.reason)) {
-                severityClass = 'severity-mild';
-                severityText = translations[language]["Tag.Mild"];
             }
 
             // Violation header
@@ -374,14 +326,13 @@ if (formData) {
 
             // Evidence label
             const evidenceLabel = document.createElement('p');
-            evidenceLabel.textContent = `${translations[language]["Label.Evidence"]}:`;
+            evidenceLabel.textContent = translations[language]["Label.Evidence"] + ':';
             evidenceBox.appendChild(evidenceLabel);
 
-            // Evidence content container
+            // Evidence content
             const evidenceContent = document.createElement('div');
             evidenceContent.className = 'evidence-item';
             
-            // Only show evidence type if not General/Chat
             if (violation.violationType !== "General/Chat") {
                 const evidenceTypeElement = document.createElement('p');
                 evidenceTypeElement.className = 'evidence-type';
@@ -389,7 +340,6 @@ if (formData) {
                 evidenceContent.appendChild(evidenceTypeElement);
             }
 
-            // Handle all evidence types
             if (violation.violationType === "Image") {
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence;
@@ -417,7 +367,6 @@ if (formData) {
                 evidenceContent.appendChild(audioElement);
             } 
             else {
-                // Default text evidence
                 const evidenceText = document.createElement('p');
                 evidenceText.textContent = violation.evidence;
                 evidenceContent.appendChild(evidenceText);
@@ -431,23 +380,14 @@ if (formData) {
     }
 }
 
+// Theme handling
 function setTheme(theme) {
     const themeStylesheet = document.getElementById('themeStylesheet');
-    if (theme === "dark") {
-        themeStylesheet.href = "/ban-new-dark.css"; 
-    } else {
-        themeStylesheet.href = "/ban-new.css";
-    }
+    themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
 }
 
-const savedTheme = localStorage.getItem('theme') || "light"; 
+const savedTheme = localStorage.getItem('theme') || "light";
 setTheme(savedTheme);
-
-const savedUsername = localStorage.getItem('username');
-if (savedUsername) {
-    document.getElementById('username').textContent = savedUsername;
-    document.getElementById('usernameB').textContent = savedUsername;
-}
 </script>
 </body>
 </html>
