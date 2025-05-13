@@ -197,7 +197,7 @@ if (formData) {
     const now = new Date();
     const reviewedDate = formatDate(now);
     const reviewedContainer = document.getElementById('reviewedContainer');
-reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ' ';
+reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
 const boldDate = document.createElement('b');
 boldDate.id = 'reviewedDate';
 boldDate.textContent = reviewedDate;
