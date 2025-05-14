@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Flow Handler - Evidence Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .evidence-box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .remove-evidence {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .remove-evidence:hover {
+            background-color: #ff1a1a;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        h1, h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Report Flow Handler</h1>
+    <h2>Evidence Collection</h2>
+    
+    <div id="evidenceContainer">
+        <div class="evidence-box">
+            <button type="button" class="remove-evidence">Remove</button>
+            <label for="evidence1">Evidence Item:</label><br>
+            <textarea id="evidence1" class="evidence-text" required></textarea>
+        </div>
+    </div>
+    
+    <button type="button" id="addEvidence">Add Evidence</button>
+    <button type="button" id="continueButton" disabled>Continue</button>
+    
+    <script>
+        let evidenceCount = 1;
+        
+        // Add new evidence box
+        document.getElementById('addEvidence').addEventListener('click', function() {
+            evidenceCount++;
+            const newBox = document.createElement('div');
+            newBox.className = 'evidence-box';
+            newBox.innerHTML = `
+                <button type="button" class="remove-evidence">Remove</button>
+                <label for="evidence${evidenceCount}">Evidence Item:</label><br>
+                <textarea id="evidence${evidenceCount}" class="evidence-text" required></textarea>
+            `;
+            document.getElementById('evidenceContainer').appendChild(newBox);
+            
+            // Add remove functionality
+            newBox.querySelector('.remove-evidence').addEventListener('click', function() {
+                newBox.remove();
+                evidenceCount--;
+                validateForm();
+            });
+            
+            // Validate when typing
+            newBox.querySelector('.evidence-text').addEventListener('input', validateForm);
+        });
+        
+        // Validate form before allowing continue
+        function validateForm() {
+            const evidenceBoxes = document.querySelectorAll('.evidence-box');
+            let isValid = true;
+            
+            evidenceBoxes.forEach(box => {
+                const textarea = box.querySelector('.evidence-text');
+                if (!textarea.value.trim()) {
+                    isValid = false;
+                }
+            });
+            
+            document.getElementById('continueButton').disabled = !isValid || evidenceBoxes.length === 0;
+        }
+        
+        // Add validation to existing textarea
+        document.querySelector('.evidence-text').addEventListener('input', validateForm);
+        
+        // Continue to next page
+        document.getElementById('continueButton').addEventListener('click', function() {
+            const evidenceItems = [];
+            document.querySelectorAll('.evidence-text').forEach(textarea => {
+                evidenceItems.push(textarea.value.trim());
+            });
+            
+            localStorage.setItem('reportEvidenceItems', JSON.stringify(evidenceItems));
+            window.location.href = 'reporthandler.html';
+        });
+    </script>
+</body>
+</html>
