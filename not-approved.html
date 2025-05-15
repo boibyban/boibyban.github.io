@@ -230,12 +230,21 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
     
-    // A/B Testing for termination titles
-function getRandomTerminationTitle() {
+// AB test
+function getRandomDeleteDescription() {
     const random = Math.random();
-    
-    return random < 0.4 ? "Title.Terminate" : "Title.PermanentlyBanned";
+    if (random < 0.33) {
+        return "Description.Delete";
+    } else if (random < 0.66) {
+        return "Description.DeleteV2";
+    } else {
+        return "Description.DeleteV3";
+    }
 }
+
+const deleteDescription = getRandomDeleteDescription();
+
+
 
 const terminationTitle = getRandomTerminationTitle();
 
@@ -247,7 +256,7 @@ const banDurationMap = {
     Ban7Days: translations[language]["Title.Ban7Days"],
     Ban14Days: translations[language]["Title.Ban14Days"],
     Ban1Year: translations[language]["Title.Ban1Year"],
-    Delete: translations[language][terminationTitle]
+    Delete: translations[language]["Title.Terminate"]
 };
 
     // Set ban duration title
@@ -301,7 +310,7 @@ reviewedContainer.appendChild(boldDate);
         document.getElementById('membershipNotice').style.display = "none";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = translations[language]["Description.DeleteV2"];
+        document.getElementById('reactivateMessage').textContent = translations[language][deleteDescription];
         document.getElementById('membershipNotice').style.display = "none";
         document.getElementById('reactivateButton').style.display = "none";
     } else {
@@ -317,7 +326,7 @@ reviewedContainer.appendChild(boldDate);
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
         
         document.getElementById('reactivateMessage').textContent = formatString(
-            translations[language]["Description.BanV2"],
+            translations[language]["Description.Ban"],
             formatDate(reactivateDate)
         );
         document.getElementById('reactivateButton').style.display = "none";
