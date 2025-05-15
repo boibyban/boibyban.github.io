@@ -345,19 +345,6 @@ reviewedContainer.appendChild(boldDate);
         document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
     }
 
-    // AB test
-function getRandomDeleteDescription() {
-    const random = Math.random();
-    if (random < 0.15) {
-        return "Description.DeleteV2";
-    } else  {
-        return "Description.DeleteV3";
-    }
-}
-
-const deleteDescription = getRandomDeleteDescription();
-
-    // Set reactivation message based on ban type
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
@@ -366,7 +353,7 @@ const deleteDescription = getRandomDeleteDescription();
         document.getElementById('membershipNotice').style.display = "none";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = translations[language][deleteDescription];
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.DeleteV3"];
         document.getElementById('membershipNotice').style.display = "none";
         document.getElementById('reactivateButton').style.display = "none";
     } else {
@@ -395,7 +382,7 @@ const deleteDescription = getRandomDeleteDescription();
         "3days": translations[language]["Caution.3Days"],
         "7days": translations[language]["Caution.7Days"],
         "14days": translations[language]["Caution.14Days"],
-        "permanent": translations[language]["Caution.Permanent"]
+        "permanent": translations[language]["Caution.PermanentV2"] // v1 or v2 iogeninrw
     };
 
     if (formData.cautionWarning && formData.cautionWarning !== "none") {
@@ -452,7 +439,7 @@ const deleteDescription = getRandomDeleteDescription();
             
             const moderateReasons = [
                 "Harassment", "Inappropriate", "Violent Content and Gore",
-                "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy"
+                "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
             ];
 
             if (severeReasons.includes(violation.reason)) {
