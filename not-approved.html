@@ -105,11 +105,13 @@ const translations = {
         "Title.Warn": "Warning",
         "Title.Ban1Day": "Banned for 1 Day",
         "Title.Ban3Days": "Banned for 3 Days",
+        "Title.Ban5Days": "Banned for 5 Days",
         "Title.Ban7Days": "Banned for 7 Days",
         "Title.Ban14Days": "Banned for 14 Days",
         "Title.Ban1Year": "Banned for 1 Year",
         "Title.Suspend1Day": "Suspended for 1 Day",
         "Title.Suspend3Days": "Suspended for 3 Days",
+        "Title.Susepnd5Days": "Suspended for 5 Days",
         "Title.Suspend7Days": "Suspended for 7 Days",
         "Title.Suspend14Days": "Suspended for 14 Days",
         "Title.Suspend1Year": "Suspended for 1 Year",
@@ -150,8 +152,8 @@ const translations = {
         "Caution.Future": "If you violate the Community Rules again, your account may be suspended in the future.",
         "Caution.1Day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
         "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
+        "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 5 days.",
         "Caution.7Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
-        "Caution.14Days": "If you violate the Community Rules again, your account may be suspended for at least 14 days.",
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
         "Caution.PermanentV2": "If you violate the Community Rules again, your Boiby account may be permanently suspended.",
 
@@ -161,13 +163,15 @@ const translations = {
     },
     fr: {
         "Title.Warn": "Avertissement",
-        "Title.Ban1Day": "Banni pendant 1 Jour",
-        "Title.Ban3Days": "Banni pendant 3 Jours",
-        "Title.Ban7Days": "Banni pendant 7 Jours",
-        "Title.Ban14Days": "Banni pendant 14 Jours",
-        "Title.Ban1Year": "Banni pendant 1 An",
+        "Title.Ban1Day": "Banni(e) pendant 1 Jour",
+        "Title.Ban3Days": "Banni(e) pendant 3 Jours",
+        "Title.Ban5Days": "Banni(e) pendant 5 Jours",
+        "Title.Ban7Days": "Banni(e) pendant 7 Jours",
+        "Title.Ban14Days": "Banni(e) pendant 14 Jours",
+        "Title.Ban1Year": "Banni(e) pendant 1 An",
         "Title.Suspend1Day": "Suspendu pendant 1 Jour",
         "Title.Suspend3Days": "Suspendu pendant 3 Jours",
+        "Title.Suspend5Days": "Suspendu pendant 5 Jours",
         "Title.Suspend7Days": "Suspendu pendant 7 Jours",
         "Title.Suspend14Days": "Suspendu pendant 14 Jours",
         "Title.Suspend1Year": "Suspendu pendant 1 An",
@@ -208,8 +212,8 @@ const translations = {
         "Caution.Future": "Si vous enfreignez à nouveau les Règles de la communauté, votre compte pourrait être suspendu.",
         "Caution.1Day": "Si vous enfreignez à nouveau les Règles de la communauté, votre compte pourrait être suspendu pendant au moins 1 jour.",
         "Caution.3Days": "Si vous enfreignez à nouveau les Règles de la communauté, votre compte pourrait être suspendu pendant au moins 3 jours.",
+        "Caution.7Days": "Si vous enfreignez à nouveau les Règles de la communauté, votre compte pourrait être suspendu pendant au moins 5 jours.",
         "Caution.7Days": "Si vous enfreignez à nouveau les Règles de la communauté, votre compte pourrait être suspendu pendant au moins 7 jours.",
-        "Caution.14Days": "Si vous enfreignez à nouveau les Règles de la communauté, votre compte pourrait être suspendu pendant au moins 14 jours.",
         "Caution.Permanent": "Si vous enfreignez à nouveau les Règles de la communauté, votre Boiby compte pourrait être banni définitivement.",
         "Caution.PermanentV2": "Si vous enfreignez à nouveau les Règles de la communauté, votre Boiby compte pourrait être suspendu définitivement.",
 
@@ -222,11 +226,13 @@ const translations = {
         "Title.Warn": "Анхааруулга",
         "Title.Ban1Day": "1 өдөр хориглосон",
         "Title.Ban3Days": "3 өдөр хориглосон",
+        "Title.Ban5Days": "5 өдөр хориглосон",
         "Title.Ban7Days": "7 өдөр хориглосон",
         "Title.Ban14Days": "14 өдөр хориглосон",
         "Title.Ban1Year": "1 жил хориглосон",
         "Title.Suspend1Day": "1 өдөр түдгэлзүүлсэн",
         "Title.Suspend3Days": "3 өдөр түдгэлзүүлсэн",
+        "Title.Suspend5Days": "5 өдөр түдгэлзүүлсэн",
         "Title.Suspend7Days": "7 өдөр түдгэлзүүлсэн",
         "Title.Suspend14Days": "14 өдөр түдгэлзүүлсэн",
         "Title.Suspend1Year": "1 жил түдгэлзүүлсэн",
@@ -267,8 +273,8 @@ const translations = {
         "Caution.Future": "If you violate the Community Rules again, your account may be suspended in the future.",
         "Caution.1Day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
         "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
+        "Caution.5Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
         "Caution.7Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
-        "Caution.14Days": "If you violate the Community Rules again, your account may be suspended for at least 14 days.",
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
         "Caution.PermanentV2": "If you violate the Community Rules again, your Boiby account may be permanently suspended.",
 
@@ -292,11 +298,12 @@ if (formData) {
 // Punishment type mapping
 const banDurationMap = {
     Warn: translations[language]["Title.Warn"],
-    Ban1Day: translations[language]["Title.Suspend1Day"],
-    Ban3Days: translations[language]["Title.Suspend3Days"],
-    Ban7Days: translations[language]["Title.Suspend7Days"],
-    Ban14Days: translations[language]["Title.Suspend14Days"],
-    Ban1Year: translations[language]["Title.Suspend1Year"],
+    Ban1Day: translations[language]["Title.Ban1Day"],
+    Ban3Days: translations[language]["Title.Ban3Days"],
+    Ban3Days: translations[language]["Title.Ban5Days"],
+    Ban7Days: translations[language]["Title.Ban7Days"],
+    Ban14Days: translations[language]["Title.Ban14Days"],
+    Ban1Year: translations[language]["Title.Ban1Year"],
     Delete: translations[language]["Title.Terminate"]
 };
 
@@ -357,6 +364,7 @@ reviewedContainer.appendChild(boldDate);
         const banDurationHoursMap = {
             Ban1Day: 24,
             Ban3Days: 72,
+            Ban5Days: 120,
             Ban7Days: 168,
             Ban14Days: 336,
             Ban1Year: 8760
@@ -377,8 +385,8 @@ reviewedContainer.appendChild(boldDate);
         "future": translations[language]["Caution.Future"],
         "1day": translations[language]["Caution.1Day"],
         "3days": translations[language]["Caution.3Days"],
+        "5days": translations[language]["Caution.5Days"],
         "7days": translations[language]["Caution.7Days"],
-        "14days": translations[language]["Caution.14Days"],
         "permanent": translations[language]["Caution.PermanentV2"] // v1 or v2 iogeninrw
     };
 
