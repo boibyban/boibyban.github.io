@@ -286,12 +286,10 @@ reviewedContainer.appendChild(boldDate);
     // AB test
 function getRandomDeleteDescription() {
     const random = Math.random();
-    if (random < 0.05) {
+    if (random < 0.15) {
         return "Description.DeleteV2";
-    } else if (random < 0.25) {
+    } else  {
         return "Description.DeleteV3";
-    } else {
-        return "Description.Delete";
     }
 }
 
