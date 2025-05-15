@@ -180,6 +180,7 @@ const translations = {
         "Description.BanV2": "Votre compte a été suspendu en raison d'une violation récente. Votre suspension prend fin le {0}.",
         "Description.Delete": "Votre compte a été résilié.",
         "Description.DeleteV2": "Votre compte a été définitivement banni en raison de violations graves ou répétées des règles.",
+        "Description.DeleteV3": "Votre compte a été résilié en raison de violations graves ou répétées des règles.",
         "Description.Poison": "Votre compte a été résilié et la création de nouveaux comptes a été désactivée.",
 
         "Text.TermsMessage": "Nous avons déterminé que votre comportement ou vos actions récentes sur Boiby ont enfreint nos {0}.",
@@ -241,11 +242,11 @@ const terminationTitle = getRandomTerminationTitle();
 // Punishment type mapping
 const banDurationMap = {
     Warn: translations[language]["Title.Warn"],
-    Ban1Day: translations[language]["Title.Suspend1Day"],
-    Ban3Days: translations[language]["Title.Suspend3Days"],
-    Ban7Days: translations[language]["Title.Suspend7Days"],
-    Ban14Days: translations[language]["Title.Suspend14Days"],
-    Ban1Year: translations[language]["Title.Suspend1Year"],
+    Ban1Day: translations[language]["Title.Ban1Day"],
+    Ban3Days: translations[language]["Title.Ban3Days"],
+    Ban7Days: translations[language]["Title.Ban7Days"],
+    Ban14Days: translations[language]["Title.Ban14Days"],
+    Ban1Year: translations[language]["Title.Ban1Year"],
     Delete: translations[language][terminationTitle]
 };
 
