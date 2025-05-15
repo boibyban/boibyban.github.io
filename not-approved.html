@@ -230,24 +230,6 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
     
-// AB test
-function getRandomDeleteDescription() {
-    const random = Math.random();
-    if (random < 0.33) {
-        return "Description.Delete";
-    } else if (random < 0.66) {
-        return "Description.DeleteV2";
-    } else {
-        return "Description.DeleteV3";
-    }
-}
-
-const deleteDescription = getRandomDeleteDescription();
-
-
-
-const terminationTitle = getRandomTerminationTitle();
-
 // Punishment type mapping
 const banDurationMap = {
     Warn: translations[language]["Title.Warn"],
@@ -300,6 +282,20 @@ reviewedContainer.appendChild(boldDate);
         document.getElementById('detection').style.display = "block";
         document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
     }
+
+    // AB test
+function getRandomDeleteDescription() {
+    const random = Math.random();
+    if (random < 0.33) {
+        return "Description.Delete";
+    } else if (random < 0.66) {
+        return "Description.DeleteV2";
+    } else {
+        return "Description.DeleteV3";
+    }
+}
+
+const deleteDescription = getRandomDeleteDescription();
 
     // Set reactivation message based on ban type
     const logoutButton = document.querySelector('.logout');
