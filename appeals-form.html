@@ -65,7 +65,7 @@
 
      <h3>Appeals Form</h3>
      <p id="communityRules">Appeals are based on <a href="/info/community-rules">Boiby Community Rules</a>.</p>
-     <p id="communityRules">Everything on your suspension note, including your account username, is automatically sent to our Appeals Team through the form. Use the appeal message field to give a description of your appeal and provide additional context.</p>
+     <p id="communityRules">Everything on your moderation action note, including your account username, is automatically sent to our Appeals Team through the form. Use the appeal message field to give a description of your appeal and provide additional context.</p>
      <b>DO NOT spam appeals or your email WILL be blocked.</b>
      
 
@@ -116,16 +116,12 @@ if (banData || username) {
     // Map ban states to human-readable durations
     const banDurationMap = {
         Warn: "Warning",
-        Ban3Hours: "Suspended for 3 Hours",
-        Ban1Day: "Suspended for 1 Day",
-        Ban2Days: "Suspended for 2 Days", 
-        Ban3Days: "Suspended for 3 Days",
-        Ban7Days: "Suspended for 7 Days",
-        Ban14Days: "Suspended for 14 Days",
-        Ban60Days: "Suspended for 60 Days",
-        Ban6Months: "Suspended for 6 Months",
-        Ban1Year: "Suspended for 1 Year",
-        Delete: "Permanently Banned",
+        Ban1Day: "Banned for 1 Day",
+        Ban3Days: "Banned for 3 Days",
+        Ban7Days: "Banned for 7 Days",
+        Ban14Days: "Banned for 14 Days",
+        Ban1Year: "Banned for 1 Year",
+        Delete: "Account Terminated",
     };
     
     // Get the punishment type
