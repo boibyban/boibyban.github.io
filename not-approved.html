@@ -228,16 +228,25 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
     
-    // Punishment type mapping
-    const banDurationMap = {
-        Warn: translations[language]["Title.Warn"],
-        Ban1Day: translations[language]["Title.Suspend1Day"],
-        Ban3Days: translations[language]["Title.Suspend3Days"],
-        Ban7Days: translations[language]["Title.Suspend7Days"],
-        Ban14Days: translations[language]["Title.Suspend14Days"],
-        Ban1Year: translations[language]["Title.Suspend1Year"],
-        Delete: translations[language]["Title.PermanentlyBanned"]
-    };
+    // A/B Testing for termination titles
+function getRandomTerminationTitle() {
+    const random = Math.random();
+    
+    return random < 0.4 ? "Title.Terminate" : "Title.PermanentlyBanned";
+}
+
+const terminationTitle = getRandomTerminationTitle();
+
+// Punishment type mapping
+const banDurationMap = {
+    Warn: translations[language]["Title.Warn"],
+    Ban1Day: translations[language]["Title.Suspend1Day"],
+    Ban3Days: translations[language]["Title.Suspend3Days"],
+    Ban7Days: translations[language]["Title.Suspend7Days"],
+    Ban14Days: translations[language]["Title.Suspend14Days"],
+    Ban1Year: translations[language]["Title.Suspend1Year"],
+    Delete: translations[language][terminationTitle]
+};
 
     // Set ban duration title
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
