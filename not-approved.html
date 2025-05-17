@@ -88,7 +88,6 @@
         <p id="termsOfUse"></p>
         <p id="reviewedContainer"></p>
         <p id="detection" style="display:none"></p>
-        <p id="messageToUser"></p>
         <div id="evidenceContainer"></div>
         <p id="communityRules"></p>
         <p id="reactivateMessage"></p>
@@ -321,10 +320,6 @@ const banDurationMap = {
     // Set ban duration title
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
-    // Set moderator note
-    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
-    document.getElementById('messageToUser').innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
-
     // Format dates
     function formatDate(date, includeTime = true) {
         const day = String(date.getDate()).padStart(2, '0');
@@ -436,9 +431,21 @@ reviewedContainer.appendChild(boldDate);
 
     // Handle evidence display
     const evidenceContainer = document.getElementById('evidenceContainer');
-    if (formData.classicViolations && formData.classicViolations.length > 0) {
-        evidenceContainer.innerHTML = `<p>${translations[language]["Label.RecentViolation"]}: </p>`;
-        
+    
+    // Always show "Recent Violation:" header
+    const recentViolationHeader = document.createElement('p');
+    recentViolationHeader.textContent = translations[language]["Label.RecentViolation"] + ':';
+    evidenceContainer.appendChild(recentViolationHeader);
+    
+    // Set moderator note
+    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+    if (moderatorNote) {
+        const messageToUser = document.createElement('p');
+        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
+        evidenceContainer.appendChild(messageToUser);
+    }
+    
+    if (formData.classicViolations && formData.classicViolations.length > 0) {        
         formData.classicViolations.forEach((violation, index) => {
             const evidenceBox = document.createElement('div');
             evidenceBox.className = 'evidence-box';
@@ -522,8 +529,6 @@ reviewedContainer.appendChild(boldDate);
             evidenceBox.appendChild(evidenceContent);
             evidenceContainer.appendChild(evidenceBox);
         });
-    } else {
-        evidenceContainer.remove();
     }
 }
 
