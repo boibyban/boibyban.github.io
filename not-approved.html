@@ -86,7 +86,7 @@
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
-        
+        <p id="violationHeader"></p>
         <div id="evidenceContainer"><p id="reviewedContainer"></p>
         <p id="detection" style="display:none"></p></div>
         <p id="communityRules"></p>
@@ -336,7 +336,7 @@ const banDurationMap = {
 
     const now = new Date();
     const reviewedDate = formatDate(now);
-    const reviewedContainer = document.getElementById('reviewedContainer');
+const reviewedContainer = document.getElementById('reviewedContainer');
 reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
 const boldDate = document.createElement('b');
 boldDate.id = 'reviewedDate';
@@ -433,9 +433,7 @@ reviewedContainer.appendChild(boldDate);
     const evidenceContainer = document.getElementById('evidenceContainer');
     
     // Always show "Recent Violation:" header
-    const recentViolationHeader = document.createElement('p');
-    recentViolationHeader.textContent = translations[language]["Label.RecentViolation"] + ':';
-    evidenceContainer.appendChild(recentViolationHeader);
+    document.getElementById('violationHeader').textContent = translations[language]["Label.RecentViolation"] + ':';
     
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
