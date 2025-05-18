@@ -391,7 +391,7 @@ function generateActionItems(violationCount, hasMessage) {
             `You can't send messages or upload files until ${formatDate(1)}.`,
             `You can't join or interact with servers until ${formatDate(1)}.`,
             "Some additional account features may have been temporarily limited.",
-            `This violation affects your account status until ${formatDate(183)}.`
+            `This violation affects your account status until ${formatDate(365)}.`
         ];
     } else if (violationCount === 1) {
         items = [
