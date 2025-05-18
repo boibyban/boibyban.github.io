@@ -417,9 +417,9 @@ function generateActionItems(violationCount, hasMessage) {
     } else if (violationCount === 3) {
         items = [
             `Your account has been suspended for 3 days, until ${formatDate(3)}.`,
+            `Some features on your account have been limited until ${formatDate(3)}.`,
             `You can't send messages or upload files until ${formatDate(3)}.`,
             `You can't join or interact with servers until ${formatDate(3)}.`,
-            `Some features on your account have been limited until ${formatDate(3)}.`,
             `Your account may be permanently banned if you break the rules again.`,
             `This violation affects your account status until ${formatDate(365)}.`
         ]; 
@@ -427,9 +427,9 @@ function generateActionItems(violationCount, hasMessage) {
     } else if (violationCount === 2) {
         items = [
             `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+            `Some features on your account have been limited until ${formatDate(1)}.`,
             `You can't send messages or upload files until ${formatDate(1)}.`,
             `You can't join or interact with servers until ${formatDate(1)}.`,
-            `Some features on your account have been temporarily limited until ${formatDate(1)}.`,
             `This violation affects your account status until ${formatDate(183)}.`
         ];
     } else if (violationCount === 1) {
