@@ -375,7 +375,6 @@ function generateActionItems(violationCount, hasMessage) {
         items = [
             "Your account has been permanently banned from Boiby.",
             "You may not create or use additional accounts.",
-            "This violation will permanently affect your account status."
         ];
     } else if (violationCount === 3) {
         items = [
@@ -383,8 +382,8 @@ function generateActionItems(violationCount, hasMessage) {
             `You can't send messages or upload files until ${formatDate(7)}.`,
             `You can't join or interact with servers until ${formatDate(7)}.`,
             "Some additional account features may have been temporarily limited.",
-            "Your account is at risk of permanent suspension if you break the rules again.",
-            `This violation affects your account status until ${formatDate(183)}.`
+            "Your account may be permanently banned if you break the rules again.",
+            `This violation affects your account status until ${formatDate(365)}.`
         ];
     } else if (violationCount === 2) {
         items = [
@@ -396,10 +395,11 @@ function generateActionItems(violationCount, hasMessage) {
         ];
     } else if (violationCount === 1) {
         items = [
-            `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
-            `You can't send messages or upload files until ${formatDate(1)}.`,
-            `You can't join or interact with servers until ${formatDate(1)}.`,
-            `This violation affects your account status until ${formatDate(183)}.`
+            `Your account has recieved a warning.`,
+            `Some features on your account have been temporarily limited.`,
+            `You have limited access to voice chat until ${formatDate(1)}.`,
+            `You can't create or join servers until ${formatDate(1)}.`,
+            `This violation affects your account status until ${formatDate(91)}.`
         ];
     }
     
