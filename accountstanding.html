@@ -12,7 +12,7 @@
             --yellow: #FFC107;
             --orange: #FF9800;
             --red: #F44336;
-            --grey: #555;
+            --grey: #676767;
         }
         
         body {
@@ -48,7 +48,12 @@
             object-fit: cover;
             flex-shrink: 0;
         }
-
+.avatar-container {
+    position: relative;
+}
+.avatar-container.banned img {
+    filter: grayscale(100%) brightness(1);
+}
         .status-content {
             flex: 1;
         }
@@ -397,36 +402,49 @@
             loadViolations();
         }
 
-        // Set account status based on violation count
         function setAccountStatus(violationCount) {
-            const statusElement = document.getElementById('account-status-value');
-            const descriptionElement = document.getElementById('account-status-description');
-            
-            // Remove all status classes
-            statusElement.className = 'status-value';
-            
-            if (violationCount === 0) {
-                statusElement.classList.add('all-good');
-                statusElement.textContent = 'all good!';
-                descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat rules. If you break the rules, it will show up here.';
-            } else if (violationCount === 1) {
-                statusElement.classList.add('limited');
-                statusElement.textContent = 'limited';
-                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in additional restrictions.';
-            } else if (violationCount === 2) {
-                statusElement.classList.add('very-limited');
-                statusElement.textContent = 'very limited';
-                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and some features on your account have been been limited. You may be suspended if you break the rules again.';
-            } else if (violationCount === 3) {
-                statusElement.classList.add('at-risk');
-                statusElement.textContent = 'at risk';
-                descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
-            } else {
-                statusElement.classList.add('banned');
-                statusElement.textContent = 'permanently banned';
-                descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
-            }
-        }
+    const statusElement = document.getElementById('account-status-value');
+    const descriptionElement = document.getElementById('account-status-description');
+    const avatarContainer = document.querySelector('.avatar-container');
+    
+    // Remove all status classes
+    statusElement.className = 'status-value';
+    avatarContainer.classList.remove('banned');
+    
+    if (violationCount === 0) {
+        statusElement.classList.add('all-good');
+        statusElement.textContent = 'all good!';
+        descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat rules. If you break the rules, it will show up here.';
+    } else if (violationCount === 1) {
+        statusElement.classList.add('limited');
+        statusElement.textContent = 'limited';
+        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in additional restrictions.';
+    } else if (violationCount === 2) {
+        statusElement.classList.add('very-limited');
+        statusElement.textContent = 'very limited';
+        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and some features on your account have been been limited. You may be suspended if you break the rules again.';
+    } else if (violationCount === 3) {
+        statusElement.classList.add('at-risk');
+        statusElement.textContent = 'at risk';
+        descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
+    } else {
+        statusElement.classList.add('banned');
+        statusElement.textContent = 'permanently banned';
+        descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+        avatarContainer.classList.add('banned');
+    }
+    
+    // Check if any violation is marked as permanent ban
+    const violations = JSON.parse(localStorage.getItem('violations')) || [];
+    const hasPermanentBan = violations.some(v => v.isPermanentBan);
+    
+    if (hasPermanentBan) {
+        statusElement.classList.add('banned');
+        statusElement.textContent = 'permanently banned';
+        descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+        avatarContainer.classList.add('banned');
+    }
+}
 
         // Load and display violations
         function loadViolations() {
