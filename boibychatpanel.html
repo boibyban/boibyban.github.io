@@ -410,8 +410,8 @@ function generateActionItems(violationCount, hasMessage) {
     
     if (violationCount >= 4) {
         items = [
-            "Your account has been permanently banned from Boiby.",
-            "You may not create or use additional accounts.",
+            "Your account has been permanently banned.",
+            "You are prohibited from creating or using any alternate accounts.",
         ];
     } else if (violationCount === 3) {
         items = [
@@ -420,7 +420,7 @@ function generateActionItems(violationCount, hasMessage) {
             `You can't send messages or upload files until ${formatDate(3)}.`,
             `You can't join or interact with servers until ${formatDate(3)}.`,
             `Your account may be permanently banned if you break the rules again.`,
-            `This violation affects your account status until ${formatDate(365)}.`
+            `This violation affects your account standing until ${formatDate(365)}.`
         ]; 
                                                                                                 // 3 or 7 maybe, I don't know yet so I'll just go with 3
     } else if (violationCount === 2) {
@@ -429,15 +429,15 @@ function generateActionItems(violationCount, hasMessage) {
             `Some features on your account have been limited until ${formatDate(1)}.`,
             `You can't send messages or upload files until ${formatDate(1)}.`,
             `You can't join or interact with servers until ${formatDate(1)}.`,
-            `This violation affects your account status until ${formatDate(183)}.`
+            `This violation affects your account standing until ${formatDate(365)}.`
         ];
     } else if (violationCount === 1) {
         items = [
             `Your account has received a warning.`,
             `Some features on your account have been limited until ${formatDate(1)}.`,
-            `You have limited access to voice chat until ${formatDate(1)}.`,
+            // `You have limited access to voice chat until ${formatDate(1)}.`,
             `You can't create or join servers until ${formatDate(1)}.`,
-            `This violation affects your account status until ${formatDate(183)}.`
+            `This violation affects your account standing until ${formatDate(183)}.`
         ];
     }
     
