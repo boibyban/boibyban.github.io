@@ -217,6 +217,18 @@
 .clear-btn:hover {
     background-color: #b71c1c;
 }
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checkbox-label input {
+    width: auto;
+    margin: 0;
+}
     </style>
 </head>
 <body>
@@ -274,6 +286,12 @@
                     <div class="char-count"><span id="charCount">0</span>/500</div>
                 </div>
 
+                <div class="form-group">
+    <label class="checkbox-label">
+        <input type="checkbox" id="permanentBan"> Permanent ban force
+    </label>
+</div>
+
                 <button type="submit" class="submit-btn">Issue Violation</button>
             </form>
         </section>
@@ -305,12 +323,13 @@
             }
         });
 
-        document.getElementById('violationForm').addEventListener('submit', (e) => {
+document.getElementById('violationForm').addEventListener('submit', (e) => {
     e.preventDefault();
     
     const violationType = document.getElementById('violationType').value;
     const violationMessage = document.getElementById('violationMessage').value;
     const username = document.getElementById('username').value;
+    const permanentBan = document.getElementById('permanentBan').checked;
     
     if (!violationType) {
         alert('Please select a violation type');
@@ -319,7 +338,10 @@
 
     // Generate action items
     const violations = JSON.parse(localStorage.getItem('violations')) || [];
-    const actionItems = generateActionItems(violations.length + 1, violationMessage);
+    
+    // Force violation count to 4 if permanent ban is checked
+    const effectiveViolationCount = permanentBan ? 4 : violations.length + 1;
+    const actionItems = generateActionItems(effectiveViolationCount, violationMessage);
     
     // Create new violation
     const newViolation = {
@@ -327,7 +349,8 @@
         type: violationType,
         message: violationMessage || '',
         date: new Date().toISOString(),
-        actionItems: actionItems
+        actionItems: actionItems,
+        isPermanentBan: permanentBan
     };
     
     violations.push(newViolation);
@@ -351,13 +374,14 @@ function generateActionItems(violationCount, hasMessage) {
     if (violationCount >= 4) {
         items = [
             "Your account has been permanently banned from Boiby.",
-            "You may not create or use additional accounts."
+            "You may not create or use additional accounts.",
+            "This violation will permanently affect your account status."
         ];
     } else if (violationCount === 3) {
         items = [
-            `Your account has been suspended for 3 days, until ${formatDate(3)}.`,
-            `You can't send messages or upload files until ${formatDate(3)}.`,
-            `You can't join or interact with servers until ${formatDate(3)}.`,
+            `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
+            `You can't send messages or upload files until ${formatDate(7)}.`,
+            `You can't join or interact with servers until ${formatDate(7)}.`,
             "Some additional account features may have been temporarily limited.",
             "Your account is at risk of permanent suspension if you break the rules again.",
             `This violation affects your account status until ${formatDate(183)}.`
