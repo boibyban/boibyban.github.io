@@ -411,7 +411,8 @@ function generateActionItems(violationCount, hasMessage) {
     if (violationCount >= 4) {
         items = [
             "Your account has been permanently banned.",
-            `Your account will be deleted on ${formatDate(60)}.`,
+            `Your account will be deleted on ${formatDate(90)}.`,
+            `You can no longer use BoibyChat.`
         ];
     } else if (violationCount === 3) {
         items = [
