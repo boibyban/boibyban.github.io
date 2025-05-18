@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Standing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        
+        :root {
+            --green: #4CAF50;
+            --yellow: #FFC107;
+            --orange: #FF9800;
+            --red: #F44336;
+            --grey: #555;
+        }
+        
+        body {
+            background-color: #0f0f0f;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #e3e3e3;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .status-header {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #2e2e2e;
+        }
+
+        .avatar-container img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .status-content {
+            flex: 1;
+        }
+
+        .account-status {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            margin: 0 0 12px 0;
+        }
+
+        .status-prefix, .status-value {
+            margin: 0;
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        .status-prefix {
+    margin: 0;
+    font-weight: 500;
+    font-size: 20px;
+    white-space: nowrap; /* Prevent line break between prefix and value */
+}
+
+        .status-value {
+            font-weight: 600;
+        }
+
+        .all-good { color: var(--green); }
+        .limited { color: var(--yellow); }
+        .very-limited { color: var(--orange); }
+        .at-risk { color: var(--red); }
+        .banned { color: var(--grey); }
+
+        .status-description {
+            margin: 0;
+            color: #a0a0a0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .violations-section {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #2e2e2e;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: #fff;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            color: #a0a0a0;
+            transition: transform 0.2s;
+        }
+
+        .violations-list {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .violation-item {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .violation-item:first-child {
+            border: 1px solid #3a5bc7;
+            background-color: #282828;
+        }
+        .violation-item:hover {
+            background-color: #282828;
+        }
+        .violation-item:first-child:hover {
+            border: 1px solid #3a5bc7;
+            background-color: #333333;
+        }
+
+        .violation-reason {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .violation-date {
+            color: #a0a0a0;
+            font-size: 12px;
+        }
+
+        .no-violations {
+            color: #a0a0a0;
+            font-size: 14px;
+            text-align: center;
+            padding: 24px 0;
+            margin-top: 16px;
+        }
+
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .popup-container {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            width: 480px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid #2e2e2e;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .popup-overlay.active .popup-container {
+            transform: translateY(0);
+        }
+
+        .popup-header {
+            text-align: center;
+            margin: 0 0 24px 0;
+            color: #fff;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .popup-section-header {
+            color: #a0a0a0;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin: 24px 0 12px 0;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .popup-activity-box {
+            background-color: #222;
+            border: 1px solid #3a5bc7;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .popup-message {
+            display: flex;
+            gap: 12px;
+        }
+
+        .popup-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .popup-message-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .popup-message-header {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .popup-username {
+            font-weight: 600;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .popup-timestamp {
+            color: #a0a0a0;
+            font-size: 12px;
+        }
+
+        .popup-message-text {
+            font-size: 15px;
+            color: #d1d1d1;
+            white-space: pre-line;
+        }
+
+        .popup-actions-list {
+            padding-left: 18px;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .popup-actions-list li {
+            margin-bottom: 8px;
+            padding-left: 4px;
+        }
+
+        .popup-standards-text {
+            margin: 12px 0 24px 0;
+            font-size: 14px;
+            color: #c9c9c9;
+        }
+
+        .popup-button-container {
+            text-align: right;
+            margin-top: 16px;
+        }
+
+        .popup-action-button {
+            background-color: #3a5bc7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .popup-action-button:hover {
+            background-color: #2f4ba8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-header">
+            <div class="avatar-container">
+                <img id="profile-img-display" src="boiby.png" alt="Profile Picture">
+            </div>
+            <div class="status-content">
+                <div class="account-status">
+                    <h3 class="status-prefix">Your account is </h3>
+                    <h3 class="status-value all-good" id="account-status-value">all good</h3>
+                </div>
+                <p class="status-description" id="account-status-description">Your account is in good standing with no violations.</p>
+            </div>
+        </div>
+
+        <div class="violations-section">
+            <div class="section-header" id="violationsToggle">
+                <h2 class="section-title">Current Violations</h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="violations-list" id="violationsList">
+                <div class="no-violations" id="noViolationsMessage">This account has no violations</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Violation Details Popup -->
+    <div class="popup-overlay" id="violationPopup">
+        <div class="popup-container">
+            <h3 class="popup-header" id="popupViolationType"></h3>
+            
+            <div id="popupActivitySection" style="display: none;">
+                <div class="popup-section-header">Your recent activity</div>
+                <div class="popup-activity-box">
+                    <div class="popup-message">
+                        <img id="popupUserAvatar" src="boiby.png" alt="Profile" class="popup-avatar">
+                        <div class="popup-message-content">
+                            <div class="popup-message-header">
+                                <span class="popup-username" id="popupUsername">User</span>
+                                <span class="popup-timestamp" id="popupTimestamp">- Date</span>
+                            </div>
+                            <div class="popup-message-text" id="popupViolationMessage"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="popup-section-header">Actions we took</div>
+            <ul class="popup-actions-list" id="actionsList">
+                <!-- Action items will be inserted here by JavaScript -->
+            </ul>
+            
+            <div class="popup-section-header">What you can do</div>
+
+            <div class="popup-standards-text">
+                To keep your account in good standing, please review the BoibyChat Community Standards and Terms of Use. If you believe this was a mistake, you may request an appeal by contacting our Support team.
+            </div>
+            
+            <div class="popup-button-container">
+                <button class="popup-action-button" id="closePopup">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Load account data
+        function loadAccountData() {
+            // Load profile picture
+            const savedAvatar = localStorage.getItem('avatarImage');
+            if (savedAvatar) {
+                document.getElementById('profile-img-display').src = savedAvatar;
+                document.getElementById('popupUserAvatar').src = savedAvatar;
+            }
+
+            // Load username
+            const savedUsername = localStorage.getItem('username');
+            if (savedUsername) {
+                document.getElementById('popupUsername').textContent = savedUsername;
+            }
+
+            // Load and display violations
+            loadViolations();
+        }
+
+        // Set account status based on violation count
+        function setAccountStatus(violationCount) {
+            const statusElement = document.getElementById('account-status-value');
+            const descriptionElement = document.getElementById('account-status-description');
+            
+            // Remove all status classes
+            statusElement.className = 'status-value';
+            
+            if (violationCount === 0) {
+                statusElement.classList.add('all-good');
+                statusElement.textContent = 'all good!';
+                descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat rules. If you break the rules, it will show up here.';
+            } else if (violationCount === 1) {
+                statusElement.classList.add('limited');
+                statusElement.textContent = 'limited';
+                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in additional restrictions.';
+            } else if (violationCount === 2) {
+                statusElement.classList.add('very-limited');
+                statusElement.textContent = 'very limited';
+                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and some features on your account have been been limited. You may be suspended if you break the rules again.';
+            } else if (violationCount === 3) {
+                statusElement.classList.add('at-risk');
+                statusElement.textContent = 'at risk';
+                descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
+            } else {
+                statusElement.classList.add('banned');
+                statusElement.textContent = 'permanently banned';
+                descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+            }
+        }
+
+        // Load and display violations
+        function loadViolations() {
+            const violationsList = document.getElementById('violationsList');
+            const noViolationsMessage = document.getElementById('noViolationsMessage');
+            
+            // Clear existing violations
+            violationsList.innerHTML = '';
+            
+            // Get violations from localStorage
+            const violations = JSON.parse(localStorage.getItem('violations')) || [];
+            
+            if (violations.length === 0) {
+                noViolationsMessage.style.display = 'block';
+                setAccountStatus(0);
+                return;
+            }
+            
+            noViolationsMessage.style.display = 'none';
+            
+            // Sort violations by date (newest first)
+            violations.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Add violations to the list
+            violations.forEach((violation, index) => {
+                if (!violation.type) return; // Skip invalid violations
+                
+                const violationItem = document.createElement('div');
+                violationItem.className = 'violation-item';
+                violationItem.setAttribute('data-id', violation.id);
+                
+                if (index === 0) {
+                    violationItem.classList.add('latest-violation');
+                }
+                
+                const formattedDate = formatDate(violation.date);
+                
+                violationItem.innerHTML = `
+                    <div class="violation-reason">You broke the rules for <b>${violation.type}</b></div>
+                    <div class="violation-date">${formattedDate}</div>
+                `;
+                
+                violationsList.appendChild(violationItem);
+            });
+            
+            // Set account status
+            setAccountStatus(violations.length);
+            
+            // Add event listeners to violation items
+            addViolationItemListeners();
+
+            if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
+        const firstViolation = document.querySelector('.violation-item');
+        if (firstViolation) {
+            // Small timeout to ensure DOM is ready
+            setTimeout(() => {
+                firstViolation.click();
+            }, 100);
+        }
+    }
+        }
+
+        // Add click handlers to violation items
+        function addViolationItemListeners() {
+            const violationItems = document.querySelectorAll('.violation-item');
+            const violationPopup = document.getElementById('violationPopup');
+            const closePopupBtn = document.getElementById('closePopup');
+            const actionsList = document.getElementById('actionsList');
+
+            violationItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const violationId = item.getAttribute('data-id');
+                    const violations = JSON.parse(localStorage.getItem('violations')) || [];
+                    const violation = violations.find(v => v.id === violationId);
+                    
+                    if (!violation) return;
+                    
+                    // Set violation type
+                    document.getElementById('popupViolationType').innerHTML = 
+                        `You broke BoibyChat's rules for <b>${violation.type}</b>`;
+                    
+                    // Set timestamp
+                    document.getElementById('popupTimestamp').textContent = 
+                        `- ${formatDate(violation.date)}`;
+                    
+                    // Show message if exists
+                    if (violation.message) {
+                        document.getElementById('popupActivitySection').style.display = 'block';
+                        document.getElementById('popupViolationMessage').textContent = violation.message;
+                    } else {
+                        document.getElementById('popupActivitySection').style.display = 'none';
+                    }
+                    
+                    // Populate action items
+                    actionsList.innerHTML = '';
+                    if (violation.actionItems && violation.actionItems.length > 0) {
+                        violation.actionItems.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = item;
+                            actionsList.appendChild(li);
+                        });
+                    }
+                    
+                    // Show popup
+                    violationPopup.classList.add('active');
+                });
+            });
+
+            closePopupBtn.addEventListener('click', () => {
+                violationPopup.classList.remove('active');
+            });
+        }
+
+        // Toggle violations list visibility
+document.getElementById('violationsToggle').addEventListener('click', function() {
+    const violationsList = document.getElementById('violationsList');
+    const toggleIcon = this.querySelector('.toggle-icon');
+    
+    if (violationsList.style.display === 'none') {
+        violationsList.style.display = 'block';
+        toggleIcon.textContent = '−';
+    } else {
+        violationsList.style.display = 'none';
+        toggleIcon.textContent = '+';
+    }
+});
+        // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+    // Start with list visible
+    document.getElementById('violationsList').style.display = 'block';
+    document.querySelector('.toggle-icon').textContent = '−';
+    
+    // Load account data
+    loadAccountData();
+    
+    // Open most recent violation if coming from ban panel
+    const violations = JSON.parse(localStorage.getItem('violations')) || [];
+    if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
+        const firstViolation = document.querySelector('.violation-item');
+        if (firstViolation) {
+            firstViolation.click();
+        }
+    }
+});
+    </script>
+</body>
+</html>

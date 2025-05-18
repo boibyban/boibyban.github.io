@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boiby Moderation Panel</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        
+        body {
+            background-color: #0f0f0f;
+            margin: 0;
+            padding: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #e3e3e3;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #2e2e2e;
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .account-status {
+            background-color: #1a3e1a;
+            color: #4caf50;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .account-settings {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #2e2e2e;
+        }
+
+        .settings-row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .settings-col {
+            flex: 1;
+        }
+
+        .avatar-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #222;
+            border: 2px solid #333;
+        }
+
+        .violation-section {
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #2e2e2e;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-weight: 600;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .no-violations {
+            color: #a0a0a0;
+            font-size: 14px;
+            text-align: center;
+            padding: 24px 0;
+        }
+
+        .add-violation-form {
+            margin-top: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #222;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .char-count {
+            font-size: 12px;
+            color: #a0a0a0;
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .file-upload {
+            display: none;
+        }
+
+        .file-upload-label {
+            background-color: #333;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+
+        .file-upload-label:hover {
+            background-color: #444;
+        }
+
+        .submit-btn {
+            background-color: #3a5bc7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background-color: #2f4ba8;
+        }
+
+        .violation-item {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .violation-type {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .violation-date {
+            color: #a0a0a0;
+            font-size: 12px;
+        }
+
+        .violation-message {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #d1d1d1;
+            padding: 8px;
+            background-color: #2a2a2a;
+            border-radius: 4px;
+        }
+        .clear-btn {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 12px;
+    transition: all 0.2s ease;
+}
+.clear-btn:hover {
+    background-color: #b71c1c;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Moderation Panel</h1>
+            <div>
+                <button id="clearViolations" class="clear-btn">Clear All Violations</button>
+                <div class="account-status">No Violations</div>
+            </div>
+        </header>
+
+        <section class="account-settings">
+            <h2>Account Settings</h2>
+            <div class="settings-row">
+                <div class="settings-col">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" value="Lorem Ipsum">
+                    </div>
+                </div>
+                <div class="settings-col">
+                    <div class="avatar-upload">
+                        <img id="avatarPreview" src="boiby.png" class="avatar-preview" alt="Profile Picture">
+                        <input type="file" id="avatarUpload" class="file-upload" accept="image/*">
+                        <label for="avatarUpload" class="file-upload-label">Change Profile Picture</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="violation-section">
+            <h2>Current Violations</h2>
+            <div class="no-violations">This account has no violations</div>
+        </section>
+
+        <section class="violation-section">
+            <h2>Add New Violation</h2>
+            <form id="violationForm" class="add-violation-form">
+                <div class="form-group">
+                    <label for="violationType">Violation Type</label>
+                    <select id="violationType" required>
+                        <option value="">Select a violation type</option>
+                        <option value="Bullying and Harassment">Bullying and Harassment</option>
+                        <option value="Hate Speech">Hate Speech</option>
+                        <option value="Spam">Spam</option>
+                        <option value="Impersonation">Impersonation</option>
+                        <option value="Explicit Content">Explicit Content</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="violationMessage">Message (Optional, max 500 characters)</label>
+                    <textarea id="violationMessage" maxlength="500"></textarea>
+                    <div class="char-count"><span id="charCount">0</span>/500</div>
+                </div>
+
+                <button type="submit" class="submit-btn">Issue Violation</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        // Character counter for message textarea
+        const messageTextarea = document.getElementById('violationMessage');
+        const charCount = document.getElementById('charCount');
+        
+        messageTextarea.addEventListener('input', () => {
+            charCount.textContent = messageTextarea.value.length;
+        });
+
+        // Profile picture upload preview
+        const avatarUpload = document.getElementById('avatarUpload');
+        const avatarPreview = document.getElementById('avatarPreview');
+        
+        avatarUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    avatarPreview.src = event.target.result;
+                    // Store the image in localStorage for the other page
+                    localStorage.setItem('avatarImage', event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('violationForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const violationType = document.getElementById('violationType').value;
+    const violationMessage = document.getElementById('violationMessage').value;
+    const username = document.getElementById('username').value;
+    
+    if (!violationType) {
+        alert('Please select a violation type');
+        return;
+    }
+
+    // Generate action items
+    const violations = JSON.parse(localStorage.getItem('violations')) || [];
+    const actionItems = generateActionItems(violations.length + 1, violationMessage);
+    
+    // Create new violation
+    const newViolation = {
+        id: Date.now().toString(),
+        type: violationType,
+        message: violationMessage || '',
+        date: new Date().toISOString(),
+        actionItems: actionItems
+    };
+    
+    violations.push(newViolation);
+    localStorage.setItem('violations', JSON.stringify(violations));
+    localStorage.setItem('username', username);
+    
+    // Redirect directly to account standing
+    window.location.href = 'accountstanding.html';
+});
+
+function generateActionItems(violationCount, hasMessage) {
+    const now = new Date();
+    const formatDate = (days) => {
+        const date = new Date(now);
+        date.setDate(now.getDate() + days);
+        return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    };
+
+    let items = [];
+    
+    if (violationCount >= 4) {
+        items = [
+            "Your account has been permanently banned from Boiby.",
+            "You may not create or use additional accounts."
+        ];
+    } else if (violationCount === 3) {
+        items = [
+            `Your account has been suspended for 3 days, until ${formatDate(3)}.`,
+            `You can't send messages or upload files until ${formatDate(3)}.`,
+            `You can't join or interact with servers until ${formatDate(3)}.`,
+            "Some additional account features may have been temporarily limited.",
+            "Your account is at risk of permanent suspension if you break the rules again.",
+            `This violation affects your account status until ${formatDate(183)}.`
+        ];
+    } else if (violationCount === 2) {
+        items = [
+            `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+            `You can't send messages or upload files until ${formatDate(1)}.`,
+            `You can't join or interact with servers until ${formatDate(1)}.`,
+            "Some additional account features may have been temporarily limited.",
+            `This violation affects your account status until ${formatDate(183)}.`
+        ];
+    } else if (violationCount === 1) {
+        items = [
+            `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+            `You can't send messages or upload files until ${formatDate(1)}.`,
+            `You can't join or interact with servers until ${formatDate(1)}.`,
+            `This violation affects your account status until ${formatDate(183)}.`
+        ];
+    }
+    
+    if (hasMessage) {
+        items.unshift("One or more pieces of content you posted were removed.");
+    }
+    
+    return items;
+}
+
+document.getElementById('clearViolations').addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear all violations?')) {
+        localStorage.removeItem('violations');
+        alert('All violations have been cleared');
+        window.location.reload();
+    }
+});
+
+        // Load saved username if exists
+        const savedUsername = localStorage.getItem('username');
+        if (savedUsername) {
+            document.getElementById('username').value = savedUsername;
+        }
+    </script>
+</body>
+</html>
