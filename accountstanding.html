@@ -414,15 +414,15 @@
     if (violationCount === 0) {
         statusElement.classList.add('all-good');
         statusElement.textContent = 'all good!';
-        descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat rules. If you break the rules, it will show up here.';
+        descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat Terms of Use and Community Standards. If you break the rules, it will show up here.';
     } else if (violationCount === 1) {
         statusElement.classList.add('limited');
         statusElement.textContent = 'limited';
-        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in additional restrictions.';
+        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in more restrictions.';
     } else if (violationCount === 2) {
         statusElement.classList.add('very-limited');
         statusElement.textContent = 'very limited';
-        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and some features on your account have been been limited. You may be suspended if you break the rules again.';
+        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and features on your account have been been limited. You may be suspended if you break the rules again.';
     } else if (violationCount === 3) {
         statusElement.classList.add('at-risk');
         statusElement.textContent = 'at risk';
