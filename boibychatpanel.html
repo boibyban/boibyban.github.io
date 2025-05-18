@@ -411,7 +411,6 @@ function generateActionItems(violationCount, hasMessage) {
     if (violationCount >= 4) {
         items = [
             "Your account has been permanently banned.",
-            "You may not create or use any alternate accounts.",
             `Your account will be deleted on ${formatDate(60)}.`,
         ];
     } else if (violationCount === 3) {
