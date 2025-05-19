@@ -590,7 +590,7 @@
                         `You broke BoibyChat's rules for <b>${violation.type}</b>`;
                     
                     // Set policy reason text
-                    policyReasonElement.textContent = violation.type();
+                    policyReasonElement.textContent = violation.type.toLowerCase();
                     
                     // Set timestamp
                     document.getElementById('popupTimestamp').textContent = 
