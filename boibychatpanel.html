@@ -271,7 +271,7 @@
                 <div class="form-group">
                     <label for="violationType">Violation Type</label>
                     <select id="violationType" required>
-<option value="Abuse of BoibyChat Employees">Abuse of Boiby Employees</option>
+                        <option value="Abuse of BoibyChat Employees">Abuse of Boiby Employees</option>
 <option value="Account Theft">Account Theft</option>
 <option value="Adult Content">Adult Content</option>
 <option value="API Misuse">API Misuse</option>
@@ -318,16 +318,36 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isServerViolation"> This is a server violation
+                    </label>
+                </div>
+
+                <div id="serverFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="serverName">Server Name</label>
+                        <input type="text" id="serverName">
+                    </div>
+                    <div class="form-group">
+                        <label for="serverRole">User's Role in Server</label>
+                        <select id="serverRole">
+                            <option value="owner">Owner or Moderator</option>
+                            <option value="member">Member</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="messageField">
                     <label for="violationMessage">Evidence (user message) (Optional, max 500 characters)</label>
                     <textarea id="violationMessage" maxlength="500"></textarea>
                     <div class="char-count"><span id="charCount">0</span>/500</div>
                 </div>
 
                 <div class="form-group">
-    <label class="checkbox-label">
-        <input type="checkbox" id="permanentBan"> Permanent ban force
-    </label>
-</div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="permanentBan"> Permanent ban force
+                    </label>
+                </div>
 
                 <button type="submit" class="submit-btn">Issue Violation</button>
             </form>
@@ -335,7 +355,7 @@
     </div>
 
     <script>
-        // Character counter for message textarea
+        // Character counter
         const messageTextarea = document.getElementById('violationMessage');
         const charCount = document.getElementById('charCount');
         
@@ -343,7 +363,7 @@
             charCount.textContent = messageTextarea.value.length;
         });
 
-        // Profile picture upload preview
+        // Profile picture upload
         const avatarUpload = document.getElementById('avatarUpload');
         const avatarPreview = document.getElementById('avatarPreview');
         
@@ -353,111 +373,130 @@
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     avatarPreview.src = event.target.result;
-                    // Store the image in localStorage for the other page
                     localStorage.setItem('avatarImage', event.target.result);
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-document.getElementById('violationForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const violationType = document.getElementById('violationType').value;
-    const violationMessage = document.getElementById('violationMessage').value;
-    const username = document.getElementById('username').value;
-    const permanentBan = document.getElementById('permanentBan').checked;
-    
-    if (!violationType) {
-        alert('Please select a violation type');
-        return;
-    }
+        // Toggle server fields
+        document.getElementById('isServerViolation').addEventListener('change', function() {
+            const serverFields = document.getElementById('serverFields');
+            const messageField = document.getElementById('messageField');
+            
+            if (this.checked) {
+                serverFields.style.display = 'block';
+                messageField.style.display = 'none';
+            } else {
+                serverFields.style.display = 'none';
+                messageField.style.display = 'block';
+            }
+        });
 
-    // Generate action items
-    const violations = JSON.parse(localStorage.getItem('violations')) || [];
-    
-    // Force violation count to 4 if permanent ban is checked
-    const effectiveViolationCount = permanentBan ? 4 : violations.length + 1;
-    const actionItems = generateActionItems(effectiveViolationCount, violationMessage);
-    
-    // Create new violation
-    const newViolation = {
-        id: Date.now().toString(),
-        type: violationType,
-        message: violationMessage || '',
-        date: new Date().toISOString(),
-        actionItems: actionItems,
-        isPermanentBan: permanentBan
-    };
-    
-    violations.push(newViolation);
-    localStorage.setItem('violations', JSON.stringify(violations));
-    localStorage.setItem('username', username);
-    
-    // Redirect directly to account standing
-    window.location.href = 'accountstanding.html';
-});
+        // Form submission
+        document.getElementById('violationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const isServerViolation = document.getElementById('isServerViolation').checked;
+            const violationType = document.getElementById('violationType').value;
+            const violationMessage = document.getElementById('violationMessage').value;
+            const username = document.getElementById('username').value;
+            const permanentBan = document.getElementById('permanentBan').checked;
+            const serverName = isServerViolation ? document.getElementById('serverName').value : null;
+            const serverRole = isServerViolation ? document.getElementById('serverRole').value : null;
+            
+            if (!violationType) {
+                alert('Please select a violation type');
+                return;
+            }
 
-function generateActionItems(violationCount, hasMessage) {
-    const now = new Date();
-    const formatDate = (days) => {
-        const date = new Date(now);
-        date.setDate(now.getDate() + days);
-        return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    };
+            if (isServerViolation && !serverName) {
+                alert('Please enter the server name');
+                return;
+            }
 
-    let items = [];
-    
-    if (violationCount >= 4) {
-        items = [
-            "Your account has been permanently banned.",
-            `Your data will be deleted on ${formatDate(365)}.`,
-            `You can no longer use BoibyChat.`
-        ];
-    } else if (violationCount === 3) {
-        items = [
-            `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
-            `Some features on your account have been limited until ${formatDate(7)}.`,
-            `You can't send messages or upload files until ${formatDate(7)}.`,
-            `You can't join or interact with servers until ${formatDate(7)}.`,
-            `Your account may be permanently banned if you break the rules again.`,
-            `This violation affects your account standing until ${formatDate(365)}.`
-        ]; 
-                                                                                                // 3 or 7 maybe, I don't know yet so I'll just go with 7
-    } else if (violationCount === 2) {
-        items = [
-            `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
-            `Some features on your account have been limited until ${formatDate(1)}.`,
-            `You can't send messages or upload files until ${formatDate(1)}.`,
-            `You can't join or interact with servers until ${formatDate(1)}.`,
-            `This violation affects your account standing until ${formatDate(365)}.`
-        ];
-    } else if (violationCount === 1) {
-        items = [
-            `Your account has received a warning.`,
-            `Some features on your account have been limited until ${formatDate(1)}.`,
-            `You have limited access to voice chat until ${formatDate(1)}.`,
-            `You can't create or join servers until ${formatDate(1)}.`,
-            `This violation affects your account standing until ${formatDate(183)}.`
-        ];
-    }
-    
-    if (hasMessage) {
-        items.unshift("One or more pieces of content you posted were removed.");
-    }
-    
-    return items;
-}
+            const violations = JSON.parse(localStorage.getItem('violations')) || [];
+            const effectiveViolationCount = permanentBan ? 4 : violations.length + 1;
+            const actionItems = generateActionItems(effectiveViolationCount, !isServerViolation && violationMessage);
+            
+            const newViolation = {
+                id: Date.now().toString(),
+                type: violationType,
+                message: isServerViolation ? '' : violationMessage,
+                date: new Date().toISOString(),
+                actionItems: actionItems,
+                isPermanentBan: permanentBan,
+                isServerViolation: isServerViolation,
+                serverName: serverName,
+                serverRole: serverRole
+            };
+            
+            violations.push(newViolation);
+            localStorage.setItem('violations', JSON.stringify(violations));
+            localStorage.setItem('username', username);
+            
+            window.location.href = 'accountstanding.html';
+        });
 
-document.getElementById('clearViolations').addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear all violations?')) {
-        localStorage.removeItem('violations');
-        alert('All violations have been cleared');
-        window.location.reload();
-    }
-});
+        function generateActionItems(violationCount, hasMessage) {
+            const now = new Date();
+            const formatDate = (days) => {
+                const date = new Date(now);
+                date.setDate(now.getDate() + days);
+                return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            };
 
-        // Load saved username if exists
+            let items = [];
+            
+            if (violationCount >= 4) {
+                items = [
+                    "Your account has been permanently banned.",
+                    `Your data will be deleted on ${formatDate(365)}.`,
+                    `You can no longer use BoibyChat.`
+                ];
+            } else if (violationCount === 3) {
+                items = [
+                    `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
+                    `Some features on your account have been limited until ${formatDate(7)}.`,
+                    `You can't send messages or upload files until ${formatDate(7)}.`,
+                    `You can't join or interact with servers until ${formatDate(7)}.`,
+                    `Your account may be permanently banned if you break the rules again.`,
+                    `This violation affects your account standing until ${formatDate(365)}.`
+                ];
+            } else if (violationCount === 2) {
+                items = [
+                    `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+                    `Some features on your account have been limited until ${formatDate(1)}.`,
+                    `You can't send messages or upload files until ${formatDate(1)}.`,
+                    `You can't join or interact with servers until ${formatDate(1)}.`,
+                    `This violation affects your account standing until ${formatDate(365)}.`
+                ];
+            } else if (violationCount === 1) {
+                items = [
+                    `Your account has received a warning.`,
+                    `Some features on your account have been limited until ${formatDate(1)}.`,
+                    `You have limited access to voice chat until ${formatDate(1)}.`,
+                    `You can't create or join servers until ${formatDate(1)}.`,
+                    `This violation affects your account standing until ${formatDate(183)}.`
+                ];
+            }
+            
+            if (hasMessage) {
+                items.unshift("One or more pieces of content you posted were removed.");
+            }
+            
+            return items;
+        }
+
+        document.getElementById('clearViolations').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all violations?')) {
+                localStorage.removeItem('violations');
+                alert('All violations have been cleared');
+                window.location.reload();
+            }
+        });
+
+        // Load saved username
         const savedUsername = localStorage.getItem('username');
         if (savedUsername) {
             document.getElementById('username').value = savedUsername;
