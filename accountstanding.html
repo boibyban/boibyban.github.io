@@ -624,265 +624,283 @@
     </div>
 
     <script>
-        // Helper function to format date
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
+    // Helper function to format date
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    }
 
-        // Theme toggle functionality
-        function setupThemeToggle() {
-            const themeToggle = document.getElementById('themeToggle');
-            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-            
-            // Check for saved theme preference or use system preference
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.classList.toggle('light-mode', savedTheme === 'light');
-            } else {
-                document.body.classList.toggle('light-mode', !prefersDarkScheme.matches);
-            }
-            
-            // Update button icon based on current theme
-            updateThemeIcon();
-            
-            // Add click event listener
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('light-mode');
-                const isLightMode = document.body.classList.contains('light-mode');
-                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
-                updateThemeIcon();
-            });
-            
-            // Listen for system theme changes
-            prefersDarkScheme.addListener((e) => {
-                if (!localStorage.getItem('theme')) {
-                    document.body.classList.toggle('light-mode', !e.matches);
-                    updateThemeIcon();
-                }
-            });
+    // Theme toggle functions
+    function setupThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check for saved theme preference OR use system preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.classList.toggle('light-mode', savedTheme === 'light');
+        } else {
+            document.body.classList.toggle('light-mode', !prefersDarkScheme.matches);
         }
         
-        function updateThemeIcon() {
-            const themeToggle = document.getElementById('themeToggle');
+        // Update button icon based on current theme
+        updateThemeIcon();
+        
+        // Add click event listener
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
             const isLightMode = document.body.classList.contains('light-mode');
-            themeToggle.textContent = isLightMode ? 'light' : 'dark';
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+            updateThemeIcon();
+        });
+        
+        // Listen for an y system theme changes
+        prefersDarkScheme.addListener((e) => {
+            if (!localStorage.getItem('theme')) {
+                document.body.classList.toggle('light-mode', !e.matches);
+                updateThemeIcon();
+            }
+        });
+    }
+    
+    function updateThemeIcon() {
+        const themeToggle = document.getElementById('themeToggle');
+        const isLightMode = document.body.classList.contains('light-mode');
+        themeToggle.textContent = isLightMode ? 'light' : 'dark';
+    }
+
+    // Load account data
+    function loadAccountData() {
+        // Load profile picture
+        const savedAvatar = localStorage.getItem('avatarImage');
+        if (savedAvatar) {
+            document.getElementById('profile-img-display').src = savedAvatar;
+            document.getElementById('popupUserAvatar').src = savedAvatar;
         }
 
-        // Load account data
-        function loadAccountData() {
-            // Load profile picture
-            const savedAvatar = localStorage.getItem('avatarImage');
-            if (savedAvatar) {
-                document.getElementById('profile-img-display').src = savedAvatar;
-                document.getElementById('popupUserAvatar').src = savedAvatar;
-            }
-
-            // Load username
-            const savedUsername = localStorage.getItem('username');
-            if (savedUsername) {
-                document.getElementById('popupUsername').textContent = savedUsername;
-            }
-
-            // Load and display violations
-            loadViolations();
-        }
-
-        function setAccountStatus(violationCount) {
-            const statusElement = document.getElementById('account-status-value');
-            const descriptionElement = document.getElementById('account-status-description');
-            const avatarContainer = document.querySelector('.avatar-container');
-            
-            // Remove all status classes
-            statusElement.className = 'status-value';
-            avatarContainer.classList.remove('banned');
-            
-            if (violationCount === 0) {
-                statusElement.classList.add('all-good');
-                statusElement.textContent = 'all good!';
-                descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat Terms of Use and Community Standards. If you break the rules, it will show up here.';
-            } else if (violationCount === 1) {
-                statusElement.classList.add('limited');
-                statusElement.textContent = 'limited';
-                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in more restrictions.';
-            } else if (violationCount === 2) {
-                statusElement.classList.add('very-limited');
-                statusElement.textContent = 'very limited';
-                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and features on your account have been been limited. You may be suspended if you break the rules again.';
-            } else if (violationCount === 3) {
-                statusElement.classList.add('at-risk');
-                statusElement.textContent = 'at risk';
-                descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
-            } else {
-                statusElement.classList.add('banned');
-                statusElement.textContent = 'permanently banned';
-                descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
-                avatarContainer.classList.add('banned');
-            }
-            
-            // Check if any violation is marked as permanent ban
-            const violations = JSON.parse(localStorage.getItem('violations')) || [];
-            const hasPermanentBan = violations.some(v => v.isPermanentBan);
-            
-            if (hasPermanentBan) {
-                statusElement.classList.add('banned');
-                statusElement.textContent = 'permanently banned';
-                descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
-                avatarContainer.classList.add('banned');
-            }
+        // Load username
+        const savedUsername = localStorage.getItem('username');
+        if (savedUsername) {
+            document.getElementById('popupUsername').textContent = savedUsername;
         }
 
         // Load and display violations
-        function loadViolations() {
-            const violationsList = document.getElementById('violationsList');
-            const noViolationsMessage = document.getElementById('noViolationsMessage');
+        loadViolations();
+    }
+
+    function setAccountStatus(violationCount) {
+        const statusElement = document.getElementById('account-status-value');
+        const descriptionElement = document.getElementById('account-status-description');
+        const avatarContainer = document.querySelector('.avatar-container');
+        
+        // Remove all status classes
+        statusElement.className = 'status-value';
+        avatarContainer.classList.remove('banned');
+        
+        if (violationCount === 0) {
+            statusElement.classList.add('all-good');
+            statusElement.textContent = 'all good!';
+            descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat Terms of Use and Community Standards. If you break the rules, it will show up here.';
+        } else if (violationCount === 1) {
+            statusElement.classList.add('limited');
+            statusElement.textContent = 'limited';
+            descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in more restrictions.';
+        } else if (violationCount === 2) {
+            statusElement.classList.add('very-limited');
+            statusElement.textContent = 'very limited';
+            descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and features on your account have been been limited. You may be suspended if you break the rules again.';
+        } else if (violationCount === 3) {
+            statusElement.classList.add('at-risk');
+            statusElement.textContent = 'at risk';
+            descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
+        } else {
+            statusElement.classList.add('banned');
+            statusElement.textContent = 'permanently banned';
+            descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+            avatarContainer.classList.add('banned');
+        }
+        
+        // Check if any violation is marked as permanent ban
+        const violations = JSON.parse(localStorage.getItem('violations')) || [];
+        const hasPermanentBan = violations.some(v => v.isPermanentBan);
+        
+        if (hasPermanentBan) {
+            statusElement.classList.add('banned');
+            statusElement.textContent = 'permanently banned';
+            descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+            avatarContainer.classList.add('banned');
+        }
+    }
+
+    // Load and display violations
+    function loadViolations() {
+        const violationsList = document.getElementById('violationsList');
+        const noViolationsMessage = document.getElementById('noViolationsMessage');
+        
+        // Clear existing violations
+        violationsList.innerHTML = '';
+        
+        // Get violations from localStorage
+        const violations = JSON.parse(localStorage.getItem('violations')) || [];
+        
+        if (violations.length === 0) {
+            noViolationsMessage.style.display = 'block';
+            setAccountStatus(0);
+            return;
+        }
+        
+        noViolationsMessage.style.display = 'none';
+        
+        // Sort violations by date (newest first)
+        violations.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Add violations to the list
+        violations.forEach((violation, index) => {
+            if (!violation.type) return; // Skip invalid violations
             
-            // Clear existing violations
-            violationsList.innerHTML = '';
+            const violationItem = document.createElement('div');
+            violationItem.className = 'violation-item';
+            violationItem.setAttribute('data-id', violation.id);
             
-            // Get violations from localStorage
-            const violations = JSON.parse(localStorage.getItem('violations')) || [];
-            
-            if (violations.length === 0) {
-                noViolationsMessage.style.display = 'block';
-                setAccountStatus(0);
-                return;
+            if (index === 0) {
+                violationItem.classList.add('latest-violation');
             }
             
-            noViolationsMessage.style.display = 'none';
+            const formattedDate = formatDate(violation.date);
             
-            // Sort violations by date (newest first)
-            violations.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            // Add violations to the list
-            violations.forEach((violation, index) => {
-                if (!violation.type) return; // Skip invalid violations
-                
-                const violationItem = document.createElement('div');
-                violationItem.className = 'violation-item';
-                violationItem.setAttribute('data-id', violation.id);
-                
-                if (index === 0) {
-                    violationItem.classList.add('latest-violation');
+            // Create appropriate violation text based on type
+            let violationText;
+            if (violation.isServerViolation) {
+                if (violation.serverRole === 'owner') {
+                    violationText = `Your server <b>${violation.serverName}</b> broke the rules for <b>${violation.type}</b>`;
+                } else {
+                    violationText = `A server you joined, <b>${violation.serverName}</b>, broke the rules for <b>${violation.type}</b>`;
                 }
-                
-                const formattedDate = formatDate(violation.date);
-                
-                violationItem.innerHTML = `
-                    <div class="violation-reason">You broke the rules for <b>${violation.type}</b></div>
-                    <div class="violation-date">${formattedDate}</div>
-                `;
-                
-                violationsList.appendChild(violationItem);
-            });
-            
-            // Set account status
-            setAccountStatus(violations.length);
-            
-            // Add event listeners to violation items
-            addViolationItemListeners();
-
-            if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
-                const firstViolation = document.querySelector('.violation-item');
-                if (firstViolation) {
-                    // Small timeout to ensure DOM is ready
-                    setTimeout(() => {
-                        firstViolation.click();
-                    }, 100);
-                }
-            }
-        }
-
-        // Add click handlers to violation items
-        function addViolationItemListeners() {
-            const violationItems = document.querySelectorAll('.violation-item');
-            const violationPopup = document.getElementById('violationPopup');
-            const closePopupBtn = document.getElementById('closePopup');
-            const actionsList = document.getElementById('actionsList');
-            const policyReasonElement = document.getElementById('policyReason');
-
-            violationItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const violationId = item.getAttribute('data-id');
-                    const violations = JSON.parse(localStorage.getItem('violations')) || [];
-                    const violation = violations.find(v => v.id === violationId);
-                    
-                    if (!violation) return;
-                    
-                    // Set violation type
-                    document.getElementById('popupViolationType').innerHTML = 
-                        `You broke BoibyChat's rules for <b>${violation.type}</b>`;
-                    
-                    // Set policy reason text
-                    policyReasonElement.textContent = violation.type.toLowerCase();
-                    
-                    // Set timestamp
-                    document.getElementById('popupTimestamp').textContent = 
-                        `- ${formatDate(violation.date)}`;
-                    
-                    // Show message if exists
-                    if (violation.message) {
-                        document.getElementById('popupActivitySection').style.display = 'block';
-                        document.getElementById('popupViolationMessage').textContent = violation.message;
-                    } else {
-                        document.getElementById('popupActivitySection').style.display = 'none';
-                    }
-                    
-                    // Populate action items
-                    actionsList.innerHTML = '';
-                    if (violation.actionItems && violation.actionItems.length > 0) {
-                        violation.actionItems.forEach(item => {
-                            const li = document.createElement('li');
-                            li.textContent = item;
-                            actionsList.appendChild(li);
-                        });
-                    }
-                    
-                    // Show popup
-                    violationPopup.classList.add('active');
-                });
-            });
-
-            closePopupBtn.addEventListener('click', () => {
-                violationPopup.classList.remove('active');
-            });
-        }
-
-        // Toggle violations list visibility
-        document.getElementById('violationsToggle').addEventListener('click', function() {
-            const violationsList = document.getElementById('violationsList');
-            const toggleIcon = this.querySelector('.toggle-icon');
-            
-            if (violationsList.style.display === 'none') {
-                violationsList.style.display = 'block';
-                toggleIcon.textContent = '−';
             } else {
-                violationsList.style.display = 'none';
-                toggleIcon.textContent = '+';
+                violationText = `You broke the rules for <b>${violation.type}</b>`;
             }
+            
+            violationItem.innerHTML = `
+                <div class="violation-reason">${violationText}</div>
+                <div class="violation-date">${formattedDate}</div>
+            `;
+            
+            violationsList.appendChild(violationItem);
         });
         
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            // Start with list visible
-            document.getElementById('violationsList').style.display = 'block';
-            document.querySelector('.toggle-icon').textContent = '−';
-            
-            // Set up theme toggle
-            setupThemeToggle();
-            
-            // Load account data
-            loadAccountData();
-            
-            // Open most recent violation if coming from ban panel
-            const violations = JSON.parse(localStorage.getItem('violations')) || [];
-            if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
-                const firstViolation = document.querySelector('.violation-item');
-                if (firstViolation) {
+        // Set account status
+        setAccountStatus(violations.length);
+        
+        // Add event listeners to violation items
+        addViolationItemListeners();
+
+        if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
+            const firstViolation = document.querySelector('.violation-item');
+            if (firstViolation) {
+                setTimeout(() => {
                     firstViolation.click();
-                }
+                }, 100);
             }
+        }
+    }
+
+    // Add click handlers to violation items
+    function addViolationItemListeners() {
+        const violationItems = document.querySelectorAll('.violation-item');
+        const violationPopup = document.getElementById('violationPopup');
+        const closePopupBtn = document.getElementById('closePopup');
+        const actionsList = document.getElementById('actionsList');
+        const policyReasonElement = document.getElementById('policyReason');
+
+        violationItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const violationId = item.getAttribute('data-id');
+                const violations = JSON.parse(localStorage.getItem('violations')) || [];
+                const violation = violations.find(v => v.id === violationId);
+                
+                if (!violation) return;
+                
+                // Set appropriate header based on violation type
+                let headerText;
+                if (violation.isServerViolation) {
+                    if (violation.serverRole === 'owner') {
+                        headerText = `Your server, <b>${violation.serverName}</b>, broke BoibyChat's rules for <b>${violation.type}</b>`;
+                    } else {
+                        headerText = `A server you joined, <b>${violation.serverName}</b>, broke BoibyChat's rules for <b>${violation.type}</b>`;
+                    }
+                } else {
+                    headerText = `You broke BoibyChat's rules for <b>${violation.type}</b>`;
+                }
+                
+                document.getElementById('popupViolationType').innerHTML = headerText;
+                
+                // Set policy reason text
+                policyReasonElement.textContent = violation.type.toLowerCase();
+                
+                // Set timestamp
+                document.getElementById('popupTimestamp').textContent = 
+                    `- ${formatDate(violation.date)}`;
+                
+                // Show message if exists and it's not a server violation
+                if (violation.message && !violation.isServerViolation) {
+                    document.getElementById('popupActivitySection').style.display = 'block';
+                    document.getElementById('popupViolationMessage').textContent = violation.message;
+                } else {
+                    document.getElementById('popupActivitySection').style.display = 'none';
+                }
+                
+                // Populate action items
+                actionsList.innerHTML = '';
+                if (violation.actionItems && violation.actionItems.length > 0) {
+                    violation.actionItems.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        actionsList.appendChild(li);
+                    });
+                }
+                
+                // Show popup
+                violationPopup.classList.add('active');
+            });
         });
-    </script>
+
+        closePopupBtn.addEventListener('click', () => {
+            violationPopup.classList.remove('active');
+        });
+    }
+
+    // Toggle violations list visibility
+    document.getElementById('violationsToggle').addEventListener('click', function() {
+        const violationsList = document.getElementById('violationsList');
+        const toggleIcon = this.querySelector('.toggle-icon');
+        
+        if (violationsList.style.display === 'none') {
+            violationsList.style.display = 'block';
+            toggleIcon.textContent = '−';
+        } else {
+            violationsList.style.display = 'none';
+            toggleIcon.textContent = '+';
+        }
+    });
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        // Start with list visible
+        document.getElementById('violationsList').style.display = 'block';
+        document.querySelector('.toggle-icon').textContent = '−';
+        
+        setupThemeToggle();
+        loadAccountData();
+        
+        // Open most recent violation if coming from ban panel
+        const violations = JSON.parse(localStorage.getItem('violations')) || [];
+        if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
+            const firstViolation = document.querySelector('.violation-item');
+            if (firstViolation) {
+                firstViolation.click();
+            }
+        }
+    });
+</script>
 </body>
 </html>
