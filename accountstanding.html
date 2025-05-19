@@ -14,15 +14,37 @@
             --red: #F44336;
             --grey: #727272;
             --blue: #3a5bc7;
+            
+            /* Dark mode colors */
+            --bg-dark: #0f0f0f;
+            --card-dark: #1a1a1a;
+            --border-dark: #2e2e2e;
+            --text-dark: #e3e3e3;
+            --text-secondary-dark: #a0a0a0;
+            --hover-dark: #282828;
+            
+            /* Light mode colors */
+            --bg-light: #f5f5f5;
+            --card-light: #ffffff;
+            --border-light: #e0e0e0;
+            --text-light: #333333;
+            --text-secondary-light: #666666;
+            --hover-light: #f0f0f0;
         }
         
         body {
-            background-color: #0f0f0f;
+            background-color: var(--bg-dark);
             margin: 0;
             padding: 0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #e3e3e3;
+            color: var(--text-dark);
             line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-light);
+            color: var(--text-light);
         }
 
         .container {
@@ -31,15 +53,47 @@
             padding: 24px;
         }
 
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .light-mode .theme-toggle {
+            color: var(--text-light);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
         .status-header {
             display: flex;
             gap: 24px;
             align-items: center;
-            background-color: #1a1a1a;
+            background-color: var(--card-dark);
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 24px;
-            border: 1px solid #2e2e2e;
+            border: 1px solid var(--border-dark);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .status-header {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
         }
 
         .avatar-container img {
@@ -49,12 +103,15 @@
             object-fit: cover;
             flex-shrink: 0;
         }
-.avatar-container {
-    position: relative;
-}
-.avatar-container.banned img {
-    filter: grayscale(100%) brightness(1);
-}
+
+        .avatar-container {
+            position: relative;
+        }
+
+        .avatar-container.banned img {
+            filter: grayscale(100%) brightness(1);
+        }
+
         .status-content {
             flex: 1;
         }
@@ -73,11 +130,11 @@
         }
 
         .status-prefix {
-    margin: 0;
-    font-weight: 500;
-    font-size: 20px;
-    white-space: nowrap; /* Prevent line break between prefix and value */
-}
+            margin: 0;
+            font-weight: 500;
+            font-size: 20px;
+            white-space: nowrap;
+        }
 
         .status-value {
             font-weight: 600;
@@ -91,17 +148,28 @@
 
         .status-description {
             margin: 0;
-            color: #a0a0a0;
+            color: var(--text-secondary-dark);
             font-size: 14px;
             line-height: 1.5;
+            transition: color 0.3s;
+        }
+
+        .light-mode .status-description {
+            color: var(--text-secondary-light);
         }
 
         .violations-section {
-            background-color: #1a1a1a;
+            background-color: var(--card-dark);
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 24px;
-            border: 1px solid #2e2e2e;
+            border: 1px solid var(--border-dark);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .violations-section {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
         }
 
         .section-header {
@@ -114,15 +182,24 @@
 
         .section-title {
             font-weight: 600;
-            color: #fff;
+            color: var(--text-dark);
             font-size: 18px;
             margin: 0;
+            transition: color 0.3s;
+        }
+
+        .light-mode .section-title {
+            color: var(--text-light);
         }
 
         .toggle-icon {
             font-size: 20px;
-            color: #a0a0a0;
-            transition: transform 0.2s;
+            color: var(--text-secondary-dark);
+            transition: transform 0.2s, color 0.3s;
+        }
+
+        .light-mode .toggle-icon {
+            color: var(--text-secondary-light);
         }
 
         .violations-list {
@@ -131,43 +208,77 @@
         }
 
         .violation-item {
-            background-color: #222;
+            background-color: var(--card-dark);
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .light-mode .violation-item {
+            background-color: var(--hover-light);
         }
 
         .violation-item:first-child {
-            border: 1px solid #3a5bc7;
+            border: 1px solid var(--blue);
             background-color: #282828;
         }
+
+        .light-mode .violation-item:first-child {
+            background-color: rgba(58, 91, 199, 0.05);
+        }
+
         .violation-item:hover {
             background-color: #282828;
         }
+
+        .light-mode .violation-item:hover {
+            background-color: #e8e8e8;
+        }
+
         .violation-item:first-child:hover {
-            border: 1px solid #3a5bc7;
+            border: 1px solid var(--blue);
             background-color: #333333;
+        }
+
+        .light-mode .violation-item:first-child:hover {
+            background-color: rgba(58, 91, 199, 0.1);
         }
 
         .violation-reason {
             font-weight: 600;
-            color: #fff;
+            color: var(--text-dark);
             margin-bottom: 4px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .violation-reason {
+            color: var(--text-light);
         }
 
         .violation-date {
-            color: #a0a0a0;
+            color: var(--text-secondary-dark);
             font-size: 12px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .violation-date {
+            color: var(--text-secondary-light);
         }
 
         .no-violations {
-            color: #a0a0a0;
+            color: var(--text-secondary-dark);
             font-size: 14px;
             text-align: center;
             padding: 24px 0;
             margin-top: 16px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .no-violations {
+            color: var(--text-secondary-light);
         }
 
         /* Popup styles */
@@ -187,20 +298,30 @@
             transition: opacity 0.3s;
         }
 
+        .light-mode .popup-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
         .popup-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
 
         .popup-container {
-            background-color: #1a1a1a;
+            background-color: var(--card-dark);
             border-radius: 12px;
             width: 540px;
             padding: 32px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            border: 1px solid #2e2e2e;
+            border: 1px solid var(--border-dark);
             transform: translateY(20px);
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .popup-container {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .popup-overlay.active .popup-container {
@@ -210,18 +331,28 @@
         .popup-header {
             text-align: center;
             margin: 0 0 24px 0;
-            color: #fff;
+            color: var(--text-dark);
             font-weight: 600;
             font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .popup-header {
+            color: var(--text-light);
         }
 
         .popup-section-header {
-            color: #a0a0a0;
+            color: var(--text-secondary-dark);
             font-size: 13px;
             text-transform: uppercase;
             margin: 24px 0 12px 0;
             letter-spacing: 0.5px;
             font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .light-mode .popup-section-header {
+            color: var(--text-secondary-light);
         }
 
         .popup-activity-box {
@@ -229,6 +360,12 @@
             border: 1px solid #444;
             border-radius: 8px;
             padding: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .popup-activity-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
         }
 
         .popup-message {
@@ -259,36 +396,57 @@
 
         .popup-username {
             font-weight: 600;
-            color: #fff;
+            color: var(--text-dark);
             font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .popup-username {
+            color: var(--text-light);
         }
 
         .popup-timestamp {
-            color: #a0a0a0;
+            color: var(--text-secondary-dark);
             font-size: 12px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .popup-timestamp {
+            color: var(--text-secondary-light);
         }
 
         .popup-message-text {
             font-size: 15px;
             color: #d1d1d1;
             white-space: pre-line;
+            transition: color 0.3s;
+        }
+
+        .light-mode .popup-message-text {
+            color: #555;
         }
 
         .popup-actions-list {
             padding-left: 18px;
             margin: 12px 0;
             font-size: 14px;
+            color: var(--text-dark);
+            transition: color 0.3s;
         }
 
-        .popup-actions-list li {
-            margin-bottom: 8px;
-            padding-left: 4px;
+        .light-mode .popup-actions-list {
+            color: var(--text-light);
         }
 
         .popup-standards-text {
             margin: 12px 0 24px 0;
             font-size: 14px;
             color: #c9c9c9;
+            transition: color 0.3s;
+        }
+
+        .light-mode .popup-standards-text {
+            color: #666;
         }
 
         .popup-button-container {
@@ -297,7 +455,7 @@
         }
 
         .popup-action-button {
-            background-color: #3a5bc7;
+            background-color: var(--blue);
             color: white;
             border: none;
             border-radius: 6px;
@@ -315,7 +473,7 @@
         
         /* New styles for policy link box */
         .policy-link-box {
-            border: 1px solid #3a5bc7;
+            border: 1px solid var(--blue);
             background-color: #111;
             border-radius: 8px;
             padding: 16px;
@@ -329,12 +487,26 @@
             gap: 8px;
         }
         
+        .light-mode .policy-link-box {
+            background-color: #f0f0f0;
+        }
+        
         .policy-link-box:hover {
             background-color: #1a1a1a;
         }
         
+        .light-mode .policy-link-box:hover {
+            background-color: #e5e5e5;
+        }
+        
         .policy-link-text {
             font-size: 14px;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+        
+        .light-mode .policy-link-text {
+            color: var(--text-light);
         }
         
         .policy-link-text b {
@@ -343,13 +515,24 @@
         
         .arrow-icon {
             font-size: 16px;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+        
+        .light-mode .arrow-icon {
+            color: var(--text-light);
         }
         
         .appeal-text {
             text-align: center;
             font-size: 14px;
             margin-top: 16px;
-            color: #a0a0a0;
+            color: var(--text-secondary-dark);
+            transition: color 0.3s;
+        }
+        
+        .light-mode .appeal-text {
+            color: var(--text-secondary-light);
         }
         
         .appeal-link {
@@ -364,6 +547,8 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    
     <div class="container">
         <div class="status-header">
             <div class="avatar-container">
@@ -443,6 +628,45 @@
         function formatDate(dateString) {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Theme toggle functionality
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Check for saved theme preference or use system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.toggle('light-mode', savedTheme === 'light');
+            } else {
+                document.body.classList.toggle('light-mode', !prefersDarkScheme.matches);
+            }
+            
+            // Update button icon based on current theme
+            updateThemeIcon();
+            
+            // Add click event listener
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                const isLightMode = document.body.classList.contains('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                updateThemeIcon();
+            });
+            
+            // Listen for system theme changes
+            prefersDarkScheme.addListener((e) => {
+                if (!localStorage.getItem('theme')) {
+                    document.body.classList.toggle('light-mode', !e.matches);
+                    updateThemeIcon();
+                }
+            });
+        }
+        
+        function updateThemeIcon() {
+            const themeToggle = document.getElementById('themeToggle');
+            const isLightMode = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLightMode ? '🌞' : '🌙';
         }
 
         // Load account data
@@ -643,6 +867,9 @@
             // Start with list visible
             document.getElementById('violationsList').style.display = 'block';
             document.querySelector('.toggle-icon').textContent = '−';
+            
+            // Set up theme toggle
+            setupThemeToggle();
             
             // Load account data
             loadAccountData();
