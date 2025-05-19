@@ -1,5 +1,4 @@
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boiby Premium</title>
@@ -14,7 +13,7 @@
             --grey: #727272;
             --blue: #3a5bc7;
             --purple: #7289da;
-            --gold: #FFD700;
+            --teal: #008080;
             
             /* Dark mode colors */
             --bg-dark: #0f0f0f;
@@ -49,15 +48,21 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 24px;
+            }
         }
 
         .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            position: fixed;
+            top: 16px;
+            right: 16px;
             background: none;
             border: none;
             color: var(--text-dark);
@@ -66,6 +71,15 @@
             padding: 8px;
             border-radius: 50%;
             transition: all 0.3s;
+            z-index: 100;
+        }
+
+        @media (min-width: 768px) {
+            .theme-toggle {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
         }
 
         .light-mode .theme-toggle {
@@ -82,16 +96,25 @@
 
         .premium-header {
             display: flex;
-            gap: 24px;
-            align-items: center;
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-start;
             background-color: var(--card-dark);
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
             border: 1px solid var(--border-dark);
             transition: background-color 0.3s, border-color 0.3s;
             position: relative;
             overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .premium-header {
+                flex-direction: row;
+                align-items: center;
+                padding: 24px;
+            }
         }
 
         .light-mode .premium-header {
@@ -107,16 +130,22 @@
             font-weight: 600;
             font-size: 14px;
             display: inline-block;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .premium-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             margin: 0 0 12px 0;
             background: linear-gradient(135deg, #7289da, #3a5bc7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        @media (min-width: 768px) {
+            .premium-title {
+                font-size: 28px;
+            }
         }
 
         .premium-description {
@@ -133,19 +162,32 @@
 
         .plans-container {
             display: flex;
+            flex-direction: column;
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 992px) {
+            .plans-container {
+                flex-direction: row;
+            }
         }
 
         .plan-card {
             flex: 1;
             background-color: var(--card-dark);
             border-radius: 12px;
-            padding: 24px;
+            padding: 20px;
             border: 1px solid var(--border-dark);
             transition: all 0.3s;
             cursor: pointer;
             position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .plan-card {
+                padding: 24px;
+            }
         }
 
         .light-mode .plan-card {
@@ -167,30 +209,55 @@
             box-shadow: 0 0 0 2px var(--purple);
         }
 
-        .plan-card.yearly-selected {
-            border-color: var(--green);
-            box-shadow: 0 0 0 2px var(--green);
+        .plan-card.pro-selected {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 2px var(--orange);
+        }
+
+        .plan-card.basic-selected {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 2px var(--teal);
         }
 
         .plan-name {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             margin: 0 0 8px 0;
         }
 
-        .yearly-plan .plan-name {
-            color: var(--green);
+        @media (min-width: 768px) {
+            .plan-name {
+                font-size: 20px;
+            }
+        }
+
+        .pro-plan .plan-name {
+            color: var(--orange);
+        }
+
+        .basic-plan .plan-name {
+            color: var(--teal);
         }
 
         .plan-price {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             margin: 0 0 8px 0;
             color: var(--purple);
         }
 
-        .yearly-plan .plan-price {
-            color: var(--green);
+        @media (min-width: 768px) {
+            .plan-price {
+                font-size: 32px;
+            }
+        }
+
+        .pro-plan .plan-price {
+            color: var(--orange);
+        }
+
+        .basic-plan .plan-price {
+            color: var(--teal);
         }
 
         .plan-billing {
@@ -215,18 +282,31 @@
             margin-bottom: 16px;
         }
 
-        .yearly-plan .plan-savings {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: var(--green);
+        .pro-plan .plan-savings {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--orange);
+        }
+
+        .basic-plan .plan-savings {
+            background-color: rgba(0, 128, 128, 0.2);
+            color: var(--teal);
         }
 
         .features-section {
             background-color: var(--card-dark);
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
             border: 1px solid var(--border-dark);
             transition: background-color 0.3s, border-color 0.3s;
+            overflow-x: auto;
+        }
+
+        @media (min-width: 768px) {
+            .features-section {
+                padding: 24px;
+                margin-bottom: 24px;
+            }
         }
 
         .light-mode .features-section {
@@ -250,6 +330,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 0;
+            min-width: 800px;
         }
 
         .comparison-table th {
@@ -295,13 +376,18 @@
             color: var(--text-secondary-light);
         }
 
+        .basic-value {
+            color: var(--teal);
+            font-weight: 500;
+        }
+
         .premium-value {
             color: var(--purple);
             font-weight: 500;
         }
 
-        .yearly-value {
-            color: var(--green);
+        .pro-value {
+            color: var(--orange);
             font-weight: 500;
         }
 
@@ -311,15 +397,20 @@
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 16px;
+            padding: 14px;
             font-weight: 600;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .yearly-plan .payment-button {
-            background-color: var(--green);
+        .pro-plan .payment-button {
+            background-color: var(--orange);
+            color: white;
+        }
+
+        .basic-plan .payment-button {
+            background-color: var(--teal);
             color: white;
         }
 
@@ -328,8 +419,12 @@
             transform: translateY(-2px);
         }
 
-        .yearly-plan .payment-button:hover {
-            background-color: #3d8b40;
+        .pro-plan .payment-button:hover {
+            background-color: #e68a00;
+        }
+
+        .basic-plan .payment-button:hover {
+            background-color: #006666;
         }
 
         .payment-button:active {
@@ -341,6 +436,7 @@
             justify-content: center;
             gap: 16px;
             margin-top: 16px;
+            flex-wrap: wrap;
         }
 
         .payment-method {
@@ -354,8 +450,9 @@
             text-align: center;
             font-size: 12px;
             color: var(--text-secondary-dark);
-            margin-top: 24px;
+            margin-top: 20px;
             transition: color 0.3s;
+            padding: 0 10px;
         }
 
         .light-mode .terms-text {
@@ -372,8 +469,8 @@
         }
     </style>
 </head>
-<body class="light-mode">
-    <button class="theme-toggle" id="themeToggle">light</button>
+<body class="">
+    <button class="theme-toggle" id="themeToggle">dark</button>
     
     <div class="container">
         <div class="premium-header">
@@ -385,106 +482,174 @@
         </div>
 
         <div class="plans-container">
-            <div class="plan-card selected" id="monthlyPlan">
-                <h3 class="plan-name">Monthly</h3>
-                <div class="plan-price">$9.99</div>
+            <div class="plan-card basic-plan" id="basicPlan">
+                <h3 class="plan-name">Premium Basic</h3>
+                <div class="plan-price">$4.99</div>
                 <p class="plan-billing">per month AUD</p>
-                <div class="plan-savings">Most flexible</div>
-                <button class="payment-button">Get Monthly</button>
+                <div class="plan-savings">Entry</div>
+                <button class="payment-button">Get Basic</button>
             </div>
             
-            <div class="plan-card yearly-plan" id="yearlyPlan">
-                <h3 class="plan-name">Yearly</h3>
-                <div class="plan-price">$99.99</div>
-                <p class="plan-billing">per year AUD</p>
-                <div class="plan-savings">Save 16%</div>
-                <button class="payment-button">Get Yearly</button>
+            <div class="plan-card selected" id="monthlyPlan">
+                <h3 class="plan-name">Premium</h3>
+                <div class="plan-price">$10.99</div>
+                <p class="plan-billing">per month AUD</p>
+                <div class="plan-savings">Popular</div>
+                <button class="payment-button">Get Premium</button>
+            </div>
+            
+            <div class="plan-card pro-plan" id="proPlan">
+                <h3 class="plan-name">Premium Pro</h3>
+                <div class="plan-price">$17.99</div>
+                <p class="plan-billing">per month AUD</p>
+                <div class="plan-savings">Best</div>
+                <button class="payment-button">Get Pro</button>
             </div>
         </div>
 
         <div class="features-section">
             <h2 class="section-title">Premium Features Comparison</h2>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Free</th>
-                        <th>Premium</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="feature-name">File Upload Size</td>
-                        <td class="free-value">100MB</td>
-                        <td class="premium-value">2GB</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Profile Badge</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">Premium</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Profile Pictures</td>
-                        <td class="free-value">Static only</td>
-                        <td class="premium-value">GIF support</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Profile Banner</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">Custom banners</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Profile Themes</td>
-                        <td class="free-value">Default only</td>
-                        <td class="premium-value">Custom themes</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Profile Decorations</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">Yes</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Emojis</td>
-                        <td class="free-value">Static only (25/server)</td>
-                        <td class="premium-value">Animated emojis (100/server)</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Server Limit</td>
-                        <td class="free-value">100 servers</td>
-                        <td class="premium-value">200 servers</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Discriminator</td>
-                        <td class="free-value">Random</td>
-                        <td class="premium-value">Custom discriminator</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Stream Quality</td>
-                        <td class="free-value">1080p 30fps</td>
-                        <td class="premium-value">4K 60fps</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Soundboard Sounds</td>
-                        <td class="free-value">25 sounds</td>
-                        <td class="premium-value">200 sounds</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Server Boosting</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">Boost 5 servers</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Maximum Message Characters</td>
-                        <td class="free-value">2000</td>
-                        <td class="premium-value">4000</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Give me money</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">Yes</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Free</th>
+                            <th>Premium Basic</th>
+                            <th>Premium</th>
+                            <th>Premium Pro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">File Upload Size</td>
+                            <td class="free-value">50MB</td>
+                            <td class="basic-value">500MB</td>
+                            <td class="premium-value">1GB</td>
+                            <td class="pro-value">2GB</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Cloud Storage</td>
+                            <td class="free-value">20GB</td>
+                            <td class="basic-value">100GB</td>
+                            <td class="premium-value">1TB</td>
+                            <td class="pro-value">2TB</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Profile Badge</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">Basic Badge</td>
+                            <td class="premium-value">Premium Badge</td>
+                            <td class="pro-value">Pro Badge</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Profile Pictures</td>
+                            <td class="free-value">Static only</td>
+                            <td class="basic-value">Static only</td>
+                            <td class="premium-value">GIF support</td>
+                            <td class="pro-value">GIF support</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Profile Banner</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">No</td>
+                            <td class="premium-value">Custom banners</td>
+                            <td class="pro-value">Animated banners</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Profile Themes</td>
+                            <td class="free-value">Default only</td>
+                            <td class="basic-value">Basic themes</td>
+                            <td class="premium-value">Custom themes</td>
+                            <td class="pro-value">Custom themes + fonts</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Profile Decorations</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">No</td>
+                            <td class="premium-value">Yes</td>
+                            <td class="pro-value">Exclusive</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Emojis</td>
+                            <td class="free-value">Static only (25/server)</td>
+                            <td class="basic-value">Static only (50/server)</td>
+                            <td class="premium-value">Animated emojis (100/server)</td>
+                            <td class="pro-value">Animated emojis (300/server)</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Server Limit</td>
+                            <td class="free-value">100 servers</td>
+                            <td class="basic-value">150 servers</td>
+                            <td class="premium-value">200 servers</td>
+                            <td class="pro-value">500 servers</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Discriminator</td>
+                            <td class="free-value">Random</td>
+                            <td class="basic-value">Random</td>
+                            <td class="premium-value">Custom discriminator</td>
+                            <td class="pro-value">Custom discriminator</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Stream Quality</td>
+                            <td class="free-value">720p 30fps</td>
+                            <td class="basic-value">1080p 60fps</td>
+                            <td class="premium-value">4K 60fps</td>
+                            <td class="pro-value">4K 60fps + HDR</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Soundboard Sounds</td>
+                            <td class="free-value">25 sounds</td>
+                            <td class="basic-value">50 sounds</td>
+                            <td class="premium-value">200 sounds</td>
+                            <td class="pro-value">200 sounds</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Server Boosting</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">No</td>
+                            <td class="premium-value">Boost 3 servers</td>
+                            <td class="pro-value">Boost 10 servers</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Premium Gifting</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">No</td>
+                            <td class="premium-value">Yes</td>
+                            <td class="pro-value">Yes</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Maximum Message Characters</td>
+                            <td class="free-value">2000</td>
+                            <td class="basic-value">3000</td>
+                            <td class="premium-value">4000</td>
+                            <td class="pro-value">4000</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Username Changes</td>
+                            <td class="free-value">Monthly</td>
+                            <td class="basic-value">Monthly</td>
+                            <td class="premium-value">Weekly</td>
+                            <td class="pro-value">3 times weekly</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Boiby VPN</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">No</td>
+                            <td class="premium-value">No</td>
+                            <td class="pro-value">Yes</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Give me lots of money!!</td>
+                            <td class="free-value">No</td>
+                            <td class="basic-value">Yes</td>
+                            <td class="premium-value">Yes</td>
+                            <td class="pro-value">YES</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="payment-methods">
@@ -541,17 +706,26 @@
 
         // Plan selection
         function setupPlanSelection() {
+            const basicPlan = document.getElementById('basicPlan');
             const monthlyPlan = document.getElementById('monthlyPlan');
-            const yearlyPlan = document.getElementById('yearlyPlan');
+            const proPlan = document.getElementById('proPlan');
+            
+            basicPlan.addEventListener('click', () => {
+                basicPlan.classList.add('basic-selected');
+                monthlyPlan.classList.remove('selected');
+                proPlan.classList.remove('pro-selected');
+            });
             
             monthlyPlan.addEventListener('click', () => {
                 monthlyPlan.classList.add('selected');
-                yearlyPlan.classList.remove('yearly-selected');
+                basicPlan.classList.remove('basic-selected');
+                proPlan.classList.remove('pro-selected');
             });
             
-            yearlyPlan.addEventListener('click', () => {
-                yearlyPlan.classList.add('yearly-selected');
+            proPlan.addEventListener('click', () => {
+                proPlan.classList.add('pro-selected');
                 monthlyPlan.classList.remove('selected');
+                basicPlan.classList.remove('basic-selected');
             });
         }
 
@@ -561,5 +735,5 @@
             setupPlanSelection();
         });
     </script>
-</body>
-</html>
+
+</body></html>
