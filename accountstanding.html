@@ -50,13 +50,19 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 24px;
+            }
         }
 
         .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            position: fixed;
+            top: 16px;
+            right: 16px;
             background: none;
             border: none;
             color: var(--text-dark);
@@ -65,6 +71,15 @@
             padding: 8px;
             border-radius: 50%;
             transition: all 0.3s;
+            z-index: 100;
+        }
+
+        @media (min-width: 768px) {
+            .theme-toggle {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
         }
 
         .light-mode .theme-toggle {
@@ -81,14 +96,24 @@
 
         .status-header {
             display: flex;
-            gap: 24px;
+            flex-direction: column;
+            gap: 16px;
             align-items: center;
             background-color: var(--card-dark);
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
             border: 1px solid var(--border-dark);
             transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .status-header {
+                flex-direction: row;
+                gap: 24px;
+                padding: 24px;
+                margin-bottom: 24px;
+            }
         }
 
         .light-mode .status-header {
@@ -97,11 +122,18 @@
         }
 
         .avatar-container img {
-            width: 80px;
-            height: 80px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .avatar-container img {
+                width: 80px;
+                height: 80px;
+            }
         }
 
         .avatar-container {
@@ -114,25 +146,47 @@
 
         .status-content {
             flex: 1;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .status-content {
+                width: auto;
+                text-align: left;
+            }
         }
 
         .account-status {
             display: flex;
-            align-items: baseline;
+            flex-direction: column;
+            align-items: center;
             gap: 5px;
             margin: 0 0 12px 0;
         }
 
+        @media (min-width: 768px) {
+            .account-status {
+                flex-direction: row;
+                align-items: baseline;
+            }
+        }
+
         .status-prefix, .status-value {
             margin: 0;
-            font-size: 20px;
+            font-size: 18px;
             line-height: 1.3;
+        }
+
+        @media (min-width: 768px) {
+            .status-prefix, .status-value {
+                font-size: 20px;
+            }
         }
 
         .status-prefix {
             margin: 0;
             font-weight: 500;
-            font-size: 20px;
             white-space: nowrap;
         }
 
@@ -152,6 +206,13 @@
             font-size: 14px;
             line-height: 1.5;
             transition: color 0.3s;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .status-description {
+                text-align: left;
+            }
         }
 
         .light-mode .status-description {
@@ -161,10 +222,17 @@
         .violations-section {
             background-color: var(--card-dark);
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
             border: 1px solid var(--border-dark);
             transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .violations-section {
+                padding: 24px;
+                margin-bottom: 24px;
+            }
         }
 
         .light-mode .violations-section {
@@ -183,9 +251,15 @@
         .section-title {
             font-weight: 600;
             color: var(--text-dark);
-            font-size: 18px;
+            font-size: 16px;
             margin: 0;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 18px;
+            }
         }
 
         .light-mode .section-title {
@@ -193,9 +267,15 @@
         }
 
         .toggle-icon {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-secondary-dark);
             transition: transform 0.2s, color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .toggle-icon {
+                font-size: 20px;
+            }
         }
 
         .light-mode .toggle-icon {
@@ -203,18 +283,31 @@
         }
 
         .violations-list {
-            margin-top: 16px;
+            margin-top: 12px;
             display: none;
+        }
+
+        @media (min-width: 768px) {
+            .violations-list {
+                margin-top: 16px;
+            }
         }
 
         .violation-item {
             background-color: var(--card-dark);
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.2s;
             border: 1px solid transparent;
+        }
+
+        @media (min-width: 768px) {
+            .violation-item {
+                padding: 16px;
+                margin-bottom: 12px;
+            }
         }
 
         .light-mode .violation-item {
@@ -252,6 +345,13 @@
             color: var(--text-dark);
             margin-bottom: 4px;
             transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .violation-reason {
+                font-size: inherit;
+            }
         }
 
         .light-mode .violation-reason {
@@ -272,9 +372,16 @@
             color: var(--text-secondary-dark);
             font-size: 14px;
             text-align: center;
-            padding: 24px 0;
-            margin-top: 16px;
+            padding: 16px 0;
+            margin-top: 12px;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .no-violations {
+                padding: 24px 0;
+                margin-top: 16px;
+            }
         }
 
         .light-mode .no-violations {
@@ -296,6 +403,8 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s;
+            padding: 16px;
+            box-sizing: border-box;
         }
 
         .light-mode .popup-overlay {
@@ -310,12 +419,21 @@
         .popup-container {
             background-color: var(--card-dark);
             border-radius: 12px;
-            width: 540px;
-            padding: 32px;
+            width: 100%;
+            max-width: 540px;
+            padding: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border-dark);
             transform: translateY(20px);
             transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 768px) {
+            .popup-container {
+                padding: 32px;
+            }
         }
 
         .light-mode .popup-container {
@@ -330,11 +448,18 @@
 
         .popup-header {
             text-align: center;
-            margin: 0 0 24px 0;
+            margin: 0 0 16px 0;
             color: var(--text-dark);
             font-weight: 600;
-            font-size: 20px;
+            font-size: 18px;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-header {
+                font-size: 20px;
+                margin: 0 0 24px 0;
+            }
         }
 
         .light-mode .popup-header {
@@ -345,10 +470,16 @@
             color: var(--text-secondary-dark);
             font-size: 13px;
             text-transform: uppercase;
-            margin: 24px 0 12px 0;
+            margin: 16px 0 8px 0;
             letter-spacing: 0.5px;
             font-weight: 600;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-section-header {
+                margin: 24px 0 12px 0;
+            }
         }
 
         .light-mode .popup-section-header {
@@ -359,8 +490,14 @@
             background-color: #222;
             border: 1px solid #444;
             border-radius: 8px;
-            padding: 16px;
+            padding: 12px;
             transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-activity-box {
+                padding: 16px;
+            }
         }
 
         .light-mode .popup-activity-box {
@@ -374,11 +511,18 @@
         }
 
         .popup-avatar {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .popup-avatar {
+                width: 48px;
+                height: 48px;
+            }
         }
 
         .popup-message-content {
@@ -388,6 +532,7 @@
 
         .popup-message-header {
             display: flex;
+            flex-wrap: wrap;
             align-items: baseline;
             gap: 6px;
             margin-bottom: 2px;
@@ -397,8 +542,14 @@
         .popup-username {
             font-weight: 600;
             color: var(--text-dark);
-            font-size: 15px;
+            font-size: 14px;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-username {
+                font-size: 15px;
+            }
         }
 
         .light-mode .popup-username {
@@ -407,8 +558,14 @@
 
         .popup-timestamp {
             color: var(--text-secondary-dark);
-            font-size: 12px;
+            font-size: 11px;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-timestamp {
+                font-size: 12px;
+            }
         }
 
         .light-mode .popup-timestamp {
@@ -416,10 +573,16 @@
         }
 
         .popup-message-text {
-            font-size: 15px;
+            font-size: 14px;
             color: #d1d1d1;
             white-space: pre-line;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-message-text {
+                font-size: 15px;
+            }
         }
 
         .light-mode .popup-message-text {
@@ -428,10 +591,16 @@
 
         .popup-actions-list {
             padding-left: 18px;
-            margin: 12px 0;
+            margin: 8px 0;
             font-size: 14px;
             color: var(--text-dark);
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-actions-list {
+                margin: 12px 0;
+            }
         }
 
         .light-mode .popup-actions-list {
@@ -439,10 +608,16 @@
         }
 
         .popup-standards-text {
-            margin: 12px 0 24px 0;
+            margin: 8px 0 16px 0;
             font-size: 14px;
             color: #c9c9c9;
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .popup-standards-text {
+                margin: 12px 0 24px 0;
+            }
         }
 
         .light-mode .popup-standards-text {
@@ -451,7 +626,13 @@
 
         .popup-button-container {
             text-align: right;
-            margin-top: 16px;
+            margin-top: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .popup-button-container {
+                margin-top: 16px;
+            }
         }
 
         .popup-action-button {
@@ -459,12 +640,20 @@
             color: white;
             border: none;
             border-radius: 6px;
-            padding: 10px 20px;
+            padding: 10px 16px;
             font-weight: 500;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
+            width: 100%;
+        }
+
+        @media (min-width: 480px) {
+            .popup-action-button {
+                width: auto;
+                padding: 10px 20px;
+            }
         }
 
         .popup-action-button:hover {
@@ -476,8 +665,8 @@
             border: 1px solid var(--blue);
             background-color: #111;
             border-radius: 8px;
-            padding: 16px;
-            margin: 16px 0;
+            padding: 12px;
+            margin: 12px 0;
             text-align: center;
             cursor: pointer;
             transition: background-color 0.2s;
@@ -485,6 +674,13 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .policy-link-box {
+                padding: 16px;
+                margin: 16px 0;
+            }
         }
         
         .light-mode .policy-link-box {
@@ -526,9 +722,15 @@
         .appeal-text {
             text-align: center;
             font-size: 14px;
-            margin-top: 16px;
+            margin-top: 12px;
             color: var(--text-secondary-dark);
             transition: color 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .appeal-text {
+                margin-top: 16px;
+            }
         }
         
         .light-mode .appeal-text {
