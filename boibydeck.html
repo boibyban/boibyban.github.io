@@ -325,6 +325,18 @@
             font-weight: 600;
         }
 
+        .premium-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--yellow);
+            color: black;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         .features-section {
             margin: 60px 0;
         }
@@ -392,7 +404,7 @@
     <div class="container">
         <div class="header">
             <h1>BoibyDeck</h1>
-            <p>The ultimate 7-inch handheld gaming console with high-performance hardware and seamless integration with the BoibyChat ecosystem.</p>
+            <p>The ultimate handheld gaming console with high-performance hardware and seamless integration with the BoibyChat ecosystem.</p>
         </div>
         
         <div class="product-container">
@@ -402,17 +414,17 @@
             <div class="product-details">
                 <h2 class="product-title">Introducing BoibyDeck</h2>
                 <p class="product-description">
-                    Featuring a vibrant 7-inch touchscreen, ergonomic controls, and powerful hardware that delivers smooth performance for all your games.
+                    Choose between our standard LCD model or the premium OLED edition, both featuring ergonomic controls and powerful hardware that delivers smooth performance for all your games.
                 </p>
                 
                 <div class="specs-list">
                     <div class="spec-item">
                         <span class="spec-label">Display:</span>
-                        <span class="spec-value">7" IPS LCD, 1280×800, 60Hz</span>
+                        <span class="spec-value">7" IPS LCD or 7.6" OLED (1440×900, 90Hz LTPO, HDR, 1000 nits)</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Processor:</span>
-                        <span class="spec-value">Custom Boiby APU (4-core Zen 4, 12 RDNA 3.5 CUs)</span>
+                        <span class="spec-value">Custom Boiby APU (Zen 4 + RDNA 3.5/4)</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">RAM:</span>
@@ -420,15 +432,15 @@
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Storage:</span>
-                        <span class="spec-value">256GB / 512GB NVMe SSD (PCIe </span>
+                        <span class="spec-value">256GB / 512GB / 1TB NVMe SSD</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Battery:</span>
-                        <span class="spec-value">40Whr, 4-8 hours gameplay</span>
+                        <span class="spec-value">40Whr (LCD) / 45Whr (OLED), 4-10 hours gameplay</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Connectivity:</span>
-                        <span class="spec-value">Wi-Fi 6e, Bluetooth 5.2, USB-C</span>
+                        <span class="spec-value">Wi-Fi 6e/7, Bluetooth 5.3/6.0, USB-C</span>
                     </div>
                 </div>
             </div>
@@ -437,30 +449,62 @@
         <h2 class="features-title">Choose Your Model</h2>
         <div class="models-container" id="modelsContainer">
             <div class="model-card" data-model="256gb">
-                <div class="model-name">256GB Model</div>
+                <div class="model-name">Standard 256GB</div>
                 <div class="model-price">$599 AUD</div>
                 <ul class="model-features">
+                    <li>7" IPS LCD (1280×800, 60Hz, 500 nits)</li>
                     <li>256GB NVMe SSD storage</li>
-                    <li>Standard display</li>
-                    <li>Carrying case</li>
-                    <li>Microfibre Cloth</li>
-                    <li>BoibyDeck console</li>
-                    <li>45W USB-C charger</li>
+                    <li>Zen 4 + RDNA 3.5</li>
+                    <li>Wi-Fi 6e, Bluetooth 5.3</li>
+                    <li>40Whr battery</li>
+                    <li>Carrying case & accessories</li>
                     <li>3 Months of Boiby Premium</li>
                 </ul>
             </div>
             <div class="model-card selected" data-model="512gb">
                 <div class="selected-badge">Popular</div>
-                <div class="model-name">512GB Model</div>
+                <div class="model-name">Standard 512GB</div>
                 <div class="model-price">$699 AUD</div>
                 <ul class="model-features">
+                    <li>7" IPS LCD (1280×800, 60Hz, 500 nits)</li>
                     <li>512GB NVMe SSD storage</li>
                     <li>Matte anti-glare etched glass</li>
-                    <li>Carrying case</li>
-                    <li>Microfibre Cloth</li>
-                    <li>BoibyDeck console</li>
-                    <li>45W USB-C charger</li>
+                    <li>Zen 4 + RDNA 3.5</li>
+                    <li>Wi-Fi 6e, Bluetooth 5.3</li>
+                    <li>40Whr battery</li>
+                    <li>Carrying case & accessories</li>
                     <li>3 Months of Boiby Premium</li>
+                </ul>
+            </div>
+            <div class="model-card" data-model="oled512">
+                <div class="premium-badge">OLED</div>
+                <div class="model-name">OLED 512GB</div>
+                <div class="model-price">$999 AUD</div>
+                <ul class="model-features">
+                    <li>7.6" OLED (1440×900, 90Hz LTPO, HDR)</li>
+                    <li>512GB NVMe SSD storage</li>
+                    <li>Zen 4 + RDNA 4 architecture</li>
+                    <li>Wi-Fi 7, Bluetooth 6.0</li>
+                    <li>45Whr battery</li>
+                    <li>Premium build, thinner bezels</li>
+                    <li>1000 nits peak brightness</li>
+                    <li>6 Months of Boiby Premium</li>
+                </ul>
+            </div>
+            <div class="model-card" data-model="oled1tb">
+                <div class="premium-badge">OLED</div>
+                <div class="model-name">OLED 1TB</div>
+                <div class="model-price">$1199 AUD</div>
+                <ul class="model-features">
+                    <li>7.6" OLED (1440×900, 90Hz LTPO, HDR)</li>
+                    <li>1TB NVMe SSD storage</li>
+                    <li>Matte anti-glare etched glass</li>
+                    <li>Zen 4 + RDNA 4 architecture</li>
+                    <li>Wi-Fi 7, Bluetooth 6.0</li>
+                    <li>45Whr battery</li>
+                    <li>Premium build, thinner bezels</li>
+                    <li>1000 nits peak brightness</li>
+                    <li>6 Months of Boiby Premium</li>
                 </ul>
             </div>
         </div>
@@ -477,7 +521,7 @@
                 <div class="feature-card">
                     <h3 class="feature-title">High Performance</h3>
                     <p class="feature-description">
-                        Our custom Zen 4 based APU delivers smooth gameplay at 60 FPS for most titles, with enough power for modern AAA games.
+                        Our custom Zen 4 based APU delivers smooth gameplay at 60-90 FPS for most titles, with enough power for modern AAA games.
                     </p>
                 </div>
                 <div class="feature-card">
@@ -486,14 +530,32 @@
                         Built-in BoibyChat integration lets you message friends, join voice chats, and share clips without leaving your game.
                     </p>
                 </div>
+                <div class="feature-card">
+                    <h3 class="feature-title">OLED Advantage</h3>
+                    <p class="feature-description">
+                        The OLED model features perfect blacks, vibrant colors, HDR support, and a 90Hz refresh rate for buttery smooth gameplay.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3 class="feature-title">Advanced Connectivity</h3>
+                    <p class="feature-description">
+                        Wi-Fi 7 and Bluetooth 6.0 on OLED models provide faster downloads, lower latency, and better wireless accessory support.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3 class="feature-title">Extended Battery Life</h3>
+                    <p class="feature-description">
+                        The OLED model's more efficient display and larger battery provide up to 25% longer gameplay sessions.
+                    </p>
+                </div>
             </div>
         </div>
         
         <div class="checkout-section">
             <h2 class="checkout-title">Order Summary</h2>
             <div class="checkout-row">
-                <span class="checkout-label">BoibyDeck 512GB</span>
-                <span class="checkout-value">$599.00 AUD</span>
+                <span class="checkout-label">BoibyDeck Standard 512GB</span>
+                <span class="checkout-value">$749.00 AUD</span>
             </div>
             <div class="checkout-row">
                 <span class="checkout-label">Shipping</span>
@@ -501,7 +563,7 @@
             </div>
             <div class="checkout-row total-row">
                 <span class="checkout-label">Total</span>
-                <span class="checkout-value">$599.00 AUD</span>
+                <span class="checkout-value">$749.00 AUD</span>
             </div>
             
             <button class="checkout-button">Pre-order</button>
@@ -572,13 +634,21 @@
             const totalValue = document.querySelector('.total-row .checkout-value');
             
             if (model === '256gb') {
-                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck 256GB';
-                orderSummary.querySelector('.checkout-value').textContent = '$599.00 AUD';
+                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck LCD 256GB';
+                orderSummary.querySelector('.checkout-value').textContent = '$649.00 AUD';
                 totalValue.textContent = '$599.00 AUD';
-            } else {
-                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck 512GB';
-                orderSummary.querySelector('.checkout-value').textContent = '$699.00 AUD';
+            } else if (model === '512gb') {
+                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck LCD 512GB';
+                orderSummary.querySelector('.checkout-value').textContent = '$749.00 AUD';
                 totalValue.textContent = '$699.00 AUD';
+            } else if (model === 'oled512') {
+                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck OLED 512GB';
+                orderSummary.querySelector('.checkout-value').textContent = '$949.00 AUD';
+                totalValue.textContent = '$999.00 AUD';
+            } else if (model === 'oled1tb') {
+                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck OLED 1TB';
+                orderSummary.querySelector('.checkout-value').textContent = '$1099.00 AUD';
+                totalValue.textContent = '$1199.00 AUD';
             }
         }
 
