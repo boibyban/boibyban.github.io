@@ -452,12 +452,11 @@
                 items = [
                     "Your account has been permanently banned.",
                     `Your data will be deleted on ${formatDate(365)}.`,
-                    `You can no longer use BoibyChat.`
                 ];
             } else if (violationCount === 3) {
                 items = [
                     `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
-                    `Some features on your account have been limited until ${formatDate(7)}.`,
+                    `You can't add friends or use DMs until ${formatDate(7)}.`,
                     `You can't send messages or upload files until ${formatDate(7)}.`,
                     `You can't join or interact with servers until ${formatDate(7)}.`,
                     `Your account may be permanently banned if you break the rules again.`,
@@ -466,7 +465,7 @@
             } else if (violationCount === 2) {
                 items = [
                     `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
-                    `Some features on your account have been limited until ${formatDate(1)}.`,
+                    `You can't add friends or use DMs until ${formatDate(1)}.`,
                     `You can't send messages or upload files until ${formatDate(1)}.`,
                     `You can't join or interact with servers until ${formatDate(1)}.`,
                     `This violation affects your account standing until ${formatDate(365)}.`
@@ -474,7 +473,7 @@
             } else if (violationCount === 1) {
                 items = [
                     `Your account has received a warning.`,
-                    `Some features on your account have been limited until ${formatDate(1)}.`,
+                    `You have limited access to DMs until ${formatDate(1)}.`,
                     `You have limited access to voice chat until ${formatDate(1)}.`,
                     `You can't create or join servers until ${formatDate(1)}.`,
                     `This violation affects your account standing until ${formatDate(183)}.`
