@@ -13,6 +13,7 @@
             --orange: #FF9800;
             --red: #F44336;
             --grey: #727272;
+            --blue: #3a5bc7;
         }
         
         body {
@@ -311,6 +312,54 @@
         .popup-action-button:hover {
             background-color: #2f4ba8;
         }
+        
+        /* New styles for policy link box */
+        .policy-link-box {
+            background-color: #111;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .policy-link-box:hover {
+            background-color: #1a1a1a;
+        }
+        
+        .policy-link-text {
+            font-size: 14px;
+        }
+        
+        .policy-link-text b {
+            font-weight: 600;
+        }
+        
+        .arrow-icon {
+            font-size: 16px;
+        }
+        
+        .appeal-text {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 16px;
+            color: #a0a0a0;
+        }
+        
+        .appeal-link {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .appeal-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -368,7 +417,18 @@
             <div class="popup-section-header">What you can do</div>
 
             <div class="popup-standards-text">
-                To keep your account in good standing, please review the BoibyChat Community Standards and Terms of Use. If you believe this was a mistake, you may request an appeal by contacting our Support team.
+                To keep your account in good standing, please review the BoibyChat Community Standards and Terms of Use.
+            </div>
+            
+            <!-- New policy link box -->
+            <div class="policy-link-box" id="policyLinkBox">
+                <span class="policy-link-text">Learn more about our <b id="policyReason">content</b> policy</span>
+                <span class="arrow-icon">→</span>
+            </div>
+            
+            <!-- New appeal text -->
+            <div class="appeal-text">
+                Did we make a mistake? <a href="#" class="appeal-link">Let us know</a>
             </div>
             
             <div class="popup-button-container">
@@ -404,48 +464,48 @@
         }
 
         function setAccountStatus(violationCount) {
-    const statusElement = document.getElementById('account-status-value');
-    const descriptionElement = document.getElementById('account-status-description');
-    const avatarContainer = document.querySelector('.avatar-container');
-    
-    // Remove all status classes
-    statusElement.className = 'status-value';
-    avatarContainer.classList.remove('banned');
-    
-    if (violationCount === 0) {
-        statusElement.classList.add('all-good');
-        statusElement.textContent = 'all good!';
-        descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat Terms of Use and Community Standards. If you break the rules, it will show up here.';
-    } else if (violationCount === 1) {
-        statusElement.classList.add('limited');
-        statusElement.textContent = 'limited';
-        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in more restrictions.';
-    } else if (violationCount === 2) {
-        statusElement.classList.add('very-limited');
-        statusElement.textContent = 'very limited';
-        descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and features on your account have been been limited. You may be suspended if you break the rules again.';
-    } else if (violationCount === 3) {
-        statusElement.classList.add('at-risk');
-        statusElement.textContent = 'at risk';
-        descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
-    } else {
-        statusElement.classList.add('banned');
-        statusElement.textContent = 'permanently banned';
-        descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
-        avatarContainer.classList.add('banned');
-    }
-    
-    // Check if any violation is marked as permanent ban
-    const violations = JSON.parse(localStorage.getItem('violations')) || [];
-    const hasPermanentBan = violations.some(v => v.isPermanentBan);
-    
-    if (hasPermanentBan) {
-        statusElement.classList.add('banned');
-        statusElement.textContent = 'permanently banned';
-        descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
-        avatarContainer.classList.add('banned');
-    }
-}
+            const statusElement = document.getElementById('account-status-value');
+            const descriptionElement = document.getElementById('account-status-description');
+            const avatarContainer = document.querySelector('.avatar-container');
+            
+            // Remove all status classes
+            statusElement.className = 'status-value';
+            avatarContainer.classList.remove('banned');
+            
+            if (violationCount === 0) {
+                statusElement.classList.add('all-good');
+                statusElement.textContent = 'all good!';
+                descriptionElement.textContent = 'Your account has no active violations. Thanks for upholding the BoibyChat Terms of Use and Community Standards. If you break the rules, it will show up here.';
+            } else if (violationCount === 1) {
+                statusElement.classList.add('limited');
+                statusElement.textContent = 'limited';
+                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, some features on your account have been been limited. Future violations may result in more restrictions.';
+            } else if (violationCount === 2) {
+                statusElement.classList.add('very-limited');
+                statusElement.textContent = 'very limited';
+                descriptionElement.textContent = 'Due to violations of the BoibyChat Community Standards, your account and features on your account have been been limited. You may be suspended if you break the rules again.';
+            } else if (violationCount === 3) {
+                statusElement.classList.add('at-risk');
+                statusElement.textContent = 'at risk';
+                descriptionElement.textContent = 'Due to multiple or severe policy violations, your BoibyChat account is at risk of permanent suspension due to repeated violations.';
+            } else {
+                statusElement.classList.add('banned');
+                statusElement.textContent = 'permanently banned';
+                descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+                avatarContainer.classList.add('banned');
+            }
+            
+            // Check if any violation is marked as permanent ban
+            const violations = JSON.parse(localStorage.getItem('violations')) || [];
+            const hasPermanentBan = violations.some(v => v.isPermanentBan);
+            
+            if (hasPermanentBan) {
+                statusElement.classList.add('banned');
+                statusElement.textContent = 'permanently banned';
+                descriptionElement.textContent = 'Due to serious or repeated policy violations, your account has been permanently banned. You can no longer use BoibyChat.';
+                avatarContainer.classList.add('banned');
+            }
+        }
 
         // Load and display violations
         function loadViolations() {
@@ -498,14 +558,14 @@
             addViolationItemListeners();
 
             if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
-        const firstViolation = document.querySelector('.violation-item');
-        if (firstViolation) {
-            // Small timeout to ensure DOM is ready
-            setTimeout(() => {
-                firstViolation.click();
-            }, 100);
-        }
-    }
+                const firstViolation = document.querySelector('.violation-item');
+                if (firstViolation) {
+                    // Small timeout to ensure DOM is ready
+                    setTimeout(() => {
+                        firstViolation.click();
+                    }, 100);
+                }
+            }
         }
 
         // Add click handlers to violation items
@@ -514,6 +574,7 @@
             const violationPopup = document.getElementById('violationPopup');
             const closePopupBtn = document.getElementById('closePopup');
             const actionsList = document.getElementById('actionsList');
+            const policyReasonElement = document.getElementById('policyReason');
 
             violationItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -526,6 +587,9 @@
                     // Set violation type
                     document.getElementById('popupViolationType').innerHTML = 
                         `You broke BoibyChat's rules for <b>${violation.type}</b>`;
+                    
+                    // Set policy reason text
+                    policyReasonElement.textContent = violation.type.toLowerCase();
                     
                     // Set timestamp
                     document.getElementById('popupTimestamp').textContent = 
@@ -560,36 +624,37 @@
         }
 
         // Toggle violations list visibility
-document.getElementById('violationsToggle').addEventListener('click', function() {
-    const violationsList = document.getElementById('violationsList');
-    const toggleIcon = this.querySelector('.toggle-icon');
-    
-    if (violationsList.style.display === 'none') {
-        violationsList.style.display = 'block';
-        toggleIcon.textContent = '−';
-    } else {
-        violationsList.style.display = 'none';
-        toggleIcon.textContent = '+';
-    }
-});
+        document.getElementById('violationsToggle').addEventListener('click', function() {
+            const violationsList = document.getElementById('violationsList');
+            const toggleIcon = this.querySelector('.toggle-icon');
+            
+            if (violationsList.style.display === 'none') {
+                violationsList.style.display = 'block';
+                toggleIcon.textContent = '−';
+            } else {
+                violationsList.style.display = 'none';
+                toggleIcon.textContent = '+';
+            }
+        });
+        
         // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-    // Start with list visible
-    document.getElementById('violationsList').style.display = 'block';
-    document.querySelector('.toggle-icon').textContent = '−';
-    
-    // Load account data
-    loadAccountData();
-    
-    // Open most recent violation if coming from ban panel
-    const violations = JSON.parse(localStorage.getItem('violations')) || [];
-    if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
-        const firstViolation = document.querySelector('.violation-item');
-        if (firstViolation) {
-            firstViolation.click();
-        }
-    }
-});
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start with list visible
+            document.getElementById('violationsList').style.display = 'block';
+            document.querySelector('.toggle-icon').textContent = '−';
+            
+            // Load account data
+            loadAccountData();
+            
+            // Open most recent violation if coming from ban panel
+            const violations = JSON.parse(localStorage.getItem('violations')) || [];
+            if (violations.length > 0 && document.referrer.includes('boibychatpanel.html')) {
+                const firstViolation = document.querySelector('.violation-item');
+                if (firstViolation) {
+                    firstViolation.click();
+                }
+            }
+        });
     </script>
 </body>
 </html>
