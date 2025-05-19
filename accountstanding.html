@@ -226,7 +226,7 @@
 
         .popup-activity-box {
             background-color: #222;
-            border: 1px solid #3a5bc7;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             border-radius: 8px;
             padding: 16px;
         }
@@ -315,6 +315,7 @@
         
         /* New styles for policy link box */
         .policy-link-box {
+            border: 1px solid #3a5bc7;
             background-color: #111;
             border-radius: 8px;
             padding: 16px;
@@ -589,7 +590,7 @@
                         `You broke BoibyChat's rules for <b>${violation.type}</b>`;
                     
                     // Set policy reason text
-                    policyReasonElement.textContent = violation.type.toLowerCase();
+                    policyReasonElement.textContent = violation.type();
                     
                     // Set timestamp
                     document.getElementById('popupTimestamp').textContent = 
