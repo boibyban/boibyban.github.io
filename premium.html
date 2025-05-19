@@ -1,0 +1,517 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boiby Premium</title>
+    <style> 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        
+        :root {
+            --green: #4CAF50;
+            --yellow: #FFC107;
+            --orange: #FF9800;
+            --red: #F44336;
+            --grey: #727272;
+            --blue: #3a5bc7;
+            --purple: #7289da;
+            
+            /* Dark mode colors */
+            --bg-dark: #0f0f0f;
+            --card-dark: #1a1a1a;
+            --border-dark: #2e2e2e;
+            --text-dark: #e3e3e3;
+            --text-secondary-dark: #a0a0a0;
+            --hover-dark: #282828;
+            
+            /* Light mode colors */
+            --bg-light: #f5f5f5;
+            --card-light: #ffffff;
+            --border-light: #e0e0e0;
+            --text-light: #333333;
+            --text-secondary-light: #666666;
+            --hover-light: #f0f0f0;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .light-mode .theme-toggle {
+            color: var(--text-light);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .premium-header {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            background-color: var(--card-dark);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-dark);
+            transition: background-color 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .light-mode .premium-header {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #7289da, #3a5bc7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .premium-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            background: linear-gradient(135deg, #7289da, #3a5bc7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .premium-description {
+            margin: 0;
+            color: var(--text-secondary-dark);
+            font-size: 16px;
+            line-height: 1.5;
+            transition: color 0.3s;
+        }
+
+        .light-mode .premium-description {
+            color: var(--text-secondary-light);
+        }
+
+        .plans-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .plan-card {
+            flex: 1;
+            background-color: var(--card-dark);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-dark);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .light-mode .plan-card {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .light-mode .plan-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-card.selected {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 2px var(--purple);
+        }
+
+        .plan-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .plan-price {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: var(--purple);
+        }
+
+        .plan-billing {
+            color: var(--text-secondary-dark);
+            font-size: 14px;
+            margin: 0 0 16px 0;
+            transition: color 0.3s;
+        }
+
+        .light-mode .plan-billing {
+            color: var(--text-secondary-light);
+        }
+
+        .plan-savings {
+            background-color: rgba(114, 137, 218, 0.2);
+            color: var(--purple);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .features-section {
+            background-color: var(--card-dark);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-dark);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .light-mode .features-section {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 18px;
+            margin: 0 0 16px 0;
+            transition: color 0.3s;
+        }
+
+        .light-mode .section-title {
+            color: var(--text-light);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary-dark);
+            border-bottom: 1px solid var(--border-dark);
+            transition: all 0.3s;
+        }
+
+        .light-mode .comparison-table th {
+            color: var(--text-secondary-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .comparison-table td {
+            padding: 12px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-dark);
+            transition: all 0.3s;
+        }
+
+        .light-mode .comparison-table td {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-name {
+            font-weight: 500;
+        }
+
+        .free-value {
+            color: var(--text-secondary-dark);
+            transition: color 0.3s;
+        }
+
+        .light-mode .free-value {
+            color: var(--text-secondary-light);
+        }
+
+        .premium-value {
+            color: var(--purple);
+            font-weight: 500;
+        }
+
+        .payment-button {
+            width: 100%;
+            background-color: var(--purple);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-button:hover {
+            background-color: #677bc4;
+            transform: translateY(-2px);
+        }
+
+        .payment-button:active {
+            transform: translateY(0);
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .payment-method {
+            width: 40px;
+            height: 24px;
+            object-fit: contain;
+            opacity: 0.7;
+        }
+
+        .terms-text {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary-dark);
+            margin-top: 24px;
+            transition: color 0.3s;
+        }
+
+        .light-mode .terms-text {
+            color: var(--text-secondary-light);
+        }
+
+        .terms-link {
+            color: var(--purple);
+            text-decoration: none;
+        }
+
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <button class="theme-toggle" id="themeToggle">light</button>
+    
+    <div class="container">
+        <div class="premium-header">
+            <div>
+                <span class="premium-badge">PREMIUM</span>
+                <h1 class="premium-title">Boiby Premium</h1>
+                <p class="premium-description">Upgrade your Boiby experience with exclusive features and perks that let you express yourself and connect with your communities in new ways.</p>
+            </div>
+        </div>
+
+        <div class="plans-container">
+            <div class="plan-card selected" id="monthlyPlan">
+                <h3 class="plan-name">Monthly</h3>
+                <div class="plan-price">$9.99</div>
+                <p class="plan-billing">per month AUD</p>
+                <div class="plan-savings">Most flexible</div>
+                <button class="payment-button">Get Premium</button>
+            </div>
+            
+            <div class="plan-card" id="yearlyPlan">
+                <h3 class="plan-name">Yearly</h3>
+                <div class="plan-price">$99.99</div>
+                <p class="plan-billing">per year AUD</p>
+                <div class="plan-savings">Save 17%</div>
+                <button class="payment-button">Get Premium</button>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h2 class="section-title">Premium Features Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Free</th>
+                        <th>Premium</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">File Upload Size</td>
+                        <td class="free-value">100MB</td>
+                        <td class="premium-value">1GB</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Profile Pictures</td>
+                        <td class="free-value">Static only</td>
+                        <td class="premium-value">GIF support</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Profile Banner</td>
+                        <td class="free-value">Not available</td>
+                        <td class="premium-value">Custom banners</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Profile Themes</td>
+                        <td class="free-value">Default only</td>
+                        <td class="premium-value">Custom themes</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Profile Decorations</td>
+                        <td class="free-value">Not available</td>
+                        <td class="premium-value">Exclusive decorations</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Emojis</td>
+                        <td class="free-value">Static only</td>
+                        <td class="premium-value">Animated emojis</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Server Limit</td>
+                        <td class="free-value">100 servers</td>
+                        <td class="premium-value">1000 servers</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Discriminator</td>
+                        <td class="free-value">Random</td>
+                        <td class="premium-value">Custom discriminator</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Stream Quality</td>
+                        <td class="free-value">1080p 30fps</td>
+                        <td class="premium-value">4K 60fps</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Soundboard Sounds</td>
+                        <td class="free-value">25 sounds</td>
+                        <td class="premium-value">200 sounds</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Server Boosting</td>
+                        <td class="free-value">Not available</td>
+                        <td class="premium-value">Boost 5 servers</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="payment-methods">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1200px-MasterCard_Logo.svg.png" class="payment-method">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" class="payment-method">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/PayPal_Logo_2014.svg/1200px-PayPal_Logo_2014.svg.png" class="payment-method">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_Pay_logo.svg/1200px-Apple_Pay_logo.svg.png" class="payment-method">
+        </div>
+
+        <p class="terms-text">
+            By subscribing, you agree to our <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>. Subscriptions automatically renew until canceled.
+        </p>
+    </div>
+
+    <script>
+        // Theme toggle functions
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Check for saved theme preference OR use system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.toggle('light-mode', savedTheme === 'light');
+            } else {
+                document.body.classList.toggle('light-mode', !prefersDarkScheme.matches);
+            }
+            
+            // Update button icon based on current theme
+            updateThemeIcon();
+            
+            // Add click event listener
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                const isLightMode = document.body.classList.contains('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                updateThemeIcon();
+            });
+            
+            // Listen for system theme changes
+            prefersDarkScheme.addListener((e) => {
+                if (!localStorage.getItem('theme')) {
+                    document.body.classList.toggle('light-mode', !e.matches);
+                    updateThemeIcon();
+                }
+            });
+        }
+        
+        function updateThemeIcon() {
+            const themeToggle = document.getElementById('themeToggle');
+            const isLightMode = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLightMode ? 'light' : 'dark';
+        }
+
+        // Plan selection
+        function setupPlanSelection() {
+            const monthlyPlan = document.getElementById('monthlyPlan');
+            const yearlyPlan = document.getElementById('yearlyPlan');
+            
+            monthlyPlan.addEventListener('click', () => {
+                monthlyPlan.classList.add('selected');
+                yearlyPlan.classList.remove('selected');
+            });
+            
+            yearlyPlan.addEventListener('click', () => {
+                yearlyPlan.classList.add('selected');
+                monthlyPlan.classList.remove('selected');
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupThemeToggle();
+            setupPlanSelection();
+        });
+    </script>
+</body>
+</html>
