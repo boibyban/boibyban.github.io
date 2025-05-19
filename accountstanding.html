@@ -547,7 +547,7 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <button class="theme-toggle" id="themeToggle">dark</button>
     
     <div class="container">
         <div class="status-header">
@@ -666,7 +666,7 @@
         function updateThemeIcon() {
             const themeToggle = document.getElementById('themeToggle');
             const isLightMode = document.body.classList.contains('light-mode');
-            themeToggle.textContent = isLightMode ? '🌞' : '🌙';
+            themeToggle.textContent = isLightMode ? 'light' : 'dark';
         }
 
         // Load account data
