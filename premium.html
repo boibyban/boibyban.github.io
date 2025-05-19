@@ -167,9 +167,9 @@
             box-shadow: 0 0 0 2px var(--purple);
         }
 
-        .plan-card.pro-selected {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 2px var(--gold);
+        .plan-card.yearly-selected {
+            border-color: var(--green);
+            box-shadow: 0 0 0 2px var(--green);
         }
 
         .plan-name {
@@ -178,8 +178,8 @@
             margin: 0 0 8px 0;
         }
 
-        .pro-plan .plan-name {
-            color: var(--gold);
+        .yearly-plan .plan-name {
+            color: var(--green);
         }
 
         .plan-price {
@@ -189,8 +189,8 @@
             color: var(--purple);
         }
 
-        .pro-plan .plan-price {
-            color: var(--gold);
+        .yearly-plan .plan-price {
+            color: var(--green);
         }
 
         .plan-billing {
@@ -215,9 +215,9 @@
             margin-bottom: 16px;
         }
 
-        .pro-plan .plan-savings {
-            background-color: rgba(255, 215, 0, 0.2);
-            color: var(--gold);
+        .yearly-plan .plan-savings {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--green);
         }
 
         .features-section {
@@ -300,8 +300,8 @@
             font-weight: 500;
         }
 
-        .pro-value {
-            color: var(--gold);
+        .yearly-value {
+            color: var(--green);
             font-weight: 500;
         }
 
@@ -318,9 +318,9 @@
             transition: all 0.2s;
         }
 
-        .pro-plan .payment-button {
-            background-color: var(--gold);
-            color: #333;
+        .yearly-plan .payment-button {
+            background-color: var(--green);
+            color: white;
         }
 
         .payment-button:hover {
@@ -328,8 +328,8 @@
             transform: translateY(-2px);
         }
 
-        .pro-plan .payment-button:hover {
-            background-color: #e6c200;
+        .yearly-plan .payment-button:hover {
+            background-color: #3d8b40;
         }
 
         .payment-button:active {
@@ -386,19 +386,19 @@
 
         <div class="plans-container">
             <div class="plan-card selected" id="monthlyPlan">
-                <h3 class="plan-name">Premium</h3>
+                <h3 class="plan-name">Monthly</h3>
                 <div class="plan-price">$9.99</div>
                 <p class="plan-billing">per month AUD</p>
-                <div class="plan-savings">Most popular</div>
-                <button class="payment-button">Get Premium</button>
+                <div class="plan-savings">Most flexible</div>
+                <button class="payment-button">Get Monthly</button>
             </div>
             
-            <div class="plan-card pro-plan" id="proPlan">
-                <h3 class="plan-name">Premium Pro</h3>
-                <div class="plan-price">$16.99</div>
-                <p class="plan-billing">per month AUD</p>
-                <div class="plan-savings">Give me most money</div>
-                <button class="payment-button">Get Pro</button>
+            <div class="plan-card yearly-plan" id="yearlyPlan">
+                <h3 class="plan-name">Yearly</h3>
+                <div class="plan-price">$99.99</div>
+                <p class="plan-billing">per year AUD</p>
+                <div class="plan-savings">Save 16%</div>
+                <button class="payment-button">Get Yearly</button>
             </div>
         </div>
 
@@ -410,111 +410,78 @@
                         <th>Feature</th>
                         <th>Free</th>
                         <th>Premium</th>
-                        <th>Premium Pro</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="feature-name">File Upload Size</td>
-                        <td class="free-value">50MB</td>
-                        <td class="premium-value">500MB</td>
-                        <td class="pro-value">2GB</td>
+                        <td class="free-value">100MB</td>
+                        <td class="premium-value">2GB</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Profile Badge</td>
                         <td class="free-value">No</td>
-                        <td class="premium-value">Premium Badge</td>
-                        <td class="pro-value">Pro Badge</td>
+                        <td class="premium-value">Premium</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Profile Pictures</td>
                         <td class="free-value">Static only</td>
                         <td class="premium-value">GIF support</td>
-                        <td class="pro-value">GIF support</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Profile Banner</td>
                         <td class="free-value">No</td>
                         <td class="premium-value">Custom banners</td>
-                        <td class="pro-value">Animated banners</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Profile Themes</td>
                         <td class="free-value">Default only</td>
                         <td class="premium-value">Custom themes</td>
-                        <td class="pro-value">Custom themes + fonts</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Profile Decorations</td>
                         <td class="free-value">No</td>
                         <td class="premium-value">Yes</td>
-                        <td class="pro-value">Exclusive</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Emojis</td>
                         <td class="free-value">Static only (25/server)</td>
                         <td class="premium-value">Animated emojis (100/server)</td>
-                        <td class="pro-value">Animated emojis (300/server)</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Server Limit</td>
                         <td class="free-value">100 servers</td>
                         <td class="premium-value">200 servers</td>
-                        <td class="pro-value">500 servers</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Discriminator</td>
                         <td class="free-value">Random</td>
                         <td class="premium-value">Custom discriminator</td>
-                        <td class="pro-value">Custom discriminator</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Stream Quality</td>
-                        <td class="free-value">720p 30fps</td>
+                        <td class="free-value">1080p 30fps</td>
                         <td class="premium-value">4K 60fps</td>
-                        <td class="pro-value">4K 60fps + HDR</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Soundboard Sounds</td>
                         <td class="free-value">25 sounds</td>
                         <td class="premium-value">200 sounds</td>
-                        <td class="pro-value">200 sounds</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Server Boosting</td>
                         <td class="free-value">No</td>
-                        <td class="premium-value">Boost 3 servers</td>
-                        <td class="pro-value">Boost 10 servers</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Premium Gifting</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">Yes</td>
-                        <td class="pro-value">Yes</td>
+                        <td class="premium-value">Boost 5 servers</td>
                     </tr>
                     <tr>
                         <td class="feature-name">Maximum Message Characters</td>
                         <td class="free-value">2000</td>
                         <td class="premium-value">4000</td>
-                        <td class="pro-value">4000</td>
                     </tr>
                     <tr>
-                        <td class="feature-name">Username Changes</td>
-                        <td class="free-value">Monthly</td>
-                        <td class="premium-value">Weekly</td>
-                        <td class="pro-value">3 times weekly</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Boiby VPN</td>
-                        <td class="free-value">No</td>
-                        <td class="premium-value">No</td>
-                        <td class="pro-value">Yes</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Give me lots of money!!</td>
+                        <td class="feature-name">Give me money</td>
                         <td class="free-value">No</td>
                         <td class="premium-value">Yes</td>
-                        <td class="pro-value">YES</td>
                     </tr>
                 </tbody>
             </table>
@@ -575,20 +542,16 @@
         // Plan selection
         function setupPlanSelection() {
             const monthlyPlan = document.getElementById('monthlyPlan');
-            const proPlan = document.getElementById('proPlan');
+            const yearlyPlan = document.getElementById('yearlyPlan');
             
             monthlyPlan.addEventListener('click', () => {
                 monthlyPlan.classList.add('selected');
-                monthlyPlan.classList.remove('pro-selected');
-                proPlan.classList.remove('selected');
-                proPlan.classList.remove('pro-selected');
+                yearlyPlan.classList.remove('yearly-selected');
             });
             
-            proPlan.addEventListener('click', () => {
-                proPlan.classList.add('pro-selected');
-                proPlan.classList.remove('selected');
+            yearlyPlan.addEventListener('click', () => {
+                yearlyPlan.classList.add('yearly-selected');
                 monthlyPlan.classList.remove('selected');
-                monthlyPlan.classList.remove('pro-selected');
             });
         }
 
