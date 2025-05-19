@@ -203,32 +203,59 @@
             border-radius: 4px;
         }
         .clear-btn {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    margin-right: 12px;
-    transition: all 0.2s ease;
-}
-.clear-btn:hover {
-    background-color: #b71c1c;
-}
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 12px;
+            transition: all 0.2s ease;
+        }
+        .clear-btn:hover {
+            background-color: #b71c1c;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-.checkbox-label input {
-    width: auto;
-    margin: 0;
-}
+        .checkbox-label input {
+            width: auto;
+            margin: 0;
+        }
+        
+        .punishment-options {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+        
+        .punishment-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .punishment-option input {
+            width: auto;
+        }
+        
+        .punishment-option label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        
+        .escalate-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #2e2e2e;
+        }
     </style>
 </head>
 <body>
@@ -271,49 +298,49 @@
                 <div class="form-group">
                     <label for="violationType">Violation Type</label>
                     <select id="violationType" required>
-<option value="Abuse of BoibyChat Employees">Abuse of Boiby Employees</option>
-<option value="Account Theft">Account Theft</option>
-<option value="Adult Content">Adult Content</option>
-<option value="API Misuse">API Misuse</option>
-<option value="Ban Evasion">Ban Evasion</option>
-<option value="Botting">Botting</option>
-<option value="Bullying and Harassment">Bullying and Harassment</option>
-<option value="Chargebacks">Chargebacks</option>
-<option value="Child Safety">Child Safety</option>
-<option value="Child Self-Endangerment">Child Self-Endangerment</option>
-<option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
-<option value="Dangerous Activities">Dangerous Activities</option>
-<option value="Discussion of Illegal Activities">Discussion of Illegal Activities</option>
-<option value="Doxxing">Doxxing</option>
-<option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
-<option value="Encouraging Violence">Encouraging Violence</option>
-<option value="Extortion and Blackmail">Extortion and Blackmail</option>
-<option value="Extreme Violence and Gore">Extreme Violence and Gore</option>
-<option value="False Reporting">False Reporting</option>
-<option value="Financial Fraud">Financial Fraud</option>
-<option value="Gambling">Gambling</option>
-<option value="Harmful Misinformation">Harmful Misinformation</option>
-<option value="Hate Speech and Discrimination">Hate Speech and Discrimination</option>
-<option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
-<option value="Illegal or Regulated Drugs or Substances">Illegal or Regulated Drugs or Substances</option>
-<option value="Impersonation">Impersonation</option>
-<option value="Intellectual Property Violation">IP Violation</option>
-<option value="Malicious Files or Software">Malicious Files or Software</option>
-<option value="Minimum Age Requirement">Minimum Age Requirement</option>
-<option value="Misuse of BoibyChat Support">Misuse of Boiby Employees</option>
-<option value="Mocking Real-World Tragic Events">Mocking Real-World Tragic Events</option>
-<option value="Off-Platform Affiliation or Behaviour">Off-Platform Affiliation or Behaviour</option>
-<option value="Online Dating">Online Dating</option>
-<option value="Privacy Violation">Privacy Violation</option>
-<option value="Raiding">Raiding</option>
-<option value="Rule-breaking Username">Rule-breaking Username</option>
-<option value="Scams and Phishing">Scams and Phising</option>
-<option value="Sexual Content">Sexual Content</option>
-<option value="Spam or Disruptive Behaviour">Spam or Disruptive Behaviour</option>
-<option value="Suspicious Account Activity">Suspicious Account Activity</option>
-<option value="Threats of Physical Harm">Threats of Physical Harm</option>
-<option value="Underage Gambling">Underage Gambling</option>
-<option value="Violent Extremism">Violent Extremism</option>
+                        <option value="Abuse of BoibyChat Employees">Abuse of Boiby Employees</option>
+                        <option value="Account Theft">Account Theft</option>
+                        <option value="Adult Content">Adult Content</option>
+                        <option value="API Misuse">API Misuse</option>
+                        <option value="Ban Evasion">Ban Evasion</option>
+                        <option value="Botting">Botting</option>
+                        <option value="Bullying and Harassment">Bullying and Harassment</option>
+                        <option value="Chargebacks">Chargebacks</option>
+                        <option value="Child Safety">Child Safety</option>
+                        <option value="Child Self-Endangerment">Child Self-Endangerment</option>
+                        <option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
+                        <option value="Dangerous Activities">Dangerous Activities</option>
+                        <option value="Discussion of Illegal Activities">Discussion of Illegal Activities</option>
+                        <option value="Doxxing">Doxxing</option>
+                        <option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
+                        <option value="Encouraging Violence">Encouraging Violence</option>
+                        <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                        <option value="Extreme Violence and Gore">Extreme Violence and Gore</option>
+                        <option value="False Reporting">False Reporting</option>
+                        <option value="Financial Fraud">Financial Fraud</option>
+                        <option value="Gambling">Gambling</option>
+                        <option value="Harmful Misinformation">Harmful Misinformation</option>
+                        <option value="Hate Speech and Discrimination">Hate Speech and Discrimination</option>
+                        <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
+                        <option value="Illegal or Regulated Drugs or Substances">Illegal or Regulated Drugs or Substances</option>
+                        <option value="Impersonation">Impersonation</option>
+                        <option value="Intellectual Property Violation">IP Violation</option>
+                        <option value="Malicious Files or Software">Malicious Files or Software</option>
+                        <option value="Minimum Age Requirement">Minimum Age Requirement</option>
+                        <option value="Misuse of BoibyChat Support">Misuse of Boiby Employees</option>
+                        <option value="Mocking Real-World Tragic Events">Mocking Real-World Tragic Events</option>
+                        <option value="Off-Platform Affiliation or Behaviour">Off-Platform Affiliation or Behaviour</option>
+                        <option value="Online Dating">Online Dating</option>
+                        <option value="Privacy Violation">Privacy Violation</option>
+                        <option value="Raiding">Raiding</option>
+                        <option value="Rule-breaking Username">Rule-breaking Username</option>
+                        <option value="Scams and Phishing">Scams and Phising</option>
+                        <option value="Sexual Content">Sexual Content</option>
+                        <option value="Spam or Disruptive Behaviour">Spam or Disruptive Behaviour</option>
+                        <option value="Suspicious Account Activity">Suspicious Account Activity</option>
+                        <option value="Threats of Physical Harm">Threats of Physical Harm</option>
+                        <option value="Underage Gambling">Underage Gambling</option>
+                        <option value="Violent Extremism">Violent Extremism</option>
                     </select>
                 </div>
 
@@ -323,11 +350,32 @@
                     <div class="char-count"><span id="charCount">0</span>/500</div>
                 </div>
 
-                <div class="form-group">
-    <label class="checkbox-label">
-        <input type="checkbox" id="permanentBan"> Permanent ban force
-    </label>
-</div>
+                <div id="punishmentOptions" class="form-group">
+                    <label>First Violation Punishment</label>
+                    <div class="punishment-options">
+                        <div class="punishment-option">
+                            <input type="radio" id="warningPunishment" name="firstViolationPunishment" value="warning" checked>
+                            <label for="warningPunishment">Warning</label>
+                        </div>
+                        <div class="punishment-option">
+                            <input type="radio" id="suspensionPunishment" name="firstViolationPunishment" value="suspension">
+                            <label for="suspensionPunishment">1-Day Suspension</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="escalate-section">
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="escalateViolation"> Escalate violation (counts as 2 violations)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="permanentBan"> Permanent ban force
+                        </label>
+                    </div>
+                </div>
 
                 <button type="submit" class="submit-btn">Issue Violation</button>
             </form>
@@ -360,102 +408,146 @@
             }
         });
 
-document.getElementById('violationForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const violationType = document.getElementById('violationType').value;
-    const violationMessage = document.getElementById('violationMessage').value;
-    const username = document.getElementById('username').value;
-    const permanentBan = document.getElementById('permanentBan').checked;
-    
-    if (!violationType) {
-        alert('Please select a violation type');
-        return;
-    }
+        // Toggle punishment options based on escalate checkbox
+        const escalateCheckbox = document.getElementById('escalateViolation');
+        const punishmentOptions = document.getElementById('punishmentOptions');
+        
+        escalateCheckbox.addEventListener('change', () => {
+            punishmentOptions.style.display = escalateCheckbox.checked ? 'none' : 'block';
+        });
 
-    // Generate action items
-    const violations = JSON.parse(localStorage.getItem('violations')) || [];
-    
-    // Force violation count to 4 if permanent ban is checked
-    const effectiveViolationCount = permanentBan ? 4 : violations.length + 1;
-    const actionItems = generateActionItems(effectiveViolationCount, violationMessage);
-    
-    // Create new violation
-    const newViolation = {
-        id: Date.now().toString(),
-        type: violationType,
-        message: violationMessage || '',
-        date: new Date().toISOString(),
-        actionItems: actionItems,
-        isPermanentBan: permanentBan
-    };
-    
-    violations.push(newViolation);
-    localStorage.setItem('violations', JSON.stringify(violations));
-    localStorage.setItem('username', username);
-    
-    // Redirect directly to account standing
-    window.location.href = 'accountstanding.html';
-});
+        document.getElementById('violationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const violationType = document.getElementById('violationType').value;
+            const violationMessage = document.getElementById('violationMessage').value;
+            const username = document.getElementById('username').value;
+            const permanentBan = document.getElementById('permanentBan').checked;
+            const escalateViolation = document.getElementById('escalateViolation').checked;
+            const firstViolationPunishment = document.querySelector('input[name="firstViolationPunishment"]:checked').value;
+            
+            if (!violationType) {
+                alert('Please select a violation type');
+                return;
+            }
 
-function generateActionItems(violationCount, hasMessage) {
-    const now = new Date();
-    const formatDate = (days) => {
-        const date = new Date(now);
-        date.setDate(now.getDate() + days);
-        return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    };
+            // Get current violations
+            const violations = JSON.parse(localStorage.getItem('violations')) || [];
+            
+            // Calculate effective violation count
+            let effectiveViolationCount = violations.length + (escalateViolation ? 2 : 1);
+            if (permanentBan) {
+                effectiveViolationCount = 4; // Force permanent ban
+            }
+            
+            // Generate action items based on effective violation count
+            const actionItems = generateActionItems(
+                effectiveViolationCount, 
+                violationMessage, 
+                firstViolationPunishment,
+                escalateViolation
+            );
+            
+            // Create new violation
+            const newViolation = {
+                id: Date.now().toString(),
+                type: violationType,
+                message: violationMessage || '',
+                date: new Date().toISOString(),
+                actionItems: actionItems,
+                isPermanentBan: permanentBan,
+                isEscalated: escalateViolation,
+                firstViolationPunishment: firstViolationPunishment
+            };
+            
+            violations.push(newViolation);
+            localStorage.setItem('violations', JSON.stringify(violations));
+            localStorage.setItem('username', username);
+            
+            // Redirect to account standing page
+            window.location.href = 'accountstanding.html';
+        });
 
-    let items = [];
-    
-    if (violationCount >= 4) {
-        items = [
-            "Your account has been permanently banned.",
-            `Your data will be deleted on ${formatDate(365)}.`,
-            `You can no longer use BoibyChat.`
-        ];
-    } else if (violationCount === 3) {
-        items = [
-            `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
-            `Some features on your account have been limited until ${formatDate(7)}.`,
-            `You can't send messages or upload files until ${formatDate(7)}.`,
-            `You can't join or interact with servers until ${formatDate(7)}.`,
-            `Your account may be permanently banned if you break the rules again.`,
-            `This violation affects your account standing until ${formatDate(365)}.`
-        ]; 
-                                                                                                // 3 or 7 maybe, I don't know yet so I'll just go with 7
-    } else if (violationCount === 2) {
-        items = [
-            `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
-            `Some features on your account have been limited until ${formatDate(1)}.`,
-            `You can't send messages or upload files until ${formatDate(1)}.`,
-            `You can't join or interact with servers until ${formatDate(1)}.`,
-            `This violation affects your account standing until ${formatDate(365)}.`
-        ];
-    } else if (violationCount === 1) {
-        items = [
-            `Your account has received a warning.`,
-            `Some features on your account have been limited until ${formatDate(1)}.`,
-            `You have limited access to voice chat until ${formatDate(1)}.`,
-            `You can't create or join servers until ${formatDate(1)}.`,
-            `This violation affects your account standing until ${formatDate(183)}.`
-        ];
-    }
-    
-    if (hasMessage) {
-        items.unshift("One or more pieces of content you posted were removed.");
-    }
-    
-    return items;
-}
+        function generateActionItems(violationCount, hasMessage, firstViolationPunishment, isEscalated) {
+            const now = new Date();
+            const formatDate = (days) => {
+                const date = new Date(now);
+                date.setDate(now.getDate() + days);
+                return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            };
 
-document.getElementById('clearViolations').addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear all violations?')) {
-        localStorage.removeItem('violations');
-        alert('All violations have been cleared');
-        window.location.reload();
-    }
-});
+            let items = [];
+            
+            if (violationCount >= 4) {
+                items = [
+                    "Your account has been permanently banned.",
+                    `Your data will be deleted on ${formatDate(365)}.`,
+                    `You can no longer use BoibyChat.`
+                ];
+            } else if (violationCount === 3) {
+                items = [
+                    `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
+                    `Some features on your account have been limited until ${formatDate(7)}.`,
+                    `You can't send messages or upload files until ${formatDate(7)}.`,
+                    `You can't join or interact with servers until ${formatDate(7)}.`,
+                    `Your account may be permanently banned if you break the rules again.`,
+                    `This violation affects your account standing until ${formatDate(365)}.`
+                ];
+            } else if (violationCount === 2) {
+                if (isEscalated) {
+                    // Special case when escalated from 0 to 2
+                    items = [
+                        `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+                        `Some features on your account have been limited until ${formatDate(1)}.`,
+                        `You can't send messages or upload files until ${formatDate(1)}.`,
+                        `You can't join or interact with servers until ${formatDate(1)}.`,
+                        `This violation affects your account standing until ${formatDate(365)}.`
+                    ];
+                } else {
+                    // Normal case from 1 to 2
+                    items = [
+                        `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+                        `Some features on your account have been limited until ${formatDate(1)}.`,
+                        `You can't send messages or upload files until ${formatDate(1)}.`,
+                        `You can't join or interact with servers until ${formatDate(1)}.`,
+                        `This violation affects your account standing until ${formatDate(365)}.`
+                    ];
+                }
+            } else if (violationCount === 1) {
+                if (firstViolationPunishment === 'suspension') {
+                    items = [
+                        `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
+                        `Some features on your account have been limited until ${formatDate(1)}.`,
+                        `You can't send messages or upload files until ${formatDate(1)}.`,
+                        `You can't join or interact with servers until ${formatDate(1)}.`,
+                        `This violation affects your account standing until ${formatDate(183)}.`
+                    ];
+                } else {
+                    // Warning
+                    items = [
+                        `Your account has received a warning.`,
+                        `Some features on your account have been limited until ${formatDate(1)}.`,
+                        `You have limited access to voice chat until ${formatDate(1)}.`,
+                        `You can't create or join servers until ${formatDate(1)}.`,
+                        `This violation affects your account standing until ${formatDate(183)}.`
+                    ];
+                }
+            }
+            
+            if (hasMessage) {
+                items.unshift("One or more pieces of content you posted were removed.");
+            }
+            
+            return items;
+        }
+
+        document.getElementById('clearViolations').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all violations?')) {
+                localStorage.removeItem('violations');
+                alert('All violations have been cleared');
+                window.location.reload();
+            }
+        });
 
         // Load saved username if exists
         const savedUsername = localStorage.getItem('username');
