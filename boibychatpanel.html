@@ -411,19 +411,19 @@ function generateActionItems(violationCount, hasMessage) {
     if (violationCount >= 4) {
         items = [
             "Your account has been permanently banned.",
-            `Your account will be deleted on ${formatDate(90)}.`,
+            `Your data will be deleted on ${formatDate(365)}.`,
             `You can no longer use BoibyChat.`
         ];
     } else if (violationCount === 3) {
         items = [
-            `Your account has been suspended for 3 days, until ${formatDate(3)}.`,
-            `Some features on your account have been limited until ${formatDate(3)}.`,
-            `You can't send messages or upload files until ${formatDate(3)}.`,
-            `You can't join or interact with servers until ${formatDate(3)}.`,
+            `Your account has been suspended for 7 days, until ${formatDate(7)}.`,
+            `Some features on your account have been limited until ${formatDate(7)}.`,
+            `You can't send messages or upload files until ${formatDate(7)}.`,
+            `You can't join or interact with servers until ${formatDate(7)}.`,
             `Your account may be permanently banned if you break the rules again.`,
             `This violation affects your account standing until ${formatDate(365)}.`
         ]; 
-                                                                                                // 3 or 7 maybe, I don't know yet so I'll just go with 3
+                                                                                                // 3 or 7 maybe, I don't know yet so I'll just go with 7
     } else if (violationCount === 2) {
         items = [
             `Your account has been suspended for 1 day, until ${formatDate(1)}.`,
@@ -436,7 +436,7 @@ function generateActionItems(violationCount, hasMessage) {
         items = [
             `Your account has received a warning.`,
             `Some features on your account have been limited until ${formatDate(1)}.`,
-            // `You have limited access to voice chat until ${formatDate(1)}.`,
+            `You have limited access to voice chat until ${formatDate(1)}.`,
             `You can't create or join servers until ${formatDate(1)}.`,
             `This violation affects your account standing until ${formatDate(183)}.`
         ];
