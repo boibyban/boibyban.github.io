@@ -337,6 +337,18 @@
             font-weight: 600;
         }
 
+        .limited-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         .features-section {
             margin: 60px 0;
         }
@@ -387,12 +399,75 @@
             color: var(--text-secondary-light);
         }
 
+        .stock-section {
+            background-color: var(--card-dark);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid var(--border-dark);
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .light-mode .stock-section {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .stock-section::before {
+            content: "While stocks last";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--blue);
+            color: white;
+            padding: 8px 16px;
+            border-bottom-left-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .stock-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .stock-image {
+            flex: 1;
+        }
+
+        .stock-image img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .stock-details {
+            flex: 1;
+        }
+
+        .stock-title {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .stock-price {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--blue);
+        }
+
         @media (max-width: 768px) {
             .product-container {
                 flex-direction: column;
             }
             
             .models-container {
+                flex-direction: column;
+            }
+
+            .stock-container {
                 flex-direction: column;
             }
         }
@@ -436,7 +511,7 @@
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Battery:</span>
-                        <span class="spec-value">40Whr (LCD) / 45Whr (OLED), 4-10 hours gameplay</span>
+                        <span class="spec-value">40Whr (LCD) / 52Whr (OLED), 4-10 hours gameplay</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">Connectivity:</span>
@@ -457,22 +532,7 @@
                     <li>Zen 4 + RDNA 3.5</li>
                     <li>Wi-Fi 6e, Bluetooth 5.3</li>
                     <li>40Whr battery</li>
-                    <li>Carrying case & accessories</li>
-                    <li>3 Months of Boiby Premium</li>
-                </ul>
-            </div>
-            <div class="model-card selected" data-model="512gb">
-                <div class="selected-badge">Popular</div>
-                <div class="model-name">LCD 512GB</div>
-                <div class="model-price">$699 AUD</div>
-                <ul class="model-features">
-                    <li>7" IPS LCD (1280×800, 60Hz, 500 nits)</li>
-                    <li>512GB NVMe SSD storage</li>
-                    <li>Matte anti-glare etched glass</li>
-                    <li>Zen 4 + RDNA 3.5</li>
-                    <li>Wi-Fi 6e, Bluetooth 5.3</li>
-                    <li>40Whr battery</li>
-                    <li>Carrying case & accessories</li>
+                    <li>Carrying case &amp; accessories</li>
                     <li>3 Months of Boiby Premium</li>
                 </ul>
             </div>
@@ -485,13 +545,13 @@
                     <li>512GB NVMe SSD storage</li>
                     <li>Zen 4 + RDNA 4 architecture</li>
                     <li>Wi-Fi 7, Bluetooth 6.0</li>
-                    <li>45Whr battery</li>
+                    <li>52Whr battery</li>
                     <li>Premium build, thinner bezels</li>
                     <li>1000 nits peak brightness</li>
                     <li>6 Months of Boiby Premium</li>
                 </ul>
             </div>
-            <div class="model-card" data-model="oled1tb">
+            <div class="model-card selected" data-model="oled1tb">
                 <div class="premium-badge">OLED</div>
                 <div class="model-name">OLED 1TB</div>
                 <div class="model-price">$1049 AUD</div>
@@ -501,10 +561,28 @@
                     <li>Matte anti-glare etched glass</li>
                     <li>Zen 4 + RDNA 4 architecture</li>
                     <li>Wi-Fi 7, Bluetooth 6.0</li>
-                    <li>45Whr battery</li>
+                    <li>52Whr battery</li>
                     <li>Premium build, thinner bezels</li>
                     <li>1000 nits peak brightness</li>
                     <li>6 Months of Boiby Premium</li>
+                </ul>
+            </div>
+            <div class="model-card" data-model="oled1tb-red">
+                <div class="limited-badge">Limited</div>
+                <div class="model-name">OLED 1TB Red Edition</div>
+                <div class="model-price">$1099 AUD</div>
+                <ul class="model-features">
+                    <li>Exclusive red colorway</li>
+                    <li>7.6" OLED (1440×900, 90Hz LTPO, HDR)</li>
+                    <li>1TB NVMe SSD storage</li>
+                    <li>Matte anti-glare etched glass</li>
+                    <li>Zen 4 + RDNA 4 architecture</li>
+                    <li>Wi-Fi 7, Bluetooth 6.0</li>
+                    <li>52Whr battery</li>
+                    <li>Premium build, thinner bezels</li>
+                    <li>1000 nits peak brightness</li>
+                    <li>1 Year of Boiby Premium</li>
+                    <li>Limited edition packaging</li>
                 </ul>
             </div>
         </div>
@@ -545,8 +623,30 @@
                 <div class="feature-card">
                     <h3 class="feature-title">Extended Battery Life</h3>
                     <p class="feature-description">
-                        The OLED model's more efficient display and larger battery provide up to 25% longer gameplay sessions.
+                        The OLED model's more efficient display and larger battery provide up to 35% longer gameplay sessions.
                     </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stock-section">
+            <div class="stock-container">
+                <div class="stock-image">
+                    <img src="https://via.placeholder.com/500x300/1a1a1a/3a5bc7?text=BoibyDeck+512GB" alt="BoibyDeck 512GB">
+                </div>
+                <div class="stock-details">
+                    <h3 class="stock-title">BoibyDeck LCD 512GB</h3>
+                    <div class="stock-price">$699 AUD</div>
+                    <ul class="model-features">
+                        <li>7" IPS LCD (1280×800, 60Hz, 500 nits)</li>
+                        <li>512GB NVMe SSD storage</li>
+                        <li>Zen 4 + RDNA 3.5</li>
+                        <li>Wi-Fi 6e, Bluetooth 5.3</li>
+                        <li>40Whr battery</li>
+                        <li>Carrying case &amp; accessories</li>
+                        <li>3 Months of Boiby Premium</li>
+                    </ul>
+                    <button class="checkout-button" style="margin-top: 20px; max-width: 300px;">Order Now</button>
                 </div>
             </div>
         </div>
@@ -554,8 +654,8 @@
         <div class="checkout-section">
             <h2 class="checkout-title">Order Summary</h2>
             <div class="checkout-row">
-                <span class="checkout-label">BoibyDeck Standard 512GB</span>
-                <span class="checkout-value">$699.00 AUD</span>
+                <span class="checkout-label">BoibyDeck LCD 256GB</span>
+                <span class="checkout-value">$599.00 AUD</span>
             </div>
             <div class="checkout-row">
                 <span class="checkout-label">Shipping</span>
@@ -563,11 +663,10 @@
             </div>
             <div class="checkout-row total-row">
                 <span class="checkout-label">Total</span>
-                <span class="checkout-value">$699.00 AUD</span>
+                <span class="checkout-value">$599.00 AUD</span>
             </div>
             
             <button class="checkout-button">Pre-order</button>
-            
         </div>
     </div>
 
@@ -649,6 +748,10 @@
                 orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck OLED 1TB';
                 orderSummary.querySelector('.checkout-value').textContent = '$1049.00 AUD';
                 totalValue.textContent = '$1049.00 AUD';
+            } else if (model === 'oled1tb-red') {
+                orderSummary.querySelector('.checkout-label').textContent = 'BoibyDeck OLED 1TB Red Edition';
+                orderSummary.querySelector('.checkout-value').textContent = '$1099.00 AUD';
+                totalValue.textContent = '$1099.00 AUD';
             }
         }
 
@@ -658,5 +761,6 @@
             setupModelSelection();
         });
     </script>
+
 
 </body></html>
