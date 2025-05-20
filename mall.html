@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleria Mall Directory</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        
+        :root {
+            --green: #4CAF50;
+            --yellow: #FFC107;
+            --orange: #FF9800;
+            --red: #F44336;
+            --grey: #727272;
+            --blue: #3a5bc7;
+            
+            /* Dark mode colors */
+            --bg-dark: #0f0f0f;
+            --card-dark: #1a1a1a;
+            --border-dark: #2e2e2e;
+            --text-dark: #e3e3e3;
+            --text-secondary-dark: #a0a0a0;
+            --hover-dark: #282828;
+            
+            /* Light mode colors */
+            --bg-light: #f5f5f5;
+            --card-light: #ffffff;
+            --border-light: #e0e0e0;
+            --text-light: #333333;
+            --text-secondary-light: #666666;
+            --hover-light: #f0f0f0;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .light-mode .theme-toggle {
+            color: var(--text-light);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-secondary-dark);
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .light-mode .header p {
+            color: var(--text-secondary-light);
+        }
+
+        .controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        select, button {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-dark);
+            background-color: var(--card-dark);
+            color: var(--text-dark);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .light-mode select, 
+        .light-mode button {
+            border: 1px solid var(--border-light);
+            background-color: var(--card-light);
+            color: var(--text-light);
+        }
+
+        select:focus, button:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+
+        button {
+            background-color: var(--blue);
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #2f4ba8;
+        }
+
+        .floor-container {
+            margin-bottom: 40px;
+        }
+
+        .floor-title {
+            font-size: 24px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .light-mode .floor-title {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .store-card {
+            background-color: var(--card-dark);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-dark);
+            transition: all 0.3s;
+        }
+
+        .light-mode .store-card {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .store-card:hover {
+            border-color: var(--blue);
+            background-color: var(--hover-dark);
+        }
+
+        .light-mode .store-card:hover {
+            background-color: var(--hover-light);
+        }
+
+        .store-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--blue);
+        }
+
+        .store-location {
+            color: var(--text-secondary-dark);
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .light-mode .store-location {
+            color: var(--text-secondary-light);
+        }
+
+        .store-hours {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .light-mode .store-hours {
+            border-top: 1px solid var(--border-light);
+        }
+
+        .hours-icon {
+            color: var(--green);
+        }
+
+        .special-hours {
+            color: var(--yellow);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: rgba(58, 91, 199, 0.2);
+            color: var(--blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .no-stores {
+            color: var(--text-secondary-dark);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+
+        .light-mode .no-stores {
+            color: var(--text-secondary-light);
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            .stores-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="">
+    <button class="theme-toggle" id="themeToggle">dark</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Galleria Mall Directory</h1>
+            <p>Find all stores, restaurants, and services in our shopping center. Filter by floor or category.</p>
+        </div>
+        
+        <div class="controls">
+            <select id="floorFilter">
+                <option value="all">All Floors</option>
+                <option value="4">Level 4</option>
+                <option value="3U">Level 3 Upper</option>
+                <option value="3">Level 3</option>
+                <option value="2U">Level 2 Upper</option>
+                <option value="2">Level 2</option>
+                <option value="1U">Level 1 Upper</option>
+                <option value="1">Level 1</option>
+                <option value="0">Level 0</option>
+            </select>
+            
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="tech">Technology</option>
+                <option value="food">Food & Dining</option>
+                <option value="retail">Retail</option>
+                <option value="services">Services</option>
+                <option value="entertainment">Entertainment</option>
+            </select>
+            
+            <button id="sortAlpha">Sort A-Z</button>
+            <button id="sortFloor">Sort by Floor</button>
+        </div>
+        
+        <div id="directoryContainer">
+            <!-- Stores will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functions
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Check for saved theme preference OR use system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.toggle('light-mode', savedTheme === 'light');
+            } else {
+                document.body.classList.toggle('light-mode', !prefersDarkScheme.matches);
+            }
+            
+            // Update button icon based on current theme
+            updateThemeIcon();
+            
+            // Add click event listener
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                const isLightMode = document.body.classList.contains('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                updateThemeIcon();
+            });
+            
+            // Listen for system theme changes
+            prefersDarkScheme.addListener((e) => {
+                if (!localStorage.getItem('theme')) {
+                    document.body.classList.toggle('light-mode', !e.matches);
+                    updateThemeIcon();
+                }
+            });
+        }
+        
+        function updateThemeIcon() {
+            const themeToggle = document.getElementById('themeToggle');
+            const isLightMode = document.body.classList.contains('light-mode');
+            themeToggle.textContent = isLightMode ? 'light' : 'dark';
+        }
+
+        // Store data
+        const stores = [
+            { name: "Boiby Tech", floor: "4", location: "Loft", category: "tech", hours: "9AM-5PM" },
+            { name: "Flame Lanes Bowling", floor: "3U", location: "Dining Precint", category: "entertainment", hours: "9AM-5PM" },
+            { name: "Premium Dining", floor: "3U", location: "Dining Precint", category: "food", hours: "1PM-9PM" },
+            { name: "0ev1's Pizzeria", floor: "3U", location: "Dining Precint", category: "food", hours: "1PM-9PM" },
+            { name: "Woles", floor: "3", location: "Fresh Food Market", category: "food", hours: "9AM-5PM" },
+            { name: "SushiHut", floor: "2U", location: "near BFC", category: "food", hours: "1PM-9PM" },
+            { name: "BFC", floor: "2U", location: "Food Court", category: "food", hours: "10AM-7PM" },
+            { name: "Oldi", floor: "2U", location: "Food Court", category: "food", hours: "1PM-9PM" },
+            { name: "Qyer", floor: "2", location: "near Glass Lifts", category: "retail", hours: "9AM-5PM" },
+            { name: "Premium Clothing", floor: "2", location: "near Qyer", category: "retail", hours: "9AM-5PM" },
+            { name: "Boiby Apparel", floor: "2", location: "near Qyer", category: "retail", hours: "9AM-5PM" },
+            { name: "Ezmarket", floor: "1U", location: "near Ice Rink", category: "retail", hours: "9AM-5PM" },
+            { name: "Eyesavers", floor: "1U", location: "near Ice Rink", category: "services", hours: "9AM-5PM" },
+            { name: "Cut G Barber", floor: "1U", location: "near Big B", category: "services", hours: "9AM-5PM" },
+            { name: "Big B", floor: "1U", location: "near Ice Rink", category: "retail", hours: "9AM-5PM" },
+            { name: "Coolidood's Beds", floor: "1", location: "near Glass Lifts", category: "retail", hours: "9AM-5PM" },
+            { name: "noobster's trash", floor: "1", location: "near Centre Court", category: "retail", hours: "9AM-5PM" },
+            { name: "tinyspy44's stuff", floor: "2", location: "near Centre Court", category: "retail", hours: "9AM-5PM" },
+            { name: "milli's cakes", floor: "3", location: "near Glass Lifts", category: "food", hours: "9AM-5PM" },
+            { name: "Arcadiy's trash", floor: "2", location: "near Qyer", category: "retail", hours: "9AM-5PM" },
+            { name: "Phoiby Pharmacy", floor: "0", location: "near Banks & Services", category: "services", hours: "8AM-10PM" },
+            { name: "BoiBanking", floor: "0", location: "near Phoiby Pharmacy", category: "services", hours: "8AM-10PM" },
+            { name: "PhixPhoneRepair", floor: "0", location: "near Banks & Services", category: "services", hours: "9AM-5PM" },
+            { name: "Life Furniture", floor: "4", location: "near Boiby Tech", category: "retail", hours: "9AM-5PM" }
+        ];
+
+        // Floor labels
+        const floorLabels = {
+            "4": "Level 4",
+            "3U": "Level 3 Upper",
+            "3": "Level 3",
+            "2U": "Level 2 Upper",
+            "2": "Level 2",
+            "1U": "Level 1 Upper",
+            "1": "Level 1",
+            "0": "Level 0"
+        };
+
+        // Category labels
+        const categoryLabels = {
+            "tech": "Technology",
+            "food": "Food & Dining",
+            "retail": "Retail",
+            "services": "Services",
+            "entertainment": "Entertainment"
+        };
+
+        // Special hours notes
+        const specialHours = {
+            "Banks & Services": "8AM-10PM",
+            "Cinemas": "9AM-Midnight",
+            "Ice Rink": "9AM-6PM",
+            "BFC": "10AM-7PM",
+            "Dining": "1PM-9PM"
+        };
+
+        // Display stores
+        function displayStores(filteredStores) {
+            const container = document.getElementById('directoryContainer');
+            container.innerHTML = '';
+            
+            // Group stores by floor
+            const storesByFloor = {};
+            filteredStores.forEach(store => {
+                if (!storesByFloor[store.floor]) {
+                    storesByFloor[store.floor] = [];
+                }
+                storesByFloor[store.floor].push(store);
+            });
+            
+            // Display floors in order
+            const floorOrder = ["4", "3U", "3", "2U", "2", "1U", "1", "0"];
+            
+            floorOrder.forEach(floor => {
+                if (storesByFloor[floor]) {
+                    const floorSection = document.createElement('div');
+                    floorSection.className = 'floor-container';
+                    
+                    const floorTitle = document.createElement('h2');
+                    floorTitle.className = 'floor-title';
+                    floorTitle.textContent = floorLabels[floor];
+                    floorSection.appendChild(floorTitle);
+                    
+                    const storesGrid = document.createElement('div');
+                    storesGrid.className = 'stores-grid';
+                    
+                    storesByFloor[floor].forEach(store => {
+                        const storeCard = document.createElement('div');
+                        storeCard.className = 'store-card';
+                        
+                        const storeName = document.createElement('h3');
+                        storeName.className = 'store-name';
+                        storeName.textContent = store.name;
+                        
+                        const storeLocation = document.createElement('p');
+                        storeLocation.className = 'store-location';
+                        storeLocation.textContent = store.location;
+                        
+                        const categoryBadge = document.createElement('span');
+                        categoryBadge.className = 'category-badge';
+                        categoryBadge.textContent = categoryLabels[store.category];
+                        
+                        const storeHours = document.createElement('div');
+                        storeHours.className = 'store-hours';
+                        
+                        const hoursIcon = document.createElement('span');
+                        hoursIcon.className = 'hours-icon';
+                        hoursIcon.innerHTML = '⏰';
+                        
+                        const hoursText = document.createElement('span');
+                        hoursText.textContent = store.hours;
+                        
+                        storeHours.appendChild(hoursIcon);
+                        storeHours.appendChild(hoursText);
+                        
+                        storeCard.appendChild(storeName);
+                        storeCard.appendChild(storeLocation);
+                        storeCard.appendChild(categoryBadge);
+                        storeCard.appendChild(storeHours);
+                        
+                        // Add special hours note if applicable
+                        if (store.name === "BFC") {
+                            const specialNote = document.createElement('div');
+                            specialNote.className = 'special-hours';
+                            specialNote.textContent = 'Special hours: 10AM-7PM';
+                            storeCard.appendChild(specialNote);
+                        } else if (store.category === "food" && !store.name.includes("Woles") && !store.name.includes("BFC")) {
+                            const specialNote = document.createElement('div');
+                            specialNote.className = 'special-hours';
+                            specialNote.textContent = 'Dining hours: 1PM-9PM';
+                            storeCard.appendChild(specialNote);
+                        } else if (store.name === "Phoiby Pharmacy" || store.name === "BoiBanking") {
+                            const specialNote = document.createElement('div');
+                            specialNote.className = 'special-hours';
+                            specialNote.textContent = 'Extended hours: 8AM-10PM';
+                            storeCard.appendChild(specialNote);
+                        }
+                        
+                        storesGrid.appendChild(storeCard);
+                    });
+                    
+                    floorSection.appendChild(storesGrid);
+                    container.appendChild(floorSection);
+                }
+            });
+            
+            if (filteredStores.length === 0) {
+                const noStores = document.createElement('div');
+                noStores.className = 'no-stores';
+                noStores.textContent = 'No stores match your filters';
+                container.appendChild(noStores);
+            }
+        }
+
+        // Filter and sort functionality
+        function setupFilters() {
+            const floorFilter = document.getElementById('floorFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const sortAlpha = document.getElementById('sortAlpha');
+            const sortFloor = document.getElementById('sortFloor');
+            
+            let currentStores = [...stores];
+            let currentSort = 'floor';
+            
+            // Apply filters and sort
+            function applyFiltersAndSort() {
+                const floorValue = floorFilter.value;
+                const categoryValue = categoryFilter.value;
+                
+                // Filter
+                let filtered = stores.filter(store => {
+                    return (floorValue === 'all' || store.floor === floorValue) &&
+                           (categoryValue === 'all' || store.category === categoryValue);
+                });
+                
+                // Sort
+                if (currentSort === 'alpha') {
+                    filtered.sort((a, b) => a.name.localeCompare(b.name));
+                } else {
+                    // Default is floor order
+                    const floorOrder = ["4", "3U", "3", "2U", "2", "1U", "1", "0"];
+                    filtered.sort((a, b) => {
+                        return floorOrder.indexOf(a.floor) - floorOrder.indexOf(b.floor) || 
+                               a.name.localeCompare(b.name);
+                    });
+                }
+                
+                currentStores = filtered;
+                displayStores(currentStores);
+            }
+            
+            // Event listeners
+            floorFilter.addEventListener('change', applyFiltersAndSort);
+            categoryFilter.addEventListener('change', applyFiltersAndSort);
+            
+            sortAlpha.addEventListener('click', () => {
+                currentSort = 'alpha';
+                currentStores.sort((a, b) => a.name.localeCompare(b.name));
+                displayStores(currentStores);
+            });
+            
+            sortFloor.addEventListener('click', () => {
+                currentSort = 'floor';
+                const floorOrder = ["4", "3U", "3", "2U", "2", "1U", "1", "0"];
+                currentStores.sort((a, b) => {
+                    return floorOrder.indexOf(a.floor) - floorOrder.indexOf(b.floor) || 
+                           a.name.localeCompare(b.name);
+                });
+                displayStores(currentStores);
+            });
+            
+            // Initial display
+            applyFiltersAndSort();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupThemeToggle();
+            setupFilters();
+        });
+    </script>
+</body>
+</html>
