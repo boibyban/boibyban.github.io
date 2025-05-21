@@ -7,6 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         
+        
         body {
             background-color: #0f0f0f;
             margin: 0;
@@ -349,6 +350,18 @@
                     </label>
                 </div>
 
+<div class="form-group">
+    <label class="checkbox-label">
+        <input type="checkbox" id="automatedDetection"> Automated detection
+    </label>
+</div>
+
+<div class="form-group">
+    <label class="checkbox-label">
+        <input type="checkbox" id="automatedReview"> Automated review
+    </label>
+</div>
+
                 <button type="submit" class="submit-btn">Issue Violation</button>
             </form>
         </section>
@@ -418,7 +431,9 @@
             const violations = JSON.parse(localStorage.getItem('violations')) || [];
             const effectiveViolationCount = permanentBan ? 4 : violations.length + 1;
             const actionItems = generateActionItems(effectiveViolationCount, !isServerViolation && violationMessage);
-            
+            const automatedDetection = document.getElementById('automatedDetection').checked;
+            const automatedReview = document.getElementById('automatedReview').checked;
+
             const newViolation = {
                 id: Date.now().toString(),
                 type: violationType,
@@ -428,7 +443,9 @@
                 isPermanentBan: permanentBan,
                 isServerViolation: isServerViolation,
                 serverName: serverName,
-                serverRole: serverRole
+                serverRole: serverRole,
+                automatedDetection: automatedDetection,
+                automatedReview: automatedReview
             };
             
             violations.push(newViolation);
