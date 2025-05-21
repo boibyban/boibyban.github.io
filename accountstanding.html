@@ -58,17 +58,6 @@
                 padding: 24px;
             }
         }
-        #decisionSection {
-    margin: 16px 0;
-}
-
-.light-mode #decisionSection {
-    background-color: var(--card-light);
-}
-
-#decisionList {
-    margin-top: 8px;
-}
 
         .theme-toggle {
             position: fixed;
@@ -757,6 +746,20 @@
         .appeal-link:hover {
             text-decoration: underline;
         }
+
+        /* Decision section styles */
+        #decisionSection {
+            margin: 16px 0;
+            display: none;
+        }
+
+        .light-mode #decisionSection {
+            background-color: var(--card-light);
+        }
+
+        #decisionList {
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -812,13 +815,14 @@
             <ul class="popup-actions-list" id="actionsList">
                 <!-- Action items will be inserted here by JavaScript -->
             </ul>
-
-            <div id="decisionSection" style="display: none;">
-    <div class="popup-section-header">How we made this decision</div>
-    <ul class="popup-actions-list" id="decisionList">
-        <!-- Decision items will be inserted here by JavaScript -->
-    </ul>
-</div>   
+            
+            <!-- How we made this decision section -->
+            <div id="decisionSection">
+                <div class="popup-section-header">How we made this decision</div>
+                <ul class="popup-actions-list" id="decisionList">
+                    <!-- Decision items will be inserted here by JavaScript -->
+                </ul>
+            </div>
             
             <div class="popup-section-header">What you can do</div>
 
@@ -826,13 +830,11 @@
                 To keep your account in good standing, please review the BoibyChat Community Standards and Terms of Use.
             </div>
             
-            <!-- New policy link box -->
             <div class="policy-link-box" id="policyLinkBox">
                 <span class="policy-link-text">Learn more about our <b id="policyReason">content</b> policy</span>
                 <span class="arrow-icon">→</span>
             </div>
             
-            <!-- New appeal text -->
             <div class="appeal-text">
                 Did we make a mistake? <a href="#" class="appeal-link">Let us know</a>
             </div>
@@ -874,7 +876,7 @@
             updateThemeIcon();
         });
         
-        // Listen for an y system theme changes
+        // Listen for any system theme changes
         prefersDarkScheme.addListener((e) => {
             if (!localStorage.getItem('theme')) {
                 document.body.classList.toggle('light-mode', !e.matches);
@@ -1024,34 +1026,14 @@
         }
     }
 
+    // Add click handlers to violation items
     function addViolationItemListeners() {
-        const decisionSection = document.getElementById('decisionSection');
-const decisionList = document.getElementById('decisionList');
-
-// Clear previous decision items
-decisionList.innerHTML = '';
-decisionSection.style.display = 'none';
-
-// Add decision items if they exist
-if (violation.automatedDetection || violation.automatedReview) {
-    decisionSection.style.display = 'block';
-    
-    if (violation.automatedDetection) {
-        const li = document.createElement('li');
-        li.textContent = 'We used automated content scanning to detect this policy violation.';
-        decisionList.appendChild(li);
-    }
-    
-    if (violation.automatedReview) {
-        const li = document.createElement('li');
-        li.textContent = 'We used automation when making this decision.';
-        decisionList.appendChild(li);
-    }
-}
         const violationItems = document.querySelectorAll('.violation-item');
         const violationPopup = document.getElementById('violationPopup');
         const closePopupBtn = document.getElementById('closePopup');
         const actionsList = document.getElementById('actionsList');
+        const decisionList = document.getElementById('decisionList');
+        const decisionSection = document.getElementById('decisionSection');
         const policyReasonElement = document.getElementById('policyReason');
 
         violationItems.forEach(item => {
@@ -1099,6 +1081,26 @@ if (violation.automatedDetection || violation.automatedReview) {
                         li.textContent = item;
                         actionsList.appendChild(li);
                     });
+                }
+                
+                // Populate decision items if they exist
+                decisionList.innerHTML = '';
+                decisionSection.style.display = 'none';
+                
+                if (violation.automatedDetection || violation.automatedReview) {
+                    decisionSection.style.display = 'block';
+                    
+                    if (violation.automatedDetection) {
+                        const li = document.createElement('li');
+                        li.textContent = 'We used automated content scanning to detect this policy violation.';
+                        decisionList.appendChild(li);
+                    }
+                    
+                    if (violation.automatedReview) {
+                        const li = document.createElement('li');
+                        li.textContent = 'We used automation when making this decision.';
+                        decisionList.appendChild(li);
+                    }
                 }
                 
                 // Show popup
