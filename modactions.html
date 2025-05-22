@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderation Actions - sdsd</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #666;
+        }
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .user-id {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0 0 0;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .status-active {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .status-expired {
+            background-color: #e1f5e1;
+            color: #2e7d32;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #444;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        .case-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .detail-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .detail-label {
+            font-weight: bold;
+            min-width: 200px;
+            color: #555;
+        }
+        .detail-value {
+            flex-grow: 1;
+        }
+        .punishment-warn {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        .punishment-suspend {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .punishment-terminate {
+            color: #b71c1c;
+            font-weight: bold;
+        }
+        .current-case {
+            background-color: #fff9f9;
+            border-left: 4px solid #ff5252;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        .case-item {
+            background-color: #f9f9f9;
+            border-left: 4px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .case-title {
+            font-weight: bold;
+        }
+        .case-date {
+            color: #666;
+            font-size: 14px;
+        }
+        .case-reason {
+            margin-bottom: 8px;
+        }
+        .severity-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .severity-mild {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .severity-moderate {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        .severity-severe {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .case-note {
+            font-style: italic;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+        }
+        .evidence-container {
+            margin-top: 10px;
+        }
+        .evidence-item {
+            margin-bottom: 5px;
+        }
+        .automation-info {
+            display: flex;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        .automation-item {
+            display: flex;
+            align-items: center;
+        }
+        .automation-label {
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        .automation-yes {
+            color: #388e3c;
+        }
+        .automation-no {
+            color: #f44336;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #4285f4;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        .btn-danger {
+            background-color: #ff4444;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ff9800;
+            color: white;
+        }
+        .technical-info {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+        }
+        .tab-button.active {
+            color: #4285f4;
+            border-bottom: 2px solid #4285f4;
+        }
+        .tab-content {
+            display: none;
+            padding: 15px 0;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .search-filter {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .filter-select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="user-info">
+                <div class="avatar">S</div>
+                <div>
+                    <h1 class="username">sdsd</h1>
+                    <p class="user-id">User ID: 123456789 | Account Created: 15/04/2023</p>
+                </div>
+            </div>
+            <div class="status-badge status-active">ACTIVE SUSPENSION</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">1</div>
+                <div class="stat-label">Active Mod Actions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">2</div>
+                <div class="stat-label">Total Violations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1</div>
+                <div class="stat-label">Warnings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Appeals</div>
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="current">Current Action</button>
+                <button class="tab-button" data-tab="history">Moderation History</button>
+                <button class="tab-button" data-tab="account">Account Details</button>
+            </div>
+            
+            <div id="current-tab" class="tab-content active">
+                <div class="current-case">
+                    <div class="case-header">
+                        <div class="case-title">
+                            <span class="punishment-suspend">Suspend 1 Day</span>
+                            <span class="severity-tag severity-moderate">Moderate</span>
+                        </div>
+                        <div class="case-date">Issued: 22/05/2025 09:56:11</div>
+                    </div>
+                    <div class="case-reason">
+                        <strong>Violation:</strong> Modified Client
+                    </div>
+                    <div class="evidence-container">
+                        <div class="evidence-item">
+                            <strong>Evidence:</strong> Client Modification Detected - Place ID: 60038494
+                        </div>
+                    </div>
+                    <div class="case-note">
+                        <strong>Moderator Note to User:</strong> We detected that you are using a modified version of the Boiby App. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official Boiby App on all your devices. Continued use of modified versions may result in more account restrictions.
+                    </div>
+                    <div class="automation-info">
+                        <div class="automation-item">
+                            <span class="automation-label">Automated Detection:</span>
+                            <span class="automation-yes">Yes</span>
+                        </div>
+                        <div class="automation-item">
+                            <span class="automation-label">Automated Review:</span>
+                            <span class="automation-yes">Yes</span>
+                        </div>
+                        <div class="automation-item">
+                            <span class="automation-label">Human Reviewed:</span>
+                            <span class="automation-no">No</span>
+                        </div>
+                    </div>
+                    <div class="technical-info">
+                        Case ID: MOD-2025-05678 | Processed by AutoMod v3.2.1 using policy MOD-CLIENT-2025-04
+                    </div>
+                </div>
+
+                <div class="case-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">Active (expires in 22 hours)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Reactivate Date:</span>
+                        <span class="detail-value">23/05/2025 09:56:11</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Account State Override:</span>
+                        <span class="detail-value">No</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Moderator:</span>
+                        <span class="detail-value">AutoMod System (via Level 2 escalation)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Internal Notes:</span>
+                        <span class="detail-value">User has history of client modifications (previous case MOD-2025-04215). Automated system detected signature matching known modified client. Escalated to Level 2 for review. No manual override required.</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Next Violation Consequence:</span>
+                        <span class="detail-value">Minimum 3-day suspension</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary">View Full Case</button>
+                    <button class="btn btn-warning">Edit Case</button>
+                    <button class="btn btn-danger">Terminate Account</button>
+                    <button class="btn btn-secondary">Lift Suspension</button>
+                    <button class="btn">Export Case</button>
+                </div>
+            </div>
+            
+            <div id="history-tab" class="tab-content">
+                <div class="search-filter">
+                    <input type="text" class="search-input" placeholder="Search cases...">
+                    <select class="filter-select">
+                        <option value="all">All Actions</option>
+                        <option value="warn">Warnings</option>
+                        <option value="suspend">Suspensions</option>
+                        <option value="terminate">Terminations</option>
+                    </select>
+                    <button class="btn btn-primary">Search</button>
+                </div>
+                
+                <div class="case-item">
+                    <div class="case-header">
+                        <div class="case-title">
+                            <span class="punishment-warn">Warning</span>
+                            <span class="severity-tag severity-mild">Mild</span>
+                        </div>
+                        <div class="case-date">15/04/2025 14:22:10</div>
+                    </div>
+                    <div class="case-reason">
+                        <strong>Violation:</strong> Inappropriate Content
+                    </div>
+                    <div class="evidence-container">
+                        <div class="evidence-item">
+                            <strong>Evidence:</strong> Shared inappropriate image in public chat
+                        </div>
+                    </div>
+                    <div class="case-note">
+                        <strong>Moderator Note:</strong> This was your first warning. Please review community guidelines.
+                    </div>
+                    <div class="automation-info">
+                        <div class="automation-item">
+                            <span class="automation-label">Automated Detection:</span>
+                            <span class="automation-no">No</span>
+                        </div>
+                        <div class="automation-item">
+                            <span class="automation-label">Human Reviewed:</span>
+                            <span class="automation-yes">Yes</span>
+                        </div>
+                    </div>
+                    <div class="technical-info">
+                        Case ID: MOD-2025-04215 | Moderator: johndoe
+                    </div>
+                </div>
+                
+                <div class="case-item">
+                    <div class="case-header">
+                        <div class="case-title">
+                            <span class="punishment-suspend">Suspend 1 Day</span>
+                            <span class="severity-tag severity-moderate">Moderate</span>
+                        </div>
+                        <div class="case-date">22/05/2025 09:56:11</div>
+                    </div>
+                    <div class="case-reason">
+                        <strong>Violation:</strong> Modified Client
+                    </div>
+                    <div class="evidence-container">
+                        <div class="evidence-item">
+                            <strong>Evidence:</strong> Client Modification Detected - Place ID: 60038494
+                        </div>
+                    </div>
+                    <div class="case-note">
+                        <strong>Moderator Note:</strong> We detected that you are using a modified version of the Boiby App.
+                    </div>
+                    <div class="automation-info">
+                        <div class="automation-item">
+                            <span class="automation-label">Automated Detection:</span>
+                            <span class="automation-yes">Yes</span>
+                        </div>
+                        <div class="automation-item">
+                            <span class="automation-label">Automated Review:</span>
+                            <span class="automation-yes">Yes</span>
+                        </div>
+                    </div>
+                    <div class="technical-info">
+                        Case ID: MOD-2025-05678 | AutoMod v3.2.1
+                    </div>
+                </div>
+            </div>
+            
+            <div id="account-tab" class="tab-content">
+                <div class="case-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Account Created:</span>
+                        <span class="detail-value">15/04/2023</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Active:</span>
+                        <span class="detail-value">22/05/2025 09:30:45</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email Verified:</span>
+                        <span class="detail-value">Yes</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Phone Verified:</span>
+                        <span class="detail-value">No</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">2FA Enabled:</span>
+                        <span class="detail-value">No</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Account Standing:</span>
+                        <span class="detail-value">Poor (2 violations in last 30 days)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Associated Accounts:</span>
+                        <span class="detail-value">3 (1 active, 2 terminated)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Device Fingerprint:</span>
+                        <span class="detail-value">DFP-88732-2025-05-22</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary">View Full Account History</button>
+                    <button class="btn btn-warning">Reset Password</button>
+                    <button class="btn btn-danger">Disable Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Load data from localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const formData = JSON.parse(localStorage.getItem('banFormData'));
+            const username = localStorage.getItem('username');
+            
+            if (username) {
+                document.querySelector('.username').textContent = username;
+                document.querySelector('.avatar').textContent = username.charAt(0).toUpperCase();
+            }
+            
+            if (formData) {
+                // Update current case with form data
+                const currentCase = document.querySelector('.current-case');
+                
+                // Set punishment type and severity
+                const punishmentMap = {
+                    'Warn': { class: 'punishment-warn', text: 'Warning' },
+                    'Ban1Day': { class: 'punishment-suspend', text: 'Suspend 1 Day' },
+                    'Ban3Days': { class: 'punishment-suspend', text: 'Suspend 3 Days' },
+                    'Ban7Days': { class: 'punishment-suspend', text: 'Suspend 1 Week' },
+                    'Ban14Days': { class: 'punishment-suspend', text: 'Suspend 2 Weeks' },
+                    'Ban6Months': { class: 'punishment-suspend', text: 'Suspend 6 Months' },
+                    'Ban1Year': { class: 'punishment-suspend', text: 'Suspend 1 Year' },
+                    'Delete': { class: 'punishment-terminate', text: 'Terminate' }
+                };
+                
+                const punishment = punishmentMap[formData.state] || { class: '', text: 'Moderated' };
+                currentCase.querySelector('.case-title span').className = punishment.class;
+                currentCase.querySelector('.case-title span').textContent = punishment.text;
+                
+                // Set violation reason and evidence from first classic violation
+                if (formData.classicViolations && formData.classicViolations.length > 0) {
+                    const violation = formData.classicViolations[0];
+                    currentCase.querySelector('.case-reason strong').nextSibling.textContent = ` ${violation.reason}`;
+                    currentCase.querySelector('.evidence-item strong').nextSibling.textContent = ` ${violation.evidence}`;
+                }
+                
+                // Set moderator note
+                const note = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+                if (note) {
+                    currentCase.querySelector('.case-note strong').nextSibling.textContent = ` ${note}`;
+                }
+                
+                // Set automation info
+                const automationMap = {
+                    'manual': { detection: 'No', review: 'No' },
+                    'manual_detect_auto_review': { detection: 'No', review: 'Yes' },
+                    'auto_detect_manual_review': { detection: 'Yes', review: 'No' },
+                    'full_auto': { detection: 'Yes', review: 'Yes' }
+                };
+                
+                const automation = automationMap[formData.automation] || { detection: 'No', review: 'No' };
+                currentCase.querySelectorAll('.automation-item')[0].querySelector('.automation-yes, .automation-no').textContent = automation.detection;
+                currentCase.querySelectorAll('.automation-item')[1].querySelector('.automation-yes, .automation-no').textContent = automation.review;
+                
+                // Set dates
+                const now = new Date();
+                const reviewedDate = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+                currentCase.querySelector('.case-date').textContent = `Issued: ${reviewedDate}`;
+                
+                // Calculate reactivate date if suspended
+                if (formData.state !== 'Warn' && formData.state !== 'Delete') {
+                    const banDurationHoursMap = {
+                        Ban1Day: 24,
+                        Ban3Days: 72,
+                        Ban7Days: 168,
+                        Ban14Days: 336,
+                        Ban6Months: 4392,
+                        Ban1Year: 8760
+                    };
+                    
+                    const banDurationHours = banDurationHoursMap[formData.state] || 0;
+                    const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
+                    const formattedDate = `${reactivateDate.getDate()}/${reactivateDate.getMonth()+1}/${reactivateDate.getFullYear()} ${reactivateDate.getHours()}:${reactivateDate.getMinutes()}:${reactivateDate.getSeconds()}`;
+                    
+                    document.querySelector('.detail-value').textContent = formattedDate;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
