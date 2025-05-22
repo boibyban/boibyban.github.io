@@ -7,7 +7,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         
-        
         body {
             background-color: #0f0f0f;
             margin: 0;
@@ -204,32 +203,130 @@
             border-radius: 4px;
         }
         .clear-btn {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    margin-right: 12px;
-    transition: all 0.2s ease;
-}
-.clear-btn:hover {
-    background-color: #b71c1c;
-}
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 12px;
+            transition: all 0.2s ease;
+        }
+        .clear-btn:hover {
+            background-color: #b71c1c;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-.checkbox-label input {
-    width: auto;
-    margin: 0;
-}
+        .checkbox-label input {
+            width: auto;
+            margin: 0;
+        }
+
+        /* New styles for tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #2e2e2e;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #a0a0a0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            color: #fff;
+            border-bottom-color: #3a5bc7;
+        }
+
+        .tab:hover:not(.active) {
+            color: #d1d1d1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Violation card styles */
+        .violation-card {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .violation-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .violation-card-type {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .violation-card-date {
+            color: #a0a0a0;
+            font-size: 12px;
+        }
+
+        .violation-card-details {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #d1d1d1;
+        }
+
+        .violation-card-meta {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .violation-card-meta-item {
+            background-color: #333;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #d1d1d1;
+        }
+
+        .violation-card-message {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #2a2a2a;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #d1d1d1;
+        }
+
+        .violation-card-server {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .violation-card-server strong {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -262,108 +359,117 @@
         </section>
 
         <section class="violation-section">
-            <h2>Current Violations</h2>
-            <div class="no-violations">This account has no violations</div>
-        </section>
+            <div class="tabs">
+                <div class="tab active" data-tab="history">Violation History</div>
+                <div class="tab" data-tab="add">Add Action</div>
+            </div>
 
-        <section class="violation-section">
-            <h2>Add New Violation</h2>
-            <form id="violationForm" class="add-violation-form">
-                <div class="form-group">
-                    <label for="violationType">Violation Type</label>
-                    <select id="violationType" required>
-                        <option value="Abuse of BoibyChat Employees">Abuse of Boiby Employees</option>
-<option value="Account Theft">Account Theft</option>
-<option value="Adult Content">Adult Content</option>
-<option value="API Misuse">API Misuse</option>
-<option value="Ban Evasion">Ban Evasion</option>
-<option value="Botting">Botting</option>
-<option value="Bullying and Harassment">Bullying and Harassment</option>
-<option value="Chargebacks">Chargebacks</option>
-<option value="Child Safety">Child Safety</option>
-<option value="Child Self-Endangerment">Child Self-Endangerment</option>
-<option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
-<option value="Dangerous Activities">Dangerous Activities</option>
-<option value="Discussion of Illegal Activities">Discussion of Illegal Activities</option>
-<option value="Doxxing">Doxxing</option>
-<option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
-<option value="Encouraging Violence">Encouraging Violence</option>
-<option value="Extortion and Blackmail">Extortion and Blackmail</option>
-<option value="Extreme Violence and Gore">Extreme Violence and Gore</option>
-<option value="False Reporting">False Reporting</option>
-<option value="Financial Fraud">Financial Fraud</option>
-<option value="Gambling">Gambling</option>
-<option value="Harmful Misinformation">Harmful Misinformation</option>
-<option value="Hate Speech and Discrimination">Hate Speech and Discrimination</option>
-<option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
-<option value="Illegal or Regulated Drugs or Substances">Illegal or Regulated Drugs or Substances</option>
-<option value="Impersonation">Impersonation</option>
-<option value="Intellectual Property Violation">IP Violation</option>
-<option value="Malicious Files or Software">Malicious Files or Software</option>
-<option value="Minimum Age Requirement">Minimum Age Requirement</option>
-<option value="Misuse of BoibyChat Support">Misuse of Boiby Employees</option>
-<option value="Mocking Real-World Tragic Events">Mocking Real-World Tragic Events</option>
-<option value="Off-Platform Affiliation or Behaviour">Off-Platform Affiliation or Behaviour</option>
-<option value="Online Dating">Online Dating</option>
-<option value="Privacy Violation">Privacy Violation</option>
-<option value="Raiding">Raiding</option>
-<option value="Rule-breaking Username">Rule-breaking Username</option>
-<option value="Scams and Phishing">Scams and Phising</option>
-<option value="Sexual Content">Sexual Content</option>
-<option value="Spam or Disruptive Behaviour">Spam or Disruptive Behaviour</option>
-<option value="Suspicious Account Activity">Suspicious Account Activity</option>
-<option value="Threats of Physical Harm">Threats of Physical Harm</option>
-<option value="Underage Gambling">Underage Gambling</option>
-<option value="Violent Extremism">Violent Extremism</option>
-                    </select>
+            <div id="historyTab" class="tab-content active">
+                <h2>Violation History</h2>
+                <div id="violationHistoryContainer">
+                    <div class="no-violations">This account has no violations</div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="isServerViolation"> This is a server violation
-                    </label>
-                </div>
-
-                <div id="serverFields" style="display: none;">
+            <div id="addTab" class="tab-content">
+                <h2>Add New Violation</h2>
+                <form id="violationForm" class="add-violation-form">
                     <div class="form-group">
-                        <label for="serverName">Server Name</label>
-                        <input type="text" id="serverName">
-                    </div>
-                    <div class="form-group">
-                        <label for="serverRole">User's Role in Server</label>
-                        <select id="serverRole">
-                            <option value="owner">Owner or Moderator</option>
-                            <option value="member">Member</option>
+                        <label for="violationType">Violation Type</label>
+                        <select id="violationType" required>
+                            <option value="Abuse of BoibyChat Employees">Abuse of Boiby Employees</option>
+                            <option value="Account Theft">Account Theft</option>
+                            <option value="Adult Content">Adult Content</option>
+                            <option value="API Misuse">API Misuse</option>
+                            <option value="Ban Evasion">Ban Evasion</option>
+                            <option value="Botting">Botting</option>
+                            <option value="Bullying and Harassment">Bullying and Harassment</option>
+                            <option value="Chargebacks">Chargebacks</option>
+                            <option value="Child Safety">Child Safety</option>
+                            <option value="Child Self-Endangerment">Child Self-Endangerment</option>
+                            <option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
+                            <option value="Dangerous Activities">Dangerous Activities</option>
+                            <option value="Discussion of Illegal Activities">Discussion of Illegal Activities</option>
+                            <option value="Doxxing">Doxxing</option>
+                            <option value="Encouragement of Self-Harm">Encouragement of Self-Harm</option>
+                            <option value="Encouraging Violence">Encouraging Violence</option>
+                            <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+                            <option value="Extreme Violence and Gore">Extreme Violence and Gore</option>
+                            <option value="False Reporting">False Reporting</option>
+                            <option value="Financial Fraud">Financial Fraud</option>
+                            <option value="Gambling">Gambling</option>
+                            <option value="Harmful Misinformation">Harmful Misinformation</option>
+                            <option value="Hate Speech and Discrimination">Hate Speech and Discrimination</option>
+                            <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
+                            <option value="Illegal or Regulated Drugs or Substances">Illegal or Regulated Drugs or Substances</option>
+                            <option value="Impersonation">Impersonation</option>
+                            <option value="Intellectual Property Violation">IP Violation</option>
+                            <option value="Malicious Files or Software">Malicious Files or Software</option>
+                            <option value="Minimum Age Requirement">Minimum Age Requirement</option>
+                            <option value="Misuse of BoibyChat Support">Misuse of Boiby Employees</option>
+                            <option value="Mocking Real-World Tragic Events">Mocking Real-World Tragic Events</option>
+                            <option value="Off-Platform Affiliation or Behaviour">Off-Platform Affiliation or Behaviour</option>
+                            <option value="Online Dating">Online Dating</option>
+                            <option value="Privacy Violation">Privacy Violation</option>
+                            <option value="Raiding">Raiding</option>
+                            <option value="Rule-breaking Username">Rule-breaking Username</option>
+                            <option value="Scams and Phishing">Scams and Phising</option>
+                            <option value="Sexual Content">Sexual Content</option>
+                            <option value="Spam or Disruptive Behaviour">Spam or Disruptive Behaviour</option>
+                            <option value="Suspicious Account Activity">Suspicious Account Activity</option>
+                            <option value="Threats of Physical Harm">Threats of Physical Harm</option>
+                            <option value="Underage Gambling">Underage Gambling</option>
+                            <option value="Violent Extremism">Violent Extremism</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="form-group" id="messageField">
-                    <label for="violationMessage">Evidence (user message) (Optional, max 500 characters)</label>
-                    <textarea id="violationMessage" maxlength="500"></textarea>
-                    <div class="char-count"><span id="charCount">0</span>/500</div>
-                </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isServerViolation"> This is a server violation
+                        </label>
+                    </div>
 
-                <div class="form-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="permanentBan"> Permanent ban force
-                    </label>
-                </div>
+                    <div id="serverFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="serverName">Server Name</label>
+                            <input type="text" id="serverName">
+                        </div>
+                        <div class="form-group">
+                            <label for="serverRole">User's Role in Server</label>
+                            <select id="serverRole">
+                                <option value="owner">Owner or Moderator</option>
+                                <option value="member">Member</option>
+                            </select>
+                        </div>
+                    </div>
 
-<div class="form-group">
-    <label class="checkbox-label">
-        <input type="checkbox" id="automatedDetection"> Automated detection
-    </label>
-</div>
+                    <div class="form-group" id="messageField">
+                        <label for="violationMessage">Evidence (user message) (Optional, max 500 characters)</label>
+                        <textarea id="violationMessage" maxlength="500"></textarea>
+                        <div class="char-count"><span id="charCount">0</span>/500</div>
+                    </div>
 
-<div class="form-group">
-    <label class="checkbox-label">
-        <input type="checkbox" id="automatedReview"> Automated review
-    </label>
-</div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="permanentBan"> Permanent ban force
+                        </label>
+                    </div>
 
-                <button type="submit" class="submit-btn">Issue Violation</button>
-            </form>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="automatedDetection"> Automated detection
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="automatedReview"> Automated review
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Issue Violation</button>
+                </form>
+            </div>
         </section>
     </div>
 
@@ -404,6 +510,21 @@
                 serverFields.style.display = 'none';
                 messageField.style.display = 'block';
             }
+        });
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab') + 'Tab';
+                document.getElementById(tabId).classList.add('active');
+            });
         });
 
         // Form submission
@@ -452,7 +573,17 @@
             localStorage.setItem('violations', JSON.stringify(violations));
             localStorage.setItem('username', username);
             
-            window.location.href = 'accountstanding.html';
+            // Update the violation history display
+            loadViolationHistory();
+            
+            // Switch to history tab
+            document.querySelector('.tab[data-tab="history"]').click();
+            
+            // Show the new violation
+            const violationElement = document.querySelector(`.violation-card[data-id="${newViolation.id}"]`);
+            if (violationElement) {
+                violationElement.scrollIntoView({ behavior: 'smooth' });
+            }
         });
 
         function generateActionItems(violationCount, hasMessage) {
@@ -504,19 +635,78 @@
             return items;
         }
 
+        function loadViolationHistory() {
+            const violations = JSON.parse(localStorage.getItem('violations')) || [];
+            const container = document.getElementById('violationHistoryContainer');
+            
+            if (violations.length === 0) {
+                container.innerHTML = '<div class="no-violations">This account has no violations</div>';
+                return;
+            }
+            
+            // Sort violations by date (newest first)
+            violations.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = '';
+            
+            violations.forEach(violation => {
+                const formattedDate = new Date(violation.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const card = document.createElement('div');
+                card.className = 'violation-card';
+                card.setAttribute('data-id', violation.id);
+                
+                let violationDetails = '';
+                if (violation.isServerViolation) {
+                    if (violation.serverRole === 'owner') {
+                        violationDetails = `<div class="violation-card-server"><strong>Server:</strong> ${violation.serverName} (Owner)</div>`;
+                    } else {
+                        violationDetails = `<div class="violation-card-server"><strong>Server:</strong> ${violation.serverName} (Member)</div>`;
+                    }
+                } else if (violation.message) {
+                    violationDetails = `<div class="violation-card-message">${violation.message}</div>`;
+                }
+                
+                card.innerHTML = `
+                    <div class="violation-card-header">
+                        <div class="violation-card-type">${violation.type}</div>
+                        <div class="violation-card-date">${formattedDate}</div>
+                    </div>
+                    ${violationDetails}
+                    <div class="violation-card-meta">
+                        ${violation.isPermanentBan ? '<span class="violation-card-meta-item">Permanent Ban</span>' : ''}
+                        ${violation.automatedDetection ? '<span class="violation-card-meta-item">Automated Detection</span>' : ''}
+                        ${violation.automatedReview ? '<span class="violation-card-meta-item">Automated Review</span>' : ''}
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
         document.getElementById('clearViolations').addEventListener('click', () => {
             if (confirm('Are you sure you want to clear all violations?')) {
                 localStorage.removeItem('violations');
                 alert('All violations have been cleared');
-                window.location.reload();
+                loadViolationHistory();
             }
         });
 
-        // Load saved username
-        const savedUsername = localStorage.getItem('username');
-        if (savedUsername) {
-            document.getElementById('username').value = savedUsername;
-        }
+        // Load saved username and violation history on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUsername = localStorage.getItem('username');
+            if (savedUsername) {
+                document.getElementById('username').value = savedUsername;
+            }
+            
+            loadViolationHistory();
+        });
     </script>
 </body>
 </html>
