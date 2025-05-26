@@ -535,7 +535,7 @@ reviewedContainer.appendChild(boldDate);
 
             // Violation header
             const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `${translations[language]["Label.Violation"]}: <span class="violation-text">${violation.reason}</span> <span class="severity-tag ${severityClass}">${severityText}</span>`;
+            reasonElement.innerHTML = `${translations[language]["Label.Violation"]}: <span class="violation-text">${violation.reason}</span>`;
             reasonElement.style.marginBottom = "6px";
             evidenceBox.appendChild(reasonElement);
 
