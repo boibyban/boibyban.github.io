@@ -563,7 +563,7 @@ reviewedContainer.appendChild(boldDate);
             evidenceContent.className = 'evidence-item';
             
             if (violation.violationType !== "General/Chat") {
-                const evidenceTypeElement = document.createElement('b');
+                const evidenceTypeElement = document.createElement('p');
                 evidenceTypeElement.className = 'evidence-type';
                 evidenceTypeElement.textContent = `${violation.violationType}:`;
                 evidenceContent.appendChild(evidenceTypeElement);
@@ -585,8 +585,9 @@ reviewedContainer.appendChild(boldDate);
                     minute: '2-digit', 
                     hour12: false 
                 });
-                const evidenceText = document.createElement('b');
+                const evidenceText = document.createElement('p');
                 evidenceText.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+                evidenceText.style.fontWeight = "400";
                 evidenceContent.appendChild(evidenceText);
             } 
             else if (violation.violationType === "Audio") {
@@ -596,8 +597,9 @@ reviewedContainer.appendChild(boldDate);
                 evidenceContent.appendChild(audioElement);
             } 
             else {
-                const evidenceText = document.createElement('b');
+                const evidenceText = document.createElement('p');
                 evidenceText.textContent = violation.evidence;
+                evidenceText.style.fontWeight = "400";
                 evidenceContent.appendChild(evidenceText);
             }
 
