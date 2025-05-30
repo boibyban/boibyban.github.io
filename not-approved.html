@@ -141,6 +141,7 @@ const translations = {
         "Label.ModeratorNote": "Moderator Note",
         "Label.Decision": "Decision",
         "Label.RecentViolation": "Recent Violation",
+        "Label.RecentViolationV2": "Violation Details",
         "Label.Violation": "Violation",
         "Label.Evidence": "Evidence",
         "Label.Reviewed": "Reviewed",
@@ -205,6 +206,7 @@ const translations = {
         "Label.ModeratorNote": "Note du modérateur",
         "Label.Decision": "Décision",
         "Label.RecentViolation": "Violation Récente",
+        "Label.RecentViolationV2": "Violation Récente",
         "Label.Violation": "Violation",
         "Label.Evidence": "Preuve",
         "Label.Reviewed": "Examiné",
@@ -270,6 +272,7 @@ const translations = {
         "Label.ModeratorNote": "Зохичуулагчийн тэмдэглэл",
         "Label.Decision": "Шийдвэр",
         "Label.RecentViolation": "Сүүлийн зөрчил",
+        "Label.RecentViolationV2": "Сүүлийн зөрчил",
         "Label.Violation": "Зөрчил",
         "Label.Evidence": "Нотлох баримт",
         "Label.Reviewed": "Хянасан",
@@ -336,6 +339,7 @@ const translations = {
         "Label.ModeratorNote": "Примечание Модератора",
         "Label.Decision": "Решение",
         "Label.RecentViolation": "Недавние Нарушения",
+        "Label.RecentViolationV2": "Недавние Нарушения",
         "Label.Violation": "Нарушение",
         "Label.Evidence": "Доказательство",
         "Label.Reviewed": "Рассмотрено",
@@ -483,7 +487,7 @@ reviewedContainer.appendChild(boldDate);
     );
     
     document.getElementById('appealsMessage').innerHTML = formatString(
-        translations[language]["Text.AppealsMessage"],
+        translations[language]["Text.AppealsMessageV2"],
         `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
     );
     
@@ -500,7 +504,7 @@ reviewedContainer.appendChild(boldDate);
     const evidenceContainer = document.getElementById('evidenceContainer');
     
     // Always show "Recent Violation:" header
-    document.getElementById('violationHeader').textContent = translations[language]["Label.RecentViolation"] + ':';
+    document.getElementById('violationHeader').textContent = translations[language]["Label.RecentViolationV2"] + ':';
     
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
