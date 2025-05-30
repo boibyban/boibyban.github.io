@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ban Panel</title>
+    <title>User Moderation Panel</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
         select {
@@ -62,7 +62,7 @@
     </style>
 </head>
 <body style="padding:16px">
-    <h3>Moderation Panel</h3>
+    <h3>User Moderation Panel</h3>
     <form id="banForm">
         <div class="theme-toggle">
     <label for="theme">Theme (shows on ban page):</label>
@@ -474,30 +474,38 @@
 
 <script>
     document.getElementById('chargebackBanButton').addEventListener('click', function() {
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let randomString = 'pi__';
-        for (let i = 0; i < 20; i++) {
-            randomString += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
+    const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
+    
+    // Calculate the time (exactly 14 hours and 19 minutes ago)
+    const now = new Date();
+    const paymentTime = new Date(now.getTime() - (14 * 60 * 60 * 1000) - (19 * 60 * 1000));
+    
+    // Format as DD/MM/YYYY at HH:MM
+    const day = String(paymentTime.getDate()).padStart(2, '0');
+    const month = String(paymentTime.getMonth() + 1).padStart(2, '0');
+    const year = paymentTime.getFullYear();
+    const hours = String(paymentTime.getHours()).padStart(2, '0');
+    const minutes = String(paymentTime.getMinutes()).padStart(2, '0');
+    
+    const formattedTime = `${day}/${month}/${year} at ${hours}:${minutes}`;
 
-        document.getElementById('Ban1Year').checked = true;
-        document.getElementById('notecustom').value = 'Your account has been suspended for making disputed charges.';
-        document.getElementById('automation').value = 'full_auto';
-        
-        // Add a violation if none exists
-        if (classicViolationCount === 0) {
-            document.getElementById('addClassicViolationBox').click();
-        }
-        
-        const firstBox = document.querySelector('.evidence-box');
-        if (firstBox) {
-            firstBox.querySelector('.violationType').value = 'General/Chat';
-            firstBox.querySelector('.classicReason').value = 'Chargeback';
-            firstBox.querySelector('.evidence').value = randomString;
-        }
-        
-        alert('Please enter a username and submit.');
-    });
+    document.getElementById('Ban1Year').checked = true;
+    document.getElementById('notecustom').value = 'Your account has been suspended due to recent unauthorized/disputed payments.';
+    
+    // Add a violation if none exists already
+    if (classicViolationCount === 0) {
+        document.getElementById('addClassicViolationBox').click();
+    }
+    
+    const firstBox = document.querySelector('.evidence-box');
+    if (firstBox) {
+        firstBox.querySelector('.violationType').value = 'General/Chat';
+        firstBox.querySelector('.classicReason').value = 'Chargeback';
+        firstBox.querySelector('.evidence').value = `Payment on ${formattedTime} (Payment ID: ${randomNumber})`;
+    }
+    
+    alert('Please enter a username and submit.');
+});
 </script>
     <script>
     // Enforcement Ban Button
