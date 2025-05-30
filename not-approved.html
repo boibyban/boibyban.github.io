@@ -143,6 +143,7 @@ const translations = {
         "Label.RecentViolation": "Recent Violation",
         "Label.RecentViolationV2": "Violation Details",
         "Label.Violation": "Violation",
+        "Label.Reason": "Reason",
         "Label.Evidence": "Evidence",
         "Label.Reviewed": "Reviewed",
 
@@ -206,8 +207,9 @@ const translations = {
         "Label.ModeratorNote": "Note du modérateur",
         "Label.Decision": "Décision",
         "Label.RecentViolation": "Violation Récente",
-        "Label.RecentViolationV2": "Violation Récente",
+        "Label.RecentViolationV2": "Détails de la Violation",
         "Label.Violation": "Violation",
+        "Label.Reason": "Raison",
         "Label.Evidence": "Preuve",
         "Label.Reviewed": "Examiné",
 
@@ -272,8 +274,9 @@ const translations = {
         "Label.ModeratorNote": "Зохичуулагчийн тэмдэглэл",
         "Label.Decision": "Шийдвэр",
         "Label.RecentViolation": "Сүүлийн зөрчил",
-        "Label.RecentViolationV2": "Сүүлийн зөрчил",
+        "Label.RecentViolationV2": "Зөрчлийн дэлгэрэнгүй мэдээлэл",
         "Label.Violation": "Зөрчил",
+        "Label.Reason": "Шалтгаан",
         "Label.Evidence": "Нотлох баримт",
         "Label.Reviewed": "Хянасан",
 
@@ -339,8 +342,9 @@ const translations = {
         "Label.ModeratorNote": "Примечание Модератора",
         "Label.Decision": "Решение",
         "Label.RecentViolation": "Недавние Нарушения",
-        "Label.RecentViolationV2": "Недавние Нарушения",
+        "Label.RecentViolationV2": "Подробности нарушения",
         "Label.Violation": "Нарушение",
+        "Label.Reason": "Причина",
         "Label.Evidence": "Доказательство",
         "Label.Reviewed": "Рассмотрено",
 
@@ -543,7 +547,7 @@ reviewedContainer.appendChild(boldDate);
 
             // Violation header
             const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `${translations[language]["Label.Violation"]}: <span class="violation-text">${violation.reason}</span>`;
+            reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
             reasonElement.style.marginBottom = "6px";
             evidenceBox.appendChild(reasonElement);
 
