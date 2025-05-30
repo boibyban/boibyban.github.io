@@ -166,15 +166,10 @@
             <textarea id="notecustom" name="notecustom" rows="4" cols="50"></textarea><br>
         </div>
 
-        <div id="cautionWarningContainer" style="display: block;">
+        <div id="cautionWarningContainer" style="display: none;">
             <label for="cautionWarning">Caution Warning:</label><br>
             <select id="cautionWarning" name="cautionWarning">
                 <option value="none">None</option>
-                <option value="future">Warning/Future Ban</option>
-                <option value="1day">1 Day</option>
-                <option value="3days">3 Days</option>
-                <option value="7days">1 Week</option>
-                <option value="permanent">Permanent/Terminate</option>
             </select><br><br>
         </div>
 
@@ -531,10 +526,9 @@
     document.getElementById('offPlatformButton').addEventListener('click', function() {
         const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
         
-        document.getElementById('Ban14Days').checked = true;
+        document.getElementById('Ban7Days').checked = true;
         document.getElementById('notecustom').value = 'Your account has been suspended for purchasing virtual items or currency using third-party sites or marketplaces.';
         document.getElementById('note').value = 'nonote'; // Clear preset note
-        document.getElementById('cautionWarning').value = 'permanent'; 
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
@@ -585,7 +579,6 @@
         document.getElementById('Ban7Days').checked = true;
         document.getElementById('notecustom').value = 'Your account has been suspended for exploiting.';
         document.getElementById('note').value = 'nonote';
-        document.getElementById('cautionWarning').value = 'permanent'; 
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
@@ -633,7 +626,6 @@
         document.getElementById('Ban1Day').checked = true;
         document.getElementById('notecustom').value = 'Boiby prohibits any form of bullying, harassment, or harmful behaviour directed at other users or community members.';
         document.getElementById('note').value = 'nonote';
-        document.getElementById('cautionWarning').value = '3days'; 
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
