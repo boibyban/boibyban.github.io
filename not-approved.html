@@ -561,7 +561,7 @@ reviewedContainer.appendChild(boldDate);
             evidenceContent.className = 'evidence-item';
             
             if (violation.violationType !== "General/Chat") {
-                const evidenceTypeElement = document.createElement('p');
+                const evidenceTypeElement = document.createElement('b');
                 evidenceTypeElement.className = 'evidence-type';
                 evidenceTypeElement.textContent = `${violation.violationType}:`;
                 evidenceContent.appendChild(evidenceTypeElement);
@@ -583,7 +583,7 @@ reviewedContainer.appendChild(boldDate);
                     minute: '2-digit', 
                     hour12: false 
                 });
-                const evidenceText = document.createElement('p');
+                const evidenceText = document.createElement('b');
                 evidenceText.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
                 evidenceContent.appendChild(evidenceText);
             } 
@@ -594,7 +594,7 @@ reviewedContainer.appendChild(boldDate);
                 evidenceContent.appendChild(audioElement);
             } 
             else {
-                const evidenceText = document.createElement('p');
+                const evidenceText = document.createElement('b');
                 evidenceText.textContent = violation.evidence;
                 evidenceContent.appendChild(evidenceText);
             }
