@@ -85,6 +85,7 @@
             <button type="button" id="exploitingBanButton" style="margin-left: 10px;">Exploiting Ban</button>
             <button type="button" id="modifiedClientBanButton" style="margin-left: 10px;">Modified Client Ban</button>
             <button type="button" id="theftButton" style="margin-left: 10px;">Account Theft Ban</button>
+            <button type="button" id="underageBanButton" style="margin-left: 10px;">Underage User Ban</button>
             <button type="button" id="harassmentBanButton" style="margin-left: 10px;">Harassment Ban</button>
             <button type="button" id="ceBanButton" style="margin-left: 10px;">CE Ban</button>
             <button type="button" id="ExcessiveProfanityBanButton" style="margin-left: 10px">Excessive Profanity Ban</button>
@@ -303,6 +304,8 @@
                     <option value="Modified Client">Modified Client</option>
                     <option value="Spam">Spam</option>
                     <option value="Chargeback">Chargeback</option>
+                    <option value="Unauthorized or Disputed Payments">Unauthorized or Disputed Payments</option>
+                    <option value="Off-Platform Item or Currency Purchase">Off-Platform Item or Currency Purchase</option>
                     <option value="Minimum Age Requirement">Minimum Age Requirement</option>
                     <option value="Ban Evasion">Ban Evasion</option>
                     <option value="Extortion and Blackmail">Extortion and Blackmail</option>
@@ -492,7 +495,7 @@
     const formattedTime = `${day}/${month}/${year} at ${hours}:${minutes}`;
 
     document.getElementById('Ban1Year').checked = true;
-    document.getElementById('notecustom').value = 'Your account has been suspended due to unauthorized/disputed charges.';
+    document.getElementById('notecustom').value = 'Your account has been suspended due to unauthorized/disputed payments. Excessive refund requests or unauthorized payments will lead to further account restrictions.';
     
     // Add a violation if none exists already
     if (classicViolationCount === 0) {
@@ -502,7 +505,7 @@
     const firstBox = document.querySelector('.evidence-box');
     if (firstBox) {
         firstBox.querySelector('.violationType').value = 'General/Chat';
-        firstBox.querySelector('.classicReason').value = 'Chargeback';
+        firstBox.querySelector('.classicReason').value = 'Unauthorized or Disputed Payments';
         firstBox.querySelector('.evidence').value = `Payment on ${formattedTime} (Payment ID: ${randomNumber})`;
     }
     
@@ -534,7 +537,7 @@
     <script>
     // Off-Platform Purchases Button
     document.getElementById('offPlatformButton').addEventListener('click', function() {
-        const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
+        const randomNumber = 'Platform Interaction ID: ' + Math.floor(100000000000 + Math.random() * 9000000000000).toString();
         
         document.getElementById('Ban7Days').checked = true;
         document.getElementById('notecustom').value = 'Your account has been suspended for purchasing virtual items or currency using third-party sites or marketplaces.';
@@ -549,8 +552,33 @@
         
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
-            newBox.querySelector('.classicReason').value = 'Boiby Economy';
+            newBox.querySelector('.classicReason').value = 'Off-Platform Item or Currency Purchase';
             newBox.querySelector('.evidence').value = randomNumber;
+        }
+        
+        alert('Please enter a username and submit.');
+    });
+</script>
+<script>
+    // Underage ban Button
+    document.getElementById('underageBanButton').addEventListener('click', function() {
+        const textA = 'im 9 years old';
+        
+        document.getElementById('Delete').checked = true;
+        document.getElementById('notecustom').value = 'Your account has been permanently banned due to violating our Minimum Age Requirement rule. To use Boiby, you need to be at least 13 years of age.';
+        document.getElementById('note').value = 'nonote'; // Clear preset note
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Minimum Age Requirement';
+            newBox.querySelector('.evidence').value = textA;
         }
         
         alert('Please enter a username and submit.');
@@ -612,7 +640,7 @@
         const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
         document.getElementById('Ban1Day').checked = true;
-        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby App. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official Boiby App on all your devices. Continued use of modified versions may result in more account restrictions.';
+        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. This poses safety and security risks and is not allowed. Uninstall any modified clients and reinstall the official Boiby client on all your devices. Continued use of modified versions may result in more account restrictions.';
         document.getElementById('note').value = 'nonote';
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
