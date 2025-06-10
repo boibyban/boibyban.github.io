@@ -84,6 +84,8 @@
             <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
             <button type="button" id="exploitingBanButton" style="margin-left: 10px;">Exploiting Ban</button>
             <button type="button" id="modifiedClientBanButton" style="margin-left: 10px;">Modified Client Ban</button>
+            <button type="button" id="FinalChanceModifiedClientBanButton" style="margin-left: 10px;">Final Chance Modified Client Ban</button>
+            <button type="button" id="DeleteModifiedClientBanButton" style="margin-left: 10px;">Permanent Modified Client Ban</button>
             <button type="button" id="theftButton" style="margin-left: 10px;">Account Theft Ban</button>
             <button type="button" id="underageBanButton" style="margin-left: 10px;">Underage User Ban</button>
             <button type="button" id="harassmentBanButton" style="margin-left: 10px;">Harassment Ban</button>
@@ -658,6 +660,58 @@
         }
         alert('Please enter a username and submit.');
     });
+
+</script>
+    <script>
+    document.getElementById('FinalChanceModifiedClientBanButton').addEventListener('click', function() {
+        const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
+        
+        document.getElementById('Ban60Days').checked = true;
+        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. You have recieved several prior warnings about this violation; if this happens again, your account and all associated accounts will be terminated.';
+        document.getElementById('note').value = 'nonote';
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Modified Client';
+            newBox.querySelector('.evidence').value = `Client Modification Detected - Place ID: ${placeId}`;
+        }
+        alert('Please enter a username and submit.');
+    });
+
+</script>
+    </script>
+    <script>
+    document.getElementById('DeleteModifiedClientBanButton').addEventListener('click', function() {
+        const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
+        
+        document.getElementById('Delete').checked = true;
+        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. Due to repeated violations, your account has been permanently banned. You recieved several prior warnings about this violation.';
+        document.getElementById('note').value = 'nonote';
+        
+        const violationBoxes = document.querySelectorAll('.evidence-box');
+        violationBoxes.forEach(box => box.remove());
+        classicViolationCount = 0;
+        
+        // Add new violation box
+        document.getElementById('addClassicViolationBox').click();
+        const newBox = document.querySelector('.evidence-box:last-child');
+        
+        if (newBox) {
+            newBox.querySelector('.violationType').value = 'General/Chat';
+            newBox.querySelector('.classicReason').value = 'Modified Client';
+            newBox.querySelector('.evidence').value = `Client Modification Detected - Place ID: ${placeId}`;
+        }
+        alert('Please enter a username and submit.');
+    });
+
 </script>
     <script>
     document.getElementById('harassmentBanButton').addEventListener('click', function() {        
