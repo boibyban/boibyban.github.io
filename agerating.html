@@ -112,48 +112,59 @@
   </div>
 
   <script>
-    const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
+  const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
 
-    document.getElementById('ratingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+  document.getElementById('ratingForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-      const form = e.target;
-      const inputs = new FormData(form);
+    const form = e.target;
+    const inputs = new FormData(form);
 
-      let highestRating = 0;
-      const contentTags = [];
+    let highestRating = 0;
+    const contentTags = [];
 
-      for (const [key, value] of inputs.entries()) {
-        if (key !== "gameName") {
-          const [level, label] = value.split(":");
-          const numericLevel = parseInt(level);
-          if (numericLevel > 0) {
-            contentTags.push(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${label}`);
-          }
-          highestRating = Math.max(highestRating, numericLevel);
-        }
+    // Iterate over all fields (including duplicates of the same rating level)
+    for (const [key, value] of inputs.entries()) {
+      if (key === "gameName") continue;
+
+      const [level, label] = value.split(":");
+      const numericLevel = parseInt(level);
+
+      if (numericLevel > 0) {
+        // Format label name: camelCase or lowercase -> "Title Case"
+        const readableKey = key
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/^./, str => str.toUpperCase());
+
+        contentTags.push(`${readableKey}: ${label}`);
       }
 
-      const gameName = inputs.get("gameName");
-      const ratingText = ratingMap[highestRating];
+      highestRating = Math.max(highestRating, numericLevel);
+    }
 
-      let resultHTML = `
-        <div class="result-title">Game "${gameName}" is rated: </div>
-        <div class="result-title">${ratingText}</div>
-      `;
+    const gameName = inputs.get("gameName");
+    const ratingText = ratingMap[highestRating];
 
-      if (contentTags.length > 0) {
-        resultHTML += `<p>Selected content factors:</p><ul>`;
-        resultHTML += contentTags.map(tag => `<li>${tag}</li>`).join('');
-        resultHTML += `</ul>`;
-      } else {
-        resultHTML += `<p>Suitable for everyone.</p>`;
+    let resultHTML = `
+      <div class="result-title">Game "${gameName}" is rated:</div>
+      <div class="result-title">${ratingText}</div>
+    `;
+
+    if (contentTags.length > 0) {
+      resultHTML += `<p>Selected content factors:</p><ul>`;
+      for (const tag of contentTags) {
+        resultHTML += `<li>${tag}</li>`;
       }
+      resultHTML += `</ul>`;
+    } else {
+      resultHTML += `<p>Suitable for everyone.</p>`;
+    }
 
-      // Replace form with result
-      document.getElementById('form-container').innerHTML = resultHTML;
-    });
-  </script>
+    // Replace the form with the result
+    document.getElementById('form-container').innerHTML = resultHTML;
+  });
+</script>
+
 
 </body>
 </html>
