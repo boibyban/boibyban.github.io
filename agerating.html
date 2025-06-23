@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boiby Rating System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #121212;
@@ -21,7 +22,7 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 20px;
       max-width: 600px;
       margin: auto;
@@ -38,7 +39,7 @@
     label {
       display: block;
       margin-top: 15px;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     select,
@@ -50,6 +51,7 @@
       background-color: var(--input-bg);
       color: var(--text-color);
       border-radius: 5px;
+      font-family: 'Inter', sans-serif;
     }
 
     button {
@@ -62,6 +64,8 @@
       border-radius: 6px;
       cursor: pointer;
       transition: background-color 0.3s;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
     }
 
     button:hover {
@@ -70,7 +74,7 @@
 
     .result-title {
       font-size: 1.4rem;
-      font-weight: bold;
+      font-weight: 700;
       margin-top: 30px;
     }
 
@@ -201,7 +205,7 @@
       const ratingText = ratingMap[highestRating];
 
       let resultHTML = `
-        <div class="result-title">Game "${gameName}" is rated:</div>
+        <div class="result-title">"${gameName}" is rated:</div>
         <div class="result-title">${ratingText}</div>
       `;
 
