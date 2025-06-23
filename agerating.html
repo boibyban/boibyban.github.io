@@ -5,103 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boiby Rating System</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-color: #121212;
-      --text-color: #f0f0f0;
-      --accent-color: #1e90ff;
-      --card-color: #1e1e1e;
-      --input-bg: #2a2a2a;
-      --input-border: #444;
-      --button-bg: #1e90ff;
-      --button-text: #fff;
-    }
+<style>
+  :root {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+    --accent-color: #1e90ff;
+    --card-color: #1e1e1e;
+    --input-bg: #2a2a2a;
+    --input-border: #444;
+    --button-bg: #1e90ff;
+    --button-text: #fff;
+    --font-base-size: 18px;
+  }
 
-    * {
-      box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: var(--font-base-size);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  label {
+    display: block;
+    margin-top: 16px;
+    font-weight: 600;
+  }
+
+  select,
+  input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+  }
+
+  button {
+    margin-top: 25px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  button:hover {
+    background-color: #1c7ed6;
+  }
+
+  .result-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 30px;
+  }
+
+  ul {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+
+  p {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 600px) {
+    html {
+      font-size: 19px; 
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
+      padding: 16px;
+      margin: 0;
     }
 
     h1 {
-      text-align: center;
-      font-size: 1.8rem;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-    }
-
-    select,
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid var(--input-border);
-      background-color: var(--input-bg);
-      color: var(--text-color);
-      border-radius: 5px;
-      font-family: 'Inter', sans-serif;
+      font-size: 1.7rem;
     }
 
     button {
-      margin-top: 25px;
-      padding: 12px 24px;
-      font-size: 16px;
-      background-color: var(--button-bg);
-      color: var(--button-text);
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
+      width: 100%;
+      font-size: 1.1rem;
     }
-
-    button:hover {
-      background-color: #1c7ed6;
-    }
-
-    .result-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-top: 30px;
-    }
-
-    ul {
-      margin-top: 10px;
-      padding-left: 20px;
-    }
-
-    p {
-      margin-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 15px;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      button {
-        width: 100%;
-        font-size: 1rem;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
