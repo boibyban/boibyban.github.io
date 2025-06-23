@@ -1,162 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Boiby Rating System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    select, input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-    .result-title {
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 30px;
-    }
-    ul {
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
+<script>
+  const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
 
-  <h1>Boiby Rating System</h1>
+  document.getElementById('ratingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  <div id="form-container">
-    <form id="ratingForm">
-      <label>Game Name:</label>
-      <input type="text" name="gameName" required>
+    const form = e.target;
+    const formData = new FormData(form);
 
-      <label>Violence Level:</label>
-      <select name="violence">
-        <option value="0:None">None</option>
-        <option value="0:Mild/Infrequent">Mild/Infrequent</option>
-        <option value="1:Moderate/Infrequent">Moderate/Infrequent</option>
-        <option value="1:Mild/Repeated">Mild/Repeated</option>
-        <option value="2:Moderate/Repeated">Moderate/Repeated</option>
-        <option value="3:Severe/Infrequent">Severe/Infrequent</option>
-        <option value="3:Severe/Repeated">Severe/Repeated</option>
-      </select>
+    let highestRating = 0;
+    const contentTags = [];
 
-      <label>Blood:</label>
-      <select name="blood">
-        <option value="0:None">None</option>
-        <option value="0:Light/Unrealistic">Light/Unrealistic</option>
-        <option value="1:Light/Realistic">Light/Realistic</option>
-        <option value="2:Heavy/Unrealistic">Heavy/Unrealistic</option>
-        <option value="3:Heavy/Realistic">Heavy/Realistic</option>
-      </select>
+    // Get all select inputs and loop through them directly
+    const selects = form.querySelectorAll('select');
 
-      <label>Language:</label>
-      <select name="language">
-        <option value="0:None">None</option>
-        <option value="1:Mild/Infrequent">Mild/Infrequent</option>
-        <option value="2:Moderate">Moderate</option>
-        <option value="3:Strong">Strong</option>
-      </select>
+    selects.forEach(select => {
+      const [levelStr, label] = select.value.split(':');
+      const level = parseInt(levelStr);
+      const name = select.name;
 
-      <label>Crude Humour:</label>
-      <select name="crudeHumour">
-        <option value="0:None">None</option>
-        <option value="0:Mild">Mild</option>
-        <option value="1:Moderate">Moderate</option>
-      </select>
+      // Force readable name (e.g., crudeHumour → Crude Humour)
+      const readableName = name
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase());
 
-      <label>Online Chat Reliant:</label>
-      <select name="chat">
-        <option value="0:No">No</option>
-        <option value="1:Yes">Yes</option>
-      </select>
-
-      <label>Gambling Content (No real money):</label>
-      <select name="gambling">
-        <option value="0:No">No</option>
-        <option value="2:Yes">Yes</option>
-      </select>
-
-      <label>Fear:</label>
-      <select name="fear">
-        <option value="0:None">None</option>
-        <option value="1:Mild">Mild</option>
-        <option value="2:High">High</option>
-      </select>
-
-      <label>Alcohol (drinkable or referenced heavily):</label>
-      <select name="alcohol">
-        <option value="0:No">No</option>
-        <option value="3:Yes">Yes</option>
-      </select>
-
-      <button type="submit">Get Age Rating</button>
-    </form>
-  </div>
-
-  <script>
-    const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
-
-    document.getElementById('ratingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const form = e.target;
-      const formData = new FormData(form);
-
-      let highestRating = 0;
-      const contentTags = [];
-
-      form.querySelectorAll("select").forEach(select => {
-        const [levelStr, label] = select.value.split(":");
-        const level = parseInt(levelStr);
-        const fieldName = select.name;
-
-        if (level > 0) {
-          const readableField = fieldName
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, c => c.toUpperCase());
-          contentTags.push(`${readableField}: ${label}`);
-        }
-
-        highestRating = Math.max(highestRating, level);
-      });
-
-      const gameName = formData.get("gameName");
-      const ratingText = ratingMap[highestRating];
-
-      let resultHTML = `
-        <div class="result-title">Game "${gameName}" is rated:</div>
-        <div class="result-title">${ratingText}</div>
-      `;
-
-      if (contentTags.length > 0) {
-        resultHTML += `<p>Selected content factors:</p><ul>`;
-        resultHTML += contentTags.map(tag => `<li>${tag}</li>`).join('');
-        resultHTML += `</ul>`;
-      } else {
-        resultHTML += `<p>Suitable for everyone.</p>`;
+      if (level > 0) {
+        contentTags.push(`${readableName}: ${label}`);
       }
 
-      document.getElementById('form-container').innerHTML = resultHTML;
+      if (!isNaN(level)) {
+        highestRating = Math.max(highestRating, level);
+      }
     });
-  </script>
 
-</body>
-</html>
+    const gameName = formData.get("gameName");
+    const ratingText = ratingMap[highestRating];
+
+    let resultHTML = `
+      <div class="result-title">Game "${gameName}" is rated:</div>
+      <div class="result-title">${ratingText}</div>
+    `;
+
+    if (contentTags.length > 0) {
+      resultHTML += `<p>Selected content factors:</p><ul>`;
+      contentTags.forEach(tag => {
+        resultHTML += `<li>${tag}</li>`;
+      });
+      resultHTML += `</ul>`;
+    } else {
+      resultHTML += `<p>Suitable for everyone.</p>`;
+    }
+
+    // Replace form with result
+    document.getElementById('form-container').innerHTML = resultHTML;
+  });
+</script>
