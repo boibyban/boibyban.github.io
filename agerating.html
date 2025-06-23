@@ -2,39 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boiby Rating System</title>
   <style>
+    :root {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --accent-color: #1e90ff;
+      --card-color: #1e1e1e;
+      --input-bg: #2a2a2a;
+      --input-border: #444;
+      --button-bg: #1e90ff;
+      --button-text: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
       max-width: 600px;
       margin: auto;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
     }
+
     h1 {
       text-align: center;
+      font-size: 1.8rem;
     }
+
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
-    select, input[type="text"] {
+
+    select,
+    input[type="text"] {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 5px;
+      border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      border-radius: 5px;
     }
+
     button {
-      margin-top: 20px;
-      padding: 10px 20px;
+      margin-top: 25px;
+      padding: 12px 24px;
       font-size: 16px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
+
+    button:hover {
+      background-color: #1c7ed6;
+    }
+
     .result-title {
-      font-size: 22px;
+      font-size: 1.4rem;
       font-weight: bold;
       margin-top: 30px;
     }
+
     ul {
       margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -71,7 +132,7 @@
       <select name="language">
         <option value="0:None">None</option>
         <option value="2:Mild/Infrequent">Mild/Infrequent</option>
-        <option value="3:Moderate">Mild/Infrequent</option>
+        <option value="3:Moderate">Moderate</option>
         <option value="4:Strong">Strong</option>
       </select>
 
