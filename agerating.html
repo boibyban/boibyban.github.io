@@ -112,7 +112,7 @@
   </div>
 
   <script>
-    const ratingMap = ["Everyone", "Ages 9+", "Ages 13+", "Restricted 17+"];
+    const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
 
     document.getElementById('ratingForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -147,7 +147,7 @@
         resultHTML += contentTags.map(tag => `<li>${tag}</li>`).join('');
         resultHTML += `</ul>`;
       } else {
-        resultHTML += `<p>Suitable for all ages.</p>`;
+        resultHTML += `<p>Suitable for everyone.</p>`;
       }
 
       // Replace form with result
