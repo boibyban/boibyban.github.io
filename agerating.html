@@ -76,7 +76,7 @@
       </select>
 
       <label>Crude Humour:</label>
-      <select name="crudehumour">
+      <select name="crudeHumour">
         <option value="0:None">None</option>
         <option value="0:Mild">Mild</option>
         <option value="1:Moderate">Moderate</option>
@@ -112,59 +112,51 @@
   </div>
 
   <script>
-  const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
+    const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
 
-  document.getElementById('ratingForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+    document.getElementById('ratingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    const form = e.target;
-    const inputs = new FormData(form);
+      const form = e.target;
+      const formData = new FormData(form);
 
-    let highestRating = 0;
-    const contentTags = [];
+      let highestRating = 0;
+      const contentTags = [];
 
-    // Iterate over all fields (including duplicates of the same rating level)
-    for (const [key, value] of inputs.entries()) {
-      if (key === "gameName") continue;
+      form.querySelectorAll("select").forEach(select => {
+        const [levelStr, label] = select.value.split(":");
+        const level = parseInt(levelStr);
+        const fieldName = select.name;
 
-      const [level, label] = value.split(":");
-      const numericLevel = parseInt(level);
+        if (level > 0) {
+          const readableField = fieldName
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, c => c.toUpperCase());
+          contentTags.push(`${readableField}: ${label}`);
+        }
 
-      if (numericLevel > 0) {
-        // Format label name: camelCase or lowercase -> "Title Case"
-        const readableKey = key
-          .replace(/([A-Z])/g, ' $1')
-          .replace(/^./, str => str.toUpperCase());
+        highestRating = Math.max(highestRating, level);
+      });
 
-        contentTags.push(`${readableKey}: ${label}`);
+      const gameName = formData.get("gameName");
+      const ratingText = ratingMap[highestRating];
+
+      let resultHTML = `
+        <div class="result-title">Game "${gameName}" is rated:</div>
+        <div class="result-title">${ratingText}</div>
+      `;
+
+      if (contentTags.length > 0) {
+        resultHTML += `<p>Selected content factors:</p><ul>`;
+        resultHTML += contentTags.map(tag => `<li>${tag}</li>`).join('');
+        resultHTML += `</ul>`;
+      } else {
+        resultHTML += `<p>Suitable for everyone.</p>`;
       }
 
-      highestRating = Math.max(highestRating, numericLevel);
-    }
-
-    const gameName = inputs.get("gameName");
-    const ratingText = ratingMap[highestRating];
-
-    let resultHTML = `
-      <div class="result-title">Game "${gameName}" is rated:</div>
-      <div class="result-title">${ratingText}</div>
-    `;
-
-    if (contentTags.length > 0) {
-      resultHTML += `<p>Selected content factors:</p><ul>`;
-      for (const tag of contentTags) {
-        resultHTML += `<li>${tag}</li>`;
-      }
-      resultHTML += `</ul>`;
-    } else {
-      resultHTML += `<p>Suitable for everyone.</p>`;
-    }
-
-    // Replace the form with the result
-    document.getElementById('form-container').innerHTML = resultHTML;
-  });
-</script>
-
+      document.getElementById('form-container').innerHTML = resultHTML;
+    });
+  </script>
 
 </body>
 </html>
