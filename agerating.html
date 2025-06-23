@@ -100,12 +100,18 @@
         <option value="2:High">High</option>
       </select>
 
+      <label>Alcohol (drinkable or referenced heavily):</label>
+      <select name="alc">
+        <option value="0:No">No</option>
+        <option value="3:Yes">Yes</option>
+      </select>
+
       <button type="submit">Get Age Rating</button>
     </form>
   </div>
 
   <script>
-    const ratingMap = ["Everyone", "Ages 9+", "Ages 13+", "Ages 17+"];
+    const ratingMap = ["Everyone (E)", "Ages 9+ (PG)", "Ages 13+ (T)", "Ages 17+ (M)"];
 
     document.getElementById('ratingForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -131,7 +137,8 @@
       const ratingText = ratingMap[highestRating];
 
       let resultHTML = `
-        <div class="result-title">Game "${gameName}" is rated: ${ratingText}</div>
+        <div class="result-title">Game "${gameName}" is rated: </div>
+        <div class="result-title">${ratingText}</div>
       `;
 
       if (contentTags.length > 0) {
