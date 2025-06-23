@@ -112,58 +112,56 @@
   </div>
 
   <script>
-    const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
+  const ratingMap = ["All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
 
-    document.getElementById('ratingForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+  document.getElementById('ratingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-      const form = e.target;
-      const formData = new FormData(form);
-      const selects = form.querySelectorAll('select');
+    const form = e.target;
+    const formData = new FormData(form);
+    const selects = form.querySelectorAll('select');
 
-      let highestRating = 0;
-      const contentTags = [];
+    let highestRating = 0;
+    const contentTags = [];
 
-      selects.forEach(select => {
-        const [levelStr, label] = select.value.split(':');
-        const level = parseInt(levelStr);
-        const name = select.name;
+    selects.forEach(select => {
+      const [levelStr, label] = select.value.split(':');
+      const level = parseInt(levelStr);
+      const name = select.name;
 
-        // Convert field name to readable label
-        const readableName = name
-          .replace(/([A-Z])/g, ' $1')
-          .replace(/^./, str => str.toUpperCase());
+      const readableName = name
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase());
 
-        if (level > 0) {
-          contentTags.push(`${readableName}: ${label}`);
-        }
+      // Always show all selected options here
+      contentTags.push(`${readableName}: ${label}`);
 
-        if (!isNaN(level)) {
-          highestRating = Math.max(highestRating, level);
-        }
-      });
-
-      const gameName = formData.get("gameName") || "Untitled";
-      const ratingText = ratingMap[highestRating];
-
-      let resultHTML = `
-        <div class="result-title">Game "${gameName}" is rated:</div>
-        <div class="result-title">${ratingText}</div>
-      `;
-
-      if (contentTags.length > 0) {
-        resultHTML += `<p>Selected content factors:</p><ul>`;
-        contentTags.forEach(tag => {
-          resultHTML += `<li>${tag}</li>`;
-        });
-        resultHTML += `</ul>`;
-      } else {
-        resultHTML += `<p>Suitable for everyone.</p>`;
+      if (!isNaN(level)) {
+        highestRating = Math.max(highestRating, level);
       }
-
-      document.getElementById('form-container').innerHTML = resultHTML;
     });
-  </script>
+
+    const gameName = formData.get("gameName");
+    const ratingText = ratingMap[highestRating];
+
+    let resultHTML = `
+      <div class="result-title">Game "${gameName}" is rated:</div>
+      <div class="result-title">${ratingText}</div>
+    `;
+
+    if (contentTags.length > 0) {
+      resultHTML += `<p>Selected content factors:</p><ul>`;
+      contentTags.forEach(tag => {
+        resultHTML += `<li>${tag}</li>`;
+      });
+      resultHTML += `</ul>`;
+    } else {
+      resultHTML += `<p>Suitable for everyone.</p>`;
+    }
+
+    document.getElementById('form-container').innerHTML = resultHTML;
+  });
+</script>
 
 </body>
 </html>
