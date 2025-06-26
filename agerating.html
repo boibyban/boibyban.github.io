@@ -102,6 +102,10 @@
       margin-top: 10px;
     }
 
+    .hidden {
+      display: none;
+    }
+
     @media (max-width: 600px) {
       html {
         font-size: 19px;
@@ -134,31 +138,29 @@
       <fieldset>
         <legend>Violence Level:</legend>
         <label><input type="radio" name="violenceLevel" value="0:None"> None</label>
-        <label><input type="radio" name="violenceLevel" value="2:Mild"> Mild</label>
+        <label><input type="radio" name="violenceLevel" value="1:Mild"> Mild</label>
         <label><input type="radio" name="violenceLevel" value="3:Moderate"> Moderate</label>
         <label><input type="radio" name="violenceLevel" value="4:Strong"> Strong</label>
       </fieldset>
-      <fieldset>
-        <legend>Violence Frequency:</legend>
-        <label><input type="radio" name="violenceFrequency" value="0:None" disabled> None</label>
-        <label><input type="radio" name="violenceFrequency" value="1:Infrequent" disabled> Infrequent</label>
-        <label><input type="radio" name="violenceFrequency" value="2:Repeated" disabled> Repeated</label>
-      </fieldset>
+      <div id="violenceFrequencyWrapper" class="hidden">
+        <fieldset>
+          <legend>Violence Frequency:</legend>
+          <label class="violenceNoneOption hidden">
+            <input type="radio" name="violenceFrequency" value="0:None"> None
+          </label>
+          <label><input type="radio" name="violenceFrequency" value="1:Infrequent"> Infrequent</label>
+          <label><input type="radio" name="violenceFrequency" value="2:Frequent"> Frequent</label>
+        </fieldset>
+      </div>
 
       <!-- Blood -->
       <fieldset>
         <legend>Blood Level:</legend>
         <label><input type="radio" name="bloodLevel" value="0:None"> None</label>
-        <label><input type="radio" name="bloodLevel" value="2:Light/Unrealistic"> Light/Unrealistic</label>
-        <label><input type="radio" name="bloodLevel" value="3:Light/Realistic"> Light/Realistic</label>
-        <label><input type="radio" name="bloodLevel" value="3:Heavy/Unrealistic"> Heavy/Unrealistic</label>
-        <label><input type="radio" name="bloodLevel" value="4:Heavy/Realistic"> Heavy/Realistic</label>
-      </fieldset>
-      <fieldset>
-        <legend>Blood Frequency:</legend>
-        <label><input type="radio" name="bloodFrequency" value="0:None" disabled> None</label>
-        <label><input type="radio" name="bloodFrequency" value="1:Infrequent" disabled> Infrequent</label>
-        <label><input type="radio" name="bloodFrequency" value="2:Repeated" disabled> Repeated</label>
+        <label><input type="radio" name="bloodLevel" value="2:LightUnrealistic"> Light/Unrealistic</label>
+        <label><input type="radio" name="bloodLevel" value="2:HeavyUnrealistic"> Heavy/Unrealistic</label>
+        <label><input type="radio" name="bloodLevel" value="3:Realistic"> Light/Realistic</label>
+        <label><input type="radio" name="bloodLevel" value="4:HeavyRealistic"> Heavy/Realistic</label>
       </fieldset>
 
       <!-- Language -->
@@ -207,31 +209,29 @@
   <script>
     const ratingMap = ["All Ages", "All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
 
-    function toggleFrequencyRadios(levelName, freqName) {
+    function handleFrequency(levelName, frequencyWrapperId, noneOptionClass) {
       const levelRadios = document.getElementsByName(levelName);
-      const freqRadios = document.getElementsByName(freqName);
+      const wrapper = document.getElementById(frequencyWrapperId);
+      const noneLabel = document.querySelector(`.${noneOptionClass}`);
 
-      function updateFrequencyState() {
-        let enable = false;
-        for (const radio of levelRadios) {
-          if (radio.checked && parseInt(radio.value.split(":")[0]) > 0) {
-            enable = true;
-            break;
-          }
-        }
-        for (const radio of freqRadios) {
-          radio.disabled = !enable;
-          if (!enable) radio.checked = false;
+      function update() {
+        const selected = Array.from(levelRadios).find(r => r.checked);
+        const level = selected ? parseInt(selected.value.split(':')[0]) : 0;
+        if (level > 0) {
+          wrapper.classList.remove("hidden");
+          if (noneLabel) noneLabel.classList.add("hidden");
+        } else {
+          wrapper.classList.add("hidden");
+          if (noneLabel) noneLabel.classList.remove("hidden");
+          const radios = wrapper.querySelectorAll("input[type='radio']");
+          radios.forEach(r => r.checked = false);
         }
       }
 
-      for (const radio of levelRadios) {
-        radio.addEventListener("change", updateFrequencyState);
-      }
+      levelRadios.forEach(r => r.addEventListener("change", update));
     }
 
-    toggleFrequencyRadios("violenceLevel", "violenceFrequency");
-    toggleFrequencyRadios("bloodLevel", "bloodFrequency");
+    handleFrequency("violenceLevel", "violenceFrequencyWrapper", "violenceNoneOption");
 
     document.getElementById("ratingForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -243,7 +243,7 @@
 
       const keys = [
         "violenceLevel", "violenceFrequency",
-        "bloodLevel", "bloodFrequency",
+        "bloodLevel",
         "language", "crudeHumour",
         "gambling", "fear", "alcohol"
       ];
@@ -253,16 +253,9 @@
         if (value) {
           const [levelStr, label] = value.split(":");
           const level = parseInt(levelStr);
-          const readableName = key
-            .replace(/([A-Z])/g, " $1")
-            .replace(/^./, str => str.toUpperCase());
-
-          if (level >= 1) {
-            contentTags.push(`${readableName}: ${label}`);
-          }
-          if (!isNaN(level)) {
-            highestRating = Math.max(highestRating, level);
-          }
+          const readable = key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
+          if (level > 0) contentTags.push(`${readable}: ${label}`);
+          highestRating = Math.max(highestRating, level);
         }
       }
 
@@ -276,9 +269,7 @@
 
       if (contentTags.length > 0) {
         resultHTML += `<p>Selected content factors:</p><ul>`;
-        contentTags.forEach(tag => {
-          resultHTML += `<li>${tag}</li>`;
-        });
+        contentTags.forEach(tag => resultHTML += `<li>${tag}</li>`);
         resultHTML += `</ul>`;
       } else {
         resultHTML += `<p>Suitable for everyone.</p>`;
