@@ -123,7 +123,7 @@
         <label><input type="radio" name="violenceLevel" value="0:None" checked> None</label>
         <label><input type="radio" name="violenceLevel" value="1:Mild"> Mild</label>
         <label><input type="radio" name="violenceLevel" value="2:Moderate"> Moderate</label>
-        <label><input type="radio" name="violenceLevel" value="4:Strong"> Strong</label>
+        <label><input type="radio" name="violenceLevel" value="3:Strong"></label>
       </fieldset>
       <div id="violenceFrequencyWrapper" class="hidden">
         <fieldset>
@@ -146,7 +146,8 @@
           <legend>Blood Realism:</legend>
           <label class="bloodNoneOption hidden"><input type="radio" name="bloodLevel" value="0:None" checked> None</label>
           <label><input type="radio" name="bloodLevel" value="2:Unrealistic"> Unrealistic</label>
-          <label><input type="radio" name="bloodLevel" value="3:Realistic"> Realistic</label>
+          <label><input type="radio" name="bloodLevel" value="3:Moderate"> Moderate</label>
+          <label><input type="radio" name="bloodLevel" value="5:Realistic"> Realistic</label>
         </fieldset>
       </div>
 
@@ -221,20 +222,18 @@
     handleFrequency("violenceLevel", "violenceFrequencyWrapper", "violenceNoneOption");
     handleFrequency("bloodFrequency", "bloodLevelWrapper", "bloodNoneOption");
 
-    const ratingMap = ["All Ages", "All Ages", "Ages 9+", "Ages 13+", "Restricted 17+"];
-
     document.getElementById("ratingForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
       const formData = new FormData(e.target);
 
       // Violence combined rating:
-      // Rules:
       // Mild + Infrequent = 1
       // Mild + Frequent = 2
       // Moderate + Infrequent = 2
       // Moderate + Frequent = 3
-      // Strong = 4 (frequency ignored)
+      // Strong + Infrequent = 4
+      // Strong + Frequent = 5
       let violenceLevel = formData.get("violenceLevel") || "0:None";
       let violenceFrequency = formData.get("violenceFrequency") || "0:None";
 
@@ -242,24 +241,23 @@
       const vFreqVal = parseInt(violenceFrequency.split(":")[0]);
 
       let violenceRating = 0;
-      if (vLevelVal === 0) {
-        violenceRating = 0;
-      } else if (vLevelVal === 1) {
-        violenceRating = vFreqVal === 2 ? 2 : 1; // mild frequent=2, mild infrequent=1
-      } else if (vLevelVal === 2) {
-        violenceRating = vFreqVal === 2 ? 3 : 2; // moderate frequent=3, moderate infrequent=2
-      } else if (vLevelVal === 4) {
-        violenceRating = 4; // strong violence always 4
-      }
+if (vLevelVal === 0) {
+  violenceRating = 0;
+} else if (vLevelVal === 1) {
+  violenceRating = vFreqVal === 2 ? 2 : 1; // mild frequent=2, mild infrequent=1
+} else if (vLevelVal === 2) {
+  violenceRating = vFreqVal === 2 ? 3 : 2; // moderate frequent=3, moderate infrequent=2
+} else if (vLevelVal === 3) {
+  violenceRating = vFreqVal === 2 ? 5 : 4; // strong frequent=5, strong infrequent=4
+}
 
       // Blood combined rating:
-      // Blood frequency: 0 None, 2 Light, 3 Heavy
-      // Blood realism: 0 None, 2 Unrealistic, 3 Realistic
-      // Combine:
       // Light + Unrealistic = 2
-      // Light + Realistic = 3
+      // Light + Moderate = 3
+      // Light + Realistic = 4
       // Heavy + Unrealistic = 3
-      // Heavy + Realistic = 4
+      // Heavy + Moderate = 4
+      // Heavy + Realistic = 5
       let bloodFrequency = formData.get("bloodFrequency") || "0:None";
       let bloodLevel = formData.get("bloodLevel") || "0:None";
 
@@ -272,14 +270,17 @@
       } else if (bFreqVal === 2 && bLevelVal === 2) {
         bloodRating = 2; // Light + Unrealistic
       } else if (bFreqVal === 2 && bLevelVal === 3) {
-        bloodRating = 3; // Light + Realistic
+        bloodRating = 3; // Light + Moderate
+      } else if (bFreqVal === 2 && bLevelVal === 5) {
+        bloodRating = 4; // Light + Realistic
       } else if (bFreqVal === 3 && bLevelVal === 2) {
         bloodRating = 3; // Heavy + Unrealistic
       } else if (bFreqVal === 3 && bLevelVal === 3) {
-        bloodRating = 4; // Heavy + Realistic
+        bloodRating = 4; // Heavy + Moderate
+      } else if (bFreqVal === 3 && bLevelVal === 5) {
+        bloodRating = 5; // Heavy + Realistic
       }
 
-      // Other categories directly use level as rating
       function parseLevel(name) {
         const val = formData.get(name) || "0:None";
         return parseInt(val.split(":")[0]);
@@ -291,7 +292,6 @@
       const fearRating = parseLevel("fear");
       const alcoholRating = parseLevel("alcohol");
 
-      // Highest rating from all categories
       const highestRating = Math.max(
         violenceRating,
         bloodRating,
@@ -302,7 +302,6 @@
         alcoholRating
       );
 
-      // Prepare tags for content factors
       const contentTags = [];
 
       if (violenceRating > 0) contentTags.push(`Violence: ${violenceLevel.split(":")[1]} / ${violenceFrequency.split(":")[1]}`);
@@ -314,7 +313,14 @@
       if (alcoholRating > 0) contentTags.push(`Alcohol: ${formData.get("alcohol").split(":")[1]}`);
 
       const gameName = formData.get("gameName") || "Untitled";
-      const ratingMap = ["Minimal All Ages", "Minimal All Ages", "Mild 9+", "Moderate 13+", "Restricted 17+"];
+      const ratingMap = [
+        "Minimal All Ages",
+        "Minimal All Ages",
+        "Mild 9+",
+        "Moderate 13+",
+        "Strong 15+",
+        "Restricted 17+"
+      ];
       const ratingText = ratingMap[highestRating] || "All Ages";
 
       let resultHTML = `
