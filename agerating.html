@@ -155,71 +155,27 @@
 
       <!-- Blood -->
       <fieldset>
-        <legend>Blood Level:</legend>
-        <label><input type="radio" name="bloodLevel" value="0:None"> None</label>
-        <label><input type="radio" name="bloodLevel" value="2:Light/Unrealistic"> Light/Unrealistic</label>
-        <label><input type="radio" name="bloodLevel" value="3:Light/Realistic"> Light/Realistic</label>
-        <label><input type="radio" name="bloodLevel" value="3:Heavy/Unrealistic"> Heavy/Unrealistic</label>
-        <label><input type="radio" name="bloodLevel" value="4:Heavy/Realistic"> Heavy/Realistic</label>
+        <legend>Blood Frequency:</legend>
+        <label><input type="radio" name="bloodFrequency" value="0:None"> None</label>
+        <label><input type="radio" name="bloodFrequency" value="2:Light"> Light</label>
+        <label><input type="radio" name="bloodFrequency" value="3:Heavy"> Heavy</label>
       </fieldset>
-      <div id="bloodFrequencyWrapper" class="hidden">
+      <div id="bloodLevelWrapper" class="hidden">
         <fieldset>
-          <legend>Blood Frequency:</legend>
+          <legend>Blood Realism:</legend>
           <label class="bloodNoneOption hidden">
-            <input type="radio" name="bloodFrequency" value="0:None"> None
+            <input type="radio" name="bloodLevel" value="0:None"> None
           </label>
-          <label><input type="radio" name="bloodFrequency" value="1:Infrequent"> Infrequent</label>
-          <label><input type="radio" name="bloodFrequency" value="2:Frequent"> Frequent</label>
+          <label><input type="radio" name="bloodLevel" value="2:Unrealistic"> Unrealistic</label>
+          <label><input type="radio" name="bloodLevel" value="3:Realistic"> Realistic</label>
         </fieldset>
       </div>
-
-      <!-- Language -->
-      <fieldset>
-        <legend>Language:</legend>
-        <label><input type="radio" name="language" value="0:None"> None</label>
-        <label><input type="radio" name="language" value="2:Mild/Infrequent"> Mild/Infrequent</label>
-        <label><input type="radio" name="language" value="3:Moderate"> Moderate</label>
-        <label><input type="radio" name="language" value="4:Strong"> Strong</label>
-      </fieldset>
-
-      <!-- Crude Humour -->
-      <fieldset>
-        <legend>Crude Humour:</legend>
-        <label><input type="radio" name="crudeHumour" value="0:None"> None</label>
-        <label><input type="radio" name="crudeHumour" value="1:Mild"> Mild</label>
-        <label><input type="radio" name="crudeHumour" value="2:Moderate"> Moderate</label>
-      </fieldset>
-
-      <!-- Gambling -->
-      <fieldset>
-        <legend>Gambling Content:</legend>
-        <label><input type="radio" name="gambling" value="0:No"> No</label>
-        <label><input type="radio" name="gambling" value="3:Yes"> Yes</label>
-      </fieldset>
-
-      <!-- Fear -->
-      <fieldset>
-        <legend>Fear:</legend>
-        <label><input type="radio" name="fear" value="0:None"> None</label>
-        <label><input type="radio" name="fear" value="1:Very Mild"> Very Mild</label>
-        <label><input type="radio" name="fear" value="2:Mild"> Mild</label>
-        <label><input type="radio" name="fear" value="3:Moderate"> Moderate</label>
-      </fieldset>
-
-      <!-- Alcohol -->
-      <fieldset>
-        <legend>Alcohol (drinkable or referenced heavily):</legend>
-        <label><input type="radio" name="alcohol" value="0:No"> No</label>
-        <label><input type="radio" name="alcohol" value="4:Yes"> Yes</label>
-      </fieldset>
 
       <button type="submit">Get Age Rating</button>
     </form>
   </div>
 
   <script>
-    const ratingMap = ["Minimal - All Ages", "Minimal - All Ages", "Mild 9+", "Moderate 13+", "Restricted 17+"];
-
     function handleFrequency(levelName, frequencyWrapperId, noneOptionClass) {
       const levelRadios = document.getElementsByName(levelName);
       const wrapper = document.getElementById(frequencyWrapperId);
@@ -243,78 +199,7 @@
     }
 
     handleFrequency("violenceLevel", "violenceFrequencyWrapper", "violenceNoneOption");
-    handleFrequency("bloodLevel", "bloodFrequencyWrapper", "bloodNoneOption");
-
-    document.getElementById("ratingForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
-      let highestRating = 0;
-      const contentTags = [];
-
-      // --- Violence ---
-      const vLevel = formData.get("violenceLevel");
-      const vFreq = formData.get("violenceFrequency");
-      let violenceRating = 0;
-      if (vLevel && vFreq) {
-        const [vL, vLLabel] = vLevel.split(":");
-        const [vF, vFLabel] = vFreq.split(":");
-        let vLNum = parseInt(vL);
-        let vFNum = parseInt(vF);
-        let label = `Violence: ${vLLabel} (${vFLabel})`;
-        if (vLNum === 1 && vFNum === 1) violenceRating = 1;
-        else if (vLNum === 1 && vFNum === 2) violenceRating = 2;
-        else if (vLNum === 3 && vFNum === 1) violenceRating = 2;
-        else if (vLNum === 3 && vFNum === 2) violenceRating = 3;
-        else if (vLNum === 4) violenceRating = 4;
-        contentTags.push(label);
-        highestRating = Math.max(highestRating, violenceRating);
-      }
-
-      // --- Blood ---
-      const bLevel = formData.get("bloodLevel");
-      const bFreq = formData.get("bloodFrequency");
-      if (bLevel && bFreq) {
-        const [bL, bLLabel] = bLevel.split(":");
-        const [bF, bFLabel] = bFreq.split(":");
-        let label = `Blood: ${bLLabel} (${bFLabel})`;
-        let bRating = parseInt(bL);
-        contentTags.push(label);
-        highestRating = Math.max(highestRating, bRating);
-      }
-
-      // --- Other categories ---
-      const otherFields = [
-        "language", "crudeHumour", "gambling", "fear", "alcohol"
-      ];
-      otherFields.forEach(field => {
-        const val = formData.get(field);
-        if (val) {
-          const [num, label] = val.split(":");
-          const level = parseInt(num);
-          const name = field.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
-          if (level > 0) contentTags.push(`${name}: ${label}`);
-          highestRating = Math.max(highestRating, level);
-        }
-      });
-
-      const gameName = formData.get("gameName") || "Untitled";
-      const ratingText = ratingMap[highestRating];
-
-      let resultHTML = `
-        <div class="result-title">"${gameName}" is rated:</div>
-        <div class="result-title">${ratingText}</div>
-      `;
-      if (contentTags.length > 0) {
-        resultHTML += `<p>Selected content factors:</p><ul>`;
-        contentTags.forEach(tag => resultHTML += `<li>${tag}</li>`);
-        resultHTML += `</ul>`;
-      } else {
-        resultHTML += `<p>Suitable for everyone.</p>`;
-      }
-
-      document.getElementById("form-container").innerHTML = resultHTML;
-    });
+    handleFrequency("bloodFrequency", "bloodLevelWrapper", "bloodNoneOption");
   </script>
 </body>
 </html>
