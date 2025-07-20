@@ -101,6 +101,7 @@
             <p id="detection" style="display:none"></p>
         </div>
         <p id="reactivateMessage"></p>
+        <p id="violationWarning"></p>
         <p id="communityRules"></p>
         <p id="membershipNotice" style="display:none"></p>
         <p id="appealsMessage"></p>
@@ -137,7 +138,7 @@ const translations = {
         "Title.SuspendOneYear": "Suspended for 1 year",
         
         "Description.Warn": "By re-activating your account, you agree to our Terms of Use.",
-        "Description.WarnV2": "By re-activating your account, you agree to our Terms of Use and Community Rules.",
+        "Description.WarnV2": "By re-activating your account, you agree to follow the rules at all times.",
         "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
         "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
@@ -266,18 +267,24 @@ const banDurationMap = {
         document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
     }
 
-    const logoutButton = document.querySelector('.logout');
+const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.WarnV2"];
         document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
         document.getElementById('reactivateButton').style.display = "block";
         document.getElementById('membershipNotice').style.display = "none";
         logoutButton.classList.add('warning-margin');
+        
+        // Add warning message for warnings
+        document.getElementById('violationWarning').innerHTML = 
+            '<b>Rule violations add up:</b> We may suspend or ban your account if you keep breaking the rules.';
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.PermBannedDesc"];
         document.getElementById('membershipNotice').style.display = "none";
         document.getElementById('reactivateButton').style.display = "none";
+        document.getElementById('violationWarning').style.display = "none";
     } else {
+        // This is a temporary suspension
         const banDurationHoursMap = {
             Ban1Day: 24,
             Ban3Days: 72,
@@ -296,6 +303,10 @@ const banDurationMap = {
             formatDate(reactivateDate)
         );
         document.getElementById('reactivateButton').style.display = "none";
+        
+        // Add warning message for temporary suspensions
+        document.getElementById('violationWarning').innerHTML = 
+            '<b>Rule violations add up:</b> We may give you a longer suspension—or even permanently ban your account—if you keep breaking the rules.';
     }
 
     // Set caution warning if applicable
