@@ -116,7 +116,7 @@ const translations = {
         "Title.Ban6Months": "Banned for 6 Months",
         "Title.Ban1Year": "Banned for 1 Year",
         "Title.Delete": "Account Deleted",
-        "Title.Terminate": "Account Terminated",
+        "Title.Terminate": "Account terminated",
         
         "Title.PermanentlyBanned": "Permanently banned",
         "Title.SuspendOneDay": "Suspended for 1 day",
@@ -148,8 +148,8 @@ const translations = {
         "Label.CommunityGuidelines": "Community Guidelines",
         "Label.CommunityRules": "Community Rules",
         "Label.AppealsForm": "Appeals Form",
-        "Label.AppealHere": "Request an appeal here",
-        "Label.ModeratorNote": "Moderator Note",
+        "Label.AppealHere": "You can request an appeal or ask us to review this decision here",
+        "Label.ModeratorNote": "Moderator note",
         "Label.Decision": "Decision",
         "Label.RecentViolation": "Recent Violation",
         "Label.RecentViolationV2": "Violation Details",
@@ -158,6 +158,10 @@ const translations = {
         "Label.Evidence": "Evidence",
         "Label.Reviewed": "Review date",
         "Label.ViewRules": "View rules",
+
+        "Text.LatestActivity": "Latest activity we reviewed: ",
+        "Text.DefaultViolation": "Your behaviour broke Boiby's rules.",
+        "Text.SpecificViolation": "Your behaviour broke Boiby's rules against {0}."
 
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
@@ -202,7 +206,7 @@ const banDurationMap = {
     Ban60Days: translations[language]["Title.SuspendSixtyDays"],
     Ban6Months: translations[language]["Title.SuspendSixMonths"],
     Ban1Year: translations[language]["Title.SuspendOneYear"],
-    Delete: translations[language]["Title.PermanentlyBanned"]
+    Delete: translations[language]["Title.Terminate"]
 };
 
     // Set ban duration title
@@ -231,6 +235,22 @@ boldDate.id = 'reviewedDate';
 boldDate.textContent = reviewedDate;
 reviewedContainer.appendChild(boldDate);
 
+    // Set latest activity line
+const latestActivityContainer = document.getElementById('latestActivityContainer');
+latestActivityContainer.textContent = translations[language]["Text.LatestActivity"];
+
+const latestActivityText = document.createElement('b');
+if (formData.classicViolations && formData.classicViolations.length > 0 && formData.classicViolations[0].reason) {
+    latestActivityText.textContent = formatString(
+        translations[language]["Text.SpecificViolation"],
+        formData.classicViolations[0].reason
+    );
+} else {
+    latestActivityText.textContent = translations[language]["Text.DefaultViolation"];
+}
+latestActivityContainer.appendChild(latestActivityText);
+
+    
     // Set automation decision text
     const automationTextMap = {
         "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
