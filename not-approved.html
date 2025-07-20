@@ -93,9 +93,9 @@
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
+        <p id="violationSummary"></p>
         <div id="evidenceContainer">
             <p id="reviewedContainer"></p>
-            <p id="violationSummary"></p>
             <p id="violationHeader"></p>
             <p id="detection" style="display:none"></p>
         </div>
@@ -138,7 +138,7 @@ const translations = {
         "Description.Warn": "By re-activating your account, you agree to our Terms of Use.",
         "Description.WarnV2": "By re-activating your account, you agree to our Terms of Use and Community Rules.",
         "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
-        "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
+        "Description.BanV2": "Your account has been suspended. You may re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
         "Description.DeleteV2": "Your account has been terminated due to severe or repeated policy violations.",
         "Description.PermBannedDesc": "Your account has been permanently banned due to severe or repeated policy violations.",
@@ -149,15 +149,15 @@ const translations = {
         "Text.AppealsMessageV2": "To request an appeal, contact us via the {0}.",
         "Text.RememberTheRules": "Make sure you know the rules and follow them. {0}",
         "Text.Mistake": "Did we make a mistake? {0}.",
-        "Text.DefaultViolation": "<b>Your behaviour broke Boiby's rules.</b>",
-        "Text.SpecificViolation": "<b>Your behaviour broke Boiby's rules against {0}.</b>",
+        "Text.DefaultViolation": "Your behaviour broke Boiby's rules.",
+        "Text.SpecificViolation": "Your behaviour broke Boiby's rules against {0}.",
         
         "Label.TermsOfUse": "Terms of Use",
         "Label.CommunityGuidelines": "Community Guidelines",
         "Label.CommunityRules": "Community Rules",
         "Label.AppealsForm": "Appeals Form",
-        "Label.AppealHere": "You can request an appeal or ask us to review our decision here",
-        "Label.ModeratorNote": "Moderator note",
+        "Label.AppealHere": "Request an appeal here",
+        "Label.ModeratorNote": "Moderator Note",
         "Label.Decision": "Decision",
         "Label.RecentViolation": "Recent Violation",
         "Label.RecentViolationV2": "Violation Details",
@@ -239,15 +239,15 @@ const banDurationMap = {
     boldDate.textContent = reviewedDate;
     reviewedContainer.appendChild(boldDate);
 
-    // Set violation summary text
+    // Set violation summary text (now outside the evidence container)
     const violationSummary = document.getElementById('violationSummary');
     if (formData.classicViolations && formData.classicViolations.length > 0 && formData.classicViolations[0].reason) {
-        violationSummary.innerHTML = formatString(
+        violationSummary.innerHTML = `<b>${formatString(
             translations[language]["Text.SpecificViolation"],
             formData.classicViolations[0].reason
-        );
+        )}</b>`;
     } else {
-        violationSummary.innerHTML = translations[language]["Text.DefaultViolation"];
+        violationSummary.innerHTML = `<b>${translations[language]["Text.DefaultViolation"]}</b>`;
     }
 
     // Set violation details header
