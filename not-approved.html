@@ -93,11 +93,10 @@
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
-        <p id="violationSummary"></p>
         <p id="violationHeader"></p>
         <div id="evidenceContainer">
+            <p id="violationSummary"></p>
             <p id="reviewedContainer"></p>
-            
             <p id="detection" style="display:none"></p>
         </div>
         <p id="reactivateMessage"></p>
@@ -253,7 +252,7 @@ const banDurationMap = {
     }
 
     // Set violation details header
-    document.getElementById('violationHeader').textContent = translations[language]["Label.RecentViolationV2"] + ':';
+    document.getElementById('violationHeader').textContent = translations[language]["Label.LatestActivity"] + ':';
 
     // Set automation decision text
     const automationTextMap = {
