@@ -92,6 +92,7 @@
         <p id="termsOfUse"></p>
         <p id="violationHeader"></p>
         <div id="evidenceContainer"><p id="reviewedContainer"></p>
+        <p id="latestActivityContainer"></p>
         <p id="detection" style="display:none"></p></div>
         <p id="reactivateMessage"></p>
         <p id="communityRules"></p>
@@ -143,13 +144,16 @@ const translations = {
         "Text.AppealsMessageV2": "To request an appeal, contact us via the {0}.",
         "Text.RememberTheRules": "Make sure you know the rules and follow them. {0}",
         "Text.Mistake": "Did we make a mistake? {0}.",
+        "Text.LatestActivity": "Latest activity we reviewed: ",
+        "Text.DefaultViolation": "Your behaviour broke Boiby's rules.",
+        "Text.SpecificViolation": "Your behaviour broke Boiby's rules against {0}.",
         
         "Label.TermsOfUse": "Terms of Use",
         "Label.CommunityGuidelines": "Community Guidelines",
         "Label.CommunityRules": "Community Rules",
         "Label.AppealsForm": "Appeals Form",
-        "Label.AppealHere": "You can request an appeal or ask us to review this decision here",
-        "Label.ModeratorNote": "Moderator note",
+        "Label.AppealHere": "Request an appeal here",
+        "Label.ModeratorNote": "Moderator Note",
         "Label.Decision": "Decision",
         "Label.RecentViolation": "Recent Violation",
         "Label.RecentViolationV2": "Violation Details",
@@ -158,10 +162,6 @@ const translations = {
         "Label.Evidence": "Evidence",
         "Label.Reviewed": "Review date",
         "Label.ViewRules": "View rules",
-
-        "Text.LatestActivity": "Latest activity we reviewed: ",
-        "Text.DefaultViolation": "Your behaviour broke Boiby's rules.",
-        "Text.SpecificViolation": "Your behaviour broke Boiby's rules against {0}.",
 
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
@@ -236,21 +236,20 @@ boldDate.textContent = reviewedDate;
 reviewedContainer.appendChild(boldDate);
 
     // Set latest activity line
-const latestActivityContainer = document.getElementById('latestActivityContainer');
-latestActivityContainer.textContent = translations[language]["Text.LatestActivity"];
+    const latestActivityContainer = document.getElementById('latestActivityContainer');
+    latestActivityContainer.textContent = translations[language]["Text.LatestActivity"];
 
-const latestActivityText = document.createElement('b');
-if (formData.classicViolations && formData.classicViolations.length > 0 && formData.classicViolations[0].reason) {
-    latestActivityText.textContent = formatString(
-        translations[language]["Text.SpecificViolation"],
-        formData.classicViolations[0].reason
-    );
-} else {
-    latestActivityText.textContent = translations[language]["Text.DefaultViolation"];
-}
-latestActivityContainer.appendChild(latestActivityText);
+    const latestActivityText = document.createElement('b');
+    if (formData.classicViolations && formData.classicViolations.length > 0 && formData.classicViolations[0].reason) {
+        latestActivityText.textContent = formatString(
+            translations[language]["Text.SpecificViolation"],
+            formData.classicViolations[0].reason
+        );
+    } else {
+        latestActivityText.textContent = translations[language]["Text.DefaultViolation"];
+    }
+    latestActivityContainer.appendChild(latestActivityText);
 
-    
     // Set automation decision text
     const automationTextMap = {
         "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
