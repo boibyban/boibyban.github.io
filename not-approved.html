@@ -277,7 +277,7 @@ const logoutButton = document.querySelector('.logout');
         
         // Add warning message for warnings
         document.getElementById('violationWarning').innerHTML = 
-            '<b>Rule violations add up:</b> We may suspend or ban your account if you keep breaking the rules.';
+            'We may suspend or ban your account if you keep breaking the rules.';
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.PermBannedDesc"];
         document.getElementById('membershipNotice').style.display = "none";
@@ -306,7 +306,7 @@ const logoutButton = document.querySelector('.logout');
         
         // Add warning message for temporary suspensions
         document.getElementById('violationWarning').innerHTML = 
-            '<b>Rule violations add up:</b> We may give you a longer suspension—or even permanently ban your account—if you keep breaking the rules.';
+            'We may give you a longer suspension—or even permanently ban your account—if you keep breaking the rules.';
     }
 
     // Set caution warning if applicable
