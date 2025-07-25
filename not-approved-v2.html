@@ -127,7 +127,7 @@
             <p id="detection" style="display:none"></p>
         </div>
         <p id="reactivateMessage"></p>
-        <p style="display: none" id="violationWarning"></p>
+        <p id="violationWarning"></p>
         <p id="communityRules"></p>
         <p id="membershipNotice" style="display:none"></p>
         <button id="reactivateButton" class="reactivate"></button>
@@ -333,7 +333,7 @@ const logoutButton = document.querySelector('.logout');
         
         // Add warning message for temporary suspensions
         document.getElementById('violationWarning').innerHTML = 
-            'We may give you a longer suspension—or even permanently ban your account—if you keep breaking the rules.';
+            'We may give you a longer suspension—or even ban your account—if you keep breaking rules.';
     }
 
     // Set caution warning if applicable
