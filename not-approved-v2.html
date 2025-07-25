@@ -1,8 +1,10 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Not Approved</title>
-    <link id="themeStylesheet" href="/ban-new-dark.css" rel="stylesheet" type="text/css" media="all">
+    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
         .logout.warning-margin {
             margin: 20px auto 16px auto;
@@ -81,47 +83,30 @@
             margin-bottom: 12px;
         }
     </style>
-    </head><body><div id="header">
-        <b id="username">fsddfs</b>
+    <div id="header">
+        <b id="username">Username</b>
     </div><br>
-
-
+</head>
+<body>
     <div class="ban-box">
-        <h3 id="banDuration" style="
-    align-self: center;
-    text-align: center;
-    border-bottom: 1px grey solid;
-    padding-bottom: 15px;
-">Suspended for 7 days</h3>
-        <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">fsddfs</b></p>
+        <h3 id="banDuration">Banned</h3>
+        <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
-        <p id="termsOfUse" style="
-    padding-top: 4px;
-">Your recent behaviour broke Boiby's rules against Bullying and Harassment.</p>
-        <p id="violationHeader">Latest activity we reviewed:</p>
+        <p id="termsOfUse"></p>
+        <p id="violationHeader"></p>
         <div id="evidenceContainer">
-            <p style="display: none" id="violationSummary"><b>Your recent behaviour broke Boiby's rules against Off-Platform Item or Currency Purchase.</b></p>
-            <p id="reviewedContainer">Review date: <b id="reviewedDate">25/07/2025 14:23:13</b></p>
+            <p style="display: none" id="violationSummary"></p>
+            <p id="reviewedContainer"></p>
             <p id="detection" style="display:none"></p>
-        <p>Moderator note: <b id="moderatorNote">Your account has been suspended for purchasing virtual items or currency using third-party sites or marketplaces.</b></p><div class="evidence-box"><p style="margin-bottom: 6px;">Reason: <span class="violation-text">Off-Platform Item or Currency Purchase</span></p><p>Evidence: </p><div class="evidence-item"><p style="font-weight: 400;">Platform Interaction ID: 7626536067929</p></div></div></div>
-        <p id="reactivateMessage">Your account has been suspended. You will be eligible to re-activate it after 01/08/2025 14:23:13.</p>
-        <p style="display: none" id="violationWarning">We may give you a longer suspension—or even permanently ban your account—if you keep breaking the rules.</p>
-        <p id="communityRules">Make sure you know the rules and follow them. <a href="/info/community-rules">View rules</a></p>
+        </div>
+        <p id="reactivateMessage"></p>
+        <p style="display: none" id="violationWarning"></p>
+        <p id="communityRules"></p>
         <p id="membershipNotice" style="display:none"></p>
-        
-        <button id="reactivateButton" class="reactivate" style="display: none;"></button>
-        <button class="logout" style="
-    margin-top: 30px;
-    min-height: 40px;
-    font-weight: 400;
-"><a href="https://boibyban.github.io" class="logoutlink" style="
-    font-weight: 500;
-">Logout</a></button>
-    <p id="appealsMessage" style="
-    text-align: center;
-    font-size: 14px;
-    padding-top: 6px;
-">Did we make a mistake? <a href="/appeals-form">Let us know</a></p></div>
+        <p id="appealsMessage"></p>
+        <button id="reactivateButton" class="reactivate"></button>
+        <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
+    </div>
 <script>
 // Translation system
 const translations = {
@@ -159,7 +144,7 @@ const translations = {
         "Description.DeleteV2": "Your account has been terminated due to severe or repeated policy violations.",
         "Description.PermBannedDesc": "We permanently banned your account due to repeated or serious rule violations.",
 
-        "Text.TermsMessage": "Your recent behaviour broke our {0}.",
+        "Text.TermsMessage": "We have determined that your recent behavior or activity on Boiby has been in violation our {0}.",
         "Text.CommunityStandardMessage": "Remember to abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
         "Text.AppealsMessage": "If you wish to appeal, please contact us via the {0}.",
         "Text.AppealsMessageV2": "To request an appeal, contact us via the {0}.",
@@ -476,6 +461,5 @@ function setTheme(theme) {
 const savedTheme = localStorage.getItem('theme') || "light";
 setTheme(savedTheme);
 </script>
-
-
-</body></html>
+</body>
+</html>
