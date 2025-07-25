@@ -10,7 +10,7 @@
             margin: 20px auto 16px auto;
         }
         .logout {
-            min-width: 80px;
+            min-width: 705px1important;
         }
         .evidence-image {
             max-width: 640px;
@@ -61,8 +61,9 @@
             font-size: 14px;
         }
         .ban-box {
-            border-radius: 0px;
-            max-width: 805px;
+            border-radius: 8px!important;
+            max-width: 705px!important;
+            margin-top: 30px!important;
         }
         #abideRules {
             line-height: 1;
@@ -82,6 +83,29 @@
         #violationSummary {
             margin-bottom: 12px;
         }
+
+
+
+        #banDuration {
+            text-align: center !important;
+            font-size: 20px !important;
+            padding-bottom: 14px !important;
+            border-bottom: 1px solid grey !important;
+            margin-top: 0;
+            margin-bottom: 20px!important;
+        }
+
+        p {
+            line-height: 1.5em!important;
+            font-size: 16px!important;
+            margin-bottom: 16px!important;
+        }
+
+        #appealsMessage {
+            text-align: center!important;
+            font-size: 13px!important;
+            font-weight: 400!Important;
+        }
     </style>
     <div id="header">
         <b id="username">Username</b>
@@ -92,10 +116,10 @@
         <h3 id="banDuration">Banned</h3>
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
-        <p id="termsOfUse"></p>
+        <p id="violationSummary"></p>
+        <p id="termsOfUse" style="display:none;"></p>
         <p id="violationHeader"></p>
         <div id="evidenceContainer">
-            <p style="display: none" id="violationSummary"></p>
             <p id="reviewedContainer"></p>
             <p id="detection" style="display:none"></p>
         </div>
@@ -103,9 +127,9 @@
         <p style="display: none" id="violationWarning"></p>
         <p id="communityRules"></p>
         <p id="membershipNotice" style="display:none"></p>
-        <p id="appealsMessage"></p>
         <button id="reactivateButton" class="reactivate"></button>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
+        <p id="appealsMessage"></p>
     </div>
 <script>
 // Translation system
@@ -149,15 +173,15 @@ const translations = {
         "Text.AppealsMessage": "If you wish to appeal, please contact us via the {0}.",
         "Text.AppealsMessageV2": "To request an appeal, contact us via the {0}.",
         "Text.RememberTheRules": "Make sure you know the rules and follow them. {0}",
-        "Text.Mistake": "Did we make a mistake? {0}.",
-        "Text.DefaultViolation": "Your recent behaviour broke Boiby's rules.",
+        "Text.Mistake": "Did we make a mistake? {0}",
+        "Text.DefaultViolation": "Your recent behaviour violated Boiby's Community Rules.",
         "Text.SpecificViolation": "Your recent behaviour broke Boiby's rules against {0}.",
     
         "Label.TermsOfUse": "Terms of Use",
         "Label.CommunityGuidelines": "Community Guidelines",
         "Label.CommunityRules": "Community Rules",
         "Label.AppealsForm": "Appeals Form",
-        "Label.AppealHere": "You may request an appeal or ask us to review this decision here",
+        "Label.AppealHere": "Let us know",
         "Label.LatestActivity": "Latest activity we reviewed",
         "Label.ModeratorNote": "Moderator note",
         "Label.Decision": "Decision",
@@ -244,12 +268,12 @@ const banDurationMap = {
     // Set violation summary tex t
     const violationSummary = document.getElementById('violationSummary');
     if (formData.classicViolations && formData.classicViolations.length > 0 && formData.classicViolations[0].reason) {
-        violationSummary.innerHTML = `<b>${formatString(
+        violationSummary.innerHTML = `<p>${formatString(
             translations[language]["Text.SpecificViolation"],
             formData.classicViolations[0].reason
-        )}</b>`;
+        )}</p>`;
     } else {
-        violationSummary.innerHTML = `<b>${translations[language]["Text.DefaultViolation"]}</b>`;
+        violationSummary.innerHTML = `<p>${translations[language]["Text.DefaultViolation"]}</p>`;
     }
 
     // Set violation details header
