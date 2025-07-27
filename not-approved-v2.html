@@ -140,6 +140,8 @@ const translations = {
     en: {
         // Punishment types
         "Title.Warn": "Warning",
+        "Title.Ban3Hours": "Banned for 3 Hours",
+        "Title.Ban6Hours": "Banned for 6 Hours",
         "Title.Ban1Day": "Banned for 1 Day",
         "Title.Ban3Days": "Banned for 3 Days",
         "Title.Ban7Days": "Banned for 7 Days",
@@ -149,10 +151,12 @@ const translations = {
         "Title.Ban2Weeks": "Banned for 2 Weeks",
         "Title.Ban6Months": "Banned for 6 Months",
         "Title.Ban1Year": "Banned for 1 Year",
-        "Title.Delete": "Account deleted",
+        "Title.Delete": "Account Deleted",
         "Title.Terminate": "Account terminated",
         
         "Title.PermanentlyBanned": "Banned permanently",
+        "Title.SuspendThreeHours": "Suspended for 3 hours",
+        "Title.SuspendSixHours": "Suspended for 6 hours",
         "Title.SuspendOneDay": "Suspended for 1 day",
         "Title.SuspendThreeDays": "Suspended for 3 days",
         "Title.SuspendSevenDays": "Suspended for 7 days",
@@ -232,6 +236,8 @@ if (formData) {
 // Punishment type mapping
 const banDurationMap = {
     Warn: translations[language]["Title.Warn"],
+    Ban3Hours: translations[language]["Title.SuspendThreeHours"],
+    Ban6Hours: translations[language]["Title.SuspendSixHours"],
     Ban1Day: translations[language]["Title.SuspendOneDay"],
     Ban3Days: translations[language]["Title.SuspendThreeDays"],
     Ban7Days: translations[language]["Title.SuspendSevenDays"],
@@ -313,6 +319,8 @@ const logoutButton = document.querySelector('.logout');
     } else {
         // This is a temporary suspension
         const banDurationHoursMap = {
+            Ban3Hours: 3,
+            Ban6Hours: 6, 
             Ban1Day: 24,
             Ban3Days: 72,
             Ban7Days: 168,
