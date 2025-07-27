@@ -173,7 +173,7 @@ const translations = {
         "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
         "Description.DeleteV2": "Your account has been terminated due to severe or repeated policy violations.",
-        "Description.PermBannedDesc": "We permanently banned your account due to repeated or serious rule violations.",
+        "Description.PermBannedDesc": "We permanently deleted your account due to repeated or serious rule violations.",
 
         "Text.TermsMessage": "We have determined that your recent behavior or activity on Boiby has been in violation our {0}.",
         "Text.CommunityStandardMessage": "Remember to abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
@@ -191,7 +191,7 @@ const translations = {
         "Label.AppealHere": "Let us know",
         "Label.LatestActivity": "Latest activity we reviewed",
         "Label.ModeratorNote": "Moderator note",
-        "Label.Decision": "Decision",
+        "Label.Decision": "Decision method",
         "Label.RecentViolation": "Recent Violation",
         "Label.RecentViolationV2": "Violation details",
         "Label.Violation": "Violation",
@@ -216,9 +216,9 @@ const translations = {
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
         "Caution.PermanentV2": "If you violate the Community Rules again, your Boiby account may be permanently suspended.",
 
-        "Decision.ManualDetectionAutoReview": "Automation was used when making this decision.",
-        "Decision.AutoDetectionManualReview": "This violation was detected using automation.",
-        "Decision.FullyAutomated": "This violation was detected using automation, and automation was used making this decision."
+        "Decision.ManualDetectionAutoReview": "We used automation to make this decision.",
+        "Decision.AutoDetectionManualReview": "We used automation to detect this violation.",
+        "Decision.FullyAutomated": "We used automation to detect this violation and make this decision."
     }
 };
 
@@ -236,16 +236,16 @@ if (formData) {
 // Punishment type mapping
 const banDurationMap = {
     Warn: translations[language]["Title.Warn"],
-    Ban3Hours: translations[language]["Title.SuspendThreeHours"],
-    Ban6Hours: translations[language]["Title.SuspendSixHours"],
-    Ban1Day: translations[language]["Title.SuspendOneDay"],
-    Ban3Days: translations[language]["Title.SuspendThreeDays"],
-    Ban7Days: translations[language]["Title.SuspendSevenDays"],
-    Ban14Days: translations[language]["Title.SuspendFourteenDays"],
-    Ban60Days: translations[language]["Title.SuspendSixtyDays"],
-    Ban6Months: translations[language]["Title.SuspendSixMonths"],
-    Ban1Year: translations[language]["Title.SuspendOneYear"],
-    Delete: translations[language]["Title.Terminate"]
+    Ban3Hours: translations[language]["Title.Ban3Hours"],
+    Ban6Hours: translations[language]["Title.Ban6Hours"],
+    Ban1Day: translations[language]["Title.Ban1Day"],
+    Ban3Days: translations[language]["Title.Ban3Days"],
+    Ban7Days: translations[language]["Title.Ban7Days"],
+    Ban14Days: translations[language]["Title.Ban14Days"],
+    Ban60Days: translations[language]["Title.Ban60Days"],
+    Ban6Months: translations[language]["Title.Ban6Months"],
+    Ban1Year: translations[language]["Title.Ban1Year"],
+    Delete: translations[language]["Title.Delete"]
 };
 
     // Set ban duration title
@@ -310,7 +310,7 @@ const logoutButton = document.querySelector('.logout');
         
         // Add warning message for warnings
         document.getElementById('violationWarning').innerHTML = 
-            'We may suspend or ban your account if you keep breaking the rules.';
+            'We may ban your account in the future if you keep breaking the rules.';
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.PermBannedDesc"];
         document.getElementById('membershipNotice').style.display = "none";
@@ -341,7 +341,7 @@ const logoutButton = document.querySelector('.logout');
         
         // Add warning message for temporary suspensions
         document.getElementById('violationWarning').innerHTML = 
-            'We may give you a longer suspension—or even ban your account—if you keep breaking rules.';
+            'We may give you a longer ban—or even delete your account—if you keep breaking rules.';
     }
 
     // Set caution warning if applicable
