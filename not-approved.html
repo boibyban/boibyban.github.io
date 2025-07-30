@@ -105,9 +105,12 @@
 const translations = {
     en: {
         // Punishment types
+        "Title.SuspendOneHours": "Suspended for 1 hour",
         "Title.SuspendThreeHours": "Suspended for 3 hours",
         "Title.SuspendSixHours": "Suspended for 6 hours",
+        "Title.SuspendTwelveHours": "Suspended for 12 hours",
         "Title.SuspendOneDay": "Suspended for 1 day",
+        "Title.SuspendTwoDays": "Suspended for 2 days",
         "Title.SuspendThreeDays": "Suspended for 3 days",
         "Title.SuspendSevenDays": "Suspended for 7 days",
         "Title.SuspendFourteenDays": "Suspended for 14 days",
@@ -118,9 +121,12 @@ const translations = {
         "Title.SuspendOneYear": "Suspended for 1 year",
         
         "Title.Warn": "Warning",
+        "Title.Ban1Hour": "Banned for 1 Hour",
         "Title.Ban3Hours": "Banned for 3 Hours",
         "Title.Ban6Hours": "Banned for 6 Hours",
+        "Title.Ban12Hours": "Banned for 12 Hours",
         "Title.Ban1Day": "Banned for 1 Day",
+        "Title.Ban2Days": "Banned for 2 Days",
         "Title.Ban3Days": "Banned for 3 Days",
         "Title.Ban7Days": "Banned for 7 Days",
         "Title.Ban14Days": "Banned for 14 Days",
@@ -191,15 +197,18 @@ if (formData) {
 // Punishment type mapping
 const banDurationMap = {
     Warn: translations[language]["Title.Warn"],
-    Ban3Hours: translations[language]["Title.SuspendThreeHours"],
-    Ban6Hours: translations[language]["Title.SuspendSixHours"],
-    Ban1Day: translations[language]["Title.SuspendOneDay"],
-    Ban3Days: translations[language]["Title.SuspendThreeDays"],
-    Ban7Days: translations[language]["Title.SuspendSevenDays"],
-    Ban14Days: translations[language]["Title.SuspendFourteenDays"],
-    Ban60Days: translations[language]["Title.SuspendSixtyDays"],
-    Ban6Months: translations[language]["Title.SuspendSixMonths"],
-    Ban1Year: translations[language]["Title.SuspendOneYear"],
+    Ban1Hour: translations[language]["Title.Ban1Hour"],
+    Ban3Hours: translations[language]["Title.Ban3Hours"],
+    Ban6Hours: translations[language]["Title.Ban6Hours"],
+    Ban12Hours: translations[language]["Title.Ban12Hours"],
+    Ban1Day: translations[language]["Title.Ban1Day"],
+    Ban2Days: translations[language]["Title.Ban2Days"],
+    Ban3Days: translations[language]["Title.Ban3Days"],
+    Ban7Days: translations[language]["Title.Ban7Days"],
+    Ban14Days: translations[language]["Title.Ban14Days"],
+    Ban60Days: translations[language]["Title.Ban60Days"],
+    Ban6Months: translations[language]["Title.Ban6Months"],
+    Ban1Year: translations[language]["Title.Ban1Year"],
     Delete: translations[language]["Title.Terminate"]
 };
 
@@ -255,9 +264,12 @@ reviewedContainer.appendChild(boldDate);
         document.getElementById('reactivateButton').style.display = "none";
     } else {
         const banDurationHoursMap = {
+            Ban1Hour: 1,
             Ban3Hours: 3,
             Ban6Hours: 6,
+            Ban12Hours: 12,
             Ban1Day: 24,
+            Ban2Days: 48,
             Ban3Days: 72,
             Ban7Days: 168,
             Ban14Days: 336,
