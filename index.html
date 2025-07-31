@@ -113,10 +113,10 @@
         <label for="Ban6Hours">6 Hours</label><br>
         <input type="radio" id="Ban12Hours" name="State" value="Ban12Hours">
         <label for="Ban12Hours">12 Hours</label><br>
-        <input type="radio" id="Ban3Days" name="State" value="Ban3Days">
-        <label for="Ban3Days">3 Days</label><br>
         <input type="radio" id="Ban1Day" name="State" value="Ban1Day">
         <label for="Ban1Day">1 Day</label><br>
+        <input type="radio" id="Ban2Days" name="State" value="Ban2Days">
+        <label for="Ban2Days">2 Days</label><br>
         <input type="radio" id="Ban3Days" name="State" value="Ban3Days">
         <label for="Ban3Days">3 Days</label><br>
         <input type="radio" id="Ban7Days" name="State" value="Ban7Days">
@@ -716,7 +716,7 @@
         
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
-            newBox.querySelector('.classicReason').value = 'Modified Client';
+            newBox.querySelector('.classicReason').value = 'Use of Modified Clients';
             newBox.querySelector('.evidence').value = `Client Modification Detected - Place ID: ${placeId}`;
         }
         alert('Please enter a username and submit.');
