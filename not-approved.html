@@ -346,92 +346,87 @@ reviewedContainer.appendChild(boldDate);
     }
     
     if (formData.classicViolations && formData.classicViolations.length > 0) {        
-        formData.classicViolations.forEach((violation, index) => {
-            const evidenceBox = document.createElement('div');
-            evidenceBox.className = 'evidence-box';
-            
-            // Determine severity
-            let severityClass = 'severity-mild';
-            let severityText = translations[language]["Tag.Mild"];
-            
-            const severeReasons = [
-                "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-                "Child Safety", "Account Theft", "Real-Life Threats", "Chargeback", "Malicious Software", "Ban Evasion"
-            ];
-            
-            const moderateReasons = [
-                "Harassment", "Inappropriate", "Violent Content and Gore",
-                "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
-            ];
+    formData.classicViolations.forEach((violation, index) => {
+        const evidenceBox = document.createElement('div');
+        evidenceBox.className = 'evidence-box';
+        
+        // Determine severity
+        let severityClass = 'severity-mild';
+        let severityText = translations[language]["Tag.Mild"];
+        
+        const severeReasons = [
+            "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
+            "Child Safety", "Account Theft", "Real-Life Threats", "Chargeback", "Malicious Software", "Ban Evasion"
+        ];
+        
+        const moderateReasons = [
+            "Harassment", "Inappropriate", "Violent Content and Gore",
+            "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
+        ];
 
-            if (severeReasons.includes(violation.reason)) {
-                severityClass = 'severity-severe';
-                severityText = translations[language]["Tag.Severe"];
-            } else if (moderateReasons.includes(violation.reason)) {
-                severityClass = 'severity-moderate';
-                severityText = translations[language]["Tag.Moderate"];
-            }
+        if (severeReasons.includes(violation.reason)) {
+            severityClass = 'severity-severe';
+            severityText = translations[language]["Tag.Severe"];
+        } else if (moderateReasons.includes(violation.reason)) {
+            severityClass = 'severity-moderate';
+            severityText = translations[language]["Tag.Moderate"];
+        }
 
-            // Violation header
-            const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
-            reasonElement.style.marginBottom = "6px";
-            evidenceBox.appendChild(reasonElement);
+        // Violation header
+        const reasonElement = document.createElement('p');
+        reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
+        reasonElement.style.marginBottom = "6px";
+        evidenceBox.appendChild(reasonElement);
 
-            // Evidence label
-            const evidenceLabel = document.createElement('p');
-            evidenceLabel.textContent = translations[language]["Label.Evidence"] + ': ';
-            evidenceBox.appendChild(evidenceLabel);
+        // Evidence label and content combined
+        const evidenceLine = document.createElement('p');
+        evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
+        
+        // Create bold element for evidence content
+        const evidenceContent = document.createElement('b');
+        
+        if (violation.violationType !== "General/Chat") {
+            evidenceContent.textContent += `${violation.violationType}: `;
+        }
 
-            // Evidence content
-            const evidenceContent = document.createElement('div');
-            evidenceContent.className = 'evidence-item';
-            
-            if (violation.violationType !== "General/Chat") {
-                const evidenceTypeElement = document.createElement('p');
-                evidenceTypeElement.className = 'evidence-type';
-                evidenceTypeElement.textContent = `${violation.violationType}:`;
-                evidenceContent.appendChild(evidenceTypeElement);
-            }
+        if (violation.violationType === "Image") {
+            evidenceLine.appendChild(evidenceContent);
+            evidenceBox.appendChild(evidenceLine);
+            const imgElement = document.createElement('img');
+            imgElement.src = violation.evidence;
+            imgElement.className = 'evidence-image';
+            evidenceBox.appendChild(imgElement);
+        } 
+        else if (violation.violationType === "Voice Chat") {
+            const date = new Date();
+            date.setMinutes(date.getMinutes() - 5);
+            const formattedDate = date.toLocaleString('en-US', { 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: false 
+            });
+            evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+            evidenceLine.appendChild(evidenceContent);
+            evidenceBox.appendChild(evidenceLine);
+        } 
+        else if (violation.violationType === "Audio") {
+            evidenceLine.appendChild(evidenceContent);
+            evidenceBox.appendChild(evidenceLine);
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            audioElement.src = violation.evidence;
+            evidenceBox.appendChild(audioElement);
+        } 
+        else {
+            evidenceContent.textContent += violation.evidence;
+            evidenceLine.appendChild(evidenceContent);
+            evidenceBox.appendChild(evidenceLine);
+        }
 
-            if (violation.violationType === "Image") {
-                const imgElement = document.createElement('img');
-                imgElement.src = violation.evidence;
-                imgElement.className = 'evidence-image';
-                evidenceContent.appendChild(imgElement);
-            } 
-            else if (violation.violationType === "Voice Chat") {
-                const date = new Date();
-                date.setMinutes(date.getMinutes() - 5);
-                const formattedDate = date.toLocaleString('en-US', { 
-                    month: 'long', 
-                    day: 'numeric', 
-                    hour: '2-digit', 
-                    minute: '2-digit', 
-                    hour12: false 
-                });
-                const evidenceText = document.createElement('p');
-                evidenceText.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-                evidenceText.style.fontWeight = "400";
-                evidenceContent.appendChild(evidenceText);
-            } 
-            else if (violation.violationType === "Audio") {
-                const audioElement = document.createElement('audio');
-                audioElement.controls = true;
-                audioElement.src = violation.evidence;
-                evidenceContent.appendChild(audioElement);
-            } 
-            else {
-                const evidenceText = document.createElement('p');
-                evidenceText.textContent = violation.evidence;
-                evidenceText.style.fontWeight = "400";
-                evidenceContent.appendChild(evidenceText);
-            }
-
-            evidenceBox.appendChild(evidenceContent);
-            evidenceContainer.appendChild(evidenceBox);
-        });
-    }
+        evidenceContainer.appendChild(evidenceBox);
+    });
 }
 
 // Theme handling
