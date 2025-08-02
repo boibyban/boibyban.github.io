@@ -131,6 +131,7 @@
         <div id="evidenceContainer"><p id="reviewedContainer"></p>
         <p id="detection" style="display:none"></p></div>
         <p id="communityRules"></p>
+        <p id="reactivateMessage"></p>
         <p id="appealsMessage"></p>
         <div id="agreeContainer">
             <div class="agree-checkbox">
@@ -139,7 +140,6 @@
             </div>
             <button id="reactivateButton" class="reactivate" disabled></button>
         </div>
-        <p id="reactivateMessage"></p>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
     </div>
 <script>
@@ -284,6 +284,11 @@ if (formData) {
 
     const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
+        // For warnings, move reactivate message below appeals message
+        const appealsMessage = document.getElementById('appealsMessage');
+        const reactivateMessage = document.getElementById('reactivateMessage');
+        appealsMessage.parentNode.insertBefore(reactivateMessage, appealsMessage.nextSibling);
+        
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
         document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
         document.getElementById('reactivateButton').style.display = "block";
