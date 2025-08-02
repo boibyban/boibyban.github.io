@@ -24,6 +24,15 @@ a {
 .evidence {
     margin-left: 40px;
 }
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0 5px 0;
+            font-family: "Noto Sans", serif;
+            font-size: 14px;
+            color: #eee;
+        }
 .logout {
     color: #eee;
     text-align: center;
