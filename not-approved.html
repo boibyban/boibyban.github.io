@@ -153,8 +153,6 @@ const translations = {
         "Title.SuspendThreeDays": "Suspended for 3 days",
         "Title.SuspendSevenDays": "Suspended for 7 days",
         "Title.SuspendFourteenDays": "Suspended for 14 days",
-        "Title.SuspendOneWeek": "Suspended for 1 week",
-        "Title.SuspendTwoWeeks": "Suspended for 2 weeks",
         "Title.SuspendSixtyDays": "Suspended for 60 days",
         "Title.SuspendSixMonths": "Suspended for 6 months",
         "Title.SuspendOneYear": "Suspended for 1 year",
@@ -170,34 +168,34 @@ const translations = {
         "Title.Ban7Days": "Banned for 7 Days",
         "Title.Ban14Days": "Banned for 14 Days",
         "Title.Ban60Days": "Banned for 60 Days",
-        "Title.Ban1Week": "Banned for 1 Week",
-        "Title.Ban2Weeks": "Banned for 2 Weeks",
         "Title.Ban6Months": "Banned for 6 Months",
         "Title.Ban1Year": "Banned for 1 Year",
         "Title.Delete": "Account Deleted",
         "Title.Terminate": "Account Terminated",
-        "Description.Warn": "By re-activating your account, you agree to our Terms of Use.",
+        "Description.Warn": "You may re-activate your account by agreeing to our Terms of Use.",
         "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
         "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
 
         "Text.TermsMessage": "We have determined that your recent behaviour or actions on Boiby have been in violation of our {0}.",
-        "Text.CommunityStandardMessage": "Remember to abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
-        "Text.AppealsMessage": "If you wish to appeal, please contact us via the {0}.",
-        "Text.AppealsMessageV2": "To request an appeal visit the {0}.",
+        "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
+        "Text.AppealsMessage": "To request an appeal visit the {0}.",
         
         "Label.TermsOfUse": "Terms of Use",
-        "Label.CommunityGuidelines": "Community Guidelines",
         "Label.CommunityRules": "Community Rules",
-        "Label.AppealsForm": "Appeals Portal",
+        "Label.AppealsForm": "Appeals Form",
+
+        "Label.Reviewed": "Reviewed",
         "Label.ModeratorNote": "Moderator Note",
         "Label.Decision": "Decision",
-        "Label.RecentViolation": "Recent Violation",
-        "Label.RecentViolationV2": "Violation Details",
+        
         "Label.Violation": "Violation",
         "Label.Reason": "Reason",
         "Label.Evidence": "Evidence",
-        "Label.Reviewed": "Reviewed",
+        "Label.OffensiveItem": "Offensive Item",
+        
+        "Label.RecentViolation": "Recent Violation",
+        "Label.ViolationDetails": "Violation Details",
 
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
@@ -207,13 +205,11 @@ const translations = {
         "Caution.1Day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
         "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
         "Caution.7Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
-        "Caution.1Week": "If you violate the Community Rules again, your account may be suspended for at least 1 week.",
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
-        "Caution.PermanentV2": "If you violate the Community Rules again, your Boiby account may be permanently suspended.",
 
-        "Decision.ManualDetectionAutoReview": "Automation was used when making this decision.",
-        "Decision.AutoDetectionManualReview": "This violation was detected using automation.",
-        "Decision.FullyAutomated": "Automation was used to detect this violation and make this decision."
+        "Decision.ManualDetectionAutoReview": "We used automated systems when making this decision.",
+        "Decision.AutoDetectionManualReview": "We used automated systems to detect this violation.",
+        "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision."
     }};
 
 // Helper function to format strings with placeholders
@@ -324,7 +320,7 @@ if (formData) {
         "1day": translations[language]["Caution.1Day"],
         "3days": translations[language]["Caution.3Days"],
         "7days": translations[language]["Caution.7Days"],
-        "permanent": translations[language]["Caution.PermanentV2"]
+        "permanent": translations[language]["Caution.Permanent"]
     };
 
     if (formData.cautionWarning && formData.cautionWarning !== "none") {
@@ -348,7 +344,7 @@ if (formData) {
     );
     
     document.getElementById('appealsMessage').innerHTML = formatString(
-        translations[language]["Text.AppealsMessageV2"],
+        translations[language]["Text.AppealsMessage"],
         `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
     );
     
@@ -364,7 +360,7 @@ if (formData) {
     const evidenceContainer = document.getElementById('evidenceContainer');
     
     // Always show "Recent Violation:" header
-    document.getElementById('violationHeader').textContent = translations[language]["Label.RecentViolationV2"] + ':';
+    document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
     
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
