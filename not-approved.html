@@ -378,20 +378,19 @@ reviewedContainer.appendChild(boldDate);
         reasonElement.style.marginBottom = "6px";
         evidenceBox.appendChild(reasonElement);
 
-        // Evidence label and content combined
+        // Evidence label
         const evidenceLine = document.createElement('p');
         evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
         
-        // Create bold element for evidence content
-        const evidenceContent = document.createElement('b');
-        
-        if (violation.violationType !== "General/Chat") {
-            evidenceContent.textContent += `${violation.violationType}: `;
-        }
-
+        // Evidence content
         if (violation.violationType === "Image") {
-            evidenceLine.appendChild(evidenceContent);
+            const boldContent = document.createElement('b');
+            if (violation.violationType !== "General/Chat") {
+                boldContent.textContent = `${violation.violationType}: `;
+            }
+            evidenceLine.appendChild(boldContent);
             evidenceBox.appendChild(evidenceLine);
+            
             const imgElement = document.createElement('img');
             imgElement.src = violation.evidence;
             imgElement.className = 'evidence-image';
@@ -407,21 +406,31 @@ reviewedContainer.appendChild(boldDate);
                 minute: '2-digit', 
                 hour12: false 
             });
-            evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-            evidenceLine.appendChild(evidenceContent);
+            const boldContent = document.createElement('b');
+            boldContent.textContent = `${violation.violationType}: Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+            evidenceLine.appendChild(boldContent);
             evidenceBox.appendChild(evidenceLine);
         } 
         else if (violation.violationType === "Audio") {
-            evidenceLine.appendChild(evidenceContent);
+            const boldContent = document.createElement('b');
+            if (violation.violationType !== "General/Chat") {
+                boldContent.textContent = `${violation.violationType}: `;
+            }
+            evidenceLine.appendChild(boldContent);
             evidenceBox.appendChild(evidenceLine);
+            
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
             audioElement.src = violation.evidence;
             evidenceBox.appendChild(audioElement);
         } 
         else {
-            evidenceContent.textContent += violation.evidence;
-            evidenceLine.appendChild(evidenceContent);
+            const boldContent = document.createElement('b');
+            if (violation.violationType !== "General/Chat") {
+                boldContent.textContent = `${violation.violationType}: `;
+            }
+            boldContent.textContent += violation.evidence;
+            evidenceLine.appendChild(boldContent);
             evidenceBox.appendChild(evidenceLine);
         }
 
