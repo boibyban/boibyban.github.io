@@ -7,7 +7,7 @@
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
         .logout.warning-margin {
-            margin: 20px auto 16px auto;
+            margin: 10px auto 0 auto;
         }
         .logout {
             min-width: 80px;
@@ -83,6 +83,25 @@
             font-weight: normal;
             display: inline;
         }
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0 5px 0;
+        }
+        .agree-checkbox input {
+            margin-right: 8px;
+        }
+        .reactivate[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
     </style>
     <div id="header">
         <b id="username">Username</b>
@@ -90,17 +109,23 @@
 </head>
 <body>
     <div class="ban-box">
-        <h3 id="banDuration">Banned</h3>
+        <h3 id="banDuration">Warning</h3>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
         <p id="violationHeader"></p>
         <div id="evidenceContainer"><p id="reviewedContainer"></p>
         <p id="detection" style="display:none"></p></div>
         <p id="communityRules"></p>
-        <p id="reactivateMessage"></p>
         <p id="appealsMessage"></p>
-        <button id="reactivateButton" class="reactivate"></button>
-        <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
+        <p id="reactivateMessage"></p>
+        <div class="buttons-container">
+            <div class="agree-checkbox">
+                <input type="checkbox" id="agreeCheckbox">
+                <label for="agreeCheckbox">I agree</label>
+            </div>
+            <button id="reactivateButton" class="reactivate" disabled></button>
+            <button class="logout warning-margin"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
+        </div>
     </div>
 <script>
 // Translation system
@@ -403,6 +428,12 @@ if (formData) {
         evidenceContainer.appendChild(evidenceBox);
     }
 }
+
+// Handle checkbox state for reactivate button
+document.getElementById('agreeCheckbox').addEventListener('change', function() {
+    const reactivateButton = document.getElementById('reactivateButton');
+    reactivateButton.disabled = !this.checked;
+});
 
 // Theme handling
 function setTheme(theme) {
