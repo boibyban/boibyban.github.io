@@ -79,6 +79,10 @@
         .violation-text {
             font-weight: 500;
         }
+        .evidence-content {
+            font-weight: normal;
+            display: inline;
+        }
     </style>
     <div id="header">
         <b id="username">Username</b>
@@ -194,24 +198,23 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
     
-// Punishment type mapping
-const banDurationMap = {
-    Warn: translations[language]["Title.Warn"],
-    Ban1Hour: translations[language]["Title.Ban1Hour"],
-    Ban3Hours: translations[language]["Title.Ban3Hours"],
-    Ban6Hours: translations[language]["Title.Ban6Hours"],
-    Ban12Hours: translations[language]["Title.Ban12Hours"],
-    Ban1Day: translations[language]["Title.Ban1Day"],
-    Ban2Days: translations[language]["Title.Ban2Days"],
-    Ban3Days: translations[language]["Title.Ban3Days"],
-    Ban7Days: translations[language]["Title.Ban7Days"],
-    Ban14Days: translations[language]["Title.Ban14Days"],
-    Ban60Days: translations[language]["Title.Ban60Days"],
-    Ban6Months: translations[language]["Title.Ban6Months"],
-    Ban1Year: translations[language]["Title.Ban1Year"],
-    Delete: translations[language]["Title.Terminate"]
-};
-
+    // Punishment type mapping
+    const banDurationMap = {
+        Warn: translations[language]["Title.Warn"],
+        Ban1Hour: translations[language]["Title.Ban1Hour"],
+        Ban3Hours: translations[language]["Title.Ban3Hours"],
+        Ban6Hours: translations[language]["Title.Ban6Hours"],
+        Ban12Hours: translations[language]["Title.Ban12Hours"],
+        Ban1Day: translations[language]["Title.Ban1Day"],
+        Ban2Days: translations[language]["Title.Ban2Days"],
+        Ban3Days: translations[language]["Title.Ban3Days"],
+        Ban7Days: translations[language]["Title.Ban7Days"],
+        Ban14Days: translations[language]["Title.Ban14Days"],
+        Ban60Days: translations[language]["Title.Ban60Days"],
+        Ban6Months: translations[language]["Title.Ban6Months"],
+        Ban1Year: translations[language]["Title.Ban1Year"],
+        Delete: translations[language]["Title.Terminate"]
+    };
 
     // Set ban duration title
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
@@ -232,12 +235,12 @@ const banDurationMap = {
 
     const now = new Date();
     const reviewedDate = formatDate(now);
-const reviewedContainer = document.getElementById('reviewedContainer');
-reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
-const boldDate = document.createElement('b');
-boldDate.id = 'reviewedDate';
-boldDate.textContent = reviewedDate;
-reviewedContainer.appendChild(boldDate);
+    const reviewedContainer = document.getElementById('reviewedContainer');
+    reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
+    const boldDate = document.createElement('b');
+    boldDate.id = 'reviewedDate';
+    boldDate.textContent = reviewedDate;
+    reviewedContainer.appendChild(boldDate);
 
     // Set automation decision text
     const automationTextMap = {
@@ -294,7 +297,7 @@ reviewedContainer.appendChild(boldDate);
         "1day": translations[language]["Caution.1Day"],
         "3days": translations[language]["Caution.3Days"],
         "7days": translations[language]["Caution.7Days"],
-        "permanent": translations[language]["Caution.PermanentV2"] // v1 or V2 iogeninrw
+        "permanent": translations[language]["Caution.PermanentV2"]
     };
 
     if (formData.cautionWarning && formData.cautionWarning !== "none") {
@@ -346,96 +349,91 @@ reviewedContainer.appendChild(boldDate);
     }
     
     if (formData.classicViolations && formData.classicViolations.length > 0) {        
-    formData.classicViolations.forEach((violation, index) => {
-        const evidenceBox = document.createElement('div');
-        evidenceBox.className = 'evidence-box';
-        
-        // Determine severity
-        let severityClass = 'severity-mild';
-        let severityText = translations[language]["Tag.Mild"];
-        
-        const severeReasons = [
-            "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-            "Child Safety", "Account Theft", "Real-Life Threats", "Chargeback", "Malicious Software", "Ban Evasion"
-        ];
-        
-        const moderateReasons = [
-            "Harassment", "Inappropriate", "Violent Content and Gore",
-            "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
-        ];
-
-        if (severeReasons.includes(violation.reason)) {
-            severityClass = 'severity-severe';
-            severityText = translations[language]["Tag.Severe"];
-        } else if (moderateReasons.includes(violation.reason)) {
-            severityClass = 'severity-moderate';
-            severityText = translations[language]["Tag.Moderate"];
-        }
-
-        // Violation header
-        const reasonElement = document.createElement('p');
-        reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
-        reasonElement.style.marginBottom = "6px";
-        evidenceBox.appendChild(reasonElement);
-
-        // Evidence label
-        const evidenceLine = document.createElement('p');
-        evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
-        
-        // Evidence content
-        if (violation.violationType === "Image") {
-            const boldContent = document.createElement('b');
-            if (violation.violationType !== "General/Chat") {
-                boldContent.textContent = `${violation.violationType}: `;
-            }
-            evidenceLine.appendChild(boldContent);
-            evidenceBox.appendChild(evidenceLine);
+        formData.classicViolations.forEach((violation, index) => {
+            const evidenceBox = document.createElement('div');
+            evidenceBox.className = 'evidence-box';
             
-            const imgElement = document.createElement('img');
-            imgElement.src = violation.evidence;
-            imgElement.className = 'evidence-image';
-            evidenceBox.appendChild(imgElement);
-        } 
-        else if (violation.violationType === "Voice Chat") {
-            const date = new Date();
-            date.setMinutes(date.getMinutes() - 5);
-            const formattedDate = date.toLocaleString('en-US', { 
-                month: 'long', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: false 
-            });
-            const boldContent = document.createElement('b');
-            boldContent.textContent = `${violation.violationType}: Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-            evidenceLine.appendChild(boldContent);
-            evidenceBox.appendChild(evidenceLine);
-        } 
-        else if (violation.violationType === "Audio") {
-            const boldContent = document.createElement('b');
-            if (violation.violationType !== "General/Chat") {
-                boldContent.textContent = `${violation.violationType}: `;
-            }
-            evidenceLine.appendChild(boldContent);
-            evidenceBox.appendChild(evidenceLine);
+            // Determine severity
+            let severityClass = 'severity-mild';
+            let severityText = translations[language]["Tag.Mild"];
             
-            const audioElement = document.createElement('audio');
-            audioElement.controls = true;
-            audioElement.src = violation.evidence;
-            evidenceBox.appendChild(audioElement);
-        } 
-        else {
-            const boldContent = document.createElement('b');
-            if (violation.violationType !== "General/Chat") {
-                boldContent.textContent = `${violation.violationType}: `;
-            }
-            boldContent.textContent += violation.evidence;
-            evidenceLine.appendChild(boldContent);
-            evidenceBox.appendChild(evidenceLine);
-        }
+            const severeReasons = [
+                "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
+                "Child Safety", "Account Theft", "Real-Life Threats", "Chargeback", "Malicious Software", "Ban Evasion"
+            ];
+            
+            const moderateReasons = [
+                "Harassment", "Inappropriate", "Violent Content and Gore",
+                "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
+            ];
 
-        evidenceContainer.appendChild(evidenceBox);
-    });
+            if (severeReasons.includes(violation.reason)) {
+                severityClass = 'severity-severe';
+                severityText = translations[language]["Tag.Severe"];
+            } else if (moderateReasons.includes(violation.reason)) {
+                severityClass = 'severity-moderate';
+                severityText = translations[language]["Tag.Moderate"];
+            }
+
+            // Violation header
+            const reasonElement = document.createElement('p');
+            reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
+            reasonElement.style.marginBottom = "6px";
+            evidenceBox.appendChild(reasonElement);
+
+            // Evidence line - now with inline content
+            const evidenceLine = document.createElement('p');
+            evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
+            
+            // Create evidence content span
+            const evidenceContent = document.createElement('span');
+            evidenceContent.className = 'evidence-content';
+            
+            if (violation.violationType !== "General/Chat") {
+                evidenceContent.textContent = `${violation.violationType}: `;
+            }
+            
+            if (violation.violationType === "Image") {
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+                
+                const imgElement = document.createElement('img');
+                imgElement.src = violation.evidence;
+                imgElement.className = 'evidence-image';
+                evidenceBox.appendChild(imgElement);
+            } 
+            else if (violation.violationType === "Voice Chat") {
+                const date = new Date();
+                date.setMinutes(date.getMinutes() - 5);
+                const formattedDate = date.toLocaleString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: false 
+                });
+                evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+            } 
+            else if (violation.violationType === "Audio") {
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+                
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.src = violation.evidence;
+                evidenceBox.appendChild(audioElement);
+            } 
+            else {
+                evidenceContent.textContent += violation.evidence;
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+            }
+
+            evidenceContainer.appendChild(evidenceBox);
+        });
+    }
 }
 
 // Theme handling
