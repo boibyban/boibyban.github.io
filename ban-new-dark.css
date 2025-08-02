@@ -108,16 +108,6 @@ b {
     margin-top: 6px;
 }
 
-.severity-tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-left: 8px;
-    color: white;
-}
-
 .evidence-type {
     font-weight: 600;
     margin-left: 5px;
