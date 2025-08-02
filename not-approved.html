@@ -91,7 +91,6 @@
 <body>
     <div class="ban-box">
         <h3 id="banDuration">Banned</h3>
-        <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
         <p id="violationHeader"></p>
@@ -99,7 +98,6 @@
         <p id="detection" style="display:none"></p></div>
         <p id="communityRules"></p>
         <p id="reactivateMessage"></p>
-        <p id="membershipNotice" style="display:none"></p>
         <p id="appealsMessage"></p>
         <button id="reactivateButton" class="reactivate"></button>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
@@ -255,11 +253,9 @@ if (formData) {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.WarnV2"];
         document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
         document.getElementById('reactivateButton').style.display = "block";
-        document.getElementById('membershipNotice').style.display = "none";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
-        document.getElementById('membershipNotice').style.display = "none";
         document.getElementById('reactivateButton').style.display = "none";
     } else {
         const banDurationHoursMap = {
@@ -327,7 +323,6 @@ if (formData) {
     const savedUsername = localStorage.getItem('username');
     if (savedUsername) {
         document.getElementById('username').textContent = savedUsername;
-        document.getElementById('usernameB').textContent = savedUsername;
     }
 
     // Handle evidence display
@@ -345,10 +340,10 @@ if (formData) {
     }
     
     if (formData.classicViolations && formData.classicViolations.length > 0) {        
+        const evidenceBox = document.createElement('div');
+        evidenceBox.className = 'evidence-box';
+        
         formData.classicViolations.forEach((violation, index) => {
-            const evidenceBox = document.createElement('div');
-            evidenceBox.className = 'evidence-box';
-            
             // Violation header
             const reasonElement = document.createElement('p');
             reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
@@ -403,9 +398,9 @@ if (formData) {
                 evidenceLine.appendChild(evidenceContent);
                 evidenceBox.appendChild(evidenceLine);
             }
-
-            evidenceContainer.appendChild(evidenceBox);
         });
+
+        evidenceContainer.appendChild(evidenceBox);
     }
 }
 
