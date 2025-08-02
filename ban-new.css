@@ -82,11 +82,11 @@ b {
     display: block;
 }
 .evidence-box {
-    border: 2px solid #bbb;
+    border: 1px solid #333;
     padding: 12px;
-    border-radius: 10px!important;
-    margin-top: 16px;
-    margin-bottom: 16px;
+    border-radius: 0px!important;
+    margin-top:16px!important;
+    margin-bottom: 12px!important;
 }
 
 .evidence-item {
@@ -94,28 +94,6 @@ b {
     padding: 8px;
     border-radius: 4px;
     margin-top: 6px;
-}
-
-.severity-tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-left: 8px;
-    color: white;
-}
-
-.severity-mild {
-    background-color: #ffc107;
-}
-
-.severity-moderate {
-    background-color: #fd7e14;
-}
-
-.severity-severe {
-    background-color: #dc3545;
 }
 
 .evidence-type {
