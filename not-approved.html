@@ -114,6 +114,9 @@
             align-items: center;
             margin-top: 10px;
         }
+        #agreeContainer {
+            display: none;
+        }
     </style>
     <div id="header">
         <b id="username">Username</b>
@@ -130,14 +133,14 @@
         <p id="communityRules"></p>
         <p id="appealsMessage"></p>
         <p id="reactivateMessage"></p>
-        <div class="buttons-container">
+        <div id="agreeContainer">
             <div class="agree-checkbox">
                 <input type="checkbox" id="agreeCheckbox">
                 <label for="agreeCheckbox">I agree</label>
             </div>
             <button id="reactivateButton" class="reactivate" disabled></button>
-            <button class="logout warning-margin"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
         </div>
+        <button class="logout warning-margin"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
     </div>
 <script>
 // Translation system
@@ -284,6 +287,7 @@ if (formData) {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
         document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
         document.getElementById('reactivateButton').style.display = "block";
+        document.getElementById('agreeContainer').style.display = "block";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
