@@ -169,10 +169,6 @@ const translations = {
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
 
-        "Tag.Mild": "Mild",
-        "Tag.Moderate": "Moderate",
-        "Tag.Severe": "Severe",
-
         "Caution.Title": "CAUTION",
         "Caution.Future": "If you violate the Community Rules again, your account may be suspended in the future.",
         "Caution.1Day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
@@ -353,32 +349,9 @@ if (formData) {
             const evidenceBox = document.createElement('div');
             evidenceBox.className = 'evidence-box';
             
-            // Determine severity
-            let severityClass = 'severity-mild';
-            let severityText = translations[language]["Tag.Mild"];
-            
-            const severeReasons = [
-                "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-                "Child Safety", "Account Theft", "Real-Life Threats", "Chargeback", "Malicious Software", "Ban Evasion"
-            ];
-            
-            const moderateReasons = [
-                "Harassment", "Inappropriate", "Violent Content and Gore",
-                "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
-            ];
-
-            if (severeReasons.includes(violation.reason)) {
-                severityClass = 'severity-severe';
-                severityText = translations[language]["Tag.Severe"];
-            } else if (moderateReasons.includes(violation.reason)) {
-                severityClass = 'severity-moderate';
-                severityText = translations[language]["Tag.Moderate"];
-            }
-
             // Violation header
             const reasonElement = document.createElement('p');
             reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
-            // reasonElement.style.marginBottom = "6px";
             evidenceBox.appendChild(reasonElement);
 
             // Evidence line - now with inline content
