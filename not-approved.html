@@ -396,7 +396,7 @@ if (formData) {
             const evidenceContent = document.createElement('span');
             evidenceContent.className = 'evidence-content';
             
-            if (violation.violationType !== "General/Chat") {
+            if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
                 evidenceContent.textContent = `${violation.violationType}: `;
             }
             
