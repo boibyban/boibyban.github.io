@@ -90,7 +90,7 @@
 
 
         #banDuration {
-            text-align: left !important;
+            text-align: center !important;
             font-size: 24px !important;
             padding-bottom: 20px !important;
             padding-top: 5px !important;
@@ -126,7 +126,13 @@
         <p id="communityRules"></p>
         <p id="membershipNotice" style="display:none"></p>
         <p id="appealsMessage"></p>
-        <button id="reactivateButton" class="reactivate"></button>
+        <div id="agreeContainer">
+            <div class="agree-checkbox">
+                <input type="checkbox" id="agreeCheckbox">
+                <label for="agreeCheckbox">I agree</label>
+            </div>
+            <button id="reactivateButton" class="reactivate" disabled></button>
+        </div>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
         
     </div>
