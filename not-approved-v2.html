@@ -128,7 +128,6 @@
             <p id="detection" style="display:none"></p>
         </div>
         <p id="reactivateMessage"></p>
-        <p id="violationWarning"></p>
         <p id="communityRules"></p>
         <p id="membershipNotice" style="display:none"></p>
         <button id="reactivateButton" class="reactivate"></button>
@@ -140,6 +139,19 @@
 const translations = {
     en: {
         // Punishment types
+        "Title.SuspendOneHours": "Suspended for 1 hour",
+        "Title.SuspendThreeHours": "Suspended for 3 hours",
+        "Title.SuspendSixHours": "Suspended for 6 hours",
+        "Title.SuspendTwelveHours": "Suspended for 12 hours",
+        "Title.SuspendOneDay": "Suspended for 1 day",
+        "Title.SuspendTwoDays": "Suspended for 2 days",
+        "Title.SuspendThreeDays": "Suspended for 3 days",
+        "Title.SuspendSevenDays": "Suspended for 7 days",
+        "Title.SuspendFourteenDays": "Suspended for 14 days",
+        "Title.SuspendSixtyDays": "Suspended for 60 days",
+        "Title.SuspendSixMonths": "Suspended for 6 months",
+        "Title.SuspendOneYear": "Suspended for 1 year",
+        
         "Title.Warn": "Warning",
         "Title.Ban1Hour": "Banned for 1 Hour",
         "Title.Ban3Hours": "Banned for 3 Hours",
@@ -155,72 +167,45 @@ const translations = {
         "Title.Ban1Year": "Banned for 1 Year",
         "Title.Delete": "Account Deleted",
         "Title.Terminate": "Account Terminated",
-        
-        
-        "Title.PermanentlyBanned": "Banned permanently",
-        "Title.SuspendThreeHours": "Suspended for 3 hours",
-        "Title.SuspendSixHours": "Suspended for 6 hours",
-        "Title.SuspendOneDay": "Suspended for 1 day",
-        "Title.SuspendThreeDays": "Suspended for 3 days",
-        "Title.SuspendSevenDays": "Suspended for 7 days",
-        "Title.SuspendFourteenDays": "Suspended for 14 days",
-        "Title.SuspendOneWeek": "Suspended for 1 week",
-        "Title.SuspendTwoWeeks": "Suspended for 2 weeks",
-        "Title.SuspendSixtyDays": "Suspended for 60 days",
-        "Title.SuspendSixMonths": "Suspended for 6 months",
-        "Title.SuspendOneYear": "Suspended for 1 year",
-        
         "Description.Warn": "You may re-activate your account by agreeing to our Terms of Use.",
         "Description.Ban": "Your account has been banned. You may re-activate it after {0}.",
         "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
 
-        "Text.TermsMessage": "We have determined that your recent behavior or activity on Boiby has been in violation our {0}.",
-        "Text.CommunityStandardMessage": "Remember to abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
-        "Text.AppealsMessage": "If you wish to appeal, please contact us via the {0}.",
-        "Text.AppealsMessageV2": "To request an appeal, contact us via the {0}.",
-        "Text.RememberTheRules": "Make sure you know the rules and follow them. {0}",
-        "Text.Mistake": "Did we make a mistake? {0}",
-        "Text.DefaultViolation": "Your recent behaviour violated Boiby's Community Rules.",
-        "Text.SpecificViolation": "Your recent behaviour broke Boiby's rules regarding {0}.",
-    
+        "Text.TermsMessage": "We have determined that your recent behaviour or actions on Boiby have been in violation of our {0}.",
+        "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
+        "Text.AppealsMessage": "To request an appeal visit the {0}.",
+        
         "Label.TermsOfUse": "Terms of Use",
-        "Label.CommunityGuidelines": "Community Guidelines",
         "Label.CommunityRules": "Community Rules",
         "Label.AppealsForm": "Appeals Form",
-        "Label.AppealHere": "Let us know",
-        "Label.LatestActivity": "Latest activity we reviewed",
-        "Label.ModeratorNote": "Moderator note",
-        "Label.Decision": "Decision method",
-        "Label.RecentViolation": "Recent Violation",
-        "Label.RecentViolationV2": "Violation details",
+
+        "Label.Reviewed": "Reviewed",
+        "Label.ModeratorNote": "Moderator Note",
+        "Label.Decision": "Decision",
+        
         "Label.Violation": "Violation",
         "Label.Reason": "Reason",
         "Label.Evidence": "Evidence",
-        "Label.Reviewed": "Review date",
-        "Label.ViewRules": "View rules",
+        "Label.OffensiveItem": "Offensive Item",
+        
+        "Label.RecentViolation": "Recent Violation",
+        "Label.ViolationDetails": "Violation Details",
 
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
-
-        "Tag.Mild": "Mild",
-        "Tag.Moderate": "Moderate",
-        "Tag.Severe": "Severe",
 
         "Caution.Title": "CAUTION",
         "Caution.Future": "If you violate the Community Rules again, your account may be suspended in the future.",
         "Caution.1Day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
         "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
         "Caution.7Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
-        "Caution.1Week": "If you violate the Community Rules again, your account may be suspended for at least 1 week.",
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
-        "Caution.PermanentV2": "If you violate the Community Rules again, your Boiby account may be permanently suspended.",
 
-        "Decision.ManualDetectionAutoReview": "We used automation to make this decision.",
-        "Decision.AutoDetectionManualReview": "We used automation to detect this violation.",
-        "Decision.FullyAutomated": "We used automation to detect this violation and make this decision."
-    }
-};
+        "Decision.ManualDetectionAutoReview": "We used automated systems when making this decision.",
+        "Decision.AutoDetectionManualReview": "We used automated systems to detect this violation.",
+        "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision."
+    }};
 
 // Helper function to format strings with placeholders
 function formatString(template, ...args) {
@@ -233,8 +218,8 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
     
-// Punishment type mapping
-const banDurationMap = {
+    // Punishment type mapping
+    const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
         Ban1Hour: translations[language]["Title.Ban1Hour"],
         Ban3Hours: translations[language]["Title.Ban3Hours"],
@@ -249,9 +234,9 @@ const banDurationMap = {
         Ban6Months: translations[language]["Title.Ban6Months"],
         Ban1Year: translations[language]["Title.Ban1Year"],
         Delete: translations[language]["Title.Delete"]
-};
+    };
 
-    // Set ban duration title 
+    // Set ban duration title
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
     // Format dates
@@ -277,20 +262,6 @@ const banDurationMap = {
     boldDate.textContent = reviewedDate;
     reviewedContainer.appendChild(boldDate);
 
-    // Set violation summary tex t
-    const violationSummary = document.getElementById('violationSummary');
-    if (formData.classicViolations && formData.classicViolations.length > 0 && formData.classicViolations[0].reason) {
-        violationSummary.innerHTML = `<p>${formatString(
-            translations[language]["Text.SpecificViolation"],
-            formData.classicViolations[0].reason
-        )}</p>`;
-    } else {
-        violationSummary.innerHTML = `<p>${translations[language]["Text.DefaultViolation"]}</p>`;
-    }
-
-    // Set violation details header
-    document.getElementById('violationHeader').textContent = translations[language]["Label.LatestActivity"] + ':';
-
     // Set automation decision text
     const automationTextMap = {
         "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
@@ -303,28 +274,26 @@ const banDurationMap = {
         document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
     }
 
-const logoutButton = document.querySelector('.logout');
+    const logoutButton = document.querySelector('.logout');
     if (formData.state === "Warn") {
+        // For warnings, move reactivate message below appeals message
+        const appealsMessage = document.getElementById('appealsMessage');
+        const reactivateMessage = document.getElementById('reactivateMessage');
+        appealsMessage.parentNode.insertBefore(reactivateMessage, appealsMessage.nextSibling);
+        
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
         document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
         document.getElementById('reactivateButton').style.display = "block";
-        document.getElementById('membershipNotice').style.display = "none";
+        document.getElementById('agreeContainer').style.display = "block";
         logoutButton.classList.add('warning-margin');
-        
-        // Add warning message for warnings
-        document.getElementById('violationWarning').innerHTML = 
-            'We may ban your account in the future if you keep breaking the rules.';
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = translations[language]["Description.PermBannedDesc"];
-        document.getElementById('membershipNotice').style.display = "none";
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
         document.getElementById('reactivateButton').style.display = "none";
-        document.getElementById('violationWarning').style.display = "none";
     } else {
-        // This is a temporary suspension
         const banDurationHoursMap = {
             Ban1Hour: 1,
             Ban3Hours: 3,
-            Ban6Hours: 6, 
+            Ban6Hours: 6,
             Ban12Hours: 12,
             Ban1Day: 24,
             Ban2Days: 48,
@@ -344,10 +313,6 @@ const logoutButton = document.querySelector('.logout');
             formatDate(reactivateDate)
         );
         document.getElementById('reactivateButton').style.display = "none";
-        
-        // Add warning message for temporary suspensions
-        document.getElementById('violationWarning').innerHTML = 
-            'We may give you a longer suspension—or even terminate your account—if you keep breaking rules.';
     }
 
     // Set caution warning if applicable
@@ -356,7 +321,7 @@ const logoutButton = document.querySelector('.logout');
         "1day": translations[language]["Caution.1Day"],
         "3days": translations[language]["Caution.3Days"],
         "7days": translations[language]["Caution.7Days"],
-        "permanent": translations[language]["Caution.PermanentV2"]
+        "permanent": translations[language]["Caution.Permanent"]
     };
 
     if (formData.cautionWarning && formData.cautionWarning !== "none") {
@@ -375,13 +340,13 @@ const logoutButton = document.querySelector('.logout');
     );
     
     document.getElementById('communityRules').innerHTML = formatString(
-        translations[language]["Text.RememberTheRules"],
-        `<a href="/info/community-rules">${translations[language]["Label.ViewRules"]}</a>`
+        translations[language]["Text.CommunityStandardMessage"],
+        `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`
     );
     
     document.getElementById('appealsMessage').innerHTML = formatString(
-        translations[language]["Text.Mistake"],
-        `<a href="/appeals-form">${translations[language]["Label.AppealHere"]}</a>`
+        translations[language]["Text.AppealsMessage"],
+        `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
     );
     
     document.querySelector('.logoutlink').textContent = translations[language]["Button.Logout"];
@@ -390,11 +355,13 @@ const logoutButton = document.querySelector('.logout');
     const savedUsername = localStorage.getItem('username');
     if (savedUsername) {
         document.getElementById('username').textContent = savedUsername;
-        document.getElementById('usernameB').textContent = savedUsername;
     }
 
     // Handle evidence display
     const evidenceContainer = document.getElementById('evidenceContainer');
+    
+    // Always show "Recent Violation:" header
+    document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
     
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
@@ -405,59 +372,35 @@ const logoutButton = document.querySelector('.logout');
     }
     
     if (formData.classicViolations && formData.classicViolations.length > 0) {        
+        const evidenceBox = document.createElement('div');
+        evidenceBox.className = 'evidence-box';
+        
         formData.classicViolations.forEach((violation, index) => {
-            const evidenceBox = document.createElement('div');
-            evidenceBox.className = 'evidence-box';
-            
-            // Determine severity
-            let severityClass = 'severity-mild';
-            let severityText = translations[language]["Tag.Mild"];
-            
-            const severeReasons = [
-                "Terrorism/Extremism", "Boiby Endangerment", "Adult Content", 
-                "Child Safety", "Account Theft", "Real-Life Threats", "Chargeback", "Malicious Software", "Ban Evasion"
-            ];
-            
-            const moderateReasons = [
-                "Harassment", "Inappropriate", "Violent Content and Gore",
-                "Discriminatory Content", "Cheats and Exploits", "Modified Client", "Extortion and Blackmail", "Misusing Boiby Systems", "Boiby Economy", "Privacy: Asking for PII", "Privacy: Sharing PII"
-            ];
-
-            if (severeReasons.includes(violation.reason)) {
-                severityClass = 'severity-severe';
-                severityText = translations[language]["Tag.Severe"];
-            } else if (moderateReasons.includes(violation.reason)) {
-                severityClass = 'severity-moderate';
-                severityText = translations[language]["Tag.Moderate"];
-            }
-
             // Violation header
             const reasonElement = document.createElement('p');
             reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
-            reasonElement.style.marginBottom = "6px";
             evidenceBox.appendChild(reasonElement);
 
-            // Evidence label
-            const evidenceLabel = document.createElement('p');
-            evidenceLabel.textContent = translations[language]["Label.Evidence"] + ': ';
-            evidenceBox.appendChild(evidenceLabel);
-
-            // Evidence content
-            const evidenceContent = document.createElement('div');
-            evidenceContent.className = 'evidence-item';
+            // Evidence line - now with inline content
+            const evidenceLine = document.createElement('p');
+            evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
             
-            if (violation.violationType !== "General/Chat") {
-                const evidenceTypeElement = document.createElement('p');
-                evidenceTypeElement.className = 'evidence-type';
-                evidenceTypeElement.textContent = `${violation.violationType}:`;
-                evidenceContent.appendChild(evidenceTypeElement);
+            // Create evidence content span
+            const evidenceContent = document.createElement('span');
+            evidenceContent.className = 'evidence-content';
+            
+            if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
+                evidenceContent.textContent = `${violation.violationType}: `;
             }
-
+            
             if (violation.violationType === "Image") {
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+                
                 const imgElement = document.createElement('img');
                 imgElement.src = violation.evidence;
                 imgElement.className = 'evidence-image';
-                evidenceContent.appendChild(imgElement);
+                evidenceBox.appendChild(imgElement);
             } 
             else if (violation.violationType === "Voice Chat") {
                 const date = new Date();
@@ -469,29 +412,35 @@ const logoutButton = document.querySelector('.logout');
                     minute: '2-digit', 
                     hour12: false 
                 });
-                const evidenceText = document.createElement('p');
-                evidenceText.textContent = `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-                evidenceText.style.fontWeight = "400";
-                evidenceContent.appendChild(evidenceText);
+                evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
             } 
             else if (violation.violationType === "Audio") {
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+                
                 const audioElement = document.createElement('audio');
                 audioElement.controls = true;
                 audioElement.src = violation.evidence;
-                evidenceContent.appendChild(audioElement);
+                evidenceBox.appendChild(audioElement);
             } 
             else {
-                const evidenceText = document.createElement('p');
-                evidenceText.textContent = violation.evidence;
-                evidenceText.style.fontWeight = "400";
-                evidenceContent.appendChild(evidenceText);
+                evidenceContent.textContent += violation.evidence;
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
             }
-
-            evidenceBox.appendChild(evidenceContent);
-            evidenceContainer.appendChild(evidenceBox);
         });
+
+        evidenceContainer.appendChild(evidenceBox);
     }
 }
+
+// Handle checkbox state for reactivate button
+document.getElementById('agreeCheckbox').addEventListener('change', function() {
+    const reactivateButton = document.getElementById('reactivateButton');
+    reactivateButton.disabled = !this.checked;
+});
 
 // Theme handling
 function setTheme(theme) {
@@ -501,6 +450,3 @@ function setTheme(theme) {
 
 const savedTheme = localStorage.getItem('theme') || "light";
 setTheme(savedTheme);
-</script>
-</body>
-</html>
