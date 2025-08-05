@@ -6,6 +6,35 @@
     <title>Not Approved</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: calc(100% - 30px);
+}
+
+.ban-box {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+#banDuration {
+    flex-shrink: 0;
+}
+
+.scrollbox {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 0 16px;
+}
+
+#agreeContainer,
+.logout {
+    flex-shrink: 0;
+    margin-top: 10px;
+}
+
         .logout.warning-margin {
             margin: 20px auto 16px auto;
         }
