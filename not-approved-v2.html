@@ -94,7 +94,9 @@
             margin-bottom: 12px;
         }
 
-
+        #moderatorNote, #reviewedDate, .violation-text, .evidence-content. #detectionField {
+            display:block;
+        }
 
         #banDuration {
             text-align: center !important;
@@ -300,7 +302,7 @@ if (formData) {
     const now = new Date();
     const reviewedDate = formatDate(now);
     const reviewedContainer = document.getElementById('reviewedContainer');
-    reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
+    reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ' ';
     const boldDate = document.createElement('b');
     boldDate.id = 'reviewedDate';
     boldDate.textContent = reviewedDate;
@@ -315,7 +317,7 @@ if (formData) {
     
     if (formData.automation && formData.automation !== "manual") {
         document.getElementById('detection').style.display = "block";
-        document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
+        document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]} <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
     }
 
     const logoutButton = document.querySelector('.logout');
@@ -411,7 +413,7 @@ if (formData) {
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
     if (moderatorNote) {
         const messageToUser = document.createElement('p');
-        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
+        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]} <b id="moderatorNote">${moderatorNote}</b>`;
         evidenceContainer.appendChild(messageToUser);
     }
     
@@ -422,12 +424,12 @@ if (formData) {
         formData.classicViolations.forEach((violation, index) => {
             // Violation header
             const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
+            reasonElement.innerHTML = `${translations[language]["Label.Reason"]} <span class="violation-text">${violation.reason}</span>`;
             evidenceBox.appendChild(reasonElement);
 
             // Evidence line - now with inline content
             const evidenceLine = document.createElement('p');
-            evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
+            evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]} `;
             
             // Create evidence content span
             const evidenceContent = document.createElement('span');
