@@ -127,9 +127,6 @@ html, body {
             border-left: 5px solid grey;
             margin-bottom: 14px; */
         }
-        .violation-text {
-            font-weight: 500;
-        }
         #violationSummary {
             margin-bottom: 12px;
         }
@@ -156,7 +153,6 @@ html, body {
             margin-bottom: 16px;
         }
         .evidence-content {
-            font-weight: normal;
             display: inline;
         }
         .agree-checkbox {
@@ -466,7 +462,7 @@ if (formData) {
         formData.classicViolations.forEach((violation, index) => {
             // Violation header
             const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `${translations[language]["Label.Reason"]} <span class="violation-text">${violation.reason}</span>`;
+            reasonElement.innerHTML = `${translations[language]["Label.Reason"]} <b class="violation-text">${violation.reason}</b>`;
             evidenceBox.appendChild(reasonElement);
 
             // Evidence line - now with inline content
@@ -474,7 +470,7 @@ if (formData) {
             evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]} `;
             
             // Create evidence content span
-            const evidenceContent = document.createElement('span');
+            const evidenceContent = document.createElement('b');
             evidenceContent.className = 'evidence-content';
             
             if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
