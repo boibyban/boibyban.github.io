@@ -400,7 +400,7 @@ if (formData) {
     const evidenceContainer = document.getElementById('evidenceContainer');
     
     // Always show "Recent Violation:" header
-    document.getElementById('violationHeader').textContent = translations[language]["Label.LatestActivity"];
+    document.getElementById('violationHeader').textContent = translations[language]["Label.LatestActivity"] + ' ';
     
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
