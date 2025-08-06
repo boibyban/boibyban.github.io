@@ -31,7 +31,7 @@ html, body {
 #banDuration {
     flex-shrink: 0;
     margin-left: 12px;
-    margin-top: 8px;
+    margin-top: 8px!important;
 }
 
 .scrollbox {
@@ -217,7 +217,7 @@ html, body {
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
-        <p id="violationHeader" style="display:none"></p>
+        <p id="violationHeader"></p>
         <div id="evidenceContainer">
             <p id="reviewedContainer"></p>
         </div>
@@ -397,7 +397,7 @@ if (formData) {
     const evidenceContainer = document.getElementById('evidenceContainer');
     
     // Always show "Recent Violation:" header
-    document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
+    document.getElementById('violationHeader').textContent = translations[language]["Label.LatestActivity"];
     
     // Set moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
