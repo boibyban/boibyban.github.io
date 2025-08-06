@@ -1,19 +1,7 @@
 // translations-en.js
 window.translations = {
     en: {
-        "Title.SuspendOneHours": "Suspended for 1 hour",
-        "Title.SuspendThreeHours": "Suspended for 3 hours",
-        "Title.SuspendSixHours": "Suspended for 6 hours",
-        "Title.SuspendTwelveHours": "Suspended for 12 hours",
-        "Title.SuspendOneDay": "Suspended for 1 day",
-        "Title.SuspendTwoDays": "Suspended for 2 days",
-        "Title.SuspendThreeDays": "Suspended for 3 days",
-        "Title.SuspendSevenDays": "Suspended for 7 days",
-        "Title.SuspendFourteenDays": "Suspended for 14 days",
-        "Title.SuspendSixtyDays": "Suspended for 60 days",
-        "Title.SuspendSixMonths": "Suspended for 6 months",
-        "Title.SuspendOneYear": "Suspended for 1 year",
-      
+
         "Title.Warn": "Warning",
         "Title.Ban1Hour": "Banned for 1 Hour",
         "Title.Ban3Hours": "Banned for 3 Hours",
@@ -61,5 +49,20 @@ window.translations = {
         "Decision.ManualDetectionAutoReview": "We used automated systems when making this decision.",
         "Decision.AutoDetectionManualReview": "We used automated systems to detect this violation.",
         "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision."
+
+        "Heading.Warn": "Warning",
+        "Heading.SuspendOneHours": "Suspended for 1 hour",
+        "Heading.SuspendThreeHours": "Suspended for 3 hours",
+        "Heading.SuspendSixHours": "Suspended for 6 hours",
+        "Heading.SuspendTwelveHours": "Suspended for 12 hours",
+        "Heading.SuspendOneDay": "Suspended for 1 day",
+        "Heading.SuspendTwoDays": "Suspended for 2 days",
+        "Heading.SuspendThreeDays": "Suspended for 3 days",
+        "Heading.SuspendSevenDays": "Suspended for 7 days",
+        "Heading.SuspendFourteenDays": "Suspended for 14 days",
+        "Heading.SuspendSixtyDays": "Suspended for 60 days",
+        "Heading.SuspendSixMonths": "Suspended for 6 months",
+        "Heading.SuspendOneYear": "Suspended for 1 year",
+        "Heading.Banned": "Banned",
     }
 };
