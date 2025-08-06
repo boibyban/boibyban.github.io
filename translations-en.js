@@ -68,7 +68,7 @@ window.translations = {
         "Label.LatestActivity": "Latest activity we reviewed",
         "Label.ModeratorNoteV2": "Moderator note",
         "Label.ReviewDateV2": "Review date",
-        "Description.FollowTheRules": "Make sure you follow the rules. {0}",
+        "Description.FollowTheRules": "Make sure you know and follow the rules. {0}",
 
         "Action.FollowRulesLink": "View rules",
         "Action.RequestAppeal": "Request Appeal",
