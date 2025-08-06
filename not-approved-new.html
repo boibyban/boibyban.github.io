@@ -21,14 +21,23 @@ html, body {
 }
 .ban-box {
     display: flex;
+    
     flex-direction: column;
     height: 100vh;
     max-height: 100vh;
     margin: auto auto!important;
     max-width: 600px!important;
 }
+.img-symbol {
+    height: 24px;
+    align-self: center;
+    display: inline-flex;
+    justify-content: space-between;
+    margin-right: 6px;
+}
 
 #banDuration {
+    align-items: anchor-center;
     flex-shrink: 0;
     margin-left: 12px;
     margin-top: 8px!important;
@@ -221,7 +230,13 @@ html, body {
 </head>
 <body>
     <div class="ban-box">
-        <h3 id="banDuration">Banned</h3>
+        <h3 id="banDuration"><img style="
+    height: 24px;
+    align-self: center;
+    display: inline-flex;
+    justify-content: space-between;
+    margin-right: 6px;
+" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/No_sign.svg">Banned</h3>
         <div class="scrollbox">
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
