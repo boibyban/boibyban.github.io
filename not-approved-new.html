@@ -219,7 +219,16 @@ html, body {
         #agreeContainer {
             display: none;
         }
+.ban-header {
+  display: flex;
+  align-items: center; 
+  gap: 8px; 
+}
 
+.img-symbol {
+  width: 24px;
+  height: 24px;
+}
     </style>
     <div style="display:none" id="header">
         <b style="display:none" id="username">Username</b>
@@ -227,8 +236,10 @@ html, body {
 </head>
 <body>
     <div class="ban-box">
-        <img class="img-symbol" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/No_sign.svg">
-        <h3 id="banDuration">Banned</h3>
+        <div class="ban-header">
+            <img class="img-symbol" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/No_sign.svg">
+            <h3 id="banDuration">Banned</h3>
+        </div>
         <div class="scrollbox">
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
