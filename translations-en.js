@@ -63,6 +63,13 @@ window.translations = {
         "Heading.SuspendSixtyDays": "Suspended for 60 days",
         "Heading.SuspendSixMonths": "Suspended for 6 months",
         "Heading.SuspendOneYear": "Suspended for 1 year",
-        "Heading.Banned": "Banned",
+        "Heading.BannedPermanently": "Banned permanently",
+
+        "Label.LatestActivity": "Latest activity we reviewed",
+        "Label.ModeratorNoteV2": "Moderator note",
+        "Label.ReviewDateV2": "Review date",
+        
+        "Action.RequestAppeal": "Request Appeal",
+        "Action.Logout": "Logout",
     }
 };
