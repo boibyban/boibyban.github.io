@@ -227,7 +227,9 @@ html, body {
         <p id="detection" style="display:none"></p>
         
         <p id="communityRules"></p>
-
+        <p id="reactivateMessage" style="display:none"></p>
+        <p id="membershipNotice" style="display:none"></p>
+        <p id="appealsMessage" style="display:none"></p>
         </div>
         <div id="agreeContainer">
             <div class="agree-checkbox">
@@ -377,8 +379,8 @@ if (formData) {
     );
     
     document.getElementById('communityRules').innerHTML = formatString(
-        translations[language]["Text.CommunityStandardMessage"],
-        `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`
+        translations[language]["Description.FollowTheRules"],
+        `<a href="/info/community-rules">${translations[language]["Action.FollowRulesLink"]}</a>`
     );
     
     document.getElementById('appealsMessage').innerHTML = formatString(
