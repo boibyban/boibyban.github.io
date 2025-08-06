@@ -48,7 +48,7 @@ window.translations = {
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
         "Decision.ManualDetectionAutoReview": "We used automated systems when making this decision.",
         "Decision.AutoDetectionManualReview": "We used automated systems to detect this violation.",
-        "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision."
+        "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision.",
 
         "Heading.Warn": "Warning",
         "Heading.SuspendOneHours": "Suspended for 1 hour",
