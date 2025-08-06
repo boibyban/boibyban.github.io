@@ -299,7 +299,7 @@ if (formData) {
     const now = new Date();
     const reviewedDate = formatDate(now);
     const reviewedContainer = document.getElementById('reviewedContainer');
-    reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ' ';
+    reviewedContainer.textContent = translations[language]["Label.ReviewDateV2"] + ' ';
     const boldDate = document.createElement('b');
     boldDate.id = 'reviewedDate';
     boldDate.textContent = reviewedDate;
@@ -410,7 +410,7 @@ if (formData) {
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
     if (moderatorNote) {
         const messageToUser = document.createElement('p');
-        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]} <b id="moderatorNote">${moderatorNote}</b>`;
+        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNoteV2"]} <b id="moderatorNote">${moderatorNote}</b>`;
         evidenceContainer.appendChild(messageToUser);
     }
     
