@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Approved</title>
+    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: calc(100% - 15px);
+    align-items: center;
+}
+@media screen and (min-width: 1024px) {
+    .ban-box {
+        max-height: 88%!important;
+        margin-top: 50px!important;
+        margin: auto!important;
+    }
+}
+.ban-box {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh;
+    margin: auto auto!important;
+    max-width: 600px!important;
+}
+
+#banDuration {
+    flex-shrink: 0;
+}
+
+.scrollbox {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 0 6px; /* 12px */
+}
+
+#agreeContainer,
+.logout {
+    flex-shrink: 0;
+    margin-top: 10px;
+}
+
+        .logout.warning-margin {
+            margin: 20px auto 16px auto;
+        }
+        .logout {
+               min-width: 100% !important;
+    margin-bottom: 20px;
+    margin-top: 30px !important;
+    min-height: 40px;
+        }
+        body {
+            margin: 4px!important;
+        }
+        scrollbox {
+            overflow: scroll;
+        }
+        p {
+            padding-left: 16px;
+            padding-right: 16px;
+            margin-bottom: 20px;
+            line-height: 1.525em;
+        }
+        b {
+            margin-bottom: 20px;
+            
+            line-height: 1.525em;
+        }
+        .evidence-image {
+            max-width: 640px;
+            height: auto;
+            max-height: 300px;
+            display: flex;
+            margin-top: 8px;
+            max-width: 100%;
+        }
+        .margins-for-img {
+            margin-top: 2px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin-top: 8px;
+        }
+        .evidence-box {
+            margin-top: 0px;
+            padding: 0px;
+            display: block;
+            border-radius: 0px;
+            border: 0px!important;
+        }
+        .inneritem {
+            display: block;
+            margin: 0px;
+        }
+        .violation-section {
+            margin-bottom: 0px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        .classic-violation {
+            margin-bottom: 20px;
+        }
+        .viol {
+            margin: 0px;
+        }
+        #evidenceheading {
+            margin: 0px;
+            line-height: 1em;
+            font-size: 18px;
+        }
+        #violationtype {
+            font-size: 14px;
+        }
+        .ban-box {
+            border-radius: 8px!important;
+            height: 100%!important;
+        }
+        .violation-text {
+            font-weight: 600;
+        }
+        #abideRules {
+            line-height: 1;
+        }
+        .logoutlink {
+            color: #222;
+        }
+        #evidenceContainer {
+            /* margin-left: 6px;
+            padding-left: 10px;
+            border-left: 5px solid grey;
+            margin-bottom: 14px; */
+        }
+        #violationSummary {
+            margin-bottom: 12px;
+        }
+
+        #moderatorNote, #reviewedDate, .violation-text, .evidence-content, #detectionField {
+            display: block!important;
+        }
+        
+
+        #banDuration {
+            text-align: center !important;
+            font-size: 20px !important;
+            padding-bottom: 18px !important;
+            padding-top: 0px !important;
+            font-weight: 600!important;
+            padding-bottom: 14px !important;
+            border-bottom: 1px solid grey !important;
+            margin-top: 0;
+            margin-bottom: 20px!important;
+        }
+
+        p {
+            line-height: 1.5em!important;
+            font-size: 16px!important;
+            margin-bottom: 16px;
+        }
+        .evidence-content {
+            display: inline;
+        }
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0 5px 0;
+            font-family: "Noto Sans", serif;
+            font-size: 14px;
+        }
+        .label {
+            font-family: "Noto Sans", serif;
+            color: #111;
+            font-size: 14px;
+        }
+        .agree-checkbox input {
+            margin-right: 8px;
+        }
+        .reactivate[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        #agreeContainer {
+            display: none;
+        }
+
+    </style>
+    <div style="display:none" id="header">
+        <b style="display:none" id="username">Username</b>
+    </div>
+</head>
+<body>
+    <div class="ban-box">
+        <h3 id="banDuration">Banned</h3>
+        <div class="scrollbox">
+        <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
+        <p id="cautionWarningMessage" style="display:none"></p>
+        <p id="termsOfUse"></p>
+        <p id="violationHeader" style="display:none"></p>
+        <div id="evidenceContainer">
+            <p id="reviewedContainer"></p>
+        </div>
+        <p id="detection" style="display:none"></p>
+        
+        <p id="communityRules"></p>
+        <p id="reactivateMessage"></p>
+        <p id="membershipNotice" style="display:none"></p>
+        <p id="appealsMessage"></p>
+        </div>
+        <div id="agreeContainer">
+            <div class="agree-checkbox">
+                <input type="checkbox" id="agreeCheckbox">
+                <label for="agreeCheckbox">I agree</label>
+            </div>
+            <button id="reactivateButton" class="reactivate" disabled></button>
+        </div>
+        <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
+        
+    </div>
+<script src="/translations-en.js"></script>
+<script>
+    
+const translations = window.translations;
+
+// Helper function to format strings with placeholders
+function formatString(template, ...args) {
+    return template.replace(/{(\d+)}/g, (match, index) => {
+        return typeof args[index] !== 'undefined' ? args[index] : match;
+    });
+}
+
+const formData = JSON.parse(localStorage.getItem('banFormData'));
+if (formData) {
+    const language = localStorage.getItem('language') || 'en';
+    
+    // Punishment type mapping
+    const banDurationMap = {
+        Warn: translations[language]["Heading.Warn"],
+        Ban1Hour: translations[language]["Heading.Suspend1Hour"],
+        Ban3Hours: translations[language]["Heading.Suspend3Hours"],
+        Ban6Hours: translations[language]["Heading.Suspend6Hours"],
+        Ban12Hours: translations[language]["Heading.Suspend12Hours"],
+        Ban1Day: translations[language]["Heading.Suspend1Day"],
+        Ban2Days: translations[language]["Heading.Suspend2Days"],
+        Ban3Days: translations[language]["Heading.Suspend3Days"],
+        Ban7Days: translations[language]["Heading.Suspend7Days"],
+        Ban14Days: translations[language]["Heading.Suspend14Days"],
+        Ban60Days: translations[language]["Heading.Suspend60Days"],
+        Ban6Months: translations[language]["Heading.Suspend6Months"],
+        Ban1Year: translations[language]["Heading.Suspend1Year"],
+        Delete: translations[language]["Heading.BannedPermanently"]
+    };
+
+    // Set ban duration title
+    document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
+
+    // Format dates
+    function formatDate(date, includeTime = true) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        if (includeTime) {
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        }
+        return `${day}/${month}/${year}`;
+    }
+
+    const now = new Date();
+    const reviewedDate = formatDate(now);
+    const reviewedContainer = document.getElementById('reviewedContainer');
+    reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ' ';
+    const boldDate = document.createElement('b');
+    boldDate.id = 'reviewedDate';
+    boldDate.textContent = reviewedDate;
+    reviewedContainer.appendChild(boldDate);
+
+    // Set automation decision text
+    const automationTextMap = {
+        "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
+        "auto_detect_manual_review": translations[language]["Decision.AutoDetectionManualReview"],
+        "full_auto": translations[language]["Decision.FullyAutomated"]
+    };
+    
+    if (formData.automation && formData.automation !== "manual") {
+        document.getElementById('detection').style.display = "block";
+        document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]} <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
+    }
+
+    const logoutButton = document.querySelector('.logout');
+    if (formData.state === "Warn") {
+        // For warnings, move reactivate message below appeals message
+        const appealsMessage = document.getElementById('appealsMessage');
+        const reactivateMessage = document.getElementById('reactivateMessage');
+        appealsMessage.parentNode.insertBefore(reactivateMessage, appealsMessage.nextSibling);
+        
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
+        document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
+        document.getElementById('reactivateButton').style.display = "block";
+        document.getElementById('agreeContainer').style.display = "block";
+        logoutButton.classList.add('warning-margin');
+    } else if (formData.state === "Delete") {
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
+        document.getElementById('reactivateButton').style.display = "none";
+    } else {
+        const banDurationHoursMap = {
+            Ban1Hour: 1,
+            Ban3Hours: 3,
+            Ban6Hours: 6,
+            Ban12Hours: 12,
+            Ban1Day: 24,
+            Ban2Days: 48,
+            Ban3Days: 72,
+            Ban7Days: 168,
+            Ban14Days: 336,
+            Ban60Days: 1440,
+            Ban6Months: 4392,
+            Ban1Year: 8760
+        };
+        
+        const banDurationHours = banDurationHoursMap[formData.state] || 0;
+        const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
+        
+        document.getElementById('reactivateMessage').textContent = formatString(
+            translations[language]["Description.BanV2"],
+            formatDate(reactivateDate)
+        );
+        document.getElementById('reactivateButton').style.display = "none";
+    }
+
+    // Set caution warning if applicable
+    const cautionWarningMap = {
+        "future": translations[language]["Caution.Future"],
+        "1day": translations[language]["Caution.1Day"],
+        "3days": translations[language]["Caution.3Days"],
+        "7days": translations[language]["Caution.7Days"],
+        "permanent": translations[language]["Caution.Permanent"]
+    };
+
+    if (formData.cautionWarning && formData.cautionWarning !== "none") {
+        const cautionText = cautionWarningMap[formData.cautionWarning];
+        if (cautionText) {
+            document.getElementById('cautionWarningMessage').innerHTML = 
+                `<span style="color: red; font-weight: bold;">${translations[language]["Caution.Title"]}</span> ${cautionText}`;
+            document.getElementById('cautionWarningMessage').style.display = "block";
+        }
+    }
+
+    // Set static text elements
+    document.getElementById('termsOfUse').innerHTML = formatString(
+        translations[language]["Text.TermsMessage"],
+        `<a href="/info/terms">${translations[language]["Label.TermsOfUse"]}</a>`
+    );
+    
+    document.getElementById('communityRules').innerHTML = formatString(
+        translations[language]["Text.CommunityStandardMessage"],
+        `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`
+    );
+    
+    document.getElementById('appealsMessage').innerHTML = formatString(
+        translations[language]["Text.AppealsMessage"],
+        `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
+    );
+    
+    document.querySelector('.logoutlink').textContent = translations[language]["Button.Logout"];
+
+    // Set username if available
+    const savedUsername = localStorage.getItem('username');
+    if (savedUsername) {
+        document.getElementById('username').textContent = savedUsername;
+    }
+
+    // Handle evidence display
+    const evidenceContainer = document.getElementById('evidenceContainer');
+    
+    // Always show "Recent Violation:" header
+    document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
+    
+    // Set moderator note
+    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+    if (moderatorNote) {
+        const messageToUser = document.createElement('p');
+        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]} <b id="moderatorNote">${moderatorNote}</b>`;
+        evidenceContainer.appendChild(messageToUser);
+    }
+    
+    if (formData.classicViolations && formData.classicViolations.length > 0) {        
+        const evidenceBox = document.createElement('div');
+        evidenceBox.className = 'evidence-box';
+        
+        formData.classicViolations.forEach((violation, index) => {
+            // Violation header
+            const reasonElement = document.createElement('p');
+            reasonElement.innerHTML = `${translations[language]["Label.Reason"]} <b class="violation-text">${violation.reason}</b>`;
+            evidenceBox.appendChild(reasonElement);
+
+            // Evidence line - now with inline content
+            const evidenceLine = document.createElement('p');
+            evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]} `;
+            
+            // Create evidence content span
+            const evidenceContent = document.createElement('b');
+            evidenceContent.className = 'evidence-content';
+            
+            if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
+                evidenceContent.textContent = `${violation.violationType}: `;
+            }
+            
+            if (violation.violationType === "Image") {
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+                
+                const imgElement = document.createElement('img');
+                imgElement.src = violation.evidence;
+                imgElement.className = 'evidence-image';
+                evidenceBox.appendChild(imgElement);
+            } 
+            else if (violation.violationType === "Voice Chat") {
+                const date = new Date();
+                date.setMinutes(date.getMinutes() - 5);
+                const formattedDate = date.toLocaleString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: false 
+                });
+                evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+            } 
+            else if (violation.violationType === "Audio") {
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+                
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.src = violation.evidence;
+                evidenceBox.appendChild(audioElement);
+            } 
+            else {
+                evidenceContent.textContent += violation.evidence;
+                evidenceLine.appendChild(evidenceContent);
+                evidenceBox.appendChild(evidenceLine);
+            }
+        });
+
+        evidenceContainer.appendChild(evidenceBox);
+    }
+}
+
+// Handle checkbox state for reactivate button
+document.getElementById('agreeCheckbox').addEventListener('change', function() {
+    const reactivateButton = document.getElementById('reactivateButton');
+    reactivateButton.disabled = !this.checked;
+});
+
+// Theme handling
+function setTheme(theme) {
+    const themeStylesheet = document.getElementById('themeStylesheet');
+    themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
+}
+
+const savedTheme = localStorage.getItem('theme') || "light";
+setTheme(savedTheme);
+</script>
+</body>
+</html>
