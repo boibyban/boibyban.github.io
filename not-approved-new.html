@@ -241,93 +241,82 @@
                 continueBtn.textContent = "Continue";
             }
 
-            // Populate evidence container (original logic preserved)
-            if (formData) {
-                const now = new Date();
-                const reviewedDate = formatDate(now);
-                const reviewedContainer = document.getElementById('reviewedContainer');
-                reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
-                const boldDate = document.createElement('b');
-                boldDate.id = 'reviewedDate';
-                boldDate.textContent = reviewedDate;
-                reviewedContainer.appendChild(boldDate);
-
-                const automationTextMap = {
-                    "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
-                    "auto_detect_manual_review": translations[language]["Decision.AutoDetectionManualReview"],
-                    "full_auto": translations[language]["Decision.FullyAutomated"]
-                };
-
-                if (formData.automation && formData.automation !== "manual") {
-                    document.getElementById('detection').style.display = "block";
-                    document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
-                }
-
-                document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
-                document.getElementById('violationHeader').style.display = "block";
-
-                const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
-                if (moderatorNote) {
-                    const messageToUser = document.createElement('p');
-                    messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
-                    document.getElementById('evidenceContainer').appendChild(messageToUser);
-                }
-
-                if (formData.classicViolations && formData.classicViolations.length > 0) {
-                    const evidenceBox = document.createElement('div');
-                    evidenceBox.className = 'violation-box';
-                    
-                    formData.classicViolations.forEach((violation) => {
-                        const reasonElement = document.createElement('p');
-                        reasonElement.innerHTML = `${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;
-                        evidenceBox.appendChild(reasonElement);
-
-                        const evidenceLine = document.createElement('p');
-                        evidenceLine.innerHTML = `${translations[language]["Label.Evidence"]}: `;
-                        const evidenceContent = document.createElement('span');
-                        evidenceContent.className = 'evidence-content';
-
-                        if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
-                            evidenceContent.textContent = `${violation.violationType}: `;
-                        }
-
-                        if (violation.violationType === "Image") {
-                            evidenceLine.appendChild(evidenceContent);
-                            evidenceBox.appendChild(evidenceLine);
-                            const imgElement = document.createElement('img');
-                            imgElement.src = violation.evidence;
-                            imgElement.className = 'evidence-image';
-                            evidenceBox.appendChild(imgElement);
-                        } else if (violation.violationType === "Voice Chat") {
-                            const date = new Date();
-                            date.setMinutes(date.getMinutes() - 5);
-                            const formattedDate = date.toLocaleString('en-US', {
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                hour12: false
-                            });
-                            evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-                            evidenceLine.appendChild(evidenceContent);
-                            evidenceBox.appendChild(evidenceLine);
-                        } else if (violation.violationType === "Audio") {
-                            evidenceLine.appendChild(evidenceContent);
-                            evidenceBox.appendChild(evidenceLine);
-                            const audioElement = document.createElement('audio');
-                            audioElement.controls = true;
-                            audioElement.src = violation.evidence;
-                            evidenceBox.appendChild(audioElement);
-                        } else {
-                            evidenceContent.textContent += violation.evidence;
-                            evidenceLine.appendChild(evidenceContent);
-                            evidenceBox.appendChild(evidenceLine);
-                        }
-                    });
-
-                    document.getElementById('evidenceContainer').appendChild(evidenceBox);
-                }
+            // Inside your DOMContentLoaded event listener:
+if (formData) {
+    const now = new Date();
+    const reviewedDate = formatDate(now);
+    
+    // Clear existing content
+    const evidenceContainer = document.getElementById('evidenceContainer');
+    evidenceContainer.innerHTML = '';
+    
+    // Add Review Date
+    const reviewedContainer = document.createElement('p');
+    reviewedContainer.id = 'reviewedContainer';
+    const reviewDateLabel = document.createElement('span');
+    reviewDateLabel.id = 'reviewDateLabel';
+    reviewDateLabel.textContent = translations[language]["Label.ReviewDateV2"] + ': ';
+    const boldDate = document.createElement('b');
+    boldDate.id = 'reviewedDate';
+    boldDate.textContent = reviewedDate;
+    reviewedContainer.appendChild(reviewDateLabel);
+    reviewedContainer.appendChild(boldDate);
+    evidenceContainer.appendChild(reviewedContainer);
+    
+    // Add Moderator Note if exists
+    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+    if (moderatorNote) {
+        const noteParagraph = document.createElement('p');
+        const noteLabel = document.createElement('span');
+        noteLabel.id = 'moderatorNoteLabel';
+        noteLabel.textContent = translations[language]["Label.ModeratorNoteV2"] + ': ';
+        const noteContent = document.createElement('b');
+        noteContent.id = 'moderatorNote';
+        noteContent.textContent = moderatorNote;
+        noteParagraph.appendChild(noteLabel);
+        noteParagraph.appendChild(noteContent);
+        evidenceContainer.appendChild(noteParagraph);
+    }
+    
+    // Add Violations if exist
+    if (formData.classicViolations && formData.classicViolations.length > 0) {
+        const violationBox = document.createElement('div');
+        violationBox.className = 'violation-box';
+        
+        formData.classicViolations.forEach((violation) => {
+            // Reason
+            const reasonElement = document.createElement('p');
+            const reasonLabel = document.createElement('span');
+            reasonLabel.className = 'label-text';
+            reasonLabel.textContent = translations[language]["Label.Reason"] + ': ';
+            const reasonContent = document.createElement('b');
+            reasonContent.className = 'violation-text';
+            reasonContent.textContent = violation.reason;
+            reasonElement.appendChild(reasonLabel);
+            reasonElement.appendChild(reasonContent);
+            violationBox.appendChild(reasonElement);
+            
+            // Evidence
+            const evidenceElement = document.createElement('p');
+            const evidenceLabel = document.createElement('span');
+            evidenceLabel.className = 'label-text';
+            evidenceLabel.textContent = translations[language]["Label.Evidence"] + ': ';
+            const evidenceContent = document.createElement('b');
+            evidenceContent.className = 'evidence-content';
+            
+            if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
+                evidenceContent.textContent = `${violation.violationType}: `;
             }
+            evidenceContent.textContent += violation.evidence;
+            
+            evidenceElement.appendChild(evidenceLabel);
+            evidenceElement.appendChild(evidenceContent);
+            violationBox.appendChild(evidenceElement);
+        });
+        
+        evidenceContainer.appendChild(violationBox);
+    }
+}
 
             // Theme handling
             function setTheme(theme) {
