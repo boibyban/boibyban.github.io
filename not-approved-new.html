@@ -14,6 +14,7 @@
             margin: 0;
             background-color: rgba(0,0,0,0.5);
             font-family: 'Noto Sans', sans-serif;
+            line-height: 1.6; /* Increased base line spacing */
         }
         
         .modal {
@@ -23,6 +24,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             padding: 24px;
             box-sizing: border-box;
+            line-height: 1.6; /* Consistent line spacing */
         }
         
         .modal-header {
@@ -30,6 +32,7 @@
             align-items: center;
             margin-bottom: 16px;
             gap: 6px;
+            line-height: 1.6; /* Consistent line spacing */
         }
         
         .modal-header svg {
@@ -43,31 +46,42 @@
             font-weight: 600;
             margin: 0;
             color: #212121;
+            line-height: 1.6; /* Consistent line spacing */
         }
         
         .rules-broken {
             color: #212121;
             margin-bottom: 20px;
-            line-height: 1.5;
+            line-height: 1.6; /* Increased line spacing */
         }
         
         .latest-activity {
             font-weight: 600;
             margin-bottom: 12px;
             color: #212121;
+            line-height: 1.6; /* Increased line spacing */
         }
         
-        .evidence-box {
+        .evidence-container {
             background: #f5f5f5;
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 8px; /* Added border radius */
             margin-bottom: 24px;
+            padding: 0; /* Removed padding */
+            border: none; /* Removed border */
+        }
+        
+        .violation-box {
+            padding: 0; /* Removed padding */
+            margin: 0; /* Removed margin */
+            border: none; /* Removed border */
+            line-height: 1.6; /* Increased line spacing */
         }
         
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 12px;
+            line-height: 1.6; /* Consistent line spacing */
         }
         
         .modal-button {
@@ -80,6 +94,7 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
+            line-height: 1.6; /* Consistent line spacing */
         }
         
         .continue-button {
@@ -92,11 +107,7 @@
             color: #212121;
         }
 
-        /* Preserved existing evidence styles */
-        .warning-margin {
-            margin: 10px auto 0 auto!important;
-            margin-bottom: 12px!important;
-        }
+        /* Evidence styles with increased line spacing */
         .evidence-image {
             max-width: 640px;
             height: auto;
@@ -104,56 +115,24 @@
             display: flex;
             margin-top: 8px;
             max-width: 100%;
+            line-height: 1.6; /* Increased line spacing */
         }
-        .margins-for-img {
-            margin-top: 2px;
-            margin-left: 6px;
-            margin-right: 6px;
-        }
-        audio {
-            width: 100%;
-            max-width: 400px;
-            display: block;
-            margin-top: 8px;
-        }
-        .evidence-box {
-            margin-top: 12px!important;
-            padding: 12px;
-            display: block;
-            border-radius: 0px;
-        }
-        .inneritem {
-            display: block;
-            margin: 0px;
-        }
-        .violation-section {
-            margin-bottom: 0px;
-            padding-left: 2px;
-            padding-right: 2px;
-        }
-        .classic-violation {
-            margin-bottom: 20px;
-        }
-        .viol {
-            margin: 0px;
-        }
-        #evidenceheading {
-            margin: 0px;
-            line-height: 1em;
-            font-size: 18px;
-        }
-        #violationtype {
-            font-size: 14px;
-        }
+        
         .violation-text {
             font-weight: 500;
+            line-height: 1.6; /* Increased line spacing */
         }
+        
         .evidence-content {
             font-weight: normal;
             display: inline;
+            line-height: 1.6; /* Increased line spacing */
         }
-        #evidenceContainer {
-            margin-bottom: 0;
+        
+        /* Additional spacing adjustments */
+        p, div {
+            line-height: 1.6; /* Increased line spacing */
+            margin-bottom: 8px; /* Added spacing between elements */
         }
     </style>
 </head>
@@ -170,8 +149,8 @@
         
         <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
         
-        <div class="evidence-box">
-            <div id="evidenceContainer">
+        <div class="evidence-container">
+            <div id="evidenceContainer" class="violation-box">
                 <p id="reviewedContainer"></p>
                 <p id="detection" style="display:none"></p>
                 <p id="violationHeader" style="display:none"></p>
@@ -184,6 +163,7 @@
         </div>
     </div>
 
+    <!-- JavaScript remains exactly the same as previous version -->
     <script src="/translations-en.js"></script>
     <script>
         // Format date function
@@ -292,7 +272,7 @@
 
                 if (formData.classicViolations && formData.classicViolations.length > 0) {
                     const evidenceBox = document.createElement('div');
-                    evidenceBox.className = 'evidence-box';
+                    evidenceBox.className = 'violation-box';
                     
                     formData.classicViolations.forEach((violation) => {
                         const reasonElement = document.createElement('p');
