@@ -253,7 +253,7 @@
                 minute: '2-digit',
                 hour12: true
             };
-            return date.toLocaleString('en-US', options).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
+            return date.toLocaleString('en-US', options).replace(',', '').replace(/(\d+:\d+)/, '$1');
         }
 
         function setTheme(theme) {
@@ -361,7 +361,7 @@
                 if (isPermanentBan) {
                     rulesMessageEl.className = 'permanent-ban-message';
                     rulesMessageEl.textContent = 
-                        'We permanently banned your account because of repeated or serious rule-breaking.';
+                        'We banned your account because of repeated or serious rule-breaking.';
                     
                     // Replace warning icon with permanent ban icon
                     const header = document.getElementById('modalHeader');
@@ -398,10 +398,10 @@
                         const reason = firstViolation.reason.toLowerCase();
                         
                         if (violationType === "General/Chat") {
-                            rulesMessageEl.textContent = `Your behavior broke the rules against ${reason}.`;
+                            rulesMessageEl.textContent = `Your behavior broke the rules regarding ${reason}.`;
                         } else {
                             const violationTypeLower = violationType.toLowerCase();
-                            rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules against ${reason}.`;
+                            rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules regarding ${reason}.`;
                         }
                     }
                 }
