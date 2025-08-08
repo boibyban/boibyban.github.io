@@ -14,7 +14,7 @@
             margin: 0;
             background-color: rgba(0,0,0,0.5);
             font-family: 'Noto Sans', sans-serif;
-            line-height: 1.6; /* Increased base line spacing */
+            line-height: 1.6;
         }
         
         .modal {
@@ -24,7 +24,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             padding: 24px;
             box-sizing: border-box;
-            line-height: 1.6; /* Consistent line spacing */
         }
         
         .modal-header {
@@ -32,7 +31,6 @@
             align-items: center;
             margin-bottom: 16px;
             gap: 6px;
-            line-height: 1.6; /* Consistent line spacing */
         }
         
         .modal-header svg {
@@ -46,45 +44,35 @@
             font-weight: 600;
             margin: 0;
             color: #212121;
-            line-height: 1.6; /* Consistent line spacing */
         }
         
         .rules-broken {
             color: #212121;
             margin-bottom: 20px;
-            line-height: 1.6; /* Increased line spacing */
         }
         
         .latest-activity {
             font-weight: 600;
             margin-bottom: 12px;
             color: #212121;
-            line-height: 1.6; /* Increased line spacing */
         }
         
         .evidence-container {
-            background: #f5f5f5;
-            border-radius: 8px; /* Added border radius */
             margin-bottom: 24px;
-            padding: 15px; /* Removed padding */
-            border: none; /* Removed border */
         }
         
         .violation-box {
-            padding: 0; /* Removed padding */
-            margin: 0; /* Removed margin */
-            border: none; /* Removed border */
-            line-height: 1.6; /* Increased line spacing */
-            margin-top: 15px;
-            border-top: 1px solid grey;
-            padding-top: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
         }
         
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 12px;
-            line-height: 1.6; /* Consistent line spacing */
+            margin-top: 24px;
         }
         
         .modal-button {
@@ -94,10 +82,6 @@
             cursor: pointer;
             border: none;
             font-size: 14px;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            line-height: 1.6; /* Consistent line spacing */
         }
         
         .continue-button {
@@ -109,33 +93,15 @@
             background-color: #f5f5f5;
             color: #212121;
         }
-
-        /* Evidence styles with increased line spacing */
-        .evidence-image {
-            max-width: 640px;
-            height: auto;
-            max-height: 300px;
-            display: flex;
-            margin-top: 8px;
-            max-width: 100%;
-            line-height: 1.6; /* Increased line spacing */
+        
+        #evidenceContainer p {
+            margin: 8px 0;
         }
         
-        .violation-text {
-            font-weight: 500;
-            line-height: 1.6; /* Increased line spacing */
-        }
-        
-        .evidence-content {
-            font-weight: normal;
-            display: inline;
-            line-height: 1.6; /* Increased line spacing */
-        }
-        
-        /* Additional spacing adjustments */
-        p, div {
-            line-height: 1.6; /* Increased line spacing */
-            margin-bottom: 8px; /* Added spacing between elements */
+        #evidenceContainer b {
+            font-weight: 600;
+            display: block;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -153,11 +119,7 @@
         <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
         
         <div class="evidence-container">
-            <div id="evidenceContainer" class="violation-box">
-                <p id="reviewedContainer"></p>
-                <p id="detection" style="display:none"></p>
-                <p id="violationHeader" style="display:none"></p>
-            </div>
+            <div id="evidenceContainer"></div>
         </div>
         
         <div class="modal-footer">
@@ -166,32 +128,38 @@
         </div>
     </div>
 
-    <!-- JavaScript remains exactly the same as previous version -->
     <script src="/translations-en.js"></script>
     <script>
-        // Format date function
+        // Preserved functions
         function formatDate(date) {
-    const options = { 
-        month: 'long', 
-        day: 'numeric', 
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true 
-    };
-    return date.toLocaleString('en-US', options).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
-}
+            const options = { 
+                month: 'long', 
+                day: 'numeric', 
+                year: 'numeric',
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true
+            };
+            return date.toLocaleString('en-US', options).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
+        }
 
-        // Format string with placeholders
         function formatString(template, ...args) {
             return template.replace(/{(\d+)}/g, (match, index) => {
                 return typeof args[index] !== 'undefined' ? args[index] : match;
             });
         }
 
+        function setTheme(theme) {
+            const themeStylesheet = document.getElementById('themeStylesheet');
+            themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const formData = JSON.parse(localStorage.getItem('banFormData'));
             const language = localStorage.getItem('language') || 'en';
+            const savedTheme = localStorage.getItem('theme') || "light";
+            
+            setTheme(savedTheme);
             
             // Set header text based on ban type
             const headerMap = {
@@ -222,7 +190,7 @@
             const continueBtn = document.getElementById('continueButton');
             if (formData.state === "Warn") {
                 continueBtn.textContent = translations[language]["Button.Reactivate"];
-                // Add checkbox functionality for warnings
+                
                 const agreeContainer = document.createElement('div');
                 agreeContainer.className = 'agree-checkbox';
                 agreeContainer.style.margin = '15px 0';
@@ -240,112 +208,51 @@
                 continueBtn.textContent = "Continue";
             }
 
-            // Inside your DOMContentLoaded event listener:
-// Inside your DOMContentLoaded event listener:
-if (formData) {
-    const now = new Date();
-    const reviewedDate = formatDate(now);
-    
-    // Clear and prepare evidence container
-    const evidenceContainer = document.getElementById('evidenceContainer');
-    evidenceContainer.innerHTML = '';
-    evidenceContainer.style.paddingBottom = '16px'; // Added bottom padding
-    
-    // Create wrapper div for Review Date
-    const reviewDateWrapper = document.createElement('div');
-    
-    // Review Date Label
-    const reviewDateLabel = document.createElement('p');
-    const reviewDateLabelBold = document.createElement('b');
-    reviewDateLabelBold.textContent = translations[language]["Label.ReviewDateV2"];
-    reviewDateLabel.appendChild(reviewDateLabelBold);
-    reviewDateWrapper.appendChild(reviewDateLabel);
-    
-    // Review Date Value
-    const reviewDateValue = document.createElement('p');
-    const reviewDateValueBold = document.createElement('b');
-    reviewDateValueBold.id = 'reviewedDate';
-    reviewDateValueBold.textContent = reviewedDate;
-    reviewDateValue.appendChild(reviewDateValueBold);
-    reviewDateWrapper.appendChild(reviewDateValue);
-    
-    evidenceContainer.appendChild(reviewDateWrapper);
-    
-    // Add Moderator Note if exists
-    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
-    if (moderatorNote) {
-        const noteWrapper = document.createElement('div');
-        
-        // Moderator Note Label
-        const noteLabel = document.createElement('p');
-        const noteLabelBold = document.createElement('b');
-        noteLabelBold.textContent = translations[language]["Label.ModeratorNoteV2"];
-        noteLabel.appendChild(noteLabelBold);
-        noteWrapper.appendChild(noteLabel);
-        
-        // Moderator Note Value
-        const noteValue = document.createElement('p');
-        const noteValueBold = document.createElement('b');
-        noteValueBold.id = 'moderatorNote';
-        noteValueBold.textContent = moderatorNote;
-        noteValue.appendChild(noteValueBold);
-        noteWrapper.appendChild(noteValue);
-        
-        evidenceContainer.appendChild(noteWrapper);
-    }
-    
-    // Add Violations if exist
-    if (formData.classicViolations && formData.classicViolations.length > 0) {
-        const violationsWrapper = document.createElement('div');
-        
-        formData.classicViolations.forEach((violation) => {
-            // Reason
-            const reasonLabel = document.createElement('p');
-            const reasonLabelBold = document.createElement('b');
-            reasonLabelBold.textContent = translations[language]["Label.Reason"];
-            reasonLabel.appendChild(reasonLabelBold);
-            violationsWrapper.appendChild(reasonLabel);
-            
-            const reasonValue = document.createElement('p');
-            const reasonValueBold = document.createElement('b');
-            reasonValueBold.className = 'violation-text';
-            reasonValueBold.textContent = violation.reason;
-            reasonValue.appendChild(reasonValueBold);
-            violationsWrapper.appendChild(reasonValue);
-            
-            // Evidence
-            const evidenceLabel = document.createElement('p');
-            const evidenceLabelBold = document.createElement('b');
-            evidenceLabelBold.textContent = translations[language]["Label.Evidence"];
-            evidenceLabel.appendChild(evidenceLabelBold);
-            violationsWrapper.appendChild(evidenceLabel);
-            
-            const evidenceValue = document.createElement('p');
-            const evidenceValueBold = document.createElement('b');
-            evidenceValueBold.className = 'evidence-content';
-            
-            let evidenceText = violation.evidence;
-            if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
-                evidenceText = `${violation.violationType}: ${evidenceText}`;
+            // Populate evidence container with new structure
+            if (formData) {
+                const now = new Date();
+                const reviewedDate = formatDate(now);
+                const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+                
+                let evidenceHTML = `
+                    <div>
+                        <p>${translations[language]["Label.ReviewDateV2"]}</p>
+                        <b id="reviewedDate">${reviewedDate}</b>
+                    </div>
+                `;
+                
+                if (moderatorNote) {
+                    evidenceHTML += `
+                        <div>
+                            <p>${translations[language]["Label.ModeratorNoteV2"]}</p>
+                            <b id="moderatorNote">${moderatorNote}</b>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
+                
+                // Add violations if they exist
+                if (formData.classicViolations && formData.classicViolations.length > 0) {
+                    let violationsHTML = '<div class="violation-box">';
+                    
+                    formData.classicViolations.forEach(violation => {
+                        violationsHTML += `
+                            <p>${translations[language]["Label.Reason"]}</p>
+                            <p><b class="violation-text">${violation.reason}</b></p>
+                            <p>${translations[language]["Label.Evidence"]}</p>
+                            <p><b class="evidence-content">${
+                                violation.violationType !== "General/Chat" && violation.violationType !== "Image" 
+                                ? `${violation.violationType}: ${violation.evidence}`
+                                : violation.evidence
+                            }</b></p>
+                        `;
+                    });
+                    
+                    violationsHTML += '</div>';
+                    document.querySelector('.evidence-container').innerHTML += violationsHTML;
+                }
             }
-            evidenceValueBold.textContent = evidenceText;
-            
-            evidenceValue.appendChild(evidenceValueBold);
-            violationsWrapper.appendChild(evidenceValue);
-        });
-        
-        evidenceContainer.appendChild(violationsWrapper);
-    }
-}
-
-            // Theme handling
-            function setTheme(theme) {
-                const themeStylesheet = document.getElementById('themeStylesheet');
-                themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
-            }
-            
-            const savedTheme = localStorage.getItem('theme') || "light";
-            setTheme(savedTheme);
         });
     </script>
 </body>
