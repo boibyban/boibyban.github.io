@@ -6,11 +6,241 @@
     <title>Account Notification</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
-        /* ... (keep all existing styles exactly the same) ... */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: rgba(0,0,0,0.5);
+            font-family: 'Noto Sans', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .modal {
+            width: 600px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 24px;
+            box-sizing: border-box;
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            margin-top: 6px;
+            gap: 6px;
+        }
+        
+        .modal-header svg {
+            width: 20px;
+            height: 20px;
+            fill: #d32f2f;
+        }
+        
+        .permanent-ban-icon {
+            width: 40px;
+            height: 40px;
+            fill: #d32f2f;
+            margin-right: 10px;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            color: #212121;
+        }
+        
+        .rules-broken {
+            color: #212121;
+            margin-bottom: 20px;
+        }
+        
+        .permanent-ban-message {
+            color: #212121;
+            margin-bottom: 20px;
+        }
+        
+        .latest-activity {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #212121;
+        }
+        
+        .violation-box {
+            border-top: 1px solid grey;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .evidence-container {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            margin-bottom: 60px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .modal-footer.left-align {
+            justify-content: flex-start;
+        }
+        
+        .modal-footer.dual-buttons {
+            justify-content: space-between;
+        }
+        
+        .violation-text {
+            font-weight: 600!important;
+        }
+        
+        .modal-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .continue-button {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .reactivate-button {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .reactivate-button:disabled {
+            background-color: #f5f5f5;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
+        .logout-button, .rules-button, .appeal-button, .back-button {
+            background-color: #f5f5f5;
+            color: #212121;
+        }
+        
+        .permanent-appeal-button {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .disabled-button {
+            background-color: #f5f5f5;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
+        #evidenceContainer p {
+            margin: 8px 0;
+        }
+        
+        #evidenceContainer b {
+            font-weight: 600;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        .appeal-content {
+            display: none;
+        }
+        
+        .appeal-content b {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .appeal-content li {
+            margin-bottom: 8px;
+        }
+        
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .reactivate-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <!-- ... (keep all existing HTML structure exactly the same) ... -->
+    <div class="modal">
+        <div class="modal-header" id="modalHeader">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <h2 id="banHeader">Warning</h2>
+        </div>
+        
+        <div id="mainContent">
+            <p id="rulesMessage" class="rules-broken">Your behaviour broke the rules of Boiby.</p>
+            
+            <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
+            
+            <div class="evidence-container">
+                <div id="evidenceContainer"></div>
+            </div>
+        </div>
+        
+        <div id="appealContent" class="appeal-content">
+            <b>Rule violations add up</b>
+            <ul>
+                <li>We may give you a longer suspension - or even permanently ban your account - if you keep breaking the rules.</li>
+                <li>Make sure you know the rules and follow them</li>
+            </ul>
+            
+            <div class="modal-footer left-align">
+                <a href="/info/community-rules" class="modal-button rules-button">View rules</a>
+            </div>
+            
+            <b>Did we make a mistake?</b>
+            <ul>
+                <li>You can request an appeal or ask us to review this decision here</li>
+            </ul>
+            
+            <div class="modal-footer left-align">
+                <a href="/appeals-form" class="modal-button appeal-button">Request appeal</a>
+            </div>
+            
+            <!-- Reactivate container - only shown for warnings -->
+            <div id="warningReactivateContainer" class="reactivate-container" style="display: none;">
+                <div class="agree-checkbox">
+                    <input type="checkbox" id="reactivateAgreeCheckbox">
+                    <label for="reactivateAgreeCheckbox">I agree to know and follow the rules</label>
+                </div>
+                <button id="reactivateAccountButton" class="modal-button reactivate-button" disabled>
+                    Re-activate Account
+                </button>
+            </div>
+        </div>
+        
+        <div class="modal-footer" id="actionButtons">
+            <button id="continueButton" class="modal-button continue-button">Continue</button>
+            <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
+        </div>
+    </div>
 
     <script src="/translations-en.js"></script>
     <script>
@@ -41,11 +271,8 @@
             const actionButtons = document.getElementById('actionButtons');
             
             if (formData && formData.state === "Warn") {
-                // For warnings, show reactivate flow
-                actionButtons.className = 'modal-footer dual-buttons';
-                actionButtons.innerHTML = `
-                    <button id="backButton" class="modal-button back-button">Back</button>
-                `;
+                // Show reactivate flow only for warnings
+                document.getElementById('warningReactivateContainer').style.display = 'block';
                 
                 // Set up reactivate button
                 document.getElementById('reactivateAgreeCheckbox').addEventListener('change', function() {
@@ -57,14 +284,13 @@
                     // Handle account reactivation logic here
                     window.location.href = "https://boibyban.github.io";
                 });
-            } else {
-                // For other ban types
-                actionButtons.className = 'modal-footer dual-buttons';
-                actionButtons.innerHTML = `
-                    <button id="backButton" class="modal-button back-button">Back</button>
-                    <button class="modal-button disabled-button">Suspended</button>
-                `;
             }
+            
+            actionButtons.className = 'modal-footer dual-buttons';
+            actionButtons.innerHTML = `
+                <button id="backButton" class="modal-button back-button">Back</button>
+                ${formData && formData.state === "Warn" ? '' : '<button class="modal-button disabled-button">Suspended</button>'}
+            `;
             
             document.getElementById('backButton').addEventListener('click', function() {
                 document.getElementById('modalHeader').style.display = 'flex';
@@ -90,7 +316,7 @@
                     <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
                 `;
                 
-                // Always reattach continue button event
+                // Reattach continue button event
                 document.getElementById('continueButton').addEventListener('click', showAppealContent);
             }
         }
