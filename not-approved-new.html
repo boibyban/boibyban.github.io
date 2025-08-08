@@ -242,79 +242,100 @@
             }
 
             // Inside your DOMContentLoaded event listener:
+// Inside your DOMContentLoaded event listener:
 if (formData) {
     const now = new Date();
     const reviewedDate = formatDate(now);
     
-    // Clear existing content
+    // Clear and prepare evidence container
     const evidenceContainer = document.getElementById('evidenceContainer');
     evidenceContainer.innerHTML = '';
+    evidenceContainer.style.paddingBottom = '16px'; // Added bottom padding
     
-    // Add Review Date
-    const reviewedContainer = document.createElement('p');
-    reviewedContainer.id = 'reviewedContainer';
-    const reviewDateLabel = document.createElement('span');
-    reviewDateLabel.id = 'reviewDateLabel';
-    reviewDateLabel.textContent = translations[language]["Label.ReviewDateV2"] + ': ';
-    const boldDate = document.createElement('b');
-    boldDate.id = 'reviewedDate';
-    boldDate.textContent = reviewedDate;
-    reviewedContainer.appendChild(reviewDateLabel);
-    reviewedContainer.appendChild(boldDate);
-    evidenceContainer.appendChild(reviewedContainer);
+    // Create wrapper div for Review Date
+    const reviewDateWrapper = document.createElement('div');
+    
+    // Review Date Label
+    const reviewDateLabel = document.createElement('p');
+    const reviewDateLabelBold = document.createElement('b');
+    reviewDateLabelBold.textContent = translations[language]["Label.ReviewDateV2"];
+    reviewDateLabel.appendChild(reviewDateLabelBold);
+    reviewDateWrapper.appendChild(reviewDateLabel);
+    
+    // Review Date Value
+    const reviewDateValue = document.createElement('p');
+    const reviewDateValueBold = document.createElement('b');
+    reviewDateValueBold.id = 'reviewedDate';
+    reviewDateValueBold.textContent = reviewedDate;
+    reviewDateValue.appendChild(reviewDateValueBold);
+    reviewDateWrapper.appendChild(reviewDateValue);
+    
+    evidenceContainer.appendChild(reviewDateWrapper);
     
     // Add Moderator Note if exists
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
     if (moderatorNote) {
-        const noteParagraph = document.createElement('p');
-        const noteLabel = document.createElement('span');
-        noteLabel.id = 'moderatorNoteLabel';
-        noteLabel.textContent = translations[language]["Label.ModeratorNoteV2"] + ': ';
-        const noteContent = document.createElement('b');
-        noteContent.id = 'moderatorNote';
-        noteContent.textContent = moderatorNote;
-        noteParagraph.appendChild(noteLabel);
-        noteParagraph.appendChild(noteContent);
-        evidenceContainer.appendChild(noteParagraph);
+        const noteWrapper = document.createElement('div');
+        
+        // Moderator Note Label
+        const noteLabel = document.createElement('p');
+        const noteLabelBold = document.createElement('b');
+        noteLabelBold.textContent = translations[language]["Label.ModeratorNoteV2"];
+        noteLabel.appendChild(noteLabelBold);
+        noteWrapper.appendChild(noteLabel);
+        
+        // Moderator Note Value
+        const noteValue = document.createElement('p');
+        const noteValueBold = document.createElement('b');
+        noteValueBold.id = 'moderatorNote';
+        noteValueBold.textContent = moderatorNote;
+        noteValue.appendChild(noteValueBold);
+        noteWrapper.appendChild(noteValue);
+        
+        evidenceContainer.appendChild(noteWrapper);
     }
     
     // Add Violations if exist
     if (formData.classicViolations && formData.classicViolations.length > 0) {
-        const violationBox = document.createElement('div');
-        violationBox.className = 'violation-box';
+        const violationsWrapper = document.createElement('div');
         
         formData.classicViolations.forEach((violation) => {
             // Reason
-            const reasonElement = document.createElement('p');
-            const reasonLabel = document.createElement('span');
-            reasonLabel.className = 'label-text';
-            reasonLabel.textContent = translations[language]["Label.Reason"] + ': ';
-            const reasonContent = document.createElement('b');
-            reasonContent.className = 'violation-text';
-            reasonContent.textContent = violation.reason;
-            reasonElement.appendChild(reasonLabel);
-            reasonElement.appendChild(reasonContent);
-            violationBox.appendChild(reasonElement);
+            const reasonLabel = document.createElement('p');
+            const reasonLabelBold = document.createElement('b');
+            reasonLabelBold.textContent = translations[language]["Label.Reason"];
+            reasonLabel.appendChild(reasonLabelBold);
+            violationsWrapper.appendChild(reasonLabel);
+            
+            const reasonValue = document.createElement('p');
+            const reasonValueBold = document.createElement('b');
+            reasonValueBold.className = 'violation-text';
+            reasonValueBold.textContent = violation.reason;
+            reasonValue.appendChild(reasonValueBold);
+            violationsWrapper.appendChild(reasonValue);
             
             // Evidence
-            const evidenceElement = document.createElement('p');
-            const evidenceLabel = document.createElement('span');
-            evidenceLabel.className = 'label-text';
-            evidenceLabel.textContent = translations[language]["Label.Evidence"] + ': ';
-            const evidenceContent = document.createElement('b');
-            evidenceContent.className = 'evidence-content';
+            const evidenceLabel = document.createElement('p');
+            const evidenceLabelBold = document.createElement('b');
+            evidenceLabelBold.textContent = translations[language]["Label.Evidence"];
+            evidenceLabel.appendChild(evidenceLabelBold);
+            violationsWrapper.appendChild(evidenceLabel);
             
+            const evidenceValue = document.createElement('p');
+            const evidenceValueBold = document.createElement('b');
+            evidenceValueBold.className = 'evidence-content';
+            
+            let evidenceText = violation.evidence;
             if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
-                evidenceContent.textContent = `${violation.violationType}: `;
+                evidenceText = `${violation.violationType}: ${evidenceText}`;
             }
-            evidenceContent.textContent += violation.evidence;
+            evidenceValueBold.textContent = evidenceText;
             
-            evidenceElement.appendChild(evidenceLabel);
-            evidenceElement.appendChild(evidenceContent);
-            violationBox.appendChild(evidenceElement);
+            evidenceValue.appendChild(evidenceValueBold);
+            violationsWrapper.appendChild(evidenceValue);
         });
         
-        evidenceContainer.appendChild(violationBox);
+        evidenceContainer.appendChild(violationsWrapper);
     }
 }
 
