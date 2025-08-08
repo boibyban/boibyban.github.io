@@ -40,13 +40,6 @@
             fill: #d32f2f;
         }
         
-        .modal-header h2 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 0;
-            color: #212121;
-        }
-        
         .permanent-ban-icon {
             width: 40px;
             height: 40px;
@@ -54,9 +47,22 @@
             margin-right: 10px;
         }
         
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            color: #212121;
+        }
+        
         .rules-broken {
             color: #212121;
             margin-bottom: 20px;
+        }
+        
+        .permanent-ban-message {
+            color: #212121;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         
         .latest-activity {
@@ -160,7 +166,7 @@
         </div>
         
         <div id="mainContent">
-            <p class="rules-broken">Your behaviour broke the rules of Boiby.</p>
+            <p id="rulesMessage" class="rules-broken">Your behaviour broke the rules of Boiby.</p>
             
             <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
             
@@ -223,6 +229,7 @@
         }
 
         function showAppealContent() {
+            document.getElementById('modalHeader').style.display = 'none';
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('appealContent').style.display = 'block';
             
@@ -234,20 +241,32 @@
             `;
             
             document.getElementById('backButton').addEventListener('click', function() {
+                document.getElementById('modalHeader').style.display = 'flex';
                 document.getElementById('mainContent').style.display = 'block';
                 document.getElementById('appealContent').style.display = 'none';
-                actionButtons.className = 'modal-footer';
+                resetActionButtons();
+            });
+        }
+
+        function resetActionButtons() {
+            const actionButtons = document.getElementById('actionButtons');
+            actionButtons.className = 'modal-footer';
+            
+            const formData = JSON.parse(localStorage.getItem('banFormData'));
+            if (formData && formData.state === "Delete") {
+                actionButtons.innerHTML = `
+                    <a href="/appeals-form" class="modal-button appeal-button">Request appeal</a>
+                    <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
+                `;
+            } else {
                 actionButtons.innerHTML = `
                     <button id="continueButton" class="modal-button continue-button">Continue</button>
                     <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
                 `;
                 
-                // Reattach continue button event if needed
-                const formData = JSON.parse(localStorage.getItem('banFormData'));
-                if (formData && formData.state === "Warn") {
-                    document.getElementById('continueButton').addEventListener('click', showAppealContent);
-                }
-            });
+                // Reattach continue button event
+                document.getElementById('continueButton').addEventListener('click', showAppealContent);
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -278,6 +297,13 @@
             if (formData && formData.state) {
                 document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
                 
+                // Update rules message for permanent bans
+                if (formData.state === "Delete") {
+                    document.getElementById('rulesMessage').className = 'permanent-ban-message';
+                    document.getElementById('rulesMessage').textContent = 
+                        'We permanently banned your account because of repeated or serious rule-breaking.';
+                }
+                
                 // Add permanent ban icon if account is terminated
                 if (formData.state === "Delete") {
                     document.querySelector('.modal-header svg').remove();
@@ -293,7 +319,7 @@
             // Set latest activity label
             document.getElementById('latestActivity').textContent = translations[language]["Label.LatestActivity"];
             
-            // Set continue button text based on ban type
+            // Set up continue button based on ban type
             const continueBtn = document.getElementById('continueButton');
             if (formData.state === "Warn") {
                 continueBtn.textContent = translations[language]["Button.Reactivate"];
