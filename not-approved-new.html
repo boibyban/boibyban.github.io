@@ -119,6 +119,17 @@
             color: white;
         }
         
+        .reactivate-button {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .reactivate-button:disabled {
+            background-color: #f5f5f5;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
         .logout-button, .rules-button, .appeal-button, .back-button {
             background-color: #f5f5f5;
             color: #212121;
@@ -165,6 +176,13 @@
             gap: 8px;
             margin: 15px 0;
         }
+        
+        .reactivate-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -205,6 +223,16 @@
             <div class="modal-footer left-align">
                 <a href="/appeals-form" class="modal-button appeal-button">Request appeal</a>
             </div>
+            
+            <div id="warningReactivateContainer" class="reactivate-container">
+                <div class="agree-checkbox">
+                    <input type="checkbox" id="reactivateAgreeCheckbox">
+                    <label for="reactivateAgreeCheckbox">I agree to know and follow the rules</label>
+                </div>
+                <button id="reactivateAccountButton" class="modal-button reactivate-button" disabled>
+                    Re-activate Account
+                </button>
+            </div>
         </div>
         
         <div class="modal-footer" id="actionButtons">
@@ -238,12 +266,34 @@
             document.getElementById('mainContent').style.display = 'none';
             document.getElementById('appealContent').style.display = 'block';
             
+            const formData = JSON.parse(localStorage.getItem('banFormData'));
             const actionButtons = document.getElementById('actionButtons');
-            actionButtons.className = 'modal-footer dual-buttons';
-            actionButtons.innerHTML = `
-                <button id="backButton" class="modal-button back-button">Back</button>
-                <button class="modal-button disabled-button">Suspended</button>
-            `;
+            
+            if (formData && formData.state === "Warn") {
+                // For warnings, show reactivate flow
+                actionButtons.className = 'modal-footer dual-buttons';
+                actionButtons.innerHTML = `
+                    <button id="backButton" class="modal-button back-button">Back</button>
+                `;
+                
+                // Set up reactivate button
+                document.getElementById('reactivateAgreeCheckbox').addEventListener('change', function() {
+                    const reactivateBtn = document.getElementById('reactivateAccountButton');
+                    reactivateBtn.disabled = !this.checked;
+                });
+                
+                document.getElementById('reactivateAccountButton').addEventListener('click', function() {
+                    // Handle account reactivation logic here
+                    window.location.href = "https://boibyban.github.io";
+                });
+            } else {
+                // For other ban types
+                actionButtons.className = 'modal-footer dual-buttons';
+                actionButtons.innerHTML = `
+                    <button id="backButton" class="modal-button back-button">Back</button>
+                    <button class="modal-button disabled-button">Suspended</button>
+                `;
+            }
             
             document.getElementById('backButton').addEventListener('click', function() {
                 document.getElementById('modalHeader').style.display = 'flex';
@@ -270,7 +320,7 @@
                 `;
                 
                 // Reattach continue button event
-                if (formData && formData.state === "Warn") {
+                if (formData && (formData.state === "Warn" || !formData.state.includes("Ban"))) {
                     document.getElementById('continueButton').addEventListener('click', showAppealContent);
                 }
             }
@@ -365,19 +415,6 @@
             if (formData && formData.state === "Warn" && continueBtn) {
                 continueBtn.textContent = translations[language]["Button.Reactivate"];
                 continueBtn.addEventListener('click', showAppealContent);
-                
-                const agreeContainer = document.createElement('div');
-                agreeContainer.className = 'agree-checkbox';
-                agreeContainer.innerHTML = `
-                    <input type="checkbox" id="agreeCheckbox">
-                    <label for="agreeCheckbox">${translations[language]["Label.IAgree"] || "I agree"}</label>
-                `;
-                continueBtn.parentNode.insertBefore(agreeContainer, continueBtn);
-                continueBtn.disabled = true;
-                
-                document.getElementById('agreeCheckbox').addEventListener('change', function() {
-                    continueBtn.disabled = !this.checked;
-                });
             } else if (continueBtn) {
                 continueBtn.textContent = "Continue";
                 continueBtn.addEventListener('click', showAppealContent);
