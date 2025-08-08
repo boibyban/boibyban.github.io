@@ -62,7 +62,6 @@
         .permanent-ban-message {
             color: #212121;
             margin-bottom: 20px;
-            font-weight: 600;
         }
         
         .latest-activity {
@@ -125,6 +124,11 @@
             color: #212121;
         }
         
+        .permanent-appeal-button {
+            background-color: #1976d2;
+            color: white;
+        }
+        
         .disabled-button {
             background-color: #f5f5f5;
             color: #9e9e9e;
@@ -153,6 +157,13 @@
         
         .appeal-content li {
             margin-bottom: 8px;
+        }
+        
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -204,7 +215,7 @@
 
     <script src="/translations-en.js"></script>
     <script>
-        // Preserved functions
+        // Format date as "Month Day, Year at HH:MM AM/PM"
         function formatDate(date) {
             const options = { 
                 month: 'long', 
@@ -215,12 +226,6 @@
                 hour12: true
             };
             return date.toLocaleString('en-US', options).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
-        }
-
-        function formatString(template, ...args) {
-            return template.replace(/{(\d+)}/g, (match, index) => {
-                return typeof args[index] !== 'undefined' ? args[index] : match;
-            });
         }
 
         function setTheme(theme) {
@@ -255,7 +260,7 @@
             const formData = JSON.parse(localStorage.getItem('banFormData'));
             if (formData && formData.state === "Delete") {
                 actionButtons.innerHTML = `
-                    <a href="/appeals-form" class="modal-button appeal-button">Request appeal</a>
+                    <a href="/appeals-form" class="modal-button permanent-appeal-button">Request appeal</a>
                     <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
                 `;
             } else {
@@ -299,10 +304,13 @@
             if (formData && formData.state) {
                 document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
                 
-                // Update rules message for permanent bans
-                if (formData.state === "Delete") {
-                    document.getElementById('rulesMessage').className = 'permanent-ban-message';
-                    document.getElementById('rulesMessage').textContent = 
+                // Handle rules message based on ban type and violations
+                const rulesMessageEl = document.getElementById('rulesMessage');
+                const isPermanentBan = formData.state === "Delete";
+                
+                if (isPermanentBan) {
+                    rulesMessageEl.className = 'permanent-ban-message';
+                    rulesMessageEl.textContent = 
                         'We permanently banned your account because of repeated or serious rule-breaking.';
                     
                     // Replace warning icon with permanent ban icon
@@ -318,16 +326,34 @@
                     banIcon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-8v-2h8v2z"/>';
                     header.insertBefore(banIcon, header.firstChild);
                     
-                    // Replace continue button with appeal button
+                    // Replace continue button with blue appeal button
                     const continueBtn = document.getElementById('continueButton');
                     if (continueBtn) {
                         continueBtn.remove();
                     }
                     const appealBtn = document.createElement('a');
                     appealBtn.href = '/appeals-form';
-                    appealBtn.className = 'modal-button appeal-button';
+                    appealBtn.className = 'modal-button permanent-appeal-button';
                     appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
                     document.getElementById('actionButtons').prepend(appealBtn);
+                } else {
+                    // Handle non-permanent ban messages
+                    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
+                    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
+                    
+                    if (!hasViolations || !firstViolation?.reason) {
+                        rulesMessageEl.textContent = 'Your behaviour broke the rules of Boiby.';
+                    } else {
+                        const violationType = firstViolation.violationType || '';
+                        const reason = firstViolation.reason.toLowerCase();
+                        
+                        if (violationType === "General/Chat") {
+                            rulesMessageEl.textContent = `Your behavior broke the rules against ${reason}.`;
+                        } else {
+                            const violationTypeLower = violationType.toLowerCase();
+                            rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules against ${reason}.`;
+                        }
+                    }
                 }
             }
             
@@ -342,7 +368,6 @@
                 
                 const agreeContainer = document.createElement('div');
                 agreeContainer.className = 'agree-checkbox';
-                agreeContainer.style.margin = '15px 0';
                 agreeContainer.innerHTML = `
                     <input type="checkbox" id="agreeCheckbox">
                     <label for="agreeCheckbox">${translations[language]["Label.IAgree"] || "I agree"}</label>
@@ -358,7 +383,7 @@
                 continueBtn.addEventListener('click', showAppealContent);
             }
 
-            // Populate evidence container with new structure
+            // Populate evidence container
             if (formData) {
                 const now = new Date();
                 const reviewedDate = formatDate(now);
