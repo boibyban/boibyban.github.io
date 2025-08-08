@@ -265,7 +265,9 @@
                 `;
                 
                 // Reattach continue button event
-                document.getElementById('continueButton').addEventListener('click', showAppealContent);
+                if (formData && formData.state === "Warn") {
+                    document.getElementById('continueButton').addEventListener('click', showAppealContent);
+                }
             }
         }
 
@@ -302,17 +304,30 @@
                     document.getElementById('rulesMessage').className = 'permanent-ban-message';
                     document.getElementById('rulesMessage').textContent = 
                         'We permanently banned your account because of repeated or serious rule-breaking.';
-                }
-                
-                // Add permanent ban icon if account is terminated
-                if (formData.state === "Delete") {
-                    document.querySelector('.modal-header svg').remove();
+                    
+                    // Replace warning icon with permanent ban icon
+                    const header = document.getElementById('modalHeader');
+                    const existingIcon = header.querySelector('svg');
+                    if (existingIcon) {
+                        existingIcon.remove();
+                    }
                     const banIcon = document.createElement('svg');
                     banIcon.className = 'permanent-ban-icon';
                     banIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
                     banIcon.setAttribute('viewBox', '0 0 24 24');
                     banIcon.innerHTML = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11h-8v-2h8v2z"/>';
-                    document.querySelector('.modal-header').prepend(banIcon);
+                    header.insertBefore(banIcon, header.firstChild);
+                    
+                    // Replace continue button with appeal button
+                    const continueBtn = document.getElementById('continueButton');
+                    if (continueBtn) {
+                        continueBtn.remove();
+                    }
+                    const appealBtn = document.createElement('a');
+                    appealBtn.href = '/appeals-form';
+                    appealBtn.className = 'modal-button appeal-button';
+                    appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
+                    document.getElementById('actionButtons').prepend(appealBtn);
                 }
             }
             
@@ -321,7 +336,7 @@
             
             // Set up continue button based on ban type
             const continueBtn = document.getElementById('continueButton');
-            if (formData.state === "Warn") {
+            if (formData && formData.state === "Warn" && continueBtn) {
                 continueBtn.textContent = translations[language]["Button.Reactivate"];
                 continueBtn.addEventListener('click', showAppealContent);
                 
@@ -338,15 +353,7 @@
                 document.getElementById('agreeCheckbox').addEventListener('change', function() {
                     continueBtn.disabled = !this.checked;
                 });
-            } else if (formData.state === "Delete") {
-                // Replace continue button with appeal button for permanent bans
-                continueBtn.remove();
-                const appealBtn = document.createElement('a');
-                appealBtn.href = '/appeals-form';
-                appealBtn.className = 'modal-button appeal-button';
-                appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
-                document.querySelector('.modal-footer').prepend(appealBtn);
-            } else {
+            } else if (continueBtn) {
                 continueBtn.textContent = "Continue";
                 continueBtn.addEventListener('click', showAppealContent);
             }
