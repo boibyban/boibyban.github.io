@@ -501,7 +501,6 @@
 
     document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
 
-    // Add violations if they exist
     if (formData.classicViolations && formData.classicViolations.length > 0) {
         let violationsHTML = '<div class="violation-box">';
         let hasImageViolation = false;
@@ -511,23 +510,31 @@
             const isImageViolation = violation.violationType === "Image" && violation.evidence.startsWith("data:image");
             if (isImageViolation) {
                 hasImageViolation = true;
+                // Generate 15-digit random asset ID
+                const assetId = Math.floor(1e14 + Math.random() * 9e14);
                 imageHTML = `
                     <div class="evidence-image" style="width:180px; height:180px; border-radius:8px; background-color:#fff; position:absolute; left:15px; align-items: center;">
                         <img src="${violation.evidence}" alt="Violating Image" style="max-width:180px; max-height:180px; border-radius: 8px; align-self: center; margin: auto;">
                     </div>
                 `;
+                violationsHTML += `
+                    <p>${translations[language]["Label.Reason"]}</p>
+                    <p><b class="violation-text">${violation.reason}</b></p>
+                    <p>${translations[language]["Label.AssetID"]}</p>
+                    <p><b class="evidence-content">${assetId}</b></p>
+                `;
+            } else {
+                violationsHTML += `
+                    <p>${translations[language]["Label.Reason"]}</p>
+                    <p><b class="violation-text">${violation.reason}</b></p>
+                    <p>${translations[language]["Label.OffensiveItemV2"]}</p>
+                    <p><b class="evidence-content">${
+                        violation.violationType !== "General/Chat"
+                            ? `${violation.violationType}: ${violation.evidence}`
+                            : violation.evidence
+                    }</b></p>
+                `;
             }
-
-            violationsHTML += `
-                <p>${translations[language]["Label.Reason"]}</p>
-                <p><b class="violation-text">${violation.reason}</b></p>
-                <p>${translations[language]["Label.OffensiveItemV2"]}</p>
-                <p><b class="evidence-content">${
-                    !isImageViolation && violation.violationType !== "General/Chat"
-                        ? `${violation.violationType}: ${violation.evidence}`
-                        : (isImageViolation ? "" : violation.evidence)
-                }</b></p>
-            `;
         });
 
         violationsHTML += '</div>';
@@ -535,21 +542,42 @@
         const evidenceContainerEl = document.querySelector('.evidence-container');
         evidenceContainerEl.innerHTML += violationsHTML;
 
-        // If image violation, shift layout & insert image
+        // If image violation, handle layout positioning
         if (hasImageViolation) {
             const container = document.querySelector('.evidence-container');
             container.style.position = "relative";
 
             const evidenceEl = document.getElementById('evidenceContainer');
             const violationBoxEl = document.querySelector('.violation-box');
-            evidenceEl.style.position = violationBoxEl.style.position = "relative";
-            evidenceEl.style.left = violationBoxEl.style.left = "200px";
-            evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
 
-            container.insertAdjacentHTML("afterbegin", imageHTML);
+            function updateLayout() {
+                if (window.innerWidth >= 600) {
+                    // Image beside violation details
+                    evidenceEl.style.position = violationBoxEl.style.position = "relative";
+                    evidenceEl.style.left = violationBoxEl.style.left = "200px";
+                    evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
+                    if (!container.querySelector('.evidence-image')) {
+                        container.insertAdjacentHTML("afterbegin", imageHTML);
+                    }
+                } else {
+                    // Image on top, normal flow
+                    evidenceEl.style.left = violationBoxEl.style.left = "0";
+                    evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "100%";
+                    const imgEl = container.querySelector('.evidence-image');
+                    if (imgEl) {
+                        imgEl.style.position = "relative";
+                        imgEl.style.left = "0";
+                        imgEl.style.marginBottom = "15px";
+                    }
+                }
+            }
+
+            window.addEventListener('resize', updateLayout);
+            updateLayout();
         }
     }
 }
+
         });
     </script>
 </body>
