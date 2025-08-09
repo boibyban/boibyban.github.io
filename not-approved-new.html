@@ -263,42 +263,108 @@
         }
 
         function showAppealContent() {
-            document.getElementById('modalHeader').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('appealContent').style.display = 'block';
-            
-            const formData = JSON.parse(localStorage.getItem('banFormData'));
-            const actionButtons = document.getElementById('actionButtons');
-            
-            if (formData && formData.state === "Warn") {
-                // Show reactivate flow only for warnings
-                document.getElementById('warningReactivateContainer').style.display = 'block';
-                
-                // Set up reactivate button
-                document.getElementById('reactivateAgreeCheckbox').addEventListener('change', function() {
-                    const reactivateBtn = document.getElementById('reactivateAccountButton');
-                    reactivateBtn.disabled = !this.checked;
-                });
-                
-                document.getElementById('reactivateAccountButton').addEventListener('click', function() {
-                    // Handle account reactivation logic here
+    document.getElementById('modalHeader').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('appealContent').style.display = 'block';
+
+    const formData = JSON.parse(localStorage.getItem('banFormData'));
+    const actionButtons = document.getElementById('actionButtons');
+
+    if (formData && formData.state === "Warn") {
+        // Warnings show reactivation flow
+        document.getElementById('warningReactivateContainer').style.display = 'block';
+        document.getElementById('reactivateAgreeCheckbox').addEventListener('change', function() {
+            document.getElementById('reactivateAccountButton').disabled = !this.checked;
+        });
+        document.getElementById('reactivateAccountButton').addEventListener('click', function() {
+            window.location.href = "https://boibyban.github.io";
+        });
+    }
+
+    actionButtons.className = 'modal-footer dual-buttons';
+
+    if (formData && formData.state !== "Warn" && formData.state !== "Delete") {
+        // Temporary suspension → show countdown
+        const suspensionButton = document.createElement('button');
+        suspensionButton.className = 'modal-button disabled-button';
+        actionButtons.innerHTML = `
+            <button id="backButton" class="modal-button back-button">Back</button>
+        `;
+        actionButtons.appendChild(suspensionButton);
+
+        // Map state to duration in ms
+        const stateDurations = {
+            Ban1Hour: 1 * 60 * 60 * 1000,
+            Ban3Hours: 3 * 60 * 60 * 1000,
+            Ban6Hours: 6 * 60 * 60 * 1000,
+            Ban12Hours: 12 * 60 * 60 * 1000,
+            Ban1Day: 24 * 60 * 60 * 1000,
+            Ban2Days: 2 * 24 * 60 * 60 * 1000,
+            Ban3Days: 3 * 24 * 60 * 60 * 1000,
+            Ban7Days: 7 * 24 * 60 * 60 * 1000,
+            Ban14Days: 14 * 24 * 60 * 60 * 1000,
+            Ban60Days: 60 * 24 * 60 * 60 * 1000,
+            Ban6Months: 182 * 24 * 60 * 60 * 1000,
+            Ban1Year: 365 * 24 * 60 * 60 * 1000
+        };
+
+        const reviewDate = new Date(); // You might want to store the actual review date in formData
+        const endTime = new Date(reviewDate.getTime() + (stateDurations[formData.state] || 0));
+
+        function updateCountdown() {
+            const now = new Date();
+            let diff = endTime - now;
+
+            if (diff <= 0) {
+                suspensionButton.textContent = "Reactivate Account";
+                suspensionButton.classList.remove('disabled-button');
+                suspensionButton.classList.add('reactivate-button');
+                suspensionButton.disabled = false;
+                suspensionButton.addEventListener('click', function() {
                     window.location.href = "https://boibyban.github.io";
                 });
+                return;
             }
-            
-            actionButtons.className = 'modal-footer dual-buttons';
-            actionButtons.innerHTML = `
-                <button id="backButton" class="modal-button back-button">Back</button>
-                ${formData && formData.state === "Warn" ? '' : '<button class="modal-button disabled-button">Suspended</button>'}
-            `;
-            
-            document.getElementById('backButton').addEventListener('click', function() {
-                document.getElementById('modalHeader').style.display = 'flex';
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('appealContent').style.display = 'none';
-                resetActionButtons();
-            });
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            diff -= days * (1000 * 60 * 60 * 24);
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            diff -= hours * (1000 * 60 * 60);
+            const minutes = Math.floor(diff / (1000 * 60));
+
+            let label = "Suspension ";
+            if (days > 0) {
+                label += `${days}d ${hours}h ${minutes}m`;
+            } else {
+                label += `${hours}h ${minutes}m`;
+            }
+
+            suspensionButton.textContent = label;
+            setTimeout(updateCountdown, 60000); // Update every minute
         }
+
+        updateCountdown();
+    } else if (formData && formData.state === "Delete") {
+        // Permanent ban
+        actionButtons.innerHTML = `
+            <button id="backButton" class="modal-button back-button">Back</button>
+            <button class="modal-button disabled-button">Suspended</button>
+        `;
+    } else {
+        // Warn
+        actionButtons.innerHTML = `
+            <button id="backButton" class="modal-button back-button">Back</button>
+        `;
+    }
+
+    document.getElementById('backButton').addEventListener('click', function() {
+        document.getElementById('modalHeader').style.display = 'flex';
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('appealContent').style.display = 'none';
+        resetActionButtons();
+    });
+}
+
 
         function resetActionButtons() {
             const actionButtons = document.getElementById('actionButtons');
