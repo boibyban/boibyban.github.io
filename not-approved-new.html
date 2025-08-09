@@ -6,6 +6,44 @@
     <title>Account Notification</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
+        @media (prefers-color-scheme: dark) {
+    body {
+        background-color: #111 !important;
+    }
+
+    .modal {
+        background: #1e1e1e !important;
+        color: #eee !important;
+    }
+
+    .modal-header h2,
+    .rules-broken,
+    .permanent-ban-message,
+    .latest-activity,
+    .violation-text,
+    #evidenceContainer p,
+    #evidenceContainer b {
+        color: #eee !important;
+    }
+
+    .evidence-container {
+        background: #222 !important;
+    }
+
+    .modal-button.logout-button,
+    .modal-button.rules-button,
+    .modal-button.appeal-button,
+    .modal-button.back-button {
+        background-color: #222 !important;
+        color: #eee !important;
+    }
+
+    .reactivate-button:disabled,
+    .disabled-button {
+        background-color: #333 !important;
+        color: #999 !important;
+    }
+}
         body {
             display: flex;
             justify-content: center;
