@@ -20,7 +20,7 @@ window.translations = {
       
         "Description.Warn": "You may re-activate your account by agreeing to our Terms of Use.",
         "Description.Ban": "Your account has been banned. You may re-activate it after {0}.",
-        "Description.BanV2": "Your account has been banned. You will be eligible to re-activate it after {0}.",
+        "Description.BanV2": "Your account has been temporarily suspended. You will be eligible to re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
       
         "Text.TermsMessage": "We have determined that your recent behaviour or actions on Boiby have been in violation of our {0}.",
@@ -64,14 +64,20 @@ window.translations = {
         "Heading.Suspend6Months": "Suspended for 6 months",
         "Heading.Suspend1Year": "Suspended for 1 year",
         "Heading.BannedPermanently": "Banned permanently",
+        "Heading.AccountTerminatedV2": "Account terminated",
 
         "Label.LatestActivity": "Latest activity we reviewed",
         "Label.ModeratorNoteV2": "Moderator note",
         "Label.ReviewDateV2": "Review date",
+        "Label.DecisionV2": "Decision method",
+        "Label.OffensiveItemV2": "Offensive item",
+        "Label.AssetID": "Asset ID",
         "Description.FollowTheRules": "Make sure you know and follow the rules. {0}",
 
         "Action.FollowRulesLink": "View rules",
         "Action.RequestAppeal": "Request Appeal",
         "Action.Logout": "Logout",
+        "Action.Continue": "Continue",
+        "Action.Back": "Back"
     }
 };
