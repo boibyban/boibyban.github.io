@@ -512,8 +512,8 @@
             if (isImageViolation) {
                 hasImageViolation = true;
                 imageHTML = `
-                    <div class="evidence-image" style="width:128px; height:128px; border-radius:8px; background-color:#fff; position:absolute; left:0px; align-items: center;">
-                        <img src="${violation.evidence}" alt="Violating Image" style="max-width:128px; max-height:128px; border-radius: 8px; align-self: center; margin: auto;">
+                    <div class="evidence-image" style="width:180px; height:180px; border-radius:8px; background-color:#fff; position:absolute; left:15px; align-items: center;">
+                        <img src="${violation.evidence}" alt="Violating Image" style="max-width:180px; max-height:180px; border-radius: 8px; align-self: center; margin: auto;">
                     </div>
                 `;
             }
@@ -543,7 +543,8 @@
             const evidenceEl = document.getElementById('evidenceContainer');
             const violationBoxEl = document.querySelector('.violation-box');
             evidenceEl.style.position = violationBoxEl.style.position = "relative";
-            evidenceEl.style.left = violationBoxEl.style.left = "150px";
+            evidenceEl.style.left = violationBoxEl.style.left = "200px";
+            evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
 
             container.insertAdjacentHTML("afterbegin", imageHTML);
         }
