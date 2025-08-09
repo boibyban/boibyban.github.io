@@ -350,7 +350,7 @@
             Ban1Year: 365 * 24 * 60 * 60 * 1000
         };
 
-        const reviewDate = new Date(); // You might want to store the actual review date in formData
+        const reviewDate = new Date(); // TODO: Change to store the actual review date in formData
         const endTime = new Date(reviewDate.getTime() + (stateDurations[formData.state] || 0));
 
         function updateCountdown() {
@@ -451,7 +451,7 @@
                 Ban60Days: translations[language]["Heading.Suspend60Days"],
                 Ban6Months: translations[language]["Heading.Suspend6Months"],
                 Ban1Year: translations[language]["Heading.Suspend1Year"],
-                Delete: translations[language]["Title.Terminate"],
+                Delete: translations[language]["Heading.BannedPermanently"],
             };
             
             if (formData && formData.state) {
@@ -464,7 +464,7 @@
                 if (isPermanentBan) {
                     rulesMessageEl.className = 'permanent-ban-message';
                     rulesMessageEl.textContent = 
-                        'We terminated your account because of repeated or serious rule-breaking.';
+                        'We banned your account because of repeated or serious rule-breaking.';
                     
                     // Replace warning icon with permanent ban icon
                     const header = document.getElementById('modalHeader');
