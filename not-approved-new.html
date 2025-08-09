@@ -512,8 +512,8 @@
             if (isImageViolation) {
                 hasImageViolation = true;
                 imageHTML = `
-                    <div class="evidence-image" style="width:128px; height:128px; border-radius:8px; background-color:#fff; position:absolute; left:-150px;">
-                        <img src="${violation.evidence}" alt="render failed" style="max-width:150px; max-height:150px;">
+                    <div class="evidence-image" style="width:128px; height:128px; border-radius:8px; background-color:#fff; position:absolute; left:0px; align-items: center;">
+                        <img src="${violation.evidence}" alt="Violating Image" style="max-width:128px; max-height:128px; border-radius: 8px; align-self: center; margin: auto;">
                     </div>
                 `;
             }
