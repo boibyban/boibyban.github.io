@@ -478,51 +478,77 @@
                 continueBtn.addEventListener('click', showAppealContent);
             }
 
-            // Populate evidence container
             if (formData) {
-                const now = new Date();
-                const reviewedDate = formatDate(now);
-                const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
-                
-                let evidenceHTML = `
-                    <div>
-                        <p>${translations[language]["Label.ReviewDateV2"]}</p>
-                        <b id="reviewedDate">${reviewedDate}</b>
+    const now = new Date();
+    const reviewedDate = formatDate(now);
+    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+
+    let evidenceHTML = `
+        <div>
+            <p>${translations[language]["Label.ReviewDateV2"]}</p>
+            <b id="reviewedDate">${reviewedDate}</b>
+        </div>
+    `;
+
+    if (moderatorNote) {
+        evidenceHTML += `
+            <div>
+                <p>${translations[language]["Label.ModeratorNoteV2"]}</p>
+                <b id="moderatorNote">${moderatorNote}</b>
+            </div>
+        `;
+    }
+
+    document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
+
+    // Add violations if they exist
+    if (formData.classicViolations && formData.classicViolations.length > 0) {
+        let violationsHTML = '<div class="violation-box">';
+        let hasImageViolation = false;
+        let imageHTML = "";
+
+        formData.classicViolations.forEach(violation => {
+            const isImageViolation = violation.violationType === "Image" && violation.evidence.startsWith("data:image");
+            if (isImageViolation) {
+                hasImageViolation = true;
+                imageHTML = `
+                    <div class="evidence-image" style="width:128px; height:128px; border-radius:8px; background-color:#fff; position:absolute; left:-150px;">
+                        <img src="${violation.evidence}" alt="render failed" style="max-width:150px; max-height:150px;">
                     </div>
                 `;
-                
-                if (moderatorNote) {
-                    evidenceHTML += `
-                        <div>
-                            <p>${translations[language]["Label.ModeratorNoteV2"]}</p>
-                            <b id="moderatorNote">${moderatorNote}</b>
-                        </div>
-                    `;
-                }
-                
-                document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
-                
-                // Add violations if they exist
-                if (formData.classicViolations && formData.classicViolations.length > 0) {
-                    let violationsHTML = '<div class="violation-box">';
-                    
-                    formData.classicViolations.forEach(violation => {
-                        violationsHTML += `
-                            <p>${translations[language]["Label.Reason"]}</p>
-                            <p><b class="violation-text">${violation.reason}</b></p>
-                            <p>${translations[language]["Label.OffensiveItemV2"]}</p>
-                            <p><b class="evidence-content">${
-                                violation.violationType !== "General/Chat" && violation.violationType !== "Image" 
-                                ? `${violation.violationType}: ${violation.evidence}`
-                                : violation.evidence
-                            }</b></p>
-                        `;
-                    });
-                    
-                    violationsHTML += '</div>';
-                    document.querySelector('.evidence-container').innerHTML += violationsHTML;
-                }
             }
+
+            violationsHTML += `
+                <p>${translations[language]["Label.Reason"]}</p>
+                <p><b class="violation-text">${violation.reason}</b></p>
+                <p>${translations[language]["Label.OffensiveItemV2"]}</p>
+                <p><b class="evidence-content">${
+                    !isImageViolation && violation.violationType !== "General/Chat"
+                        ? `${violation.violationType}: ${violation.evidence}`
+                        : (isImageViolation ? "" : violation.evidence)
+                }</b></p>
+            `;
+        });
+
+        violationsHTML += '</div>';
+
+        const evidenceContainerEl = document.querySelector('.evidence-container');
+        evidenceContainerEl.innerHTML += violationsHTML;
+
+        // If image violation, shift layout & insert image
+        if (hasImageViolation) {
+            const container = document.querySelector('.evidence-container');
+            container.style.position = "relative";
+
+            const evidenceEl = document.getElementById('evidenceContainer');
+            const violationBoxEl = document.querySelector('.violation-box');
+            evidenceEl.style.position = violationBoxEl.style.position = "relative";
+            evidenceEl.style.left = violationBoxEl.style.left = "150px";
+
+            container.insertAdjacentHTML("afterbegin", imageHTML);
+        }
+    }
+}
         });
     </script>
 </body>
