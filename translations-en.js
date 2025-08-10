@@ -21,7 +21,7 @@ window.translations = {
       
         "Description.Warn": "You may re-activate your account by agreeing to our Terms of Use.",
         "Description.Ban": "Your account has been banned. You may re-activate it after {0}.",
-        "Description.BanV2": "Your account has been temporarily suspended. You will be eligible to re-activate it after {0}.",
+        "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
       
         "Text.TermsMessage": "We have determined that your recent behaviour or actions on Boiby have been in violation of our {0}.",
@@ -37,16 +37,20 @@ window.translations = {
         "Label.Reason": "Reason",
         "Label.Evidence": "Evidence",
         "Label.OffensiveItem": "Offensive Item",
-        "Label.RecentViolation": "Recent Violation",
         "Label.ViolationDetails": "Violation Details",
+        
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
+
+        // TODO: Deprecation of legacy caution warnings to streamline existing system (do this after caution warning logic is removed)
         "Caution.Title": "CAUTION",
         "Caution.Future": "If you violate the Community Rules again, your account may be suspended in the future.",
         "Caution.1Day": "If you violate the Community Rules again, your account may be suspended for at least 1 day.",
         "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
         "Caution.7Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
+        
+        
         "Decision.ManualDetectionAutoReview": "We used automated systems when making this decision.",
         "Decision.AutoDetectionManualReview": "We used automated systems to detect this violation.",
         "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision.",
