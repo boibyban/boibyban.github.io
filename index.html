@@ -102,6 +102,11 @@
             <input type="checkbox" id="botBan" name="botBan"><br><br>
         </div>
 
+        <div class="mobile-ban-section">
+    <label for="mobileBan">Mobile ban?</label>
+    <input type="checkbox" id="mobileBan" name="mobileBan"><br><br>
+</div>
+        
         <p>Punishment</p>
         <input type="radio" id="Warn" name="State" value="Warn">
         <label for="Warn">Warn</label><br>
@@ -480,7 +485,8 @@
 
             // Save form data to localStorage and redirect
             localStorage.setItem('banFormData', JSON.stringify(formData));
-            window.location.href = '/not-approved';
+const isMobileBan = document.getElementById('mobileBan').checked;
+window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
         });
     </script>
 
