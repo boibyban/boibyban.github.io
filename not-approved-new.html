@@ -285,19 +285,32 @@
 
     <script src="/translations-en.js"></script>
     <script>
-        // Format date as "Month Day, Year at HH:MM AM/PM"
-        function formatDate(date) {
-            const options = { 
-                month: 'long', 
-                day: 'numeric', 
-                year: 'numeric',
-                hour: 'numeric', 
-                minute: '2-digit',
-                hour12: true
-            };
-            return date.toLocaleString('en-US', options).replace(',', '').replace(/(\d+:\d+)/, '$1');
-        }
+        function formatDate(dateInput) {
+    let date;
+    if (typeof dateInput === 'string') {
+        const [datePart, timePart] = dateInput.split(', ');
+        const [day, month, year] = datePart.split('/');
+        date = new Date(`${year}-${month}-${day}T${timePart}`);
+    } 
+    else if (dateInput instanceof Date && !isNaN(dateInput.getTime())) {
+        date = dateInput;
+    } 
+    else {
+        date = new Date();
+    }
 
+    const options = { 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    };
+    return date.toLocaleString('en-US', options)
+               .replace(',', '')
+               .replace(/(\d+:\d+)/, '$1');
+}
         function setTheme(theme) {
     const themeStylesheet = document.getElementById('themeStylesheet');
     themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
