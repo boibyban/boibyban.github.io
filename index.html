@@ -437,10 +437,13 @@
 
             if (!isValid) return;
 
+            const banStartDate = new Date().toLocaleString();
+
             // Proceed with form submission
             const formData = {
                 
     state: document.querySelector('input[name="State"]:checked').value,
+    banStartDate: banStartDate,
     note: document.getElementById('note').value,
     customNote: document.getElementById('notecustom').value,
     cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
