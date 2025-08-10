@@ -24,7 +24,7 @@ window.translations = {
         "Description.BanV2": "Your account has been suspended. You may re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
       
-        "Text.TermsMessage": "We have determined that your recent behaviour or actions on Boiby have been in violation of our {0}.",
+        "Text.TermsMessage": "We have determined that your behaviour or actions on Boiby have been in violation of our {0}.",
         "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
         "Text.AppealsMessage": "To request an appeal visit the {0}.",
         "Label.TermsOfUse": "Terms of Use",
