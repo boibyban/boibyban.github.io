@@ -219,6 +219,21 @@ html, body {
         <p id="reactivateMessage"></p>
         <p id="membershipNotice" style="display:none"></p>
         <p id="appealsMessage"></p>
+            <div id="links-bottom" style="
+    padding-bottom: 20px;
+"><p style="
+    margin-left: 10px;
+    font-size: 16px;
+    margin-top: 32px;
+" id="linkBottom"><a href="/info/community-rules">Boiby Community Rules</a></p><p style="
+    margin-left: 10px;
+    font-size: 16px;
+    margin-top: 24px;
+" id="linkBottom"><a href="/info/terms">Terms of Use</a></p><p style="
+    margin-left: 10px;
+    font-size: 16px;
+    margin-top: 24px;
+" id="linkBottom"><a href="/appeals-form">Appeals Form</a></p></div>
         </div>
         <div id="agreeContainer">
             <div class="agree-checkbox">
@@ -364,17 +379,17 @@ if (formData) {
     // Set static text elements
     document.getElementById('termsOfUse').innerHTML = formatString(
         translations[language]["Text.TermsMessage"],
-        `<a href="/info/terms">${translations[language]["Label.TermsOfUse"]}</a>`
+        translations[language]["Label.TermsOfUse"]
     );
     
     document.getElementById('communityRules').innerHTML = formatString(
         translations[language]["Text.CommunityStandardMessage"],
-        `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`
+        translations[language]["Label.CommunityRules"]
     );
     
     document.getElementById('appealsMessage').innerHTML = formatString(
         translations[language]["Text.AppealsMessage"],
-        `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`
+        translations[language]["Label.AppealsForm"]
     );
     
     document.querySelector('.logoutlink').textContent = translations[language]["Button.Logout"];
