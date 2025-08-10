@@ -6,49 +6,47 @@
     <title>Account Notification</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
-        @media (prefers-color-scheme: dark) {
-    body {
+            body.dark-mode {
         background-color: #111 !important;
     }
 
-    .modal {
+    body.dark-mode .modal {
         background: #1e1e1e !important;
         color: #eee !important;
     }
 
-    .modal-header h2,
-    .rules-broken,
-    .permanent-ban-message,
-    .latest-activity,
-    .violation-text,
-    #evidenceContainer p,
-    #evidenceContainer b {
+    body.dark-mode .modal-header h2,
+    body.dark-mode .rules-broken,
+    body.dark-mode .permanent-ban-message,
+    body.dark-mode .latest-activity,
+    body.dark-mode .violation-text,
+    body.dark-mode #evidenceContainer p,
+    body.dark-mode #evidenceContainer b {
         color: #eee !important;
     }
 
-    .evidence-container {
+    body.dark-mode .evidence-container {
         background: #2a2a2a !important;
     }
-    a:visited {
+    
+    body.dark-mode a:visited {
         text-decoration: none;
         color: #eee;
     }
 
-    .modal-button.logout-button,
-    .modal-button.rules-button,
-    .modal-button.appeal-button,
-    .modal-button.back-button {
+    body.dark-mode .modal-button.logout-button,
+    body.dark-mode .modal-button.rules-button,
+    body.dark-mode .modal-button.appeal-button,
+    body.dark-mode .modal-button.back-button {
         background-color: #2a2a2a !important;
         color: #eee !important;
-        
     }
 
-    .reactivate-button:disabled,
-    .disabled-button {
+    body.dark-mode .reactivate-button:disabled,
+    body.dark-mode .disabled-button {
         background-color: #333 !important;
         color: #999 !important;
     }
-}
         body {
             display: flex;
             justify-content: center;
