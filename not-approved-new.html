@@ -250,7 +250,7 @@
             <b>Rule violations add up</b>
             <ul>
                 <li>We may give you a longer suspension - or even permanently ban your account - if you keep breaking the rules.</li>
-                <li>Make sure you know the rules and follow them</li>
+                <li>Make sure you know the rules and follow them.</li>
             </ul>
             
             <div class="modal-footer left-align">
@@ -335,57 +335,64 @@
         actionButtons.appendChild(suspensionButton);
 
         // Map state to duration in ms
-        const stateDurations = {
-            Ban1Hour: 1 * 60 * 60 * 1000,
-            Ban3Hours: 3 * 60 * 60 * 1000,
-            Ban6Hours: 6 * 60 * 60 * 1000,
-            Ban12Hours: 12 * 60 * 60 * 1000,
-            Ban1Day: 24 * 60 * 60 * 1000,
-            Ban2Days: 2 * 24 * 60 * 60 * 1000,
-            Ban3Days: 3 * 24 * 60 * 60 * 1000,
-            Ban7Days: 7 * 24 * 60 * 60 * 1000,
-            Ban14Days: 14 * 24 * 60 * 60 * 1000,
-            Ban60Days: 60 * 24 * 60 * 60 * 1000,
-            Ban6Months: 182 * 24 * 60 * 60 * 1000,
-            Ban1Year: 365 * 24 * 60 * 60 * 1000
-        };
+const stateDurations = {
+    Ban1Hour: 1 * 60 * 60 * 1000,
+    Ban3Hours: 3 * 60 * 60 * 1000,
+    Ban6Hours: 6 * 60 * 60 * 1000,
+    Ban12Hours: 12 * 60 * 60 * 1000,
+    Ban1Day: 24 * 60 * 60 * 1000,
+    Ban2Days: 2 * 24 * 60 * 60 * 1000,
+    Ban3Days: 3 * 24 * 60 * 60 * 1000,
+    Ban7Days: 7 * 24 * 60 * 60 * 1000,
+    Ban14Days: 14 * 24 * 60 * 60 * 1000,
+    Ban60Days: 60 * 24 * 60 * 60 * 1000,
+    Ban6Months: 182 * 24 * 60 * 60 * 1000,
+    Ban1Year: 365 * 24 * 60 * 60 * 1000
+};
 
-        const reviewDate = new Date(); // TODO: Change to store the actual review date in formData
-        const endTime = new Date(reviewDate.getTime() + (stateDurations[formData.state] || 0));
+// Store reviewDate on first run if not already saved
+if (!formData.reviewDate) {
+    formData.reviewDate = Date.now();
+    localStorage.setItem('banFormData', JSON.stringify(formData));
+}
 
-        function updateCountdown() {
-            const now = new Date();
-            let diff = endTime - now;
+// Calculate endTime from stored reviewDate
+const endTime = new Date(formData.reviewDate + (stateDurations[formData.state] || 0));
 
-            if (diff <= 0) {
-                suspensionButton.textContent = "Reactivate Account";
-                suspensionButton.classList.remove('disabled-button');
-                suspensionButton.classList.add('reactivate-button');
-                suspensionButton.disabled = false;
-                suspensionButton.addEventListener('click', function() {
-                    window.location.href = "https://boibyban.github.io";
-                });
-                return;
-            }
+function updateCountdown() {
+    const now = Date.now();
+    let diff = endTime - now;
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            diff -= days * (1000 * 60 * 60 * 24);
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            diff -= hours * (1000 * 60 * 60);
-            const minutes = Math.floor(diff / (1000 * 60));
+    if (diff <= 0) {
+        suspensionButton.textContent = "Reactivate Account";
+        suspensionButton.classList.remove('disabled-button');
+        suspensionButton.classList.add('reactivate-button');
+        suspensionButton.disabled = false;
+        suspensionButton.addEventListener('click', function() {
+            window.location.href = "https://boibyban.github.io";
+        });
+        return;
+    }
 
-            let label = "Suspension ";
-            if (days > 0) {
-                label += `${days}d ${hours}h ${minutes}m`;
-            } else {
-                label += `${hours}h ${minutes}m`;
-            }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= days * (1000 * 60 * 60 * 24);
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff -= hours * (1000 * 60 * 60);
+    const minutes = Math.floor(diff / (1000 * 60));
 
-            suspensionButton.textContent = label;
-            setTimeout(updateCountdown, 60000); // Update every minute
-        }
+    let label = "Suspension ";
+    if (days > 0) {
+        label += `${days}d ${hours}h ${minutes}m`;
+    } else {
+        label += `${hours}h ${minutes}m`;
+    }
 
-        updateCountdown();
+    suspensionButton.textContent = label;
+    setTimeout(updateCountdown, 60000);
+}
+
+updateCountdown();
+
     } else if (formData && formData.state === "Delete") {
         // Permanent ban
         actionButtons.innerHTML = `
