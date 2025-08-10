@@ -20,8 +20,8 @@ window.translations = {
         "Title.Terminate": "Account Terminated",
       
         "Description.Warn": "You may re-activate your account by agreeing to our Terms of Use.",
-        "Description.Ban": "Your account has been banned. You may re-activate it after {0}.",
-        "Description.BanV2": "Your account has been suspended. You will be eligible to re-activate it after {0}.",
+        "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
+        "Description.BanV2": "Your account has been suspended. You may re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
       
         "Text.TermsMessage": "We have determined that your recent behaviour or actions on Boiby have been in violation of our {0}.",
@@ -33,9 +33,7 @@ window.translations = {
         "Label.Reviewed": "Reviewed",
         "Label.ModeratorNote": "Moderator Note",
         "Label.Decision": "Decision",
-        "Label.Violation": "Violation",
         "Label.Reason": "Reason",
-        "Label.Evidence": "Evidence",
         "Label.OffensiveItem": "Offensive Item",
         "Label.ViolationDetails": "Violation Details",
         
@@ -49,7 +47,7 @@ window.translations = {
         "Caution.3Days": "If you violate the Community Rules again, your account may be suspended for at least 3 days.",
         "Caution.7Days": "If you violate the Community Rules again, your account may be suspended for at least 7 days.",
         "Caution.Permanent": "If you violate the Community Rules again, your Boiby account may be permanently banned.",
-        
+        // Note to translators: You don't have to translate the 6 lines above. Just leave them as English as they will be removed anyway.
         
         "Decision.ManualDetectionAutoReview": "We used automated systems when making this decision.",
         "Decision.AutoDetectionManualReview": "We used automated systems to detect this violation.",
