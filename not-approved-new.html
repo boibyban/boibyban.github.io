@@ -299,11 +299,18 @@
         }
 
         function setTheme(theme) {
-            const themeStylesheet = document.getElementById('themeStylesheet');
-            themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
-        }
+    const themeStylesheet = document.getElementById('themeStylesheet');
+    themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
+    
+    //  set dark-mode class
+    if (theme === "dark") {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+}
 
-        function showAppealContent() {
+ function showAppealContent() {
     document.getElementById('modalHeader').style.display = 'none';
     document.getElementById('mainContent').style.display = 'none';
     document.getElementById('appealContent').style.display = 'block';
@@ -334,64 +341,58 @@
         actionButtons.appendChild(suspensionButton);
 
         // Map state to duration in ms
-const stateDurations = {
-    Ban1Hour: 1 * 60 * 60 * 1000,
-    Ban3Hours: 3 * 60 * 60 * 1000,
-    Ban6Hours: 6 * 60 * 60 * 1000,
-    Ban12Hours: 12 * 60 * 60 * 1000,
-    Ban1Day: 24 * 60 * 60 * 1000,
-    Ban2Days: 2 * 24 * 60 * 60 * 1000,
-    Ban3Days: 3 * 24 * 60 * 60 * 1000,
-    Ban7Days: 7 * 24 * 60 * 60 * 1000,
-    Ban14Days: 14 * 24 * 60 * 60 * 1000,
-    Ban60Days: 60 * 24 * 60 * 60 * 1000,
-    Ban6Months: 182 * 24 * 60 * 60 * 1000,
-    Ban1Year: 365 * 24 * 60 * 60 * 1000
-};
+        const stateDurations = {
+            Ban1Hour: 1 * 60 * 60 * 1000,
+            Ban3Hours: 3 * 60 * 60 * 1000,
+            Ban6Hours: 6 * 60 * 60 * 1000,
+            Ban12Hours: 12 * 60 * 60 * 1000,
+            Ban1Day: 24 * 60 * 60 * 1000,
+            Ban2Days: 2 * 24 * 60 * 60 * 1000,
+            Ban3Days: 3 * 24 * 60 * 60 * 1000,
+            Ban7Days: 7 * 24 * 60 * 60 * 1000,
+            Ban14Days: 14 * 24 * 60 * 60 * 1000,
+            Ban60Days: 60 * 24 * 60 * 60 * 1000,
+            Ban6Months: 182 * 24 * 60 * 60 * 1000,
+            Ban1Year: 365 * 24 * 60 * 60 * 1000
+        };
 
-// Store reviewDate on first run if not already saved
-if (!formData.reviewDate) {
-    formData.reviewDate = Date.now();
-    localStorage.setItem('banFormData', JSON.stringify(formData));
-}
+        // Use the stored banStartDate if available
+        const banStartDate = formData.banStartDate ? new Date(formData.banStartDate) : new Date();
+        const endTime = new Date(banStartDate.getTime() + (stateDurations[formData.state] || 0));
 
-// Calculate endTime from stored reviewDate
-const endTime = new Date(formData.reviewDate + (stateDurations[formData.state] || 0));
+        function updateCountdown() {
+            const now = new Date();
+            let diff = endTime - now;
 
-function updateCountdown() {
-    const now = Date.now();
-    let diff = endTime - now;
+            if (diff <= 0) {
+                suspensionButton.textContent = "Reactivate Account";
+                suspensionButton.classList.remove('disabled-button');
+                suspensionButton.classList.add('reactivate-button');
+                suspensionButton.disabled = false;
+                suspensionButton.addEventListener('click', function() {
+                    window.location.href = "https://boibyban.github.io";
+                });
+                return;
+            }
 
-    if (diff <= 0) {
-        suspensionButton.textContent = "Reactivate Account";
-        suspensionButton.classList.remove('disabled-button');
-        suspensionButton.classList.add('reactivate-button');
-        suspensionButton.disabled = false;
-        suspensionButton.addEventListener('click', function() {
-            window.location.href = "https://boibyban.github.io";
-        });
-        return;
-    }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            diff -= days * (1000 * 60 * 60 * 24);
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            diff -= hours * (1000 * 60 * 60);
+            const minutes = Math.floor(diff / (1000 * 60));
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff -= days * (1000 * 60 * 60 * 24);
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff -= hours * (1000 * 60 * 60);
-    const minutes = Math.floor(diff / (1000 * 60));
+            let label = "Suspension    ";
+            if (days > 0) {
+                label += `${days}d ${hours}h ${minutes}m`;
+            } else {
+                label += `${hours}h ${minutes}m`;
+            }
 
-    let label = "Suspension    ";
-    if (days > 0) {
-        label += `${days}d ${hours}h ${minutes}m`;
-    } else {
-        label += `${hours}h ${minutes}m`;
-    }
+            suspensionButton.textContent = label;
+            setTimeout(updateCountdown, 60000);
+        }
 
-    suspensionButton.textContent = label;
-    setTimeout(updateCountdown, 60000);
-}
-
-updateCountdown();
-
+        updateCountdown();
     } else if (formData && formData.state === "Delete") {
         // Permanent ban
         actionButtons.innerHTML = `
@@ -527,8 +528,7 @@ updateCountdown();
             }
 
             if (formData) {
-    const now = new Date();
-    const reviewedDate = formatDate(now);
+        const reviewedDate = formData.banStartDate ? formatDate(new Date(formData.banStartDate)) : formatDate(new Date());
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
 
     let evidenceHTML = `
