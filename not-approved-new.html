@@ -265,7 +265,7 @@
                 <a href="/appeals-form" class="modal-button appeal-button">Request appeal</a>
             </div>
             
-            <!-- Reactivate container - only shown for warnings -->
+            <!-- Reactivate container only shown for warnings -->
             <div id="warningReactivateContainer" class="reactivate-container" style="display: none;">
                 <div class="agree-checkbox">
                     <input type="checkbox" id="reactivateAgreeCheckbox">
@@ -286,312 +286,310 @@
     <script src="/translations-en.js"></script>
     <script>
         function formatDate(dateInput) {
-    let date;
-    if (typeof dateInput === 'string') {
-        const [datePart, timePart] = dateInput.split(', ');
-        const [day, month, year] = datePart.split('/');
-        date = new Date(`${year}-${month}-${day}T${timePart}`);
-    } 
-    else if (dateInput instanceof Date && !isNaN(dateInput.getTime())) {
-        date = dateInput;
-    } 
-    else {
-        date = new Date();
-    }
+	let date;
+	if (typeof dateInput === 'string') {
+		const [datePart, timePart] = dateInput.split(', ');
+		const [day, month, year] = datePart.split('/');
+		date = new Date(`${year}-${month}-${day}T${timePart}`);
+	} else if (dateInput instanceof Date && !isNaN(dateInput.getTime())) {
+		date = dateInput;
+	} else {
+		date = new Date();
+	}
 
-    const options = { 
-        month: 'long', 
-        day: 'numeric', 
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-    };
-    return date.toLocaleString('en-US', options)
-               .replace(',', '')
-               .replace(/(\d+:\d+)/, '$1');
-}
-        function setTheme(theme) {
-    const themeStylesheet = document.getElementById('themeStylesheet');
-    themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
-    
-    //  set dark-mode class
-    if (theme === "dark") {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
+	const options = {
+		month: 'long',
+		day: 'numeric',
+		year: 'numeric',
+		hour: 'numeric',
+		minute: '2-digit',
+		hour12: true
+	};
+	return date.toLocaleString('en-US', options)
+		.replace(',', '')
+		.replace(/(\d+:\d+)/, '$1');
 }
 
- function showAppealContent() {
-    document.getElementById('modalHeader').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'none';
-    document.getElementById('appealContent').style.display = 'block';
+function setTheme(theme) {
+	const themeStylesheet = document.getElementById('themeStylesheet');
+	themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
 
-    const formData = JSON.parse(localStorage.getItem('banFormData'));
-    const actionButtons = document.getElementById('actionButtons');
+	//  set dark-mode class
+	if (theme === "dark") {
+		document.body.classList.add('dark-mode');
+	} else {
+		document.body.classList.remove('dark-mode');
+	}
+}
 
-    if (formData && formData.state === "Warn") {
-        // Warnings show reactivation flow
-        document.getElementById('warningReactivateContainer').style.display = 'block';
-        document.getElementById('reactivateAgreeCheckbox').addEventListener('change', function() {
-            document.getElementById('reactivateAccountButton').disabled = !this.checked;
-        });
-        document.getElementById('reactivateAccountButton').addEventListener('click', function() {
-            window.location.href = "https://boibyban.github.io";
-        });
-    }
+function showAppealContent() {
+	document.getElementById('modalHeader').style.display = 'none';
+	document.getElementById('mainContent').style.display = 'none';
+	document.getElementById('appealContent').style.display = 'block';
 
-    actionButtons.className = 'modal-footer dual-buttons';
+	const formData = JSON.parse(localStorage.getItem('banFormData'));
+	const actionButtons = document.getElementById('actionButtons');
 
-if (formData && formData.state !== "Warn" && formData.state !== "Delete") {
-    const suspensionButton = document.createElement('button');
-    suspensionButton.className = 'modal-button disabled-button';
-    actionButtons.innerHTML = `
+	if (formData && formData.state === "Warn") {
+		// Warnings show reactivation flow
+		document.getElementById('warningReactivateContainer').style.display = 'block';
+		document.getElementById('reactivateAgreeCheckbox').addEventListener('change', function() {
+			document.getElementById('reactivateAccountButton').disabled = !this.checked;
+		});
+		document.getElementById('reactivateAccountButton').addEventListener('click', function() {
+			window.location.href = "https://boibyban.github.io";
+		});
+	}
+
+	actionButtons.className = 'modal-footer dual-buttons';
+
+	if (formData && formData.state !== "Warn" && formData.state !== "Delete") {
+		const suspensionButton = document.createElement('button');
+		suspensionButton.className = 'modal-button disabled-button';
+		actionButtons.innerHTML = `
         <button id="backButton" class="modal-button back-button">Back</button>
     `;
-    actionButtons.appendChild(suspensionButton);
+		actionButtons.appendChild(suspensionButton);
 
-    const stateDurations = {
-        Ban1Hour: 1 * 60 * 60 * 1000,
-        Ban3Hours: 3 * 60 * 60 * 1000,
-        Ban6Hours: 6 * 60 * 60 * 1000,
-        Ban12Hours: 12 * 60 * 60 * 1000,
-        Ban1Day: 24 * 60 * 60 * 1000,
-        Ban2Days: 2 * 24 * 60 * 60 * 1000,
-        Ban3Days: 3 * 24 * 60 * 60 * 1000,
-        Ban7Days: 7 * 24 * 60 * 60 * 1000,
-        Ban14Days: 14 * 24 * 60 * 60 * 1000,
-        Ban60Days: 60 * 24 * 60 * 60 * 1000,
-        Ban6Months: 182 * 24 * 60 * 60 * 1000,
-        Ban1Year: 365 * 24 * 60 * 60 * 1000
-    };
+		const stateDurations = {
+			Ban1Hour: 1 * 60 * 60 * 1000,
+			Ban3Hours: 3 * 60 * 60 * 1000,
+			Ban6Hours: 6 * 60 * 60 * 1000,
+			Ban12Hours: 12 * 60 * 60 * 1000,
+			Ban1Day: 24 * 60 * 60 * 1000,
+			Ban2Days: 2 * 24 * 60 * 60 * 1000,
+			Ban3Days: 3 * 24 * 60 * 60 * 1000,
+			Ban7Days: 7 * 24 * 60 * 60 * 1000,
+			Ban14Days: 14 * 24 * 60 * 60 * 1000,
+			Ban60Days: 60 * 24 * 60 * 60 * 1000,
+			Ban6Months: 182 * 24 * 60 * 60 * 1000,
+			Ban1Year: 365 * 24 * 60 * 60 * 1000
+		};
 
-    let banStartDate;
-    if (formData.banStartDate) {
-        const [datePart, timePart] = formData.banStartDate.split(', ');
-        const [day, month, year] = datePart.split('/');
-        banStartDate = new Date(`${month}/${day}/${year} ${timePart}`);
-    } else {
-        banStartDate = new Date();
-    }
+		let banStartDate;
+		if (formData.banStartDate) {
+			const [datePart, timePart] = formData.banStartDate.split(', ');
+			const [day, month, year] = datePart.split('/');
+			banStartDate = new Date(`${month}/${day}/${year} ${timePart}`);
+		} else {
+			banStartDate = new Date();
+		}
 
-    const endTime = new Date(banStartDate.getTime() + (stateDurations[formData.state] || 0));
+		const endTime = new Date(banStartDate.getTime() + (stateDurations[formData.state] || 0));
 
-    function updateCountdown() {
-        const now = new Date();
-        let diff = endTime - now;
+		function updateCountdown() {
+			const now = new Date();
+			let diff = endTime - now;
 
-        if (diff <= 0) {
-            suspensionButton.textContent = "Reactivate Account";
-            suspensionButton.classList.remove('disabled-button');
-            suspensionButton.classList.add('reactivate-button');
-            suspensionButton.disabled = false;
-            suspensionButton.addEventListener('click', function() {
-                window.location.href = "https://boibyban.github.io";
-            });
-            return;
-        }
+			if (diff <= 0) {
+				suspensionButton.textContent = "Reactivate Account";
+				suspensionButton.classList.remove('disabled-button');
+				suspensionButton.classList.add('reactivate-button');
+				suspensionButton.disabled = false;
+				suspensionButton.addEventListener('click', function() {
+					window.location.href = "https://boibyban.github.io";
+				});
+				return;
+			}
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        diff -= days * (1000 * 60 * 60 * 24);
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        diff -= hours * (1000 * 60 * 60);
-        const minutes = Math.floor(diff / (1000 * 60));
+			const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+			diff -= days * (1000 * 60 * 60 * 24);
+			const hours = Math.floor(diff / (1000 * 60 * 60));
+			diff -= hours * (1000 * 60 * 60);
+			const minutes = Math.floor(diff / (1000 * 60));
 
-        let label = "Suspension    ";
-        if (days > 0) {
-            label += `${days}d ${hours}h ${minutes}m`;
-        } else {
-            label += `${hours}h ${minutes}m`;
-        }
+			let label = "Suspension    ";
+			if (days > 0) {
+				label += `${days}d ${hours}h ${minutes}m`;
+			} else {
+				label += `${hours}h ${minutes}m`;
+			}
 
-        suspensionButton.textContent = label;
-        setTimeout(updateCountdown, 60000);
-    }
+			suspensionButton.textContent = label;
+			setTimeout(updateCountdown, 60000);
+		}
 
-    updateCountdown();
-}
-    } else if (formData && formData.state === "Delete") {
-        // Permanent ban
-        actionButtons.innerHTML = `
+		updateCountdown();
+	}
+} else if (formData && formData.state === "Delete") {
+	// Permanent ban
+	actionButtons.innerHTML = `
             <button id="backButton" class="modal-button back-button">Back</button>
             <button class="modal-button disabled-button">Suspended</button>
         `;
-    } else {
-        // Warn
-        actionButtons.innerHTML = `
+} else {
+	// Warn
+	actionButtons.innerHTML = `
             <button id="backButton" class="modal-button back-button">Back</button>
         `;
-    }
+}
 
-    document.getElementById('backButton').addEventListener('click', function() {
-        document.getElementById('modalHeader').style.display = 'flex';
-        document.getElementById('mainContent').style.display = 'block';
-        document.getElementById('appealContent').style.display = 'none';
-        resetActionButtons();
-    });
+document.getElementById('backButton').addEventListener('click', function() {
+	document.getElementById('modalHeader').style.display = 'flex';
+	document.getElementById('mainContent').style.display = 'block';
+	document.getElementById('appealContent').style.display = 'none';
+	resetActionButtons();
+});
 }
 
 
-        function resetActionButtons() {
-            const actionButtons = document.getElementById('actionButtons');
-            actionButtons.className = 'modal-footer';
-            
-            const formData = JSON.parse(localStorage.getItem('banFormData'));
-            if (formData && formData.state === "Delete") {
-                actionButtons.innerHTML = `
+function resetActionButtons() {
+	const actionButtons = document.getElementById('actionButtons');
+	actionButtons.className = 'modal-footer';
+
+	const formData = JSON.parse(localStorage.getItem('banFormData'));
+	if (formData && formData.state === "Delete") {
+		actionButtons.innerHTML = `
                     <a href="/appeals-form" class="modal-button permanent-appeal-button">Request appeal</a>
                     <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
                 `;
-            } else {
-                actionButtons.innerHTML = `
+	} else {
+		actionButtons.innerHTML = `
                     <button id="continueButton" class="modal-button continue-button">Continue</button>
                     <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
                 `;
-                
-                // Reattach continue button event
-                document.getElementById('continueButton').addEventListener('click', showAppealContent);
-            }
-        }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const formData = JSON.parse(localStorage.getItem('banFormData'));
-            const language = localStorage.getItem('language') || 'en';
-            const savedTheme = localStorage.getItem('theme') || "light";
-            
-            setTheme(savedTheme);
-            
-            // Set header text based on ban type
-            const headerMap = {
-                Warn: translations[language]["Heading.Warn"],
-                Ban1Hour: translations[language]["Heading.Suspend1Hour"],
-                Ban3Hours: translations[language]["Heading.Suspend3Hours"],
-                Ban6Hours: translations[language]["Heading.Suspend6Hours"],
-                Ban12Hours: translations[language]["Heading.Suspend12Hours"],
-                Ban1Day: translations[language]["Heading.Suspend1Day"],
-                Ban2Days: translations[language]["Heading.Suspend2Days"],
-                Ban3Days: translations[language]["Heading.Suspend3Days"],
-                Ban7Days: translations[language]["Heading.Suspend7Days"],
-                Ban14Days: translations[language]["Heading.Suspend14Days"],
-                Ban60Days: translations[language]["Heading.Suspend60Days"],
-                Ban6Months: translations[language]["Heading.Suspend6Months"],
-                Ban1Year: translations[language]["Heading.Suspend1Year"],
-                Delete: translations[language]["Heading.BannedPermanently"],
-            };
-            
-            if (formData && formData.state) {
-                document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
-                
-                // Handle rules message based on ban type and violations
-                const rulesMessageEl = document.getElementById('rulesMessage');
-                const isPermanentBan = formData.state === "Delete";
-                
-                if (isPermanentBan) {
-                    rulesMessageEl.className = 'permanent-ban-message';
-                    rulesMessageEl.textContent = 
-                        'We banned your account because of repeated or serious rule-breaking.';
-                    
-                    // Replace warning icon with permanent ban icon
-                    const header = document.getElementById('modalHeader');
-                    const existingIcon = header.querySelector('svg');
-                    if (existingIcon) {
-                        existingIcon.remove();
-                    }
-                    const banIcon = document.createElement('svg');
-                    banIcon.className = 'permanent-ban-icon';
-                    banIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-                    banIcon.setAttribute('viewBox', '0 0 24 24');
-                    banIcon.innerHTML = '<img class="permanent-ban-icon" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/No_sign.svg" alt="Permanent Ban">';
-                    header.insertBefore(banIcon, header.firstChild);
-                    
-                    // Replace continue button with blue appeal button
-                    const continueBtn = document.getElementById('continueButton');
-                    if (continueBtn) {
-                        continueBtn.remove();
-                    }
-                    const appealBtn = document.createElement('a');
-                    appealBtn.href = '/appeals-form';
-                    appealBtn.className = 'modal-button permanent-appeal-button';
-                    appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
-                    document.getElementById('actionButtons').prepend(appealBtn);
-                } else {
-                    // Handle non-permanent ban messages
-                    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
-                    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
-                    
-                    if (!hasViolations || !firstViolation?.reason) {
-                        rulesMessageEl.textContent = 'Your behaviour broke the rules of Boiby.';
-                    } else {
-                        const violationType = firstViolation.violationType || '';
-                        const reason = firstViolation.reason.toLowerCase();
-                        
-                        if (violationType === "General/Chat") {
-                            rulesMessageEl.textContent = `Your behavior broke the rules regarding ${reason}.`;
-                        } else {
-                            const violationTypeLower = violationType.toLowerCase();
-                            rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules regarding ${reason}.`;
-                        }
-                    }
-                }
-            }
-            
-            // Set latest activity label
-            document.getElementById('latestActivity').textContent = translations[language]["Label.LatestActivity"];
-            
-            // Set up continue button - always says "Continue" on first screen
-            const continueBtn = document.getElementById('continueButton');
-            if (continueBtn) {
-                continueBtn.textContent = "Continue";
-                continueBtn.addEventListener('click', showAppealContent);
-            }
+		// Reattach continue button event
+		document.getElementById('continueButton').addEventListener('click', showAppealContent);
+	}
+}
 
-if (formData) {
-    const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
-    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+document.addEventListener('DOMContentLoaded', function() {
+	const formData = JSON.parse(localStorage.getItem('banFormData'));
+	const language = localStorage.getItem('language') || 'en';
+	const savedTheme = localStorage.getItem('theme') || "light";
 
-    let evidenceHTML = `
+	setTheme(savedTheme);
+
+	// Set header text based on ban type
+	const headerMap = {
+		Warn: translations[language]["Heading.Warn"],
+		Ban1Hour: translations[language]["Heading.Suspend1Hour"],
+		Ban3Hours: translations[language]["Heading.Suspend3Hours"],
+		Ban6Hours: translations[language]["Heading.Suspend6Hours"],
+		Ban12Hours: translations[language]["Heading.Suspend12Hours"],
+		Ban1Day: translations[language]["Heading.Suspend1Day"],
+		Ban2Days: translations[language]["Heading.Suspend2Days"],
+		Ban3Days: translations[language]["Heading.Suspend3Days"],
+		Ban7Days: translations[language]["Heading.Suspend7Days"],
+		Ban14Days: translations[language]["Heading.Suspend14Days"],
+		Ban60Days: translations[language]["Heading.Suspend60Days"],
+		Ban6Months: translations[language]["Heading.Suspend6Months"],
+		Ban1Year: translations[language]["Heading.Suspend1Year"],
+		Delete: translations[language]["Heading.BannedPermanently"],
+	};
+
+	if (formData && formData.state) {
+		document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
+
+		// Handle rules message based on ban type and violations
+		const rulesMessageEl = document.getElementById('rulesMessage');
+		const isPermanentBan = formData.state === "Delete";
+
+		if (isPermanentBan) {
+			rulesMessageEl.className = 'permanent-ban-message';
+			rulesMessageEl.textContent =
+				'We banned your account because of repeated or serious rule-breaking.';
+
+			// Replace warning icon with permanent ban icon
+			const header = document.getElementById('modalHeader');
+			const existingIcon = header.querySelector('svg');
+			if (existingIcon) {
+				existingIcon.remove();
+			}
+			const banIcon = document.createElement('svg');
+			banIcon.className = 'permanent-ban-icon';
+			banIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+			banIcon.setAttribute('viewBox', '0 0 24 24');
+			banIcon.innerHTML = '<img class="permanent-ban-icon" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/No_sign.svg" alt="Permanent Ban">';
+			header.insertBefore(banIcon, header.firstChild);
+
+			// Replace continue button with appeal button
+			const continueBtn = document.getElementById('continueButton');
+			if (continueBtn) {
+				continueBtn.remove();
+			}
+			const appealBtn = document.createElement('a');
+			appealBtn.href = '/appeals-form';
+			appealBtn.className = 'modal-button permanent-appeal-button';
+			appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
+			document.getElementById('actionButtons').prepend(appealBtn);
+		} else {
+			// Handle temp suspension messages
+			const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
+			const firstViolation = hasViolations ? formData.classicViolations[0] : null;
+
+			if (!hasViolations || !firstViolation?.reason) {
+				rulesMessageEl.textContent = 'Your behaviour broke the rules of Boiby.';
+			} else {
+				const violationType = firstViolation.violationType || '';
+				const reason = firstViolation.reason.toLowerCase();
+
+				if (violationType === "General/Chat") {
+					rulesMessageEl.textContent = `Your behavior broke the rules regarding ${reason}.`;
+				} else {
+					const violationTypeLower = violationType.toLowerCase();
+					rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules regarding ${reason}.`;
+				}
+			}
+		}
+	}
+
+	// Set latest activity label
+	document.getElementById('latestActivity').textContent = translations[language]["Label.LatestActivity"];
+
+	// Set up continue button - always says "Continue" on first screen
+	const continueBtn = document.getElementById('continueButton');
+	if (continueBtn) {
+		continueBtn.textContent = "Continue";
+		continueBtn.addEventListener('click', showAppealContent);
+	}
+
+	if (formData) {
+		const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
+		const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+
+		let evidenceHTML = `
         <div>
             <p>${translations[language]["Label.ReviewDateV2"]}</p>
             <b id="reviewedDate">${reviewedDate}</b>
         </div>
     `;
 
-    if (moderatorNote) {
-        evidenceHTML += `
+		if (moderatorNote) {
+			evidenceHTML += `
             <div>
                 <p>${translations[language]["Label.ModeratorNoteV2"]}</p>
                 <b id="moderatorNote">${moderatorNote}</b>
             </div>
         `;
-    }
+		}
 
-    document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
+		document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
 
-    if (formData.classicViolations && formData.classicViolations.length > 0) {
-        let violationsHTML = '<div class="violation-box">';
-        let hasImageViolation = false;
-        let imageHTML = "";
+		if (formData.classicViolations && formData.classicViolations.length > 0) {
+			let violationsHTML = '<div class="violation-box">';
+			let hasImageViolation = false;
+			let imageHTML = "";
 
-        formData.classicViolations.forEach(violation => {
-            const isImageViolation = violation.violationType === "Image" && violation.evidence.startsWith("data:image");
-            if (isImageViolation) {
-                hasImageViolation = true;
-                // Generate 15-digit random asset ID
-                const assetId = Math.floor(1e14 + Math.random() * 9e14);
-                imageHTML = `
+			formData.classicViolations.forEach(violation => {
+				const isImageViolation = violation.violationType === "Image" && violation.evidence.startsWith("data:image");
+				if (isImageViolation) {
+					hasImageViolation = true;
+					const assetId = Math.floor(1e14 + Math.random() * 9e14);
+					imageHTML = `
                     <div class="evidence-image" style="max-width:180px; max-height:400px; height:fit-content; border-radius:8px; position:absolute; left:15px; align-items: center;">
                         <img src="${violation.evidence}" alt="Violating Image" style="max-width:180px; max-height:400px; border-radius: 8px; align-self: center; margin: auto;">
                     </div>
                 `;
-                violationsHTML += `
+					violationsHTML += `
                     <p>${translations[language]["Label.Reason"]}</p>
                     <p><b class="violation-text">${violation.reason}</b></p>
                     <p>${translations[language]["Label.AssetID"]}</p>
                     <p><b class="evidence-content">${assetId}</b></p>
                 `;
-            } else {
-                violationsHTML += `
+				} else {
+					violationsHTML += `
                     <p>${translations[language]["Label.Reason"]}</p>
                     <p><b class="violation-text">${violation.reason}</b></p>
                     <p>${translations[language]["Label.OffensiveItemV2"]}</p>
@@ -601,51 +599,51 @@ if (formData) {
                             : violation.evidence
                     }</b></p>
                 `;
-            }
-        });
+				}
+			});
 
-        violationsHTML += '</div>';
+			violationsHTML += '</div>';
 
-        const evidenceContainerEl = document.querySelector('.evidence-container');
-        evidenceContainerEl.innerHTML += violationsHTML;
+			const evidenceContainerEl = document.querySelector('.evidence-container');
+			evidenceContainerEl.innerHTML += violationsHTML;
 
-        // If image violation, handle layout positioning
-        if (hasImageViolation) {
-            const container = document.querySelector('.evidence-container');
-            container.style.position = "relative";
+			// If image violation, handle layout positioning
+			if (hasImageViolation) {
+				const container = document.querySelector('.evidence-container');
+				container.style.position = "relative";
 
-            const evidenceEl = document.getElementById('evidenceContainer');
-            const violationBoxEl = document.querySelector('.violation-box');
+				const evidenceEl = document.getElementById('evidenceContainer');
+				const violationBoxEl = document.querySelector('.violation-box');
 
-            function updateLayout() {
-                if (window.innerWidth >= 600) {
-                    // Image beside violation details
-                    evidenceEl.style.position = violationBoxEl.style.position = "relative";
-                    evidenceEl.style.left = violationBoxEl.style.left = "200px";
-                    evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
-                    if (!container.querySelector('.evidence-image')) {
-                        container.insertAdjacentHTML("afterbegin", imageHTML);
-                    }
-                } else {
-                    // Image on top, normal flow
-                    evidenceEl.style.left = violationBoxEl.style.left = "0";
-                    evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "100%";
-                    const imgEl = container.querySelector('.evidence-image');
-                    if (imgEl) {
-                        imgEl.style.position = "relative";
-                        imgEl.style.left = "0";
-                        imgEl.style.marginBottom = "15px";
-                    }
-                }
-            }
+				function updateLayout() {
+					if (window.innerWidth >= 600) {
+						// Image beside violation details
+						evidenceEl.style.position = violationBoxEl.style.position = "relative";
+						evidenceEl.style.left = violationBoxEl.style.left = "200px";
+						evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
+						if (!container.querySelector('.evidence-image')) {
+							container.insertAdjacentHTML("afterbegin", imageHTML);
+						}
+					} else {
+						// Image on top, normal flow
+						evidenceEl.style.left = violationBoxEl.style.left = "0";
+						evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "100%";
+						const imgEl = container.querySelector('.evidence-image');
+						if (imgEl) {
+							imgEl.style.position = "relative";
+							imgEl.style.left = "0";
+							imgEl.style.marginBottom = "15px";
+						}
+					}
+				}
 
-            window.addEventListener('resize', updateLayout);
-            updateLayout();
-        }
-    }
-}
+				window.addEventListener('resize', updateLayout);
+				updateLayout();
+			}
+		}
+	}
 
-        });
+});
     </script>
 </body>
 </html>
