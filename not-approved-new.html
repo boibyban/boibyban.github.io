@@ -540,8 +540,8 @@
                 continueBtn.addEventListener('click', showAppealContent);
             }
 
-            if (formData) {
-        const reviewedDate = formData.banStartDate ? formatDate(new Date(formData.banStartDate)) : formatDate(new Date());
+if (formData) {
+    const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
 
     let evidenceHTML = `
