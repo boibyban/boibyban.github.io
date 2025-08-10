@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
 .ban-box {
     max-width: 715px;
     background-color: #ffffff;
@@ -47,7 +48,7 @@ a {
             align-items: center;
             justify-content: center;
             margin: 15px 0 5px 0;
-            font-family: "Noto Sans", serif;
+            font-family: "Figtree", serif;
             font-size: 14px;
             color: #111;
         }
@@ -73,7 +74,7 @@ h1, h2, h3 {
     margin: 0;
     margin-top: 2px;
     margin-bottom: 16px;
-    font-family: "Noto Sans", serif;
+    font-family: "Figtree", serif;
     color: #111
 }
 p {
@@ -83,7 +84,7 @@ p {
     padding: 0;
     margin: 0;
     margin-bottom: 12px;
-    font-family: "Noto Sans", serif;
+    font-family: "Figtree", serif;
     color: #111
 }
 b {
@@ -93,7 +94,7 @@ b {
     padding: 0;
     margin: 0;
     margin-bottom: 12px;
-    font-family: "Noto Sans", serif;
+    font-family: "Figtree", serif;
     color: #111
 }
 .offensive-img {
