@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		Ban60Days: translations[language]["Heading.Suspend60Days"],
 		Ban6Months: translations[language]["Heading.Suspend6Months"],
 		Ban1Year: translations[language]["Heading.Suspend1Year"],
-		Delete: translations[language]["Heading.BannedPermanently"],
+		Delete: translations[language]["Heading.AccountTerminated"],
 	};
 
 	if (formData && formData.state) {
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (isPermanentBan) {
 			rulesMessageEl.className = 'permanent-ban-message';
 			rulesMessageEl.textContent =
-				'We banned your account because of repeated or serious rule-breaking.';
+				'We terminated your account because of repeated or serious rule-breaking.';
 
 			// Replace warning icon with permanent ban icon
 			const header = document.getElementById('modalHeader');
