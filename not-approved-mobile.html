@@ -135,10 +135,10 @@ html, body {
             color: #222;
         }
         #evidenceContainer {
-                margin-left: 20px;
+                /* margin-left: 20px;
     padding-left: 1px;
     border-left: 5px solid grey;
-    margin-bottom: 14px;
+    margin-bottom: 14px; */
         }
         #violationSummary {
             margin-bottom: 12px;
@@ -217,7 +217,7 @@ html, body {
         <p id="usernameItem" style="display:none">Addressed to: <b id="usernameB">Username</b></p>
         <p id="cautionWarningMessage" style="display:none"></p>
         <p id="termsOfUse"></p>
-        <p id="violationHeader"></p>
+        <p id="violationHeader" style="display: none"></p>
         <div id="evidenceContainer">
             <p id="reviewedContainer"></p>
         </div>
@@ -285,7 +285,7 @@ if (formData) {
         Ban60Days: translations[language]["Title.Ban60Days"],
         Ban6Months: translations[language]["Title.Ban6Months"],
         Ban1Year: translations[language]["Title.Ban1Year"],
-        Delete: translations[language]["Title.Terminate"]
+        Delete: translations[language]["Title.Delete"]
     };
 
     // Set ban duration title
@@ -341,6 +341,7 @@ if (formData) {
     } else if (formData.state === "Delete") {
         document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
         document.getElementById('reactivateButton').style.display = "none";
+
     } else {
         const banDurationHoursMap = {
             Ban1Hour: 1,
@@ -361,7 +362,7 @@ if (formData) {
         const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
         
         document.getElementById('reactivateMessage').textContent = formatString(
-            translations[language]["Description.BanV2"],
+            translations[language]["Description.Ban"],
             formatDate(reactivateDate)
         );
         document.getElementById('reactivateButton').style.display = "none";
