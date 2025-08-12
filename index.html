@@ -511,6 +511,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
 
     document.getElementById('Ban1Year').checked = true;
     document.getElementById('notecustom').value = 'Your account was suspended due to unauthorized or disputed payments.';
+    document.getElementById('note').value = 'nonote'; // Clear preset note
     
     // Add a violation if none exists already
     if (classicViolationCount === 0) {
@@ -526,6 +527,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     
     alert('Please enter a username and submit.');
 });
+</script>
 
 <script>
     document.getElementById('refundBanButton').addEventListener('click', function() {
@@ -546,7 +548,8 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
 
     document.getElementById('Ban7Days').checked = true;
     document.getElementById('notecustom').value = 'Your account has been moderated due to repeated refund requests. Excessive refund requests or unauthorized payments will lead to further account restrictions.';
-    
+    document.getElementById('note').value = 'nonote'; // Clear preset note
+        
     // Add a violation if none exists already
     if (classicViolationCount === 0) {
         document.getElementById('addClassicViolationBox').click();
@@ -566,7 +569,8 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     // Enforcement Ban Button
     document.getElementById('enforcementBanButton').addEventListener('click', function() {
         document.getElementById('Delete').checked = true;
-        document.getElementById('note').value = 'You created or used an account to avoid an enforcement action taken against another account';
+        document.getElementById('notecustom').value = 'You created or used an account to avoid an enforcement action taken against another account';
+        document.getElementById('note').value = 'nonote'; // Clear preset note
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
