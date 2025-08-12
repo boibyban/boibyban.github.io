@@ -80,6 +80,7 @@
     </select>
 </div>
             <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
+            <button type="button" id="refundBanButton" style="margin-left: 10px;">Repeated Refund Ban</button>
             <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
             <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
             <button type="button" id="exploitingBanButton" style="margin-left: 10px;">Exploiting Ban</button>
@@ -286,7 +287,7 @@
                     <option value="">-- Select a Reason --</option>
 <option value="Other">Other</option>
                     <option value="Harassment">Harassment</option>
-                    <option value="Inappropriate">Inappropriate</option>
+                    <option value="Inappropriate Content">Inappropriate Content</option>
                     <option value="Privacy">Privacy</option>
                     <option value="Adult Content">Adult Content</option>
                     <option value="Sexual Content">Sexual Content</option>
@@ -303,16 +304,17 @@
                     <option value="Intellectual Property Violation">IP Violation</option>
                     <option value="Scamming">Scamming</option>
                     <option value="Misinformation">Misinformation</option>
-                    <option value="Child Safety">Child Safety</option>
+                    <option value="Child Endangerment">Child Endangerment</option>
                     <option value="Account Theft">Account Theft</option>
                     <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
                     <option value="Excessive Profanity">Excessive Profanity</option>
                     <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
-                    <option value="Boiby Economy">Boiby Economy</option>
+                    <option value="Boiby Economy Violation">Boiby Economy Violation</option>
+                    <option value="Repeated Refund Requests">Repeated Refund Requests</option>
                     <option value="Cheats and Exploits">Cheats and Exploits</option>
                     <option value="Use of Modified Clients">Use of Modified Clients</option>
                     <option value="Spam">Spam</option>
-                    <option value="Chargebacks">Chargebacks</option>
+                    <option value="Chargeback">Chargeback</option>
                     <option value="Unauthorized or Disputed Payments">Unauthorized or Disputed Payments</option>
                     <option value="Off-Platform Item or Currency Purchase">Off-Platform Item or Currency Purchase</option>
                     <option value="Minimum Age Requirement">Minimum Age Requirement</option>
@@ -326,7 +328,7 @@
                     <option value="Impersonation">Impersonation</option>
                     <option value="Dangerous Activities">Dangerous Activities</option>
                     <option value="Disruptive Audio">Disruptive Audio</option>
-                    <option value="Dating and Romantic Content">Dating and Romantic Content</option>
+                    <option value="Dating">Dating</option>
                     <option value="Malicious Software">Malicious Software</option>
 
                 </select><br><br>
@@ -508,7 +510,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     const formattedTime = `${day}/${month}/${year} at ${hours}:${minutes}`;
 
     document.getElementById('Ban1Year').checked = true;
-    document.getElementById('notecustom').value = 'Your account has been suspended due to unauthorized/disputed payments. Excessive refund requests or unauthorized payments will lead to further account restrictions.';
+    document.getElementById('notecustom').value = 'Your account was suspended due to unauthorized or disputed payments.';
     
     // Add a violation if none exists already
     if (classicViolationCount === 0) {
@@ -524,12 +526,47 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     
     alert('Please enter a username and submit.');
 });
+
+<script>
+    document.getElementById('chargebackBanButton').addEventListener('click', function() {
+    const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
+    
+    // Calculate the time (exactly 14 hours and 19 minutes ago)
+    const now = new Date();
+    const paymentTime = new Date(now.getTime() - (14 * 60 * 60 * 1000) - (19 * 60 * 1000));
+    
+    // Format as DD/MM/YYYY at HH:MM
+    const day = String(paymentTime.getDate()).padStart(2, '0');
+    const month = String(paymentTime.getMonth() + 1).padStart(2, '0');
+    const year = paymentTime.getFullYear();
+    const hours = String(paymentTime.getHours()).padStart(2, '0');
+    const minutes = String(paymentTime.getMinutes()).padStart(2, '0');
+    
+    const formattedTime = `${day}/${month}/${year} at ${hours}:${minutes}`;
+
+    document.getElementById('Ban7Days').checked = true;
+    document.getElementById('notecustom').value = 'Your account has been moderated due to repeated refund requests. Excessive refund requests or unauthorized payments will lead to further account restrictions.';
+    
+    // Add a violation if none exists already
+    if (classicViolationCount === 0) {
+        document.getElementById('addClassicViolationBox').click();
+    }
+    
+    const firstBox = document.querySelector('.evidence-box');
+    if (firstBox) {
+        firstBox.querySelector('.violationType').value = 'General/Chat';
+        firstBox.querySelector('.classicReason').value = 'Repeated Refund Requests';
+        firstBox.querySelector('.evidence').value = `Payment on ${formattedTime} (Payment ID: ${randomNumber})`;
+    }
+    
+    alert('Please enter a username and submit.');
+});
 </script>
     <script>
     // Enforcement Ban Button
     document.getElementById('enforcementBanButton').addEventListener('click', function() {
         document.getElementById('Delete').checked = true;
-        document.getElementById('note').value = 'You created or used an account to avoid a moderation action taken against another account.';
+        document.getElementById('note').value = 'You created or used an account to avoid an enforcement action taken against another account';
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
         violationBoxes.forEach(box => box.remove());
@@ -541,7 +578,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
             newBox.querySelector('.classicReason').value = 'Ban Evasion';
-            newBox.querySelector('.evidence').value = 'Determined from your account information, network information, or device information';
+            newBox.querySelector('.evidence').value = 'Determined from your account information, such as your account email, phone number, or device information';
         }
         
         alert('Please enter a username and submit.');
@@ -623,32 +660,6 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     });
 </script>
     <script>
-    // Exploiting Ban Button
-    document.getElementById('exploitingBanButton').addEventListener('click', function() {
-        const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
-        
-        document.getElementById('Ban7Days').checked = true;
-        document.getElementById('notecustom').value = 'Your account has been suspended for exploiting.';
-        document.getElementById('note').value = 'nonote';
-        
-        const violationBoxes = document.querySelectorAll('.evidence-box');
-        violationBoxes.forEach(box => box.remove());
-        classicViolationCount = 0;
-        
-        // Add new violation box
-        document.getElementById('addClassicViolationBox').click();
-        const newBox = document.querySelector('.evidence-box:last-child');
-        
-        if (newBox) {
-            newBox.querySelector('.violationType').value = 'General/Chat';
-            newBox.querySelector('.classicReason').value = 'Cheats and Exploits';
-            newBox.querySelector('.evidence').value = `Exploit Detected - Place ID: ${placeId}`;
-        }
-        alert('Please enter a username and submit.');
-    });
-    </script>
-
-    <script>
     document.getElementById('modifiedClientBanButton').addEventListener('click', function() {
         const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
@@ -677,8 +688,8 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     document.getElementById('FinalChanceModifiedClientBanButton').addEventListener('click', function() {
         const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
-        document.getElementById('Ban60Days').checked = true;
-        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. You have recieved several prior warnings about this violation; if this happens again, your account and all associated accounts will be terminated.';
+        document.getElementById('Ban6Months').checked = true;
+        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. You received several prior warnings about this violation; if this happens again, your account will be terminated.';
         document.getElementById('note').value = 'nonote';
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
@@ -704,7 +715,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
         const placeId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
         document.getElementById('Delete').checked = true;
-        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. Due to repeated violations, your account has been permanently banned. You recieved several prior warnings about this violation.';
+        document.getElementById('notecustom').value = 'We detected that you are using a modified version of the Boiby client. You received several prior warnings about this violation. Due to repeated violations, your account has been permanently banned. ';
         document.getElementById('note').value = 'nonote';
         
         const violationBoxes = document.querySelectorAll('.evidence-box');
@@ -762,29 +773,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
         
         if (newBox) {
             newBox.querySelector('.violationType').value = 'General/Chat';
-            newBox.querySelector('.classicReason').value = 'Child Safety';
-            newBox.querySelector('.evidence').value = `Enter here`;
-        }
-        alert('Please enter a username and submit.');
-    });
-</script>
-<script>
-    document.getElementById('ceBanButton').addEventListener('click', function() {        
-        document.getElementById('Delete').checked = true;
-        document.getElementById('notecustom').value = 'Your account has been permanently banned due to violating our Child Safety policies. Boiby enforces an absolute zero-tolerance policy against any form of child exploitation, endangerment, or harmful behavior involving minors. In circumstances where Boiby believes users are at risk of harm, Boiby may file a report with relevant authorities.';
-        document.getElementById('note').value = 'nonote';
-        
-        const violationBoxes = document.querySelectorAll('.evidence-box');
-        violationBoxes.forEach(box => box.remove());
-        classicViolationCount = 0;
-        
-        // Add new violation box
-        document.getElementById('addClassicViolationBox').click();
-        const newBox = document.querySelector('.evidence-box:last-child');
-        
-        if (newBox) {
-            newBox.querySelector('.violationType').value = 'General/Chat';
-            newBox.querySelector('.classicReason').value = 'Child Safety';
+            newBox.querySelector('.classicReason').value = 'Child Endangerment';
             newBox.querySelector('.evidence').value = `Enter here`;
         }
         alert('Please enter a username and submit.');
