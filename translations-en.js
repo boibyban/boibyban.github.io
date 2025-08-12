@@ -27,6 +27,7 @@ window.translations = {
         "Text.TermsMessage": "We have determined that your behaviour or actions on Boiby have been in violation of our {0}.",
         "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
         "Text.AppealsMessage": "To request an appeal visit the {0}.",
+        "Description.GoToAppeals": "If you wish to appeal, please go to the {0}.",
         "Label.TermsOfUse": "Terms of Use",
         "Label.CommunityRules": "Community Rules",
         "Label.AppealsForm": "Appeals Form",
