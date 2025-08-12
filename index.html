@@ -83,7 +83,7 @@
             <button type="button" id="refundBanButton" style="margin-left: 10px;">Repeated Refund Ban</button>
             <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
             <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
-            <button type="button" id="exploitingBanButton" style="margin-left: 10px;">Exploiting Ban</button>
+
             <button type="button" id="modifiedClientBanButton" style="margin-left: 10px;">Modified Client Ban</button>
             <button type="button" id="FinalChanceModifiedClientBanButton" style="margin-left: 10px;">Final Chance Modified Client Ban</button>
             <button type="button" id="DeleteModifiedClientBanButton" style="margin-left: 10px;">Permanent Modified Client Ban</button>
@@ -520,7 +520,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
     const firstBox = document.querySelector('.evidence-box');
     if (firstBox) {
         firstBox.querySelector('.violationType').value = 'General/Chat';
-        firstBox.querySelector('.classicReason').value = 'Unauthorized or Disputed Payments';
+        firstBox.querySelector('.classicReason').value = 'Chargeback';
         firstBox.querySelector('.evidence').value = `Payment on ${formattedTime} (Payment ID: ${randomNumber})`;
     }
     
@@ -528,7 +528,7 @@ window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
 });
 
 <script>
-    document.getElementById('chargebackBanButton').addEventListener('click', function() {
+    document.getElementById('refundBanButton').addEventListener('click', function() {
     const randomNumber = '30' + Math.floor(10000000 + Math.random() * 90000000).toString();
     
     // Calculate the time (exactly 14 hours and 19 minutes ago)
