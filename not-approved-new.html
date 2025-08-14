@@ -243,6 +243,14 @@
             <div class="evidence-container">
                 <div id="evidenceContainer"></div>
             </div>
+			<div class="mistake-box" style="display:none; margin-bottom:64px;">
+    <b class="makeAMistake" style="padding-bottom: 12px;">
+        Did we make a mistake?
+    </b>
+    <p class="makeAMistake" style="margin-top: 8px;">
+        You can request an appeal or ask us to review this decision below.
+    </p>
+</div>
         </div>
         
         <div id="appealContent" class="appeal-content">
@@ -508,6 +516,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			rulesMessageEl.textContent =
 				'We banned your account because of repeated or serious rule-breaking.';
 
+			document.querySelector('.mistake-box').style.display = 'block';
+
+const evidenceContainer = document.querySelector('.evidence-container');
+if (evidenceContainer) {
+    evidenceContainer.style.marginBottom = '0';
+}
+			
 			// Replace warning icon with permanent ban icon
 			const header = document.getElementById('modalHeader');
 			const existingIcon = header.querySelector('svg');
