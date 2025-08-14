@@ -417,6 +417,22 @@ else if (formData && formData.state === "Delete") {
             <button id="backButton" class="modal-button back-button">Back</button>
             <button class="modal-button disabled-button">Suspended</button>
         `;
+	const mistakeDiv = document.createElement('div');
+mistakeDiv.style.marginBottom = '64px';
+mistakeDiv.innerHTML = `
+    <b class="makeAMistake" id="makeAMistake" style="padding-bottom: 12px;">
+        Did we make a mistake?
+    </b>
+    <p id="thinksMadeMistake" class="makeAMistake" style="margin-top: 8px;">
+        You can request an appeal or ask us to review this decision below.
+    </p>
+`;
+document.querySelector('.modal').insertBefore(mistakeDiv, document.getElementById('actionButtons'));
+	const evidenceContainer = document.querySelector('.evidence-container');
+    if (evidenceContainer) {
+        evidenceContainer.style.marginBottom = '0';
+    }
+	
 } else {
 	// Warn
 	actionButtons.innerHTML = `
