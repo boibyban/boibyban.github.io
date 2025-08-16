@@ -154,7 +154,24 @@ document.getElementById('termsOfUse').innerHTML=formatString(translations[langua
 const evidenceContainer=document.getElementById('evidenceContainer');document.getElementById('violationHeader').textContent=translations[language]["Label.ViolationDetails"]+':';const moderatorNote=formData.customNote||(formData.note==="nonote"?"":formData.note)||"";if(moderatorNote){const messageToUser=document.createElement('p');messageToUser.innerHTML=`${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;evidenceContainer.appendChild(messageToUser)}
 if(formData.classicViolations&&formData.classicViolations.length>0){const evidenceBox=document.createElement('div');evidenceBox.className='evidence-box';formData.classicViolations.forEach((violation,index)=>{const reasonElement=document.createElement('p');reasonElement.innerHTML=`${translations[language]["Label.Reason"]}: <span class="violation-text">${violation.reason}</span>`;evidenceBox.appendChild(reasonElement);const evidenceLine=document.createElement('p');evidenceLine.innerHTML=`${translations[language]["Label.OffensiveItem"]}: `;const evidenceContent=document.createElement('span');evidenceContent.className='evidence-content';if(violation.violationType!=="General/Chat"&&violation.violationType!=="Image"){evidenceContent.textContent=`${violation.violationType}: `}
 if(violation.violationType==="Image"){evidenceLine.appendChild(evidenceContent);evidenceBox.appendChild(evidenceLine);const imgElement=document.createElement('img');imgElement.src=violation.evidence;imgElement.className='evidence-image';evidenceBox.appendChild(imgElement)}else if(violation.violationType==="Voice Chat"){const date=new Date();date.setMinutes(date.getMinutes()-5);const formattedDate=date.toLocaleString('en-US',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:!1});evidenceContent.textContent+=`Conversation Time: ${formattedDate} Location: ${violation.evidence}`;evidenceLine.appendChild(evidenceContent);evidenceBox.appendChild(evidenceLine)}else if(violation.violationType==="Audio"){evidenceLine.appendChild(evidenceContent);evidenceBox.appendChild(evidenceLine);const audioElement=document.createElement('audio');audioElement.controls=!0;audioElement.src=violation.evidence;evidenceBox.appendChild(audioElement)}else{evidenceContent.textContent+=violation.evidence;evidenceLine.appendChild(evidenceContent);evidenceBox.appendChild(evidenceLine)}});evidenceContainer.appendChild(evidenceBox)}}
-document.getElementById('agreeCheckbox').addEventListener('change',function(){const reactivateButton=document.getElementById('reactivateButton');reactivateButton.disabled=!this.checked});function setTheme(theme){const themeStylesheet=document.getElementById('themeStylesheet');themeStylesheet.href=theme==="dark"?"/ban-new-dark.css":"/ban-new.css"}
+document.getElementById('agreeCheckbox').addEventListener('change',function(){const reactivateButton=document.getElementById('reactivateButton');reactivateButton.disabled=!this.checked});function getABVariant(){
+    let variant = localStorage.getItem("darkThemeVariant");
+    if (!variant){
+        variant = Math.random() < 0.05 ? "v2" : "v1";
+        localStorage.setItem("darkThemeVariant", variant);
+    }
+    return variant;
+}
+
+function setTheme(theme){
+    const themeStylesheet = document.getElementById('themeStylesheet');
+    if (theme === "dark") {
+        const variant = getABVariant();
+        themeStylesheet.href = variant === "v2" ? "/ban-new-dark-v2.css" : "/ban-new-dark.css";
+    } else {
+        themeStylesheet.href = "/ban-new.css";
+    }
+}
 const savedTheme=localStorage.getItem('theme')||"light";setTheme(savedTheme)
 </script>
 </body>
