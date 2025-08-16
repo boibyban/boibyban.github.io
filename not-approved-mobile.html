@@ -496,9 +496,23 @@ document.getElementById('agreeCheckbox').addEventListener('change', function() {
 });
 
 // Theme handling
-function setTheme(theme) {
+function getABVariant(){
+    let variant = localStorage.getItem("darkThemeVariant");
+    if (!variant){
+        variant = Math.random() < 0.05 ? "v2" : "v1";
+        localStorage.setItem("darkThemeVariant", variant);
+    }
+    return variant;
+}
+
+function setTheme(theme){
     const themeStylesheet = document.getElementById('themeStylesheet');
-    themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
+    if (theme === "dark") {
+        const variant = getABVariant();
+        themeStylesheet.href = variant === "v2" ? "/ban-new-dark-v2.css" : "/ban-new-dark.css";
+    } else {
+        themeStylesheet.href = "/ban-new.css";
+    }
 }
 
 const savedTheme = localStorage.getItem('theme') || "light";
