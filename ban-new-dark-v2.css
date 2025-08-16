@@ -4,13 +4,13 @@
 
 /* Root variables */
 :root {
-    --color-bg: #111;
-    --color-box-bg: #222;
-    --color-sub-box-bg: #333;
-    --color-border: #ddd;
+    --color-bg: rgb(15, 16, 19);
+    --color-box-bg: rgb(25, 27, 32);
+    --color-sub-box-bg: rgb(33, 35, 41);
+    --color-border: #eee;
     --color-link: #7eaaff;
     --color-link-visited: #d19efa;
-    --color-text: #ddd;
+    --color-text: #eee;
 
     --font-family: "Inter", serif;
 
