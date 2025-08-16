@@ -4,7 +4,7 @@
 
 /* Root variables */
 :root {
-    --color-bg: rgb(15, 16, 19);
+    --color-bg: rgb(12, 13, 16);
     --color-box-bg: rgb(25, 27, 32);
     --color-sub-box-bg: rgb(33, 35, 41);
     --color-border: #eee;
