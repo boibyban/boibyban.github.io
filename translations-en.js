@@ -29,7 +29,7 @@ window.translations = {
         "Text.AppealsMessage": "To request an appeal visit the {0}.",
         "Description.GoToAppeals": "If you wish to appeal, please go to the {0}.",
         "Label.TermsOfUse": "Terms of Use",
-        "Label.CommunityRules": "Community Rules",
+        "Label.CommunityRules": "Boiby Community Rules",
         "Label.AppealsForm": "Appeals Form",
         "Label.Reviewed": "Reviewed",
         "Label.ModeratorNote": "Moderator Note",
