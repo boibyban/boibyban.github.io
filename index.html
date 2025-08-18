@@ -389,7 +389,7 @@
             }
         });
 
-       // Form Submission
+// Form Submission
 document.getElementById('banForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -466,40 +466,34 @@ document.getElementById('banForm').addEventListener('submit', async function (ev
         const evidence = box.querySelector('.evidence').value;
         const file = box.querySelector('.file') ? box.querySelector('.file').files[0] : null;
 
-        if (violationType === "Image") {
-            // Handle as modern violation
+        // Always create classic violation record
+        let classicEvidenceData = null;
+        if (file) {
             const reader = new FileReader();
-            const imageData = await new Promise((resolve) => {
+            classicEvidenceData = await new Promise((resolve) => {
                 reader.onload = (e) => resolve(e.target.result);
                 reader.readAsDataURL(file);
             });
-            
+        } else {
+            classicEvidenceData = evidence;
+        }
+
+        formData.classicViolations.push({
+            violationType,
+            reason,
+            evidence: classicEvidenceData
+        });
+
+        // Additionally create modern violation for images
+        if (violationType === "Image" && file) {
             // Generate random 15-digit asset ID
             const assetId = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
             
             formData.modernViolations.push({
                 violationType,
                 reason,
-                evidence: imageData,
+                evidence: classicEvidenceData, // same image data as base64
                 assetId: assetId
-            });
-        } else {
-            // Handle as classic violation
-            let evidenceData = null;
-            if (file) {
-                const reader = new FileReader();
-                evidenceData = await new Promise((resolve) => {
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(file);
-                });
-            } else {
-                evidenceData = evidence;
-            }
-
-            formData.classicViolations.push({
-                violationType,
-                reason,
-                evidence: evidenceData
             });
         }
     }
