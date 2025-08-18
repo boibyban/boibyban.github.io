@@ -389,107 +389,126 @@
             }
         });
 
-        // Form Submission
-        document.getElementById('banForm').addEventListener('submit', async function (event) {
-            
-            event.preventDefault();
+       // Form Submission
+document.getElementById('banForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
 
-            const language = document.getElementById('language').value;
-            localStorage.setItem('language', language);
-            
-            const username = document.getElementById('username').value.trim();
-            if (!username) {
-                alert("Username is required.");
-                return;
-            }
+    const language = document.getElementById('language').value;
+    localStorage.setItem('language', language);
+    
+    const username = document.getElementById('username').value.trim();
+    if (!username) {
+        alert("Username is required.");
+        return;
+    }
 
-            // Save the username in localStorage
-            localStorage.setItem('username', username);
+    // Save the username in localStorage
+    localStorage.setItem('username', username);
 
-            // Get the selected theme
-            const selectedTheme = document.getElementById('theme').value;
+    // Get the selected theme
+    const selectedTheme = document.getElementById('theme').value;
 
-            // Save the theme in localStorage
-            localStorage.setItem('theme', selectedTheme);
+    // Save the theme in localStorage
+    localStorage.setItem('theme', selectedTheme);
 
-            // Validate all fields
-            const classicViolationBoxes = document.querySelectorAll('#classicViolationContainer .evidence-box');
-            let isValid = true;
+    // Validate all fields
+    const classicViolationBoxes = document.querySelectorAll('#classicViolationContainer .evidence-box');
+    let isValid = true;
 
-            // Validate Classic Violations
-            classicViolationBoxes.forEach(box => {
-                const violationType = box.querySelector('.violationType').value;
-                const reason = box.querySelector('.classicReason').value;
-                const evidence = box.querySelector('.evidence').value;
-                const file = box.querySelector('.file') ? box.querySelector('.file').files[0] : null;
+    // Validate Classic Violations
+    classicViolationBoxes.forEach(box => {
+        const violationType = box.querySelector('.violationType').value;
+        const reason = box.querySelector('.classicReason').value;
+        const evidence = box.querySelector('.evidence').value;
+        const file = box.querySelector('.file') ? box.querySelector('.file').files[0] : null;
 
-                if (!violationType || !reason) {
-                    alert("Please fill out all required fields for all violations.");
-                    isValid = false;
-                    return;
-                }
+        if (!violationType || !reason) {
+            alert("Please fill out all required fields for all violations.");
+            isValid = false;
+            return;
+        }
 
-                if (violationType !== "Image" && violationType !== "Audio" && !evidence.trim()) {
-                    alert("Please fill out the evidence field for all violations.");
-                    isValid = false;
-                    return;
-                }
+        if (violationType !== "Image" && violationType !== "Audio" && !evidence.trim()) {
+            alert("Please fill out the evidence field for all violations.");
+            isValid = false;
+            return;
+        }
 
-                if ((violationType === "Image" || violationType === "Audio") && !file) {
-                    alert("Please upload a file for Image or Audio violations.");
-                    isValid = false;
-                    return;
-                }
+        if ((violationType === "Image" || violationType === "Audio") && !file) {
+            alert("Please upload a file for Image or Audio violations.");
+            isValid = false;
+            return;
+        }
+    });
+
+    if (!isValid) return;
+
+    const banStartDate = new Date().toLocaleString();
+
+    // Proceed with form submission
+    const formData = {
+        state: document.querySelector('input[name="State"]:checked').value,
+        banStartDate: banStartDate,
+        note: document.getElementById('note').value,
+        customNote: document.getElementById('notecustom').value,
+        cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
+        automation: document.getElementById('automation').value,
+        theme: document.getElementById('theme').value,
+        botBan: document.getElementById('botBan').checked,
+        classicViolations: [],
+        modernViolations: []
+    };
+
+    // Collect Violations
+    for (const box of classicViolationBoxes) {
+        const violationType = box.querySelector('.violationType').value;
+        const reason = box.querySelector('.classicReason').value;
+        const evidence = box.querySelector('.evidence').value;
+        const file = box.querySelector('.file') ? box.querySelector('.file').files[0] : null;
+
+        if (violationType === "Image") {
+            // Handle as modern violation
+            const reader = new FileReader();
+            const imageData = await new Promise((resolve) => {
+                reader.onload = (e) => resolve(e.target.result);
+                reader.readAsDataURL(file);
             });
-
-            if (!isValid) return;
-
-            const banStartDate = new Date().toLocaleString();
-
-            // Proceed with form submission
-            const formData = {
-                
-    state: document.querySelector('input[name="State"]:checked').value,
-    banStartDate: banStartDate,
-    note: document.getElementById('note').value,
-    customNote: document.getElementById('notecustom').value,
-    cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
-    automation: document.getElementById('automation').value, // Add this line
-    theme: document.getElementById('theme').value,
-    botBan: document.getElementById('botBan').checked,
-    classicViolations: []
-};
-
-            // Collect Classic Violations
-            for (const box of classicViolationBoxes) {
-                const violationType = box.querySelector('.violationType').value;
-                const reason = box.querySelector('.classicReason').value;
-                const evidence = box.querySelector('.evidence').value;
-                const file = box.querySelector('.file') ? box.querySelector('.file').files[0] : null;
-
-                let evidenceData = null;
-                if (file) {
-                    const reader = new FileReader();
-                    evidenceData = await new Promise((resolve) => {
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.readAsDataURL(file);
-                    });
-                } else {
-                    evidenceData = evidence;
-                }
-
-                formData.classicViolations.push({
-                    violationType,
-                    reason,
-                    evidence: evidenceData
+            
+            // Generate random 15-digit asset ID
+            const assetId = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
+            
+            formData.modernViolations.push({
+                violationType,
+                reason,
+                evidence: imageData,
+                assetId: assetId
+            });
+        } else {
+            // Handle as classic violation
+            let evidenceData = null;
+            if (file) {
+                const reader = new FileReader();
+                evidenceData = await new Promise((resolve) => {
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
                 });
+            } else {
+                evidenceData = evidence;
             }
 
-            // Save form data to localStorage and redirect
-            localStorage.setItem('banFormData', JSON.stringify(formData));
-const isMobileBan = document.getElementById('mobileBan').checked;
-window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
-        });
+            formData.classicViolations.push({
+                violationType,
+                reason,
+                evidence: evidenceData
+            });
+        }
+    }
+
+    // Save form data to localStorage and redirect
+    localStorage.setItem('banFormData', JSON.stringify(formData));
+    const isMobileBan = document.getElementById('mobileBan').checked;
+    window.location.href = isMobileBan ? '/not-approved-mobile' : '/not-approved';
+});
     </script>
 
 <script>
