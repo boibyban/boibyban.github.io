@@ -144,154 +144,290 @@
     </div>
 <script src="/translations-en.js"></script>
 <script>
- const translations=window.translations;function formatString(template,...args){return template.replace(/{(\d+)}/g,(match,index)=>{return typeof args[index]!=='undefined'?args[index]:match})}
-const formData=JSON.parse(localStorage.getItem('banFormData'));if(formData){const language=localStorage.getItem('language')||'en';const banDurationMap={Warn:translations[language]["Title.Warn"],Ban1Hour:translations[language]["Title.Ban1Hour"],Ban3Hours:translations[language]["Title.Ban3Hours"],Ban6Hours:translations[language]["Title.Ban6Hours"],Ban12Hours:translations[language]["Title.Ban12Hours"],Ban1Day:translations[language]["Title.Ban1Day"],Ban2Days:translations[language]["Title.Ban2Days"],Ban3Days:translations[language]["Title.Ban3Days"],Ban7Days:translations[language]["Title.Ban7Days"],Ban14Days:translations[language]["Title.Ban14Days"],Ban60Days:translations[language]["Title.Ban60Days"],Ban6Months:translations[language]["Title.Ban6Months"],Ban1Year:translations[language]["Title.Ban1Year"],Delete:translations[language]["Title.Terminate"]};document.getElementById('banDuration').textContent=banDurationMap[formData.state]||"Banned";function formatDate(date,includeTime=!0){const day=String(date.getDate()).padStart(2,'0');const month=String(date.getMonth()+1).padStart(2,'0');const year=date.getFullYear();if(includeTime){const hours=String(date.getHours()).padStart(2,'0');const minutes=String(date.getMinutes()).padStart(2,'0');const seconds=String(date.getSeconds()).padStart(2,'0');return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`}
-return `${day}/${month}/${year}`}
-const now=new Date();const reviewedDate=formatDate(now);const reviewedContainer=document.getElementById('reviewedContainer');reviewedContainer.textContent=translations[language]["Label.Reviewed"]+': ';const boldDate=document.createElement('b');boldDate.id='reviewedDate';boldDate.textContent=reviewedDate;reviewedContainer.appendChild(boldDate);const automationTextMap={"manual_detect_auto_review":translations[language]["Decision.ManualDetectionAutoReview"],"auto_detect_manual_review":translations[language]["Decision.AutoDetectionManualReview"],"full_auto":translations[language]["Decision.FullyAutomated"]};if(formData.automation&&formData.automation!=="manual"){document.getElementById('detection').style.display="block";document.getElementById('detection').innerHTML=`${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`}
-const logoutButton=document.querySelector('.logout');if(formData.state==="Warn"){const appealsMessage=document.getElementById('appealsMessage');const reactivateMessage=document.getElementById('reactivateMessage');appealsMessage.parentNode.insertBefore(reactivateMessage,appealsMessage.nextSibling);document.getElementById('reactivateMessage').textContent=translations[language]["Description.Warn"];document.getElementById('reactivateButton').textContent=translations[language]["Button.Reactivate"];document.getElementById('reactivateButton').style.display="block";document.getElementById('agreeContainer').style.display="block";logoutButton.classList.add('warning-margin')}else if(formData.state==="Delete"){document.getElementById('reactivateMessage').textContent=translations[language]["Description.Delete"];document.getElementById('reactivateButton').style.display="none"}else{const banDurationHoursMap={Ban1Hour:1,Ban3Hours:3,Ban6Hours:6,Ban12Hours:12,Ban1Day:24,Ban2Days:48,Ban3Days:72,Ban7Days:168,Ban14Days:336,Ban60Days:1440,Ban6Months:4392,Ban1Year:8760};const banDurationHours=banDurationHoursMap[formData.state]||0;const reactivateDate=new Date(now.setHours(now.getHours()+banDurationHours));document.getElementById('reactivateMessage').textContent=formatString(translations[language]["Description.BanV2"],formatDate(reactivateDate));document.getElementById('reactivateButton').style.display="none"}
-const cautionWarningMap={"future":translations[language]["Caution.Future"],"1day":translations[language]["Caution.1Day"],"3days":translations[language]["Caution.3Days"],"7days":translations[language]["Caution.7Days"],"permanent":translations[language]["Caution.Permanent"]};if(formData.cautionWarning&&formData.cautionWarning!=="none"){const cautionText=cautionWarningMap[formData.cautionWarning];if(cautionText){document.getElementById('cautionWarningMessage').innerHTML=`<span style="color: red; font-weight: bold;">${translations[language]["Caution.Title"]}</span> ${cautionText}`;document.getElementById('cautionWarningMessage').style.display="block"}}
-document.getElementById('termsOfUse').innerHTML=formatString(translations[language]["Text.TermsMessage"],`<a href="/info/terms">${translations[language]["Label.TermsOfUse"]}</a>`);document.getElementById('communityRules').innerHTML=formatString(translations[language]["Text.CommunityStandardMessage"],`<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`);document.getElementById('appealsMessage').innerHTML=formatString(translations[language]["Text.AppealsMessage"],`<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`);document.querySelector('.logoutlink').textContent=translations[language]["Button.Logout"];const savedUsername=localStorage.getItem('username');if(savedUsername){document.getElementById('username').textContent=savedUsername}
-const evidenceContainer=document.getElementById('evidenceContainer');document.getElementById('violationHeader').textContent=translations[language]["Label.ViolationDetails"]+':';const moderatorNote=formData.customNote||(formData.note==="nonote"?"":formData.note)||"";if(moderatorNote){const messageToUser=document.createElement('p');messageToUser.innerHTML=`${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;evidenceContainer.appendChild(messageToUser)}
-// In the evidence display section, replace the entire if(formData.classicViolations...) block with:
+const translations = window.translations;
 
-if (formData.classicViolations && formData.classicViolations.length > 0) {
-    formData.classicViolations.forEach((violation, index) => {
-        if (violation.violationType === "Image") {
-            // Find matching modern violation for this image
-            const modernViolation = formData.modernViolations && formData.modernViolations.find(mv => 
-                mv.evidence === violation.evidence
-            );
-            
-            // Create special image violation box
-            const imageBox = document.createElement('div');
-            imageBox.className = 'evidence-box';
-            imageBox.style.cssText = `
-                display: inline-block;
-                width: 450px;
-                max-width: 450px;
-                padding: 16px;
-                padding-left: 22px;
-                padding-right: 22px;
-                margin-bottom: 20px;
-            `;
-            
-            // Violation title and reason
-            const violationTitle = document.createElement('p');
-            violationTitle.style.cssText = `
-                margin-bottom: 18px;
-                font-size: 15px;
-            `;
-            violationTitle.textContent = translations[language]["Label.Violation"] || 'Violation';
-            
-            const violationText = document.createElement('b');
-            violationText.style.cssText = `
-                display: block;
-                margin-bottom: 18px;
-            `;
-            violationText.textContent = violation.reason;
-            
-            // Asset ID section
-            const assetTitle = document.createElement('p');
-            assetTitle.style.cssText = `
-                margin-bottom: 18px;
-                font-size: 15px;
-            `;
-            assetTitle.textContent = translations[language]["Label.AssetID"] || 'Asset ID';
-            
-            const assetText = document.createElement('b');
-            assetText.style.cssText = `display: block;`;
-            assetText.textContent = modernViolation ? modernViolation.assetId : 'N/A';
-            
-            // Image section
-            const imageTitle = document.createElement('p');
-            imageTitle.style.cssText = `
-                font-size: 15px;
-                margin-bottom: 0;
-            `;
-            imageTitle.textContent = translations[language]["Label.Image"] || 'Image';
-            
-            const imgElement = document.createElement('img');
-            imgElement.src = violation.evidence;
-            imgElement.className = 'evidence-image';
-            imgElement.style.maxWidth = '400px';
-            imgElement.style.marginTop = '8px';
-            
-            // Build the box
-            imageBox.appendChild(violationTitle);
-            imageBox.appendChild(violationText);
-            imageBox.appendChild(assetTitle);
-            imageBox.appendChild(assetText);
-            imageBox.appendChild(imageTitle);
-            imageBox.appendChild(imgElement);
-            
-            evidenceContainer.appendChild(imageBox);
-        } else {
-            // Standard violation display for non-image violations
-            const evidenceBox = document.createElement('div');
-            evidenceBox.className = 'evidence-box';
-            
-            const reasonElement = document.createElement('p');
-            reasonElement.innerHTML = `${translations[language]["Label.Reason"] || 'Reason'}: <span class="violation-text">${violation.reason}</span>`;
-            evidenceBox.appendChild(reasonElement);
-            
-            const evidenceLine = document.createElement('p');
-            evidenceLine.innerHTML = `${translations[language]["Label.OffensiveItem"] || 'Offensive Item'}: `;
-            const evidenceContent = document.createElement('span');
-            evidenceContent.className = 'evidence-content';
-            
-            if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
-                evidenceContent.textContent = `${violation.violationType}: `;
-            }
-            
-            if (violation.violationType === "Voice Chat") {
-                const date = new Date();
-                date.setMinutes(date.getMinutes() - 5);
-                const formattedDate = date.toLocaleString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                });
-                evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-                evidenceLine.appendChild(evidenceContent);
-                evidenceBox.appendChild(evidenceLine);
-            } else if (violation.violationType === "Audio") {
-                evidenceLine.appendChild(evidenceContent);
-                evidenceBox.appendChild(evidenceLine);
-                const audioElement = document.createElement('audio');
-                audioElement.controls = true;
-                audioElement.src = violation.evidence;
-                evidenceBox.appendChild(audioElement);
-            } else {
-                evidenceContent.textContent += violation.evidence;
-                evidenceLine.appendChild(evidenceContent);
-                evidenceBox.appendChild(evidenceLine);
-            }
-            
-            evidenceContainer.appendChild(evidenceBox);
-        }
+function formatString(template, ...args) {
+    return template.replace(/{(\d+)}/g, (match, index) => {
+        return typeof args[index] !== 'undefined' ? args[index] : match;
     });
 }
-document.getElementById('agreeCheckbox').addEventListener('change',function(){const reactivateButton=document.getElementById('reactivateButton');reactivateButton.disabled=!this.checked});function getABVariant(){
-    let variant = localStorage.getItem("darkThemeVariant");
-    if (!variant){
-        variant = Math.random() < 0.05 ? "v2" : "v1";
-        localStorage.setItem("darkThemeVariant", variant);
-    }
-    return variant;
-}
 
-function setTheme(theme){
-    const themeStylesheet = document.getElementById('themeStylesheet');
-    if (theme === "dark") {
-        const variant = getABVariant();
-        themeStylesheet.href = variant === "v2" ? "/ban-new-dark-v2.css" : "/ban-new-dark.css";
-    } else {
-        themeStylesheet.href = "/ban-new.css";
+const formData = JSON.parse(localStorage.getItem('banFormData'));
+if (formData) {
+    const language = localStorage.getItem('language') || 'en';
+    
+    // Ban duration mapping
+    const banDurationMap = {
+        Warn: translations[language]["Title.Warn"],
+        Ban1Day: translations[language]["Title.Ban1Day"],
+        Ban2Days: translations[language]["Title.Ban2Days"],
+        Ban3Days: translations[language]["Title.Ban3Days"],
+        Ban7Days: translations[language]["Title.Ban7Days"],
+        Ban14Days: translations[language]["Title.Ban14Days"],
+        Ban60Days: translations[language]["Title.Ban60Days"],
+        Ban6Months: translations[language]["Title.Ban6Months"],
+        Ban1Year: translations[language]["Title.Ban1Year"],
+        Delete: translations[language]["Title.Terminate"]
+    };
+    
+    document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
+
+    function formatDate(date, includeTime = true) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        if (includeTime) {
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        }
+        return `${day}/${month}/${year}`;
     }
+
+    const now = new Date();
+    const reviewedDate = formatDate(now);
+    const reviewedContainer = document.getElementById('reviewedContainer');
+    reviewedContainer.textContent = translations[language]["Label.Reviewed"] + ': ';
+    const boldDate = document.createElement('b');
+    boldDate.id = 'reviewedDate';
+    boldDate.textContent = reviewedDate;
+    reviewedContainer.appendChild(boldDate);
+
+    // Automation text
+    const automationTextMap = {
+        "manual_detect_auto_review": translations[language]["Decision.ManualDetectionAutoReview"],
+        "auto_detect_manual_review": translations[language]["Decision.AutoDetectionManualReview"],
+        "full_auto": translations[language]["Decision.FullyAutomated"]
+    };
+    
+    if (formData.automation && formData.automation !== "manual") {
+        document.getElementById('detection').style.display = "block";
+        document.getElementById('detection').innerHTML = `${translations[language]["Label.Decision"]}: <b id="detectionField">${automationTextMap[formData.automation]}</b>`;
+    }
+
+    const logoutButton = document.querySelector('.logout');
+    
+    // Handle different ban states
+    if (formData.state === "Warn") {
+        const appealsMessage = document.getElementById('appealsMessage');
+        const reactivateMessage = document.getElementById('reactivateMessage');
+        appealsMessage.parentNode.insertBefore(reactivateMessage, appealsMessage.nextSibling);
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Warn"];
+        document.getElementById('reactivateButton').textContent = translations[language]["Button.Reactivate"];
+        document.getElementById('reactivateButton').style.display = "block";
+        document.getElementById('agreeContainer').style.display = "block";
+        logoutButton.classList.add('warning-margin');
+    } else if (formData.state === "Delete") {
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
+        document.getElementById('reactivateButton').style.display = "none";
+    } else {
+        const banDurationHoursMap = {
+            Ban1Day: 24,
+            Ban2Days: 48,
+            Ban3Days: 72,
+            Ban7Days: 168,
+            Ban14Days: 336,
+            Ban60Days: 1440,
+            Ban6Months: 4392,
+            Ban1Year: 8760
+        };
+        const banDurationHours = banDurationHoursMap[formData.state] || 0;
+        const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
+        document.getElementById('reactivateMessage').textContent = formatString(translations[language]["Description.BanV2"], formatDate(reactivateDate));
+        document.getElementById('reactivateButton').style.display = "none";
+    }
+
+    // Caution warnings
+    const cautionWarningMap = {
+        "future": translations[language]["Caution.Future"],
+        "1day": translations[language]["Caution.1Day"],
+        "3days": translations[language]["Caution.3Days"],
+        "7days": translations[language]["Caution.7Days"],
+        "permanent": translations[language]["Caution.Permanent"]
+    };
+    
+    if (formData.cautionWarning && formData.cautionWarning !== "none") {
+        const cautionText = cautionWarningMap[formData.cautionWarning];
+        if (cautionText) {
+            document.getElementById('cautionWarningMessage').innerHTML = `<span style="color: red; font-weight: bold;">${translations[language]["Caution.Title"]}</span> ${cautionText}`;
+            document.getElementById('cautionWarningMessage').style.display = "block";
+        }
+    }
+
+    // Set various text elements
+    document.getElementById('termsOfUse').innerHTML = formatString(translations[language]["Text.TermsMessage"], `<a href="/info/terms">${translations[language]["Label.TermsOfUse"]}</a>`);
+    document.getElementById('communityRules').innerHTML = formatString(translations[language]["Text.CommunityStandardMessage"], `<a href="/info/community-rules">${translations[language]["Label.CommunityRules"]}</a>`);
+    document.getElementById('appealsMessage').innerHTML = formatString(translations[language]["Text.AppealsMessage"], `<a href="/appeals-form">${translations[language]["Label.AppealsForm"]}</a>`);
+    document.querySelector('.logoutlink').textContent = translations[language]["Button.Logout"];
+
+    // Set username
+    const savedUsername = localStorage.getItem('username');
+    if (savedUsername) {
+        document.getElementById('username').textContent = savedUsername;
+    }
+
+    // Evidence container setup
+    const evidenceContainer = document.getElementById('evidenceContainer');
+    document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
+
+    // Moderator note
+    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+    if (moderatorNote) {
+        const messageToUser = document.createElement('p');
+        messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
+        evidenceContainer.appendChild(messageToUser);
+    }
+
+    // Handle violations
+    if (formData.classicViolations && formData.classicViolations.length > 0) {
+        formData.classicViolations.forEach((violation, index) => {
+            if (violation.violationType === "Image") {
+                // Special handling for image violations
+                const modernViolation = formData.modernViolations && formData.modernViolations.find(mv => 
+                    mv.evidence === violation.evidence
+                );
+                
+                const imageBox = document.createElement('div');
+                imageBox.className = 'evidence-box';
+                imageBox.style.cssText = `
+                    display: inline-block;
+                    width: 450px;
+                    max-width: 450px;
+                    padding: 16px;
+                    padding-left: 22px;
+                    padding-right: 22px;
+                    margin-bottom: 20px;
+                `;
+                
+                // Violation title and reason
+                const violationTitle = document.createElement('p');
+                violationTitle.style.cssText = `
+                    margin-bottom: 18px;
+                    font-size: 15px;
+                `;
+                violationTitle.textContent = translations[language]["Label.Violation"] || 'Violation';
+                
+                const violationText = document.createElement('b');
+                violationText.style.cssText = `
+                    display: block;
+                    margin-bottom: 18px;
+                `;
+                violationText.textContent = violation.reason;
+                
+                // Asset ID section
+                const assetTitle = document.createElement('p');
+                assetTitle.style.cssText = `
+                    margin-bottom: 18px;
+                    font-size: 15px;
+                `;
+                assetTitle.textContent = translations[language]["Label.AssetID"] || 'Asset ID';
+                
+                const assetText = document.createElement('b');
+                assetText.style.cssText = `display: block;`;
+                assetText.textContent = modernViolation ? modernViolation.assetId : 'N/A';
+                
+                // Image section
+                const imageTitle = document.createElement('p');
+                imageTitle.style.cssText = `
+                    font-size: 15px;
+                    margin-bottom: 0;
+                `;
+                imageTitle.textContent = translations[language]["Label.Image"] || 'Image';
+                
+                const imgElement = document.createElement('img');
+                imgElement.src = violation.evidence;
+                imgElement.className = 'evidence-image';
+                imgElement.style.maxWidth = '400px';
+                imgElement.style.marginTop = '8px';
+                
+                // Build the box
+                imageBox.appendChild(violationTitle);
+                imageBox.appendChild(violationText);
+                imageBox.appendChild(assetTitle);
+                imageBox.appendChild(assetText);
+                imageBox.appendChild(imageTitle);
+                imageBox.appendChild(imgElement);
+                
+                evidenceContainer.appendChild(imageBox);
+            } else {
+                // Standard violation display
+                const evidenceBox = document.createElement('div');
+                evidenceBox.className = 'evidence-box';
+                
+                const reasonElement = document.createElement('p');
+                reasonElement.innerHTML = `${translations[language]["Label.Reason"] || 'Reason'}: <span class="violation-text">${violation.reason}</span>`;
+                evidenceBox.appendChild(reasonElement);
+                
+                const evidenceLine = document.createElement('p');
+                evidenceLine.innerHTML = `${translations[language]["Label.OffensiveItem"] || 'Offensive Item'}: `;
+                const evidenceContent = document.createElement('span');
+                evidenceContent.className = 'evidence-content';
+                
+                if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
+                    evidenceContent.textContent = `${violation.violationType}: `;
+                }
+                
+                if (violation.violationType === "Voice Chat") {
+                    const date = new Date();
+                    date.setMinutes(date.getMinutes() - 5);
+                    const formattedDate = date.toLocaleString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    });
+                    evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+                    evidenceLine.appendChild(evidenceContent);
+                    evidenceBox.appendChild(evidenceLine);
+                } else if (violation.violationType === "Audio") {
+                    evidenceLine.appendChild(evidenceContent);
+                    evidenceBox.appendChild(evidenceLine);
+                    const audioElement = document.createElement('audio');
+                    audioElement.controls = true;
+                    audioElement.src = violation.evidence;
+                    evidenceBox.appendChild(audioElement);
+                } else {
+                    evidenceContent.textContent += violation.evidence;
+                    evidenceLine.appendChild(evidenceContent);
+                    evidenceBox.appendChild(evidenceLine);
+                }
+                
+                evidenceContainer.appendChild(evidenceBox);
+            }
+        });
+    }
+
+    // Agree checkbox functionality
+    document.getElementById('agreeCheckbox').addEventListener('change', function() {
+        const reactivateButton = document.getElementById('reactivateButton');
+        reactivateButton.disabled = !this.checked;
+    });
+
+    // Theme handling
+    function getABVariant() {
+        let variant = localStorage.getItem("darkThemeVariant");
+        if (!variant) {
+            variant = Math.random() < 0.05 ? "v2" : "v1";
+            localStorage.setItem("darkThemeVariant", variant);
+        }
+        return variant;
+    }
+
+    function setTheme(theme) {
+        const themeStylesheet = document.getElementById('themeStylesheet');
+        if (theme === "dark") {
+            const variant = getABVariant();
+            themeStylesheet.href = variant === "v2" ? "/ban-new-dark-v2.css" : "/ban-new-dark.css";
+        } else {
+            themeStylesheet.href = "/ban-new.css";
+        }
+    }
+    
+    const savedTheme = localStorage.getItem('theme') || "light";
+    setTheme(savedTheme);
 }
-const savedTheme=localStorage.getItem('theme')||"light";setTheme(savedTheme)
 </script>
 </body>
 </html>
