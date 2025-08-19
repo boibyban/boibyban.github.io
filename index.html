@@ -478,23 +478,32 @@ document.getElementById('banForm').addEventListener('submit', async function (ev
             classicEvidenceData = evidence;
         }
 
-        formData.classicViolations.push({
+        const violationData = {
             violationType,
             reason,
             evidence: classicEvidenceData
-        });
+        };
 
-        // Additionally create modern violation for images
-        if (violationType === "Image" && file) {
+        formData.classicViolations.push(violationData);
+
+        // Create modern violation for specific types
+        if (["Image", "Model", "UGC Bundle"].includes(violationType)) {
             // Generate random 15-digit asset ID
             const assetId = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
             
-            formData.modernViolations.push({
+            const modernViolation = {
                 violationType,
                 reason,
-                evidence: classicEvidenceData, // same image data as base64
+                evidence: classicEvidenceData,
                 assetId: assetId
-            });
+            };
+
+            // For non-image types, we don't actually store the image data
+            if (violationType !== "Image") {
+                modernViolation.evidence = evidence; // Just store the text evidence
+            }
+
+            formData.modernViolations.push(modernViolation);
         }
     }
 
