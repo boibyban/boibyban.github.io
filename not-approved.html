@@ -381,11 +381,14 @@ if (formData) {
         evidenceContainer.appendChild(messageToUser);
     }
 
-    // Violation display handling
 // Violation display handling
 if (formData.classicViolations && formData.classicViolations.length > 0) {
+    // Create a container for classic violations to keep them together
+    const classicViolationsContainer = document.createElement('div');
+    classicViolationsContainer.className = 'classic-violations-container';
+    
     formData.classicViolations.forEach((violation) => {
-        // Handle modern violations (Image, Model, UGC Bundle)
+        // Handle modern violations (Image, Model, UGC Bundle) - they get their own special boxes
         if (["Image", "Model", "UGC Bundle"].includes(violation.violationType)) {
             const modernViolation = formData.modernViolations.find(mv => 
                 mv.reason === violation.reason && mv.violationType === violation.violationType
@@ -502,18 +505,14 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
             violationBox.appendChild(imgElement);
             evidenceContainer.appendChild(violationBox);
         }
-        // Handle classic violations
+        // Handle classic violations - they all go in the same container
         else {
-            const evidenceBox = document.createElement('div');
-            evidenceBox.className = 'evidence-box';
-            evidenceBox.style.cssText = `
-                margin-bottom: 20px;
-            `;
-
+            // Reason
             const reasonElement = document.createElement('p');
             reasonElement.innerHTML = `${translations[language]["Label.Reason"] || 'Reason'}: <span class="violation-text">${violation.reason}</span>`;
-            evidenceBox.appendChild(reasonElement);
+            classicViolationsContainer.appendChild(reasonElement);
 
+            // Evidence line
             const evidenceLine = document.createElement('p');
             evidenceLine.innerHTML = `${translations[language]["Label.OffensiveItem"] || 'Offensive Item'}: `;
             const evidenceContent = document.createElement('span');
@@ -536,20 +535,33 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                 evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
             } 
             else if (violation.violationType === "Audio") {
+                evidenceLine.appendChild(evidenceContent);
+                classicViolationsContainer.appendChild(evidenceLine);
                 const audioElement = document.createElement('audio');
                 audioElement.controls = true;
                 audioElement.src = violation.evidence;
-                evidenceBox.appendChild(audioElement);
+                classicViolationsContainer.appendChild(audioElement);
+                continue; // Skip the rest for audio since we already added the line
             }
             else {
                 evidenceContent.textContent += violation.evidence;
             }
 
             evidenceLine.appendChild(evidenceContent);
-            evidenceBox.appendChild(evidenceLine);
-            evidenceContainer.appendChild(evidenceBox);
+            classicViolationsContainer.appendChild(evidenceLine);
         }
     });
+
+    // Only add the classic violations container if it has content
+    if (classicViolationsContainer.hasChildNodes()) {
+        const classicBox = document.createElement('div');
+        classicBox.className = 'evidence-box';
+        classicBox.style.cssText = `
+            margin-bottom: 20px;
+        `;
+        classicBox.appendChild(classicViolationsContainer);
+        evidenceContainer.appendChild(classicBox);
+    }
 }
 
     // Agree checkbox functionality
