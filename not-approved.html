@@ -283,74 +283,62 @@ if (formData) {
     if (formData.classicViolations && formData.classicViolations.length > 0) {
         formData.classicViolations.forEach((violation, index) => {
             if (violation.violationType === "Image") {
-                // Special handling for image violations
-                const modernViolation = formData.modernViolations && formData.modernViolations.find(mv => 
-                    mv.evidence === violation.evidence
-                );
-                
-                const imageBox = document.createElement('div');
-                imageBox.className = 'evidence-box';
-                imageBox.style.cssText = `
-                    display: inline-block;
-                    width: 450px;
-                    max-width: 450px;
-                    padding: 16px;
-                    padding-left: 22px;
-                    padding-right: 22px;
-                    margin-bottom: 20px;
-                `;
-                
-                // Violation title and reason
-                const violationTitle = document.createElement('p');
-                violationTitle.style.cssText = `
-                    margin-bottom: 18px;
-                    font-size: 15px;
-                `;
-                violationTitle.textContent = translations[language]["Label.Violation"] || 'Violation';
-                
-                const violationText = document.createElement('b');
-                violationText.style.cssText = `
-                    display: block;
-                    margin-bottom: 18px;
-                `;
-                violationText.textContent = violation.reason;
-                
-                // Asset ID section
-                const assetTitle = document.createElement('p');
-                assetTitle.style.cssText = `
-                    margin-bottom: 18px;
-                    font-size: 15px;
-                `;
-                assetTitle.textContent = translations[language]["Label.AssetID"] || 'Asset ID';
-                
-                const assetText = document.createElement('b');
-                assetText.style.cssText = `display: block;`;
-                assetText.textContent = modernViolation ? modernViolation.assetId : 'N/A';
-                
-                // Image section
-                const imageTitle = document.createElement('p');
-                imageTitle.style.cssText = `
-                    font-size: 15px;
-                    margin-bottom: 0;
-                `;
-                imageTitle.textContent = translations[language]["Label.Image"] || 'Image';
-                
-                const imgElement = document.createElement('img');
-                imgElement.src = violation.evidence;
-                imgElement.className = 'evidence-image';
-                imgElement.style.maxWidth = '400px';
-                imgElement.style.marginTop = '8px';
-                
-                // Build the box
-                imageBox.appendChild(violationTitle);
-                imageBox.appendChild(violationText);
-                imageBox.appendChild(assetTitle);
-                imageBox.appendChild(assetText);
-                imageBox.appendChild(imageTitle);
-                imageBox.appendChild(imgElement);
-                
-                evidenceContainer.appendChild(imageBox);
-            } else {
+    // Special handling for image violations
+    const modernViolation = formData.modernViolations && formData.modernViolations.find(mv => 
+        mv.evidence === violation.evidence
+    );
+    
+    const imageBox = document.createElement('div');
+    imageBox.className = 'evidence-box';
+    imageBox.style.cssText = `
+        display: inline-block;
+        width: 450px;
+        max-width: 450px;
+        padding: 16px;
+        padding-left: 22px;
+        padding-right: 22px;
+        margin-bottom: 20px;
+    `;
+    
+    // Violation section
+    const violationP = document.createElement('p');
+    violationP.style.cssText = `
+        margin-bottom: 18px;
+        font-size: 15px;
+    `;
+    violationP.innerHTML = `${translations[language]["Label.Violation"] || 'Violation'}<br><b>${violation.reason}</b>`;
+    
+    // Asset ID section
+    const assetP = document.createElement('p');
+    assetP.style.cssText = `
+        margin-bottom: 18px;
+        font-size: 15px;
+    `;
+    assetP.innerHTML = `${translations[language]["Label.AssetID"] || 'Asset ID'}<br><b>${modernViolation ? modernViolation.assetId : 'N/A'}</b>`;
+    
+    // Image section
+    const imageP = document.createElement('p');
+    imageP.style.cssText = `
+        font-size: 15px;
+        margin-bottom: 0;
+    `;
+    imageP.textContent = translations[language]["Label.Image"] || 'Image';
+    
+    const imgElement = document.createElement('img');
+    imgElement.src = violation.evidence;
+    imgElement.className = 'evidence-image';
+    imgElement.style.maxWidth = '400px';
+    imgElement.style.marginTop = '8px';
+    
+    // Build the box
+    imageBox.appendChild(violationP);
+    imageBox.appendChild(assetP);
+    imageBox.appendChild(imageP);
+    imageBox.appendChild(imgElement);
+    
+    evidenceContainer.appendChild(imageBox);
+} 
+ else {
                 // Standard violation display
                 const evidenceBox = document.createElement('div');
                 evidenceBox.className = 'evidence-box';
