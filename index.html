@@ -80,6 +80,7 @@
     </select>
 </div>
             <button type="button" id="chargebackBanButton" style="margin-left: 10px;">Chargeback Ban</button>
+            <button type="button" id="parentChargebackButton" style="margin-left: 10px;">Parent Chargeback</button>
             <button type="button" id="refundBanButton" style="margin-left: 10px;">Repeated Refund Ban</button>
             <button type="button" id="enforcementBanButton" style="margin-left: 10px;">Enforcement Ban</button>
             <button type="button" id="offPlatformButton" style="margin-left: 10px;">Off-Platform Purchases</button>
@@ -848,6 +849,22 @@ document.getElementById('banForm').addEventListener('submit', async function (ev
         }
         alert('Please enter a username and submit.');
     });
+</script>
+<script>
+document.getElementById('parentChargebackButton').addEventListener('click', function() {
+    document.getElementById('Ban7Days').checked = true;
+    document.getElementById('notecustom').value = 'Your account was suspended due to unauthorized charges. Your parent or guardian must help you unlock your account and then will be able to approve certain actions for you on Boiby.';
+    document.getElementById('note').value = 'nonote'; // Clear preset note
+    
+    const violationBoxes = document.querySelectorAll('.evidence-box');
+    violationBoxes.forEach(box => box.remove());
+    classicViolationCount = 0;
+
+    // Set the parent chargeback flag
+    localStorage.setItem('ParentChargebackBan', 'true');
+    
+    alert('Please enter a username and submit.');
+});
 </script>
 </body>
 </html>
