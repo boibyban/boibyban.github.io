@@ -18,6 +18,7 @@ window.translations = {
         "Title.Ban1Year": "Banned for 1 Year",
         "Title.Delete": "Account Deleted",
         "Title.Terminate": "Account Terminated",
+        "Title.AccountBanned": "Account Banned",
       
         "Description.Warn": "You may re-activate your account by agreeing to our Terms of Use.",
         "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
@@ -37,9 +38,11 @@ window.translations = {
         "Label.Reason": "Reason",
         "Label.OffensiveItem": "Offensive Item",
         "Label.ViolationDetails": "Violation Details",
+        "Text.ParentReactivate": "Your parent or guardian must help you re-activate this account.",
         
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
+        "Button.Parent": "I'm a Parent or Guardian",
 
         // TODO: Deprecation of legacy caution warnings to streamline existing system (do this after caution warning logic is removed)
         "Caution.Title": "CAUTION",
