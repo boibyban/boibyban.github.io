@@ -447,18 +447,22 @@ document.getElementById('banForm').addEventListener('submit', async function (ev
     const banStartDate = new Date().toLocaleString();
 
     // Proceed with form submission
-    const formData = {
-        state: document.querySelector('input[name="State"]:checked').value,
-        banStartDate: banStartDate,
-        note: document.getElementById('note').value,
-        customNote: document.getElementById('notecustom').value,
-        cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
-        automation: document.getElementById('automation').value,
-        theme: document.getElementById('theme').value,
-        botBan: document.getElementById('botBan').checked,
-        classicViolations: [],
-        modernViolations: []
-    };
+const formData = {
+    state: document.querySelector('input[name="State"]:checked').value,
+    banStartDate: banStartDate,
+    note: document.getElementById('note').value,
+    customNote: document.getElementById('notecustom').value,
+    cautionWarning: document.getElementById('cautionWarning') ? document.getElementById('cautionWarning').value : "none",
+    automation: document.getElementById('automation').value,
+    theme: document.getElementById('theme').value,
+    botBan: document.getElementById('botBan').checked,
+    parentChargeback: localStorage.getItem('ParentChargebackBan') === 'true',
+    classicViolations: [],
+    modernViolations: []
+};
+
+// Clear the parent chargeback flag after using it
+localStorage.removeItem('ParentChargebackBan');
 
     // Collect Violations
     for (const box of classicViolationBoxes) {
