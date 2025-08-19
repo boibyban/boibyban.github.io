@@ -578,8 +578,8 @@ if (isParentChargeback) {
     // Override the ban duration text
     document.getElementById('banDuration').textContent = "Account Banned";
     
-    // Set the custom parent chargeback message
-    document.getElementById('reactivateMessage').textContent = translations[language]["Text.ParentReactivate"] || "Your parent or guardian must help you re-activate this account.";
+    // Update the terms of use message
+    document.getElementById('termsOfUse').innerHTML = 'We have determined that your behaviour or actions on Boiby have been in violation of our <a href="/info/terms">Terms of Use</a>.';
     
     // Update the reactivate button text
     document.getElementById('reactivateButton').textContent = translations[language]["Button.Parent"] || "I'm a Parent or Guardian";
@@ -598,6 +598,15 @@ if (isParentChargeback) {
     if (moderatorNoteElement) {
         moderatorNoteElement.textContent = moderatorNoteElement.textContent.replace("Moderator Note: ", "");
     }
+    
+    // Add the additional parent reactivate message
+    const parentReactivateMessage = document.createElement('p');
+    parentReactivateMessage.id = 'parentReactivateMessage';
+    parentReactivateMessage.textContent = translations[language]["Text.ParentReactivate"] || "Your parent or guardian must help you re-activate this account.";
+    
+    // Insert it after the appeals message
+    const appealsMessage = document.getElementById('appealsMessage');
+    appealsMessage.parentNode.insertBefore(parentReactivateMessage, appealsMessage.nextSibling);
 }
     // Theme handling
     function getABVariant() {
