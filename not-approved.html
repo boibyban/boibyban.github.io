@@ -278,7 +278,7 @@ const isParentChargeback = formData.parentChargeback;
 
 if (isParentChargeback) {
     // Override the ban duration text
-    document.getElementById('banDuration').textContent || "Account Banned";
+    document.getElementById('banDuration').textContent = "Account Banned";
     
     // Set the custom parent chargeback message
     document.getElementById('reactivateMessage').textContent = translations[language]["Text.ParentReactivate"] || "Your parent or guardian must help you re-activate this account.";
