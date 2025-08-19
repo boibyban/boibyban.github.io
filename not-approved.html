@@ -280,6 +280,7 @@ if (formData) {
     }
 
     // Violation display handling
+// Violation display handling
 if (formData.classicViolations && formData.classicViolations.length > 0) {
     formData.classicViolations.forEach((violation) => {
         // Handle modern violations (Image, Model, UGC Bundle)
@@ -378,14 +379,20 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
             // Image display
             const imgElement = document.createElement('img');
             imgElement.className = 'evidence-image';
-            imgElement.style.cssText = `
-                max-width: 400px;
-                margin-top: 8px;
-            `;
             
             if (violation.violationType === "Image") {
+                imgElement.style.cssText = `
+                    max-width: 400px;
+                    margin-top: 8px;
+                `;
                 imgElement.src = violation.evidence;
             } else {
+                imgElement.style.cssText = `
+                    width: 64px;
+                    height: 64px;
+                    margin-top: 8px;
+                    display: block;
+                `;
                 imgElement.src = "/forbidden.png";
                 imgElement.alt = "Content not available";
             }
@@ -399,7 +406,7 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
             evidenceBox.className = 'evidence-box';
             evidenceBox.style.cssText = `
                 width: fit-content;
-                min-width: 450px;
+                min-width: 300px;
                 margin-bottom: 20px;
             `;
 
