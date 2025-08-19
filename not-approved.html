@@ -7,60 +7,48 @@
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
         
-          * {
+            * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
   }
 
-  body {
-    height: 2000px; /* just to see sticky effect */
-  }
-
   header {
     position: sticky;
     top: 0;
     width: 100%;
-    height: 40px;
-    background: #fff;
-    border-bottom: 1px solid #ccc;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 10px;
+    background: #fff;
+    color: #000;
     z-index: 1000;
   }
 
-  .left, .middle, .right {
+  .left, .right {
     display: flex;
     align-items: center;
   }
 
   .left img {
     height: 32px;
-    margin-right: 5px;
+    margin-right: 32px;
   }
 
   .left span {
     font-weight: bold;
-    margin-right: 20px;
+    margin-right: 32px;
+    font-size: 16px;
   }
 
   .left nav a {
-    margin-right: 15px;
+    margin-right: 32px;
     text-decoration: none;
-    color: #000;
-    font-size: 14px;
-  }
-
-  .middle input {
-    width: 200px;
-    height: 24px;
-    padding: 0 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 12px;
+    color: inherit;
+    font-size: 16px;
   }
 
   .right .user-circle {
@@ -72,15 +60,30 @@
   }
 
   .right span, .right img {
+    font-size: 16px;
     margin-left: 5px;
     margin-right: 10px;
-    font-size: 12px;
   }
 
   .right img {
     width: 32px;
     height: 32px;
-  }.warning-margin {
+  }
+
+  /* Dark mode */
+  header.dark {
+    background: #333;
+    color: #eee;
+  }
+
+  header.dark .left nav a {
+    color: #eee;
+  }
+
+  header.dark .right .user-circle {
+    background: #555;
+  }
+        .warning-margin {
             margin: 10px auto 0 auto!important;
             margin-bottom: 12px!important;
         }
@@ -194,15 +197,13 @@
     
 
     </style>
-    <header>
+    <header id="header">
   <div class="left">
     <img src="/boiby.png" alt="Boiby Logo">
     <span>BOIBY</span>
     <nav>
-      
       <a href="#">Discover</a>
       <a href="#">Catalog</a>
-      
       <a href="#">Develop</a>
       <a href="#">Chat</a>
     </nav>
@@ -210,7 +211,7 @@
 
   <div class="right">
     <div class="user-circle"></div>
-    <span id="username" style=font-weight: 500">User</span>
+    <span id="username" style="font-weight:500;">f</span>
     <span> </span>
     <img src="bgreen.png" alt="Boibucks">
     <span>?</span>
@@ -238,6 +239,12 @@
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
     </div>
 <script src="/translations-en.js"></script>
+<script>
+  const header = document.getElementById('header');
+  if (localStorage.getItem('theme') === 'dark') {
+    header.classList.add('dark');
+  }
+</script>
 <script>
 const translations = window.translations;
 
