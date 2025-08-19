@@ -279,113 +279,171 @@ if (formData) {
         evidenceContainer.appendChild(messageToUser);
     }
 
-    // Handle violations
-    if (formData.classicViolations && formData.classicViolations.length > 0) {
-        formData.classicViolations.forEach((violation, index) => {
-            if (violation.violationType === "Image") {
-    // Special handling for image violations
-    const modernViolation = formData.modernViolations && formData.modernViolations.find(mv => 
-        mv.evidence === violation.evidence
-    );
-    
-    const imageBox = document.createElement('div');
-    imageBox.className = 'evidence-box';
-    imageBox.style.cssText = `
-        display: inline-block;
-        width: 450px;
-        max-width: 450px;
-        padding: 16px;
-        padding-left: 22px;
-        padding-right: 22px;
-        margin-bottom: 20px;
-    `;
-    
-    // Violation section
-    const violationP = document.createElement('p');
-    violationP.style.cssText = `
-        margin-bottom: 18px;
-        font-size: 15px;
-    `;
-    violationP.innerHTML = `${translations[language]["Label.Violation"] || 'Violation'}<br><b>${violation.reason}</b>`;
-    
-    // Asset ID section
-    const assetP = document.createElement('p');
-    assetP.style.cssText = `
-        margin-bottom: 18px;
-        font-size: 15px;
-    `;
-    assetP.innerHTML = `${translations[language]["Label.AssetID"] || 'Asset ID'}<br><b>${modernViolation ? modernViolation.assetId : 'N/A'}</b>`;
-    
-    // Image section
-    const imageP = document.createElement('p');
-    imageP.style.cssText = `
-        font-size: 15px;
-        margin-bottom: 0;
-    `;
-    imageP.textContent = translations[language]["Label.Image"] || 'Image';
-    
-    const imgElement = document.createElement('img');
-    imgElement.src = violation.evidence;
-    imgElement.className = 'evidence-image';
-    imgElement.style.maxWidth = '400px';
-    imgElement.style.marginTop = '8px';
-    
-    // Build the box
-    imageBox.appendChild(violationP);
-    imageBox.appendChild(assetP);
-    imageBox.appendChild(imageP);
-    imageBox.appendChild(imgElement);
-    
-    evidenceContainer.appendChild(imageBox);
-} 
- else {
-                // Standard violation display
-                const evidenceBox = document.createElement('div');
-                evidenceBox.className = 'evidence-box';
-                
-                const reasonElement = document.createElement('p');
-                reasonElement.innerHTML = `${translations[language]["Label.Reason"] || 'Reason'}: <span class="violation-text">${violation.reason}</span>`;
-                evidenceBox.appendChild(reasonElement);
-                
-                const evidenceLine = document.createElement('p');
-                evidenceLine.innerHTML = `${translations[language]["Label.OffensiveItem"] || 'Offensive Item'}: `;
-                const evidenceContent = document.createElement('span');
-                evidenceContent.className = 'evidence-content';
-                
-                if (violation.violationType !== "General/Chat" && violation.violationType !== "Image") {
-                    evidenceContent.textContent = `${violation.violationType}: `;
-                }
-                
-                if (violation.violationType === "Voice Chat") {
-                    const date = new Date();
-                    date.setMinutes(date.getMinutes() - 5);
-                    const formattedDate = date.toLocaleString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false
-                    });
-                    evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
-                    evidenceLine.appendChild(evidenceContent);
-                    evidenceBox.appendChild(evidenceLine);
-                } else if (violation.violationType === "Audio") {
-                    evidenceLine.appendChild(evidenceContent);
-                    evidenceBox.appendChild(evidenceLine);
-                    const audioElement = document.createElement('audio');
-                    audioElement.controls = true;
-                    audioElement.src = violation.evidence;
-                    evidenceBox.appendChild(audioElement);
-                } else {
-                    evidenceContent.textContent += violation.evidence;
-                    evidenceLine.appendChild(evidenceContent);
-                    evidenceBox.appendChild(evidenceLine);
-                }
-                
-                evidenceContainer.appendChild(evidenceBox);
+    // Violation display handling
+if (formData.classicViolations && formData.classicViolations.length > 0) {
+    formData.classicViolations.forEach((violation) => {
+        // Handle modern violations (Image, Model, UGC Bundle)
+        if (["Image", "Model", "UGC Bundle"].includes(violation.violationType)) {
+            const modernViolation = formData.modernViolations.find(mv => 
+                mv.reason === violation.reason && mv.violationType === violation.violationType
+            );
+            
+            const violationBox = document.createElement('div');
+            violationBox.className = 'evidence-box';
+            violationBox.style.cssText = `
+                display: inline-block;
+                width: fit-content;
+                min-width: 300px;
+                max-width: 450px;
+                padding: 16px;
+                padding-left: 22px;
+                padding-right: 22px;
+                margin-bottom: 20px;
+            `;
+
+            // Violation Reason (common for all types)
+            const violationP = document.createElement('p');
+            violationP.style.cssText = `
+                margin-bottom: 18px;
+                font-size: 15px;
+            `;
+            violationP.innerHTML = `${translations[language]["Label.Violation"] || 'Violation'}<br><b>${violation.reason}</b>`;
+            violationBox.appendChild(violationP);
+
+            // Asset ID (common for all types)
+            const idP = document.createElement('p');
+            idP.style.cssText = `
+                margin-bottom: 18px;
+                font-size: 15px;
+            `;
+            
+            // Type-specific content
+            switch(violation.violationType) {
+                case "Model":
+                    idP.innerHTML = `${translations[language]["Label.AssetID"] || 'Asset ID'}<br><b>${modernViolation?.assetId || 'N/A'}</b>`;
+                    violationBox.appendChild(idP);
+                    
+                    const modelNameP = document.createElement('p');
+                    modelNameP.style.cssText = `
+                        margin-bottom: 18px;
+                        font-size: 15px;
+                    `;
+                    modelNameP.innerHTML = `${translations[language]["Label.ModelName"] || 'Model Name'}<br><b>${violation.evidence || 'N/A'}</b>`;
+                    violationBox.appendChild(modelNameP);
+                    
+                    const modelLabelP = document.createElement('p');
+                    modelLabelP.style.cssText = `
+                        font-size: 15px;
+                        margin-bottom: 0;
+                    `;
+                    modelLabelP.textContent = translations[language]["Label.Model"] || 'Model';
+                    violationBox.appendChild(modelLabelP);
+                    break;
+                    
+                case "UGC Bundle":
+                    idP.innerHTML = `${translations[language]["Label.BundleID"] || 'Bundle ID'}<br><b>${modernViolation?.assetId || 'N/A'}</b>`;
+                    violationBox.appendChild(idP);
+                    
+                    const bundleNameP = document.createElement('p');
+                    bundleNameP.style.cssText = `
+                        margin-bottom: 18px;
+                        font-size: 15px;
+                    `;
+                    bundleNameP.innerHTML = `${translations[language]["Label.BundleName"] || 'Bundle Name'}<br><b>${violation.evidence || 'N/A'}</b>`;
+                    violationBox.appendChild(bundleNameP);
+                    
+                    const bundleLabelP = document.createElement('p');
+                    bundleLabelP.style.cssText = `
+                        font-size: 15px;
+                        margin-bottom: 0;
+                    `;
+                    bundleLabelP.textContent = translations[language]["Label.Bundle"] || 'Bundle';
+                    violationBox.appendChild(bundleLabelP);
+                    break;
+                    
+                case "Image":
+                    idP.innerHTML = `${translations[language]["Label.AssetID"] || 'Asset ID'}<br><b>${modernViolation?.assetId || 'N/A'}</b>`;
+                    violationBox.appendChild(idP);
+                    
+                    const imageLabelP = document.createElement('p');
+                    imageLabelP.style.cssText = `
+                        font-size: 15px;
+                        margin-bottom: 0;
+                    `;
+                    imageLabelP.textContent = translations[language]["Label.Image"] || 'Image';
+                    violationBox.appendChild(imageLabelP);
+                    break;
             }
-        });
-    }
+
+            // Image display
+            const imgElement = document.createElement('img');
+            imgElement.className = 'evidence-image';
+            imgElement.style.cssText = `
+                max-width: 400px;
+                margin-top: 8px;
+            `;
+            
+            if (violation.violationType === "Image") {
+                imgElement.src = violation.evidence;
+            } else {
+                imgElement.src = "/forbidden.png";
+                imgElement.alt = "Content not available";
+            }
+            
+            violationBox.appendChild(imgElement);
+            evidenceContainer.appendChild(violationBox);
+        }
+        // Handle classic violations
+        else {
+            const evidenceBox = document.createElement('div');
+            evidenceBox.className = 'evidence-box';
+            evidenceBox.style.cssText = `
+                width: fit-content;
+                min-width: 300px;
+                margin-bottom: 20px;
+            `;
+
+            const reasonElement = document.createElement('p');
+            reasonElement.innerHTML = `${translations[language]["Label.Reason"] || 'Reason'}: <span class="violation-text">${violation.reason}</span>`;
+            evidenceBox.appendChild(reasonElement);
+
+            const evidenceLine = document.createElement('p');
+            evidenceLine.innerHTML = `${translations[language]["Label.OffensiveItem"] || 'Offensive Item'}: `;
+            const evidenceContent = document.createElement('span');
+            evidenceContent.className = 'evidence-content';
+
+            if (violation.violationType !== "General/Chat") {
+                evidenceContent.textContent = `${violation.violationType}: `;
+            }
+
+            if (violation.violationType === "Voice Chat") {
+                const date = new Date();
+                date.setMinutes(date.getMinutes() - 5);
+                const formattedDate = date.toLocaleString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                });
+                evidenceContent.textContent += `Conversation Time: ${formattedDate} Location: ${violation.evidence}`;
+            } 
+            else if (violation.violationType === "Audio") {
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.src = violation.evidence;
+                evidenceBox.appendChild(audioElement);
+            }
+            else {
+                evidenceContent.textContent += violation.evidence;
+            }
+
+            evidenceLine.appendChild(evidenceContent);
+            evidenceBox.appendChild(evidenceLine);
+            evidenceContainer.appendChild(evidenceBox);
+        }
+    });
+}
 
     // Agree checkbox functionality
     document.getElementById('agreeCheckbox').addEventListener('change', function() {
