@@ -541,7 +541,6 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                 audioElement.controls = true;
                 audioElement.src = violation.evidence;
                 classicViolationsContainer.appendChild(audioElement);
-                continue; // Skip the rest for audio since we already added the line
             }
             else {
                 evidenceContent.textContent += violation.evidence;
