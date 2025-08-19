@@ -274,6 +274,34 @@ if (formData) {
     
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
+const isParentChargeback = formData.parentChargeback;
+
+if (isParentChargeback) {
+    // Override the ban duration text
+    document.getElementById('banDuration').textContent || "Account Banned";
+    
+    // Set the custom parent chargeback message
+    document.getElementById('reactivateMessage').textContent = translations[language]["Text.ParentReactivate"] || "Your parent or guardian must help you re-activate this account.";
+    
+    // Update the reactivate button text
+    document.getElementById('reactivateButton').textContent = translations[language]["Button.Parent"] || "I'm a Parent or Guardian";
+    
+    // Always show the reactivate container for parent chargeback
+    document.getElementById('agreeContainer').style.display = "block";
+    
+    // Hide the checkbox for parent chargeback
+    document.querySelector('.agree-checkbox').style.display = "none";
+    
+    // Enable the button by default for parent chargeback
+    document.getElementById('reactivateButton').disabled = false;
+    
+    // Remove the "Moderator Note:" prefix from the note display
+    const moderatorNoteElement = document.getElementById('moderatorNote');
+    if (moderatorNoteElement) {
+        moderatorNoteElement.textContent = moderatorNoteElement.textContent.replace("Moderator Note: ", "");
+    }
+}
+
     function formatDate(date, includeTime = true) {
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -380,6 +408,7 @@ if (formData) {
         messageToUser.innerHTML = `${translations[language]["Label.ModeratorNote"]}: <b id="moderatorNote">${moderatorNote}</b>`;
         evidenceContainer.appendChild(messageToUser);
     }
+
 
 // Violation display handling
 if (formData.classicViolations && formData.classicViolations.length > 0) {
