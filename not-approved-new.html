@@ -566,16 +566,14 @@ if (evidenceContainer) {
 
 		let evidenceHTML = `
         <div>
-            <p>${translations[language]["Label.ReviewDateV2"]}</p>
-            <b id="reviewedDate">${reviewedDate}</b>
+            <p>${translations[language]["Label.ReviewDateV2"]}<b id="reviewedDate">${reviewedDate}</b></p>
         </div>
     `;
 
 		if (moderatorNote) {
 			evidenceHTML += `
             <div>
-                <p>${translations[language]["Label.ModeratorNoteV2"]}</p>
-                <b id="moderatorNote">${moderatorNote}</b>
+                <p>${translations[language]["Label.ModeratorNoteV2"]}<b id="moderatorNote">${moderatorNote}</b></p>
             </div>
         `;
 		}
