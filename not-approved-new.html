@@ -234,7 +234,7 @@
             <h2 id="banHeader">Warning</h2>
         </div>
         
-        <div id="mainContent" style="margin-bottom:80px">
+        <div id="mainContent">
             <p id="rulesMessage" class="rules-broken">Your behaviour broke the rules of Boiby.</p>
             
             <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
@@ -242,6 +242,13 @@
             <div class="evidence-container">
                 <div id="evidenceContainer"></div>
             </div>
+			<div class="mistake-box" style="display:none; margin-bottom:64px; margin-top:20px;">
+    <b class="makeAMistake" style="padding-bottom: 12px;">
+        Did we make a mistake?
+    </b>
+    <p class="makeAMistake" style="margin-top: 8px;">
+        You can request an appeal or ask us to review this decision below.
+    </p>
 </div>
         </div>
         
@@ -417,6 +424,7 @@ else if (formData && formData.state === "Delete") {
             <button id="backButton" class="modal-button back-button">Back</button>
             <button class="modal-button disabled-button">Suspended</button>
         `;
+	
 } else {
 	// Warn
 	actionButtons.innerHTML = `
@@ -558,14 +566,16 @@ if (evidenceContainer) {
 
 		let evidenceHTML = `
         <div>
-            <p>${translations[language]["Label.ReviewDateV2"]}<b id="reviewedDate">${reviewedDate}</b></p>
+            <p>${translations[language]["Label.ReviewDateV2"]}</p>
+            <b id="reviewedDate">${reviewedDate}</b>
         </div>
     `;
 
 		if (moderatorNote) {
 			evidenceHTML += `
             <div>
-                <p>${translations[language]["Label.ModeratorNoteV2"]}<b id="moderatorNote">${moderatorNote}</b></p>
+                <p>${translations[language]["Label.ModeratorNoteV2"]}</p>
+                <b id="moderatorNote">${moderatorNote}</b>
             </div>
         `;
 		}
@@ -588,18 +598,21 @@ if (evidenceContainer) {
                     </div>
                 `;
 					violationsHTML += `
-                    <p>${translations[language]["Label.Reason"]}<b class="violation-text">${violation.reason}</b></p>
-                    <p>${translations[language]["Label.AssetID"]}<b class="evidence-content">${assetId}</b></p>
+                    <p>${translations[language]["Label.Reason"]}</p>
+                    <p><b class="violation-text">${violation.reason}</b></p>
+                    <p>${translations[language]["Label.AssetID"]}</p>
+                    <p><b class="evidence-content">${assetId}</b></p>
                 `;
 				} else {
 					violationsHTML += `
-                    <p>${translations[language]["Label.Reason"]}<b class="violation-text">${violation.reason}</b></p>
-                    <p>${translations[language]["Label.OffensiveItemV2"]}<b class="evidence-content">${
+                    <p>${translations[language]["Label.Reason"]}</p>
+                    <p><b class="violation-text">${violation.reason}</b></p>
+                    <p>${translations[language]["Label.OffensiveItemV2"]}</p>
+                    <p><b class="evidence-content">${
                         violation.violationType !== "General/Chat"
                             ? `${violation.violationType}: ${violation.evidence}`
                             : violation.evidence
-                    }</b>
-					</p>
+                    }</b></p>
                 `;
 				}
 			});
