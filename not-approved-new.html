@@ -47,6 +47,12 @@
 		body.dark-mode #evidenceContainer {
 			background-color: #292929!important;
 		}
+		body.dark-mode .interventionId {
+			color: #444;
+    		font-weight: 400;
+    		font-size: 15px;
+    		margin-top: 6px;
+		}
         body {
             display: flex;
             justify-content: center;
@@ -118,12 +124,17 @@
         }
         
         .evidence-container {
-    margin-bottom: 72px;
+    margin-bottom: 0;
   padding: 15px;
   background-color: #eee;
   border-radius: 8px;
         }
-        
+        .interventionId {
+			color: #ddd;
+    		font-weight: 400;
+    		font-size: 15px;
+    		margin-top: 6px;
+		}
         .modal-footer {
             display: flex;
             justify-content: flex-end;
@@ -242,6 +253,12 @@
             <div class="evidence-container">
                 <div id="evidenceContainer"></div>
             </div>
+			<p id="interventionIdItem" class="interventionId" style="
+    color: #ddd;
+    font-weight: 400;
+    font-size: 15px;
+    margin-top: 6px;
+">22ceb0a8-83e2-400d-95e6-a0d92af3f402</p>
 			<div class="mistake-box" style="display:none; margin-bottom:64px; margin-top:20px;">
     <b class="makeAMistake" style="padding-bottom: 12px;">
         Did we make a mistake?
@@ -284,7 +301,7 @@
             </div>
         </div>
         
-        <div class="modal-footer" id="actionButtons">
+        <div class="modal-footer" id="actionButtons" style="margin-top:72px">
             <button id="continueButton" class="modal-button continue-button">Continue</button>
             <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
         </div>
@@ -502,9 +519,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			document.querySelector('.mistake-box').style.display = 'none';
 
 const evidenceContainer = document.querySelector('.evidence-container');
-if (evidenceContainer) {
-    evidenceContainer.style.marginBottom = '72px';
-}
 			
 			// Replace warning icon with permanent ban icon
 			const header = document.getElementById('modalHeader');
