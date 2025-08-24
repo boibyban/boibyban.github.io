@@ -187,7 +187,7 @@
         }
         
         #evidenceContainer p {
-            margin: 8px 0;
+            margin: 4px 0;
         }
         
         #evidenceContainer b {
@@ -565,14 +565,14 @@ if (evidenceContainer) {
 		const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
 
 		let evidenceHTML = `
-        <div>
+        <div style="margin-bottom: 16px;">
             <p>${translations[language]["Label.ReviewDateV2"]}<b id="reviewedDate">${reviewedDate}</b></p>
         </div>
     `;
 
 		if (moderatorNote) {
 			evidenceHTML += `
-            <div>
+            <div style="margin-bottom: 16px;">
                 <p>${translations[language]["Label.ModeratorNoteV2"]}<b id="moderatorNote">${moderatorNote}</b></p>
             </div>
         `;
