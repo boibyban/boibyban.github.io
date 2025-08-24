@@ -240,7 +240,10 @@
             <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
             
             <div class="evidence-container">
-                <div id="evidenceContainer"></div>
+                <div id="wrap-evidence-content">
+					<div id="evidenceContainer">
+					
+				</div>
 				<a href="https://boibyban.github.io" class="modal-button logout-button" style="
     margin-top: 6px;
     width: 490px;
@@ -251,6 +254,7 @@
     padding: 7px 16px;
     box-shadow: 1px solid grey;
 ">View more</a>
+				
             </div>
 			<div class="mistake-box" style="display:none; margin-bottom:64px; margin-top:20px;">
     <b class="makeAMistake" style="padding-bottom: 12px;">
@@ -588,7 +592,8 @@ if (evidenceContainer) {
         `;
 		}
 
-		document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
+		document.getElementById('evidenceContainer').innerHTML = evidenceHTMLOuter;
+		document.getElementById('wrap-evidence-content').innerHTML = evidenceHTMLInner;
 
 		if (formData.classicViolations && formData.classicViolations.length > 0) {
 			let violationsHTML = '<div class="violation-box">';
