@@ -596,17 +596,15 @@ if (evidenceContainer) {
                     </div>
                 `;
 					violationsHTML += `
-                    <p>${translations[language]["Label.Reason"]}</p>
-                    <p><b class="violation-text">${violation.reason}</b></p>
-                    <p>${translations[language]["Label.AssetID"]}</p>
-                    <p><b class="evidence-content">${assetId}</b></p>
+                    <p>${translations[language]["Label.Reason"]}<b class="violation-text" style="display:block;margin-top:4px">${violation.reason}</b></p>
+                    <p>${translations[language]["Label.AssetID"]}<b class="evidence-content" style="display:block;margin-top:4px">${assetId}</b></p>
                 `;
 				} else {
 					violationsHTML += `
-                    <p>${translations[language]["Label.Reason"]}</p>
-                    <p><b class="violation-text">${violation.reason}</b></p>
-                    <p>${translations[language]["Label.OffensiveItemV2"]}</p>
-                    <p><b class="evidence-content">${
+                    <p>${translations[language]["Label.Reason"]}<b class="violation-text" style="display:block;margin-top:4px">${violation.reason}</b></p>
+                    
+                    <p>${translations[language]["Label.OffensiveItemV2"]}
+                    <b class="evidence-content" style="display:block;margin-top:4px">${
                         violation.violationType !== "General/Chat"
                             ? `${violation.violationType}: ${violation.evidence}`
                             : violation.evidence
