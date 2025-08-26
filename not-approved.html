@@ -347,6 +347,7 @@ if (formData) {
     const language = localStorage.getItem('language') || 'en';
     
     // Ban duration mapping
+    /**
     const banDurationMap = {
         Warn: translations[language]["Heading.Warn"],
         Ban1Day: translations[language]["Heading.Suspend1Day"],
@@ -358,9 +359,10 @@ if (formData) {
         Ban6Months: translations[language]["Heading.Suspend6Months"],
         Ban1Year: translations[language]["Heading.Suspend1Year"],
         Delete: translations[language]["Heading.BannedPermanently"]
-    };
+    }; // for testing purposes
+    **/
 
-    /** const banDurationMap = {
+    const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
         Ban1Day: translations[language]["Title.Ban1Day"],
         Ban2Days: translations[language]["Title.Ban2Days"],
@@ -371,7 +373,7 @@ if (formData) {
         Ban6Months: translations[language]["Title.Ban6Months"],
         Ban1Year: translations[language]["Title.Ban1Year"],
         Delete: translations[language]["Title.Terminate"]
-    }; **/
+    }; 
     
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
