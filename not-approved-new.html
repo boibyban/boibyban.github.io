@@ -564,6 +564,12 @@ const evidenceContainer = document.querySelector('.evidence-container');
 		}
 	}
 
+	// Set the intervention ID from localStorage
+	const caseID = localStorage.getItem('ModPanelCaseID');
+	if (caseID) {
+    	document.getElementById('interventionIdItem').textContent = caseID;
+	}		
+
 	// Set latest activity label
 	document.getElementById('latestActivity').textContent = translations[language]["Label.LatestActivity"];
 
@@ -626,6 +632,7 @@ const evidenceContainer = document.querySelector('.evidence-container');
                 `;
 				}
 			});
+
 
 			violationsHTML += '</div>';
 
