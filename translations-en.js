@@ -24,6 +24,7 @@ window.translations = {
         "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
         "Description.BanV2": "Your account was suspended due to a recent violation. You may re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
+        "Description.DeleteV2": "Your account has been permanently banned due to repeated or serious rule violations.",
       
         "Text.TermsMessage": "We have determined that your behaviour or actions on Boiby have been in violation of our {0}.",
         "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
@@ -71,7 +72,7 @@ window.translations = {
         "Heading.Suspend60Days": "Suspended for 60 days",
         "Heading.Suspend6Months": "Suspended for 6 months",
         "Heading.Suspend1Year": "Suspended for 1 year",
-        "Heading.BannedPermanently": "Banned",
+        "Heading.BannedPermanently": "Banned permanently",
 
         "Label.LatestActivity": "Latest activity we reviewed",
         "Label.ModeratorNoteV2": "Moderator note",
