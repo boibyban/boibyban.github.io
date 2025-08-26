@@ -348,7 +348,7 @@ if (formData) {
     
     // Ban duration mapping
     const banDurationMap = {
-        Warn: translations[language]["Title.Warn"],
+        Warn: translations[language]["Heading.Warn"],
         Ban1Day: translations[language]["Heading.Suspend1Day"],
         Ban2Days: translations[language]["Heading.Suspend2Days"],
         Ban3Days: translations[language]["Heading.Suspend3Days"],
@@ -357,8 +357,21 @@ if (formData) {
         Ban60Days: translations[language]["Heading.Suspend60Days"],
         Ban6Months: translations[language]["Heading.Suspend6Months"],
         Ban1Year: translations[language]["Heading.Suspend1Year"],
-        Delete: translations[language]["Title.Terminate"]
+        Delete: translations[language]["Heading.BannedPermanently"]
     };
+
+    /** const banDurationMap = {
+        Warn: translations[language]["Title.Warn"],
+        Ban1Day: translations[language]["Title.Ban1Day"],
+        Ban2Days: translations[language]["Title.Ban2Days"],
+        Ban3Days: translations[language]["Title.Ban3Days"],
+        Ban7Days: translations[language]["Title.Ban7Days"],
+        Ban14Days: translations[language]["Title.Ban14Days"],
+        Ban60Days: translations[language]["Title.Ban60Days"],
+        Ban6Months: translations[language]["Title.Ban6Months"],
+        Ban1Year: translations[language]["Title.Ban1Year"],
+        Delete: translations[language]["Title.Terminate"]
+    }; **/
     
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
@@ -411,7 +424,7 @@ if (formData) {
         document.getElementById('agreeContainer').style.display = "block";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"];
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.DeleteV2"];
         document.getElementById('reactivateButton').style.display = "none";
     } else {
         const banDurationHoursMap = {
