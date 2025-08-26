@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>View IP</title>
+<link rel="stylesheet" href="ModerationStyling.css">
+</head>
+<body>
+<div class="mock">
+  <div class="topbar">
+    <div class="brand">Customer Service &amp; Moderation</div>
+  </div>
+  <div class="content">
+    <aside class="sidebar">
+      <div class="sb-title">Customer Service</div>
+      <a href="FindUser.html" class="sb-item">Find user</a>
+      <a href="UserInfo.html" class="sb-item">Back to User Info</a>
+    </aside>
+    <main class="main">
+      <div class="main-heading">User IP</div>
+      <p id="ip-info"></p>
+      <p>To view all accounts under this IP, go to <a href="FindUser.html">Find User</a>.</p>
+    </main>
+  </div>
+</div>
+
+<script>
+const ipInfo = document.getElementById('ip-info');
+const userIP = localStorage.getItem("ModPanelUserIP") || "0.0.0.0";
+ipInfo.textContent = `This user's IP is: ${userIP}`;
+</script>
+</body>
+</html>

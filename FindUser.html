@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Find User — Moderation Panel</title>
+  <link rel="stylesheet" href="ModerationStyling.css" />
+</head>
+<body>
+<div class="mock">
+  <div class="topbar">
+    <div class="brand">Customer Service &amp; Moderation</div>
+  </div>
+
+  <div class="content">
+    <aside class="sidebar">
+      <div class="sb-title">Customer Service</div>
+      <div>User Admin</div>
+      <a href="FindUser.html" class="sb-item">Find user</a>
+      <a href="ModerateUser.html" class="sb-item">Moderate</a>
+      <a href="#" class="sb-item muted">Find payment</a>
+      <a href="#" class="sb-item muted">User Asset Transfer</a>
+      <a href="#" class="sb-item muted">Asset Transfer</a>
+      <a href="#" class="sb-item muted">User Assets</a>
+      <a href="#" class="sb-item muted">User/Group Transactions</a>
+      <a href="#" class="sb-item muted">User Trades</a>
+      <a href="SendPersonalMsg.html" class="sb-item">Send Personal Message</a>
+      <a href="#" class="sb-item muted">Preset Message</a>
+      <a href="#" class="sb-item muted">Mass Password Reset</a>
+
+      <div class="sb-title">Groups</div>
+      <a href="#" class="sb-item muted">Group Admin</a>
+      <a href="#" class="sb-item muted">Group Analytics</a>
+
+      <div class="sb-title">Cards</div>
+      <a href="#" class="sb-item muted">Lookup Game Cards</a>
+      <a href="#" class="sb-item muted">Incomm Redemption Reversal</a>
+      <a href="#" class="sb-item muted">Gift cards</a>
+
+      <div class="sb-title">Billing</div>
+      <a href="GrantMembership.html" class="sb-item">Grant Membership</a>
+      <a href="#" class="sb-item muted">Adjust Assets, Credit & Currency</a>
+      <a href="#" class="sb-item muted">Imbursements</a>
+      <a href="#" class="sb-item muted">Imbursements Blacklist</a>
+      <a href="#" class="sb-item muted">Mass Reward</a>
+    </aside>
+
+    <main class="main">
+      <div class="main-heading">Find User</div>
+      <p>Search for users by username or user ID.</p>
+
+      <div class="form-left">
+        <div class="info-label">Username:</div>
+        <input type="text" id="fu-username" />
+
+        <div class="info-label">User ID:</div>
+        <input type="text" id="fu-userid" disabled />
+
+        <div class="info-label">IP:</div>
+        <input type="text" id="fu-ip" disabled />
+
+        <div class="info-label">Email:</div>
+        <input type="text" id="fu-email" disabled />
+
+        <button class="btn" id="fu-submit">Submit</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+document.getElementById("fu-submit").onclick = () => {
+  const username = document.getElementById("fu-username").value.trim();
+  if (!username) return alert("Enter a username");
+
+  // Remove all keys related to moderation for previous users
+  Object.keys(localStorage).forEach(key => {
+    if (
+      key.startsWith("ModPanel") ||
+      key.startsWith("banFormData") ||
+      key.startsWith("previousBanData") ||
+      key === "caseID" ||
+      key === "internalNote" ||
+      key === "username"
+    ) {
+      localStorage.removeItem(key);
+    }
+  });
+
+  // Generate random IP
+  const randomIP = `${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}`;
+
+  // Set new user info
+  localStorage.setItem("ModPanelUsername", username);
+  localStorage.setItem("username", username); // simplified username
+  localStorage.setItem("ModPanelIP", randomIP);
+  localStorage.setItem("ModPanelMembership", "None");
+  localStorage.setItem("ModPanel2FA", "disabled");
+  localStorage.setItem("language", "en");
+  localStorage.setItem("ModPanelEmail", "user@example.com");
+
+  window.location.href = "ModerateUser.html";
+};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Moderate User - Moderation Panel</title>
+<link rel="stylesheet" href="ModerationStyling.css" />
+<style>
+/* Enforcement table styling */
+.enforcement-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.enforcement-table th,
+.enforcement-table td {
+  border: 1px solid #999;
+  padding: 6px 8px;
+  text-align: left;
+}
+.enforcement-table th {
+  background-color: #f0f0f0;
+}
+#recent-actions-container p { margin: 5px 0; }
+
+/* Account state styles */
+.account-state {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.account-state.normal { color: #222; background: transparent; }
+.account-state.red { color: #c00; background: rgba(255,0,0,0.04); border: 1px solid rgba(204,0,0,0.12); }
+</style>
+</head>
+<body>
+<div class="mock">
+  <div class="topbar">
+    <div class="brand">Customer Service &amp; Moderation</div>
+  </div>
+
+  <div class="content">
+    <aside class="sidebar">
+      <div class="sb-title">Customer Service</div>
+      <div>User Admin</div>
+      <a href="FindUser.html" class="sb-item">Find user</a>
+      <a href="ModerateUser.html" class="sb-item">Moderate</a>
+      <a href="#" class="sb-item muted">Find payment</a>
+      <a href="#" class="sb-item muted">User Asset Transfer</a>
+      <a href="#" class="sb-item muted">Asset Transfer</a>
+      <a href="#" class="sb-item muted">User Assets</a>
+      <a href="#" class="sb-item muted">User/Group Transactions</a>
+      <a href="#" class="sb-item muted">User Trades</a>
+      <a href="SendPersonalMsg.html" class="sb-item">Send Personal Message</a>
+      <a href="#" class="sb-item muted">Preset Message</a>
+      <a href="#" class="sb-item muted">Mass Password Reset</a>
+
+      <div class="sb-title">Groups</div>
+      <a href="#" class="sb-item muted">Group Admin</a>
+      <a href="#" class="sb-item muted">Group Analytics</a>
+
+      <div class="sb-title">Cards</div>
+      <a href="#" class="sb-item muted">Lookup Game Cards</a>
+      <a href="#" class="sb-item muted">Incomm Redemption Reversal</a>
+      <a href="#" class="sb-item muted">Gift cards</a>
+
+      <div class="sb-title">Billing</div>
+      <a href="GrantMembership.html" class="sb-item">Grant Membership</a>
+      <a href="#" class="sb-item muted">Adjust Assets, Credit & Currency</a>
+      <a href="#" class="sb-item muted">Imbursements</a>
+      <a href="#" class="sb-item muted">Imbursements Blacklist</a>
+      <a href="#" class="sb-item muted">Mass Reward</a>
+    </aside>
+
+    <main class="main">
+      <div class="tabs">
+        <a href="UserInfo.html" class="tab">Account</a>
+        <a href="ModerateUser.html" class="tab">Moderate</a>
+        <a href="#" class="tab muted">Payment</a>
+        <a href="#" class="tab muted">Transactions</a>
+        <a href="#" class="tab muted">Trades</a>
+        <a href="SendPersonalMsg.html" class="tab">Send Personal Msg</a>
+        <a href="#" class="tab muted">Messages</a>
+        <a href="GrantMembership.html" class="tab">Grant Membership</a>
+        <a href="#" class="tab muted">Adjust Assets</a>
+        <a href="UserInfo.html" class="tab">IP</a>
+      </div>
+
+      <div class="main-heading" id="moderate-username"></div>
+
+      <div class="form-row">
+        <div class="form-left">
+          <div class="info-label">Account State override:</div>
+          <div class="radio-list">
+            <label class="radio-item"><input type="radio" name="state" checked> Warn</label>
+            <label class="radio-item"><input type="radio" name="state"> Ban 1 Day</label>
+            <label class="radio-item"><input type="radio" name="state"> Ban 3 Days</label>
+            <label class="radio-item"><input type="radio" name="state"> Ban 7 Days</label>
+            <label class="radio-item"><input type="radio" name="state"> Ban 14 Days</label>
+            <label class="radio-item"><input type="radio" name="state"> Delete</label>
+          </div>
+
+          <div class="info-label">Preset Message to User</div>
+          <select id="preset-message">
+            <option value="">— choose preset —</option>
+            <option value="Scamming">Scamming</option>
+            <option value="Inappropriate Content">Inappropriate Content</option>
+            <option value="Harassment">Harassment</option>
+            <option value="General Violation">General Violation</option>
+            <option value="Spam">Spam</option>
+            <option value="Swearing">Swearing</option>
+            <option value="Discriminatory">Discriminatory</option>
+            <option value="Hate Speech">Hate Speech</option>
+            <option value="Adult content">Adult content</option>
+            <option value="Ban evasion">Ban evasion</option>
+            <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
+            <option value="Disruptive Audio">Disruptive Audio</option>
+            <option value="Dating">Dating</option>
+            <option value="Dating/Sexting">Dating/Sexting</option>
+            <option value="Threats">Threats</option>
+            <option value="Compromised account">Compromised account</option>
+            <option value="Disputed charges">Disputed charges</option>
+            <option value="Account/Asset Theft">Account/Asset Theft</option>
+            <option value="Account Theft">Account Theft</option>
+            <option value="Poison">Poison</option>
+            <option value="Scam games (permanent)">Scam games (permanent)</option>
+            <option value="Scam games (temporary)">Scam games (temporary)</option>
+            <option value="Exploiting">Exploiting</option>
+            <option value="Botting">Botting</option>
+            <option value="Off-platform purchases">Off-platform purchases</option>
+            <option value="Impersonation">Impersonation</option>
+            <option value="Tragic event">Tragic event</option>
+            <option value="Account for breaking rules">Account for breaking rules</option>
+            <option value="Username">Username</option>
+            <option value="Display name">Display name</option>
+            <option value="Child endangerment (generic)">Child endangerment (generic)</option>
+            <option value="Terrorism/Extremism">Terrorism/Extremism</option>
+            <option value="Terrorism/Extremism (simplified)">Terrorism/Extremism (simplified)</option>
+            <option value="Inappropriate Image">Inappropriate Image</option>
+            <option value="Inappropriate audio file">Inappropriate audio file</option>
+            <option value="Mod actions">Mod actions</option>
+            <option value="Deleted">Deleted</option>
+          </select>
+
+          <div class="info-label">Message to User</div>
+          <textarea id="message-body"></textarea>
+
+          <div class="info-label">Internal Moderation Note</div>
+          <textarea id="internal-note" style="min-height:60px"></textarea>
+
+          <button class="btn" id="submit-moderation">Submit</button>
+          <br><div class="p">To scrub the username, go to Account management.</div>
+        </div>
+
+        <div class="form-right">
+          <div class="info-block">
+            <div class="username" id="card-username"></div>
+            <div class="muted-line">Account page • Account details • MAC Address • PII • Codes</div>
+            <div class="info-label">Account State</div>
+            <div class="muted-line"><span id="account-state" class="account-state normal">None</span></div>
+            <div class="info-label">Recent Actions</div>
+            <div id="recent-actions-container">
+              <p>No recent enforcement</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ---------- Utilities ---------- */
+function getUsername() {
+  return localStorage.getItem("ModPanelUsername");
+}
+function safeParse(key) {
+  try { return JSON.parse(localStorage.getItem(key)); } catch(e){ return null; }
+}
+function saveJSON(key, obj) {
+  localStorage.setItem(key, JSON.stringify(obj));
+}
+function generateUUID() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+    return v.toString(16);
+  });
+}
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, function (m) {
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
+  });
+}
+
+/* ---------- Redirect if no user ---------- */
+const username = getUsername();
+if (!username) {
+  window.location.href = "FindUser.html";
+}
+
+/* ---------- Populate header/card ---------- */
+document.getElementById("moderate-username").innerHTML = (username || "") + ' <a href="UserInfo.html" class="small-link">home page</a>';
+document.getElementById("card-username").innerText = username || "";
+
+/* ---------- Preset messages mapping ---------- */
+const presets = {
+  "Scamming": "Scamming is a violation of our Terms of Use. Do not continue to scam on Boiby.",
+  "Inappropriate Content": "This content is not appropriate. Do not chat, post, or otherwise discuss inappropriate topics on Boiby.",
+  "Harassment": "Do not harass other users. Do not say mean or inappropriate things on Boiby.",
+  "General Violation": "Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. This is a violation of our Terms of Use.",
+  "Spam": "Do not repeatedly post or spam chat or content on Boiby.",
+  "Swearing": "Do not swear, use profanity, or otherwise say inappropriate things on Boiby.",
+  "Discriminatory": "Boiby does not permit discriminatory speech, content, or actions based on race or ethnic origin, national origin, religion or religious affiliation, gender, gender identity, or sexual orientation.",
+  "Hate Speech": "This content is not appropriate. Hate speech is not tolerated on Boiby.",
+  "Adult content": "Adult content is not tolerated on Boiby!",
+  "Ban evasion": "You created or used an account to avoid an enforcement action taken against another account. This offense was determined by considering your account information, such as your account email, phone number, device identifier, or other information.",
+  "Misusing Boiby Systems": "Do not attempt to bypass our systems that keep our platform and community safe and secure.",
+  "Disruptive Audio": "Do not upload audio that is unintelligible, excessively loud, or contains high-pitched noises.",
+  "Dating": "Dating is not permitted on Boiby.",
+  "Dating/Sexting": "Dating, Sexting, or other inappropriate behavior is not allowed on Boiby.",
+  "Threats": "Your account has been moderated for making threats against other users.",
+  "Compromised account": "This account has been closed as compromised.",
+  "Disputed charges": "Your account has been moderated due to unauthorized/disputed charges.",
+  "Account/Asset Theft": "Your account has been moderated for violating our Terms of Use for theft of an account and/or assets.",
+  "Account Theft": "Your account has been moderated for violating our Terms of Use for account theft.",
+  "Poison": "Your account has been moderated for repeatedly violating the Terms of Use on multiple accounts.",
+  "Scam games (permanent)": "This account has been closed due to a violation of our Terms of Use. Do not create games or advertisements intended to scam other players.",
+  "Scam games (temporary)": "Your account has been moderated due to a violation of our Terms of Use. Do not create games or advertisements intended to scam other players. If you continue, additional action may be taken against your account.",
+  "Exploiting": "Your account has been moderated for violating the Terms of Use for exploiting.",
+  "Botting": "Your account has been moderated for violating the Terms of Use for botting and/or botting behavior.",
+  "Off-platform purchases": "Your account has been moderated for buying or selling Boibybucks or virtual items on third-party sites or marketplaces.",
+  "Impersonation": "Impersonation is a violation of our rules. Do not mislead others by impersonating other people’s identity or affiliations.",
+  "Tragic event": "Please do not discuss, post about, or upload content that recreates, mocks, or capitalizes off of specific real-world tragic events. We understand you intended this to be a respectful memorial, but we can't risk having other users inappropriate manner around the content you created.",
+  "Account for breaking rules": "Do not create accounts just for the purpose of breaking the rules.",
+  "Username": "This username is not permitted on Boiby.",
+  "Display name": "This display name is not permitted on Boiby.",
+  "Child endangerment (generic)": "Your account has been moderated for violating the Terms of Use for inappropriate behavior/content.",
+  "Terrorism/Extremism": "Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. Boiby strictly prohibits associations with terrorism and violent extremism. This is a violation of our Terms of Use.",
+  "Terrorism/Extremism (simplified)": "Boiby strictly prohibits associations with terrorism and violent extremism.",
+  "Inappropriate Image": "This image is not appropriate. Please review our rules and only upload appropriate content.",
+  "Inappropriate audio file": "This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.",
+  "Mod actions": "Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss or appeal your bans, please use the Appeals Form to contact us.",
+  "Deleted": "Your account has been deleted."
+};
+
+/* ---------- Preset -> autofill ---------- */
+document.getElementById("preset-message").addEventListener("change", (e) => {
+  const val = e.target.value;
+  document.getElementById("message-body").value = presets[val] || "";
+});
+
+/* ---------- Render enforcement table and state ---------- */
+function renderEnforcementTable() {
+  const container = document.getElementById("recent-actions-container");
+  const current = safeParse('ModPanelBanData');
+  const prevCount = parseInt(localStorage.getItem('ModPanelPrevCount') || '0', 10);
+
+  const rows = [];
+  if (current) rows.push(current);
+  for (let i = 1; i <= prevCount; i++) {
+    const p = safeParse(`previousBanData${i}`);
+    if (p) rows.push(p);
+  }
+
+  // update account state display
+  const accountStateEl = document.getElementById('account-state');
+  if (current && current.state) {
+    accountStateEl.textContent = current.state;
+    // any non-None state becomes red
+    if (current.state && current.state !== 'None') {
+      accountStateEl.classList.remove('normal');
+      accountStateEl.classList.add('red');
+    } else {
+      accountStateEl.classList.remove('red');
+      accountStateEl.classList.add('normal');
+    }
+  } else {
+    accountStateEl.textContent = 'None';
+    accountStateEl.classList.remove('red');
+    accountStateEl.classList.add('normal');
+  }
+
+  if (rows.length === 0) {
+    container.innerHTML = '<p>No recent enforcement</p>';
+    return;
+  }
+
+  let html = `<table class="enforcement-table">
+    <thead>
+      <tr>
+        <th>Punishment</th>
+        <th>Date</th>
+        <th>Note</th>
+        <th>Internal Note</th>
+        <th>Case ID</th>
+      </tr>
+    </thead>
+    <tbody>`;
+  rows.forEach(r => {
+    const internal = (r.internalNote && r.internalNote.trim().length) ? escapeHtml(r.internalNote) : '-';
+    html += `<tr>
+      <td>${escapeHtml(r.state)}</td>
+      <td>${escapeHtml(r.banStartDate)}</td>
+      <td>${escapeHtml(r.customNote)}</td>
+      <td>${internal}</td>
+      <td>${escapeHtml(r.caseID)}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+}
+
+/* initial render */
+renderEnforcementTable();
+
+/* ---------- Submit moderation form ---------- */
+document.getElementById("submit-moderation").addEventListener("click", () => {
+  const checkedInput = document.querySelector('input[name="state"]:checked');
+  const labelEl = checkedInput ? checkedInput.closest('label') : null;
+  const selectedStateText = labelEl ? labelEl.textContent.trim() : 'Warn';
+  const stateKey = selectedStateText.replace(/\s+/g, ""); // e.g. Ban1Day
+
+  const customNote = document.getElementById("message-body").value || "No note";
+  const internalNote = document.getElementById("internal-note").value || "";
+
+  const newBan = {
+    state: stateKey,
+    banStartDate: new Date().toLocaleString(),
+    note: "nonote",
+    customNote: customNote,
+    internalNote: internalNote,
+    cautionWarning: "none",
+    automation: "manual",
+    theme: "light",
+    botBan: false,
+    parentChargeback: false,
+    classicViolations: [],
+    modernViolations: [],
+    caseID: generateUUID()
+  };
+
+  // SHIFT existing data:
+  const existing = safeParse('ModPanelBanData');
+  if (existing) {
+    let prevCount = parseInt(localStorage.getItem('ModPanelPrevCount') || '0', 10);
+
+    // shift previousBanData i -> i+1 (reverse order)
+    for (let i = prevCount; i >= 1; i--) {
+      const fromKey = `previousBanData${i}`;
+      const toKey = `previousBanData${i+1}`;
+      const val = localStorage.getItem(fromKey);
+      if (val !== null) localStorage.setItem(toKey, val);
+    }
+
+    // move current to previousBanData1
+    localStorage.setItem('previousBanData1', JSON.stringify(existing));
+    prevCount = prevCount + 1;
+    localStorage.setItem('ModPanelPrevCount', String(prevCount));
+  }
+
+  // Save new as current and persist
+  saveJSON('ModPanelBanData', newBan);
+  saveJSON('banFormData', newBan);
+  localStorage.setItem('ModPanelCaseID', newBan.caseID);
+
+
+
+  // redirect to not-approved.html
+  window.location.href = 'not-approved.html';
+});
+</script>
+</body>
+</html>

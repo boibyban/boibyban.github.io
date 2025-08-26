@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grant Membership — Moderation Panel</title>
+<link rel="stylesheet" href="ModerationStyling.css" />
+</head>
+<body>
+<div class="mock">
+  <div class="topbar">
+    <div class="brand">Customer Service &amp; Moderation</div>
+  </div>
+
+  <div class="content">
+    <aside class="sidebar">
+  <div class="sb-title">Customer Service</div>
+  <div>User Admin</div>
+  <a href="FindUser.html" class="sb-item">Find user</a>
+  <a href="ModerateUser.html" class="sb-item">Moderate</a>
+  <a href="#" class="sb-item muted">Find payment</a>
+  <a href="#" class="sb-item muted">User Asset Transfer</a>
+  <a href="#" class="sb-item muted">Asset Transfer</a>
+  <a href="#" class="sb-item muted">User Assets</a>
+  <a href="#" class="sb-item muted">User/Group Transactions</a>
+  <a href="#" class="sb-item muted">User Trades</a>
+  <a href="SendPersonalMsg.html" class="sb-item">Send Personal Message</a>
+  <a href="#" class="sb-item muted">Preset Message</a>
+  <a href="#" class="sb-item muted">Mass Password Reset</a>
+
+  <div class="sb-title">Groups</div>
+  <a href="#" class="sb-item muted">Group Admin</a>
+  <a href="#" class="sb-item muted">Group Analytics</a>
+
+  <div class="sb-title">Cards</div>
+  <a href="#" class="sb-item muted">Lookup Game Cards</a>
+  <a href="#" class="sb-item muted">Incomm Redemption Reversal</a>
+  <a href="#" class="sb-item muted">Gift cards</a>
+
+  <div class="sb-title">Billing</div>
+  <a href="GrantMembership.html" class="sb-item">Grant Membership</a>
+  <a href="#" class="sb-item muted">Adjust Assets, Credit & Currency</a>
+  <a href="#" class="sb-item muted">Imbursements</a>
+  <a href="#" class="sb-item muted">Imbursements Blacklist</a>
+  <a href="#" class="sb-item muted">Mass Reward</a>
+</aside>
+
+
+    <main class="main">
+      <div class="main-heading" id="gm-username"></div>
+      <div class="form-left">
+        <div class="info-label">Premium type:</div>
+        <select id="gm-premium">
+          <option>Premium 500</option>
+          <option>Premium 1000</option>
+          <option>Premium 2400</option>
+        </select>
+
+        <div class="info-label">Period (months):</div>
+        <input type="number" id="gm-period" value="1" min="1" max="60" />
+
+        <div class="info-label">Add note:</div>
+        <input type="text" id="gm-note" />
+
+        <button class="btn" id="gm-submit">Submit</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const username = localStorage.getItem("ModPanelUsername") || "";
+document.getElementById("gm-username").innerHTML = username + ' <a href="ModerateUser.html" class="small-link">home page</a>';
+
+document.getElementById("gm-submit").onclick = () => {
+  const type = document.getElementById("gm-premium").value;
+  localStorage.setItem("ModPanelMembership", type);
+  alert("Membership granted: " + type);
+};
+</script>
+</body>
+</html>

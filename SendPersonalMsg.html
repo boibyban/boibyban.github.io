@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Send Personal Message — Moderation Panel</title>
+  <link rel="stylesheet" href="ModerationStyling.css" />
+</head>
+<body>
+  <div class="mock">
+    <div class="topbar">
+      <div class="brand">Customer Service &amp; Moderation</div>
+    </div>
+
+    <div class="content">
+      <aside class="sidebar">
+  <div class="sb-title">Customer Service</div>
+  <div>User Admin</div>
+  <a href="FindUser.html" class="sb-item">Find user</a>
+  <a href="ModerateUser.html" class="sb-item">Moderate</a>
+  <a href="#" class="sb-item muted">Find payment</a>
+  <a href="#" class="sb-item muted">User Asset Transfer</a>
+  <a href="#" class="sb-item muted">Asset Transfer</a>
+  <a href="#" class="sb-item muted">User Assets</a>
+  <a href="#" class="sb-item muted">User/Group Transactions</a>
+  <a href="#" class="sb-item muted">User Trades</a>
+  <a href="SendPersonalMsg.html" class="sb-item">Send Personal Message</a>
+  <a href="#" class="sb-item muted">Preset Message</a>
+  <a href="#" class="sb-item muted">Mass Password Reset</a>
+
+  <div class="sb-title">Groups</div>
+  <a href="#" class="sb-item muted">Group Admin</a>
+  <a href="#" class="sb-item muted">Group Analytics</a>
+
+  <div class="sb-title">Cards</div>
+  <a href="#" class="sb-item muted">Lookup Game Cards</a>
+  <a href="#" class="sb-item muted">Incomm Redemption Reversal</a>
+  <a href="#" class="sb-item muted">Gift cards</a>
+
+  <div class="sb-title">Billing</div>
+  <a href="GrantMembership.html" class="sb-item">Grant Membership</a>
+  <a href="#" class="sb-item muted">Adjust Assets, Credit & Currency</a>
+  <a href="#" class="sb-item muted">Imbursements</a>
+  <a href="#" class="sb-item muted">Imbursements Blacklist</a>
+  <a href="#" class="sb-item muted">Mass Reward</a>
+</aside>
+
+
+      <main class="main">
+        <div class="main-heading">Send Personal Message</div>
+        <div class="form-left">
+          <div class="info-label">Username</div>
+          <input type="text" id="spm-username" value="" readonly />
+
+          <div class="info-label">Subject:</div>
+          <input type="text" id="spm-subject" />
+
+          <div class="info-label">Body:</div>
+          <textarea id="spm-body" style="min-height:80px"></textarea>
+
+          <button class="btn" id="spm-send">Send</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+<script>
+// Fill the username from localStorage
+const username = localStorage.getItem("ModPanelUsername") || "";
+document.getElementById("spm-username").value = username;
+
+document.getElementById("spm-send").onclick = () => {
+  alert("Message was sent to user.");
+  // Optional: could also clear subject/body if desired
+  document.getElementById("spm-subject").value = "";
+  document.getElementById("spm-body").value = "";
+};
+</script>
+</body>
+</html>

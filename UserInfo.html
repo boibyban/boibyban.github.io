@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>User Info — Moderation Panel</title>
+<link rel="stylesheet" href="ModerationStyling.css" />
+</head>
+<body>
+<div class="mock">
+  <div class="topbar">
+    <div class="brand">Customer Service &amp; Moderation</div>
+  </div>
+
+  <div class="content">
+    <aside class="sidebar">
+  <div class="sb-title">Customer Service</div>
+  <div>User Admin</div>
+  <a href="FindUser.html" class="sb-item">Find user</a>
+  <a href="ModerateUser.html" class="sb-item">Moderate</a>
+  <a href="#" class="sb-item muted">Find payment</a>
+  <a href="#" class="sb-item muted">User Asset Transfer</a>
+  <a href="#" class="sb-item muted">Asset Transfer</a>
+  <a href="#" class="sb-item muted">User Assets</a>
+  <a href="#" class="sb-item muted">User/Group Transactions</a>
+  <a href="#" class="sb-item muted">User Trades</a>
+  <a href="SendPersonalMsg.html" class="sb-item">Send Personal Message</a>
+  <a href="#" class="sb-item muted">Preset Message</a>
+  <a href="#" class="sb-item muted">Mass Password Reset</a>
+
+  <div class="sb-title">Groups</div>
+  <a href="#" class="sb-item muted">Group Admin</a>
+  <a href="#" class="sb-item muted">Group Analytics</a>
+
+  <div class="sb-title">Cards</div>
+  <a href="#" class="sb-item muted">Lookup Game Cards</a>
+  <a href="#" class="sb-item muted">Incomm Redemption Reversal</a>
+  <a href="#" class="sb-item muted">Gift cards</a>
+
+  <div class="sb-title">Billing</div>
+  <a href="GrantMembership.html" class="sb-item">Grant Membership</a>
+  <a href="#" class="sb-item muted">Adjust Assets, Credit & Currency</a>
+  <a href="#" class="sb-item muted">Imbursements</a>
+  <a href="#" class="sb-item muted">Imbursements Blacklist</a>
+  <a href="#" class="sb-item muted">Mass Reward</a>
+</aside>
+
+
+    <main class="main">
+      <div class="tabs">
+        <a href="UserInfo.html" class="tab">Account</a>
+        <a href="ModerateUser.html" class="tab">Moderate</a>
+        <a href="#" class="tab muted">IP</a>
+      </div>
+
+      <div class="main-heading">Account Info</div>
+      <div class="form-left">
+        <div class="info-label">Username:</div>
+        <input type="text" id="ui-username" readonly />
+
+        <div class="info-label">Join date:</div>
+        <input type="text" value="2023-01-01" readonly />
+
+        <div class="info-label">Last online:</div>
+        <input type="text" value="2025-08-26" readonly />
+
+        <div class="info-label">Membership status:</div>
+        <input type="text" id="ui-membership" readonly />
+
+        <div class="info-label">Email verified?</div>
+        <input type="text" value="Yes" readonly />
+
+        <div class="info-label">Phone verified?</div>
+        <input type="text" value="No" readonly />
+
+        <div class="info-label">ID Verified?</div>
+        <input type="text" value="Yes" readonly />
+
+        <div class="info-label">2FA Enabled?</div>
+        <input type="text" id="ui-2fa-status" readonly />
+
+        <div class="info-label">2FA Type:</div>
+        <input type="text" id="ui-2fa-type" readonly />
+
+        <div class="info-label">IP:</div>
+        <input type="text" id="ui-ip" readonly />
+
+        <div class="info-label">Billing info:</div>
+        <input type="text" value="██████████" readonly />
+
+        <div class="info-label">Age bracket:</div>
+        <input type="text" value="13+" readonly />
+
+        <button class="btn" id="btn-enable2fa">Enable 2FA</button>
+        <button class="btn" id="btn-disable2fa">Disable 2FA</button>
+        <button class="btn" id="btn-reset-email">Reset email</button>
+        <button class="btn" id="btn-reset-password">Reset password</button>
+        <button class="btn" id="btn-reset-username">Reset username</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+function randomUsername() { return 'boiby_user_' + Math.floor(10000 + Math.random()*90000); }
+
+const username = localStorage.getItem("ModPanelUsername") || "";
+document.getElementById("ui-username").value = username;
+document.getElementById("ui-ip").value = localStorage.getItem("ModPanelIP") || '';
+document.getElementById("ui-membership").value = localStorage.getItem("ModPanelMembership") || 'None';
+document.getElementById("ui-2fa-status").value = localStorage.getItem("ModPanel2FA") || 'disabled';
+document.getElementById("ui-2fa-type").value = localStorage.getItem("ModPanel2FAType") || 'Email';
+
+document.getElementById("btn-enable2fa").onclick = () => {
+  localStorage.setItem("ModPanel2FA","enabled");
+  localStorage.setItem("ModPanel2FAType","Email");
+  document.getElementById("ui-2fa-status").value = "enabled";
+  document.getElementById("ui-2fa-type").value = "Email";
+};
+document.getElementById("btn-disable2fa").onclick = () => {
+  localStorage.setItem("ModPanel2FA","disabled");
+  document.getElementById("ui-2fa-status").value = "disabled";
+};
+document.getElementById("btn-reset-email").onclick = () => {
+  localStorage.setItem("ModPanel2FA","disabled");
+  localStorage.removeItem("ModPanelEmail");
+  document.getElementById("ui-2fa-status").value = "disabled";
+};
+document.getElementById("btn-reset-password").onclick = () => {};
+document.getElementById("btn-reset-username").onclick = () => {
+  const newName = randomUsername();
+  localStorage.setItem("ModPanelUsername", newName);
+  document.getElementById("ui-username").value = newName;
+};
+</script>
+</body>
+</html>
