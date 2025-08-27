@@ -425,7 +425,7 @@ if (formData) {
         document.getElementById('agreeContainer').style.display = "block";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = translations[language]["Description.DeleteV2"];
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"]; //DeleteV2
         document.getElementById('reactivateButton').style.display = "none";
     } else {
         const banDurationHoursMap = {
