@@ -345,8 +345,8 @@ function formatString(template, ...args) {
 const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
-    
     // Ban duration mapping
+    /**
     const banDurationMap = {
         Warn: translations[language]["Heading.Warn"],
         Ban1Day: translations[language]["Heading.Suspend1Day"],
@@ -359,8 +359,8 @@ if (formData) {
         Ban1Year: translations[language]["Heading.Suspend1Year"],
         Delete: translations[language]["Heading.BannedPermanently"]
     }; 
+    **/
 
-    /**
     const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
         Ban1Day: translations[language]["Title.Ban1Day"],
@@ -373,7 +373,7 @@ if (formData) {
         Ban1Year: translations[language]["Title.Ban1Year"],
         Delete: translations[language]["Title.Terminate"]
     }; 
-    **/
+
     
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
