@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const enforcementTracker = localStorage.getItem('browserEnforcementTracker');
     
-    if (enforcementTracker && Math.random() < 0.05) {
+    if (enforcementTracker && Math.random() < 0.25) {
         if (!formData.customNote || !formData.customNote.includes("avoid an enforcement action")) {
             const randomTimestamp = generateRandomTimestamp();
             
