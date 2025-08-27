@@ -745,7 +745,6 @@ hamburger.addEventListener('click', () => {
 
 </script>
 <script>
-// Function to generate a UUID
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0;
@@ -754,13 +753,14 @@ function generateUUID() {
     });
 }
 
-// Function to convert Unix timestamp to Date object
-function unixTimestampToDate(timestamp) {
-    return new Date(timestamp * 1000);
+function generateRandomTimestamp() {
+    const startDate = new Date(2025, 3, 1).getTime() / 1000;
+    const endDate = new Date(2025, 7, 26).getTime() / 1000;
+    return Math.floor(startDate + Math.random() * (endDate - startDate));
 }
 
-// Function to format date for banFormData
-function formatDateForBan(date) {
+function formatDateForBan(timestamp) {
+    const date = new Date(timestamp * 1000);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
@@ -769,45 +769,57 @@ function formatDateForBan(date) {
     return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
+(function() {
+    const originalDateNow = Date.now;
+    const enforcementTracker = localStorage.getItem('browserEnforcementTracker');
+    
+    if (enforcementTracker) {
+        const formData = JSON.parse(localStorage.getItem('banFormData') || '{}');
+        
+        if (!formData.customNote || !formData.customNote.includes("avoid an enforcement action")) {
+            const fixedTimestamp = parseInt(enforcementTracker) * 1000;
+            Date.now = function() {
+                return fixedTimestamp;
+            };
+        }
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     const formData = JSON.parse(localStorage.getItem('banFormData') || '{}');
     
-    // Check browser enforcement tracker on any enforcement page
     const enforcementTracker = localStorage.getItem('browserEnforcementTracker');
     
-    if (enforcementTracker && Math.random() < 0.1) {
-        const timestamp = parseInt(enforcementTracker);
-        const banDate = unixTimestampToDate(timestamp);
-        
-        // Update the banFormData to evasion ban
-        const updatedFormData = {
-            "state": "Delete",
-            "banStartDate": formatDateForBan(banDate),
-            "note": "nonote",
-            "customNote": "You created or used an account to avoid an enforcement action taken against another account. This offense was determined by considering your account information, such as your account email, phone number, device identifier, or other factors.",
-            "internalNote": "",
-            "cautionWarning": "none",
-            "automation": "manual",
-            "theme": formData.theme || "light",
-            "botBan": false,
-            "parentChargeback": false,
-            "classicViolations": [],
-            "modernViolations": [],
-            "caseID": generateUUID()
-        };
-        
-        localStorage.setItem('banFormData', JSON.stringify(updatedFormData));
-
-        window.location.reload();
+    if (enforcementTracker && Math.random() < 0.05) {
+        if (!formData.customNote || !formData.customNote.includes("avoid an enforcement action")) {
+            const randomTimestamp = generateRandomTimestamp();
+            
+            const updatedFormData = {
+                "state": "Delete",
+                "banStartDate": formatDateForBan(randomTimestamp),
+                "note": "nonote",
+                "customNote": "You created or used an account to avoid an enforcement action taken against another account. This offense was determined by considering your account information, such as your account email, phone number, device identifier, or other factors.",
+                "internalNote": "",
+                "cautionWarning": "none",
+                "automation": "manual",
+                "theme": formData.theme || "light",
+                "botBan": false,
+                "parentChargeback": false,
+                "classicViolations": [],
+                "modernViolations": [],
+                "caseID": generateUUID()
+            };
+            
+            localStorage.setItem('banFormData', JSON.stringify(updatedFormData));
+            window.location.reload();
+        }
     }
-
+    
     if (formData.state === "Delete") {
         document.addEventListener('keydown', function(event) {
             if (event.key === 'e' || event.key === 'E') {
-
                 const timestamp = Math.floor(Date.now() / 1000);
                 localStorage.setItem('browserEnforcementTracker', timestamp.toString());
-
                 console.log("Browser enforcement tracker activated");
             }
         });
