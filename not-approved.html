@@ -742,6 +742,46 @@ hamburger.addEventListener('click', () => {
     sidebar.style.display = "flex";
   }
 });
+function handleDeletedAccountEKey(formData) {
+    if (formData.state !== "Delete") return;
+
+    // Keypress listener
+    document.addEventListener("keydown", (e) => {
+        if (e.key.toLowerCase() === "e") {
+            const unixTimestamp = Math.floor(Date.now() / 1000);
+            localStorage.setItem("browserEnforcementTracker", unixTimestamp);
+            console.log("browserEnforcementTracker set:", unixTimestamp);
+        }
+    });
+
+    // On page load check
+    const stored = localStorage.getItem("browserEnforcementTracker");
+    if (stored) {
+        const randomChance = Math.random();
+        if (randomChance < 0.05) {
+            // Force the banFormData to delete with timestamp + custom note
+            formData.state = "Delete";
+            formData.customNote = "testing";
+
+            // Convert unix timestamp into date string
+            const timestamp = parseInt(stored, 10) * 1000;
+            const convertedDate = new Date(timestamp).toLocaleString();
+
+            // Override reviewed date in UI if present
+            const reviewedDateElem = document.getElementById("reviewedDate");
+            if (reviewedDateElem) {
+                reviewedDateElem.textContent = convertedDate;
+            }
+
+            console.log("Enforcement triggered at:", convertedDate);
+        }
+    }
+}
+
+// Run after formData is loaded
+if (formData) {
+    handleDeletedAccountEKey(formData);
+}
 </script>
 </body>
 </html>
