@@ -332,6 +332,23 @@ header.dark + #sidebar .premium-btn {
         </div>
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
     </div>
+    <script>
+  function updateLogo() {
+    const logo = document.getElementById("logo");
+    if (document.body.classList.contains("dark-mode")) {
+      logo.src = "boibylonglight.png";
+    } else {
+      logo.src = "boibylongdark.png";
+    }
+  }
+
+  // Run once on load
+  updateLogo();
+
+  const observer = new MutationObserver(updateLogo);
+  observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+</script>
+
 <script src="/translations-en.js"></script>
 <script>
   const header = document.getElementById('header');
