@@ -742,10 +742,22 @@ hamburger.addEventListener('click', () => {
     sidebar.style.display = "flex";
   }
 });
-function handleDeletedAccountEKey(formData) {
+
+</script>
+    <script>
+// UUID generator
+function generateUUID() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === "x" ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+// Store timestamp when pressing "E" on deleted account
+function enableEnforcementHotkey(formData) {
     if (formData.state !== "Delete") return;
 
-    // Keypress listener
     document.addEventListener("keydown", (e) => {
         if (e.key.toLowerCase() === "e") {
             const unixTimestamp = Math.floor(Date.now() / 1000);
@@ -753,35 +765,57 @@ function handleDeletedAccountEKey(formData) {
             console.log("browserEnforcementTracker set:", unixTimestamp);
         }
     });
+}
 
-    // On page load check
+// Enforcement logic: runs on all
+function maybeTriggerEnforcement(formData) {
     const stored = localStorage.getItem("browserEnforcementTracker");
-    if (stored) {
-        const randomChance = Math.random();
-        if (randomChance < 0.1) {
-            // Force the banFormData to delete with timestamp + custom note
-            formData.state = "Delete";
-            formData.customNote = "testing";
+    if (!stored) return;
 
-            // Convert unix timestamp into date string
-            const timestamp = parseInt(stored, 10) * 1000;
-            const convertedDate = new Date(timestamp).toLocaleString();
+    // 5% chance
+    if (Math.random() < 0.05) {
+        const timestamp = parseInt(stored, 10);
+        const convertedDate = new Date(timestamp * 1000).toISOString();
 
-            // Override reviewed date in UI if present
-            const reviewedDateElem = document.getElementById("reviewedDate");
-            if (reviewedDateElem) {
-                reviewedDateElem.textContent = convertedDate;
-            }
+        const theme = localStorage.getItem("theme") || "light";
 
-            console.log("Enforcement triggered at:", convertedDate);
-        }
+        // overwrite formData fully
+        const newState = {
+            state: "Delete",
+            banStartDate: convertedDate,
+            note: "nonote",
+            customNote: "You created or used an account to avoid an enforcement action taken against another account. This offense was determined by considering your account information, such as your account email, phone number, device identifier, or other factors.",
+            internalNote: "",
+            cautionWarning: "none",
+            automation: "manual",
+            theme: theme,
+            botBan: false,
+            parentChargeback: false,
+            classicViolations: [],
+            modernViolations: [],
+            caseID: generateUUID()
+        };
+
+        // Save the overwritten state back to storage so reloads keep it
+        localStorage.setItem("banFormData", JSON.stringify(newState));
+
+        console.log("Enforcement override applied:", newState);
+        return newState;
+    }
+    return formData;
+}
+
+// --- Hook into formData  ---
+let formData = JSON.parse(localStorage.getItem("banFormData"));
+
+if (formData) {
+    enableEnforcementHotkey(formData);
+    const updatedFormData = maybeTriggerEnforcement(formData);
+    if (updatedFormData !== formData) {
+        formData = updatedFormData;
     }
 }
-
-// Run after formData is loaded
-if (formData) {
-    handleDeletedAccountEKey(formData);
-}
 </script>
+
 </body>
 </html>
