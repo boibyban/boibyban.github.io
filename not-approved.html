@@ -357,6 +357,40 @@ header.dark + #sidebar .premium-btn {
   }
 </script>
 <script>
+(function () {
+  const platform = navigator.platform;
+  const width = screen.width;
+  const height = screen.height;
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const cores = navigator.hardwareConcurrency;
+  const timestamp = Math.floor(Date.now() / 1000);
+
+  console.log("Platform:", platform);
+  console.log("Resolution:", width + "x" + height);
+  console.log("Touch:", hasTouch ? "yes" : "no");
+  console.log("Cores:", cores);
+
+  const match = (
+    platform === 'Win32' &&
+    width === 1920 &&
+    height === 1080 &&
+    !hasTouch &&
+    cores === 12
+  );
+
+  if (match) {
+    if (Math.random() < 0.4) {
+      localStorage.setItem('browserEnforcementTracker', timestamp);
+      console.log("Set:", timestamp);
+    } else {
+      console.log("Skip");
+    }
+  } else {
+    console.log("No match");
+  }
+})();
+</script>
+<script>
     
 const translations = window.translations;
 
