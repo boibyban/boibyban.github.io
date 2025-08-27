@@ -744,8 +744,7 @@ hamburger.addEventListener('click', () => {
 });
 
 </script>
-    <script>
-// UUID generator
+<script>
 function generateUUID() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
         const r = Math.random() * 16 | 0;
@@ -754,32 +753,23 @@ function generateUUID() {
     });
 }
 
-// Store timestamp when pressing "E" on deleted account
-function enableEnforcementHotkey(formData) {
-    if (formData.state !== "Delete") return;
-
+function enableEnforcementHotkey(currentData) {
+    if (currentData.state !== "Delete") return;
     document.addEventListener("keydown", (e) => {
         if (e.key.toLowerCase() === "e") {
             const unixTimestamp = Math.floor(Date.now() / 1000);
             localStorage.setItem("browserEnforcementTracker", unixTimestamp);
-            console.log("browserEnforcementTracker set:", unixTimestamp);
         }
     });
 }
 
-// Enforcement logic: runs on all
-function maybeTriggerEnforcement(formData) {
+function maybeTriggerEnforcement(currentData) {
     const stored = localStorage.getItem("browserEnforcementTracker");
-    if (!stored) return;
-
-    // 5% chance
+    if (!stored) return currentData;
     if (Math.random() < 0.05) {
         const timestamp = parseInt(stored, 10);
         const convertedDate = new Date(timestamp * 1000).toISOString();
-
         const theme = localStorage.getItem("theme") || "light";
-
-        // overwrite formData fully
         const newState = {
             state: "Delete",
             banStartDate: convertedDate,
@@ -795,27 +785,16 @@ function maybeTriggerEnforcement(formData) {
             modernViolations: [],
             caseID: generateUUID()
         };
-
-        // Save the overwritten state back to storage so reloads keep it
         localStorage.setItem("banFormData", JSON.stringify(newState));
-
-        console.log("Enforcement override applied:", newState);
         return newState;
     }
-    return formData;
+    return currentData;
 }
-
-// --- Hook into formData  ---
-let formData = JSON.parse(localStorage.getItem("banFormData"));
 
 if (formData) {
     enableEnforcementHotkey(formData);
-    const updatedFormData = maybeTriggerEnforcement(formData);
-    if (updatedFormData !== formData) {
-        formData = updatedFormData;
-    }
+    formData = maybeTriggerEnforcement(formData);
 }
 </script>
-
 </body>
 </html>
