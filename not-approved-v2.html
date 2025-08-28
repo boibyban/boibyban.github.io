@@ -5,56 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Not Approved</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
-    <style>
-        <style>
-
+<style>
 .ban-box {
   padding: 20px !important;
   border-radius: 8px !important;
   max-width: 840px !important;
   box-sizing: border-box;
+  background-clip: padding-box;
 }
+
 #banDuration {
   font-size: 28px !important;
-  margin: 0 0 0.3em 0 !important;
-  line-height: 1.15 !important;
+  margin: 0 0 8px 0 !important;
+  line-height: 1.12 !important;
   font-weight: 600 !important;
 }
+
+/* normalize paragraph spacing and remove uneven padding */
 .ban-box p {
   margin: 0 0 0.9em 0 !important;
   padding: 0 !important;
+  line-height: 1.45 !important;
 }
+
+/* tighten some small inline items so spacing is even */
 #reviewedContainer,
 #moderatorNote,
 .evidence-item p,
 #agreeContainer,
 #agreeContainer * {
-  margin-bottom: 0.45em !important;
+  margin: 0 0 0.45em 0 !important;
 }
+
+/* evidence box spacing slightly smaller than text blocks */
 .evidence-box,
 .evidence-item,
 #evidenceContainer,
 .classic-violations-container {
-  margin-bottom: 0.9em !important;
+  margin: 0 0 0.9em 0 !important;
 }
-.ban-box .actions,
-.ban-box .buttons-container {
+
+/* actions container - full width row, buttons fully right aligned */
+.ban-box .actions {
   display: flex !important;
+  width: 100% !important;
   justify-content: flex-end !important;
   align-items: center !important;
   gap: 12px !important;
-  margin-top: 8px !important;
+  margin-top: 18px !important;
+  box-sizing: border-box;
+  padding: 0 !important;
 }
+
+/* ensure buttons are consistent height and alignment */
 .ban-box .actions button,
-.ban-box .buttons-container button,
 .ban-box .actions .primary-btn,
-.ban-box .buttons-container .primary-btn,
-.ban-box .logout,
-.ban-box .reactivate,
-.ban-box #reactivateButton {
+.ban-box .actions .reactivate,
+.ban-box .actions .logout {
   height: 44px !important;
   min-height: 44px !important;
-  padding: 0 14px !important;
+  padding: 0 16px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -63,6 +73,8 @@
   cursor: pointer !important;
   box-sizing: border-box !important;
 }
+
+/* primary accent */
 .ban-box .primary-btn {
   background: #0066ff !important;
   color: #fff !important;
@@ -70,72 +82,63 @@
   font-weight: 600 !important;
   box-shadow: 0 1px 0 rgba(0,0,0,0.06) !important;
 }
+
+/* logout neutral style */
 .ban-box .logout {
   background: transparent !important;
   border: 1px solid rgba(0,0,0,0.12) !important;
   color: inherit !important;
   padding: 0 !important;
 }
+
+/* make anchor inside logout fill the button so sizing is correct */
 .ban-box .logout .logoutlink {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   height: 44px !important;
-  padding: 0 14px !important;
+  padding: 0 16px !important;
   line-height: 1 !important;
   color: inherit !important;
   text-decoration: none !important;
+  box-sizing: border-box !important;
 }
-.ban-box .actions button:focus,
-.ban-box .actions .primary-btn:focus,
-.ban-box .actions .logout:focus {
-  outline: 3px solid rgba(0,102,255,0.18) !important;
-  outline-offset: 2px !important;
-}
-#appealsMessage {
-  display: none !important;
-}
-#agreeContainer {
-  display: none;
-}
-.agree-checkbox {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-  margin: 0 !important;
-}
+
+/* reactivate row (checkbox left, button right) used for Warn state */
 .reactivate-row {
   display: flex !important;
   align-items: center !important;
   justify-content: flex-end !important;
   gap: 12px !important;
   width: 100% !important;
+  box-sizing: border-box !important;
 }
+
+/* checkbox left inside the row */
 .reactivate-row .agree-checkbox {
   order: 0 !important;
-  margin-right: 8px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
 }
-.reactivate-row #reactivateButton,
-.reactivate-row .reactivate {
+
+/* reactivate button positioned to the right of the checkbox */
+.reactivate-row .reactivate,
+.reactivate-row #reactivateButton {
   order: 1 !important;
+  height: 44px !important;
 }
+
+/* ensure actions remain fully right aligned on small screens, but stack vertically */
 @media (max-width: 640px) {
   .ban-box { padding: 16px !important; }
-  .ban-box .actions,
-  .ban-box .buttons-container {
-    justify-content: center !important;
-    gap: 10px !important;
-    flex-wrap: wrap !important;
-  }
-  .ban-box .actions button,
-  .ban-box .buttons-container button {
-    width: 100% !important;
-  }
-  .ban-box .logout .logoutlink {
-    width: 100% !important;
-  }
-  .reactivate-row { justify-content: center !important; }
+  .ban-box .actions { justify-content: center !important; flex-wrap: wrap !important; gap: 8px !important; }
+  .ban-box .actions button { width: 100% !important; }
+  .reactivate-row { justify-content: center !important; gap: 8px !important; flex-wrap: wrap !important; }
+  .reactivate-row .agree-checkbox { order: 0 !important; width: 100% !important; justify-content: center !important; }
+  .reactivate-row .reactivate { order: 1 !important; width: 100% !important; }
 }
 
 * {
@@ -549,7 +552,13 @@ header.dark + #sidebar .premium-btn {
         <p id="detection" style="display:none"></p></div>
         <p id="communityRules"></p>
         <p id="reactivateMessage"></p>
-        <p id="appealsMessage"></p>
+        <!-- Replace appeals/logout area with this -->
+<p id="appealsMessage">To request an appeal visit the <a href="/appeals-form">Appeals Form</a>.</p>
+
+<div class="actions">
+  <button class="primary-btn" id="primaryContact" type="button">Request Appeal</button>
+  <button class="logout" type="button"><a class="logoutlink" href="https://boibyban.github.io">Logout</a></button>
+</div>
         <div id="agreeContainer">
             <div class="agree-checkbox">
                 <input type="checkbox" id="agreeCheckbox">
