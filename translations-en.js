@@ -59,6 +59,7 @@ window.translations = {
         "Decision.FullyAutomated": "We used automated systems to detect this violation and make this decision.",
 
         "Heading.Warn": "Warning",
+        "Heading.Suspend": "Suspended",
         "Heading.Suspend1Hour": "Suspended for 1 hour",
         "Heading.Suspend3Hours": "Suspended for 3 hours",
         "Heading.Suspend6Hours": "Suspended for 6 hours",
@@ -73,6 +74,7 @@ window.translations = {
         "Heading.Suspend6Months": "Suspended for 6 months",
         "Heading.Suspend1Year": "Suspended for 1 year",
         "Heading.BannedPermanently": "Banned permanently",
+        "Heading.Banned": "Banned",
 
         "Label.LatestActivity": "Latest activity we reviewed",
         "Label.ModeratorNoteV2": "Moderator note",
