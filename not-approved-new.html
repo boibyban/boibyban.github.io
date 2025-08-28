@@ -759,7 +759,7 @@ const evidenceContainer = document.querySelector('.evidence-container');
 			const firstViolation = hasViolations ? formData.classicViolations[0] : null;
 
 			if (!hasViolations || !firstViolation?.reason) {
-				rulesMessageEl.textContent = 'Your behaviour broke the rules of Boiby.';
+				rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
 			} else {
 				const violationType = firstViolation.violationType || '';
 				const reason = firstViolation.reason.toLowerCase();
