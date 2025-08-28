@@ -356,40 +356,7 @@ header.dark + #sidebar .premium-btn {
     header.classList.add('dark');
   }
 </script>
-<script>
-(function () {
-  const platform = navigator.platform;
-  const width = screen.width;
-  const height = screen.height;
-  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  const cores = navigator.hardwareConcurrency;
-  const timestamp = Math.floor(Date.now() / 1000);
 
-  console.log("Platform:", platform);
-  console.log("Resolution:", width + "x" + height);
-  console.log("Touch:", hasTouch ? "yes" : "no");
-  console.log("Cores:", cores);
-
-  const match = (
-    platform === 'Win32' &&
-    width === 1920 &&
-    height === 1080 &&
-    !hasTouch &&
-    cores === 12
-  );
-
-  if (match) {
-    if (Math.random() < 0.4) {
-      localStorage.setItem('browserEnforcementTracker', timestamp);
-      console.log("Set:", timestamp);
-    } else {
-      console.log("Skip");
-    }
-  } else {
-    console.log("No match");
-  }
-})();
-</script>
 <script>
     
 const translations = window.translations;
@@ -404,7 +371,7 @@ const formData = JSON.parse(localStorage.getItem('banFormData'));
 if (formData) {
     const language = localStorage.getItem('language') || 'en';
     // Ban duration mapping
-    /**
+ 
     const banDurationMap = {
         Warn: translations[language]["Heading.Warn"],
         Ban1Day: translations[language]["Heading.Suspend1Day"],
@@ -417,8 +384,8 @@ if (formData) {
         Ban1Year: translations[language]["Heading.Suspend1Year"],
         Delete: translations[language]["Heading.BannedPermanently"]
     }; 
-    **/
 
+   /**
     const banDurationMap = {
         Warn: translations[language]["Title.Warn"],
         Ban1Day: translations[language]["Title.Ban1Day"],
@@ -431,7 +398,7 @@ if (formData) {
         Ban1Year: translations[language]["Title.Ban1Year"],
         Delete: translations[language]["Title.Terminate"]
     }; 
-
+    **/
     
     document.getElementById('banDuration').textContent = banDurationMap[formData.state] || "Banned";
 
@@ -482,7 +449,7 @@ if (formData) {
         document.getElementById('agreeContainer').style.display = "block";
         logoutButton.classList.add('warning-margin');
     } else if (formData.state === "Delete") {
-        document.getElementById('reactivateMessage').textContent = translations[language]["Description.Delete"]; //DeleteV2
+        document.getElementById('reactivateMessage').textContent = translations[language]["Description.DeleteV2"]; //DeleteV2
         document.getElementById('reactivateButton').style.display = "none";
     } else {
         const banDurationHoursMap = {
