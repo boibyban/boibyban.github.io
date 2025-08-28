@@ -320,7 +320,28 @@ header.dark + #sidebar .premium-btn {
         .modal-footer.dual-buttons {
             justify-content: space-between;
         }
-        
+
+		.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7); 
+  z-index: 999; 
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 1000; /* sits above backdrop */
+}
+
         .violation-text {
             font-weight: 600!important;
         }
@@ -423,7 +444,10 @@ header.dark + #sidebar .premium-btn {
 
 
   <button style="display:none" class="premium-btn">Get Premium</button>
+		<div class="modal-backdrop"></div>
+
 </div>
+	
     <div class="modal">
         <div class="modal-header" id="modalHeader">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
