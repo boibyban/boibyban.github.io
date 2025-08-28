@@ -6,6 +6,141 @@
     <title>Not Approved</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
     <style>
+        <style>
+/* Override after /ban-new.css or ban-new-dark.css
+   Implements: 20px padding, 8px radius, 28px header text,
+   hide appeal text, right-aligned bottom buttons (44px tall),
+   and paragraph gap 1.7em.
+*/
+
+.ban-box {
+  padding: 20px !important;
+  border-radius: 8px !important;
+  max-width: 840px !important;
+  box-sizing: border-box;
+}
+
+/* Title / header size */
+#banDuration {
+  font-size: 28px !important;
+  margin: 0 0 0.4em 0 !important;
+  line-height: 1.15 !important;
+  font-weight: 600 !important;
+}
+
+/* Increase vertical gap between paragraphs/text */
+.ban-box p {
+  margin: 0 0 1.7em 0 !important;
+}
+
+/* Keep some smaller internal items tighter */
+#reviewedContainer,
+#moderatorNote,
+.evidence-item p,
+#agreeContainer,
+#agreeContainer * {
+  margin-bottom: 0.9em !important;
+}
+
+/* Evidence / box spacing (slightly smaller than paragraphs) */
+.evidence-box,
+.evidence-item,
+#evidenceContainer,
+.classic-violations-container {
+  margin-bottom: 1em !important;
+}
+
+/* Actions container (right aligned) */
+/* Supports both a new .actions wrapper or existing .buttons-container */
+.ban-box .actions,
+.ban-box .buttons-container {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-top: 8px !important;
+}
+
+/* Make bottom buttons 44px tall and consistent */
+.ban-box .actions button,
+.ban-box .buttons-container button,
+.ban-box .actions .primary-btn,
+.ban-box .buttons-container .primary-btn,
+.ban-box .logout,
+.ban-box .reactivate {
+  height: 44px !important;
+  min-height: 44px !important;
+  padding: 0 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+}
+
+/* Primary blue accent button */
+.ban-box .primary-btn {
+  background: #0066ff !important;
+  color: #fff !important;
+  border: none !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06) !important;
+}
+
+/* Neutral/logout button styling */
+.ban-box .logout {
+  background: transparent !important;
+  border: 1px solid rgba(0,0,0,0.12) !important;
+  color: inherit !important;
+  padding: 0 !important;
+}
+
+/* Anchor inside logout (preserve existing markup where <a> is inside <button>) */
+.ban-box .logout .logoutlink {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+  line-height: 1 !important;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* Focus / accessibility */
+.ban-box .actions button:focus,
+.ban-box .actions .primary-btn:focus,
+.ban-box .actions .logout:focus {
+  outline: 3px solid rgba(0,102,255,0.18) !important;
+  outline-offset: 2px !important;
+}
+
+/* Hide appeals text (you can remove the element instead if preferred) */
+#appealsMessage {
+  display: none !important;
+}
+
+/* Small screen behavior */
+@media (max-width: 640px) {
+  .ban-box { padding: 16px !important; }
+  .ban-box .actions,
+  .ban-box .buttons-container {
+    justify-content: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+  }
+  .ban-box .actions button,
+  .ban-box .buttons-container button {
+    width: 100% !important;
+  }
+  .ban-box .logout .logoutlink {
+    width: 100% !important;
+  }
+}
+</style>
+
 * {
     font-family: "Inter", serif;
 }
