@@ -36,7 +36,7 @@ body {
   justify-content:space-between;
   padding:0 12px;
   border-bottom:1px solid #ccc;
-  background:#007bff;
+  background:#149b6c;
   font-size:13px;
   color:#fff;
 }
@@ -154,3 +154,4 @@ textarea {
   color:#555;
   font-size:13px;
 }
+
