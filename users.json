@@ -114,7 +114,7 @@
     "profilePicture": "/boiby.png",
     "isDeleted": false,
     "joinDate": "2025-08-29",
-    "isAdmin": false,
+    "isAdmin": true,
     "friends": [1, 5],
     "followers": 4,
     "following": 3,
