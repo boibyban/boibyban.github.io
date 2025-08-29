@@ -75,7 +75,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 2],
+    "friends": [1, 2, 12],
     "followers": 1,
     "following": 0
   },
@@ -85,7 +85,7 @@
     "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [2, 3],
+    "friends": [2, 3, 12],
     "followers": 1,
     "following": 0
   },
@@ -115,7 +115,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 4],
+    "friends": [1, 4, 8, 9],
     "followers": 1,
     "following": 1
   }
