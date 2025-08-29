@@ -126,7 +126,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 4, 8, 9, 15],
+    "friends": [1, 4, 8, 9, 15, 18],
     "followers": 2,
     "following": 2,
     "bio": "please be aware that this is a ban experiment account. the account will be banned almost 24/7, so if it shows up inactive, its because of a permanent ban. thanks for understanding!!"
@@ -159,7 +159,7 @@
     "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 12, 14, 16],
+    "friends": [1, 12, 14, 16, 18],
     "followers": 1,
     "following": 2,
     "bio": "fatty"
@@ -170,7 +170,7 @@
     "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 5, 13, 15],
+    "friends": [1, 5, 13, 15, 18],
     "followers": 2,
     "following": 3,
     "bio": "asstwaats"
@@ -181,7 +181,18 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 6, 13, 14, 16],
+    "friends": [1, 6, 13, 14, 16, 18],
+    "followers": 2,
+    "following": 1,
+    "bio": ""
+  },
+  "18": {
+    "username": "MOTHERFUCKER",
+    "profilePicture": "/bgreen.png",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [12, 15, 16, 17],
     "followers": 2,
     "following": 1,
     "bio": ""
