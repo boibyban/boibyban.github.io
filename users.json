@@ -5,8 +5,8 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14],
-    "followers": 7,
+    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15],
+    "followers": 8,
     "following": 5,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
   },
@@ -73,7 +73,7 @@
     "isAdmin": false,
     "friends": [2, 3],
     "followers": 1,
-    "following": 2,
+    "following": 3,
     "bio": ""
   },
   "8": {
@@ -95,7 +95,7 @@
     "isAdmin": false,
     "friends": [2, 3, 12],
     "followers": 1,
-    "following": 1,
+    "following": 2,
     "bio": ""
   },
   "10": {
@@ -116,7 +116,7 @@
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 5],
-    "followers": 1,
+    "followers": 4,
     "following": 3,
     "bio": ""
   },
@@ -126,9 +126,9 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 4, 8, 9],
+    "friends": [1, 4, 8, 9, 15],
     "followers": 2,
-    "following": 1,
+    "following": 2,
     "bio": "please be aware that this is a ban experiment account. the account will be banned almost 24/7, so if it shows up inactive, its because of a permanent ban. thanks for understanding!!"
   },
   "13": {
@@ -152,5 +152,16 @@
     "followers": 2,
     "following": 1,
     "bio": "i am not mary sue"
+  },
+  "15": {
+    "username": "fatty",
+    "profilePicture": "/boiby.png",
+    "isDeleted": true,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1, 12],
+    "followers": 1,
+    "following": 2,
+    "bio": "fatty"
   }
 }
