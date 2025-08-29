@@ -178,7 +178,7 @@
   "17": {
     "username": "Toronto",
     "profilePicture": "/86fa26cbbbdaa665b74f1fa1f57dee3d.png",
-    "isDeleted": true,
+    "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 13, 14, 16],
