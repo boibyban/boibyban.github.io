@@ -7,7 +7,8 @@
     "isAdmin": true,
     "friends": [2, 3, 5, 6, 8, 11, 12],
     "followers": 5,
-    "following": 5
+    "following": 5,
+    "bio": ""
   },
   "2": {
     "username": "JohnathanDoherty",
@@ -17,7 +18,8 @@
     "isAdmin": false,
     "friends": [1, 4, 5, 7, 8, 9, 10],
     "followers": 2,
-    "following": 3
+    "following": 3,
+    "bio": ""
   },
   "3": {
     "username": "JaneDoherty",
@@ -27,7 +29,8 @@
     "isAdmin": false,
     "friends": [1, 5, 7, 9, 10],
     "followers": 4,
-    "following": 1
+    "following": 1,
+    "bio": ""
   },
   "4": {
     "username": "FUCK",
@@ -37,7 +40,8 @@
     "isAdmin": false,
     "friends": [2, 12],
     "followers": 1,
-    "following": 2
+    "following": 2,
+    "bio": ""
   },
   "5": {
     "username": "tinyspy",
@@ -47,7 +51,8 @@
     "isAdmin": true,
     "friends": [1, 2, 3],
     "followers": 2,
-    "following": 1
+    "following": 1,
+    "bio": ""
   },
   "6": {
     "username": "tenuuni",
@@ -57,7 +62,8 @@
     "isAdmin": false,
     "friends": [1],
     "followers": 1,
-    "following": 0
+    "following": 0,
+    "bio": ""
   },
   "7": {
     "username": "DoverPortAssTwaats",
@@ -67,7 +73,8 @@
     "isAdmin": false,
     "friends": [2, 3],
     "followers": 1,
-    "following": 2
+    "following": 2,
+    "bio": ""
   },
   "8": {
     "username": "dabomb",
@@ -77,7 +84,8 @@
     "isAdmin": false,
     "friends": [1, 2, 12],
     "followers": 1,
-    "following": 0
+    "following": 0,
+    "bio": ""
   },
   "9": {
     "username": "SHIT",
@@ -87,7 +95,8 @@
     "isAdmin": false,
     "friends": [2, 3, 12],
     "followers": 1,
-    "following": 0
+    "following": 0,
+    "bio": ""
   },
   "10": {
     "username": "DICK",
@@ -97,7 +106,8 @@
     "isAdmin": false,
     "friends": [2, 3],
     "followers": 1,
-    "following": 0
+    "following": 0,
+    "bio": ""
   },
   "11": {
     "username": "Admin",
@@ -107,7 +117,8 @@
     "isAdmin": false,
     "friends": [1, 5],
     "followers": 1,
-    "following": 0
+    "following": 0,
+    "bio": ""
   },
   "12": {
     "username": "crabbyneressa",
@@ -117,10 +128,7 @@
     "isAdmin": false,
     "friends": [1, 4, 8, 9],
     "followers": 1,
-    "following": 1
+    "following": 1,
+    "bio": "please be aware that this is a ban experiment account. the account will be banned almost 24/7, so if it shows up inactive, its because of a permanent ban. thanks for understanding!!"
   }
 }
-
-
-  
-
