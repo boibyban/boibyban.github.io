@@ -4,10 +4,10 @@
     "profilePicture": "/boiby.png",
     "isDeleted": false,
     "joinDate": "2024-01-08",
-    "isAdmin": false,
+    "isAdmin": true,
     "friends": [2, 3],
-    "followers": 0,
-    "following": 0
+    "followers": 3,
+    "following": 2
   },
   "2": {
     "username": "JohnathanDoherty",
@@ -16,7 +16,7 @@
     "joinDate": "2024-05-12",
     "isAdmin": false,
     "friends": [1],
-    "followers": 12,
+    "followers": 2,
     "following": 3
   },
   "3": {
@@ -27,6 +27,16 @@
     "isAdmin": false,
     "friends": [1],
     "followers": 4,
-    "following": 0
+    "following": 1
+  },
+  "4": {
+    "username": "FUCK",
+    "profilePicture": "/ogno.png",
+    "isDeleted": true,
+    "joinDate": "2024-09-07",
+    "isAdmin": false,
+    "friends": [2],
+    "followers": 1,
+    "following": 1
   }
 }
