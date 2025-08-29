@@ -1,0 +1,32 @@
+{
+  "1": {
+    "username": "boiby",
+    "profilePicture": "boiby.png",
+    "isDeleted": false,
+    "joinDate": "2024-01-08",
+    "isAdmin": false,
+    "friends": [2, 3],
+    "followers": 0,
+    "following": 0
+  },
+  "2": {
+    "username": "FriendOne",
+    "profilePicture": "f1.png",
+    "isDeleted": false,
+    "joinDate": "2021-05-12",
+    "isAdmin": false,
+    "friends": [1],
+    "followers": 12,
+    "following": 3
+  },
+  "3": {
+    "username": "FriendTwo",
+    "profilePicture": "f2.png",
+    "isDeleted": false,
+    "joinDate": "2022-09-04",
+    "isAdmin": false,
+    "friends": [1],
+    "followers": 4,
+    "following": 0
+  }
+}
