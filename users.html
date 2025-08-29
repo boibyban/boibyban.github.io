@@ -1,0 +1,102 @@
+<script>
+(function(){
+  // Redirect helpers
+  const redirect500 = () => { window.location.href = '/error-500.html'; };
+  const redirect404 = () => { window.location.href = '/error-404.html'; };
+  const redirectDeleted = () => { window.location.href = '/userDeleted.html'; };
+
+  // Parse query params
+  const params = new URLSearchParams(window.location.search);
+  const idParam = params.get('id');
+  const nameParam = params.get('name');
+
+  if(!idParam && !nameParam) return redirect404();
+
+  // Helper: resolve image paths
+  function resolveImgPath(p) {
+    if(!p) return '/placeholder.png';
+    if(p.startsWith('http://') || p.startsWith('https://') || p.startsWith('/')) return p;
+    return '/' + p.replace(/^\/+/, '');
+  }
+
+  // Fetch users.json
+  fetch('/users.json', { cache: 'no-store' })
+    .then(resp => {
+      if(!resp.ok) throw new Error('fetch-failed');
+      return resp.json();
+    })
+    .then(data => {
+      let user = null;
+
+      if(idParam) {
+        user = data[idParam];
+      } else if(nameParam) {
+        // case-insensitive search by username
+        const key = Object.keys(data).find(k => 
+          (data[k].username || '').toLowerCase() === nameParam.toLowerCase()
+        );
+        if(key) user = data[key];
+      }
+
+      if(!user) return redirect404();
+      if(user.isDeleted) return redirectDeleted();
+
+      // DOM targets
+      const profilePic = document.getElementById('profile-pic');
+      const usernameEl = document.getElementById('username');
+      const tagEl = document.getElementById('user-tag');
+      const statsEl = document.getElementById('user-stats');
+      const aboutAlias = document.getElementById('about-alias');
+      const joinDateEl = document.getElementById('join-date');
+      const friendsListEl = document.getElementById('friends-list');
+      const friendsTitle = document.getElementById('friends-title');
+      const friendsCard = document.getElementById('friends-card');
+
+      // fill user info
+      profilePic.src = resolveImgPath(user.profilePicture || 'placeholder.png');
+      profilePic.alt = (user.username || 'User') + ' avatar';
+      usernameEl.textContent = user.username || 'Unknown';
+      tagEl.textContent = '@' + (user.username || 'unknown');
+
+      const friendsCount = Array.isArray(user.friends) ? user.friends.length : 0;
+      statsEl.textContent = `${friendsCount} Friends · 0 Followers · 0 Following`;
+
+      aboutAlias.textContent = 'Alias: ' + (user.alias || '✶');
+      joinDateEl.textContent = user.joinDate || '—';
+
+      // friends list
+      friendsListEl.innerHTML = '';
+      if(!Array.isArray(user.friends) || user.friends.length === 0){
+        friendsTitle.textContent = 'Friends (0)';
+        //friendsCard.style.display = 'none'; // optional
+      } else {
+        friendsTitle.textContent = `Friends (${friendsCount})`;
+        user.friends.forEach(fid => {
+          const friendData = data[String(fid)];
+          if(!friendData || friendData.isDeleted) return;
+
+          const a = document.createElement('a');
+          a.href = `/users.html?id=${fid}`;
+          a.className = 'friend';
+          a.title = friendData.username || `User ${fid}`;
+
+          const img = document.createElement('img');
+          img.src = resolveImgPath(friendData.profilePicture || 'placeholder.png');
+          img.alt = friendData.username || `User ${fid}`;
+          img.onerror = function(){ this.onerror = null; this.src = '/placeholder.png'; };
+
+          const p = document.createElement('p');
+          p.textContent = friendData.username || `User ${fid}`;
+
+          a.appendChild(img);
+          a.appendChild(p);
+          friendsListEl.appendChild(a);
+        });
+      }
+    })
+    .catch(err => {
+      console.error('User fetch/build error:', err);
+      redirect500();
+    });
+})();
+</script>
