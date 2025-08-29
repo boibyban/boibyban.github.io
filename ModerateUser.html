@@ -150,6 +150,13 @@
           <div class="info-label">Internal Moderation Note</div>
           <textarea id="internal-note" style="min-height:60px"></textarea>
 
+          <div class="info-label">
+           <label>
+              <input type="checkbox" id="force-new-modal">
+                Force experimental modal redesign for not approved page (testing, unfinished)
+            </label>
+          </div>
+
           <button class="btn" id="submit-moderation">Submit</button>
           <br><div class="p">To scrub the username, go to Account management.</div>
         </div>
@@ -317,6 +324,7 @@ function renderEnforcementTable() {
 renderEnforcementTable();
 
 /* ---------- Submit moderation form ---------- */
+  
 document.getElementById("submit-moderation").addEventListener("click", () => {
   const checkedInput = document.querySelector('input[name="state"]:checked');
   const labelEl = checkedInput ? checkedInput.closest('label') : null;
@@ -367,10 +375,13 @@ document.getElementById("submit-moderation").addEventListener("click", () => {
   localStorage.setItem('ModPanelCaseID', newBan.caseID);
 
 
+// redirect logic
+// TODO: Add a redirect prompt dialog
+const useNewModal = document.getElementById("force-new-modal").checked;
+window.location.href = useNewModal ? 'not-approved-new.html' : 'not-approved.html';
 
-  // redirect to not-approved.html
-  window.location.href = 'not-approved.html';
 });
 </script>
 </body>
 </html>
+
