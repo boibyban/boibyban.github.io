@@ -15,7 +15,7 @@
     "isDeleted": false,
     "joinDate": "2024-05-12",
     "isAdmin": false,
-    "friends": [1, 4, 5],
+    "friends": [1, 4, 5, 7],
     "followers": 2,
     "following": 3
   },
@@ -25,7 +25,7 @@
     "isDeleted": false,
     "joinDate": "2024-09-04",
     "isAdmin": false,
-    "friends": [1, 5],
+    "friends": [1, 5, 7],
     "followers": 4,
     "following": 1
   },
@@ -49,7 +49,7 @@
     "followers": 2,
     "following": 1
   },
-    "6": {
+  "6": {
     "username": "tenuuni",
     "profilePicture": "/IMG_2753.jpeg",
     "isDeleted": false,
@@ -58,6 +58,19 @@
     "friends": [1],
     "followers": 1,
     "following": 0
+  },
+  "7": {
+    "username": "DoverPortAssTwaats",
+    "profilePicture": "/IMG_2753.jpeg",
+    "isDeleted": true,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [2, 3],
+    "followers": 0,
+    "following": 0
   }
 }
+
+
+  
 
