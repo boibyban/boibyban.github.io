@@ -94,7 +94,7 @@ header.dark .right .user-circle { background: #555; }
   <a href="#">Profile</a>
   <a href="#">Discover</a>
   <a href="#">Catalog</a>
-  <a href="#">Friends</a>
+  <a href="#">Acquaintances</a>
   <a href="#">Chat</a>
   <a href="#">Trade</a>
   <a href="#">Money</a>
@@ -155,7 +155,7 @@ async function loadUser() {
                     <h2>${displayName}</h2>
                     <div class="profile-stats">${handleName}</div>
                     <div class="profile-stats">
-                        ${user.friends.length} Friends · ${user.followers} Followers · ${user.following} Following
+                        ${user.friends.length} Acquaintances · ${user.followers} Followers · ${user.following} Following
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@ async function loadUser() {
 </div>
             <div class="card">
                 <div class="section">
-                    <h3>Friends (${user.friends.length})</h3>
+                    <h3>Acquaintances (${user.friends.length})</h3>
                     <div class="friends-list">
                         ${user.friends.map(fid => {
                             const f = data[fid];
