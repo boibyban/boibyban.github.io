@@ -106,11 +106,19 @@ header.dark .right .user-circle { background: #555; }
 <div id="profile" class="profile-container"></div>
 
 <script>
-// --- Config ---
-const CONFIG = {
-    deletedRedirect: 3,  // 1 = show page, 2 = redirect 404, 3 = redirect userDeleted
-    deletedUsernameMode: 2 // 1 = show username, 2 = "Account Deleted", 3 = "Banned"
+const config = {
+    deletedUserRedirect: 3,  // 1 = show page, 2 = 404, 3 = userDeleted
+    deletedUsernameMode: 2   // 1 = show name, 2 = "Account Deleted", 3 = "Banned"
 };
+
+function getDeletedName(user) {
+    switch (config.deletedUsernameMode) {
+        case 1: return user.username;
+        case 2: return "Account Deleted";
+        case 3: return "Banned";
+        default: return "Account Deleted";
+    }
+}
 
 async function loadUser() {
     try {
@@ -124,38 +132,28 @@ async function loadUser() {
         if (!res.ok) throw new Error("JSON load error");
         const data = await res.json();
         let user = null;
-
         if (id && data[id]) user = data[id];
         if (!user && name) {
             for (const [uid, u] of Object.entries(data)) {
                 if (u.username.toLowerCase() === name.toLowerCase()) { user = u; break; }
             }
         }
-
         if (!user) { window.location.href = "404.html"; return; }
 
         if (user.isDeleted && !forceShow) {
-            if (CONFIG.deletedRedirect === 2) { window.location.href = "404.html"; return; }
-            if (CONFIG.deletedRedirect === 3) { window.location.href = "userDeleted.html"; return; }
+            if (config.deletedUserRedirect === 2) { window.location.href = "404.html"; return; }
+            if (config.deletedUserRedirect === 3) { window.location.href = "userDeleted.html"; return; }
         }
 
-        // Deleted user username text
-        function getDeletedUsername(f) {
-            if (!f || !f.isDeleted) return f?.username ?? "Account Deleted";
-            switch (CONFIG.deletedUsernameMode) {
-                case 1: return f.username;
-                case 2: return "Account Deleted";
-                case 3: return "Banned";
-                default: return f.username;
-            }
-        }
+        const displayName = user.isDeleted ? getDeletedName(user) : user.username;
+        const handleName = "@" + displayName;
 
         document.getElementById("profile").innerHTML = `
             <div class="card profile-header">
                 <img src="${user.isDeleted ? "content-deleted.png" : user.profilePicture}">
                 <div class="profile-info">
-                    <h2>${user.isDeleted ? getDeletedUsername(user) : user.username}</h2>
-                    <div class="profile-stats">@${user.username}</div>
+                    <h2>${displayName}</h2>
+                    <div class="profile-stats">${handleName}</div>
                     <div class="profile-stats">
                         ${user.friends.length} Friends · ${user.followers} Followers · ${user.following} Following
                     </div>
@@ -164,7 +162,7 @@ async function loadUser() {
             <div class="card">
                 <div class="section">
                     <h3>About</h3>
-                    <p>${user.isDeleted ? "This account has been deleted." : "This user does not yet have a bio."}</p>
+                    <p>This user does not yet have a bio.</p>
                 </div>
             </div>
             <div class="card">
@@ -173,16 +171,16 @@ async function loadUser() {
                     <div class="friends-list">
                         ${user.friends.map(fid => {
                             const f = data[fid];
-                            const imgSrc = (!f || f.isDeleted) 
-                                ? "content-deleted.png"
-                                : f.profilePicture;
+                            const isDel = !f || f.isDeleted;
+                            const fName = isDel ? getDeletedName(f || {username:""}) : f.username;
+                            const fHandle = "@" + fName;
+                            const imgSrc = isDel ? "content-deleted.png" : f.profilePicture;
                             const link = `users.html?id=${fid}`;
-                            const uname = f ? getDeletedUsername(f) : "Account Deleted";
                             return `
                                 <div class="friend">
                                     <a href="${link}">
                                         <img src="${imgSrc}">
-                                        <p>${uname}</p>
+                                        <p>${fName}</p>
                                     </a>
                                 </div>`;
                         }).join("")}
