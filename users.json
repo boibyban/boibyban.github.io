@@ -209,14 +209,14 @@
     "bio": "i ask you, i tell you., what do you want."
   },
   "20": {
-    "username": "GuoLing",
-    "profilePicture": "/guo.jpg",
+    "username": "MATRIX8686",
+    "profilePicture": "/mtx.png",
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 6, 13, 14, 16, 17, 18],
     "followers": 3,
     "following": 2,
-    "bio": "i ask you, i tell you., what do you want."
+    "bio": ""
   }
 }
