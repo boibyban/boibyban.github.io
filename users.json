@@ -5,9 +5,9 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3],
-    "followers": 3,
-    "following": 2
+    "friends": [2, 3, 5],
+    "followers": 4,
+    "following": 3
   },
   "2": {
     "username": "JohnathanDoherty",
@@ -15,7 +15,7 @@
     "isDeleted": false,
     "joinDate": "2024-05-12",
     "isAdmin": false,
-    "friends": [1, 4],
+    "friends": [1, 4, 5],
     "followers": 2,
     "following": 3
   },
@@ -25,7 +25,7 @@
     "isDeleted": false,
     "joinDate": "2024-09-04",
     "isAdmin": false,
-    "friends": [1],
+    "friends": [1, 5],
     "followers": 4,
     "following": 1
   },
@@ -37,6 +37,16 @@
     "isAdmin": false,
     "friends": [2],
     "followers": 1,
+    "following": 2
+  },
+  "5": {
+    "username": "tinyspy",
+    "profilePicture": "/ogno.png",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": true,
+    "friends": [1, 2, 3],
+    "followers": 2,
     "following": 1
   }
 }
