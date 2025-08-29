@@ -5,7 +5,7 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8],
+    "friends": [2, 3, 5, 6, 8, 11],
     "followers": 5,
     "following": 5
   },
@@ -15,7 +15,7 @@
     "isDeleted": false,
     "joinDate": "2024-05-12",
     "isAdmin": false,
-    "friends": [1, 4, 5, 7, 8],
+    "friends": [1, 4, 5, 7, 8, 9, 10],
     "followers": 2,
     "following": 3
   },
@@ -25,7 +25,7 @@
     "isDeleted": false,
     "joinDate": "2024-09-04",
     "isAdmin": false,
-    "friends": [1, 5, 7],
+    "friends": [1, 5, 7, 9, 10],
     "followers": 4,
     "following": 1
   },
@@ -76,6 +76,36 @@
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 2],
+    "followers": 1,
+    "following": 0
+  },
+  "9": {
+    "username": "SHIT",
+    "profilePicture": "/dd395c7331270333a159f95412579632.png",
+    "isDeleted": true,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [2, 3],
+    "followers": 1,
+    "following": 0
+  },
+  "10": {
+    "username": "DICK",
+    "profilePicture": "/dd395c7331270333a159f95412579632.png",
+    "isDeleted": true,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [2, 3],
+    "followers": 1,
+    "following": 0
+  },
+  "11": {
+    "username": "Admin",
+    "profilePicture": "/boiby.png",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1, 5],
     "followers": 1,
     "following": 0
   }
