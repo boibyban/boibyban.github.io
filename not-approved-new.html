@@ -553,6 +553,17 @@ header.dark + #sidebar .premium-btn {
 
     <script src="/translations-en.js"></script>
     <script>
+		document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.querySelector('.modal');
+  const backdrop = document.querySelector('.modal-backdrop');
+
+  // Show modal on load
+  setTimeout(() => {
+    modal.classList.add('show');
+    backdrop.classList.add('show');
+  }, 50); // slight delay so CSS transition kicks in
+});
+
         function formatDate(dateInput) {
 	let date;
 	if (typeof dateInput === 'string') {
