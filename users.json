@@ -5,7 +5,7 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19],
+    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19, 20],
     "followers": 10,
     "following": 7,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
@@ -60,7 +60,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 13, 14, 17],
+    "friends": [1, 13, 14, 17, 20],
     "followers": 2,
     "following": 1,
     "bio": ""
@@ -137,7 +137,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 6, 14, 16, 17],
+    "friends": [1, 6, 14, 16, 17, 20],
     "followers": 2,
     "following": 2,
     "bio": "real jfk"
@@ -148,7 +148,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 6, 13, 16, 17],
+    "friends": [1, 6, 13, 16, 17, 20],
     "followers": 2,
     "following": 1,
     "bio": "i am not mary sue"
@@ -181,7 +181,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 6, 13, 14, 16, 18],
+    "friends": [1, 6, 13, 14, 16, 18, 20],
     "followers": 2,
     "following": 1,
     "bio": ""
@@ -192,7 +192,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [12, 15, 16, 17],
+    "friends": [12, 15, 16, 17, 20],
     "followers": 2,
     "following": 1,
     "bio": ""
@@ -204,6 +204,17 @@
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 5, 11],
+    "followers": 3,
+    "following": 2,
+    "bio": "i ask you, i tell you., what do you want."
+  },
+  "20": {
+    "username": "GuoLing",
+    "profilePicture": "/guo.jpg",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1, 6, 13, 14, 16, 17, 18],
     "followers": 3,
     "following": 2,
     "bio": "i ask you, i tell you., what do you want."
