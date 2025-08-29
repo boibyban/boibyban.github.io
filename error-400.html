@@ -326,7 +326,9 @@ header.dark + #sidebar .premium-btn {
             <p id="messageItem" style="max-width: 300px;margin-bottom: 100px!important;">400 | Bad Request</p>
         </div>
         
-        <button class="logout" style="margin-left: 0px!important"><a href="https://boibyban.github.io/home" class="logoutlink"></a>Home</button></div>
+        <button class="logout" onclick="if(document.referrer){history.back();}else{window.location.href='https://boibyban.github.io/home';}" style="margin-left: 0px!important">
+  Back
+</button>
 
 
 
