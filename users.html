@@ -149,7 +149,7 @@ async function loadUser() {
                         ${user.friends.map(fid => {
                             const f = data[fid];
                             const imgSrc = (!f || f.isDeleted) 
-                                ? 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><rect width="128" height="128" fill="%23ddd"/></svg>' 
+                                ? 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><rect width="128" height="128" fill="%23ddd"/>' 
                                 : f.profilePicture;
                             const link = (f && f.isDeleted) ? 'userDeleted.html' : `users.html?id=${fid}`;
                             const uname = f ? f.username : "Account Deleted";
