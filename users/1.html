@@ -1,368 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template - Boiby</title>
-    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
-    <style>
-* {
-    font-family: "Inter", serif;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<style>
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* Root variables */
+:root {
+    --color-bg: #f3f3f3;
+    --color-box-bg: #ffffff;
+    --color-border-light: #ccc;
+    --color-border-dark: #000;
+    --color-text: #111;
+
+    --font-family: "Inter", sans-serif;
+
+    --fw-light: 300;
+    --fw-regular: 400;
+    --fw-medium: 550;
+    --fw-semibold: 600;
+
+    --fs-small: 14px;
+    --fs-base: 16px;
+    --fs-heading: 22px;
+
+    --line-height: 1.35em;
 }
-        body {
-margin: 0!important;
-        }
-  header {
-    position: sticky;
-    box-sizing: border-box;
-    top: 0;
-    width: 100%;
-    height: 44px;
+
+/* Layout */
+body {
+    background-color: var(--color-bg);
+    font-family: var(--font-family);
+    line-height: var(--line-height);
+    margin: 0;
+    padding: 30px 0;
+}
+
+.profile-container {
+    width: 900px;
+    margin: auto;
+}
+
+/* Card layout */
+.card {
+    background: var(--color-box-bg);
+    border: 1px solid var(--color-border-light);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Header */
+.profile-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    background: #fff;
-    color: #000;
-    z-index: 1000;
-  }
+    gap: 15px;
+}
 
-  .left, .right {
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border-light);
+}
+
+.profile-info h2 {
+    margin: 0;
+    font-size: var(--fs-heading);
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+}
+
+.profile-info p {
+    margin: 2px 0 6px;
+    font-size: var(--fs-base);
+    font-weight: var(--fw-light);
+    color: var(--color-text);
+}
+
+.profile-stats {
+    margin-top: 5px;
+    font-size: var(--fs-small);
+    color: var(--color-text);
+}
+
+.profile-actions {
+    margin-top: 10px;
+}
+.profile-actions button {
+    padding: 6px 14px;
+    border: 1px solid var(--color-border-dark);
+    border-radius: 6px;
+    background: var(--color-box-bg);
+    cursor: pointer;
+    font-weight: var(--fw-regular);
+}
+
+/* Tabs */
+.profile-tabs {
     display: flex;
-    align-items: center;
-  }
-
-  .left img {
-    height: 32px;
-    margin-right: 32px;
-  }
-
-  .left span {
-    font-weight: bold;
-    margin-right: 32px;
-    font-size: 16px;
-  }
-
-  .left nav a {
-    margin-right: 32px;
-    text-decoration: none;
-    color: inherit;
-    font-size: 16px;
-  }
-
-  .right .user-circle {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #eee;
-    margin-right: 5px;
-  }
-
-  .right span, .right img {
-    font-size: 16px;
-    margin-left: 5px;
-    margin-right: 10px;
-  }
-
-  .right img {
-    width: 32px;
-    height: 32px;
-  }
-
-  /* Dark mode */
-  header.dark {
-    background: #1F1F1F;
-    color: #eee;
-  }
-
-  header.dark .left nav a {
-    color: #eee;
-  }
-
-  header.dark .right .user-circle {
-    background: #555;
-  }
-        .warning-margin {
-            margin: 10px auto 0 auto!important;
-            margin-bottom: 12px!important;
-        }
-        .logout {
-            min-width: 80px;
-        }
-        .reactivate {
-            margin: 14px auto 1px auto;
-        }
-        .evidence-image {
-            max-width: 640px;
-            height: auto;
-            max-height: 300px;
-            display: flex;
-            margin-top: 8px;
-            max-width: 100%;
-        }
-        .margins-for-img {
-            margin-top: 2px;
-            margin-left: 6px;
-            margin-right: 6px;
-        }
-        audio {
-            width: 100%;
-            max-width: 400px;
-            display: block;
-            margin-top: 8px;
-        }
-        .evidence-box {
-            margin-top: 12px!important;
-            padding: 12px;
-            display: block;
-            border-radius: 0px;
-        }
-        .inneritem {
-            display: block;
-            margin: 0px;
-        }
-        .violation-section {
-            margin-bottom: 0px;
-            padding-left: 2px;
-            padding-right: 2px;
-        }
-        .classic-violation {
-            margin-bottom: 20px;
-        }
-        .viol {
-            margin: 0px;
-        }
-        #evidenceheading {
-            margin: 0px;
-            line-height: 1em;
-            font-size: 18px;
-        }
-        #violationtype {
-            font-size: 14px;
-        }
-        .ban-box {
-            border-radius: 0px;
-            max-width: 840px !important;
-            box-sizing: border-box;
-        }
-        #abideRules {
-            line-height: 1;
-        }
-        .logoutlink {
-            color: #222;
-        }
-        #evidenceContainer {
-            border-left: 5px solid #c2c2c2;
-            padding-left: 12px;
-            margin-bottom: 14px;
-            margin-left: 1px;
-        }
-        .violation-text {
-            font-weight: 500;
-        }
-        .evidence-content {
-            font-weight: normal;
-            display: inline;
-        }
-        .agree-checkbox {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 15px 0 5px 0;
-            font-family: "Noto Sans", serif;
-            font-size: 14px;
-        }
-        .label {
-            font-family: "Inter", serif;
-            color: #111;
-            font-size: 14px;
-        }
-        .agree-checkbox input {
-            margin-right: 8px;
-        }
-        .reactivate[disabled] {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .buttons-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 10px;
-        }
-        #agreeContainer {
-            display: none;
-        }
-
-    /* Sidebar */
-#sidebar {
-  position: fixed;
-  top: 44px; /* below header */
-  left: 0;
-  width: 160px;
-  height: 100%;
-  background: #fff;
-  border-right: 1px solid #ddd;
-  padding: 16px;
-  box-sizing: border-box;
-  font-size: 16px;
-  display: none; /* default hidden for <1600px */
-  flex-direction: column;
-  gap: 12px;
-  z-index: 900;
+    margin-top: 20px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+.profile-tabs div {
+    margin-right: 20px;
+    padding-bottom: 6px;
+    cursor: pointer;
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+}
+.profile-tabs .active {
+    border-bottom: 2px solid var(--color-border-dark);
 }
 
-#sidebar a, #sidebar .premium-btn {
-  display: block;
-  text-decoration: none;
-  color: #000;
-  margin-bottom: 12px;
-  font-size: 16px;
+/* Sections */
+.section h3 {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    margin-bottom: 10px;
+}
+.section p {
+    font-size: var(--fs-small);
 }
 
-.premium-btn {
-  margin-top: auto;
-  padding: 8px;
-  border: none;
-  background: #ffd633;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.error-image {
-    float: right;
-}
-/* Dark mode */
-header.dark + #sidebar {
-  background: #1F1F1F;
-  border-right: 1px solid #444;
-}
-
-header.dark + #sidebar a,
-header.dark + #sidebar .premium-btn {
-  color: #eee;
-}
-
-/* Hamburger icon */
-#hamburger {
-  display: none;
-  font-size: 22px;
-  cursor: pointer;
-  margin-right: 12px;
-}
-
-/* Responsive */
-@media (max-width: 1599px) {
-  #sidebar {
-    display: none;
-  }
-  #hamburger {
-    display: block;
-  }
-}
-
-@media (min-width: 1600px) {
-  #sidebar {
+/* Friends */
+.friends-list {
     display: flex;
-  }
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
-#logo {
-  content: url("boibylongdark.png");
-  height: 36px; /* adjust as needed */
+.friend {
+    width: 70px;
+    text-align: center;
 }
-
-/* If .dark-mode is applied to body or header, swap to light logo */
-.dark-mode #logo {
-  content: url("boibylonglight.png");
+.friend img {
+    width: 70px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border-light);
 }
-
-    </style>
-<header id="header">
-  <div class="left">
-    <div id="hamburger">☰</div>
-    <img id="logo" src="boibylongdark.png" alt="Boiby Logo">
-    <nav>
-      <a href="#">Discover</a>
-      <a href="#">Catalog</a>
-      <a href="#">Develop</a>
-      <a href="#">Boibucks</a>
-    </nav>
-  </div>
-
-  <div class="right">
-    <div class="user-circle"></div>
-    <span id="username" style="font-weight:500;"></span>
-    <span> </span>
-    <img src="bgreen.png" alt="Boibucks">
-    <span></span>
-  </div>
-</header>
+.friend p {
+    font-size: var(--fs-small);
+    margin: 4px 0 0;
+}
+</style>
 </head>
 <body>
-    <div id="sidebar">
-        <a href="#">Home</a>
-        <a href="#">Profile</a>
-        <a href="#">Discover</a>
-        <a href="#">Catalog</a>
-        <a href="#">Friends</a>
-        <a href="#">Chat</a>
-        <a href="#">Trade</a>
-        <a href="#">Money</a>
-        <a href="#">Develop</a>
-        <a href="#">Premium</a>
 
-
-  <button style="display:none" class="premium-btn">Get Premium</button>
-
-</div>
 <div class="profile-container">
-    <!-- Header -->
-    <div class="profile-header">
+    <!-- Header Card -->
+    <div class="card profile-header">
         <img src="avatar.png" alt="Avatar">
         <div class="profile-info">
             <h2>ScriptTops</h2>
             <p>"Got Root? Didn’t think so!"</p>
+            <div class="profile-stats">
+                91 Friends · 124 Followers · 11 Following
+            </div>
             <div class="profile-actions">
-                <button>Join Game</button>
-                <button>Chat</button>
-                <button class="unfriend">Unfriend</button>
+                <button>Add Friend</button>
             </div>
         </div>
     </div>
 
     <!-- Tabs -->
-    <div class="profile-tabs">
-        <div class="active">About</div>
-        <div>Creations</div>
-    </div>
-
-    <!-- About Section -->
-    <div class="section">
-        <h3>About</h3>
-        <p>Alias: ✶</p>
-    </div>
-
-    <!-- Avatar Section -->
-    <div class="section">
-        <h3>Currently Wearing</h3>
-        <div class="avatar-section">
-            <div class="avatar-3d">[3D Avatar Here]</div>
-            <div class="avatar-items">
-                <div></div><div></div><div></div>
-                <div></div><div></div><div></div>
-            </div>
+    <div class="card">
+        <div class="profile-tabs">
+            <div class="active">About</div>
+            <div>Creations</div>
+        </div>
+        <div class="section">
+            <h3>About</h3>
+            <p>Alias: ✶</p>
         </div>
     </div>
 
     <!-- Friends -->
-    <div class="section">
-        <h3>Friends (3)</h3>
-        <div class="friends-list">
-            <div class="friend"><img src="f1.png"><p>User1</p></div>
-            <div class="friend"><img src="f2.png"><p>User2</p></div>
-            <div class="friend"><img src="f3.png"><p>User3</p></div>
+    <div class="card">
+        <div class="section">
+            <h3>Friends (4)</h3>
+            <div class="friends-list">
+                <div class="friend"><img src="f1.png"><p>User1</p></div>
+                <div class="friend"><img src="f2.png"><p>User2</p></div>
+                <div class="friend"><img src="f3.png"><p>User3</p></div>
+                <div class="friend"><img src="f4.png"><p>User4</p></div>
+            </div>
         </div>
     </div>
 </div>
+
+</body>
 </html>
