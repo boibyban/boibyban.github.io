@@ -189,7 +189,7 @@
   "18": {
     "username": "MOTHERFUCKER",
     "profilePicture": "/bgreen.png",
-    "isDeleted": false,
+    "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [12, 15, 16, 17, 20],
