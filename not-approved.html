@@ -333,6 +333,26 @@ header.dark + #sidebar .premium-btn {
         <button class="logout"><a href="https://boibyban.github.io" class="logoutlink"></a></button>
     </div>
     <script>
+(function() {
+    try {
+        const formDataRaw = localStorage.getItem('banFormData');
+        if (!formDataRaw) throw new Error();
+
+        const formData = JSON.parse(formDataRaw);
+        const requiredFields = ["state","banStartDate"];
+        const hasAllFields = requiredFields.every(field => formData.hasOwnProperty(field));
+        if (!hasAllFields) throw new Error();
+
+        const validStates = ["Warn","Ban1Day","Ban2Days","Ban3Days","Ban7Days","Ban14Days","Ban60Days","Ban6Months","Ban1Year","Delete"];
+        if (!validStates.includes(formData.state)) throw new Error();
+
+        window.__banFormData = formData;
+    } catch {
+        window.location.href = "/error-400.html";
+    }
+})();
+</script>
+<script>
   function updateLogo() {
     const logo = document.getElementById("logo");
     if (document.body.classList.contains("dark-mode")) {
