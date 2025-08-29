@@ -1,8 +1,8 @@
 <script>
 (function(){
   // Redirect helpers
-  const redirect500 = () => { window.location.href = '/error-500.html'; };
-  const redirect404 = () => { window.location.href = '/error-404.html'; };
+  const redirect500 = () => { window.location.href = '/500.html'; };
+  const redirect404 = () => { window.location.href = '/404.html'; };
   const redirectDeleted = () => { window.location.href = '/userDeleted.html'; };
 
   // Parse query params
@@ -29,7 +29,7 @@
       let user = null;
 
       if(idParam) {
-        user = data[String(idParam)];  // always treat ID as string
+        user = data[String(idParam)];  // always cast to string
       } else if(nameParam) {
         const key = Object.keys(data).find(k => 
           (data[k].username || '').toLowerCase() === nameParam.toLowerCase()
