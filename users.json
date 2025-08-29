@@ -6,7 +6,7 @@
     "joinDate": "2024-01-08",
     "isAdmin": true,
     "friends": [2, 3, 5, 6, 8, 11, 12],
-    "followers": 5,
+    "followers": 7,
     "following": 5,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
   },
@@ -62,7 +62,7 @@
     "isAdmin": false,
     "friends": [1],
     "followers": 1,
-    "following": 0,
+    "following": 1,
     "bio": ""
   },
   "7": {
@@ -79,7 +79,7 @@
   "8": {
     "username": "dabomb",
     "profilePicture": "/dd395c7331270333a159f95412579632.png",
-    "isDeleted": false,
+    "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 2, 12],
@@ -95,7 +95,7 @@
     "isAdmin": false,
     "friends": [2, 3, 12],
     "followers": 1,
-    "following": 0,
+    "following": 1,
     "bio": ""
   },
   "10": {
