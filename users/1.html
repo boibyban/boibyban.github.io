@@ -12,8 +12,6 @@
 :root {
     --color-bg: #f3f3f3;
     --color-box-bg: #ffffff;
-    --color-border-light: #ccc;
-    --color-border-dark: #000;
     --color-text: #111;
 
     --font-family: "Inter", sans-serif;
@@ -47,7 +45,6 @@ body {
 /* Card layout */
 .card {
     background: var(--color-box-bg);
-    border: 1px solid var(--color-border-light);
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -63,7 +60,6 @@ body {
     width: 100px;
     height: 100px;
     border-radius: 10px;
-    border: 1px solid var(--color-border-light);
 }
 
 .profile-info h2 {
@@ -91,7 +87,6 @@ body {
 }
 .profile-actions button {
     padding: 6px 14px;
-    border: 1px solid var(--color-border-dark);
     border-radius: 6px;
     background: var(--color-box-bg);
     cursor: pointer;
@@ -102,7 +97,6 @@ body {
 .profile-tabs {
     display: flex;
     margin-top: 20px;
-    border-bottom: 1px solid var(--color-border-light);
 }
 .profile-tabs div {
     margin-right: 20px;
@@ -112,7 +106,7 @@ body {
     color: var(--color-text);
 }
 .profile-tabs .active {
-    border-bottom: 2px solid var(--color-border-dark);
+    border-bottom: 2px solid var(--color-text);
 }
 
 /* Sections */
@@ -128,22 +122,23 @@ body {
 /* Friends */
 .friends-list {
     display: flex;
-    gap: 12px;
+    gap: 16px;
     flex-wrap: wrap;
     margin-top: 10px;
 }
 .friend {
-    width: 70px;
+    width: 128px;
     text-align: center;
 }
 .friend img {
-    width: 70px;
+    width: 128px;
+    height: 128px;
     border-radius: 6px;
-    border: 1px solid var(--color-border-light);
+    object-fit: cover;
 }
 .friend p {
     font-size: var(--fs-small);
-    margin: 4px 0 0;
+    margin: 6px 0 0;
 }
 </style>
 </head>
@@ -152,12 +147,12 @@ body {
 <div class="profile-container">
     <!-- Header Card -->
     <div class="card profile-header">
-        <img src="avatar.png" alt="Avatar">
+        <img src="boiby.png" alt="Avatar">
         <div class="profile-info">
-            <h2>ScriptTops</h2>
+            <h2>boiby</h2>
             <p>"Got Root? Didn’t think so!"</p>
             <div class="profile-stats">
-                91 Friends · 124 Followers · 11 Following
+                0 Friends · 0 Followers · 0 Following
             </div>
             <div class="profile-actions">
                 <button>Add Friend</button>
@@ -180,13 +175,18 @@ body {
     <!-- Friends -->
     <div class="card">
         <div class="section">
-            <h3>Friends (4)</h3>
+            <h3>Friends (0)</h3>
             <div class="friends-list">
-                <div class="friend"><img src="f1.png"><p>User1</p></div>
-                <div class="friend"><img src="f2.png"><p>User2</p></div>
-                <div class="friend"><img src="f3.png"><p>User3</p></div>
-                <div class="friend"><img src="f4.png"><p>User4</p></div>
+                <!-- Empty for now -->
             </div>
+        </div>
+    </div>
+
+    <!-- Join Date -->
+    <div class="card">
+        <div class="section">
+            <h3>Statistics</h3>
+            <p>Join Date: 1/8/2024</p>
         </div>
     </div>
 </div>
