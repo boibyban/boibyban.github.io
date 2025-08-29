@@ -106,9 +106,10 @@ header.dark .right .user-circle { background: #555; }
 <div id="profile" class="profile-container"></div>
 
 <script>
-// Config toggle
+// Config toggles
 const CONFIG = {
-    showDeletedUsernames: true // true = show real usernames, false = "Account Deleted"
+    showDeletedUsernames: true, // true = show real usernames, false = "Account Deleted"
+    deletedUserRedirect: 3       // 1=show page, 2=redirect 404, 3=redirect userDeleted
 };
 
 async function loadUser() {
@@ -116,10 +117,13 @@ async function loadUser() {
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
         const name = params.get("name");
+        const forceShow = params.get("show") === "true";
         if (!id && !name) { window.location.href = "404.html"; return; }
+
         const res = await fetch("users.json");
         if (!res.ok) throw new Error("JSON load error");
         const data = await res.json();
+
         let user = null;
         if (id && data[id]) user = data[id];
         if (!user && name) {
@@ -128,11 +132,17 @@ async function loadUser() {
             }
         }
         if (!user) { window.location.href = "404.html"; return; }
-        if (user.isDeleted) { window.location.href = "userDeleted.html"; return; }
+
+        // Handle deleted users
+        if (user.isDeleted && !forceShow) {
+            if (CONFIG.deletedUserRedirect === 2) { window.location.href = "404.html"; return; }
+            if (CONFIG.deletedUserRedirect === 3) { window.location.href = "userDeleted.html"; return; }
+            // if =1 → fall through and render page
+        }
 
         document.getElementById("profile").innerHTML = `
             <div class="card profile-header">
-                <img src="${user.profilePicture}">
+                <img src="${user.isDeleted ? "content-deleted.png" : user.profilePicture}">
                 <div class="profile-info">
                     <h2>${user.username}</h2>
                     <div class="profile-stats">@${user.username}</div>
@@ -144,7 +154,7 @@ async function loadUser() {
             <div class="card">
                 <div class="section">
                     <h3>About</h3>
-                    <p>This user does not yet have a bio.</p>
+                    <p>${user.isDeleted ? "This account has been deleted." : "This user does not yet have a bio."}</p>
                 </div>
             </div>
             <div class="card">
