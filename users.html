@@ -5,13 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>User Profile</title>
 <style>
-/* Same CSS as before */
 body {
     background-color: #f3f3f3;
     font-family: "Inter", sans-serif;
     line-height: 1.35em;
     margin: 0;
     padding: 30px 0;
+}
+header {
+    background: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
 }
 .profile-container {
     width: 900px;
@@ -54,7 +63,7 @@ body {
 .friend img {
     width: 128px;
     height: 128px;
-    border-radius: 6px;
+    border-radius: 100%;
     object-fit: cover;
 }
 .friend p {
@@ -64,12 +73,16 @@ body {
 </style>
 </head>
 <body>
+
+<header>
+    My Website Header
+</header>
+
 <div id="profile" class="profile-container"></div>
 
 <script>
 async function loadUser() {
     try {
-        // Parse query params
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
         const name = params.get("name");
@@ -79,19 +92,12 @@ async function loadUser() {
             return;
         }
 
-        // Fetch JSON
         const res = await fetch("users.json");
         if (!res.ok) throw new Error("JSON load error");
         const data = await res.json();
 
         let user = null;
-
-        // Search by ID
-        if (id && data[id]) {
-            user = data[id];
-        }
-
-        // Search by name
+        if (id && data[id]) user = data[id];
         if (!user && name) {
             for (const [uid, u] of Object.entries(data)) {
                 if (u.username.toLowerCase() === name.toLowerCase()) {
@@ -105,13 +111,11 @@ async function loadUser() {
             window.location.href = "404.html";
             return;
         }
-
         if (user.isDeleted) {
             window.location.href = "userDeleted.html";
             return;
         }
 
-        // Build profile
         document.getElementById("profile").innerHTML = `
             <div class="card profile-header">
                 <img src="${user.profilePicture}" alt="Avatar">
