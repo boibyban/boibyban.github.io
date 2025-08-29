@@ -106,6 +106,11 @@ header.dark .right .user-circle { background: #555; }
 <div id="profile" class="profile-container"></div>
 
 <script>
+// Config toggle
+const CONFIG = {
+    showDeletedUsernames: true // true = show real usernames, false = "Account Deleted"
+};
+
 async function loadUser() {
     try {
         const params = new URLSearchParams(window.location.search);
@@ -151,11 +156,9 @@ async function loadUser() {
                             const imgSrc = (!f || f.isDeleted) 
                                 ? 'content-deleted.png' 
                                 : f.profilePicture;
-                            const link = (!f || f.isDeleted) 
-                                ? 'userDeleted.html' 
-                                : `users.html?id=${fid}`;
-                            const uname = (!f || f.isDeleted) 
-                                ? "Account Deleted" 
+                            const link = `users.html?id=${fid}`;
+                            const uname = (!f || f.isDeleted)
+                                ? (CONFIG.showDeletedUsernames && f ? f.username : "Account Deleted")
                                 : f.username;
 
                             return `
