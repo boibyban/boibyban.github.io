@@ -5,9 +5,9 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16],
-    "followers": 8,
-    "following": 5,
+    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17],
+    "followers": 9,
+    "following": 6,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
   },
   "2": {
@@ -29,7 +29,7 @@
     "isAdmin": false,
     "friends": [1, 5, 7, 9, 10],
     "followers": 4,
-    "following": 1,
+    "following": 2,
     "bio": ""
   },
   "4": {
@@ -137,7 +137,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 6, 14, 16],
+    "friends": [1, 6, 14, 16, 17],
     "followers": 2,
     "following": 2,
     "bio": "real jfk"
@@ -148,7 +148,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 6, 13],
+    "friends": [1, 6, 13, 16, 17],
     "followers": 2,
     "following": 1,
     "bio": "i am not mary sue"
@@ -159,7 +159,7 @@
     "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 12, 16],
+    "friends": [1, 12, 14, 16],
     "followers": 1,
     "following": 2,
     "bio": "fatty"
@@ -171,8 +171,19 @@
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 5, 13, 15],
-    "followers": 1,
-    "following": 2,
+    "followers": 2,
+    "following": 3,
+    "bio": "asstwaats"
+  },
+  "17": {
+    "username": "Toronto",
+    "profilePicture": "/86fa26cbbbdaa665b74f1fa1f57dee3d.png",
+    "isDeleted": true,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1, 13, 14, 16],
+    "followers": 2,
+    "following": 1,
     "bio": "asstwaats"
   }
 }
