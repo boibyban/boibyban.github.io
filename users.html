@@ -66,14 +66,13 @@ header.dark .right .user-circle { background: #555; }
 .friend { width: 128px; text-align: center; }
 .friend img { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, #eee, #ccc); }
 .friend p { font-size: 14px; margin: 6px 0 0; }
-
 </style>
 </head>
 <body>
 <header id="header">
   <div class="left">
     <div id="hamburger">☰</div>
-    <img id="logo" src="boibylongdark.png" alt="Boiby Logo">
+    <img id="logo" src="boibylongdark.png">
     <nav>
       <a href="#">Discover</a>
       <a href="#">Catalog</a>
@@ -85,7 +84,7 @@ header.dark .right .user-circle { background: #555; }
     <div class="user-circle"></div>
     <span id="username" style="font-weight:500;">f</span>
     <span> </span>
-    <img src="bgreen.png" alt="Boibucks">
+    <img src="bgreen.png">
     <span>0</span>
   </div>
 </header>
@@ -124,10 +123,11 @@ async function loadUser() {
             }
         }
         if (!user) { window.location.href = "404.html"; return; }
+        if (user.isDeleted) { window.location.href = "userDeleted.html"; return; }
 
         document.getElementById("profile").innerHTML = `
             <div class="card profile-header">
-                <img src="${user.isDeleted ? 'data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect width=\'100\' height=\'100\' fill=\'%23ddd\'/></svg>' : user.profilePicture}" alt="Avatar">
+                <img src="${user.profilePicture}">
                 <div class="profile-info">
                     <h2>${user.username}</h2>
                     <div class="profile-stats">@${user.username}</div>
@@ -151,11 +151,12 @@ async function loadUser() {
                             const imgSrc = (!f || f.isDeleted) 
                                 ? 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><rect width="128" height="128" fill="%23ddd"/></svg>' 
                                 : f.profilePicture;
+                            const link = (f && f.isDeleted) ? 'userDeleted.html' : `users.html?id=${fid}`;
                             const uname = f ? f.username : "Deleted User";
                             return `
                                 <div class="friend">
-                                    <a href="users.html?id=${fid}">
-                                        <img src="${imgSrc}" alt="${uname}">
+                                    <a href="${link}">
+                                        <img src="${imgSrc}">
                                         <p>${uname}</p>
                                     </a>
                                 </div>`;
