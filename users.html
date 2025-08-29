@@ -160,11 +160,11 @@ async function loadUser() {
                 </div>
             </div>
             <div class="card">
-                <div class="section">
-                    <h3>About</h3>
-                    <p>This user does not yet have a bio.</p>
-                </div>
-            </div>
+    <div class="section">
+        <h3>About</h3>
+        <p>${user.bio && user.bio.trim() ? user.bio : "This user does not yet have a bio."}</p>
+    </div>
+</div>
             <div class="card">
                 <div class="section">
                     <h3>Friends (${user.friends.length})</h3>
