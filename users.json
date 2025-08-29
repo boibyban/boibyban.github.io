@@ -5,9 +5,9 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5],
+    "friends": [2, 3, 5, 6],
     "followers": 4,
-    "following": 3
+    "following": 4
   },
   "2": {
     "username": "JohnathanDoherty",
@@ -48,5 +48,16 @@
     "friends": [1, 2, 3],
     "followers": 2,
     "following": 1
+  },
+    "6": {
+    "username": "tenuuni",
+    "profilePicture": "/IMG_2753.jpeg",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1],
+    "followers": 1,
+    "following": 0
   }
 }
+
