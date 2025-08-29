@@ -5,9 +5,9 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17],
-    "followers": 9,
-    "following": 6,
+    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19],
+    "followers": 10,
+    "following": 7,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
   },
   "2": {
@@ -49,9 +49,9 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": true,
-    "friends": [1, 2, 3, 16],
-    "followers": 2,
-    "following": 1,
+    "friends": [1, 2, 3, 16, 19],
+    "followers": 4,
+    "following": 2,
     "bio": "Co-founder and CFO of Boiby Corporation."
   },
   "6": {
@@ -117,7 +117,7 @@
     "isAdmin": true,
     "friends": [1, 5],
     "followers": 4,
-    "following": 3,
+    "following": 4,
     "bio": ""
   },
   "12": {
@@ -196,5 +196,16 @@
     "followers": 2,
     "following": 1,
     "bio": ""
+  },
+  "19": {
+    "username": "GuoLing",
+    "profilePicture": "/guo.jpg",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1, 5, 11],
+    "followers": 3,
+    "following": 2,
+    "bio": "i ask you, i tell you., what do you want."
   }
 }
