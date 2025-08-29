@@ -150,6 +150,10 @@
           <div class="info-label">Internal Moderation Note</div>
           <textarea id="internal-note" style="min-height:60px"></textarea>
 
+          <div id="classicViolationContainer"></div>
+<button type="button" id="addClassicViolationBox">Add Violation</button>
+<br><br>
+
           <div class="info-label">
            <label>
               <input type="checkbox" id="force-new-modal">
@@ -204,9 +208,7 @@ function escapeHtml(str) {
 
 /* ---------- Redirect if no user ---------- */
 const username = getUsername();
-if (!username) {
-  window.location.href = "FindUser.html";
-}
+if (!username) window.location.href = "FindUser.html";
 
 /* ---------- Populate header/card ---------- */
 document.getElementById("moderate-username").innerHTML = (username || "") + ' <a href="UserInfo.html" class="small-link">home page</a>';
@@ -254,17 +256,16 @@ const presets = {
 };
 
 /* ---------- Preset -> autofill ---------- */
-document.getElementById("preset-message").addEventListener("change", (e) => {
+document.getElementById("preset-message").addEventListener("change", e => {
   const val = e.target.value;
   document.getElementById("message-body").value = presets[val] || "";
 });
 
-/* ---------- Render enforcement table and state ---------- */
+/* ---------- Enforcement Table ---------- */
 function renderEnforcementTable() {
   const container = document.getElementById("recent-actions-container");
   const current = safeParse('ModPanelBanData');
   const prevCount = parseInt(localStorage.getItem('ModPanelPrevCount') || '0', 10);
-
   const rows = [];
   if (current) rows.push(current);
   for (let i = 1; i <= prevCount; i++) {
@@ -272,64 +273,76 @@ function renderEnforcementTable() {
     if (p) rows.push(p);
   }
 
-  // update account state display
   const accountStateEl = document.getElementById('account-state');
-  if (current && current.state) {
+  if (current && current.state && current.state !== 'None') {
     accountStateEl.textContent = current.state;
-    // any non-None state becomes red
-    if (current.state && current.state !== 'None') {
-      accountStateEl.classList.remove('normal');
-      accountStateEl.classList.add('red');
-    } else {
-      accountStateEl.classList.remove('red');
-      accountStateEl.classList.add('normal');
-    }
+    accountStateEl.classList.remove('normal'); accountStateEl.classList.add('red');
   } else {
     accountStateEl.textContent = 'None';
-    accountStateEl.classList.remove('red');
-    accountStateEl.classList.add('normal');
+    accountStateEl.classList.remove('red'); accountStateEl.classList.add('normal');
   }
 
-  if (rows.length === 0) {
-    container.innerHTML = '<p>No recent enforcement</p>';
-    return;
-  }
+  if (!rows.length) { container.innerHTML = '<p>No recent enforcement</p>'; return; }
 
-  let html = `<table class="enforcement-table">
-    <thead>
-      <tr>
-        <th>Punishment</th>
-        <th>Date</th>
-        <th>Note</th>
-        <th>Internal Note</th>
-        <th>Case ID</th>
-      </tr>
-    </thead>
-    <tbody>`;
+  let html = `<table class="enforcement-table"><thead><tr><th>Punishment</th><th>Date</th><th>Note</th><th>Internal Note</th><th>Case ID</th></tr></thead><tbody>`;
   rows.forEach(r => {
-    const internal = (r.internalNote && r.internalNote.trim().length) ? escapeHtml(r.internalNote) : '-';
-    html += `<tr>
-      <td>${escapeHtml(r.state)}</td>
-      <td>${escapeHtml(r.banStartDate)}</td>
-      <td>${escapeHtml(r.customNote)}</td>
-      <td>${internal}</td>
-      <td>${escapeHtml(r.caseID)}</td>
-    </tr>`;
+    const internal = r.internalNote && r.internalNote.trim() ? escapeHtml(r.internalNote) : '-';
+    html += `<tr><td>${escapeHtml(r.state)}</td><td>${escapeHtml(r.banStartDate)}</td><td>${escapeHtml(r.customNote)}</td><td>${internal}</td><td>${escapeHtml(r.caseID)}</td></tr>`;
   });
-  html += `</tbody></table>`;
+  html += '</tbody></table>';
   container.innerHTML = html;
 }
-
-/* initial render */
 renderEnforcementTable();
 
-/* ---------- Submit moderation form ---------- */
-  
-document.getElementById("submit-moderation").addEventListener("click", () => {
+/* ---------- Classic Violation Management ---------- */
+let classicViolationCount = 0;
+document.getElementById('addClassicViolationBox').addEventListener('click', () => {
+  classicViolationCount++;
+  const container = document.getElementById('classicViolationContainer');
+  const box = document.createElement('div');
+  box.className = 'evidence-box';
+  box.innerHTML = `
+    <button type="button" class="remove-box">Remove Box</button>
+    <label>Violation Type:</label>
+    <select id="violationType${classicViolationCount}" class="violationType" required>
+      <option value="">-- Select --</option>
+      <option value="General/Chat">General/Chat</option>
+      <option value="Image">Image</option>
+      <option value="Audio">Audio</option>
+      <option value="Model">Model</option>
+      <option value="UGC Bundle">UGC Bundle</option>
+      <option value="UGC Accessory">UGC Accessory</option>
+      <option value="Username">Username</option>
+    </select><br><br>
+    <label>Reason:</label>
+    <select id="classicReason${classicViolationCount}" class="classicReason" required>
+      <option value="">-- Select --</option>
+      ${Object.keys(presets).map(r => `<option value="${r}">${r}</option>`).join('')}
+    </select><br><br>
+    <div id="evidenceInput${classicViolationCount}">
+      <label>Evidence:</label><input type="text" id="evidence${classicViolationCount}" class="evidence"><br><br>
+    </div>
+    <div id="fileInput${classicViolationCount}" style="display:none">
+      <label>Upload File:</label><input type="file" id="file${classicViolationCount}" class="file"><br><br>
+    </div>
+  `;
+  container.appendChild(box);
+
+  box.querySelector('.remove-box').addEventListener('click', () => box.remove());
+
+  box.querySelector('.violationType').addEventListener('change', e => {
+    const val = e.target.value;
+    box.querySelector(`#fileInput${classicViolationCount}`).style.display = val === "Image" || val === "Audio" ? 'block' : 'none';
+    box.querySelector(`#evidenceInput${classicViolationCount}`).style.display = val === "Image" || val === "Audio" ? 'none' : 'block';
+  });
+});
+
+/* ---------- Submit Moderation ---------- */
+document.getElementById("submit-moderation").addEventListener("click", async () => {
   const checkedInput = document.querySelector('input[name="state"]:checked');
   const labelEl = checkedInput ? checkedInput.closest('label') : null;
   const selectedStateText = labelEl ? labelEl.textContent.trim() : 'Warn';
-  const stateKey = selectedStateText.replace(/\s+/g, ""); // e.g. Ban1Day
+  const stateKey = selectedStateText.replace(/\s+/g, "");
 
   const customNote = document.getElementById("message-body").value || "No note";
   const internalNote = document.getElementById("internal-note").value || "";
@@ -350,38 +363,48 @@ document.getElementById("submit-moderation").addEventListener("click", () => {
     caseID: generateUUID()
   };
 
-  // SHIFT existing data:
+  // Collect Classic Violations
+  const boxes = document.querySelectorAll('#classicViolationContainer .evidence-box');
+  for (const box of boxes) {
+    const type = box.querySelector('.violationType').value;
+    const reason = box.querySelector('.classicReason').value;
+    let evidence = box.querySelector('.evidence') ? box.querySelector('.evidence').value : "";
+    const fileInput = box.querySelector('.file');
+    if ((type === "Image" || type === "Audio") && fileInput && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      evidence = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+    newBan.classicViolations.push({violationType: type, reason, evidence});
+  }
+
+  // Shift existing ban data
   const existing = safeParse('ModPanelBanData');
   if (existing) {
     let prevCount = parseInt(localStorage.getItem('ModPanelPrevCount') || '0', 10);
-
-    // shift previousBanData i -> i+1 (reverse order)
     for (let i = prevCount; i >= 1; i--) {
-      const fromKey = `previousBanData${i}`;
-      const toKey = `previousBanData${i+1}`;
+      const fromKey = `previousBanData${i}`, toKey = `previousBanData${i+1}`;
       const val = localStorage.getItem(fromKey);
       if (val !== null) localStorage.setItem(toKey, val);
     }
-
-    // move current to previousBanData1
     localStorage.setItem('previousBanData1', JSON.stringify(existing));
-    prevCount = prevCount + 1;
-    localStorage.setItem('ModPanelPrevCount', String(prevCount));
+    localStorage.setItem('ModPanelPrevCount', String(prevCount + 1));
   }
 
-  // Save new as current and persist
+  // Save new ban
   saveJSON('ModPanelBanData', newBan);
   saveJSON('banFormData', newBan);
   localStorage.setItem('ModPanelCaseID', newBan.caseID);
 
-
-// redirect logic
-// TODO: Add a redirect prompt dialog
-const useNewModal = document.getElementById("force-new-modal").checked;
-window.location.href = useNewModal ? 'not-approved-new.html' : 'not-approved.html';
-
+  // Redirect to modal page
+  const useNewModal = document.getElementById("force-new-modal").checked;
+  window.location.href = useNewModal ? 'not-approved-new.html' : 'not-approved.html';
 });
 </script>
 </body>
 </html>
+
 
