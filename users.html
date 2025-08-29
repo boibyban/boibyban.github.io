@@ -139,7 +139,7 @@ async function loadUser() {
             <div class="card">
                 <div class="section">
                     <h3>About</h3>
-                    <p>Alias: ✶</p>
+                    <p>This user does not yet have a bio.</p>
                 </div>
             </div>
             <div class="card">
@@ -152,7 +152,7 @@ async function loadUser() {
                                 ? 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><rect width="128" height="128" fill="%23ddd"/></svg>' 
                                 : f.profilePicture;
                             const link = (f && f.isDeleted) ? 'userDeleted.html' : `users.html?id=${fid}`;
-                            const uname = f ? f.username : "Deleted User";
+                            const uname = f ? f.username : "Account Deleted";
                             return `
                                 <div class="friend">
                                     <a href="${link}">
