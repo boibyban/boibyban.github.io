@@ -18,7 +18,7 @@
     "isDeleted": false,
     "joinDate": "2024-05-12",
     "isAdmin": false,
-    "friends": [1, 4, 5, 7, 8, 9, 10],
+    "friends": [1, 4, 5, 7, 8, 9, 10, 24],
     "followers": 2,
     "following": 3,
     "bio": ""
@@ -30,7 +30,7 @@
     "isDeleted": false,
     "joinDate": "2024-09-04",
     "isAdmin": false,
-    "friends": [1, 5, 7, 9, 10],
+    "friends": [1, 5, 7, 9, 10, 24],
     "followers": 4,
     "following": 2,
     "bio": ""
@@ -246,7 +246,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-30",
     "isAdmin": false,
-    "friends": [1, 5, 19],
+    "friends": [1, 5, 19, 24],
     "followers": 2,
     "following": 0,
     "bio": "you stupid"
@@ -270,9 +270,21 @@
     "isDeleted": false,
     "joinDate": "2025-08-30",
     "isAdmin": false,
-    "friends": [1, 8, 12, 15],
-    "followers": 22,
+    "friends": [1, 8, 12, 15, 24],
+    "followers": 3,
     "following": 0,
     "bio": ""
+  },
+  "24": {
+    "username": "BanSpeedrunAccount",
+    "displayName": "BanMyAccount",
+    "profilePicture": "/content-deleted.png",
+    "isDeleted": true,
+    "joinDate": "2025-08-30",
+    "isAdmin": false,
+    "friends": [2, 3, 21, 23],
+    "followers": 0,
+    "following": 1,
+    "bio": "FUCK YOU ALL BAN MY ACCOUNT"
   }
 }
