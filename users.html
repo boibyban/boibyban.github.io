@@ -65,41 +65,38 @@ header.dark .right .user-circle { background: #555; }
 
 .friends-list { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
 .friend { width: 115px; text-align: center; }
-.friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, #eee, #ccc); }
+.friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; }
 .friend p { font-size: 14px; margin: 6px 0 0; }
 
 .search-results { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
 
-/* New unified user-card style matching your snippet */
+/* Unified user-card style */
 .user-card {
-  max-width: 300px;
-  background: #fff;
-  border-radius: 6px;
+  width: 300px;
+  background: none;
   padding: 12px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
-}
-.user-card.inactive {
-  background: #ddd;
+  box-shadow: none;
+  border-radius: 0;
 }
 .user-card img {
   width: 96px;
   height: 96px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 .user-card .profile-info { flex: 1; }
 .user-card .profile-info h2 { font-size: 20px; margin: 0; }
 .user-card .profile-info .profile-stats { margin-top: 6px; color: #444; font-size: 13px; }
-.user-card .inactive-line { margin-top: 6px; font-size: 12px; color: #555; }
 
-/* Keep old small friend layout as fallback for very tight spaces */
-.user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; }
+/* Small card for main friends list */
+.user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; background: none; }
 .user-card.small img { width: 115px; height: 115px; border-radius: 50%; }
 .user-card.small .profile-info h2 { font-size: 14px; margin-top: 8px; }
+
 .no-results-centered { text-align: center; padding: 40px 0; font-size: 16px; color: #666; }
 </style>
 </head>
@@ -168,16 +165,22 @@ function escapeHtml(s) {
     });
 }
 
+let loadedUser = null;
+let allData = null;
+
 async function loadUser() {
     try {
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
         const name = params.get("name");
         const forceShow = params.get("show") === "true";
+        const viewFriends = params.has("viewfriends");
+
         if (!id && !name) { window.location.href = "404.html"; return; }
         const res = await fetch("users.json");
         if (!res.ok) { window.location.href = "500.html"; return; }
         const data = await res.json();
+        allData = data;
         let user = null;
         if (id && data[id]) user = data[id];
         if (!user && name) {
@@ -190,6 +193,32 @@ async function loadUser() {
             if (config.deletedUserRedirect === 2) { window.location.href = "404.html"; return; }
             if (config.deletedUserRedirect === 3) { window.location.href = "userDeleted.html"; return; }
         }
+        loadedUser = user;
+
+        if (viewFriends) {
+            const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
+            const handle = "@" + (user.username || "");
+            const friends = Array.isArray(user.friends) ? user.friends : [];
+            if (!friends.length) {
+                document.getElementById("profile").innerHTML =
+                  '<div class="card"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='no-results-centered'>This user has no acquaintances.</div></div>";
+                return;
+            }
+            const html = '<div class="card"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='search-results'>" +
+                friends.map(fid => {
+                    const f = data[fid];
+                    const isDel = !f || f.isDeleted;
+                    const fName = isDel ? getDeletedName(f || {username:""}) : getDisplayName(f);
+                    const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
+                    const link = 'users.html?id=' + encodeURIComponent(fid);
+                    const inactiveClass = isDel ? ' inactive' : '';
+                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">@' + escapeHtml(f ? f.username || "" : "") + '</div></div></a></div>';
+                }).join('') +
+                '</div></div>';
+            document.getElementById("profile").innerHTML = html;
+            return;
+        }
+
         const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
         const handleName = "@" + (user.username || "");
         const profileHtml =
@@ -208,20 +237,19 @@ async function loadUser() {
                 '</div>' +
             '</div>' +
             '<div class="card">' +
-                '<div class="section">' +
+                '<div class="section" style="display:flex;align-items:center;justify-content:space-between;">' +
                     '<h3>Acquaintances (' + (Array.isArray(user.friends) ? user.friends.length : 0) + ')</h3>' +
-                    '<div class="friends-list">' +
-                        (Array.isArray(user.friends) ? user.friends.map(fid => {
-                            const f = data[fid];
-                            const isDel = !f || f.isDeleted;
-                            const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
-                            const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
-                            const link = 'users.html?id=' + encodeURIComponent(fid);
-                            const inactiveClass = isDel ? ' inactive' : '';
-                            const inactiveLine = isDel ? '<div class="inactive-line">Inactive</div>' : '';
-                            return '<div class="user-card small' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2>' + inactiveLine + '</div></a></div>';
-                        }).join('') : '') +
-                    '</div>' +
+                    '<button onclick="viewAllFriends()" style="padding:6px 10px;border:none;background:#eee;border-radius:4px;cursor:pointer;">View All Acquaintances</button>' +
+                '</div>' +
+                '<div class="friends-list">' +
+                    (Array.isArray(user.friends) ? user.friends.map(fid => {
+                        const f = data[fid];
+                        const isDel = !f || f.isDeleted;
+                        const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
+                        const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
+                        const link = 'users.html?id=' + encodeURIComponent(fid);
+                        return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2></div></a></div>';
+                    }).join('') : '') +
                 '</div>' +
             '</div>' +
             '<div class="card">' +
@@ -235,6 +263,12 @@ async function loadUser() {
         console.error(err);
         window.location.href = "500.html";
     }
+}
+
+function viewAllFriends() {
+    const url = new URL(window.location.href);
+    url.searchParams.set("viewfriends", "true");
+    window.location.href = url.toString();
 }
 
 async function runSearch(q) {
@@ -253,17 +287,16 @@ async function runSearch(q) {
             document.getElementById('profile').innerHTML = '<div class="no-results-centered">No results found</div>';
             return;
         }
-        const html = '<div class="card"><div class="search-results">' +
+        const html = '<div class="search-results">' +
             results.map(([id, user]) => {
                 const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
                 const handle = '@' + (user.username || '');
                 const img = user.isDeleted ? 'content-deleted.png' : (user.profilePicture || 'content-deleted.png');
                 const link = 'users.html?id=' + encodeURIComponent(id);
                 const inactiveClass = user.isDeleted ? ' inactive' : '';
-                const inactiveLine = user.isDeleted ? '<div class="inactive-line">Inactive</div>' : '';
-                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
+                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div></div></a></div>';
             }).join('') +
-            '</div></div>';
+            '</div>';
         document.getElementById('profile').innerHTML = html;
     } catch (err) {
         console.error(err);
