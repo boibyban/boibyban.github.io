@@ -58,6 +58,7 @@ header.dark .right .user-circle { background: #555; }
 
 .profile-container { width: 900px; margin: 60px auto auto auto; }
 .card { background: #fff; padding: 20px; margin-bottom: 20px; }
+.card.no-bg { background: none; padding: 10px 0 20px 0; box-shadow: none; } /* used for view all acquaintances so there's no white behind items */
 .profile-header { display: flex; align-items: center; gap: 15px; }
 .profile-header img { width: 120px; height: 120px; border-radius: 100%; object-fit: cover; background: linear-gradient(135deg,#eee,#ddd); }
 .profile-info h2 { margin: 0; font-size: 22px; font-weight: 550; }
@@ -68,32 +69,47 @@ header.dark .right .user-circle { background: #555; }
 .friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; }
 .friend p { font-size: 14px; margin: 6px 0 0; }
 
-.search-results { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+.search-results { /* used for search and viewfriends */
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
 
-/* Unified user-card style */
 .user-card {
   width: 300px;
-  background: none;
+  background: #fff;        /* active/undeleted cards are white */
   padding: 12px;
   display: flex;
-  gap: 10px;
+  gap: 10px;               /* 10px gap between image and text */
   align-items: center;
   box-shadow: none;
-  border-radius: 0;
+  border-radius: 0;       
+  box-sizing: border-box;
+}
+.user-card.inactive {
+  background: #ddd;        /* grey background for inactive (deleted) in search/viewfriends */
 }
 .user-card img {
   width: 96px;
   height: 96px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 50%;     
   flex-shrink: 0;
 }
-.user-card .profile-info { flex: 1; }
+.user-card .profile-info { 
+  flex: 1;
+  margin-left: 15px;       
+}
+.user-card.small .profile-info { margin-left: 0; } /* override for small stacked cards (main friend list) */
+
 .user-card .profile-info h2 { font-size: 20px; margin: 0; }
 .user-card .profile-info .profile-stats { margin-top: 6px; color: #444; font-size: 13px; }
+.user-card .inactive-line { margin-top: 6px; font-size: 12px; color: #555; }
 
 /* Small card for main friends list */
-.user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; background: none; }
+.user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; background: none; gap: 8px; padding: 6px; }
 .user-card.small img { width: 115px; height: 115px; border-radius: 50%; }
 .user-card.small .profile-info h2 { font-size: 14px; margin-top: 8px; }
 
@@ -201,18 +217,19 @@ async function loadUser() {
             const friends = Array.isArray(user.friends) ? user.friends : [];
             if (!friends.length) {
                 document.getElementById("profile").innerHTML =
-                  '<div class="card"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='no-results-centered'>This user has no acquaintances.</div></div>";
+                  '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='no-results-centered'>This user has no acquaintances.</div></div>";
                 return;
             }
-            const html = '<div class="card"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='search-results'>" +
+            const html = '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='search-results'>" +
                 friends.map(fid => {
                     const f = data[fid];
                     const isDel = !f || f.isDeleted;
                     const fName = isDel ? getDeletedName(f || {username:""}) : getDisplayName(f);
-                    const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
+                    const imgSrc = isDel ? "content-deleted.png" : (f && f.profilePicture ? f.profilePicture : "content-deleted.png");
                     const link = 'users.html?id=' + encodeURIComponent(fid);
                     const inactiveClass = isDel ? ' inactive' : '';
-                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">@' + escapeHtml(f ? f.username || "" : "") + '</div></div></a></div>';
+                    const inactiveLine = isDel ? '<div class="inactive-line">Inactive</div>' : '';
+                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">@' + escapeHtml(f && f.username ? f.username : "") + '</div>' + inactiveLine + '</div></a></div>';
                 }).join('') +
                 '</div></div>';
             document.getElementById("profile").innerHTML = html;
@@ -294,7 +311,8 @@ async function runSearch(q) {
                 const img = user.isDeleted ? 'content-deleted.png' : (user.profilePicture || 'content-deleted.png');
                 const link = 'users.html?id=' + encodeURIComponent(id);
                 const inactiveClass = user.isDeleted ? ' inactive' : '';
-                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div></div></a></div>';
+                const inactiveLine = user.isDeleted ? '<div class="inactive-line">Inactive</div>' : '';
+                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
             }).join('') +
             '</div>';
         document.getElementById('profile').innerHTML = html;
