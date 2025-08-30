@@ -5,7 +5,7 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22],
+    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23],
     "followers": 10,
     "following": 9,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
@@ -82,7 +82,7 @@
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 2, 12],
+    "friends": [1, 2, 12, 23],
     "followers": 1,
     "following": 1,
     "bio": ""
@@ -126,7 +126,7 @@
     "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 4, 8, 9, 15, 18],
+    "friends": [1, 4, 8, 9, 15, 18m 23],
     "followers": 2,
     "following": 2,
     "bio": "please be aware that this is a ban experiment account. the account will be banned almost 24/7, so if it shows up inactive, its because of a permanent ban. thanks for understanding!!"
@@ -159,7 +159,7 @@
     "isDeleted": true,
     "joinDate": "2025-08-29",
     "isAdmin": false,
-    "friends": [1, 12, 14, 16, 18],
+    "friends": [1, 12, 14, 16, 18, 23],
     "followers": 1,
     "following": 2,
     "bio": "fatty"
@@ -223,7 +223,7 @@
     "username": "Whats9Plus10",
     "profilePicture": "/ab67616d00001e021e03f2bcbe33c3b733820ef3.jpg",
     "isDeleted": false,
-    "joinDate": "2025-08-29",
+    "joinDate": "2025-08-30",
     "isAdmin": false,
     "friends": [1, 5, 19],
     "followers": 2,
@@ -234,9 +234,20 @@
     "username": "mma",
     "profilePicture": "/dd395c7331270333a159f95412579632.png",
     "isDeleted": false,
-    "joinDate": "2025-08-29",
+    "joinDate": "2025-08-30",
     "isAdmin": false,
     "friends": [1],
+    "followers": 1,
+    "following": 0,
+    "bio": ""
+  },
+  "23": {
+    "username": "Explode",
+    "profilePicture": "https://boiby.neocities.org/pfps/explode.png",
+    "isDeleted": false,
+    "joinDate": "2025-08-30",
+    "isAdmin": false,
+    "friends": [1, 8, 12, 15],
     "followers": 1,
     "following": 0,
     "bio": ""
