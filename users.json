@@ -219,7 +219,7 @@
     "username": "GuoLing",
     "displayName": "",
     "profilePicture": "/guo.jpg",
-    "isDeleted": true,
+    "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 5, 11, 21],
