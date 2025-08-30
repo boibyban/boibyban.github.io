@@ -1,10 +1,13 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boiby</title>
+    <title>Suspended</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
 		
-    <style>
+     <style>
 .ban-modal {
   max-width: 600px;
   width: 100%;
@@ -483,7 +486,7 @@ header.dark + #sidebar .premium-btn {
         <a href="#">Profile</a>
         <a href="#">Discover</a>
         <a href="#">Catalog</a>
-        <a href="#">Acquaintances</a>
+        <a href="#">Friends</a>
         <a href="#">Chat</a>
         <a href="#">Trade</a>
         <a href="#">Money</a>
@@ -495,37 +498,29 @@ header.dark + #sidebar .premium-btn {
 
 
 </div>
-	<div class="modal-backdrop show"></div>	
-    <div class="modal show" style="
-    max-width: 95%;
-">
-        <div class="modal-header" id="modalHeader"><svg class="permanent-ban-icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"></svg>
-            
-            <h2 id="banHeader">Banned</h2>
+	<div class="modal-backdrop"></div>	
+    <div class="modal">
+        <div class="modal-header" id="modalHeader">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 5.99 19.53 19H4.47L12 5.99M12 2 1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"/>
+            </svg>
+            <h2 id="banHeader">Warning</h2>
         </div>
         
         <div id="mainContent">
-            <p id="rulesMessage" class="permanent-ban-message">We banned your account because of repeated or serious rule-breaking.</p>
+            <p id="rulesMessage" class="rules-broken">Your behaviour broke the rules of Boiby.</p>
             
             <p class="latest-activity" id="latestActivity">Latest activity we reviewed</p>
             
             <div class="evidence-container">
-                <div id="evidenceContainer">
-        <div style="margin-bottom: 16px;">
-            <p>Review date<b id="reviewedDate">August 30 2025 at 12:39 PM</b></p>
-        </div>
-    
-            <div style="margin-bottom: 16px;">
-                <p>Moderator note<b id="moderatorNote">Adult content is not tolerated on Boiby!</b></p>
-            </div>
-        </div>
+                <div id="evidenceContainer"></div>
             </div>
 			<p id="interventionIdItem" class="interventionId" style="
     color: #ddd;
     font-weight: 400;
     font-size: 15px;
     margin-top: 6px;
-">3f275c03-94fe-4c0f-af13-61cf104b75d9</p>
+">22ceb0a8-83e2-400d-95e6-a0d92af3f402</p>
 			<div class="mistake-box" style="display:none; margin-bottom:64px; margin-top:20px;">
     <b class="makeAMistake" style="padding-bottom: 12px;">
         Did we make a mistake?
@@ -562,13 +557,14 @@ header.dark + #sidebar .premium-btn {
                     <input type="checkbox" id="reactivateAgreeCheckbox">
                     <label for="reactivateAgreeCheckbox">I agree to know and follow the rules</label>
                 </div>
-                <button id="reactivateAccountButton" class="modal-button reactivate-button" disabled="">
+                <button id="reactivateAccountButton" class="modal-button reactivate-button" disabled>
                     Re-activate Account
                 </button>
             </div>
         </div>
         
         <div class="modal-footer" id="actionButtons" style="margin-top:72px">
+            <button id="continueButton" class="modal-button continue-button">Continue</button>
             <a href="https://boibyban.github.io" class="modal-button logout-button">Logout</a>
         </div>
     </div>
@@ -954,6 +950,5 @@ const evidenceContainer = document.querySelector('.evidence-container');
 
 });
     </script>
-
-
-</body></html>
+</body>
+</html>
