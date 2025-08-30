@@ -1,132 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>User Profile</title>
 <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
 <style>
-* { font-family: "Inter", serif; }
-body { margin: 0!important; }
-header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    background: #fff;
-    color: #000;
-    z-index: 1000;
-}
-.left, .right { display: flex; align-items: center; }
-.left img { height: 32px; margin-right: 32px; }
-.left span { font-weight: bold; margin-right: 32px; font-size: 16px; }
-.left nav a { margin-right: 32px; text-decoration: none; color: inherit; font-size: 16px; }
-.right .user-circle { width: 32px; height: 32px; border-radius: 50%; background: #eee; margin-right: 5px; }
-.right span, .right img { font-size: 16px; margin-left: 5px; margin-right: 10px; }
-.right img { width: 32px; height: 32px; }
-header.dark { background: #1F1F1F; color: #eee; }
-header.dark .left nav a { color: #eee; }
-header.dark .right .user-circle { background: #555; }
-
-#sidebar {
-  position: fixed;
-  top: 44px;
-  left: 0;
-  width: 160px;
-  height: 100%;
-  background: #fff;
-  border-right: 1px solid #ddd;
-  padding: 16px;
-  box-sizing: border-box;
-  font-size: 16px;
-  display: none;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 900;
-}
-#sidebar a, #sidebar .premium-btn { display: block; text-decoration: none; color: #000; margin-bottom: 12px; font-size: 16px; }
-.premium-btn { margin-top: auto; padding: 8px; border: none; background: #ffd633; border-radius: 4px; cursor: pointer; font-weight: 600; }
-#hamburger { display: none; font-size: 22px; cursor: pointer; margin-right: 12px; }
-@media (max-width: 1599px) { #sidebar { display: none; } #hamburger { display: block; } }
-@media (min-width: 1600px) { #sidebar { display: flex; } }
-
-#logo { height: 36px; }
-.dark-mode #logo { content: url("boibylonglight.png"); }
-
-.profile-container { width: 900px; margin: 60px auto auto auto; }
-.card { background: #fff; padding: 20px; margin-bottom: 20px; }
-.profile-header { display: flex; align-items: center; gap: 15px; }
-.profile-header img { width: 120px; height: 120px; border-radius: 100%; }
-.profile-info h2 { margin: 0; font-size: 22px; font-weight: 550; }
-.profile-stats { margin-top: 5px; font-size: 14px; }
-
-.friends-list { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
-.friend { width: 115px; text-align: center; }
-.friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, #eee, #ccc); }
-.friend p { font-size: 14px; margin: 6px 0 0; }
-
-/* Suspended banner */
-.suspended-banner {
-  background: #d32f2f;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-/* Search */
-#searchBox {
-  padding: 4px 8px;
-  font-size: 14px;
-  margin-left: 20px;
-}
-#searchResults {
-  width: 900px;
-  margin: 20px auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.search-card {
-  background: #fff;
-  padding: 16px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
-.search-card img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.search-card.inactive { opacity: 0.5; }
-.search-card p { margin: 6px 0 0; font-size: 14px; }
-.search-card .inactive-text { font-size: 12px; color: #777; }
+  * { font-family: "Inter", serif; box-sizing: border-box; }
+  body { margin: 0!important; background: #f6f7f8; color: #111; }
+  header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      background: #fff;
+      color: #000;
+      z-index: 1000;
+      border-bottom: 1px solid #e6e6e6;
+  }
+  .left, .right { display: flex; align-items: center; }
+  .left img { height: 32px; margin-right: 18px; }
+  nav a { margin-right: 18px; text-decoration: none; color: inherit; font-size: 15px; }
+  #searchBox { padding: 6px 10px; font-size: 14px; margin-left: 12px; border-radius: 6px; border: 1px solid #ddd; }
+  .right .user-circle { width: 34px; height: 34px; border-radius: 50%; background: #eee; margin-right: 8px; }
+  .right img { width: 32px; height: 32px; margin-left: 6px; }
+  #sidebar { position: fixed; top: 56px; left: 0; width: 160px; height: calc(100% - 56px); background: #fff; border-right: 1px solid #ddd; padding: 12px; display: none; z-index: 900; }
+  @media (min-width: 1600px) { #sidebar { display: block; } }
+  #logo { height: 36px; }
+  .main { max-width: 980px; margin: 28px auto; padding: 0 12px; }
+  .card { background: #fff; padding: 18px; margin-bottom: 16px; border-radius: 8px; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+  .profile-header { display: flex; align-items: center; gap: 16px; }
+  .profile-header img { width: 120px; height: 120px; border-radius: 999px; object-fit: cover; background: linear-gradient(135deg,#eee,#ddd); }
+  .profile-info h2 { margin: 0; font-size: 22px; font-weight: 600; }
+  .profile-stats { margin-top: 6px; font-size: 14px; color: #555; }
+  .friends-list { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+  .friend { width: 115px; text-align: center; }
+  .friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg,#eee,#ccc); }
+  .friend p { font-size: 13px; margin: 8px 0 0; color: #222; }
+  .search-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  .search-card { background: #fff; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+  .search-card img { width: 86px; height: 86px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg,#eee,#ddd); }
+  .search-card.inactive { opacity: 0.45; }
+  .no-results { text-align: center; padding: 26px; color: #666; }
+  .error-box { background: #ffecec; color: #8b1a1a; padding: 12px; border-radius: 6px; margin-bottom: 12px; }
 </style>
 </head>
 <body>
 <header id="header">
   <div class="left">
-    <div id="hamburger">☰</div>
-    <img id="logo" src="boibylongdark.png">
+    <img id="logo" src="boibylongdark.png" alt="logo">
     <nav>
       <a href="#">Discover</a>
       <a href="#">Catalog</a>
       <a href="#">Develop</a>
-      <a href="#">Boibucks</a>
     </nav>
-    <input type="text" id="searchBox" placeholder="Search users...">
+    <input id="searchBox" placeholder="Search users (display name or username)..." />
   </div>
   <div class="right">
     <div class="user-circle"></div>
     <span id="username" style="font-weight:500;">f</span>
-    <span> </span>
-    <img src="bgreen.png">
+    <img src="bgreen.png" alt="boibucks">
     <span>0</span>
   </div>
 </header>
@@ -136,150 +73,238 @@ header.dark .right .user-circle { background: #555; }
   <a href="#">Profile</a>
   <a href="#">Discover</a>
   <a href="#">Catalog</a>
-  <a href="#">Acquaintances</a>
   <a href="#">Chat</a>
-  <a href="#">Trade</a>
-  <a href="#">Money</a>
-  <a href="#">Develop</a>
-  <a href="#">Premium</a>
-  <button style="display:none" class="premium-btn">Get Premium</button>
 </div>
 
-<div id="profile" class="profile-container"></div>
-<div id="searchResults"></div>
+<main class="main">
+  <div id="errorArea"></div>
+  <div id="profile" class="card" aria-live="polite"></div>
+  <div id="searchResults" class="search-grid" aria-live="polite"></div>
+</main>
 
 <script>
+/* Robust users.html script
+   - defensive: avoids throwing when fields are missing
+   - does not redirect to 500.html on fetch errors (shows inline error)
+   - supports displayName fallback and deleted/inactive display
+   - if user is not found we show a friendly message (no redirect)
+   - search has inline "no results" card and also redirects to noresults.html when user presses Enter with no results
+*/
+
 const config = {
-    deletedUserRedirect: 3,  // 1 = show page, 2 = 404, 3 = userDeleted
-    deletedUsernameMode: 1,  // 1 = show name, 2 = "Account Deleted", 3 = "Banned"
-    searchShowDeleted: false // search toggle for showing deleted accounts
+  deletedUserRedirect: 3,    // 1 = show page, 2 = 404, 3 = userDeleted
+  deletedUsernameMode: 1,    // 1 = show name, 2 = "Account Deleted", 3 = "Banned"
+  searchShowDeleted: false   // toggle to include deleted accounts in search results
 };
 
+function safeFetchJSON(path) {
+  return fetch(path).then(r => {
+    if (!r.ok) throw new Error('fetch failed: ' + r.status);
+    return r.json();
+  });
+}
+
 function getDisplayName(user) {
-    return user.displayName && user.displayName.trim() ? user.displayName : user.username;
+  if (!user) return "";
+  return (user.displayName && user.displayName.trim()) ? user.displayName : (user.username || "");
 }
 function getDeletedName(user) {
-    switch (config.deletedUsernameMode) {
-        case 1: return user.username;
-        case 2: return "Account Deleted";
-        case 3: return "Banned";
-        default: return "Account Deleted";
-    }
+  if (!user) return "Account Deleted";
+  switch (config.deletedUsernameMode) {
+    case 1: return user.username || "";
+    case 2: return "Account Deleted";
+    case 3: return "Banned";
+    default: return "Account Deleted";
+  }
 }
 
+function buildProfileHTML(user, data) {
+  if (!user) {
+    return `<div class="card"><div class="no-results">User not found.</div></div>`;
+  }
+
+  const friendsArr = Array.isArray(user.friends) ? user.friends : [];
+  const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
+  const handle = "@" + (user.username || "");
+  const pic = user.isDeleted ? "content-deleted.png" : (user.profilePicture || "content-deleted.png");
+  const bio = user.bio && user.bio.trim() ? user.bio : "This user does not yet have a bio.";
+  const acquaintancesCount = friendsArr.length;
+
+  const friendsHtml = friendsArr.map(fid => {
+    const f = data && data[fid] ? data[fid] : null;
+    const isDel = !f || !!f.isDeleted;
+    const fName = isDel ? (f ? getDeletedName(f) : getDeletedName({username:""})) : getDisplayName(f);
+    const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
+    const link = `users.html?id=${encodeURIComponent(fid)}`;
+    return `<div class="friend">
+              <a href="${link}">
+                <img src="${imgSrc}" alt="${fName}">
+                <p>${escapeHtml(fName)}</p>
+              </a>
+            </div>`;
+  }).join("");
+
+  return `
+    <div class="profile-header">
+      <img src="${pic}" alt="${escapeHtml(displayName)}">
+      <div class="profile-info">
+        <h2>${escapeHtml(displayName)}</h2>
+        <div class="profile-stats">${escapeHtml(handle)}</div>
+        <div class="profile-stats">${acquaintancesCount} Acquaintances · ${user.followers || 0} Followers · ${user.following || 0} Following</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="card"><h3>About</h3><p>${escapeHtml(bio)}</p></div>
+      <div class="card"><h3>Acquaintances (${acquaintancesCount})</h3><div class="friends-list">${friendsHtml || '<div class="no-results">No acquaintances to show.</div>'}</div></div>
+      <div class="card"><h3>Statistics</h3><p>Join Date: ${escapeHtml(user.joinDate || 'Unknown')}</p></div>
+    </div>
+  `;
+}
+
+function escapeHtml(s) {
+  if (typeof s !== 'string') return '';
+  return s.replace(/[&<>"']/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; });
+}
+
+/* loadUser: find user by id or username query param and render
+   - if not found: show friendly message rather than a redirect to 500
+*/
 async function loadUser() {
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        const name = params.get("name");
-        const forceShow = params.get("show") === "true";
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const name = params.get("name");
+    const forceShow = params.get("show") === "true";
 
-        if (!id && !name) return;
-
-        const res = await fetch("users.json");
-        if (!res.ok) throw new Error("JSON load error");
-        const data = await res.json();
-
-        let user = null;
-        if (id && data[id]) user = data[id];
-        if (!user && name) {
-            for (const [uid, u] of Object.entries(data)) {
-                if (u.username.toLowerCase() === name.toLowerCase()) { user = u; break; }
-            }
-        }
-        if (!user) return;
-
-        if (user.isDeleted && !forceShow) {
-            if (config.deletedUserRedirect === 2) { window.location.href = "404.html"; return; }
-            if (config.deletedUserRedirect === 3) { window.location.href = "userDeleted.html"; return; }
-        }
-
-        const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
-        const handleName = "@" + user.username;
-
-        document.getElementById("profile").innerHTML = `
-            <div class="card profile-header">
-                <img src="${user.isDeleted ? "content-deleted.png" : user.profilePicture}">
-                <div class="profile-info">
-                    <h2>${displayName}</h2>
-                    <div class="profile-stats">${handleName}</div>
-                    <div class="profile-stats">
-                        ${user.friends.length} Acquaintances · ${user.followers} Followers · ${user.following} Following
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="section">
-                    <h3>About</h3>
-                    <p>${user.bio && user.bio.trim() ? user.bio : "This user does not yet have a bio."}</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="section">
-                    <h3>Acquaintances (${user.friends.length})</h3>
-                    <div class="friends-list">
-                        ${user.friends.map(fid => {
-                            const f = data[fid];
-                            const isDel = !f || f.isDeleted;
-                            const fName = isDel ? getDeletedName(f || {username:""}) : getDisplayName(f);
-                            const imgSrc = isDel ? "content-deleted.png" : f.profilePicture;
-                            const link = `users.html?id=${fid}`;
-                            return `
-                                <div class="friend">
-                                    <a href="${link}">
-                                        <img src="${imgSrc}">
-                                        <p>${fName}</p>
-                                    </a>
-                                </div>`;
-                        }).join("")}
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="section">
-                    <h3>Statistics</h3>
-                    <p>Join Date: ${user.joinDate}</p>
-                </div>
-            </div>
-        `;
-    } catch (err) {
-        console.error(err);
-        window.location.href = "500.html";
+    if (!id && !name) {
+      // nothing to load — leave profile area empty
+      document.getElementById('profile').innerHTML = `<div class="no-results">No specific user selected. Use the search box to find users.</div>`;
+      return;
     }
-}
-loadUser();
 
-/* --- Search feature --- */
-document.getElementById("searchBox").addEventListener("input", async function(e) {
-    const query = e.target.value.trim().toLowerCase();
-    const resultsDiv = document.getElementById("searchResults");
-    resultsDiv.innerHTML = "";
-    if (!query) return;
-
-    const res = await fetch("users.json");
-    const data = await res.json();
-
-    const results = Object.entries(data).filter(([id, user]) => {
-        if (!config.searchShowDeleted && user.isDeleted) return false;
-        const name = getDisplayName(user).toLowerCase();
-        const uname = user.username.toLowerCase();
-        return name.includes(query) || uname.includes(query);
+    const data = await safeFetchJSON('users.json').catch(err => {
+      showError('Could not load user data. Please check users.json and network.');
+      console.error(err);
+      return null;
     });
+    if (!data) return;
 
-    resultsDiv.innerHTML = results.map(([id, user]) => {
-        const displayName = getDisplayName(user);
-        const handle = "@" + user.username;
-        return `
-            <div class="search-card ${user.isDeleted ? "inactive" : ""}">
-                <a href="users.html?id=${id}">
-                    <img src="${user.isDeleted ? "content-deleted.png" : user.profilePicture}">
-                    <p>${displayName}</p>
-                    <p>${handle}</p>
-                    ${user.isDeleted ? `<div class="inactive-text">Inactive</div>` : ""}
-                </a>
-            </div>
-        `;
-    }).join("");
+    let user = null;
+    if (id && data[id]) user = data[id];
+    if (!user && name) {
+      for (const [uid, u] of Object.entries(data)) {
+        if ((u.username || '').toLowerCase() === name.toLowerCase()) { user = u; break; }
+      }
+    }
+    if (!user) {
+      // If ID was provided but not found, try to show friendly message
+      document.getElementById('profile').innerHTML = `<div class="no-results card">User not found.</div>`;
+      return;
+    }
+
+    // If deleted and redirect behavior set, handle but do not throw
+    if (user.isDeleted && !forceShow) {
+      if (config.deletedUserRedirect === 2) {
+        // prefer showing friendly not-found instead of forcing navigation
+        document.getElementById('profile').innerHTML = `<div class="no-results card">This account is not available.</div>`;
+        return;
+      }
+      if (config.deletedUserRedirect === 3) {
+        // show dedicated userDeleted page if exists
+        window.location.href = 'userDeleted.html';
+        return;
+      }
+    }
+
+    const html = buildProfileHTML(user, data);
+    document.getElementById('profile').innerHTML = html;
+  } catch (err) {
+    console.error(err);
+    showError('An unexpected error occurred while loading the profile.');
+  }
+}
+
+/* Search logic:
+   - fetch users.json (defensive)
+   - filter by displayName or username
+   - show inline "no results" card if none
+   - pressing Enter with no results redirects to noresults.html?q=...
+*/
+async function runSearch(query) {
+  const resultsDiv = document.getElementById('searchResults');
+  resultsDiv.innerHTML = '';
+  if (!query || !query.trim()) return;
+
+  const q = query.trim().toLowerCase();
+
+  const data = await safeFetchJSON('users.json').catch(err => {
+    showError('Could not load users for search. Please check users.json.');
+    console.error(err);
+    return null;
+  });
+  if (!data) return;
+
+  const entries = Object.entries(data);
+  const filtered = entries.filter(([id, user]) => {
+    if (!config.searchShowDeleted && user.isDeleted) return false;
+    const dname = (getDisplayName(user) || '').toLowerCase();
+    const uname = (user.username || '').toLowerCase();
+    return dname.includes(q) || uname.includes(q);
+  });
+
+  if (!filtered.length) {
+    resultsDiv.innerHTML = `<div class="search-card no-results">No results for "<strong>${escapeHtml(query)}</strong>"</div>`;
+    return [];
+  }
+
+  resultsDiv.innerHTML = filtered.map(([id, user]) => {
+    const displayName = getDisplayName(user);
+    const handle = "@" + (user.username || '');
+    const img = user.isDeleted ? 'content-deleted.png' : (user.profilePicture || 'content-deleted.png');
+    const inactiveLine = user.isDeleted ? `<div style="font-size:12px;color:#777;margin-top:6px;">Inactive</div>` : '';
+    const cls = user.isDeleted ? 'search-card inactive' : 'search-card';
+    return `<div class="${cls}">
+      <a href="users.html?id=${encodeURIComponent(id)}">
+        <img src="${img}" alt="${escapeHtml(displayName)}" />
+        <div style="margin-top:8px;font-weight:600;">${escapeHtml(displayName)}</div>
+        <div style="font-size:13px;color:#666;">${escapeHtml(handle)}</div>
+        ${inactiveLine}
+      </a>
+    </div>`;
+  }).join('');
+  return filtered;
+}
+
+function showError(message) {
+  const e = document.getElementById('errorArea');
+  e.innerHTML = `<div class="error-box">${escapeHtml(message)}</div>`;
+}
+
+/* init */
+document.addEventListener('DOMContentLoaded', function () {
+  loadUser();
+
+  const searchBox = document.getElementById('searchBox');
+  let lastResults = [];
+
+  searchBox.addEventListener('input', async (e) => {
+    const q = e.target.value;
+    lastResults = await runSearch(q) || [];
+  });
+
+  // Enter key behavior: if no inline results, redirect to noresults.html?q=
+  searchBox.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const q = searchBox.value.trim();
+      if (!q) return;
+      if (!lastResults || lastResults.length === 0) {
+        window.location.href = `noresults.html?q=${encodeURIComponent(q)}`;
+      } else {
+        // if there are results, focus the first result (default browser click via link)
+        // nothing else necessary: user can click result
+      }
+    }
+  });
 });
 </script>
 </body>
