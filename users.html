@@ -85,7 +85,7 @@ header.dark .right .user-circle { background: #555; }
   gap: 10px;               /* 10px gap between image and text */
   align-items: center;
   box-shadow: none;
-  border-radius: 0;       
+  border-radius: 0;
   box-sizing: border-box;
 }
 .user-card.inactive {
@@ -99,7 +99,11 @@ header.dark .right .user-circle { background: #555; }
   border-radius: 50%;     /* make pfps circle */
   flex-shrink: 0;
 }
-.user-card .profile-info { 
+/* grayscale helper class */
+.img-grayscale { filter: grayscale(100%); }
+
+/* 15px left margin for profile-info */
+.user-card .profile-info {
   flex: 1;
   margin-left: 15px;       /*  15px left margin for profile-info */
 }
@@ -109,9 +113,13 @@ header.dark .right .user-circle { background: #555; }
 .user-card .profile-info .profile-stats { margin-top: 0px; color: #444; font-size: 13px; }
 .user-card .inactive-line { margin-top: 0px; font-size: 12px; color: #555; }
 
+/* Small card for main friends list */
 .user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; background: none; gap: 8px; padding: 6px; }
 .user-card.small img { width: 115px; height: 115px; border-radius: 50%; }
 .user-card.small .profile-info h2 { font-size: 14px; margin-top: 8px; }
+
+/* helper for 50% opacity pfps on main profile friend previews (deleted) */
+.img-50 { opacity: 0.5; }
 
 .no-results-centered { text-align: center; padding: 40px 0; font-size: 16px; color: #666; }
 </style>
@@ -169,7 +177,8 @@ header.dark .right .user-circle { background: #555; }
         4 -> "Account deleted"
         5 -> "Banned"
     - showDeletedInSearch: boolean, if false, deleted accounts are excluded from search results
-    - showDeletedProfilePictures: boolean, if false then deleted users always show content-deleted.png
+    - pfpDisplayMode: 1 = show original pfp, 2 = show original pfp in grayscale, 3 = always show content-deleted.png for deleted users
+      (pfpDisplayMode only affects deleted users; non-deleted users always show their pfp if present)
 */
 
 const config = {
@@ -177,7 +186,7 @@ const config = {
     deletedUsernameMode: 1,
     inactiveTextMode: 4,
     showDeletedInSearch: false,
-    showDeletedProfilePictures: true
+    pfpDisplayMode: 2
 };
 
 function getInactiveLabel() {
@@ -214,13 +223,34 @@ function escapeHtml(s) {
     });
 }
 
+/**
+ * getProfileImage(user, isDel)
+ * returns URL to use for <img src="...">
+ * For deleted users, behavior depends on config.pfpDisplayMode:
+ *   1 -> show original profilePicture if available, otherwise content-deleted.png
+ *   2 -> same as 1 (but caller may add grayscale class)
+ *   3 -> always 'content-deleted.png'
+ */
 function getProfileImage(user, isDel) {
-    // if deleted and config says not to show original pfps -> always content-deleted.png
     if (isDel) {
-        if (config.showDeletedProfilePictures && user && user.profilePicture) return user.profilePicture;
-        return 'content-deleted.png';
+        if (config.pfpDisplayMode === 3) return 'content-deleted.png';
+        // 1 or 2: try to show original if present
+        return (user && user.profilePicture) ? user.profilePicture : 'content-deleted.png';
     }
-    return user && user.profilePicture ? user.profilePicture : 'content-deleted.png';
+    return (user && user.profilePicture) ? user.profilePicture : 'content-deleted.png';
+}
+
+/**
+ * getProfileImageClass(user, isDel, context)
+ * returns class string to apply to the <img>
+ * - if pfpDisplayMode === 2 and isDel => 'img-grayscale'
+ * - for main profile friend previews (context === 'main-friend-list') and isDel => also add 'img-50' (50% opacity)
+ */
+function getProfileImageClass(user, isDel, context) {
+    const classes = [];
+    if (isDel && config.pfpDisplayMode === 2) classes.push('img-grayscale');
+    if (context === 'main-friend-list' && isDel) classes.push('img-50');
+    return classes.join(' ');
 }
 
 let loadedUser = null;
@@ -260,22 +290,26 @@ async function loadUser() {
             const friends = Array.isArray(user.friends) ? user.friends : [];
             if (!friends.length) {
                 document.getElementById("profile").innerHTML =
-                  '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='no-results-centered'>This user has no acquaintances.</div></div>";
+                  '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances <span style=\"color:#666;font-weight:400\">(" + 0 + ")</span></h3><div class='no-results-centered'>This user has no acquaintances.</div></div>";
                 return;
             }
             const inactiveLabel = escapeHtml(getInactiveLabel());
-            const html = '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='search-results'>" +
+            // include the count next to the header as requested
+            const html = '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances <span style=\"color:#666;font-weight:400\">(" + friends.length + ")</span></h3><div class='search-results'>" +
                 friends.map(fid => {
                     const f = data[fid];
                     const isDel = !f || f.isDeleted;
                     const fName = isDel ? getDeletedName(f || {username:""}) : getDisplayName(f);
                     const imgSrc = getProfileImage(f || {}, isDel);
+                    const imgClass = getProfileImageClass(f || {}, isDel, 'view-all');
                     const link = 'users.html?id=' + encodeURIComponent(fid);
                     const inactiveClass = isDel ? ' inactive' : '';
                     // handle line should reflect deletedUsernameMode when deleted
                     const handleLine = '@' + (isDel ? getDeletedName(f || {}) : (f && f.username ? f.username : ""));
                     const inactiveLine = isDel ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
-                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">' + escapeHtml(handleLine) + '</div>' + inactiveLine + '</div></a></div>';
+                    // apply grayscale class if needed
+                    const classAttr = imgClass ? ' class="' + imgClass + '"' : '';
+                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '"' + classAttr + ' alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">' + escapeHtml(handleLine) + '</div>' + inactiveLine + '</div></a></div>';
                 }).join('') +
                 '</div></div>';
             document.getElementById("profile").innerHTML = html;
@@ -286,9 +320,11 @@ async function loadUser() {
         const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
         const handleName = "@" + (user.isDeleted ? getDeletedName(user) : (user.username || ""));
         const profileImage = getProfileImage(user, user.isDeleted);
+        const profileImageClass = getProfileImageClass(user, user.isDeleted, 'profile-header');
+        const profClassAttr = profileImageClass ? ' class="' + profileImageClass + '"' : '';
         const profileHtml =
             '<div class="card profile-header">' +
-                '<img src="' + profileImage + '">' +
+                '<img src="' + profileImage + '"' + profClassAttr + '>' +
                 '<div class="profile-info">' +
                     '<h2>' + escapeHtml(displayName) + '</h2>' +
                     '<div class="profile-stats">' + escapeHtml(handleName) + '</div>' +
@@ -312,9 +348,12 @@ async function loadUser() {
                         const isDel = !f || f.isDeleted;
                         const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
                         const imgSrc = getProfileImage(f || {}, isDel);
+                        // for main friend list previews: deleted pfps should be 50% opacity per request
+                        const imgClass = getProfileImageClass(f || {}, isDel, 'main-friend-list');
+                        const classAttr = imgClass ? ' class="' + imgClass + '"' : '';
                         const link = 'users.html?id=' + encodeURIComponent(fid);
-                        /* main friends list: no inactive text, no grey background */
-                        return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2></div></a></div>';
+                        /* main friends list: no inactive text, no grey background; deleted pfps opacity handled via img-50 class */
+                        return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '"' + classAttr + ' alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2></div></a></div>';
                     }).join('') : '') +
                 '</div>' +
             '</div>' +
@@ -368,10 +407,12 @@ async function runSearch(q) {
                 // handle line: reflect deletedUsernameMode when deleted
                 const handle = '@' + (isDel ? getDeletedName(user) : (user.username || ''));
                 const img = getProfileImage(user, isDel);
+                const imgClass = getProfileImageClass(user, isDel, 'search');
+                const classAttr = imgClass ? ' class="' + imgClass + '"' : '';
                 const link = 'users.html?id=' + encodeURIComponent(id);
                 const inactiveClass = isDel ? ' inactive' : '';
                 const inactiveLine = isDel ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
-                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
+                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '"' + classAttr + ' alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
             }).join('') +
             '</div>';
         document.getElementById('profile').innerHTML = html;
