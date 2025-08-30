@@ -67,9 +67,39 @@ header.dark .right .user-circle { background: #555; }
 .friend { width: 115px; text-align: center; }
 .friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, #eee, #ccc); }
 .friend p { font-size: 14px; margin: 6px 0 0; }
+
 .search-results { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
-.search-card { width: 200px; text-align: center; padding: 12px; background: #fff; border-radius: 6px; border: 1px solid #eee; }
-.search-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg,#eee,#ddd); }
+
+/* New unified user-card style matching your snippet */
+.user-card {
+  max-width: 300px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+.user-card.inactive {
+  background: #ddd;
+}
+.user-card img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.user-card .profile-info { flex: 1; }
+.user-card .profile-info h2 { font-size: 20px; margin: 0; }
+.user-card .profile-info .profile-stats { margin-top: 6px; color: #444; font-size: 13px; }
+.user-card .inactive-line { margin-top: 6px; font-size: 12px; color: #555; }
+
+/* Keep old small friend layout as fallback for very tight spaces */
+.user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; }
+.user-card.small img { width: 115px; height: 115px; border-radius: 50%; }
+.user-card.small .profile-info h2 { font-size: 14px; margin-top: 8px; }
 .no-results-centered { text-align: center; padding: 40px 0; font-size: 16px; color: #666; }
 </style>
 </head>
@@ -162,7 +192,7 @@ async function loadUser() {
         }
         const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
         const handleName = "@" + (user.username || "");
-        document.getElementById("profile").innerHTML =
+        const profileHtml =
             '<div class="card profile-header">' +
                 '<img src="' + (user.isDeleted ? "content-deleted.png" : (user.profilePicture || "content-deleted.png")) + '">' +
                 '<div class="profile-info">' +
@@ -187,7 +217,9 @@ async function loadUser() {
                             const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
                             const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
                             const link = 'users.html?id=' + encodeURIComponent(fid);
-                            return '<div class="friend"><a href="' + link + '"><img src="' + imgSrc + '"><p>' + escapeHtml(fName) + '</p></a></div>';
+                            const inactiveClass = isDel ? ' inactive' : '';
+                            const inactiveLine = isDel ? '<div class="inactive-line">Inactive</div>' : '';
+                            return '<div class="user-card small' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2>' + inactiveLine + '</div></a></div>';
                         }).join('') : '') +
                     '</div>' +
                 '</div>' +
@@ -198,6 +230,7 @@ async function loadUser() {
                     '<p>Join Date: ' + escapeHtml(user.joinDate || "Unknown") + '</p>' +
                 '</div>' +
             '</div>';
+        document.getElementById("profile").innerHTML = profileHtml;
     } catch (err) {
         console.error(err);
         window.location.href = "500.html";
@@ -226,7 +259,9 @@ async function runSearch(q) {
                 const handle = '@' + (user.username || '');
                 const img = user.isDeleted ? 'content-deleted.png' : (user.profilePicture || 'content-deleted.png');
                 const link = 'users.html?id=' + encodeURIComponent(id);
-                return '<div class="search-card"><a href="' + link + '"><img src="' + img + '"><div style="margin-top:8px;font-weight:600;">' + escapeHtml(displayName) + '</div><div style="font-size:13px;color:#666;">' + escapeHtml(handle) + '</div></a></div>';
+                const inactiveClass = user.isDeleted ? ' inactive' : '';
+                const inactiveLine = user.isDeleted ? '<div class="inactive-line">Inactive</div>' : '';
+                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
             }).join('') +
             '</div></div>';
         document.getElementById('profile').innerHTML = html;
