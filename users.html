@@ -67,11 +67,11 @@ header.dark .right .user-circle { background: #555; }
 .friends-list { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
 .friend { width: 115px; text-align: center; }
 .friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; }
-.friend p { font-size: 14px; margin: 5px 0 0; }
+.friend p { font-size: 5px; margin: 5px 0 0; }
 
 .search-results { /* used for search and viewfriends */
   display: grid;
-  grid-template-columns: repeat(3, 300px);
+  grid-template-columns: repeat(3, 300px); /* three wide */
   justify-content: center;
   gap: 16px;
   margin-top: 10px;
@@ -90,18 +90,18 @@ header.dark .right .user-circle { background: #555; }
 }
 .user-card.inactive {
   background: #ddd;        /* grey background for inactive (deleted) in search/viewfriends */
-  opacity: 50%;
+  opacity: 0.5;
 }
 .user-card img {
   width: 96px;
   height: 96px;
   object-fit: cover;
-  border-radius: 50%;     
+  border-radius: 50%;     /* make pfps circle */
   flex-shrink: 0;
 }
 .user-card .profile-info { 
   flex: 1;
-  margin-left: 15px;       
+  margin-left: 15px;       /* requested 15px left margin for profile-info */
 }
 .user-card.small .profile-info { margin-left: 0; } /* override for small stacked cards (main friend list) */
 
@@ -156,10 +156,31 @@ header.dark .right .user-circle { background: #555; }
 <div id="profile" class="profile-container"></div>
 
 <script>
+/*
+  "inactiveTextMode" (1-5):
+    1 -> "Inactive"
+    2 -> "Account Deleted"
+    3 -> "Deleted"
+    4 -> "Account deleted"
+    5 -> "Banned"
+*/
+
 const config = {
-    deletedUserRedirect: 3,
-    deletedUsernameMode: 1
+    deletedUserRedirect: 3, // 1 = show page, 2 = 404, 3 = userDeleted page
+    deletedUsernameMode: 1, // 1 = show username, 2 = Account Deleted, 3 = Banned
+    inactiveTextMode: 1   // default: 1 => "Inactive"
 };
+
+function getInactiveLabel() {
+    switch (config.inactiveTextMode) {
+        case 1: return "Inactive";
+        case 2: return "Account Deleted";
+        case 3: return "Deleted";
+        case 4: return "Account deleted";
+        case 5: return "Banned";
+        default: return "Inactive";
+    }
+}
 
 function getDisplayName(user) {
     if (!user) return "";
@@ -221,6 +242,7 @@ async function loadUser() {
                   '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='no-results-centered'>This user has no acquaintances.</div></div>";
                 return;
             }
+            const inactiveLabel = escapeHtml(getInactiveLabel());
             const html = '<div class="card no-bg"><h3>' + escapeHtml(displayName) + ' (' + escapeHtml(handle) + ")'s Acquaintances</h3><div class='search-results'>" +
                 friends.map(fid => {
                     const f = data[fid];
@@ -229,7 +251,7 @@ async function loadUser() {
                     const imgSrc = isDel ? "content-deleted.png" : (f && f.profilePicture ? f.profilePicture : "content-deleted.png");
                     const link = 'users.html?id=' + encodeURIComponent(fid);
                     const inactiveClass = isDel ? ' inactive' : '';
-                    const inactiveLine = isDel ? '<div class="inactive-line">Inactive</div>' : '';
+                    const inactiveLine = isDel ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
                     return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">@' + escapeHtml(f && f.username ? f.username : "") + '</div>' + inactiveLine + '</div></a></div>';
                 }).join('') +
                 '</div></div>';
@@ -266,6 +288,7 @@ async function loadUser() {
                         const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
                         const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
                         const link = 'users.html?id=' + encodeURIComponent(fid);
+                        /* main friends list: no inactive text, no grey background */
                         return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2></div></a></div>';
                     }).join('') : '') +
                 '</div>' +
@@ -305,6 +328,7 @@ async function runSearch(q) {
             document.getElementById('profile').innerHTML = '<div class="no-results-centered">No results found</div>';
             return;
         }
+        const inactiveLabel = escapeHtml(getInactiveLabel());
         const html = '<div class="search-results">' +
             results.map(([id, user]) => {
                 const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
@@ -312,7 +336,7 @@ async function runSearch(q) {
                 const img = user.isDeleted ? 'content-deleted.png' : (user.profilePicture || 'content-deleted.png');
                 const link = 'users.html?id=' + encodeURIComponent(id);
                 const inactiveClass = user.isDeleted ? ' inactive' : '';
-                const inactiveLine = user.isDeleted ? '<div class="inactive-line">Inactive</div>' : '';
+                const inactiveLine = user.isDeleted ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
                 return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '" alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
             }).join('') +
             '</div>';
