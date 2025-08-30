@@ -31,6 +31,7 @@ header {
 header.dark { background: #1F1F1F; color: #eee; }
 header.dark .left nav a { color: #eee; }
 header.dark .right .user-circle { background: #555; }
+
 #sidebar {
   position: fixed;
   top: 44px;
@@ -52,6 +53,7 @@ header.dark .right .user-circle { background: #555; }
 #hamburger { display: none; font-size: 22px; cursor: pointer; margin-right: 12px; }
 @media (max-width: 1599px) { #sidebar { display: none; } #hamburger { display: block; } }
 @media (min-width: 1600px) { #sidebar { display: flex; } }
+
 #logo { height: 36px; }
 .dark-mode #logo { content: url("boibylonglight.png"); }
 
@@ -66,6 +68,45 @@ header.dark .right .user-circle { background: #555; }
 .friend { width: 115px; text-align: center; }
 .friend img { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, #eee, #ccc); }
 .friend p { font-size: 14px; margin: 6px 0 0; }
+
+/* Suspended banner */
+.suspended-banner {
+  background: #d32f2f;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Search */
+#searchBox {
+  padding: 4px 8px;
+  font-size: 14px;
+  margin-left: 20px;
+}
+#searchResults {
+  width: 900px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.search-card {
+  background: #fff;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.search-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.search-card.inactive { opacity: 0.5; }
+.search-card p { margin: 6px 0 0; font-size: 14px; }
+.search-card .inactive-text { font-size: 12px; color: #777; }
 </style>
 </head>
 <body>
@@ -79,6 +120,7 @@ header.dark .right .user-circle { background: #555; }
       <a href="#">Develop</a>
       <a href="#">Boibucks</a>
     </nav>
+    <input type="text" id="searchBox" placeholder="Search users...">
   </div>
   <div class="right">
     <div class="user-circle"></div>
@@ -104,13 +146,18 @@ header.dark .right .user-circle { background: #555; }
 </div>
 
 <div id="profile" class="profile-container"></div>
+<div id="searchResults"></div>
 
 <script>
 const config = {
     deletedUserRedirect: 3,  // 1 = show page, 2 = 404, 3 = userDeleted
-    deletedUsernameMode: 1   // 1 = show name, 2 = "Account Deleted", 3 = "Banned"
+    deletedUsernameMode: 1,  // 1 = show name, 2 = "Account Deleted", 3 = "Banned"
+    searchShowDeleted: true // search toggle for showing deleted accounts
 };
 
+function getDisplayName(user) {
+    return user.displayName && user.displayName.trim() ? user.displayName : user.username;
+}
 function getDeletedName(user) {
     switch (config.deletedUsernameMode) {
         case 1: return user.username;
@@ -127,10 +174,12 @@ async function loadUser() {
         const name = params.get("name");
         const forceShow = params.get("show") === "true";
 
-        if (!id && !name) { window.location.href = "404.html"; return; }
+        if (!id && !name) return;
+
         const res = await fetch("users.json");
         if (!res.ok) throw new Error("JSON load error");
         const data = await res.json();
+
         let user = null;
         if (id && data[id]) user = data[id];
         if (!user && name) {
@@ -138,17 +187,18 @@ async function loadUser() {
                 if (u.username.toLowerCase() === name.toLowerCase()) { user = u; break; }
             }
         }
-        if (!user) { window.location.href = "404.html"; return; }
+        if (!user) return;
 
         if (user.isDeleted && !forceShow) {
             if (config.deletedUserRedirect === 2) { window.location.href = "404.html"; return; }
             if (config.deletedUserRedirect === 3) { window.location.href = "userDeleted.html"; return; }
         }
 
-        const displayName = user.isDeleted ? getDeletedName(user) : user.username;
-        const handleName = "@" + displayName;
+        const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
+        const handleName = "@" + user.username;
 
         document.getElementById("profile").innerHTML = `
+            ${user.isSuspended ? `<div class="suspended-banner">This user is currently suspended.</div>` : ""}
             <div class="card profile-header">
                 <img src="${user.isDeleted ? "content-deleted.png" : user.profilePicture}">
                 <div class="profile-info">
@@ -160,11 +210,11 @@ async function loadUser() {
                 </div>
             </div>
             <div class="card">
-    <div class="section">
-        <h3>About</h3>
-        <p>${user.bio && user.bio.trim() ? user.bio : "This user does not yet have a bio."}</p>
-    </div>
-</div>
+                <div class="section">
+                    <h3>About</h3>
+                    <p>${user.bio && user.bio.trim() ? user.bio : "This user does not yet have a bio."}</p>
+                </div>
+            </div>
             <div class="card">
                 <div class="section">
                     <h3>Acquaintances (${user.friends.length})</h3>
@@ -172,8 +222,7 @@ async function loadUser() {
                         ${user.friends.map(fid => {
                             const f = data[fid];
                             const isDel = !f || f.isDeleted;
-                            const fName = isDel ? getDeletedName(f || {username:""}) : f.username;
-                            const fHandle = "@" + fName;
+                            const fName = isDel ? getDeletedName(f || {username:""}) : getDisplayName(f);
                             const imgSrc = isDel ? "content-deleted.png" : f.profilePicture;
                             const link = `users.html?id=${fid}`;
                             return `
@@ -200,6 +249,39 @@ async function loadUser() {
     }
 }
 loadUser();
+
+/* --- Search feature --- */
+document.getElementById("searchBox").addEventListener("input", async function(e) {
+    const query = e.target.value.trim().toLowerCase();
+    const resultsDiv = document.getElementById("searchResults");
+    resultsDiv.innerHTML = "";
+    if (!query) return;
+
+    const res = await fetch("users.json");
+    const data = await res.json();
+
+    const results = Object.entries(data).filter(([id, user]) => {
+        if (!config.searchShowDeleted && user.isDeleted) return false;
+        const name = getDisplayName(user).toLowerCase();
+        const uname = user.username.toLowerCase();
+        return name.includes(query) || uname.includes(query);
+    });
+
+    resultsDiv.innerHTML = results.map(([id, user]) => {
+        const displayName = getDisplayName(user);
+        const handle = "@" + user.username;
+        return `
+            <div class="search-card ${user.isDeleted ? "inactive" : ""}">
+                <a href="users.html?id=${id}">
+                    <img src="${user.isDeleted ? "content-deleted.png" : user.profilePicture}">
+                    <p>${displayName}</p>
+                    <p>${handle}</p>
+                    ${user.isDeleted ? `<div class="inactive-text">Inactive</div>` : ""}
+                </a>
+            </div>
+        `;
+    }).join("");
+});
 </script>
 </body>
 </html>
