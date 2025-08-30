@@ -5,9 +5,9 @@
     "isDeleted": false,
     "joinDate": "2024-01-08",
     "isAdmin": true,
-    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21],
+    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22],
     "followers": 10,
-    "following": 7,
+    "following": 9,
     "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
   },
   "2": {
@@ -221,7 +221,7 @@
   },
   "21": {
     "username": "Whats9Plus10",
-    "profilePicture": "/ab67616d00001e021e03f2bcbe33c3b733820ef3.jpg",
+    "profilePicture": "/ab67616d00001e021e03f2bcbe33c3b733820ef3.png",
     "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
@@ -229,5 +229,16 @@
     "followers": 2,
     "following": 0,
     "bio": "you stupid"
+  },
+  "22": {
+    "username": "mma",
+    "profilePicture": "/dd395c7331270333a159f95412579632.png",
+    "isDeleted": false,
+    "joinDate": "2025-08-29",
+    "isAdmin": false,
+    "friends": [1],
+    "followers": 1,
+    "following": 0,
+    "bio": ""
   }
 }
