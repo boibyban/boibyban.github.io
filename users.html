@@ -101,7 +101,7 @@ header.dark .right .user-circle { background: #555; }
 }
 .user-card .profile-info { 
   flex: 1;
-  margin-left: 15px;       /* requested 15px left margin for profile-info */
+  margin-left: 15px;       /*  15px left margin for profile-info */
 }
 .user-card.small .profile-info { margin-left: 0; } /* override for small stacked cards (main friend list) */
 
@@ -109,7 +109,6 @@ header.dark .right .user-circle { background: #555; }
 .user-card .profile-info .profile-stats { margin-top: 0px; color: #444; font-size: 13px; }
 .user-card .inactive-line { margin-top: 0px; font-size: 12px; color: #555; }
 
-/* Small card for main friends list */
 .user-card.small { max-width: 140px; flex-direction: column; align-items: center; text-align: center; background: none; gap: 8px; padding: 6px; }
 .user-card.small img { width: 115px; height: 115px; border-radius: 50%; }
 .user-card.small .profile-info h2 { font-size: 14px; margin-top: 8px; }
@@ -157,18 +156,26 @@ header.dark .right .user-circle { background: #555; }
 
 <script>
 /*
-  "inactiveTextMode" (1-5):
-    1 -> "Inactive"
-    2 -> "Account Deleted"
-    3 -> "Deleted"
-    4 -> "Account deleted"
-    5 -> "Banned"
+  Config options:
+    - deletedUserRedirect: 1 show page, 2 -> 404, 3 -> userDeleted.html
+    - deletedUsernameMode:
+        1 -> show original username (when available)
+        2 -> "Account Deleted"
+        3 -> "Banned"
+    - inactiveTextMode:
+        1 -> "Inactive"
+        2 -> "Account Deleted"
+        3 -> "Deleted"
+        4 -> "Account deleted"
+        5 -> "Banned"
+    - showDeletedInSearch: boolean, if false, deleted accounts are excluded from search results
 */
 
 const config = {
-    deletedUserRedirect: 3, // 1 = show page, 2 = 404, 3 = userDeleted page
-    deletedUsernameMode: 2, // 1 = show username, 2 = Account Deleted, 3 = Banned
-    inactiveTextMode: 1   // default: 1 => "Inactive"
+    deletedUserRedirect: 3,
+    deletedUsernameMode: 1,
+    inactiveTextMode: 4,
+    showDeletedInSearch: false
 };
 
 function getInactiveLabel() {
@@ -184,6 +191,10 @@ function getInactiveLabel() {
 
 function getDisplayName(user) {
     if (!user) return "";
+    // if user is deleted and deletedUsernameMode is not '1', show the chosen label
+    if (user && user.isDeleted) {
+        return getDeletedName(user);
+    }
     return (user.displayName && user.displayName.trim()) ? user.displayName : user.username || "";
 }
 
@@ -233,9 +244,10 @@ async function loadUser() {
         }
         loadedUser = user;
 
+        // VIEW ALL ACQUAINTANCES PAGE
         if (viewFriends) {
             const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
-            const handle = "@" + (user.username || "");
+            const handle = "@" + (user.isDeleted ? getDeletedName(user) : (user.username || ""));
             const friends = Array.isArray(user.friends) ? user.friends : [];
             if (!friends.length) {
                 document.getElementById("profile").innerHTML =
@@ -251,16 +263,19 @@ async function loadUser() {
                     const imgSrc = isDel ? "content-deleted.png" : (f && f.profilePicture ? f.profilePicture : "content-deleted.png");
                     const link = 'users.html?id=' + encodeURIComponent(fid);
                     const inactiveClass = isDel ? ' inactive' : '';
+                    // handle line should reflect deletedUsernameMode when deleted
+                    const handleLine = '@' + (isDel ? getDeletedName(f || {}) : (f && f.username ? f.username : ""));
                     const inactiveLine = isDel ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
-                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">@' + escapeHtml(f && f.username ? f.username : "") + '</div>' + inactiveLine + '</div></a></div>';
+                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">' + escapeHtml(handleLine) + '</div>' + inactiveLine + '</div></a></div>';
                 }).join('') +
                 '</div></div>';
             document.getElementById("profile").innerHTML = html;
             return;
         }
 
+        // MAIN PROFILE PAGE
         const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
-        const handleName = "@" + (user.username || "");
+        const handleName = "@" + (user.isDeleted ? getDeletedName(user) : (user.username || ""));
         const profileHtml =
             '<div class="card profile-header">' +
                 '<img src="' + (user.isDeleted ? "content-deleted.png" : (user.profilePicture || "content-deleted.png")) + '">' +
@@ -286,7 +301,7 @@ async function loadUser() {
                         const f = data[fid];
                         const isDel = !f || f.isDeleted;
                         const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
-                        const imgSrc = isDel ? "content-deleted.png" : (f.profilePicture || "content-deleted.png");
+                        const imgSrc = isDel ? "content-deleted.png" : (f && f.profilePicture ? f.profilePicture : "content-deleted.png");
                         const link = 'users.html?id=' + encodeURIComponent(fid);
                         /* main friends list: no inactive text, no grey background */
                         return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '" alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2></div></a></div>';
@@ -319,20 +334,28 @@ async function runSearch(q) {
         const res = await fetch('users.json');
         if (!res.ok) { document.getElementById('profile').innerHTML = '<div class="no-results-centered">No results found</div>'; return; }
         const data = await res.json();
-        const results = Object.entries(data).filter(([id, user]) => {
+        let results = Object.entries(data).filter(([id, user]) => {
             const dname = (user.displayName && user.displayName.trim()) ? user.displayName.toLowerCase() : (user.username || '').toLowerCase();
             const uname = (user.username || '').toLowerCase();
             return dname.includes(query.toLowerCase()) || uname.includes(query.toLowerCase());
         });
+
+        // apply showDeletedInSearch filter (only affects search results)
+        if (!config.showDeletedInSearch) {
+            results = results.filter(([id, user]) => !user.isDeleted);
+        }
+
         if (!results.length) {
             document.getElementById('profile').innerHTML = '<div class="no-results-centered">No results found</div>';
             return;
         }
+
         const inactiveLabel = escapeHtml(getInactiveLabel());
         const html = '<div class="search-results">' +
             results.map(([id, user]) => {
                 const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
-                const handle = '@' + (user.username || '');
+                // handle line: reflect deletedUsernameMode when deleted
+                const handle = '@' + (user.isDeleted ? getDeletedName(user) : (user.username || ''));
                 const img = user.isDeleted ? 'content-deleted.png' : (user.profilePicture || 'content-deleted.png');
                 const link = 'users.html?id=' + encodeURIComponent(id);
                 const inactiveClass = user.isDeleted ? ' inactive' : '';
