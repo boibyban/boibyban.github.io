@@ -908,7 +908,7 @@ function resetActionButtons() {
 	const formData = JSON.parse(localStorage.getItem('banFormData'));
 	if (formData && formData.state === "Delete") {
 		actionButtons.innerHTML = `
-                    <a href="/appeals-form" class="modal-button permanent-appeal-button">Request appeal</a>
+                    <a href="/appeals-form" class="modal-button logout-button">Request appeal</a>
                 `;
 	} else {
 		actionButtons.innerHTML = `
