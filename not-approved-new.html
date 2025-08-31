@@ -461,27 +461,45 @@ header.dark + #sidebar .premium-btn {
         
         /* Three dots menu styles */
         .menu-dots {
-            position: absolute;
-            right: 0;
-            top: 0;
-            cursor: pointer;
-            font-size: 20px;
-            padding: 5px;
-            user-select: none;
-        }
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
+    user-select: none;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.menu-dots:hover {
+    background-color: #f0f0f0;
+}
+
+body.dark-mode .menu-dots:hover {
+    background-color: #3a3a3a;
+}
         
         .menu-dropdown {
-            position: absolute;
-            top: 30px;
-            right: 0;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            padding: 8px 0;
-            display: none;
-            z-index: 1010;
-            min-width: 120px;
-        }
+    position: absolute;
+    top: 100%; /* Position below the menu dots */
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    display: none;
+    z-index: 1010;
+    min-width: 120px;
+    margin-top: 5px; /* Add small gap from the dots */
+}
         
         .menu-dropdown.show {
             display: block;
@@ -561,7 +579,7 @@ header.dark + #sidebar .premium-btn {
             <h2 id="banHeader">Warning</h2>
             
             <!-- Three dots menu -->
-            <div class="menu-dots" id="menuDots">⋯</div>
+            <div class="menu-dots" id="menuDots">⋮</div>
             <div class="menu-dropdown" id="menuDropdown">
                 <a href="https://boibyban.github.io" id="dropdownLogout">Logout</a>
             </div>
