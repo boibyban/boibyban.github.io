@@ -1095,9 +1095,9 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                 <p>${translations[language]["Label.Reason"]}<b class="violation-text" style="display:block;margin-top:4px">${reason}</b></p>
             `;
             
-            // Group regular violations - put the container inside the <p> tag
+            // Group regular violations - put the container inside the <p> tag with 4px margin
             violationsHTML += `
-                <p>${translations[language]["Label.OffensiveItemV2"]}
+                <p style="margin-bottom: 4px;">${translations[language]["Label.OffensiveItemV2"]}
                     <div class="offensive-items-container" style="margin-top:4px;">
             `;
             
@@ -1195,6 +1195,7 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                     container.insertAdjacentHTML("afterbegin", imageHTML);
                 }
             } else {
+                // Image on top, normal flow
                 evidenceEl.style.left = violationBoxEl.style.left = "0";
                 evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "100%";
                 const imgEl = container.querySelector('.evidence-image');
@@ -1205,6 +1206,7 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                 }
             }
         }
+
         window.addEventListener('resize', updateLayout);
         updateLayout();
     }
