@@ -98,6 +98,7 @@ header.dark .right .user-circle { background: #555; }
   object-fit: cover;
   border-radius: 50%;     /* make pfps circle */
   flex-shrink: 0;
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }
 /* grayscale helper class */
 .img-grayscale { filter: grayscale(100%); }
@@ -122,6 +123,59 @@ header.dark .right .user-circle { background: #555; }
 .img-50 { opacity: 0.5; }
 
 .no-results-centered { text-align: center; padding: 40px 0; font-size: 16px; color: #666; }
+
+/* Hover effect for username */
+.username-hover-container {
+  position: relative;
+  display: inline-block;
+}
+
+.username-hover {
+  transition: opacity 0.3s ease;
+}
+
+.username-hover-alt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.username-hover-container:hover .username-hover {
+  opacity: 0;
+}
+
+.username-hover-container:hover .username-hover-alt {
+  opacity: 1;
+}
+
+/* Hover effect for profile pictures */
+.pfp-hover {
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.pfp-hover-alt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  filter: grayscale(100%);
+  transition: opacity 0.3s ease;
+}
+
+.pfp-hover-container {
+  position: relative;
+  display: inline-block;
+}
+
+.pfp-hover-container:hover .pfp-hover {
+  opacity: 0;
+}
+
+.pfp-hover-container:hover .pfp-hover-alt {
+  opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -179,14 +233,18 @@ header.dark .right .user-circle { background: #555; }
     - showDeletedInSearch: boolean, if false, deleted accounts are excluded from search results
     - pfpDisplayMode: 1 = show original pfp, 2 = show original pfp in grayscale, 3 = always show content-deleted.png for deleted users
       (pfpDisplayMode only affects deleted users; non-deleted users always show their pfp if present)
+    - showUsernameOnHover: boolean, if true, hovering over a username will show the actual username if it's hidden
+    - showPictureOnHover: boolean, if true, hovering over a profile picture will show the original picture if it's hidden
 */
 
 const config = {
     deletedUserRedirect: 3,
-    deletedUsernameMode: 1,
-    inactiveTextMode: 2,
+    deletedUsernameMode: 2,
+    inactiveTextMode: 4,
     showDeletedInSearch: false,
-    pfpDisplayMode: 3
+    pfpDisplayMode: 3,
+    showUsernameOnHover: true,
+    showPictureOnHover: true
 };
 
 function getInactiveLabel() {
@@ -253,6 +311,51 @@ function getProfileImageClass(user, isDel, context) {
     return classes.join(' ');
 }
 
+/**
+ * createUsernameElement(user, isDel)
+ * returns HTML string for username with hover effect if enabled and needed
+ */
+function createUsernameElement(user, isDel) {
+    const displayName = isDel ? getDeletedName(user) : getDisplayName(user);
+    const actualUsername = user && user.username ? user.username : "";
+    
+    // If username is already shown or hover effect is disabled, return simple element
+    if (!config.showUsernameOnHover || !isDel || config.deletedUsernameMode === 1 || !actualUsername) {
+        return escapeHtml(displayName);
+    }
+    
+    // Create hover effect for username
+    return `<span class="username-hover-container">
+        <span class="username-hover">${escapeHtml(displayName)}</span>
+        <span class="username-hover-alt">${escapeHtml(actualUsername)}</span>
+    </span>`;
+}
+
+/**
+ * createProfileImageElement(user, isDel, context, size = 'normal')
+ * returns HTML string for profile image with hover effect if enabled and needed
+ */
+function createProfileImageElement(user, isDel, context, size = 'normal') {
+    const displayImage = getProfileImage(user, isDel);
+    const actualImage = user && user.profilePicture ? user.profilePicture : 'content-deleted.png';
+    const imgClass = getProfileImageClass(user, isDel, context);
+    const classAttr = imgClass ? ` class="${imgClass}"` : '';
+    
+    const width = size === 'small' ? '115' : '96';
+    const height = size === 'small' ? '115' : '96';
+    
+    // If picture is already shown or hover effect is disabled, return simple element
+    if (!config.showPictureOnHover || !isDel || config.pfpDisplayMode === 1 || displayImage === actualImage) {
+        return `<img src="${displayImage}"${classAttr} width="${width}" height="${height}">`;
+    }
+    
+    // Create hover effect for profile picture
+    return `<span class="pfp-hover-container">
+        <img src="${displayImage}" class="pfp-hover ${imgClass}" width="${width}" height="${height}">
+        <img src="${actualImage}" class="pfp-hover-alt" width="${width}" height="${height}" style="filter: grayscale(100%)">
+    </span>`;
+}
+
 let loadedUser = null;
 let allData = null;
 
@@ -299,17 +402,14 @@ async function loadUser() {
                 friends.map(fid => {
                     const f = data[fid];
                     const isDel = !f || f.isDeleted;
-                    const fName = isDel ? getDeletedName(f || {username:""}) : getDisplayName(f);
-                    const imgSrc = getProfileImage(f || {}, isDel);
-                    const imgClass = getProfileImageClass(f || {}, isDel, 'view-all');
+                    const fNameElement = createUsernameElement(f || {username:""}, isDel);
+                    const imgElement = createProfileImageElement(f || {}, isDel, 'view-all');
                     const link = 'users.html?id=' + encodeURIComponent(fid);
                     const inactiveClass = isDel ? ' inactive' : '';
                     // handle line should reflect deletedUsernameMode when deleted
                     const handleLine = '@' + (isDel ? getDeletedName(f || {}) : (f && f.username ? f.username : ""));
                     const inactiveLine = isDel ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
-                    // apply grayscale class if needed
-                    const classAttr = imgClass ? ' class="' + imgClass + '"' : '';
-                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + imgSrc + '"' + classAttr + ' alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2><div class="profile-stats">' + escapeHtml(handleLine) + '</div>' + inactiveLine + '</div></a></div>';
+                    return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;">' + imgElement + '<div class="profile-info"><h2>' + fNameElement + '</h2><div class="profile-stats">' + escapeHtml(handleLine) + '</div>' + inactiveLine + '</div></a></div>';
                 }).join('') +
                 '</div></div>';
             document.getElementById("profile").innerHTML = html;
@@ -319,12 +419,10 @@ async function loadUser() {
         // MAIN PROFILE PAGE
         const displayName = user.isDeleted ? getDeletedName(user) : getDisplayName(user);
         const handleName = "@" + (user.isDeleted ? getDeletedName(user) : (user.username || ""));
-        const profileImage = getProfileImage(user, user.isDeleted);
-        const profileImageClass = getProfileImageClass(user, user.isDeleted, 'profile-header');
-        const profClassAttr = profileImageClass ? ' class="' + profileImageClass + '"' : '';
+        const profileImageElement = createProfileImageElement(user, user.isDeleted, 'profile-header');
         const profileHtml =
             '<div class="card profile-header">' +
-                '<img src="' + profileImage + '"' + profClassAttr + '>' +
+                profileImageElement +
                 '<div class="profile-info">' +
                     '<h2>' + escapeHtml(displayName) + '</h2>' +
                     '<div class="profile-stats">' + escapeHtml(handleName) + '</div>' +
@@ -346,14 +444,11 @@ async function loadUser() {
                     (Array.isArray(user.friends) ? user.friends.map(fid => {
                         const f = data[fid];
                         const isDel = !f || f.isDeleted;
-                        const fName = isDel ? getDeletedName(f || {username: ""}) : getDisplayName(f);
-                        const imgSrc = getProfileImage(f || {}, isDel);
-                        // for main friend list previews: deleted pfps should be 50% opacity per request
-                        const imgClass = getProfileImageClass(f || {}, isDel, 'main-friend-list');
-                        const classAttr = imgClass ? ' class="' + imgClass + '"' : '';
+                        const fNameElement = createUsernameElement(f || {username: ""}, isDel);
+                        const imgElement = createProfileImageElement(f || {}, isDel, 'main-friend-list', 'small');
                         const link = 'users.html?id=' + encodeURIComponent(fid);
                         /* main friends list: no inactive text, no grey background; deleted pfps opacity handled via img-50 class */
-                        return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;"><img src="' + imgSrc + '"' + classAttr + ' alt="' + escapeHtml(fName) + '"><div class="profile-info"><h2>' + escapeHtml(fName) + '</h2></div></a></div>';
+                        return '<div class="user-card small"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;">' + imgElement + '<div class="profile-info"><h2>' + fNameElement + '</h2></div></a></div>';
                     }).join('') : '') +
                 '</div>' +
             '</div>' +
@@ -403,16 +498,14 @@ async function runSearch(q) {
         const html = '<div class="search-results">' +
             results.map(([id, user]) => {
                 const isDel = user.isDeleted;
-                const displayName = isDel ? getDeletedName(user) : getDisplayName(user);
+                const displayNameElement = createUsernameElement(user, isDel);
                 // handle line: reflect deletedUsernameMode when deleted
                 const handle = '@' + (isDel ? getDeletedName(user) : (user.username || ''));
-                const img = getProfileImage(user, isDel);
-                const imgClass = getProfileImageClass(user, isDel, 'search');
-                const classAttr = imgClass ? ' class="' + imgClass + '"' : '';
+                const imgElement = createProfileImageElement(user, isDel, 'search');
                 const link = 'users.html?id=' + encodeURIComponent(id);
                 const inactiveClass = isDel ? ' inactive' : '';
                 const inactiveLine = isDel ? '<div class="inactive-line">' + inactiveLabel + '</div>' : '';
-                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;"><img src="' + img + '"' + classAttr + ' alt="' + escapeHtml(displayName) + '"><div class="profile-info"><h2>' + escapeHtml(displayName) + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
+                return '<div class="user-card' + inactiveClass + '"><a href="' + link + '" style="text-decoration:none;color:inherit;display:flex;align-items:center;">' + imgElement + '<div class="profile-info"><h2>' + displayNameElement + '</h2><div class="profile-stats">' + escapeHtml(handle) + '</div>' + inactiveLine + '</div></a></div>';
             }).join('') +
             '</div>';
         document.getElementById('profile').innerHTML = html;
