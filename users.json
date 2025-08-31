@@ -135,7 +135,7 @@
     "username": "crabbyneressa",
     "displayName": "",
     "profilePicture": "/content-deleted.png",
-    "isDeleted": true,
+    "isDeleted": false,
     "joinDate": "2025-08-29",
     "isAdmin": false,
     "friends": [1, 4, 8, 9, 15, 18, 23, 25, 26],
