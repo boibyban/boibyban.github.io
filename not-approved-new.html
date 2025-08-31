@@ -889,17 +889,9 @@ if (moderatorNote) {
     `;
 }
 
-evidenceHTML += `
-    <div class="viewButtonContainer">
-        <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
-            <a id="viewMoreButton" style="text-align: center; width: fit-content; width: 100%; font-size: 16px; font-weight: 500;">View more</a>
-        </button>
-    </div>
-`;
-
 document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
 
-		if (formData.classicViolations && formData.classicViolations.length > 0) {
+if (formData.classicViolations && formData.classicViolations.length > 0) {
     let violationsHTML = '<div class="violation-box">';
     let hasImageViolation = false;
     let imageHTML = "";
@@ -979,6 +971,16 @@ document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
         window.addEventListener('resize', updateLayout);
         updateLayout();
     }
+} else {
+    // Add button if there are no violations
+    const buttonHTML = `
+        <div class="viewButtonContainer" style="margin-top: 16px;">
+            <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
+                <a id="viewMoreButton" style="text-align: center; width: 100%; font-size: 16px; font-weight: 500; display: block;">View more</a>
+            </button>
+        </div>
+    `;
+    document.querySelector('.evidence-container').innerHTML += buttonHTML;
 }
 	}
 
