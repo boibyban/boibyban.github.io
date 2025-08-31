@@ -875,26 +875,29 @@ const evidenceContainer = document.querySelector('.evidence-container');
 		const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
 		const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
 
-		let evidenceHTML = `
+let evidenceHTML = `
     <div style="margin-bottom: 16px;">
         <p>${translations[language]["Label.ReviewDateV2"]}<b id="reviewedDate">${reviewedDate}</b></p>
     </div>
+`;
+
+if (moderatorNote) {
+    evidenceHTML += `
+        <div style="margin-bottom: 16px;">
+            <p>${translations[language]["Label.ModeratorNoteV2"]}<b id="moderatorNote">${moderatorNote}</b></p>
+        </div>
+    `;
+}
+
+evidenceHTML += `
     <div class="viewButtonContainer">
         <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
-            <a id="viewMoreButton" style="text-align: center; width: fit-content; width: 100%; font-size: 16px; font-weight: 500;">More details</a>
+            <a id="viewMoreButton" style="text-align: center; width: fit-content; width: 100%; font-size: 16px; font-weight: 500;">View more</a>
         </button>
     </div>
 `;
 
-		if (moderatorNote) {
-			evidenceHTML += `
-            <div style="margin-bottom: 16px;">
-                <p>${translations[language]["Label.ModeratorNoteV2"]}<b id="moderatorNote">${moderatorNote}</b></p>
-            </div>
-        `;
-		}
-
-		document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
+document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
 
 		if (formData.classicViolations && formData.classicViolations.length > 0) {
 			let violationsHTML = '<div class="violation-box">';
