@@ -87,6 +87,8 @@ window.translations = {
         "Label.ModelName": "Model Name",
         "Label.AccessoryName": "Accessory Name",
         "Label.AccessoryID": "Accessory ID",
+        "Label.Location": "Location",
+        "Label.ProfilePicture": "Profile Picture",
         "Description.FollowTheRules": "Make sure you know and follow the rules. {0}",
 
         "Action.FollowRulesLink": "View rules",
