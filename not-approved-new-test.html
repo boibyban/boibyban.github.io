@@ -1357,7 +1357,33 @@ if (formData) {
             const evidenceEl = document.getElementById('evidenceContainer');
             const violationBoxEl = document.querySelector('.violation-box');
 
-            u
+            function updateLayout() {
+		    if (window.innerWidth >= 600) {
+		        // Image beside content - apply left margin to entire evidence container
+		        container.style.position = "relative";
+		        container.style.left = "200px";
+		        container.style.maxWidth = "320px";
+		        container.style.marginLeft = "0";
+		        container.style.paddingLeft = "0";
+		        
+		        if (!container.querySelector('.evidence-image')) {
+		            container.insertAdjacentHTML("afterbegin", imageHTML);
+		        }
+		    } else {
+		        // Image on top, normal flow
+		        container.style.left = "0";
+		        container.style.maxWidth = "100%";
+		        container.style.marginLeft = "0";
+		        container.style.paddingLeft = "0";
+		        
+		        const imgEl = container.querySelector('.evidence-image');
+		        if (imgEl) {
+		            imgEl.style.position = "relative";
+		            imgEl.style.left = "0";
+		            imgEl.style.marginBottom = "15px";
+		        }
+		    }
+		}
 
             window.addEventListener('resize', updateLayout);
             updateLayout();
