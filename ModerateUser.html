@@ -248,7 +248,7 @@ const presets = {
   "Display name": "This display name is not permitted on Boiby.",
   "Child endangerment (generic)": "Your account has been moderated for violating the Terms of Use for inappropriate behavior/content.",
   "Terrorism/Extremism": "Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. Boiby strictly prohibits associations with terrorism and violent extremism. This is a violation of our Terms of Use.",
-  "Terrorism/Extremism (simplified)": "Boiby strictly prohibits associations with terrorism and violent extremism.",
+  "Terrorism/Extremism (simplified)": "Boiby strictly prohibits associations with terrorism and extremism.",
   "Inappropriate Image": "This image is not appropriate. Please review our rules and only upload appropriate content.",
   "Inappropriate audio file": "This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.",
   "Mod actions": "Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss or appeal your bans, please use the Appeals Form to contact us.",
@@ -313,65 +313,68 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
       <option value="Model">Model</option>
       <option value="UGC Bundle">UGC Bundle</option>
       <option value="UGC Accessory">UGC Accessory</option>                    
-                    <option value="User Profile About">User Profile About</option>
-                    <option value="Display Name">Display Name</option>
-                    <option value="Group Shout">Group Shout</option>
-                    <option value="Group Description">Group Description</option>
-                    <option value="Group Roleset">Group Roleset</option>
-                    <option value="Voice Chat">Voice Chat</option>
-                    <option value="Profile Picture">Profile Picture</option>
+      <option value="User Profile About">User Profile About</option>
+      <option value="Display Name">Display Name</option>
+      <option value="Group Shout">Group Shout</option>
+      <option value="Group Description">Group Description</option>
+      <option value="Group Roleset">Group Roleset</option>
       <option value="Username">Username</option>
+      <option value="Profile Picture">Profile Picture</option>
+      <option value="Voice Chat">Voice Chat</option>
     </select><br><br>
     <label>Reason:</label>
     <select id="classicReason${classicViolationCount}" class="classicReason" required>
       <option value="Other">Other</option>
-                    <option value="Harassment">Harassment</option>
-                    <option value="Inappropriate Content">Inappropriate Content</option>
-                    <option value="Privacy">Privacy</option>
-                    <option value="Adult Content">Adult Content</option>
-                    <option value="Sexual Content">Sexual Content</option>
-                    <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
-                    <option value="Terrorism/Extremism">Terrorism/Extremism</option>
-                    <option value="Political Content">Political Content</option>
-                    <option value="Boiby Endangerment">Boiby Endangerment</option>
-                    <option value="Discriminatory Content">Discriminatory Content</option>
-                    <option value="Violent Content and Gore">Violent Content and Gore</option>
-                    <option value="Privacy: Sharing PII">Privacy: Sharing PII</option>
-                    <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
-                    <option value="Doxxing">Doxxing</option>
-                    <option value="Seeking Sexual Content">Seeking Sexual Content</option>
-                    <option value="Intellectual Property Violation">IP Violation</option>
-                    <option value="Scamming">Scamming</option>
-                    <option value="Misinformation">Misinformation</option>
-                    <option value="Child Endangerment">Child Endangerment</option>
-                    <option value="Account Theft">Account Theft</option>
-                    <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
-                    <option value="Excessive Profanity">Excessive Profanity</option>
-                    <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
-                    <option value="Boiby Economy Violation">Boiby Economy Violation</option>
-                    <option value="Repeated Refund Requests">Repeated Refund Requests</option>
-                    <option value="Cheats and Exploits">Cheats and Exploits</option>
-                    <option value="Use of Modified Clients">Use of Modified Clients</option>
-                    <option value="Spam">Spam</option>
-                    <option value="Chargeback">Chargeback</option>
-                    <option value="Unauthorized or Disputed Payments">Unauthorized or Disputed Payments</option>
-                    <option value="Off-Platform Item or Currency Purchase">Off-Platform Item or Currency Purchase</option>
-                    <option value="Minimum Age Requirement">Minimum Age Requirement</option>
-                    <option value="Ban Evasion">Ban Evasion</option>
-                    <option value="Extortion and Blackmail">Extortion and Blackmail</option>
-                    <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
-                    <option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
-                    <option value="Gambling Content">Gambling Content</option>
-                    <option value="Real-Life Threats">Real-Life Threats</option>
-                    <option value="Real-World Tragic Events">Real-World Tragedy</option>
-                    <option value="Impersonation">Impersonation</option>
-                    <option value="Dangerous Activities">Dangerous Activities</option>
-                    <option value="Disruptive Audio">Disruptive Audio</option>
-                    <option value="Dating">Dating</option>
-                    <option value="Malicious Software">Malicious Software</option>
+      <option value="Harassment">Harassment</option>
+      <option value="Inappropriate Content">Inappropriate Content</option>
+      <option value="Privacy">Privacy</option>
+      <option value="Adult Content">Adult Content</option>
+      <option value="Sexual Content">Sexual Content</option>
+      <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
+      <option value="Terrorism/Extremism">Terrorism/Extremism</option>
+      <option value="Political Content">Political Content</option>
+      <option value="Boiby Endangerment">Boiby Endangerment</option>
+      <option value="Discriminatory Content">Discriminatory Content</option>
+      <option value="Violent Content and Gore">Violent Content and Gore</option>
+      <option value="Privacy: Sharing PII">Privacy: Sharing PII</option>
+      <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
+      <option value="Doxxing">Doxxing</option>
+      <option value="Seeking Sexual Content">Seeking Sexual Content</option>
+      <option value="Intellectual Property Violation">IP Violation</option>
+      <option value="Scamming">Scamming</option>
+      <option value="Misinformation">Misinformation</option>
+      <option value="Child Endangerment">Child Endangerment</option>
+      <option value="Account Theft">Account Theft</option>
+      <option value="Abuse of Boiby Employees">Abuse of Boiby Employees</option>
+      <option value="Excessive Profanity">Excessive Profanity</option>
+      <option value="Illegal and Regulated Content">Illegal and Regulated Content</option>
+      <option value="Boiby Economy Violation">Boiby Economy Violation</option>
+      <option value="Repeated Refund Requests">Repeated Refund Requests</option>
+      <option value="Cheats and Exploits">Cheats and Exploits</option>
+      <option value="Use of Modified Clients">Use of Modified Clients</option>
+      <option value="Spam">Spam</option>
+      <option value="Chargeback">Chargeback</option>
+      <option value="Unauthorized or Disputed Payments">Unauthorized or Disputed Payments</option>
+      <option value="Off-Platform Item or Currency Purchase">Off-Platform Item or Currency Purchase</option>
+      <option value="Minimum Age Requirement">Minimum Age Requirement</option>
+      <option value="Ban Evasion">Ban Evasion</option>
+      <option value="Extortion and Blackmail">Extortion and Blackmail</option>
+      <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
+      <option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
+      <option value="Gambling Content">Gambling Content</option>
+      <option value="Real-Life Threats">Real-Life Threats</option>
+      <option value="Real-World Tragic Events">Real-World Tragedy</option>
+      <option value="Impersonation">Impersonation</option>
+      <option value="Dangerous Activities">Dangerous Activities</option>
+      <option value="Disruptive Audio">Disruptive Audio</option>
+      <option value="Dating">Dating</option>
+      <option value="Malicious Software">Malicious Software</option>
     </select><br><br>
     <div id="evidenceInput${classicViolationCount}">
       <label>Evidence:</label><input type="text" id="evidence${classicViolationCount}" class="evidence"><br><br>
+    </div>
+    <div id="locationInput${classicViolationCount}" style="display:none">
+      <label>Location:</label><input type="text" id="location${classicViolationCount}" class="location"><br><br>
     </div>
     <div id="fileInput${classicViolationCount}" style="display:none">
       <label>Upload File:</label><input type="file" id="file${classicViolationCount}" class="file"><br><br>
@@ -383,8 +386,12 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
 
   box.querySelector('.violationType').addEventListener('change', e => {
     const val = e.target.value;
-    box.querySelector(`#fileInput${classicViolationCount}`).style.display = val === "Image" || val === "Audio" ? 'block' : 'none';
-    box.querySelector(`#evidenceInput${classicViolationCount}`).style.display = val === "Image" || val === "Audio" ? 'none' : 'block';
+    const isFileType = val === "Image" || val === "Audio" || val === "Profile Picture";
+    const isVoiceChat = val === "Voice Chat";
+    
+    box.querySelector(`#fileInput${classicViolationCount}`).style.display = isFileType ? 'block' : 'none';
+    box.querySelector(`#locationInput${classicViolationCount}`).style.display = isVoiceChat ? 'block' : 'none';
+    box.querySelector(`#evidenceInput${classicViolationCount}`).style.display = !isFileType && !isVoiceChat ? 'block' : 'none';
   });
 });
 
@@ -420,8 +427,11 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
     const type = box.querySelector('.violationType').value;
     const reason = box.querySelector('.classicReason').value;
     let evidence = box.querySelector('.evidence') ? box.querySelector('.evidence').value : "";
+    let location = box.querySelector('.location') ? box.querySelector('.location').value : "";
     const fileInput = box.querySelector('.file');
-    if ((type === "Image" || type === "Audio") && fileInput && fileInput.files[0]) {
+    
+    // Handle file uploads for image/audio types
+    if ((type === "Image" || type === "Audio" || type === "Profile Picture") && fileInput && fileInput.files[0]) {
       const file = fileInput.files[0];
       evidence = await new Promise(resolve => {
         const reader = new FileReader();
@@ -429,18 +439,33 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
         reader.readAsDataURL(file);
       });
     }
+    
+    // Handle voice chat location
+    if (type === "Voice Chat") {
+      evidence = location; // Use location as evidence for voice chat
+    }
 
     // Add classic violation
-    newBan.classicViolations.push({violationType: type, reason, evidence});
+    newBan.classicViolations.push({violationType: type, reason, evidence, location});
 
-    // Modern violation with Asset ID
-    if (["Image", "Model", "UGC Bundle"].includes(type)) {
+    // Modern violation with Asset ID for appropriate types
+    if (["Image", "Model", "UGC Bundle", "Profile Picture"].includes(type)) {
       const assetId = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
       newBan.modernViolations.push({
         violationType: type,
         reason,
-        evidence: type === "Image" ? evidence : box.querySelector('.evidence')?.value || "",
+        evidence: type === "Image" || type === "Profile Picture" ? evidence : box.querySelector('.evidence')?.value || "",
         assetId
+      });
+    }
+    
+    // Modern violation for Voice Chat (uses location)
+    if (type === "Voice Chat") {
+      newBan.modernViolations.push({
+        violationType: type,
+        reason,
+        location: location,
+        evidence: location
       });
     }
   }
@@ -472,10 +497,3 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
 
 </body>
 </html>
-
-
-
-
-
-
-
