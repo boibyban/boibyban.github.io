@@ -82,6 +82,11 @@ window.translations = {
         "Label.DecisionV2": "Decision method",
         "Label.OffensiveItemV2": "Offensive item",
         "Label.AssetID": "Asset ID",
+        "Label.BundleName": "Bundle Name",
+        "Label.BundleID": "Bundle ID",
+        "Label.ModelName": "Model Name",
+        "Label.AccessoryName": "Accessory Name",
+        "Label.AccessoryID": "Accessory ID",
         "Description.FollowTheRules": "Make sure you know and follow the rules. {0}",
 
         "Action.FollowRulesLink": "View rules",
