@@ -287,6 +287,18 @@
     "following": 1,
     "bio": "FUCK YOU ALL BAN MY ACCOUNT"
   },
+  "25": {
+    "username": "AssTwaats",
+    "displayName": "AssTwaats",
+    "profilePicture": "/content-deleted.png",
+    "isDeleted": true,
+    "joinDate": "2025-08-31",
+    "isAdmin": false,
+    "friends": [2, 12, 23, 24],
+    "followers": 0,
+    "following": 0,
+    "bio": ""
+  },
   "26": {
     "username": "ArcadiysTrash",
     "displayName": "ArcadiysTrash",
