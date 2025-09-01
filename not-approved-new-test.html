@@ -1050,7 +1050,7 @@ if (formData) {
     // Clear and set up evidence container
     const evidenceContainerEl = document.querySelector('.evidence-container');
     
-    // Create the review date and moderator note elements
+    // Create the review date and moderator note elements INSIDE #evidenceContainer
     let evidenceHTML = `
         <div id="evidenceContainer">
             <div style="margin-bottom: 16px;">
@@ -1069,10 +1069,9 @@ if (formData) {
     evidenceHTML += `</div>`;
     
     evidenceContainerEl.innerHTML = evidenceHTML;
-
-    // Clear and set up evidence container
-    const evidenceContainerEl = document.querySelector('.evidence-container');
-    evidenceContainerEl.innerHTML = evidenceHTML;
+    
+    // Get reference to the evidenceContainer div
+    const evidenceContainerDiv = document.getElementById('evidenceContainer');
     
     // Process modern violations first (if they exist), otherwise process classic violations
     if (formData.modernViolations && formData.modernViolations.length > 0) {
@@ -1099,7 +1098,7 @@ if (formData) {
             `;
         }
         
-        // Build violation HTML
+        // Build violation HTML - this will be added to the evidenceContainer
         violationHTML += '<div class="violation-box">';
         violationHTML += `
             <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${violation.reason}</b></p>
@@ -1169,58 +1168,43 @@ if (formData) {
         
         violationHTML += '</div>';
         
-        // Add to evidence container
-        evidenceContainerEl.innerHTML += violationHTML;
+        // Add violation HTML to the evidenceContainer
+        evidenceContainerDiv.innerHTML += violationHTML;
         
         // If image violation, add image and set up layout
         if (hasImage) {
             evidenceContainerEl.style.position = "relative";
             evidenceContainerEl.insertAdjacentHTML("afterbegin", imageHTML);
             
-            // Position the evidence container and violation box
-            const evidenceContentEl = document.getElementById('evidenceContainer');
-            const violationBoxEl = document.querySelector('.violation-box');
-            
             function updateLayout() {
-		    if (window.innerWidth >= 600) {
-		        // Image beside violation details - apply left margin to evidence container
-		        evidenceContentEl.style.position = "relative";
-		        evidenceContentEl.style.left = "200px";
-		        evidenceContentEl.style.maxWidth = "320px";
-		        evidenceContentEl.style.marginLeft = "0"; // Reset any margin
-		        evidenceContentEl.style.paddingLeft = "0"; // Reset any padding
-		        
-		        violationBoxEl.style.position = "relative";
-		        violationBoxEl.style.left = "200px";
-		        violationBoxEl.style.maxWidth = "320px";
-		        violationBoxEl.style.marginLeft = "0"; // Reset any margin
-		        violationBoxEl.style.paddingLeft = "0"; // Reset any padding
-		    } else {
-		        // Image on top, normal flow
-		        evidenceContentEl.style.left = "0";
-		        evidenceContentEl.style.maxWidth = "100%";
-		        evidenceContentEl.style.marginLeft = "0";
-		        evidenceContentEl.style.paddingLeft = "0";
-		        
-		        violationBoxEl.style.left = "0";
-		        violationBoxEl.style.maxWidth = "100%";
-		        violationBoxEl.style.marginLeft = "0";
-		        violationBoxEl.style.paddingLeft = "0";
-		        
-		        const imgEl = evidenceContainerEl.querySelector('.evidence-image');
-		        if (imgEl) {
-		            imgEl.style.position = "relative";
-		            imgEl.style.left = "0";
-		            imgEl.style.marginBottom = "15px";
-		        }
-		    }
-		}
+                if (window.innerWidth >= 600) {
+                    // Image beside content - apply left margin to entire evidence container
+                    evidenceContainerEl.style.position = "relative";
+                    evidenceContainerEl.style.left = "200px";
+                    evidenceContainerEl.style.maxWidth = "320px";
+                    evidenceContainerEl.style.marginLeft = "0";
+                    evidenceContainerEl.style.paddingLeft = "0";
+                } else {
+                    // Image on top, normal flow
+                    evidenceContainerEl.style.left = "0";
+                    evidenceContainerEl.style.maxWidth = "100%";
+                    evidenceContainerEl.style.marginLeft = "0";
+                    evidenceContainerEl.style.paddingLeft = "0";
+                    
+                    const imgEl = evidenceContainerEl.querySelector('.evidence-image');
+                    if (imgEl) {
+                        imgEl.style.position = "relative";
+                        imgEl.style.left = "0";
+                        imgEl.style.marginBottom = "15px";
+                    }
+                }
+            }
 
             window.addEventListener('resize', updateLayout);
             updateLayout();
         }
     } 
-    // If no modern violations, process classic violations (unchanged logic)
+    // If no modern violations, process classic violations
     else if (formData.classicViolations && formData.classicViolations.length > 0) {
         // Group violations by reason
         const violationsByReason = {};
@@ -1295,8 +1279,8 @@ if (formData) {
         
         violationsHTML += '</div>';
         
-        // Add to evidence container
-        evidenceContainerEl.innerHTML += violationsHTML;
+        // Add violation HTML to the evidenceContainer
+        evidenceContainerDiv.innerHTML += violationsHTML;
         
         // Add event listeners for view toggles
         document.querySelectorAll('.view-toggle').forEach(toggle => {
@@ -1333,46 +1317,39 @@ if (formData) {
 
         // If image violation, handle layout positioning
         if (hasImageViolation) {
-            const container = document.querySelector('.evidence-container');
-            container.style.position = "relative";
-
-            const evidenceEl = document.getElementById('evidenceContainer');
-            const violationBoxEl = document.querySelector('.violation-box');
-
+            evidenceContainerEl.style.position = "relative";
+            evidenceContainerEl.insertAdjacentHTML("afterbegin", imageHTML);
+            
             function updateLayout() {
-		    if (window.innerWidth >= 600) {
-		        // Image beside content - apply left margin to entire evidence container
-		        container.style.position = "relative";
-		        container.style.left = "200px";
-		        container.style.maxWidth = "320px";
-		        container.style.marginLeft = "0";
-		        container.style.paddingLeft = "0";
-		        
-		        if (!container.querySelector('.evidence-image')) {
-		            container.insertAdjacentHTML("afterbegin", imageHTML);
-		        }
-		    } else {
-		        // Image on top, normal flow
-		        container.style.left = "0";
-		        container.style.maxWidth = "100%";
-		        container.style.marginLeft = "0";
-		        container.style.paddingLeft = "0";
-		        
-		        const imgEl = container.querySelector('.evidence-image');
-		        if (imgEl) {
-		            imgEl.style.position = "relative";
-		            imgEl.style.left = "0";
-		            imgEl.style.marginBottom = "15px";
-		        }
-		    }
-		}
+                if (window.innerWidth >= 600) {
+                    // Image beside content - apply left margin to entire evidence container
+                    evidenceContainerEl.style.position = "relative";
+                    evidenceContainerEl.style.left = "200px";
+                    evidenceContainerEl.style.maxWidth = "320px";
+                    evidenceContainerEl.style.marginLeft = "0";
+                    evidenceContainerEl.style.paddingLeft = "0";
+                } else {
+                    // Image on top, normal flow
+                    evidenceContainerEl.style.left = "0";
+                    evidenceContainerEl.style.maxWidth = "100%";
+                    evidenceContainerEl.style.marginLeft = "0";
+                    evidenceContainerEl.style.paddingLeft = "0";
+                    
+                    const imgEl = evidenceContainerEl.querySelector('.evidence-image');
+                    if (imgEl) {
+                        imgEl.style.position = "relative";
+                        imgEl.style.left = "0";
+                        imgEl.style.marginBottom = "15px";
+                    }
+                }
+            }
 
             window.addEventListener('resize', updateLayout);
             updateLayout();
         }
     }
     
-    // Add the single view button at the end
+    // Add the single view button at the end (inside evidenceContainer)
     const buttonHTML = `
         <div class="viewButtonContainer" style="margin-top: 16px;">
             <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
@@ -1380,9 +1357,9 @@ if (formData) {
             </button>
         </div>
     `;
-    evidenceContainerEl.innerHTML += buttonHTML;
+    evidenceContainerDiv.innerHTML += buttonHTML;
 }
-	}
+}
 
 });
     </script>
