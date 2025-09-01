@@ -1117,13 +1117,23 @@ if (formData) {
                 break;
                 
             case "Image":
-                violationHTML += `
-                    <p style="margin-bottom: 4px;">${translations[language]["Label.AssetID"]}:</p>
-                    <div class="offensive-items-container" style="margin-bottom:4px;">
-                        <b class="evidence-content visible" data-index="0">${violation.assetId || 'N/A'}</b>
-                    </div>
-                `;
-                break;
+			case "Profile Picture":  
+		        violationHTML += `
+		            <p style="margin-bottom: 4px;">${translations[language]["Label.AssetID"]}:</p>
+		            <div class="offensive-items-container" style="margin-bottom:4px;">
+		                <b class="evidence-content visible" data-index="0">${violation.assetId || 'N/A'}</b>
+		            </div>
+		        `;
+		        break;
+		        
+		    case "Voice Chat": 
+		        violationHTML += `
+		            <p style="margin-bottom: 4px;">${translations[language]["Label.Location"] || "Location"}:</p>
+		            <div class="offensive-items-container" style="margin-bottom:4px;">
+		                <b class="evidence-content visible" data-index="0">${violation.location || 'N/A'}</b>
+		            </div>
+		        `;
+		        break;
                 
             case "Model":
                 violationHTML += `
@@ -1233,9 +1243,16 @@ if (formData) {
         Object.keys(violationsByReason).forEach(reason => {
             const violations = violationsByReason[reason];
             const firstViolation = violations[0];
-            const isImageViolation = firstViolation.violationType === "Image" && firstViolation.evidence.startsWith("data:image");
-            
-            if (isImageViolation) {
+			const isImageViolation = firstViolation.violationType === "Image" || 
+                         firstViolation.violationType === "Profile Picture" && 
+                         firstViolation.evidence && 
+                         firstViolation.evidence.startsWith("data:image");
+            if (firstViolation.violationType === "Voice Chat") {
+			    violationsHTML += `
+			        <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${firstViolation.reason}</b></p>
+			        <p>${translations[language]["Label.Location"] || "Location"}:<b class="evidence-content" style="display:block;margin-top:4px">${firstViolation.location || 'N/A'}</b></p>
+			    `;
+			} else if (isImageViolation) {
                 hasImageViolation = true;
                 const assetId = Math.floor(1e14 + Math.random() * 9e14);
                 imageHTML = `
