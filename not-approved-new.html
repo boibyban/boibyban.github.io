@@ -592,7 +592,7 @@ body.dark-mode .menu-dots:hover {
         <a href="#">Profile</a>
         <a href="#">Discover</a>
         <a href="#">Catalog</a>
-        <a href="#">Friends</a>
+        <a href="#">Acquaintances</a>
         <a href="#">Chat</a>
         <a href="#">Trade</a>
         <a href="#">Money</a>
@@ -1048,14 +1048,14 @@ const evidenceContainer = document.querySelector('.evidence-container');
 
 let evidenceHTML = `
     <div style="margin-bottom: 16px;">
-        <p>${translations[language]["Label.ReviewDateV2"]}<b id="reviewedDate">${reviewedDate}</b></p>
+        <p>${translations[language]["Label.ReviewDateV2"]:}<b id="reviewedDate">${reviewedDate}</b></p>
     </div>
 `;
 
 if (moderatorNote) {
     evidenceHTML += `
         <div style="margin-bottom: 16px;">
-            <p>${translations[language]["Label.ModeratorNoteV2"]}<b id="moderatorNote">${moderatorNote}</b></p>
+            <p>${translations[language]["Label.ModeratorNoteV2"]}:<b id="moderatorNote">${moderatorNote}</b></p>
         </div>
     `;
 }
@@ -1091,17 +1091,17 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                 </div>
             `;
             violationsHTML += `
-                <p>${translations[language]["Label.Reason"]}<b class="violation-text" style="display:block;margin-top:4px">${firstViolation.reason}</b></p>
-                <p>${translations[language]["Label.AssetID"]}<b class="evidence-content" style="display:block;margin-top:4px">${assetId}</b></p>
+                <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${firstViolation.reason}</b></p>
+                <p>${translations[language]["Label.AssetID"]}:<b class="evidence-content" style="display:block;margin-top:4px">${assetId}</b></p>
             `;
         } else {
             violationsHTML += `
-                <p>${translations[language]["Label.Reason"]}<b class="violation-text" style="display:block;margin-top:4px">${reason}</b></p>
+                <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${reason}</b></p>
             `;
             
             // Group regular violations - put the container inside the <p> tag with 4px margin
             violationsHTML += `
-                <p style="margin-bottom: 4px;">${translations[language]["Label.OffensiveItemV2"]}
+                <p style="margin-bottom: 4px;">${translations[language]["Label.OffensiveItemV2"]}:
                     <div class="offensive-items-container" style="margin-top:4px;">
             `;
             
