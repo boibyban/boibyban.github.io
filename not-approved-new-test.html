@@ -1043,7 +1043,7 @@ const evidenceContainer = document.querySelector('.evidence-container');
 		continueBtn.addEventListener('click', showAppealContent);
 	}
 
-	if (formData) {
+if (formData) {
     const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
 
@@ -1069,24 +1069,6 @@ const evidenceContainer = document.querySelector('.evidence-container');
     evidenceHTML += `</div>`;
     
     evidenceContainerEl.innerHTML = evidenceHTML;
-
-if (formData) {
-    const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
-    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
-
-    let evidenceHTML = `
-        <div style="margin-bottom: 16px;">
-            <p>${translations[language]["Label.ReviewDateV2"]}:<b id="reviewedDate">${reviewedDate}</b></p>
-        </div>
-    `;
-
-    if (moderatorNote) {
-        evidenceHTML += `
-            <div style="margin-bottom: 16px;">
-                <p>${translations[language]["Label.ModeratorNoteV2"]}:<b id="moderatorNote">${moderatorNote}</b></p>
-            </div>
-        `;
-    }
 
     // Clear and set up evidence container
     const evidenceContainerEl = document.querySelector('.evidence-container');
