@@ -966,6 +966,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		Delete: translations[language]["Heading.Banned"],
 	};
 
+	
 	if (formData && formData.state) {
 		document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
 
@@ -1043,24 +1044,31 @@ const evidenceContainer = document.querySelector('.evidence-container');
 	}
 
 	if (formData) {
-		const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
-		const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
+    const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
+    const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
 
-let evidenceHTML = `
-    <div style="margin-bottom: 16px;">
-        <p>${translations[language]["Label.ReviewDateV2"]}:<b id="reviewedDate">${reviewedDate}</b></p>
-    </div>
-`;
-
-if (moderatorNote) {
-    evidenceHTML += `
-        <div style="margin-bottom: 16px;">
-            <p>${translations[language]["Label.ModeratorNoteV2"]}:<b id="moderatorNote">${moderatorNote}</b></p>
-        </div>
+    // Clear and set up evidence container
+    const evidenceContainerEl = document.querySelector('.evidence-container');
+    
+    // Create the review date and moderator note elements
+    let evidenceHTML = `
+        <div id="evidenceContainer">
+            <div style="margin-bottom: 16px;">
+                <p>${translations[language]["Label.ReviewDateV2"]}:<b id="reviewedDate">${reviewedDate}</b></p>
+            </div>
     `;
-}
 
-document.getElementById('evidenceContainer').innerHTML = evidenceHTML;
+    if (moderatorNote) {
+        evidenceHTML += `
+            <div style="margin-bottom: 16px;">
+                <p>${translations[language]["Label.ModeratorNoteV2"]}:<b id="moderatorNote">${moderatorNote}</b></p>
+            </div>
+        `;
+    }
+    
+    evidenceHTML += `</div>`;
+    
+    evidenceContainerEl.innerHTML = evidenceHTML;
 
 if (formData) {
     const reviewedDate = formData.banStartDate ? formatDate(formData.banStartDate) : formatDate(new Date());
