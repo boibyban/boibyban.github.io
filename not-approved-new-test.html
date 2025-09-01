@@ -1200,23 +1200,39 @@ if (formData) {
             const violationBoxEl = document.querySelector('.violation-box');
             
             function updateLayout() {
-                if (window.innerWidth >= 600) {
-                    // Image beside violation details
-                    evidenceContentEl.style.position = violationBoxEl.style.position = "relative";
-                    evidenceContentEl.style.left = violationBoxEl.style.left = "200px";
-                    evidenceContentEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
-                } else {
-                    // Image on top, normal flow
-                    evidenceContentEl.style.left = violationBoxEl.style.left = "0";
-                    evidenceContentEl.style.maxWidth = violationBoxEl.style.maxWidth = "100%";
-                    const imgEl = evidenceContainerEl.querySelector('.evidence-image');
-                    if (imgEl) {
-                        imgEl.style.position = "relative";
-                        imgEl.style.left = "0";
-                        imgEl.style.marginBottom = "15px";
-                    }
-                }
-            }
+		    if (window.innerWidth >= 600) {
+		        // Image beside violation details - apply left margin to evidence container
+		        evidenceContentEl.style.position = "relative";
+		        evidenceContentEl.style.left = "200px";
+		        evidenceContentEl.style.maxWidth = "320px";
+		        evidenceContentEl.style.marginLeft = "0"; // Reset any margin
+		        evidenceContentEl.style.paddingLeft = "0"; // Reset any padding
+		        
+		        violationBoxEl.style.position = "relative";
+		        violationBoxEl.style.left = "200px";
+		        violationBoxEl.style.maxWidth = "320px";
+		        violationBoxEl.style.marginLeft = "0"; // Reset any margin
+		        violationBoxEl.style.paddingLeft = "0"; // Reset any padding
+		    } else {
+		        // Image on top, normal flow
+		        evidenceContentEl.style.left = "0";
+		        evidenceContentEl.style.maxWidth = "100%";
+		        evidenceContentEl.style.marginLeft = "0";
+		        evidenceContentEl.style.paddingLeft = "0";
+		        
+		        violationBoxEl.style.left = "0";
+		        violationBoxEl.style.maxWidth = "100%";
+		        violationBoxEl.style.marginLeft = "0";
+		        violationBoxEl.style.paddingLeft = "0";
+		        
+		        const imgEl = evidenceContainerEl.querySelector('.evidence-image');
+		        if (imgEl) {
+		            imgEl.style.position = "relative";
+		            imgEl.style.left = "0";
+		            imgEl.style.marginBottom = "15px";
+		        }
+		    }
+		}
 
             window.addEventListener('resize', updateLayout);
             updateLayout();
