@@ -1357,27 +1357,7 @@ if (formData) {
             const evidenceEl = document.getElementById('evidenceContainer');
             const violationBoxEl = document.querySelector('.violation-box');
 
-            function updateLayout() {
-                if (window.innerWidth >= 600) {
-                    // Image beside violation details
-                    evidenceEl.style.position = violationBoxEl.style.position = "relative";
-                    evidenceEl.style.left = violationBoxEl.style.left = "200px";
-                    evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "320px";
-                    if (!container.querySelector('.evidence-image')) {
-                        container.insertAdjacentHTML("afterbegin", imageHTML);
-                    }
-                } else {
-                    // Image on top, normal flow
-                    evidenceEl.style.left = violationBoxEl.style.left = "0";
-                    evidenceEl.style.maxWidth = violationBoxEl.style.maxWidth = "100%";
-                    const imgEl = container.querySelector('.evidence-image');
-                    if (imgEl) {
-                        imgEl.style.position = "relative";
-                        imgEl.style.left = "0";
-                        imgEl.style.marginBottom = "15px";
-                    }
-                }
-            }
+            u
 
             window.addEventListener('resize', updateLayout);
             updateLayout();
