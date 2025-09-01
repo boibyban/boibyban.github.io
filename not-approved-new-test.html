@@ -1070,9 +1070,6 @@ if (formData) {
     
     evidenceContainerEl.innerHTML = evidenceHTML;
     
-    // Get reference to the evidenceContainer div
-    const evidenceContainerDiv = document.getElementById('evidenceContainer');
-    
     // Process modern violations first (if they exist), otherwise process classic violations
     if (formData.modernViolations && formData.modernViolations.length > 0) {
         // Only show the first modern violation
@@ -1098,7 +1095,7 @@ if (formData) {
             `;
         }
         
-        // Build violation HTML - this will be added to the evidenceContainer
+        // Build violation HTML - this will be added OUTSIDE #evidenceContainer
         violationHTML += '<div class="violation-box">';
         violationHTML += `
             <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${violation.reason}</b></p>
@@ -1168,8 +1165,8 @@ if (formData) {
         
         violationHTML += '</div>';
         
-        // Add violation HTML to the evidenceContainer
-        evidenceContainerDiv.innerHTML += violationHTML;
+        // Add violation HTML to the evidence container (OUTSIDE #evidenceContainer)
+        evidenceContainerEl.innerHTML += violationHTML;
         
         // If image violation, add image and set up layout
         if (hasImage) {
@@ -1178,18 +1175,31 @@ if (formData) {
             
             function updateLayout() {
                 if (window.innerWidth >= 600) {
-                    // Image beside content - apply left margin to entire evidence container
-                    evidenceContainerEl.style.position = "relative";
-                    evidenceContainerEl.style.left = "200px";
-                    evidenceContainerEl.style.maxWidth = "320px";
-                    evidenceContainerEl.style.marginLeft = "0";
-                    evidenceContainerEl.style.paddingLeft = "0";
+                    // Move evidenceContainer and violation box 200px to the left
+                    const evidenceContainerDiv = document.getElementById('evidenceContainer');
+                    const violationBoxEl = document.querySelector('.violation-box');
+                    
+                    evidenceContainerDiv.style.position = "relative";
+                    evidenceContainerDiv.style.left = "200px";
+                    evidenceContainerDiv.style.maxWidth = "320px";
+                    
+                    if (violationBoxEl) {
+                        violationBoxEl.style.position = "relative";
+                        violationBoxEl.style.left = "200px";
+                        violationBoxEl.style.maxWidth = "320px";
+                    }
                 } else {
-                    // Image on top, normal flow
-                    evidenceContainerEl.style.left = "0";
-                    evidenceContainerEl.style.maxWidth = "100%";
-                    evidenceContainerEl.style.marginLeft = "0";
-                    evidenceContainerEl.style.paddingLeft = "0";
+                    // Reset for mobile
+                    const evidenceContainerDiv = document.getElementById('evidenceContainer');
+                    const violationBoxEl = document.querySelector('.violation-box');
+                    
+                    evidenceContainerDiv.style.left = "0";
+                    evidenceContainerDiv.style.maxWidth = "100%";
+                    
+                    if (violationBoxEl) {
+                        violationBoxEl.style.left = "0";
+                        violationBoxEl.style.maxWidth = "100%";
+                    }
                     
                     const imgEl = evidenceContainerEl.querySelector('.evidence-image');
                     if (imgEl) {
@@ -1279,8 +1289,8 @@ if (formData) {
         
         violationsHTML += '</div>';
         
-        // Add violation HTML to the evidenceContainer
-        evidenceContainerDiv.innerHTML += violationsHTML;
+        // Add violation HTML to the evidence container (OUTSIDE #evidenceContainer)
+        evidenceContainerEl.innerHTML += violationsHTML;
         
         // Add event listeners for view toggles
         document.querySelectorAll('.view-toggle').forEach(toggle => {
@@ -1322,18 +1332,31 @@ if (formData) {
             
             function updateLayout() {
                 if (window.innerWidth >= 600) {
-                    // Image beside content - apply left margin to entire evidence container
-                    evidenceContainerEl.style.position = "relative";
-                    evidenceContainerEl.style.left = "200px";
-                    evidenceContainerEl.style.maxWidth = "320px";
-                    evidenceContainerEl.style.marginLeft = "0";
-                    evidenceContainerEl.style.paddingLeft = "0";
+                    // Move evidenceContainer and violation box 200px to the left
+                    const evidenceContainerDiv = document.getElementById('evidenceContainer');
+                    const violationBoxEl = document.querySelector('.violation-box');
+                    
+                    evidenceContainerDiv.style.position = "relative";
+                    evidenceContainerDiv.style.left = "200px";
+                    evidenceContainerDiv.style.maxWidth = "320px";
+                    
+                    if (violationBoxEl) {
+                        violationBoxEl.style.position = "relative";
+                        violationBoxEl.style.left = "200px";
+                        violationBoxEl.style.maxWidth = "320px";
+                    }
                 } else {
-                    // Image on top, normal flow
-                    evidenceContainerEl.style.left = "0";
-                    evidenceContainerEl.style.maxWidth = "100%";
-                    evidenceContainerEl.style.marginLeft = "0";
-                    evidenceContainerEl.style.paddingLeft = "0";
+                    // Reset for mobile
+                    const evidenceContainerDiv = document.getElementById('evidenceContainer');
+                    const violationBoxEl = document.querySelector('.violation-box');
+                    
+                    evidenceContainerDiv.style.left = "0";
+                    evidenceContainerDiv.style.maxWidth = "100%";
+                    
+                    if (violationBoxEl) {
+                        violationBoxEl.style.left = "0";
+                        violationBoxEl.style.maxWidth = "100%";
+                    }
                     
                     const imgEl = evidenceContainerEl.querySelector('.evidence-image');
                     if (imgEl) {
@@ -1349,7 +1372,7 @@ if (formData) {
         }
     }
     
-    // Add the single view button at the end (inside evidenceContainer)
+    // Add the single view button at the end (OUTSIDE #evidenceContainer)
     const buttonHTML = `
         <div class="viewButtonContainer" style="margin-top: 16px;">
             <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
@@ -1357,7 +1380,7 @@ if (formData) {
             </button>
         </div>
     `;
-    evidenceContainerDiv.innerHTML += buttonHTML;
+    evidenceContainerEl.innerHTML += buttonHTML;
 }
 });
     </script>
