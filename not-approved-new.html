@@ -355,9 +355,9 @@ header.dark + #sidebar .premium-btn {
         }
         
         .violation-box {
-            border-top: 1px solid grey;
-            padding-top: 15px;
-            margin-top: 15px;
+            border-bottom: 1px solid grey;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
         }
         
         .evidence-container {
@@ -1050,33 +1050,17 @@ if (formData) {
     // Clear and set up evidence container
     const evidenceContainerEl = document.querySelector('.evidence-container');
     
-    // Create the review date and moderator note elements INSIDE #evidenceContainer
-    let evidenceHTML = `
-        <div id="evidenceContainer">
-            <div style="margin-bottom: 16px;">
-                <p>${translations[language]["Label.ReviewDateV2"]}:<b id="reviewedDate">${reviewedDate}</b></p>
-            </div>
-    `;
-
-    if (moderatorNote) {
-        evidenceHTML += `
-            <div style="margin-bottom: 16px;">
-                <p>${translations[language]["Label.ModeratorNoteV2"]}:<b id="moderatorNote">${moderatorNote}</b></p>
-            </div>
-        `;
-    }
+    // Start with an empty container
+    evidenceContainerEl.innerHTML = '';
     
-    evidenceHTML += `</div>`;
-    
-    evidenceContainerEl.innerHTML = evidenceHTML;
+    let hasImageViolation = false;
+    let imageHTML = "";
+    let violationHTML = '';
     
     // Process modern violations first (if they exist), otherwise process classic violations
     if (formData.modernViolations && formData.modernViolations.length > 0) {
         // Only show the first modern violation
         const violation = formData.modernViolations[0];
-        let violationHTML = '';
-        let hasImage = false;
-        let imageHTML = '';
         
         // Check if this is an image violation
         const classicViolation = formData.classicViolations && formData.classicViolations.length > 0 
@@ -1084,10 +1068,11 @@ if (formData) {
             : null;
             
         const isImageViolation = classicViolation && classicViolation.evidence && 
+                               (classicViolation.violationType === "Image" || classicViolation.violationType === "Profile Picture") &&
                                classicViolation.evidence.startsWith("data:image");
         
         if (isImageViolation) {
-            hasImage = true;
+            hasImageViolation = true;
             imageHTML = `
                 <div class="evidence-image" style="max-width:180px; max-height:400px; height:fit-content; border-radius:8px; position:absolute; left:15px; align-items: center;">
                     <img src="${classicViolation.evidence}" alt="Violating Image" style="max-width:180px; max-height:400px; border-radius: 8px; align-self: center; margin: auto;">
@@ -1095,7 +1080,7 @@ if (formData) {
             `;
         }
         
-        // Build violation HTML - this will be added OUTSIDE #evidenceContainer
+        // Build violation HTML - this will be added FIRST
         violationHTML += '<div class="violation-box">';
         violationHTML += `
             <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${violation.reason}</b></p>
@@ -1117,23 +1102,23 @@ if (formData) {
                 break;
                 
             case "Image":
-			case "Profile Picture":  
-		        violationHTML += `
-		            <p style="margin-bottom: 4px;">${translations[language]["Label.AssetID"]}:</p>
-		            <div class="offensive-items-container" style="margin-bottom:4px;">
-		                <b class="evidence-content visible" data-index="0">${violation.assetId || 'N/A'}</b>
-		            </div>
-		        `;
-		        break;
-		        
-		    case "Voice Chat": 
-		        violationHTML += `
-		            <p style="margin-bottom: 4px;">${translations[language]["Label.Location"] || "Location"}:</p>
-		            <div class="offensive-items-container" style="margin-bottom:4px;">
-		                <b class="evidence-content visible" data-index="0">${violation.location || 'N/A'}</b>
-		            </div>
-		        `;
-		        break;
+            case "Profile Picture":  // Profile Picture treated like Image
+                violationHTML += `
+                    <p style="margin-bottom: 4px;">${translations[language]["Label.AssetID"]}:</p>
+                    <div class="offensive-items-container" style="margin-bottom:4px;">
+                        <b class="evidence-content visible" data-index="0">${violation.assetId || 'N/A'}</b>
+                    </div>
+                `;
+                break;
+                
+            case "Voice Chat":  // Voice Chat with Location field
+                violationHTML += `
+                    <p style="margin-bottom: 4px;">${translations[language]["Label.Location"] || "Location"}:</p>
+                    <div class="offensive-items-container" style="margin-bottom:4px;">
+                        <b class="evidence-content visible" data-index="0">${violation.location || 'N/A'}</b>
+                    </div>
+                `;
+                break;
                 
             case "Model":
                 violationHTML += `
@@ -1174,55 +1159,6 @@ if (formData) {
         }
         
         violationHTML += '</div>';
-        
-        // Add violation HTML to the evidence container (OUTSIDE #evidenceContainer)
-        evidenceContainerEl.innerHTML += violationHTML;
-        
-        // If image violation, add image and set up layout
-        if (hasImage) {
-            evidenceContainerEl.style.position = "relative";
-            evidenceContainerEl.insertAdjacentHTML("afterbegin", imageHTML);
-            
-            function updateLayout() {
-                if (window.innerWidth >= 600) {
-                    // Move evidenceContainer and violation box 200px to the left
-                    const evidenceContainerDiv = document.getElementById('evidenceContainer');
-                    const violationBoxEl = document.querySelector('.violation-box');
-                    
-                    evidenceContainerDiv.style.position = "relative";
-                    evidenceContainerDiv.style.left = "200px";
-                    evidenceContainerDiv.style.maxWidth = "320px";
-                    
-                    if (violationBoxEl) {
-                        violationBoxEl.style.position = "relative";
-                        violationBoxEl.style.left = "200px";
-                        violationBoxEl.style.maxWidth = "320px";
-                    }
-                } else {
-                    // Reset for mobile
-                    const evidenceContainerDiv = document.getElementById('evidenceContainer');
-                    const violationBoxEl = document.querySelector('.violation-box');
-                    
-                    evidenceContainerDiv.style.left = "0";
-                    evidenceContainerDiv.style.maxWidth = "100%";
-                    
-                    if (violationBoxEl) {
-                        violationBoxEl.style.left = "0";
-                        violationBoxEl.style.maxWidth = "100%";
-                    }
-                    
-                    const imgEl = evidenceContainerEl.querySelector('.evidence-image');
-                    if (imgEl) {
-                        imgEl.style.position = "relative";
-                        imgEl.style.left = "0";
-                        imgEl.style.marginBottom = "15px";
-                    }
-                }
-            }
-
-            window.addEventListener('resize', updateLayout);
-            updateLayout();
-        }
     } 
     // If no modern violations, process classic violations
     else if (formData.classicViolations && formData.classicViolations.length > 0) {
@@ -1235,24 +1171,20 @@ if (formData) {
             violationsByReason[violation.reason].push(violation);
         });
         
-        let violationsHTML = '<div class="violation-box">';
-        let hasImageViolation = false;
-        let imageHTML = "";
-
+        violationHTML = '<div class="violation-box">';
+        
         // Process each reason group
         Object.keys(violationsByReason).forEach(reason => {
             const violations = violationsByReason[reason];
             const firstViolation = violations[0];
-			const isImageViolation = firstViolation.violationType === "Image" || 
-                         firstViolation.violationType === "Profile Picture" && 
-                         firstViolation.evidence && 
-                         firstViolation.evidence.startsWith("data:image");
-            if (firstViolation.violationType === "Voice Chat") {
-			    violationsHTML += `
-			        <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${firstViolation.reason}</b></p>
-			        <p>${translations[language]["Label.Location"] || "Location"}:<b class="evidence-content" style="display:block;margin-top:4px">${firstViolation.location || 'N/A'}</b></p>
-			    `;
-			} else if (isImageViolation) {
+            
+            // Check if this is an image violation
+            const isImageViolation = (firstViolation.violationType === "Image" || 
+                                     firstViolation.violationType === "Profile Picture") && 
+                                     firstViolation.evidence && 
+                                     firstViolation.evidence.startsWith("data:image");
+            
+            if (isImageViolation) {
                 hasImageViolation = true;
                 const assetId = Math.floor(1e14 + Math.random() * 9e14);
                 imageHTML = `
@@ -1260,17 +1192,22 @@ if (formData) {
                         <img src="${firstViolation.evidence}" alt="Violating Image" style="max-width:180px; max-height:400px; border-radius: 8px; align-self: center; margin: auto;">
                     </div>
                 `;
-                violationsHTML += `
+                violationHTML += `
                     <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${firstViolation.reason}</b></p>
                     <p>${translations[language]["Label.AssetID"]}:<b class="evidence-content" style="display:block;margin-top:4px">${assetId}</b></p>
                 `;
+            } else if (firstViolation.violationType === "Voice Chat") {
+                violationHTML += `
+                    <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${firstViolation.reason}</b></p>
+                    <p>${translations[language]["Label.Location"] || "Location"}:<b class="evidence-content" style="display:block;margin-top:4px">${firstViolation.location || 'N/A'}</b></p>
+                `;
             } else {
-                violationsHTML += `
+                violationHTML += `
                     <p>${translations[language]["Label.Reason"]}:<b class="violation-text" style="display:block;margin-top:4px">${reason}</b></p>
                 `;
                 
                 // Group regular violations - put the container inside the <p> tag with 4px margin
-                violationsHTML += `
+                violationHTML += `
                     <p style="margin-bottom: 4px;">${translations[language]["Label.OffensiveItemV2"]}:
                         <div class="offensive-items-container" style="margin-top:4px;">
                 `;
@@ -1281,7 +1218,7 @@ if (formData) {
                         : violation.evidence;
                     
                     const isHidden = index >= 5;
-                    violationsHTML += `
+                    violationHTML += `
                         <b class="evidence-content ${isHidden ? 'hidden' : 'visible'}" 
                            data-index="${index}">
                            ${evidenceContent}
@@ -1289,58 +1226,133 @@ if (formData) {
                     `;
                 });
                 
-                violationsHTML += `</div>`;
+                violationHTML += `</div>`;
                 
                 // Add view more/less toggle if there are more than 5 items
                 if (violations.length > 5) {
-                    violationsHTML += `
+                    violationHTML += `
                         <div class="view-toggle" data-reason="${reason.replace(/\s+/g, '-')}" style="margin-top:8px;">
                             View more (${violations.length - 5} more)
                         </div>
                     `;
                 }
                 
-                violationsHTML += `</p>`;
+                violationHTML += `</p>`;
             }
         });
         
-        violationsHTML += '</div>';
+        violationHTML += '</div>';
+    }
+    
+    // Create evidence container HTML (review date and moderator note)
+    let evidenceHTML = `
+        <div id="evidenceContainer">
+            <div style="margin-bottom: 16px;">
+                <p>${translations[language]["Label.ReviewDateV2"]}:<b id="reviewedDate">${reviewedDate}</b></p>
+            </div>
+    `;
+
+    if (moderatorNote) {
+        evidenceHTML += `
+            <div style="margin-bottom: 16px;">
+                <p>${translations[language]["Label.ModeratorNoteV2"]}:<b id="moderatorNote">${moderatorNote}</b></p>
+            </div>
+        `;
+    }
+    
+    evidenceHTML += `</div>`;
+    
+    // Add violation box FIRST, then evidence container
+    evidenceContainerEl.innerHTML = violationHTML + evidenceHTML;
+    
+    // If image violation, add image and set up layout
+    if (hasImageViolation) {
+        evidenceContainerEl.style.position = "relative";
+        evidenceContainerEl.insertAdjacentHTML("afterbegin", imageHTML);
         
-        // Add violation HTML to the evidence container (OUTSIDE #evidenceContainer)
-        evidenceContainerEl.innerHTML += violationsHTML;
-        
-        // Add event listeners for view toggles
-        document.querySelectorAll('.view-toggle').forEach(toggle => {
-            toggle.addEventListener('click', function() {
-                const reason = this.getAttribute('data-reason');
-                const container = this.previousElementSibling;
-                const items = container.querySelectorAll('.evidence-content');
-                let allVisible = true;
+        function updateLayout() {
+            if (window.innerWidth >= 600) {
+                // Move evidenceContainer and violation box 200px to the left
+                const evidenceContainerDiv = document.getElementById('evidenceContainer');
+                const violationBoxEl = document.querySelector('.violation-box');
                 
-                // Check if any items are hidden
-                items.forEach(item => {
-                    if (item.classList.contains('hidden')) {
-                        allVisible = false;
-                    }
-                });
+                evidenceContainerDiv.style.position = "relative";
+                evidenceContainerDiv.style.left = "200px";
+                evidenceContainerDiv.style.maxWidth = "320px";
                 
-                // Toggle visibility
-                items.forEach(item => {
-                    if (allVisible && parseInt(item.getAttribute('data-index')) >= 5) {
-                        item.classList.remove('visible');
-                        item.classList.add('hidden');
-                    } else {
-                        item.classList.remove('hidden');
-                        item.classList.add('visible');
-                    }
-                });
+                if (violationBoxEl) {
+                    violationBoxEl.style.position = "relative";
+                    violationBoxEl.style.left = "200px";
+                    violationBoxEl.style.maxWidth = "320px";
+                }
+            } else {
+                // Reset for mobile
+                const evidenceContainerDiv = document.getElementById('evidenceContainer');
+                const violationBoxEl = document.querySelector('.violation-box');
                 
-                // Update toggle text
-                this.textContent = allVisible 
-                    ? `View more (${items.length - 5} more)` 
-                    : 'View less';
+                evidenceContainerDiv.style.left = "0";
+                evidenceContainerDiv.style.maxWidth = "100%";
+                
+                if (violationBoxEl) {
+                    violationBoxEl.style.left = "0";
+                    violationBoxEl.style.maxWidth = "100%";
+                }
+                
+                const imgEl = evidenceContainerEl.querySelector('.evidence-image');
+                if (imgEl) {
+                    imgEl.style.position = "relative";
+                    imgEl.style.left = "0";
+                    imgEl.style.marginBottom = "15px";
+                }
+            }
+        }
+
+        window.addEventListener('resize', updateLayout);
+        updateLayout();
+    }
+    
+    // Add the single view button at the end
+    const buttonHTML = `
+        <div class="viewButtonContainer" style="margin-top: 16px;">
+            <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
+                <a id="viewMoreButton" style="text-align: center; width: 100%; font-size: 16px; font-weight: 500; display: block;">View more</a>
+            </button>
+        </div>
+    `;
+    evidenceContainerEl.innerHTML += buttonHTML;
+    
+    // Add event listeners for view toggles (for classic violations)
+    document.querySelectorAll('.view-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const reason = this.getAttribute('data-reason');
+            const container = this.previousElementSibling;
+            const items = container.querySelectorAll('.evidence-content');
+            let allVisible = true;
+            
+            // Check if any items are hidden
+            items.forEach(item => {
+                if (item.classList.contains('hidden')) {
+                    allVisible = false;
+                }
             });
+            
+            // Toggle visibility
+            items.forEach(item => {
+                if (allVisible && parseInt(item.getAttribute('data-index')) >= 5) {
+                    item.classList.remove('visible');
+                    item.classList.add('hidden');
+                } else {
+                    item.classList.remove('hidden');
+                    item.classList.add('visible');
+                }
+            });
+            
+            // Update toggle text
+            this.textContent = allVisible 
+                ? `View more (${items.length - 5} more)` 
+                : 'View less';
         });
+    });
 
         // If image violation, handle layout positioning
         if (hasImageViolation) {
@@ -1388,17 +1400,6 @@ if (formData) {
             updateLayout();
         }
     }
-    
-    // Add the single view button at the end (OUTSIDE #evidenceContainer)
-    const buttonHTML = `
-        <div class="viewButtonContainer" style="margin-top: 16px;">
-            <button style="width: 100%; height: 36px; border-radius: 8px; background-color: #e5e5e5; border: 0px; box-shadow: 0px 1px 1px 1px #ddd;">
-                <a id="viewMoreButton" style="text-align: center; width: 100%; font-size: 16px; font-weight: 500; display: block;">View more</a>
-            </button>
-        </div>
-    `;
-    evidenceContainerEl.innerHTML += buttonHTML;
-}
 });
     </script>
 </body>
