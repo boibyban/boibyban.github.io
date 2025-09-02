@@ -677,7 +677,7 @@ body.dark-mode .menu-dots:hover {
             </ul>
             
             <div class="modal-footer left-align">
-                <a href="/appeals-form" class="modal-button appeal-button">Request appeal</a>
+                <a href="/appeals-form" class="modal-button appeal-button">Request an appeal</a>
             </div>
             
             <!-- Reactivate container only shown for warnings -->
@@ -1004,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			const appealBtn = document.createElement('a');
 			appealBtn.href = '/appeals-form';
 			appealBtn.className = 'modal-button permanent-appeal-button';
-			appealBtn.textContent = translations[language]["Action.ReportAMistake"] || "Report a mistake";
+			appealBtn.textContent = translations[language]["Action.RequestAppealV2"] || "Request an appeal";
 			document.getElementById('actionButtons').prepend(appealBtn);
 		}
 		else {
