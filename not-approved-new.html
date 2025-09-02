@@ -768,29 +768,46 @@ body.dark-mode .menu-dots:hover {
   }, 50); // slight delay so CSS transition kicks in
 });
 
-        function formatDate(dateInput) {
-	let date;
-	if (typeof dateInput === 'string') {
-		const [datePart, timePart] = dateInput.split(', ');
-		const [day, month, year] = datePart.split('/');
-		date = new Date(`${year}-${month}-${day}T${timePart}`);
-	} else if (dateInput instanceof Date && !isNaN(dateInput.getTime())) {
-		date = dateInput;
-	} else {
-		date = new Date();
-	}
+function formatDate(dateInput) {
+    let date;
+    
+    // Handle various date input formats
+    if (typeof dateInput === 'string') {
+        // Try to parse the date string from the form (DD/MM/YYYY, HH:MM:SS format)
+        if (dateInput.includes('/') && dateInput.includes(',')) {
+            const [datePart, timePart] = dateInput.split(', ');
+            const [day, month, year] = datePart.split('/');
+            date = new Date(`${year}-${month}-${day}T${timePart}`);
+        } 
+        // Try to parse ISO format or other date strings
+        else {
+            date = new Date(dateInput);
+        }
+    } else if (dateInput instanceof Date && !isNaN(dateInput.getTime())) {
+        date = dateInput;
+    } else {
+        // Fallback to current date if invalid
+        date = new Date();
+    }
 
-	const options = {
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: true
-	};
-	return date.toLocaleString('en-US', options)
-		.replace(',', '')
-		.replace(/(\d+:\d+)/, '$1');
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+        // If invalid, use current date as fallback
+        date = new Date();
+    }
+
+    const options = {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    };
+    
+    return date.toLocaleString('en-US', options)
+        .replace(',', '')
+        .replace(/(\d+:\d+)/, '$1');
 }
 
 function setTheme(theme) {
