@@ -95,6 +95,8 @@ window.translations = {
         "Action.RequestAppeal": "Request Appeal",
         "Action.Logout": "Logout",
         "Action.Continue": "Continue",
+        "Action.ReportAMistake": "Report a mistake",
+        "Action.RequestAppealV2": "Request an appeal",
         "Action.Back": "Back"
     }
 };
