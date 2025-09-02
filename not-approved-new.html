@@ -981,7 +981,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			document.querySelector('.mistake-box').style.display = 'none';
 
-const evidenceContainer = document.querySelector('.evidence-container');
+			const evidenceContainer = document.querySelector('.evidence-container');
 			
 			// Replace warning icon with permanent ban icon
 			const header = document.getElementById('modalHeader');
@@ -1004,29 +1004,46 @@ const evidenceContainer = document.querySelector('.evidence-container');
 			const appealBtn = document.createElement('a');
 			appealBtn.href = '/appeals-form';
 			appealBtn.className = 'modal-button permanent-appeal-button';
-			appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
+			appealBtn.textContent = translations[language]["Action.ReportAMistake"] || "Report a mistake";
 			document.getElementById('actionButtons').prepend(appealBtn);
-		} else {
-			// Handle temp suspension messages
-			const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
-			const firstViolation = hasViolations ? formData.classicViolations[0] : null;
-
-			if (!hasViolations || !firstViolation?.reason) {
-				rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
-			} else {
-				const violationType = firstViolation.violationType || '';
-				const reason = firstViolation.reason.toLowerCase();
-
-				if (violationType === "General/Chat") {
-					rulesMessageEl.textContent = `Your behavior broke the rules regarding ${reason}.`;
-				} else {
-					const violationTypeLower = violationType.toLowerCase();
-					rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules regarding ${reason}.`;
-				}
-			}
 		}
+		else {
+		    // Handle temp suspension messages
+		    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
+		    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
+		
+		    if (!hasViolations || !firstViolation?.reason) {
+		        rulesMessageEl.textContent = 'Your behaviour broke the Boiby Community Rules.';
+			} else {
+	        const violationType = firstViolation.violationType || '';
+	        const reason = firstViolation.reason; // Keep original case
+	
+	        if (violationType === "General/Chat") {
+	            rulesMessageEl.textContent = `Your behaviour broke the rules regarding: ${reason}`;
+	        } else {
+	            // Define which violation types should keep their original case and shouldn't be pluralized
+	            const nonPluralTypes = [
+	                "Profile Picture", "Display Name", "Username", 
+	                "User Profile About", "Voice Chat"
+	            ];
+	            
+	            const preserveCaseTypes = [
+	                "UGC Bundle", "UGC Accessory"
+	            ];
+	            
+	            let violationTypeDisplay = preserveCaseTypes.includes(violationType) 
+	                ? violationType 
+	                : violationType.toLowerCase();
+	            
+	            if (nonPluralTypes.includes(violationType)) {
+	                rulesMessageEl.textContent = `Your ${violationTypeDisplay} broke the rules regarding: ${reason}`;
+	            } else {
+	                rulesMessageEl.textContent = `One of your ${violationTypeDisplay}s broke the rules regarding: ${reason}`;
+	            }
+	        }
+	    }
 	}
-
+}
 	// Set the intervention ID from localStorage
 	const caseID = localStorage.getItem('ModPanelCaseID');
 	if (caseID) {
