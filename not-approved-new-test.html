@@ -981,7 +981,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			document.querySelector('.mistake-box').style.display = 'none';
 
-const evidenceContainer = document.querySelector('.evidence-container');
+			const evidenceContainer = document.querySelector('.evidence-container');
 			
 			// Replace warning icon with permanent ban icon
 			const header = document.getElementById('modalHeader');
@@ -1006,14 +1006,15 @@ const evidenceContainer = document.querySelector('.evidence-container');
 			appealBtn.className = 'modal-button permanent-appeal-button';
 			appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
 			document.getElementById('actionButtons').prepend(appealBtn);
-		} else {
-	    // Handle temp suspension messages
-	    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
-	    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
-	
-	    if (!hasViolations || !firstViolation?.reason) {
-	        rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
-		} else {
+		}
+		else {
+		    // Handle temp suspension messages
+		    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
+		    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
+		
+		    if (!hasViolations || !firstViolation?.reason) {
+		        rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
+			} else {
 	        const violationType = firstViolation.violationType || '';
 	        const reason = firstViolation.reason; // Keep original case
 	
@@ -1044,7 +1045,7 @@ const evidenceContainer = document.querySelector('.evidence-container');
 	        }
 	    }
 	}
-
+}
 	// Set the intervention ID from localStorage
 	const caseID = localStorage.getItem('ModPanelCaseID');
 	if (caseID) {
