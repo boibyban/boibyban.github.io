@@ -1008,23 +1008,43 @@ const evidenceContainer = document.querySelector('.evidence-container');
 			document.getElementById('actionButtons').prepend(appealBtn);
 		} else {
 			// Handle temp suspension messages
-			const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
-			const firstViolation = hasViolations ? formData.classicViolations[0] : null;
-
-			if (!hasViolations || !firstViolation?.reason) {
-				rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
 			} else {
-				const violationType = firstViolation.violationType || '';
-				const reason = firstViolation.reason.toLowerCase();
+    // Handle temp suspension messages
+    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
+    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
 
-				if (violationType === "General/Chat") {
-					rulesMessageEl.textContent = `Your behavior broke the rules regarding ${reason}.`;
-				} else {
-					const violationTypeLower = violationType.toLowerCase();
-					rulesMessageEl.textContent = `One of your ${violationTypeLower}s broke the rules regarding ${reason}.`;
-				}
-			}
-		}
+    if (!hasViolations || !firstViolation?.reason) {
+        rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
+	    } else {
+	        const violationType = firstViolation.violationType || '';
+	        const reason = firstViolation.reason; // Keep original case
+	
+	        if (violationType === "General/Chat") {
+	            rulesMessageEl.textContent = `Your behavior broke the rules regarding: ${reason}.`;
+	        } else {
+	            // Define which violation types should keep their original case and shouldn't be pluralized
+	            const nonPluralTypes = [
+	                "Profile Picture", "Display Name", "Username", 
+	                "User Profile About", "Voice Chat"
+	            ];
+	            
+	            const preserveCaseTypes = [
+	                "UGC Bundle", "UGC Accessory", "Profile Picture", "Voice Chat",
+	                "User Profile About", "Group Shout", "Group Description", "Group Roleset",
+	                "Display Name", "Username"
+	            ];
+	            
+	            let violationTypeDisplay = preserveCaseTypes.includes(violationType) 
+	                ? violationType 
+	                : violationType.toLowerCase();
+	            
+	            if (nonPluralTypes.includes(violationType)) {
+	                rulesMessageEl.textContent = `Your ${violationTypeDisplay} broke the rules regarding: ${reason}.`;
+	            } else {
+	                rulesMessageEl.textContent = `One of your ${violationTypeDisplay}s broke the rules regarding: ${reason}.`;
+	            }
+	        }
+	    }
 	}
 
 	// Set the intervention ID from localStorage
