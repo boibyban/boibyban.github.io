@@ -829,6 +829,12 @@ function showAppealContent() {
 	if (formData && formData.state !== "Warn" && formData.state !== "Delete") {
 		const suspensionButton = document.createElement('button');
 		suspensionButton.className = 'modal-button disabled-button';
+		suspensionButton.innerHTML = `
+		    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+		        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+		    </svg>
+		    <span class="suspension-text">Suspension</span> ...
+		`;
 		actionButtons.innerHTML = `
         <button id="backButton" class="modal-button back-button">Back</button>
     `;
@@ -881,18 +887,20 @@ function showAppealContent() {
 		    }
 		
 		    // Calculate time components
-		    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-		    diff -= days * (1000 * 60 * 60 * 24);
-		    const hours = Math.floor(diff / (1000 * 60 * 60));
-		    diff -= hours * (1000 * 60 * 60);
-		    const minutes = Math.floor(diff / (1000 * 60));
+		    const totalHours = Math.floor(diff / (1000 * 60 * 60));
+		    const days = Math.floor(totalHours / 24);
+		    const hours = totalHours % 24;
+		    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 		
-		    // Format time based on duration
+		    // Format time based on duration - show days for > 2 days, HH:MM for ≤ 2 days
 		    let timeText;
-		    if (days > 0) {
-		        timeText = `${days}d ${hours}h ${minutes}m`;
+		    if (totalHours > 48) { // More than 2 days (48 hours)
+		        // Round to nearest day
+		        const roundedDays = Math.round(totalHours / 24);
+		        timeText = `${roundedDays} day${roundedDays !== 1 ? 's' : ''}`;
 		    } else {
-		        timeText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} hours`;
+		        // Show HH:MM format for 2 days or less
+		        timeText = `${String(totalHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} hours`;
 		    }
 		
 		    suspensionButton.innerHTML = `
@@ -904,7 +912,6 @@ function showAppealContent() {
 		    
 		    setTimeout(updateCountdown, 60000);
 		}
-
 		updateCountdown();
 	}
 else if (formData && formData.state === "Delete") {
@@ -913,14 +920,12 @@ else if (formData && formData.state === "Delete") {
             <button id="backButton" class="modal-button back-button">Back</button>
             <button class="modal-button disabled-button">Suspended</button>
         `;
-	
 } else {
 	// Warn
 	actionButtons.innerHTML = `
             <button id="backButton" class="modal-button back-button">Back</button>
         `;
 }
-
 document.getElementById('backButton').addEventListener('click', function() {
 	document.getElementById('modalHeader').style.display = 'flex';
 	document.getElementById('mainContent').style.display = 'block';
