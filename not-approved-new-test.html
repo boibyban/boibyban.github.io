@@ -7,6 +7,16 @@
     <title>Boiby</title>
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
 	<style>
+.modal-button.disabled-button {
+    border: 2px solid #ccc; /* Outline */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+}
+
+.suspension-text {
+    font-weight: bold; 
+}
 .view-toggle {
 	display:none;
 }
@@ -23,6 +33,7 @@
     opacity: 0;
 }
 
+		
 .evidence-content.visible {
     max-height: 100px;
     opacity: 1;
@@ -790,50 +801,6 @@ function setTheme(theme) {
 	}
 }
 
-function updateMainPageDuration() {
-    const formData = JSON.parse(localStorage.getItem('banFormData'));
-    const durationDisplay = document.getElementById('mainPageDuration');
-    const durationTime = document.getElementById('durationTime');
-    
-    // Hide for non-temp bans
-    if (!formData || formData.state === "Warn" || formData.state === "Delete") {
-        durationDisplay.style.display = 'none';
-        return;
-    }
-    
-    // Show for temp bans
-    durationDisplay.style.display = 'flex';
-    
-    const stateDurations = {
-        Ban1Hour: 1 * 60 * 60 * 1000,
-        Ban3Hours: 3 * 60 * 60 * 1000,
-        Ban6Hours: 6 * 60 * 60 * 1000,
-        Ban12Hours: 12 * 60 * 60 * 1000,
-        Ban1Day: 24 * 60 * 60 * 1000,
-        Ban2Days: 2 * 24 * 60 * 60 * 1000,
-        Ban3Days: 3 * 24 * 60 * 60 * 1000,
-        Ban7Days: 7 * 24 * 60 * 60 * 1000,
-        Ban14Days: 14 * 24 * 60 * 60 * 1000,
-        Ban60Days: 60 * 24 * 60 * 60 * 1000,
-        Ban6Months: 182 * 24 * 60 * 60 * 1000,
-        Ban1Year: 365 * 24 * 60 * 60 * 1000
-    };
-    
-    const durationMs = stateDurations[formData.state] || 0;
-    
-    // Format the duration
-    if (durationMs < 24 * 60 * 60 * 1000) {
-        // Show hours and minutes for bans less than 1 day
-        const hours = Math.floor(durationMs / (1000 * 60 * 60));
-        const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
-        durationTime.textContent = `${hours}:${minutes.toString().padStart(2, '0')} hours`;
-    } else {
-        // Show days for longer bans
-        const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
-        durationTime.textContent = `${days} day${days !== 1 ? 's' : ''}`;
-    }
-}
-
 function showAppealContent() {
 	document.getElementById('modalHeader').style.display = 'none';
 	document.getElementById('mainContent').style.display = 'none';
@@ -890,35 +857,48 @@ function showAppealContent() {
 		const endTime = new Date(banStartDate.getTime() + (stateDurations[formData.state] || 0));
 
 		function updateCountdown() {
-			const now = new Date();
-			let diff = endTime - now;
-
-			if (diff <= 0) {
-				suspensionButton.textContent = "Reactivate Account";
-				suspensionButton.classList.remove('disabled-button');
-				suspensionButton.classList.add('reactivate-button');
-				suspensionButton.disabled = false;
-				suspensionButton.addEventListener('click', function() {
-					window.location.href = "https://boibyban.github.io";
-				});
-				return;
-			}
-
-			const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-			diff -= days * (1000 * 60 * 60 * 24);
-			const hours = Math.floor(diff / (1000 * 60 * 60));
-			diff -= hours * (1000 * 60 * 60);
-			const minutes = Math.floor(diff / (1000 * 60));
-
-			let label = "Suspension    ";
-			if (days > 0) {
-				label += `${days}d ${hours}h ${minutes}m`;
-			} else {
-				label += `${hours}h ${minutes}m`;
-			}
-
-			suspensionButton.textContent = label;
-			setTimeout(updateCountdown, 60000);
+		    const now = new Date();
+		    let diff = endTime - now;
+		
+		    if (diff <= 0) {
+		        suspensionButton.innerHTML = `
+		            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+		                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+		            </svg>
+		            <span class="suspension-text">Reactivate Account</span>
+		        `;
+		        suspensionButton.classList.remove('disabled-button');
+		        suspensionButton.classList.add('reactivate-button');
+		        suspensionButton.disabled = false;
+		        suspensionButton.addEventListener('click', function() {
+		            window.location.href = "https://boibyban.github.io";
+		        });
+		        return;
+		    }
+		
+		    // Calculate time components
+		    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+		    diff -= days * (1000 * 60 * 60 * 24);
+		    const hours = Math.floor(diff / (1000 * 60 * 60));
+		    diff -= hours * (1000 * 60 * 60);
+		    const minutes = Math.floor(diff / (1000 * 60));
+		
+		    // Format time based on duration
+		    let timeText;
+		    if (days > 0) {
+		        timeText = `${days}d ${hours}h ${minutes}m`;
+		    } else {
+		        timeText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} hours`;
+		    }
+		
+		    suspensionButton.innerHTML = `
+		        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+		            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+		        </svg>
+		        <span class="suspension-text">Suspension</span> ${timeText}
+		    `;
+		    
+		    setTimeout(updateCountdown, 60000);
 		}
 
 		updateCountdown();
@@ -1010,7 +990,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		Delete: translations[language]["Heading.Banned"],
 	};
 
-	updateMainPageDuration();
 	
 	if (formData && formData.state) {
 		document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
