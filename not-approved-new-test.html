@@ -1007,15 +1007,13 @@ const evidenceContainer = document.querySelector('.evidence-container');
 			appealBtn.textContent = translations[language]["Action.RequestAppeal"] || "Request appeal";
 			document.getElementById('actionButtons').prepend(appealBtn);
 		} else {
-			// Handle temp suspension messages
-			} else {
-    // Handle temp suspension messages
-    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
-    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
-
-    if (!hasViolations || !firstViolation?.reason) {
-        rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
-	} else {
+	    // Handle temp suspension messages
+	    const hasViolations = formData.classicViolations && formData.classicViolations.length > 0;
+	    const firstViolation = hasViolations ? formData.classicViolations[0] : null;
+	
+	    if (!hasViolations || !firstViolation?.reason) {
+	        rulesMessageEl.textContent = 'Your recent behaviour broke the Boiby Community Rules.';
+		} else {
 	        const violationType = firstViolation.violationType || '';
 	        const reason = firstViolation.reason; // Keep original case
 	
