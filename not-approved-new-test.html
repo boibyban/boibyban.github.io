@@ -663,7 +663,7 @@ body.dark-mode .menu-dots:hover {
         <div id="appealContent" class="appeal-content">
             <b>Rule violations add up</b>
             <ul>
-                <li>We may give you a longer suspension - or even permanently ban your account - if you keep breaking the rules.</li>
+                <li>We may give you a longer suspension - or even ban your account - if you keep breaking the rules.</li>
                 <li>Make sure you know the rules and follow them.</li>
             </ul>
             
@@ -673,21 +673,21 @@ body.dark-mode .menu-dots:hover {
             
             <b>Did we make a mistake?</b>
             <ul>
-                <li>You can request an appeal or ask us to review this decision here</li>
+                <li>You can request an appeal or ask us to review this decision here:</li>
             </ul>
             
             <div class="modal-footer left-align">
-                <a href="/appeals-form" class="modal-button appeal-button">Request an appeal</a>
+                <a href="/appeals-form" class="modal-button appeal-button">Report a mistake</a>
             </div>
             
             <!-- Reactivate container only shown for warnings -->
             <div id="warningReactivateContainer" class="reactivate-container" style="display: none;">
                 <div class="agree-checkbox">
                     <input type="checkbox" id="reactivateAgreeCheckbox">
-                    <label for="reactivateAgreeCheckbox">I agree to know and follow the rules</label>
+                    <label for="reactivateAgreeCheckbox">I agree to know and follow the rules.</label>
                 </div>
                 <button id="reactivateAccountButton" class="modal-button reactivate-button" disabled>
-                    Re-activate Account
+                    Re-activate my account
                 </button>
             </div>
         </div>
@@ -1004,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			const appealBtn = document.createElement('a');
 			appealBtn.href = '/appeals-form';
 			appealBtn.className = 'modal-button permanent-appeal-button';
-			appealBtn.textContent = translations[language]["Action.RequestAppealV2"] || "Request an appeal";
+			appealBtn.textContent = translations[language]["Action.ReportAMistake"] || "Report a mistake";
 			document.getElementById('actionButtons').prepend(appealBtn);
 		}
 		else {
