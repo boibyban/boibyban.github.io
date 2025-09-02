@@ -790,6 +790,50 @@ function setTheme(theme) {
 	}
 }
 
+function updateMainPageDuration() {
+    const formData = JSON.parse(localStorage.getItem('banFormData'));
+    const durationDisplay = document.getElementById('mainPageDuration');
+    const durationTime = document.getElementById('durationTime');
+    
+    // Hide for non-temp bans
+    if (!formData || formData.state === "Warn" || formData.state === "Delete") {
+        durationDisplay.style.display = 'none';
+        return;
+    }
+    
+    // Show for temp bans
+    durationDisplay.style.display = 'flex';
+    
+    const stateDurations = {
+        Ban1Hour: 1 * 60 * 60 * 1000,
+        Ban3Hours: 3 * 60 * 60 * 1000,
+        Ban6Hours: 6 * 60 * 60 * 1000,
+        Ban12Hours: 12 * 60 * 60 * 1000,
+        Ban1Day: 24 * 60 * 60 * 1000,
+        Ban2Days: 2 * 24 * 60 * 60 * 1000,
+        Ban3Days: 3 * 24 * 60 * 60 * 1000,
+        Ban7Days: 7 * 24 * 60 * 60 * 1000,
+        Ban14Days: 14 * 24 * 60 * 60 * 1000,
+        Ban60Days: 60 * 24 * 60 * 60 * 1000,
+        Ban6Months: 182 * 24 * 60 * 60 * 1000,
+        Ban1Year: 365 * 24 * 60 * 60 * 1000
+    };
+    
+    const durationMs = stateDurations[formData.state] || 0;
+    
+    // Format the duration
+    if (durationMs < 24 * 60 * 60 * 1000) {
+        // Show hours and minutes for bans less than 1 day
+        const hours = Math.floor(durationMs / (1000 * 60 * 60));
+        const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+        durationTime.textContent = `${hours}:${minutes.toString().padStart(2, '0')} hours`;
+    } else {
+        // Show days for longer bans
+        const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
+        durationTime.textContent = `${days} day${days !== 1 ? 's' : ''}`;
+    }
+}
+
 function showAppealContent() {
 	document.getElementById('modalHeader').style.display = 'none';
 	document.getElementById('mainContent').style.display = 'none';
@@ -966,6 +1010,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		Delete: translations[language]["Heading.Banned"],
 	};
 
+	updateMainPageDuration();
 	
 	if (formData && formData.state) {
 		document.getElementById('banHeader').textContent = headerMap[formData.state] || translations[language]["Heading.Warn"];
