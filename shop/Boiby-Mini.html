@@ -270,41 +270,55 @@
       pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
 
       // Disable 96GB memory initially for B1 Pro
-      if (selectedModel === "B1 Pro" && category === "memory" && opt.includes("96 GB")) {
-        pill.classList.add("disabled");
+      if (selectedModel === "B1 Pro") {
+  const chipGroup = Array.from(optionsDiv.querySelectorAll(".group"))
+    .find(g => g.querySelector("h3").innerText.toLowerCase() === "chip");
+  const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
+    .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
+  const memory96 = Array.from(memoryGroup.querySelectorAll(".pill"))
+    .find(p => p.textContent.includes("96 GB"));
+
+  // Initially disable 96GB
+  memory96.classList.add("disabled");
+
+  // Add click listener to memory pills
+  memoryGroup.querySelectorAll(".pill").forEach(memPill => {
+    memPill.addEventListener("click", () => {
+      if (memPill.classList.contains("disabled")) return;
+      memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+      memPill.classList.add("selected");
+      selectedOptions.memory = memPill.textContent.trim();
+      renderHeroSummary();
+      updatePrice();
+    });
+  });
+
+  // Chip pill listener to enable/disable 96GB memory
+  chipGroup.querySelectorAll(".pill").forEach(chipPill => {
+    chipPill.addEventListener("click", () => {
+      // deselect other chips
+      chipGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+      chipPill.classList.add("selected");
+      selectedOptions.chip = chipPill.textContent.trim();
+
+      if (chipPill.textContent.includes("14-core")) {
+        memory96.classList.remove("disabled");
       } else {
-        pill.addEventListener("click", () => {
-          // Skip click if disabled
-          if (pill.classList.contains("disabled")) return;
+        memory96.classList.add("disabled");
+        // reset memory to 64GB if 96GB was selected
+        const memory64 = Array.from(memoryGroup.querySelectorAll(".pill"))
+          .find(p => p.textContent.includes("64 GB"));
+        memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+        memory64.classList.add("selected");
+        selectedOptions.memory = memory64.textContent.trim();
+      }
 
-          group.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
-          pill.classList.add("selected");
-          selectedOptions[category] = opt;
+      renderHeroSummary();
+      updatePrice();
+    });
+  });
+}
 
-          // B1 Pro memory sanity check
-          if (selectedModel === "B1 Pro" && category === "chip") {
-            const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
-              .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
-            const memory96 = Array.from(memoryGroup.querySelectorAll(".pill"))
-              .find(p => p.textContent.includes("96 GB"));
-            if (opt.includes("14-core")) {
-              memory96.classList.remove("disabled");
-            } else {
-              memory96.classList.add("disabled");
-              // reset memory to 64GB if 96GB was selected
-              if (selectedOptions.memory && selectedOptions.memory.includes("96 GB")) {
-                const memory64 = Array.from(memoryGroup.querySelectorAll(".pill"))
-                  .find(p => p.textContent.includes("64 GB"));
-                memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
-                memory64.classList.add("selected");
-                selectedOptions.memory = memory64.textContent.trim();
-              }
-            }
-          }
-
-          renderHeroSummary();
-          updatePrice();
-        });
       }
 
       if (idx === 0) pill.classList.add("selected");
