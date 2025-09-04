@@ -85,15 +85,7 @@
   </div>
 
 <script>
-/* ======= BoibyBook Pro configurator script ======= */
-/* Assumes HTML has:
-   - .tab elements with data-size="14" or "16" (optional)
-   - #models container where model cards will render (or existing .card elements will be used)
-   - #configurator, #backBtn, #heroTitle, #heroList, #options, #finalPrice
-*/
-
 (function () {
-  // --- Data ---
   const sizes = ['14','16'];
 
   const template14 = {
@@ -121,15 +113,12 @@
     }
   };
 
-  // build baseConfigs for both sizes: 16" = clone of 14" with +500 price, and B1 Pro storage base -> 1TB
   const baseConfigs = { '14': {}, '16': {} };
   baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
-  // 16 inch clone + price bump
   Object.keys(baseConfigs['14']).forEach(model => {
     baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
     baseConfigs['16'][model].price = baseConfigs['14'][model].price + 500;
   });
-  // adjust B1 Pro 16 storage base to 1 TB
   baseConfigs['16']["B1 Pro"].upgrades.storage[0] = "1 TB SSD storage (base)";
 
   const addons = {
@@ -138,12 +127,10 @@
     monitor: ["Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)", "Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)"]
   };
 
-  // --- State ---
-  let selectedSize = '14'; // default
-  let selectedModel = null; // "B1 Pro" or "B1 Max"
-  let selectedOptions = {}; // { chip: "...", memory: "...", storage: "...", coating: "...", adapter: "...", addons: [...] }
+  let selectedSize = '14';
+  let selectedModel = null;
+  let selectedOptions = {};
 
-  // --- Helpers ---
   const $ = q => document.querySelector(q);
   const $$ = q => Array.from(document.querySelectorAll(q));
   const cleanLabel = opt => (opt||'').split("(")[0].trim();
@@ -159,7 +146,6 @@
     return groups.find(g => g.querySelector('h3') && g.querySelector('h3').innerText.toLowerCase() === name.toLowerCase());
   }
 
-  // --- Render UI: tabs (if present) and models ---
   function initTabs() {
     const tabs = $$('.tab[data-size]');
     if (!tabs.length) return;
@@ -199,7 +185,6 @@
       `;
       card.addEventListener('click', () => {
         selectedModel = model;
-        // show configurator
         const modelsEl = $('#models');
         if (modelsEl) modelsEl.style.display = 'none';
         $('#configurator').style.display = 'block';
@@ -209,16 +194,15 @@
     });
   }
 
-  // --- Configurator rendering ---
   function showConfigurator() {
     const cfg = baseConfigs[selectedSize][selectedModel];
     const optionsDiv = $('#options');
     optionsDiv.innerHTML = '';
-    selectedOptions = {}; // reset selections
+    selectedOptions = {};
 
     $('#heroTitle').innerText = `Customise your BoibyBook Pro — ${selectedModel} ${selectedSize}"`;
 
-    // For each upgrade category, create a group
+    // upgrades
     Object.keys(cfg.upgrades).forEach(category => {
       const group = document.createElement('div');
       group.className = 'group';
@@ -230,50 +214,40 @@
         const pill = document.createElement('div');
         pill.className = 'pill';
         pill.dataset.cat = category;
+        pill.dataset.value = opt; // IMPORTANT: canonical full string
         pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
 
-        pill.addEventListener('click', (ev) => {
+        pill.addEventListener('click', () => {
           if (pill.classList.contains('disabled')) return;
           if (category === 'addons') {
-            // toggled multi-select for addons (not used as upgrade list here)
             pill.classList.toggle('selected');
             if (!selectedOptions.addons) selectedOptions.addons = [];
-            const full = opt;
-            if (pill.classList.contains('selected')) {
-              selectedOptions.addons.push(full);
-            } else {
-              selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
-            }
+            const full = pill.dataset.value;
+            if (pill.classList.contains('selected')) selectedOptions.addons.push(full);
+            else selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
           } else {
-            // single-select
-            // remove selected from siblings
-            const siblings = Array.from(group.querySelectorAll('.pill'));
-            siblings.forEach(s => s.classList.remove('selected'));
+            // single-select logic
+            Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
             pill.classList.add('selected');
-            selectedOptions[category] = opt;
-            // If chip changed, re-evaluate dependencies
-            if (category === 'chip') {
-              handleDependencies();
-            }
+            selectedOptions[category] = pill.dataset.value;
+            if (category === 'chip') handleDependencies(); // re-evaluate when chip changes
           }
           renderHeroSummary();
           updatePrice();
         });
 
-        // default selection: pick first (non-disabled will be enforced after dependencies)
+        // default selected: first option
         if (idx === 0) {
           pill.classList.add('selected');
-          selectedOptions[category] = opt;
+          selectedOptions[category] = pill.dataset.value;
         }
 
         group.appendChild(pill);
       });
 
-      // Add memory/storage notes
       if (category === 'memory') {
         const note = document.createElement('div');
         note.className = 'note';
-        // set generic note; handleDependencies will update disabling
         note.innerText = 'Higher memory options require higher-end CPU/GPU selections.';
         group.appendChild(note);
       }
@@ -281,8 +255,7 @@
       optionsDiv.appendChild(group);
     });
 
-    // Add-ons (render as part of upgrades? If you prefer separate, move this)
-    // We'll already have add-ons object; append below upgrades
+    // add-ons group
     const addonsGroup = document.createElement('div');
     addonsGroup.className = 'group';
     const addonsTitle = document.createElement('h3');
@@ -298,12 +271,14 @@
         const pill = document.createElement('div');
         pill.className = 'pill';
         pill.dataset.cat = 'addons';
+        pill.dataset.value = opt;
         pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
         pill.addEventListener('click', () => {
           pill.classList.toggle('selected');
           if (!selectedOptions.addons) selectedOptions.addons = [];
-          if (pill.classList.contains('selected')) selectedOptions.addons.push(opt);
-          else selectedOptions.addons = selectedOptions.addons.filter(a => a !== opt);
+          const full = pill.dataset.value;
+          if (pill.classList.contains('selected')) selectedOptions.addons.push(full);
+          else selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
           renderHeroSummary();
           updatePrice();
         });
@@ -312,140 +287,112 @@
     });
     optionsDiv.appendChild(addonsGroup);
 
-    // Now that initial selections exist, apply dependency logic
+    // apply dependency logic (this will enable/disable and keep selections consistent)
     handleDependencies();
     renderHeroSummary();
     updatePrice();
   }
 
-  // --- Dependency logic ---
   function handleDependencies() {
-    // Safety checks
     if (!selectedModel) return;
     const cfg = baseConfigs[selectedSize][selectedModel];
     const optionsDiv = $('#options');
     if (!optionsDiv) return;
 
-    // Find chip selection (string)
-    const chip = selectedOptions.chip || cfg.upgrades.chip[0]; // fallback to base chip if somehow missing
+    // canonical chip string (ensure we have one)
+    const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
 
-    // Memory group
+    // MEMORY
     const memoryGroup = findGroupByName('memory');
     if (memoryGroup) {
       const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
-      // enable all first
       memPills.forEach(p => p.classList.remove('disabled'));
 
-      // B1 Pro: 96GB only on 14-core chip
       if (selectedModel === 'B1 Pro') {
-        if (!chip.includes('14-core')) {
+        if (!chipFull.includes('14-core')) {
           memPills.forEach(p => {
-            if (p.textContent.includes('96 GB')) p.classList.add('disabled');
+            if (p.dataset.value.includes('96 GB')) p.classList.add('disabled');
           });
-        } // if 14-core selected, 96GB stays enabled
+        }
       }
-
-      // B1 Max: 128/256 only on 48-core variant
       if (selectedModel === 'B1 Max') {
-        if (!chip.includes('48-core')) {
+        if (!chipFull.includes('48-core')) {
           memPills.forEach(p => {
-            if (p.textContent.includes('128 GB') || p.textContent.includes('256 GB')) p.classList.add('disabled');
+            if (p.dataset.value.includes('128 GB') || p.dataset.value.includes('256 GB')) p.classList.add('disabled');
           });
         }
       }
 
-      // If currently selected memory is disabled, pick first valid
+      // if selected memory is disabled, pick first valid
       if (selectedOptions.memory) {
-        const selectedText = cleanLabel(selectedOptions.memory);
-        const curPill = memPills.find(p => cleanLabel(p.textContent) === selectedText);
-        if (curPill && curPill.classList.contains('disabled')) {
-          // deselect all, select first non-disabled
+        const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
+        if (cur && cur.classList.contains('disabled')) {
           memPills.forEach(p => p.classList.remove('selected'));
           const firstValid = memPills.find(p => !p.classList.contains('disabled'));
           if (firstValid) {
             firstValid.classList.add('selected');
-            // find the full option string from cfg.upgrades.memory that matches label
-            const full = cfg.upgrades.memory.find(m => cleanLabel(m) === cleanLabel(firstValid.textContent));
-            selectedOptions.memory = full;
+            selectedOptions.memory = firstValid.dataset.value;
           } else {
-            // no valid memory (shouldn't happen) -> clear
             delete selectedOptions.memory;
           }
         }
       }
+      // sync UI selected pill with selectedOptions.memory
+      if (selectedOptions.memory) {
+        memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
+      }
     }
 
-    // Storage group dependencies (B1 Max requires 48-core for 12 TB)
+    // STORAGE
     const storageGroup = findGroupByName('storage');
     if (storageGroup) {
       const storPills = Array.from(storageGroup.querySelectorAll('.pill'));
       storPills.forEach(p => p.classList.remove('disabled'));
 
-      if (selectedModel === 'B1 Max') {
-        // disable 12TB unless 48-core selected
-        if (!chip.includes('48-core')) {
-          storPills.forEach(p => {
-            if (p.textContent.includes('12 TB')) p.classList.add('disabled');
-          });
-        }
+      if (selectedModel === 'B1 Max' && !chipFull.includes('48-core')) {
+        storPills.forEach(p => {
+          if (p.dataset.value.includes('12 TB')) p.classList.add('disabled');
+        });
       }
 
-      // If currently selected storage is disabled, pick first valid
       if (selectedOptions.storage) {
-        const selectedText = cleanLabel(selectedOptions.storage);
-        const curPill = storPills.find(p => cleanLabel(p.textContent) === selectedText);
-        if (curPill && curPill.classList.contains('disabled')) {
+        const cur = storPills.find(p => p.dataset.value === selectedOptions.storage);
+        if (cur && cur.classList.contains('disabled')) {
           storPills.forEach(p => p.classList.remove('selected'));
           const firstValid = storPills.find(p => !p.classList.contains('disabled'));
           if (firstValid) {
             firstValid.classList.add('selected');
-            const full = cfg.upgrades.storage.find(m => cleanLabel(m) === cleanLabel(firstValid.textContent));
-            selectedOptions.storage = full;
-          } else {
-            delete selectedOptions.storage;
-          }
+            selectedOptions.storage = firstValid.dataset.value;
+          } else delete selectedOptions.storage;
         }
+      }
+      if (selectedOptions.storage) {
+        storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.storage));
       }
     }
 
-    // Ensure that chip selection exists in selectedOptions (sync state -> UI)
+    // CHIP: ensure chip selection exists and UI is synced (use dataset.value comparisons)
     const chipGroup = findGroupByName('chip');
     if (chipGroup) {
       const chipPills = Array.from(chipGroup.querySelectorAll('.pill'));
-      // ensure one selected (if none because UI changed)
       if (!selectedOptions.chip) {
         const sel = chipPills.find(p => p.classList.contains('selected')) || chipPills[0];
-        sel.classList.add('selected');
-        const full = baseConfigs[selectedSize][selectedModel].upgrades.chip.find(m => cleanLabel(m) === cleanLabel(sel.textContent));
-        if (full) selectedOptions.chip = full;
+        if (sel) {
+          sel.classList.add('selected');
+          selectedOptions.chip = sel.dataset.value;
+        }
       } else {
-        // sync UI selected pill
-        chipPills.forEach(p => p.classList.toggle('selected', cleanLabel(p.textContent) === cleanLabel(selectedOptions.chip)));
+        chipPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.chip));
       }
-    }
-
-    // Sync memory & storage UI selected pill to the selectedOptions values (in case auto reset above set selectedOptions)
-    if (memoryGroup && selectedOptions.memory) {
-      Array.from(memoryGroup.querySelectorAll('.pill')).forEach(p => {
-        p.classList.toggle('selected', cleanLabel(p.textContent) === cleanLabel(selectedOptions.memory));
-      });
-    }
-    if (storageGroup && selectedOptions.storage) {
-      Array.from(storageGroup.querySelectorAll('.pill')).forEach(p => {
-        p.classList.toggle('selected', cleanLabel(p.textContent) === cleanLabel(selectedOptions.storage));
-      });
     }
   }
 
-  // --- Summary & price ---
   function renderHeroSummary() {
     const list = $('#heroList');
     if (!list) return;
     list.innerHTML = '';
-    // show model/display first
     const cfg = baseConfigs[selectedSize][selectedModel];
     list.appendChild(li(`${selectedModel} ${selectedSize}" — ${cfg.display}`));
-    // categories order
     const order = ['chip','memory','storage','adapter','coating'];
     order.forEach(cat => {
       if (selectedOptions[cat]) list.appendChild(li(cleanLabel(selectedOptions[cat])));
@@ -458,7 +405,6 @@
   function updatePrice() {
     const cfg = baseConfigs[selectedSize][selectedModel];
     let price = cfg.price;
-    // sum selectedOptions deltas
     Object.keys(selectedOptions).forEach(cat => {
       if (cat === 'addons') {
         selectedOptions.addons.forEach(a => price += priceDelta(a));
@@ -469,34 +415,21 @@
     $('#finalPrice').innerText = `Total: ${formatPrice(price)}`;
   }
 
-  function li(text) {
-    const el = document.createElement('li');
-    el.textContent = text;
-    return el;
-  }
+  function li(text) { const el = document.createElement('li'); el.textContent = text; return el; }
 
-  // --- Back button ---
   const backBtn = $('#backBtn');
   if (backBtn) backBtn.addEventListener('click', () => {
     $('#configurator').style.display = 'none';
     $('#models').style.display = 'flex';
   });
 
-  // --- Init on DOM ready ---
   document.addEventListener('DOMContentLoaded', () => {
     initTabs();
-    // If #models already has .card children created elsewhere, prefer using our renderModels instead
-    // and replace them for consistent behaviour
     renderModels();
-
-    // Ensure tabs reflect default size
     const tabs = $$('.tab[data-size]');
-    if (tabs.length) {
-      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-size') === selectedSize));
-    }
+    if (tabs.length) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-size') === selectedSize));
   });
 
-  // Also expose a small helper to force re-render if you swapped HTML around
   window.__boiby_reloadModels = renderModels;
 })();
 </script>
