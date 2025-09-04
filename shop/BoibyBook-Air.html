@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buy BoibyBook Air — 13-inch</title>
+  <style>
+    :root{
+      --blue:#0071e3;
+      --border:#d2d2d7;
+      --text:#1d1d1f;
+      --muted:#6e6e73;
+      --bg:#fff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      text-align:center;
+      padding:28px 16px;
+      border-bottom:1px solid var(--border);
+    }
+    h1{font-size:1.9rem;margin:0;font-weight:700}
+    main{max-width:920px;margin:28px auto;padding:18px;}
+    .hero{margin-bottom:18px}
+    .hero-title{font-size:clamp(1.6rem,4vw,2.4rem);margin:0 0 8px;font-weight:700}
+    .hero-list{margin:0;padding:0;list-style:none;color:var(--muted)}
+    .hero-list li{margin:6px 0}
+
+    .group{margin:20px 0}
+    .group h3{margin:0 0 10px;font-size:1.05rem}
+    .pill{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:18px;border:1px solid var(--border);border-radius:12px;margin:10px 0;
+      cursor:pointer;transition:box-shadow .12s,border-color .12s,transform .06s;
+      background:#fff;
+    }
+    .pill:hover{border-color:var(--blue);transform:translateY(-2px)}
+    .pill.selected{border:2px solid var(--blue);box-shadow:0 4px 14px rgba(0,113,227,0.08)}
+    .pill.disabled{opacity:.6;cursor:not-allowed;background:#fbfbfb}
+    .pill .label{font-weight:600}
+    .pill .price-right{color:var(--muted);font-weight:600;white-space:nowrap}
+
+    .note{color:var(--muted);font-size:.92rem;margin-top:6px}
+
+    .checkout{
+      position:sticky;bottom:0;left:0;width:100%;background:linear-gradient(#fff,#fff);
+      border-top:1px solid var(--border);padding:18px;display:flex;gap:12px;align-items:center;
+      justify-content:space-between;z-index:40;
+    }
+    .total{font-size:1.4rem;font-weight:700}
+    .add-to-bag{background:var(--blue);color:#fff;border:none;padding:12px 22px;border-radius:999px;font-size:1.05rem;cursor:pointer}
+    .add-to-bag:hover{background:#005bb5}
+
+    /* small screens */
+    @media (max-width:600px){
+      .pill{padding:14px}
+      .checkout{flex-direction:column;align-items:stretch;text-align:center}
+      .add-to-bag{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Buy BoibyBook Air</h1>
+    <div style="color:var(--muted);margin-top:8px">13-inch model — lightweight and efficient</div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h2 class="hero-title">BoibyBook Air — 13-inch</h2>
+      <ul class="hero-list" id="heroList">
+        <!-- populated by script -->
+      </ul>
+    </div>
+
+    <div id="options">
+      <!-- option groups rendered here -->
+    </div>
+  </main>
+
+  <div class="checkout">
+    <div class="total" id="finalPrice">Total: $1,599</div>
+    <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
+  </div>
+
+<script>
+(function(){
+  // Data for BoibyBook Air 13"
+  const basePrice = 1599;
+  const baseConfig = {
+    name: "BoibyBook Air 13-inch",
+    baseSpecs: [
+      "13-inch IPS 120Hz display",
+      "Boiby B1 chip with 9-core CPU and 10-core GPU",
+      "16 GB unified memory",
+      "512 GB SSD storage",
+      "No anti-reflective coating"
+    ],
+    upgrades: {
+      display: [
+        "13-inch IPS 120Hz display (base)",
+        "13-inch OLED 120Hz display (+$300)"
+      ],
+      chip: [
+        "Boiby B1 chip with 9-core CPU and 10-core GPU (base)",
+        "Boiby B1 chip with 10-core CPU and 12-core GPU (+$150)"
+      ],
+      memory: [
+        "16 GB unified memory (base)",
+        "24 GB unified memory (+$100)",
+        "32 GB unified memory (+$200)"
+      ],
+      storage: [
+        "512 GB SSD storage (base)",
+        "1 TB SSD storage (+$100)",
+        "2 TB SSD storage (+$200)",
+        "4 TB SSD storage (+$400)"
+      ],
+      coating: [
+        "No anti-reflective coating (base)",
+        "Anti-reflective coating (+$100)"
+      ]
+    }
+  };
+
+  // State
+  let selectedOptions = {}; // stores canonical full strings (dataset.value)
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+
+  // Helpers
+  function cleanLabel(opt){ return (opt||'').split('(')[0].trim(); }
+  function priceDelta(opt){
+    if(!opt) return 0;
+    const m = opt.match(/\+\$(\d+)/);
+    return m ? parseInt(m[1],10) : 0;
+  }
+  function formatPrice(n){ return `$${n.toLocaleString('en-US')}`; }
+
+  // Render hero list (current selection summary)
+  function renderHeroSummary(){
+    const ul = $('#heroList');
+    ul.innerHTML = '';
+    // base name/specs
+    ul.appendChild(li(baseConfig.name));
+    // show choices in order
+    const order = ['display','chip','memory','storage','coating'];
+    order.forEach(cat => {
+      if(selectedOptions[cat]) ul.appendChild(li(cleanLabel(selectedOptions[cat])));
+      else {
+        // show base default if not set yet
+        const base = baseConfig.upgrades[cat][0];
+        ul.appendChild(li(cleanLabel(base)));
+      }
+    });
+  }
+
+  // render option groups
+  function renderOptions(){
+    const container = $('#options');
+    container.innerHTML = '';
+
+    Object.keys(baseConfig.upgrades).forEach(category => {
+      const group = document.createElement('div');
+      group.className = 'group';
+      const h3 = document.createElement('h3');
+      h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+      group.appendChild(h3);
+
+      baseConfig.upgrades[category].forEach((opt,idx) => {
+        const pill = document.createElement('div');
+        pill.className = 'pill';
+        pill.dataset.cat = category;
+        pill.dataset.value = opt; // canonical
+        pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt)?('+$'+priceDelta(opt)):''}</span>`;
+
+        pill.addEventListener('click', () => {
+          if (pill.classList.contains('disabled')) return;
+          // single-select categories
+          Array.from(group.querySelectorAll('.pill')).forEach(p => p.classList.remove('selected'));
+          pill.classList.add('selected');
+          selectedOptions[category] = pill.dataset.value;
+          // No special dependencies for Air model
+          renderHeroSummary();
+          updatePrice();
+        });
+
+        // default select first option
+        if (idx === 0) {
+          pill.classList.add('selected');
+          selectedOptions[category] = opt;
+        }
+
+        group.appendChild(pill);
+      });
+
+      // optional note area (not used for Air-specific rules; kept for consistency)
+      if(category === 'memory'){
+        const note = document.createElement('div');
+        note.className = 'note';
+        note.innerText = 'Choose a memory upgrade if you need extra multitasking headroom.';
+        group.appendChild(note);
+      }
+
+      container.appendChild(group);
+    });
+  }
+
+  // Price calculation
+  function updatePrice(){
+    let price = basePrice;
+    Object.keys(selectedOptions).forEach(cat => {
+      price += priceDelta(selectedOptions[cat]);
+    });
+    $('#finalPrice').innerText = `Total: ${formatPrice(price)}`;
+  }
+
+  function li(text){
+    const el = document.createElement('li');
+    el.textContent = text;
+    return el;
+  }
+
+  // Add to bag (simple demo behaviour)
+  $('#addToBagBtn').addEventListener('click', () => {
+    const summary = [];
+    Object.keys(baseConfig.upgrades).forEach(cat => summary.push(cleanLabel(selectedOptions[cat] || baseConfig.upgrades[cat][0])));
+    const totalText = $('#finalPrice').innerText;
+    alert(`Added to bag:\n\n${baseConfig.name}\n${summary.join('\n')}\n\n${totalText}`);
+  });
+
+  // Initialize
+  renderOptions();
+  renderHeroSummary();
+  updatePrice();
+
+})();
+</script>
+</body>
+</html>
