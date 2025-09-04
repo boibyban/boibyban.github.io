@@ -538,7 +538,7 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
     
     formData.classicViolations.forEach((violation) => {
         // Handle modern violations (Image, Model, UGC Bundle) - they get their own special boxes
-        if (["Image", "Model", "UGC Bundle"].includes(violation.violationType)) {
+        if (["Image", "Profile Picture", "Model", "UGC Bundle", "UGC Accessory"].includes(violation.violationType)) {
             const modernViolation = formData.modernViolations.find(mv => 
                 mv.reason === violation.reason && mv.violationType === violation.violationType
             );
@@ -617,15 +617,15 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
                     break;
                     
                 case "Image":
+                case "Profile Picture":
                     idP.innerHTML = `${translations[language]["Label.AssetID"] || 'Asset ID'}<br><b>${modernViolation?.assetId || 'N/A'}</b>`;
                     violationBox.appendChild(idP);
-                    
+        
                     const imageLabelP = document.createElement('p');
-                    imageLabelP.style.cssText = `
-                        font-size: 15px;
-                        margin-bottom: 0;
-                    `;
-                    imageLabelP.textContent = translations[language]["Label.Image"] || 'Image';
+                    imageLabelP.style.cssText = `font-size: 15px; margin-bottom: 0;`;
+                    imageLabelP.textContent = violation.violationType === "Profile Picture"
+                        ? (translations[language]["Label.ProfilePicture"] || "Profile Picture")
+                        : (translations[language]["Label.Image"] || "Image");
                     violationBox.appendChild(imageLabelP);
                     break;
             }
