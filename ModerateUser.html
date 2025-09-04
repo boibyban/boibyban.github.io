@@ -105,7 +105,26 @@
           <div class="info-label">Preset Message to User</div>
           <select id="preset-message">
             <option value="">— choose preset —</option>
+  <option value="V2Scamming">V2 Scamming</option>
+<option value="V2Contests">V2 Contests and Sweepstakes</option>
+<option value="V2Impersonation">V2 Impersonation</option>
+<option value="V2Tragedy">V2 Tragedy Content</option>
+<option value="V2Cheats">V2 Cheats</option>
+<option value="V2Threats">V2 Threats</option>
+<option value="V2Extortion">V2 Extortion</option>
+<option value="V2Dangerous">V2 Dangerous Activities</option>
+<option value="V2Discriminatory">V2 Discriminatory Content</option>
+<option value="V2Political">V2 Political Content</option>
+<option value="V2Spam">V2 Spam</option>
+<option value="V2Disruptive">V2 Disruptive Audio</option>
+<option value="V2PrivacyAskingPII">V2 Privacy - Asking for PII</option>
+<option value="V2PrivacyGivingPII">V2 Privacy - Giving PII</option>
+<option value="V2Harassment">V2 Harassment</option>
+<option value="V2Dating">V2 Dating</option>
+<option value="V2Misusing">V2 Misusing Systems</option>
+<option value="V2Enforcement">V2 Enforcement/Ban Evasion</option>
             <option value="Scamming">Scamming</option>
+            <option value="Free Boibucks Game">Free Boibucks Game (Scam)</option>
             <option value="Inappropriate Content">Inappropriate Content</option>
             <option value="Harassment">Harassment</option>
             <option value="General Violation">General Violation</option>
@@ -216,7 +235,26 @@ document.getElementById("card-username").innerText = username || "";
 
 /* ---------- Preset messages mapping ---------- */
 const presets = {
+  "V2Scamming": "Boiby does not permit phishing or scamming links, requests for passwords, selling of accounts, uploading of unauthorized accounts, or selling assets for real money off platform."
+  "V2Contests": "Boiby does not permit contests or sweepstakes in the form of lottery style games or playing for free Boibucks.",
+  "V2Impersonation": "Boiby does not permit users to mislead others by impersonating other people’s real- or virtual-world identity or affiliations.",
+  "V2Tragedy": "Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.",
+  "V2Cheats": "Boiby does not permit users to deploy or discuss any method of cheating on platform.",
+  "V2Threats": "Boiby does not permit real threats of violence towards members of the Boiby Community.",
+  "V2Extortion": "Boiby does not permit attempts to threaten users in order to force them to do something they do not want to do.",
+  "V2Dangerous": "Boiby does not permit the encouragement of or participation in real-life dangerous activities among community members.",
+  "V2Discriminatory": "Roblox does not permit discriminatory language, behavior, or content of any kind.",
+  "V2Political": "Boiby prohibits content pertaining to real-world political candidates, parties, associated flags, or symbols.",
+  "V2Spam": "Boiby does not permit spamming in the form of clickbait, or repetitive, large volume messaging.",
+  "V2Disruptive": "Boiby does not permit uploads of audio that is unintelligible, excessively loud, screaming, or high-pitched noises.",
+  "V2PrivacyAskingPII": "Boiby does not permit the exchange of Personal Identifiable Information (PII) between community members.",
+  "V2PrivacyGivingPII": "Boiby does not permit the exchange of Personal Identifiable Information (PII) between community members.",
+  "V2Harassment": "Boiby does not permit bullying or harassment towards community members.",
+  "V2Dating": "Boiby does not permit dating or romantic exchanges between users."
+  "V2Misusing": "Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.",
+  "V2Enforcement": "You created or used an account to avoid an enforcement action taken against another account",
   "Scamming": "Scamming is a violation of our Terms of Use. Do not continue to scam on Boiby.",
+  "Free Boibucks Game": "Do not create games that offer Boibucks as a prize. These kinds of games are considered scams, as there is not an official system to guarantee a prize. If you persist in creating these games, your account will be subject to additional moderation actions.",
   "Inappropriate Content": "This content is not appropriate. Do not chat, post, or otherwise discuss inappropriate topics on Boiby.",
   "Harassment": "Do not harass other users. Do not say mean or inappropriate things on Boiby.",
   "General Violation": "Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. This is a violation of our Terms of Use.",
@@ -325,9 +363,9 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
     <label>Reason:</label>
     <select id="classicReason${classicViolationCount}" class="classicReason" required>
       <option value="Other">Other</option>
+      <option value="Swearing">Swearing</option>
       <option value="Harassment">Harassment</option>
-      <option value="Inappropriate Content">Inappropriate Content</option>
-      <option value="Privacy">Privacy</option>
+      <option value="Contests and Sweepstakes">Contests and Sweepstakes</option>
       <option value="Adult Content">Adult Content</option>
       <option value="Sexual Content">Sexual Content</option>
       <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
@@ -336,10 +374,8 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
       <option value="Boiby Endangerment">Boiby Endangerment</option>
       <option value="Discriminatory Content">Discriminatory Content</option>
       <option value="Violent Content and Gore">Violent Content and Gore</option>
-      <option value="Privacy: Sharing PII">Privacy: Sharing PII</option>
+      <option value="Privacy: Giving PII">Privacy: Giving PII</option>
       <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
-      <option value="Doxxing">Doxxing</option>
-      <option value="Seeking Sexual Content">Seeking Sexual Content</option>
       <option value="Intellectual Property Violation">IP Violation</option>
       <option value="Scamming">Scamming</option>
       <option value="Misinformation">Misinformation</option>
@@ -356,7 +392,6 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
       <option value="Chargeback">Chargeback</option>
       <option value="Unauthorized or Disputed Payments">Unauthorized or Disputed Payments</option>
       <option value="Off-Platform Item or Currency Purchase">Off-Platform Item or Currency Purchase</option>
-      <option value="Minimum Age Requirement">Minimum Age Requirement</option>
       <option value="Ban Evasion">Ban Evasion</option>
       <option value="Extortion and Blackmail">Extortion and Blackmail</option>
       <option value="Directing Users Off-Platform">Directing Users Off-Platform</option>
@@ -365,7 +400,7 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
       <option value="Real-Life Threats">Real-Life Threats</option>
       <option value="Real-World Tragic Events">Real-World Tragedy</option>
       <option value="Impersonation">Impersonation</option>
-      <option value="Dangerous Activities">Dangerous Activities</option>
+      <option value="IRL Dangerous Activities">IRL Dangerous Activities</option>
       <option value="Disruptive Audio">Disruptive Audio</option>
       <option value="Dating">Dating</option>
       <option value="Malicious Software">Malicious Software</option>
@@ -497,3 +532,4 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
 
 </body>
 </html>
+
