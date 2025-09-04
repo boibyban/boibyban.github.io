@@ -85,90 +85,63 @@
   </div>
 
 <script>
-const tabs = document.querySelectorAll(".tab");
-let selectedSize = "14";
-
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    tabs.forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    selectedSize = tab.getAttribute("data-size");
-    renderModels();
-  });
-});
-
 const baseConfigs = {
-  "14": {
-    "B1 Pro": {
-      price: 2999,
-      name: "BoibyBook Pro B1",
-      display: "14-inch Tandem OLED 120Hz display",
-      upgrades: {
-        chip: ["Boiby B1 Pro chip with 12-core CPU and 20-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
-        memory: ["32 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)", "96 GB unified memory (+A$600)"],
-        storage: ["512 GB SSD storage (base)", "1 TB SSD storage (+A$100)", "2 TB SSD storage (+A$200)", "4 TB SSD storage (+A$400)", "8 TB SSD storage (+A$800)"],
-        adapter: ["95 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"],
-        coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"]
-      }
-    },
-    "B1 Max": {
-      price: 4499,
-      name: "BoibyBook Pro B1 Max",
-      display: "14-inch Tandem OLED 120Hz display",
-      upgrades: {
-        chip: ["Boiby B1 Max chip with 14-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$600)"],
-        memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1200)", "256 GB unified memory (+A$2400)"],
-        storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
-        adapter: ["95 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"],
-        coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"]
-      }
+  "B1 Pro 14": {
+    price: 2999,
+    name: "BoibyBook Pro 14-inch B1 Pro",
+    upgrades: {
+      coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+      chip: ["Boiby B1 Pro chip with 12-core CPU and 20-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
+      memory: ["32 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)", "96 GB unified memory (+A$600)"],
+      storage: ["512 GB SSD storage (base)", "1 TB SSD storage (+A$100)", "2 TB SSD storage (+A$200)", "4 TB SSD storage (+A$400)", "8 TB SSD storage (+A$800)"],
+      adapter: ["95 W USB-C Power Adapter (base)", "140 W USB-C Power Adapter (+A$50)"]
     }
   },
-  "16": {} // filled programmatically below
+  "B1 Max 14": {
+    price: 4499,
+    name: "BoibyBook Pro 14-inch B1 Max",
+    upgrades: {
+      coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+      chip: ["Boiby B1 Max chip with 16-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$600)"],
+      memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1200)", "256 GB unified memory (+A$2400)"],
+      storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
+      adapter: ["95 W USB-C Power Adapter (base)", "140 W USB-C Power Adapter (+A$50)"]
+    }
+  },
+  "B1 Pro 16": {
+    price: 3499,
+    name: "BoibyBook Pro 16-inch B1 Pro",
+    upgrades: JSON.parse(JSON.stringify(this["B1 Pro 14"].upgrades)) // deep copy
+  },
+  "B1 Max 16": {
+    price: 4999,
+    name: "BoibyBook Pro 16-inch B1 Max",
+    upgrades: JSON.parse(JSON.stringify(this["B1 Max 14"].upgrades))
+  }
 };
 
-// Duplicate 14-inch configs for 16-inch with +$500 and storage adjustment
-Object.keys(baseConfigs["14"]).forEach(model => {
-  const base = JSON.parse(JSON.stringify(baseConfigs["14"][model]));
-  base.price += 500;
-  if (model === "B1 Pro") {
-    base.upgrades.storage[0] = "1 TB SSD storage (base)";
-  }
-  baseConfigs["16"][model] = base;
-});
+const addons = {
+  mouse: ["Boiby Pro Mouse (+A$50)"],
+  keyboard: ["Boiby Pro Keyboard (+A$150)", "Boiby Pro Keyboard with Number Pad (+A$200)"],
+  monitor: ["Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)", "Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)"]
+};
 
-function renderModels() {
-  const container = document.getElementById("models");
-  container.innerHTML = "";
-  const configs = baseConfigs[selectedSize];
-  for (let model in configs) {
-    const c = configs[model];
-    const card = document.createElement("div");
-    card.className = "card";
-    card.dataset.model = model;
-    card.innerHTML = `<h2>${model}</h2><p class="price">From A$${c.price}</p><ul>
-      <li>${c.display}</li>
-      <li>${c.upgrades.chip[0].split(" (")[0]}</li>
-      <li>${c.upgrades.memory[0].split(" (")[0]}</li>
-      <li>${c.upgrades.storage[0].split(" (")[0]}</li>
-      <li>${c.upgrades.adapter[0].split(" (")[0]}</li>
-    </ul>`;
-    card.addEventListener("click", () => {
-      selectedModel = model;
-      document.getElementById("models").style.display = "none";
-      showConfigurator();
-    });
-    container.appendChild(card);
-  }
-}
 let selectedModel = null;
 let selectedOptions = {};
 
 const cleanLabel = opt => opt.split("(")[0].trim();
 const rightPrice = opt => {
   const m = opt.match(/\+A\$(\d+)/);
-  return m ? `+A$${m[1]}` : '';
+  return m ? "+A$" + m[1] : "";
 };
+
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    selectedModel = card.getAttribute("data-model");
+    document.getElementById("models").style.display = "none";
+    showConfigurator();
+  });
+});
 
 document.getElementById("backBtn").addEventListener("click", () => {
   document.getElementById("configurator").style.display = "none";
@@ -176,12 +149,13 @@ document.getElementById("backBtn").addEventListener("click", () => {
 });
 
 function showConfigurator() {
-  const config = baseConfigs[selectedSize][selectedModel];
+  const config = baseConfigs[selectedModel];
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
   selectedOptions = {};
-  document.getElementById("heroTitle").innerText = `Customise your BoibyBook Pro — ${selectedModel}`;
+  document.getElementById("heroTitle").innerText = `Customise your ${config.name}`;
 
+  // Upgrade groups
   for (let category in config.upgrades) {
     const group = document.createElement("div");
     group.className = "group";
@@ -194,129 +168,147 @@ function showConfigurator() {
       pill.className = "pill";
       pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
 
-      // Disable dependent memory
-      if (category === "memory") {
-        if (selectedModel.includes("B1 Pro") && opt.includes("96 GB")) pill.classList.add("disabled");
-        if (selectedModel.includes("B1 Max") && (opt.includes("128 GB") || opt.includes("256 GB"))) pill.classList.add("disabled");
-      }
-
       pill.addEventListener("click", () => {
         if (pill.classList.contains("disabled")) return;
         group.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
         pill.classList.add("selected");
         selectedOptions[category] = opt;
 
-        // CPU → memory dependencies
-        // CPU → memory dependencies
-if (category === "chip") {
-  const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
-    .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
-
-  memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.add("disabled"));
-
-  if (selectedModel === "B1 Pro") {
-    if (opt.includes("14-core")) {
-      // Enable all memory options that are valid for 14-core
-      memoryGroup.querySelectorAll(".pill").forEach(p => {
-        if (!p.textContent.includes("96 GB") || opt.includes("14-core")) {
-          p.classList.remove("disabled");
-        }
-      });
-    } else {
-      // Enable default lower memory options
-      memoryGroup.querySelectorAll(".pill").forEach(p => {
-        if (p.textContent.includes("32") || p.textContent.includes("48") || p.textContent.includes("64")) {
-          p.classList.remove("disabled");
-        }
-      });
-    }
-  }
-
-  if (selectedModel === "B1 Max") {
-    if (opt.includes("48-core")) {
-      // Enable only memory options allowed with 48-core
-      memoryGroup.querySelectorAll(".pill").forEach(p => {
-        if (!p.textContent.includes("128 GB") && !p.textContent.includes("256 GB")) {
-          p.classList.remove("disabled");
-        } else if (p.textContent.includes("128 GB") || p.textContent.includes("256 GB")) {
-          p.classList.remove("disabled");
-        }
-      });
-    } else {
-      // Enable lower memory options
-      memoryGroup.querySelectorAll(".pill").forEach(p => {
-        if (!p.textContent.includes("128 GB") && !p.textContent.includes("256 GB")) {
-          p.classList.remove("disabled");
-        }
-      });
-    }
-  }
-
-  // If previously selected memory is now disabled, reset to first valid
-  const selectedMem = selectedOptions.memory;
-  if (selectedMem) {
-    const memPill = Array.from(memoryGroup.querySelectorAll(".pill")).find(p => p.textContent === cleanLabel(selectedMem));
-    if (memPill.classList.contains("disabled")) {
-      const firstValid = Array.from(memoryGroup.querySelectorAll(".pill")).find(p => !p.classList.contains("disabled"));
-      firstValid.classList.add("selected");
-      selectedOptions.memory = firstValid.textContent;
-    }
-  }
-}
-
-
+        handleDependencies();
         renderHeroSummary();
         updatePrice();
       });
 
-      // select first non-disabled
-      if (idx === 0 && !pill.classList.contains("disabled")) pill.classList.add("selected"), selectedOptions[category] = opt;
+      // Default select first option
+      if (idx === 0) {
+        pill.classList.add("selected");
+        selectedOptions[category] = opt;
+      }
 
       group.appendChild(pill);
     });
 
-    // Memory note
-    if (category === "memory") {
-      const note = document.createElement("div");
-      note.className = "note";
-      if (selectedModel === "B1 Pro") note.innerText = "96GB unified memory available on B1 Pro with 14-core CPU and 24-core GPU.";
-      if (selectedModel === "B1 Max") note.innerText = "128GB/256GB unified memory available on B1 Max with 16-core CPU and 48-core GPU.";
-      group.appendChild(note);
-    }
-
     optionsDiv.appendChild(group);
   }
 
+  // Add-ons
+  const addonsGroup = document.createElement("div");
+  addonsGroup.className = "group";
+  const addonsTitle = document.createElement("h3");
+  addonsTitle.innerText = "Add-ons";
+  addonsGroup.appendChild(addonsTitle);
+
+  for (let sub in addons) {
+    const subTitle = document.createElement("h4");
+    subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
+    addonsGroup.appendChild(subTitle);
+
+    addons[sub].forEach(opt => {
+      const pill = document.createElement("div");
+      pill.className = "pill";
+      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
+      pill.addEventListener("click", () => {
+        pill.classList.toggle("selected");
+        if (!selectedOptions.addons) selectedOptions.addons = [];
+        if (pill.classList.contains("selected")) {
+          selectedOptions.addons.push(opt);
+        } else {
+          selectedOptions.addons = selectedOptions.addons.filter(a => a !== opt);
+        }
+        renderHeroSummary();
+        updatePrice();
+      });
+      addonsGroup.appendChild(pill);
+    });
+  }
+
+  optionsDiv.appendChild(addonsGroup);
   document.getElementById("configurator").style.display = "block";
+
+  handleDependencies();
   renderHeroSummary();
   updatePrice();
+}
+
+function handleDependencies() {
+  const optionsDiv = document.getElementById("options");
+  if (!selectedOptions.chip) return;
+
+  const chip = selectedOptions.chip;
+
+  // Memory
+  const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
+    .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
+  memoryGroup.querySelectorAll(".pill").forEach(pill => pill.classList.remove("disabled"));
+
+  if (selectedModel.includes("B1 Pro")) {
+    memoryGroup.querySelectorAll(".pill").forEach(p => {
+      if (p.textContent.includes("96 GB") && !chip.includes("14-core")) p.classList.add("disabled");
+    });
+  }
+
+  if (selectedModel.includes("B1 Max")) {
+    memoryGroup.querySelectorAll(".pill").forEach(p => {
+      if ((p.textContent.includes("128 GB") || p.textContent.includes("256 GB")) && !chip.includes("48-core")) p.classList.add("disabled");
+    });
+  }
+
+  // Storage
+  const storageGroup = Array.from(optionsDiv.querySelectorAll(".group"))
+    .find(g => g.querySelector("h3").innerText.toLowerCase() === "storage");
+  storageGroup.querySelectorAll(".pill").forEach(pill => pill.classList.remove("disabled"));
+
+  if (selectedModel.includes("B1 Max")) {
+    storageGroup.querySelectorAll(".pill").forEach(p => {
+      if (p.textContent.includes("12 TB") && !chip.includes("48-core")) p.classList.add("disabled");
+    });
+  }
+
+  // Auto-deselect invalid selections
+  ["memory", "storage"].forEach(cat => {
+    const group = cat === "memory" ? memoryGroup : storageGroup;
+    const selected = selectedOptions[cat];
+    if (selected) {
+      const pill = Array.from(group.querySelectorAll(".pill"))
+        .find(p => cleanLabel(p.textContent) === cleanLabel(selected));
+      if (pill.classList.contains("disabled")) {
+        const firstValid = Array.from(group.querySelectorAll(".pill"))
+          .find(p => !p.classList.contains("disabled"));
+        firstValid.classList.add("selected");
+        selectedOptions[cat] = firstValid.textContent;
+      }
+    }
+  });
 }
 
 function renderHeroSummary() {
   const list = document.getElementById("heroList");
   list.innerHTML = "";
-  const config = baseConfigs[selectedSize][selectedModel];
-  for (let category in config.upgrades) {
-    if (selectedOptions[category]) list.appendChild(li(cleanLabel(selectedOptions[category])));
+  for (let category in selectedOptions) {
+    if (category === "addons") {
+      selectedOptions.addons.forEach(a => list.appendChild(li(cleanLabel(a))));
+    } else {
+      list.appendChild(li(cleanLabel(selectedOptions[category])));
+    }
   }
 }
 
 function updatePrice() {
-  let price = baseConfigs[selectedSize][selectedModel].price;
-  for (let cat in selectedOptions) {
-    const val = selectedOptions[cat];
+  let price = baseConfigs[selectedModel].price;
+  for (let category in selectedOptions) {
+    const val = selectedOptions[category];
     if (Array.isArray(val)) {
-      val.forEach(v => { const m = v.match(/\+A\$(\d+)/); if (m) price += parseInt(m[1]); });
+      val.forEach(opt => { const m = opt.match(/\+A\$(\d+)/); if (m) price += parseInt(m[1],10); });
     } else {
-      const m = val.match(/\+A\$(\d+)/); if (m) price += parseInt(m[1]);
+      const m = val.match(/\+A\$(\d+)/);
+      if (m) price += parseInt(m[1],10);
     }
   }
   document.getElementById("finalPrice").innerText = `Total: A$${price}`;
 }
 
 function li(text) { const el = document.createElement('li'); el.textContent = text; return el; }
-
-renderModels();
 </script>
+
 </body>
 </html>
