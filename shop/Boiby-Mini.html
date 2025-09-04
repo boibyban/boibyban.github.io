@@ -223,116 +223,121 @@
     });
 
     function showConfigurator() {
-      const config = baseConfigs[selectedModel];
-      document.getElementById("heroTitle").innerText = `Customise your Boiby mini — ${selectedModel}`;
+  const config = baseConfigs[selectedModel];
+  document.getElementById("heroTitle").innerText = `Customise your Boiby mini — ${selectedModel}`;
 
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      selectedOptions = {};
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  selectedOptions = {};
 
-      for (let category in config.upgrades) {
-        const group = document.createElement("div");
-        group.className = "group";
-        const h3 = document.createElement("h3");
-        h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-        group.appendChild(h3);
+  // Render upgrade groups
+  for (let category in config.upgrades) {
+    const group = document.createElement("div");
+    group.className = "group";
+    const h3 = document.createElement("h3");
+    h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+    group.appendChild(h3);
 
-        config.upgrades[category].forEach((opt, idx) => {
-          const pill = document.createElement("div");
-          pill.className = "pill";
-          pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
+    config.upgrades[category].forEach((opt, idx) => {
+      const pill = document.createElement("div");
+      pill.className = "pill";
+      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
 
-          if (selectedModel === "B1 Pro" && category === "memory" && opt.includes("96 GB")) {
-            pill.classList.add("disabled");
-          } else {
-            pill.addEventListener("click", () => {
-              group.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
-              pill.classList.add("selected");
-              selectedOptions[category] = opt;
-              renderHeroSummary();
-              updatePrice();
-            });
-          }
+      // Disable 96GB memory initially for B1 Pro
+      if (selectedModel === "B1 Pro" && category === "memory" && opt.includes("96 GB")) {
+        pill.classList.add("disabled");
+      } else {
+        pill.addEventListener("click", () => {
+          // Skip click if disabled
+          if (pill.classList.contains("disabled")) return;
 
-          if (idx === 0) pill.classList.add("selected");
-          group.appendChild(pill);
-          if (idx === 0) selectedOptions[category] = opt;
-        });
+          group.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+          pill.classList.add("selected");
+          selectedOptions[category] = opt;
 
-        if (selectedModel === "B1 Pro") {
-            const chipGroup = optionsDiv.querySelector(".group:first-child"); // assume chip is first
+          // B1 Pro memory sanity check
+          if (selectedModel === "B1 Pro" && category === "chip") {
             const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
-                                     .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
-          
+              .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
             const memory96 = Array.from(memoryGroup.querySelectorAll(".pill"))
-                                   .find(p => p.textContent.includes("96 GB"));
-          
-            // Initially disabled
-            memory96.classList.add("disabled");
-          
-            chipGroup.querySelectorAll(".pill").forEach(chipPill => {
-              chipPill.addEventListener("click", () => {
-                // enable 96GB if 14-core selected, else disable and reset memory
-                if (chipPill.textContent.includes("14-core")) {
-                  memory96.classList.remove("disabled");
-                } else {
-                  memory96.classList.add("disabled");
-          
-                  // reset memory to 64GB if 96GB was selected
-                  if (selectedOptions.memory && selectedOptions.memory.includes("96 GB")) {
-                    const memory64 = Array.from(memoryGroup.querySelectorAll(".pill"))
-                                           .find(p => p.textContent.includes("64 GB"));
-                    memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
-                    memory64.classList.add("selected");
-                    selectedOptions.memory = memory64.textContent.trim();
-                  }
-                }
-                renderHeroSummary();
-                updatePrice();
-              });
-            });
+              .find(p => p.textContent.includes("96 GB"));
+            if (opt.includes("14-core")) {
+              memory96.classList.remove("disabled");
+            } else {
+              memory96.classList.add("disabled");
+              // reset memory to 64GB if 96GB was selected
+              if (selectedOptions.memory && selectedOptions.memory.includes("96 GB")) {
+                const memory64 = Array.from(memoryGroup.querySelectorAll(".pill"))
+                  .find(p => p.textContent.includes("64 GB"));
+                memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+                memory64.classList.add("selected");
+                selectedOptions.memory = memory64.textContent.trim();
+              }
+            }
           }
 
-        optionsDiv.appendChild(group);
-      }
-
-      // Add Addons section
-      const addonsGroup = document.createElement("div");
-      addonsGroup.className = "group";
-      const addonsTitle = document.createElement("h3");
-      addonsTitle.innerText = "Add-ons";
-      addonsGroup.appendChild(addonsTitle);
-
-      for (let sub in addons) {
-        const subTitle = document.createElement("h4");
-        subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
-        addonsGroup.appendChild(subTitle);
-
-        addons[sub].forEach(opt => {
-          const pill = document.createElement("div");
-          pill.className = "pill";
-          pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
-          pill.addEventListener("click", () => {
-            pill.classList.toggle("selected");
-            if (!selectedOptions.addons) selectedOptions.addons = [];
-            if (pill.classList.contains("selected")) {
-              selectedOptions.addons.push(opt);
-            } else {
-              selectedOptions.addons = selectedOptions.addons.filter(a => a !== opt);
-            }
-            renderHeroSummary();
-            updatePrice();
-          });
-          addonsGroup.appendChild(pill);
+          renderHeroSummary();
+          updatePrice();
         });
       }
 
-      optionsDiv.appendChild(addonsGroup);
+      if (idx === 0) pill.classList.add("selected");
+      if (!(selectedModel === "B1 Pro" && category === "memory" && opt.includes("96 GB"))) {
+        selectedOptions[category] = opt;
+      }
 
-      document.getElementById("configurator").style.display = "block";
-      renderHeroSummary();
-      updatePrice();
+      group.appendChild(pill);
+    });
+
+    // Memory note
+    if (selectedModel === "B1 Pro" && category === "memory") {
+      const note = document.createElement("div");
+      note.className = "note";
+      note.innerText = "96GB unified memory available on B1 Pro with 14-core CPU and 24-core GPU.";
+      group.appendChild(note);
     }
+
+    optionsDiv.appendChild(group);
+  }
+
+  // Addons
+  const addonsGroup = document.createElement("div");
+  addonsGroup.className = "group";
+  const addonsTitle = document.createElement("h3");
+  addonsTitle.innerText = "Add-ons";
+  addonsGroup.appendChild(addonsTitle);
+
+  for (let sub in addons) {
+    const subTitle = document.createElement("h4");
+    subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
+    addonsGroup.appendChild(subTitle);
+
+    addons[sub].forEach(opt => {
+      const pill = document.createElement("div");
+      pill.className = "pill";
+      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
+      pill.addEventListener("click", () => {
+        pill.classList.toggle("selected");
+        if (!selectedOptions.addons) selectedOptions.addons = [];
+        if (pill.classList.contains("selected")) {
+          selectedOptions.addons.push(opt);
+        } else {
+          selectedOptions.addons = selectedOptions.addons.filter(a => a !== opt);
+        }
+        renderHeroSummary();
+        updatePrice();
+      });
+      addonsGroup.appendChild(pill);
+    });
+  }
+
+  optionsDiv.appendChild(addonsGroup);
+  document.getElementById("configurator").style.display = "block";
+
+  renderHeroSummary();
+  updatePrice();
+}
+
 
     function renderHeroSummary() {
       const list = document.getElementById("heroList");
