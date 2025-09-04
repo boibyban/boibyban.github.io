@@ -634,22 +634,14 @@ if (formData.classicViolations && formData.classicViolations.length > 0) {
             const imgElement = document.createElement('img');
             imgElement.className = 'evidence-image';
             
-            if (violation.violationType === "Image") {
-                imgElement.style.cssText = `
-                    max-width: 360px;
-                    margin-top: 8px;
-                `;
+            if (violation.violationType === "Image" || violation.violationType === "Profile Picture") {
+                imgElement.style.cssText = `max-width: 360px; margin-top: 8px;`;
                 imgElement.src = violation.evidence;
             } else {
-                imgElement.style.cssText = `
-                    width: 64px;
-                    height: 64px;
-                    margin-top: 8px;
-                    display: block;
-                `;
+                imgElement.style.cssText = `width: 64px; height: 64px; margin-top: 8px; display: block;`;
                 imgElement.src = "/forbidden.png";
                 imgElement.alt = "Content not available";
-            }
+            }                        
             
             violationBox.appendChild(imgElement);
             evidenceContainer.appendChild(violationBox);
