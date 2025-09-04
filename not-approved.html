@@ -519,7 +519,7 @@ if (formData) {
 
     // Evidence container setup
     const evidenceContainer = document.getElementById('evidenceContainer');
-    document.getElementById('violationHeader').textContent = translations[language]["Label.ViolationDetails"] + ':';
+    document.getElementById('violationHeader').textContent = translations[language]["Label.RecentViolation"] + ':';
 
     // Moderator note
     const moderatorNote = formData.customNote || (formData.note === "nonote" ? "" : formData.note) || "";
