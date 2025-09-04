@@ -222,6 +222,21 @@ function generateUUID() {
     return v.toString(16);
   });
 }
+function generateUUIDv7() {
+    const now = BigInt(Date.now());
+    const timeHex = now.toString(16).padStart(12, "0");
+    const randHex = crypto.getRandomValues(new Uint8Array(10))
+        .reduce((str, b) => str + b.toString(16).padStart(2, "0"), "");
+
+    return [
+        timeHex.slice(0, 8),
+        timeHex.slice(8) + randHex.slice(0, 4),
+        "7" + randHex.slice(4, 7), // v7
+        (parseInt(randHex[7], 16) & 0x3 | 0x8).toString(16) + randHex.slice(8, 11), // variant
+        randHex.slice(11)
+    ].join("-");
+}
+
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, function (m) {
     return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
@@ -494,14 +509,20 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
     newBan.classicViolations.push({violationType: type, reason, evidence, location});
 
     // Modern violation with Asset ID for appropriate types
-    if (["Image", "Model", "UGC Bundle", "Profile Picture"].includes(type)) {
-      const assetId = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
-      newBan.modernViolations.push({
-        violationType: type,
-        reason,
-        evidence: type === "Image" || type === "Profile Picture" ? evidence : box.querySelector('.evidence')?.value || "",
-        assetId
-      });
+    if (["Image", "Model", "UGC Bundle", "UGC Accessory", "Profile Picture"].includes(type)) {
+        let assetId;
+        if (type === "Profile Picture") {
+            assetId = "profileDescription/" + generateUUIDv7();
+        } else {
+            assetId = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
+        }
+      
+        newBan.modernViolations.push({
+            violationType: type,
+            reason,
+            evidence: (type === "Image" || type === "Profile Picture") ? evidence : box.querySelector('.evidence')?.value || "",
+            assetId
+        });
     }
     
     // Modern violation for Voice Chat (uses location)
@@ -542,6 +563,7 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
 
 </body>
 </html>
+
 
 
 
