@@ -99,6 +99,7 @@
             <label class="radio-item"><input type="radio" name="state"> Ban 3 Days</label>
             <label class="radio-item"><input type="radio" name="state"> Ban 7 Days</label>
             <label class="radio-item"><input type="radio" name="state"> Ban 14 Days</label>
+            <label class="radio-item"><input type="radio" name="state"> Ban 1 Year</label>
             <label class="radio-item"><input type="radio" name="state"> Delete</label>
           </div>
 
@@ -110,6 +111,7 @@
 <option value="V2Impersonation">V2 Impersonation</option>
 <option value="V2Tragedy">V2 Tragedy Content</option>
 <option value="V2Cheats">V2 Cheats</option>
+<option value="V2Chargeback">V2 Chargeback</option>
 <option value="V2Threats">V2 Threats</option>
 <option value="V2Extortion">V2 Extortion</option>
 <option value="V2Dangerous">V2 Dangerous Activities</option>
@@ -123,6 +125,7 @@
 <option value="V2Dating">V2 Dating</option>
 <option value="V2Misusing">V2 Misusing Systems</option>
 <option value="V2Enforcement">V2 Enforcement/Ban Evasion</option>
+            <option value="V2Misusing">V2 Chargeback</option>
             <option value="Scamming">Scamming</option>
             <option value="Free Boibucks Game">Free Boibucks Game (Scam)</option>
             <option value="Inappropriate Content">Inappropriate Content</option>
@@ -239,6 +242,8 @@ const presets = {
   "V2Contests": "Boiby does not permit contests or sweepstakes in the form of lottery style games or playing for free Boibucks.",
   "V2Impersonation": "Boiby does not permit users to mislead others by impersonating other people’s real- or virtual-world identity or affiliations.",
   "V2Tragedy": "Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.",
+  "V2Chargeback": "Your account has been moderated due to unauthorized or disputed charges, repeated refund reqeusts, and/or payment abuse or fraud.",
+  "V2BoibucksPurchaseDisabled": "Your ability to purchase Boibucks or Boiby Premium has been suspended for 30 days. Additional repeated refund requests or unathorized/disputed charges may result in additional account restrctions, including account termination.",
   "V2Cheats": "Boiby does not permit users to deploy or discuss any method of cheating on platform.",
   "V2Threats": "Boiby does not permit real threats of violence towards members of the Boiby Community.",
   "V2Extortion": "Boiby does not permit attempts to threaten users in order to force them to do something they do not want to do.",
@@ -532,6 +537,7 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
 
 </body>
 </html>
+
 
 
 
