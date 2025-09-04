@@ -38,6 +38,7 @@ window.translations = {
         "Label.Decision": "Decision",
         "Label.Reason": "Reason",
         "Label.OffensiveItem": "Offensive Item",
+        "Label.RecentViolation": "Recent Violation",
         "Label.ViolationDetails": "Violation Details",
         "Text.ParentReactivate": "Your parent or guardian must help you re-activate this account.",
         
