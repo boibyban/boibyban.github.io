@@ -1,118 +1,206 @@
-<html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BoibyBook Pro - Purchase</title>
-  <style>
-    :root {
-      --blue: #0071e3;
-      --border: #d2d2d7;
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      color: var(--text);
-    }
-    header { text-align: center; padding: 30px 10px; border-bottom: 1px solid var(--border); }
-    h1 { font-size: 2rem; font-weight: 600; margin: 0; }
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buy BoibyBook Pro</title>
+ <style>
+  :root {
+    --blue: #0071e3;
+    --border: #d2d2d7;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --bg: #fff;
+  }
 
-    .tabs { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
-    .tab { padding: 10px 20px; cursor: pointer; border: 1px solid var(--border); border-radius: 20px; }
-    .tab.active { background: var(--blue); color: white; border-color: var(--blue); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
 
-    .models, .configurator { max-width: 900px; margin: auto; padding: 20px; }
-    .models { display: flex; flex-direction: column; gap: 20px; }
-    .card { border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.2s; }
-    .card:hover { transform: scale(1.02); }
-    .card h2 { font-size: 1.4rem; margin: 0 0 6px; }
-    .price { font-size: 1.1rem; font-weight: 500; margin: 6px 0 14px; }
-    .card ul { margin: 0; padding-left: 20px; }
+  header {
+    text-align: center;
+    padding: 28px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+  }
 
-    .back-btn { margin: 10px 0 20px; padding: 8px 18px; background: #f2f2f2; border: none; border-radius: 20px; cursor: pointer; font-size: 0.95rem; }
-    .back-btn:hover { background: #e0e0e0; }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .tab {
+    padding: 10px 22px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .tab.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
 
-    .hero { margin-bottom: 28px; }
-    .hero-title {
-      font-size: clamp(1.8rem, 4.2vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin: 0 0 18px;
-    }
-    .hero-list { list-style: none; padding: 0; margin: 0; color: var(--muted); }
-    .hero-list li {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      margin: 10px 0;
-    }
+  .models, .configurator {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+  .models {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    background: #fff;
+    cursor: pointer;
+    transition: box-shadow .15s, transform .06s;
+  }
+  .card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+  }
+  .card h2 {
+    font-size: 1.3rem;
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  .price {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin: 6px 0 12px;
+    color: var(--muted);
+  }
+  .card ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--muted);
+  }
 
-    .group { margin: 28px 0; }
-    .group h3 { font-size: 1.15rem; margin: 0 0 12px; }
+  .back-btn {
+    margin: 10px 0 20px;
+    padding: 8px 18px;
+    background: #f5f5f7;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .back-btn:hover { background: #e6e6e9; }
 
-    .pill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 12px 0;
-      padding: 30px 20px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      cursor: pointer;
-      transition: border-color .2s, box-shadow .2s;
-      font-size: 1.05rem;
-      background: #fff;
-    }
-    .pill .label { font-weight: 600; }
-    .pill .price-right { color: var(--muted); font-weight: 600; white-space: nowrap; }
-    .pill:hover { border-color: var(--blue); }
-    .pill.selected { border: 2px solid var(--blue); box-shadow: 0 0 0 2px rgba(0,113,227,0.15) inset; }
-    .pill.disabled { color: var(--muted); cursor: not-allowed; background: #f9f9f9; }
+  .hero { margin-bottom: 24px; }
+  .hero-title {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 12px;
+  }
+  .hero-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--muted);
+  }
+  .hero-list li {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 6px 0;
+  }
 
-    .note { font-size: 0.9rem; color: var(--muted); margin-top: 6px; }
+  .group { margin: 24px 0; }
+  .group h3 {
+    font-size: 1.1rem;
+    margin: 0 0 10px;
+  }
 
+  .pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin: 10px 0;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color .12s, box-shadow .12s, transform .06s;
+  }
+  .pill:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .pill.selected {
+    border: 2px solid var(--blue);
+    box-shadow: 0 4px 14px rgba(0,113,227,0.08);
+  }
+  .pill.disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    background: #fbfbfb;
+  }
+  .pill .label { font-weight: 600; }
+  .pill .price-right { color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+  .note {
+    font-size: .9rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .checkout {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    z-index: 100;
+  }
+  .total {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .add-to-bag {
+    padding: 12px 22px;
+    font-size: 1.05rem;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .add-to-bag:hover { background: #005bb5; }
+
+  @media (max-width: 600px) {
+    .pill { padding: 14px; }
     .checkout {
-      position: sticky;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #fff;
-      border-top: 1px solid var(--border);
-      padding: 20px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-      z-index: 100;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
     }
-    .total {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-    .add-to-bag {
-      padding: 14px 26px;
-      font-size: 1.2rem;
-      background: var(--blue);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background .2s;
-    }
-    .add-to-bag:hover { background: #005bb5; }
+    .add-to-bag { width: 100%; }
+  }
+</style>
 
-    /* keep the small-screen variant from Air for consistent format */
-    @media (max-width: 600px) {
-      .pill { padding: 18px; }
-      .checkout { flex-direction: column; align-items: stretch; text-align: center; }
-      .add-to-bag { width: 100%; }
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -124,40 +212,24 @@
     <div class="tab" data-size="16">16-inch</div>
   </div>
 
-  <div class="models" id="models" style="display: flex;"><div class="card" data-model="B1 Pro">
-        <h2>B1 Pro</h2>
-        <p class="price">From A$2,999</p>
-        <ul>
-          <li>14-inch Tandem OLED 120Hz display</li>
-          <li>Boiby B1 Pro chip with 12-core CPU and 20-core GPU</li>
-          <li>32 GB unified memory</li>
-          <li>512 GB SSD storage</li>
-          <li>95 W USB-C Power Adapter</li>
-        </ul>
-      </div><div class="card" data-model="B1 Max">
-        <h2>B1 Max</h2>
-        <p class="price">From A$4,499</p>
-        <ul>
-          <li>14-inch Tandem OLED 120Hz display</li>
-          <li>Boiby B1 Max chip with 16-core CPU and 36-core GPU</li>
-          <li>48 GB unified memory</li>
-          <li>1 TB SSD storage</li>
-          <li>95 W USB-C Power Adapter</li>
-        </ul>
-      </div></div>
+  <main>
+    <div class="models" id="models"><!-- cards inserted by JS --></div>
 
-  <div class="configurator" id="configurator" style="display: none;">
-    <button class="back-btn" id="backBtn">← Back</button>
-    <div class="hero">
-      <h2 class="hero-title" id="heroTitle">Customise your BoibyBook Pro — B1 Pro 14"</h2>
-      <ul class="hero-list" id="heroList"><li>B1 Pro 14" — 14-inch Tandem OLED 120Hz display</li><li>Boiby B1 Pro chip with 12-core CPU and 20-core GPU</li><li>32 GB unified memory</li><li>512 GB SSD storage</li><li>95 W USB-C Power Adapter</li><li>No anti-reflective coating</li></ul>
+    <div class="configurator" id="configurator" style="display:none;">
+      <button class="back-btn" id="backBtn">← Back</button>
+      <div class="hero">
+        <h2 class="hero-title" id="heroTitle"></h2>
+        <ul class="hero-list" id="heroList"></ul>
+      </div>
+      <div id="options"></div>
     </div>
-    <div id="options"><div class="group"><h3>Coating</h3><div class="pill selected" data-cat="coating" data-value="No anti-reflective coating (base)"><span class="label">No anti-reflective coating</span><span class="price-right"></span></div><div class="pill" data-cat="coating" data-value="Anti-reflective display coating (+A$100)"><span class="label">Anti-reflective display coating</span><span class="price-right">+A$100</span></div></div><div class="group"><h3>Chip</h3><div class="pill selected" data-cat="chip" data-value="Boiby B1 Pro chip with 12-core CPU and 20-core GPU (base)"><span class="label">Boiby B1 Pro chip with 12-core CPU and 20-core GPU</span><span class="price-right"></span></div><div class="pill" data-cat="chip" data-value="Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"><span class="label">Boiby B1 Pro chip with 14-core CPU and 24-core GPU</span><span class="price-right">+A$300</span></div></div><div class="group"><h3>Memory</h3><div class="pill selected" data-cat="memory" data-value="32 GB unified memory (base)"><span class="label">32 GB unified memory</span><span class="price-right"></span></div><div class="pill" data-cat="memory" data-value="48 GB unified memory (+A$200)"><span class="label">48 GB unified memory</span><span class="price-right">+A$200</span></div><div class="pill" data-cat="memory" data-value="64 GB unified memory (+A$400)"><span class="label">64 GB unified memory</span><span class="price-right">+A$400</span></div><div class="pill disabled" data-cat="memory" data-value="96 GB unified memory (+A$600)"><span class="label">96 GB unified memory</span><span class="price-right">+A$600</span></div><div class="note">Higher memory options require higher-end CPU/GPU selections.</div></div><div class="group"><h3>Storage</h3><div class="pill selected" data-cat="storage" data-value="512 GB SSD storage (base)"><span class="label">512 GB SSD storage</span><span class="price-right"></span></div><div class="pill" data-cat="storage" data-value="1 TB SSD storage (+A$100)"><span class="label">1 TB SSD storage</span><span class="price-right">+A$100</span></div><div class="pill" data-cat="storage" data-value="2 TB SSD storage (+A$200)"><span class="label">2 TB SSD storage</span><span class="price-right">+A$200</span></div><div class="pill" data-cat="storage" data-value="4 TB SSD storage (+A$400)"><span class="label">4 TB SSD storage</span><span class="price-right">+A$400</span></div><div class="pill" data-cat="storage" data-value="8 TB SSD storage (+A$800)"><span class="label">8 TB SSD storage</span><span class="price-right">+A$800</span></div></div><div class="group"><h3>Adapter</h3><div class="pill selected" data-cat="adapter" data-value="95 W USB-C Power Adapter (base)"><span class="label">95 W USB-C Power Adapter</span><span class="price-right"></span></div><div class="pill" data-cat="adapter" data-value="140W USB-C Power Adapter (+A$50)"><span class="label">140W USB-C Power Adapter</span><span class="price-right">+A$50</span></div></div><div class="group"><h3>Add-ons</h3><div style="font-weight: 600; margin-top: 8px;">Mouse</div><div class="pill" data-cat="addons" data-value="Boiby Pro Mouse (+A$50)"><span class="label">Boiby Pro Mouse</span><span class="price-right">+A$50</span></div><div style="font-weight: 600; margin-top: 8px;">Keyboard</div><div class="pill" data-cat="addons" data-value="Boiby Pro Keyboard (+A$150)"><span class="label">Boiby Pro Keyboard</span><span class="price-right">+A$150</span></div><div class="pill" data-cat="addons" data-value="Boiby Pro Keyboard with Number Pad (+A$200)"><span class="label">Boiby Pro Keyboard with Number Pad</span><span class="price-right">+A$200</span></div><div style="font-weight: 600; margin-top: 8px;">Monitor</div><div class="pill" data-cat="addons" data-value="Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)"><span class="label">Boiby HDR Display 27-inch</span><span class="price-right">+A$499</span></div><div class="pill" data-cat="addons" data-value="Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)"><span class="label">Boiby Studio Display OLED 27-inch</span><span class="price-right">+A$1199</span></div></div></div>
-    <div class="checkout">
-      <div class="total" id="finalPrice">Total: A$2,999</div>
-      <button class="add-to-bag">Add to Bag</button>
-    </div>
+  </main>
+
+  <div class="checkout">
+    <div class="total" id="finalPrice">Total: A$0</div>
+    <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
   </div>
+
 
 <script>
 (function () {
