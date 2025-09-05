@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boiby Pro - Purchase</title>
+  <style>
+    :root{
+  --blue:#0071e3;
+  --border:#d2d2d7;
+  --text:#1d1d1f;
+  --muted:#6e6e73;
+  --bg:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Header */
+header{ text-align:center; padding:28px 16px; border-bottom:1px solid var(--border); }
+h1{ font-size:1.9rem; margin:0; font-weight:700; }
+
+/* Models (list of cards) */
+.models{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  padding:20px;
+  max-width:720px;
+  margin:18px auto;
+}
+.card{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
+  background:#fff;
+  cursor:pointer;
+  transition:box-shadow .12s,transform .08s,border-color .12s;
+}
+.card:hover{ border-color:var(--blue); transform:translateY(-2px); }
+.card h2{ margin:0 0 8px; font-size:1.25rem; font-weight:600; }
+.price{ color:var(--muted); margin:6px 0 12px; font-weight:500; }
+.card ul{ margin:0; padding-left:20px; color:var(--muted); }
+
+/* Configurator container */
+.configurator{ max-width:920px; margin:18px auto; padding:18px; }
+
+/* Back button */
+.back-btn{
+  margin-bottom:16px;
+  padding:8px 16px;
+  border-radius:999px;
+  border:none;
+  background:#f5f5f7;
+  cursor:pointer;
+}
+.back-btn:hover{ background:#e8e8eb; }
+
+/* Hero */
+.hero{ margin-bottom:18px; }
+.hero-title{ font-size:clamp(1.6rem,4vw,2.4rem); margin:0 0 8px; font-weight:700; }
+.hero-list{ list-style:none; padding:0; margin:0; color:var(--muted); }
+.hero-list li{ margin:6px 0; font-size:1rem; line-height:1.6; }
+
+/* Groups */
+.group{ margin:20px 0; }
+.group h3{ margin:0 0 10px; font-size:1.05rem; }
+
+/* Pills (options) */
+.pill{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:28px 20px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin:8px 0;
+  background:#fff;
+  cursor:pointer;
+  transition:box-shadow .12s,border-color .12s,transform .06s;
+  font-size:1.02rem;
+}
+.pill:hover{ border-color:var(--blue); transform:translateY(-2px); }
+.pill.selected{ border:2px solid var(--blue); box-shadow:0 4px 14px rgba(0,113,227,0.08); }
+.pill.disabled{ opacity:.6; cursor:not-allowed; background:#fbfbfb; }
+.pill .label{ font-weight:600; }
+.pill .price-right{ color:var(--muted); font-weight:600; white-space:nowrap; }
+
+/* Notes */
+.note{ color:var(--muted); font-size:.92rem; margin-top:6px; }
+
+/* Checkout */
+.checkout{
+  position:sticky;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:linear-gradient(#fff,#fff);
+  border-top:1px solid var(--border);
+  padding:18px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  z-index:40;
+  box-shadow:0 -4px 10px rgba(0,0,0,0.04);
+}
+.total{ font-size:1.4rem; font-weight:700; }
+.add-to-bag{
+  background:var(--blue);
+  color:#fff;
+  border:none;
+  padding:12px 22px;
+  border-radius:999px;
+  font-size:1.05rem;
+  cursor:pointer;
+}
+.add-to-bag:hover{ background:#005bb5; }
+
+/* Small screens */
+@media (max-width:600px){
+  .pill{ padding:14px; }
+  .models{ padding:12px; }
+  .configurator{ padding:12px; }
+  .checkout{ flex-direction:column; align-items:stretch; text-align:center; }
+  .add-to-bag{ width:100%; }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Buy Boiby Pro</h1>
+  </header>
+
+  <div class="models" id="models">
+    <div class="card" data-model="B4 Ultra + GX4 Ultra">
+      <h2>Boiby B4 Ultra + GX4 Ultra</h2>
+      <p class="price">From A$9999</p>
+      <ul>
+        <li>Boiby B4 Ultra with 28-core CPU</li>
+        <li>128 GB (4x32 GB) DDR5 ECC Memory</li>
+        <li>Boiby GX4 Ultra 80-core GPU with 32 GB GDDR7</li>
+        <li>2 TB SSD storage</li>
+      </ul>
+    </div>
+
+    <div class="card" data-model="B4 Extreme + GX4 Extreme">
+      <h2>Boiby B4 Extreme + GX4 Extreme</h2>
+      <p class="price">From A$21999</p>
+      <ul>
+        <li>Boiby B4 Extreme with 64-core CPU</li>
+        <li>256 GB (4x64 GB) DDR5 ECC Memory</li>
+        <li>Boiby GX4 Extreme 112-core GPU with 32 GB GDDR7</li>
+        <li>4 TB SSD storage</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="configurator" id="configurator" style="display:none;">
+    <button class="back-btn" id="backBtn">← Back</button>
+
+    <div class="hero">
+      <h2 class="hero-title" id="heroTitle"></h2>
+      <ul class="hero-list" id="heroList"></ul>
+    </div>
+
+    <div id="options"></div>
+
+    <div class="checkout">
+      <div class="total" id="finalPrice"></div>
+      <button class="add-to-bag">Add to Bag</button>
+    </div>
+  </div>
+
+<script>
+const baseConfigs = {
+  "B4 Ultra + GX4 Ultra": {
+    price: 9999,
+    name: "Boiby B4 Ultra + GX4 Ultra",
+    upgrades: {
+      cpu: [
+        "Boiby B4 Ultra with 28-core CPU (base)", 
+        "Boiby B4 Ultra with 32-core CPU (+A$600)"
+      ],
+      memory: [
+        "128 GB (4x32 GB) DDR5 ECC Memory (base)", 
+        "256 GB (8x32 GB) DDR5 ECC memory (+A$1000)", 
+        "384 GB (8x48 GB) DDR5 ECC memory (+A$2000)", 
+        "512 GB (8x64 GB) DDR5 ECC memory (+A$3000)", 
+        "768 GB (16x48 GB) DDR5 ECC memory (+A$5000)", 
+        "1 TB (16x64 GB) DDR5 ECC memory (+A$7000)"
+      ],
+      gpu: [
+        "Boiby GX4 Ultra 80-core GPU with 32 GB GDDR7 (base)",
+        "Boiby GX4 Ultra 96-core GPU with 48 GB GDDR7 (+A$2500)",
+        "Dual Boiby GX4 Ultra 96-core GPUs with 96GB GDDR7 (+A$5000) (combined)"
+      ],
+      storage: [
+        "2 TB SSD storage (base)", 
+        "4 TB SSD storage (+A$200)", 
+        "8 TB SSD storage (+A$600)", 
+        "16 TB SSD storage (+A$1600)", 
+        "32 TB SSD storage (+A$3600)"
+      ],
+      accelerator: [
+        "No Encoding Accelerator",
+        "Boiby Encoding Accelerator Pro (+A$3000)"
+      ]
+    }
+  },
+  "B4 Extreme + GX4 Extreme": {
+    price: 21999,
+    name: "Boiby B4 Extreme + GX4 Extreme",
+    upgrades: {
+      cpu: [
+        "Boiby B4 Extreme with 64-core CPU (base)", 
+        "Boiby B4 Extreme with 80-core CPU (+A$3000)"
+      ],
+      memory: [
+        "256 GB (4x64 GB) DDR5 ECC Memory (base)", 
+        "384 GB (8x48 GB) DDR5 ECC memory (+A$1500)", 
+        "512 GB (8x64 GB) DDR5 ECC memory (+A$3000)", 
+        "768 GB (16x48 GB) DDR5 ECC memory (+A$6000)", 
+        "1 TB (16x64 GB) DDR5 ECC memory (+A$9000)", 
+        "1.5 TB (16x96 GB) DDR5 ECC memory (+A$12000)", 
+        "2 TB (16x128 GB) DDR5 ECC memory (+A$18000)", 
+        "3 TB (16x192 GB) DDR5 ECC memory (+A$27000)"
+      ],
+      gpu: [
+        "Boiby GX4 Extreme 112-core GPU with 32 GB GDDR7 (base)",
+        "Boiby GX4 Extreme 144-core GPU with 48 GB HBM3 (+A$3000)",
+        "Boiby GX4 Extreme 192-core GPU with 64 GB HBM3 (+A$7000)",
+        "Boiby GX4 Omega 320-core GPU with 128 GB HBM3 (+A$21000)",
+        "Boiby GX4 Omega 384-core GPU with 256 GB HBM3 (+A$32000)",
+        "Dual Boiby GX4 Omega 384-core GPU with 512 GB HBM3 combined (+A$62500)",
+        "Quad Boiby GX4 Omega 384-core GPU with 1 TB HBM3 combined (+A$125000)"
+      ],
+      storage: [
+        "4 TB SSD storage (base)", 
+        "8 TB SSD storage (+A$400)", 
+        "16 TB SSD storage (+A$1400)", 
+        "32 TB SSD storage (+A$3400)", 
+        "64 TB SSD storage (+A$7400)"
+      ],
+      accelerator: [
+        "No Encoding Accelerator",
+        "Boiby Encoding Accelerator Pro (+A$3000)"
+      ]
+    }
+  }
+};
+
+const addons = {
+  mouse: ["Boiby Pro Mouse (+A$50)"],
+  keyboard: ["Boiby Pro Keyboard (+A$150)", "Boiby Pro Keyboard with Number Pad (+A$200)"],
+  monitor: [
+    "Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)", 
+    "Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)",
+    "Boiby Pro Display OLED 32-inch (6K OLED 240Hz) (+A$9999)"
+  ]
+};
+
+let selectedModel = null;
+let selectedOptions = {};
+
+const cleanLabel = opt => opt.split("(")[0].trim();
+const rightPrice = opt => {
+  const m = opt.match(/\+A\$\d+/);
+  return m ? m[0].replace('+','+ ') : '';
+};
+
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    selectedModel = card.getAttribute("data-model");
+    document.getElementById("models").style.display = "none";
+    showConfigurator();
+  });
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  document.getElementById("configurator").style.display = "none";
+  document.getElementById("models").style.display = "flex";
+});
+
+function showConfigurator() {
+  const config = baseConfigs[selectedModel];
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  selectedOptions = {};
+  document.getElementById("heroTitle").innerText = `Customise your Boiby Pro — ${selectedModel}`;
+
+  // Render upgrade groups
+  for (let category in config.upgrades) {
+    const group = document.createElement("div");
+    group.className = "group";
+    const h3 = document.createElement("h3");
+    h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+    group.appendChild(h3);
+
+    config.upgrades[category].forEach((opt, idx) => {
+      const pill = document.createElement("div");
+      pill.className = "pill";
+      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
+
+      // Handle dependencies for B4 Extreme
+      if (selectedModel === "B4 Extreme + GX4 Extreme") {
+        // 2TB and 3TB memory only available with 80-core CPU
+        if (category === "memory" && (opt.includes("2 TB") || opt.includes("3 TB"))) {
+          pill.classList.add("disabled");
+        }
+      }
+
+      pill.addEventListener("click", () => {
+        if (pill.classList.contains("disabled")) return;
+
+        group.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+        pill.classList.add("selected");
+        selectedOptions[category] = opt;
+
+        // Handle dependencies when CPU is selected for B4 Extreme
+        if (selectedModel === "B4 Extreme + GX4 Extreme" && category === "cpu") {
+          const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
+            .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
+          
+          // Enable/disable memory options based on CPU selection
+          if (memoryGroup) {
+            const memory2TB = Array.from(memoryGroup.querySelectorAll(".pill"))
+              .find(p => p.textContent.includes("2 TB"));
+            const memory3TB = Array.from(memoryGroup.querySelectorAll(".pill"))
+              .find(p => p.textContent.includes("3 TB"));
+            
+            if (opt.includes("80-core")) {
+              if (memory2TB) memory2TB.classList.remove("disabled");
+              if (memory3TB) memory3TB.classList.remove("disabled");
+            } else {
+              if (memory2TB) memory2TB.classList.add("disabled");
+              if (memory3TB) memory3TB.classList.add("disabled");
+              
+              // If current selection is now disabled, select the first available option
+              if (selectedOptions.memory && 
+                  (selectedOptions.memory.includes("2 TB") || selectedOptions.memory.includes("3 TB"))) {
+                memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
+                const firstAvailable = memoryGroup.querySelector(".pill:not(.disabled)");
+                if (firstAvailable) {
+                  firstAvailable.classList.add("selected");
+                  selectedOptions.memory = config.upgrades.memory.find(m => 
+                    m.includes(firstAvailable.querySelector(".label").textContent)
+                  );
+                }
+              }
+            }
+          }
+        }
+
+        renderHeroSummary();
+        updatePrice();
+      });
+
+      // Select first option by default, except disabled options
+      if (idx === 0 && !pill.classList.contains("disabled")) {
+        pill.classList.add("selected");
+        selectedOptions[category] = opt;
+      }
+
+      group.appendChild(pill);
+    });
+
+    // Add notes for dependencies
+    if (selectedModel === "B4 Extreme + GX4 Extreme" && category === "memory") {
+      const note = document.createElement("div");
+      note.className = "note";
+      note.innerText = "2TB and 3TB memory available on B4 Extreme with 80-core CPU.";
+      group.appendChild(note);
+    }
+
+    optionsDiv.appendChild(group);
+  }
+
+  // Add-ons
+  const addonsGroup = document.createElement("div");
+  addonsGroup.className = "group";
+  const addonsTitle = document.createElement("h3");
+  addonsTitle.innerText = "Add-ons";
+  addonsGroup.appendChild(addonsTitle);
+
+  for (let sub in addons) {
+    const subTitle = document.createElement("h4");
+    subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
+    addonsGroup.appendChild(subTitle);
+
+    addons[sub].forEach(opt => {
+      const pill = document.createElement("div");
+      pill.className = "pill";
+      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
+      pill.addEventListener("click", () => {
+        pill.classList.toggle("selected");
+        if (!selectedOptions.addons) selectedOptions.addons = [];
+        if (pill.classList.contains("selected")) {
+          selectedOptions.addons.push(opt);
+        } else {
+          selectedOptions.addons = selectedOptions.addons.filter(a => a !== opt);
+        }
+        renderHeroSummary();
+        updatePrice();
+      });
+      addonsGroup.appendChild(pill);
+    });
+  }
+
+  optionsDiv.appendChild(addonsGroup);
+  document.getElementById("configurator").style.display = "block";
+
+  renderHeroSummary();
+  updatePrice();
+}
+
+function renderHeroSummary() {
+  const list = document.getElementById("heroList");
+  list.innerHTML = "";
+
+  if (selectedModel === "B4 Ultra + GX4 Ultra") {
+    list.appendChild(li(cleanLabel(selectedOptions.cpu || 'Boiby B4 Ultra with 28-core CPU')));
+    list.appendChild(li(cleanLabel(selectedOptions.memory || '128 GB (4x32 GB) DDR5 ECC Memory')));
+    list.appendChild(li(cleanLabel(selectedOptions.gpu || 'Boiby GX4 Ultra 80-core GPU with 32 GB GDDR7')));
+    list.appendChild(li(cleanLabel(selectedOptions.storage || '2 TB SSD storage')));
+    if (selectedOptions.accelerator && selectedOptions.accelerator !== "No Encoding Accelerator") {
+      list.appendChild(li(cleanLabel(selectedOptions.accelerator)));
+    }
+  } else if (selectedModel === "B4 Extreme + GX4 Extreme") {
+    list.appendChild(li(cleanLabel(selectedOptions.cpu || 'Boiby B4 Extreme with 64-core CPU')));
+    list.appendChild(li(cleanLabel(selectedOptions.memory || '256 GB (4x64 GB) DDR5 ECC Memory')));
+    list.appendChild(li(cleanLabel(selectedOptions.gpu || 'Boiby GX4 Extreme 112-core GPU with 32 GB GDDR7')));
+    list.appendChild(li(cleanLabel(selectedOptions.storage || '4 TB SSD storage')));
+    if (selectedOptions.accelerator && selectedOptions.accelerator !== "No Encoding Accelerator") {
+      list.appendChild(li(cleanLabel(selectedOptions.accelerator)));
+    }
+  }
+
+  if (selectedOptions.addons && selectedOptions.addons.length > 0) {
+    selectedOptions.addons.forEach(addon => {
+      list.appendChild(li(cleanLabel(addon)));
+    });
+  }
+}
+
+function updatePrice() {
+  let price = baseConfigs[selectedModel].price;
+
+  for (let category in selectedOptions) {
+    const val = selectedOptions[category];
+    if (Array.isArray(val)) {
+      val.forEach(opt => {
+        const match = opt.match(/\+A\$(\d+)/);
+        if (match) price += parseInt(match[1], 10);
+      });
+    } else {
+      const match = val.match(/\+A\$(\d+)/);
+      if (match) price += parseInt(match[1], 10);
+    }
+  }
+
+  document.getElementById("finalPrice").innerText = `Total: A$${price.toLocaleString()}`;
+}
+
+function li(text) {
+  const el = document.createElement('li');
+  el.textContent = text;
+  return el;
+}
+</script>
+</body>
+</html>
