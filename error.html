@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error</title>
+  <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+  <style>
+    * { font-family: "Inter", serif; }
+    body { margin: 0!important; }
+    header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+      color: #000;
+      z-index: 1000;
+    }
+    .left, .right { display: flex; align-items: center; }
+    .left img { height: 32px; margin-right: 32px; }
+    .left nav a { margin-right: 32px; text-decoration: none; color: inherit; font-size: 16px; }
+    .right .user-circle {
+      width: 32px; height: 32px; border-radius: 50%; background: #eee; margin-right: 5px;
+    }
+    .box {
+      margin: 15% auto; max-width: 300px!important; display: block; text-align: center;
+    }
+    .box img {
+      max-width: 150px; margin-bottom: 15px; border-radius: 2%;
+    }
+    .logout {
+      margin: auto; margin-top: 25px; border: 0px; box-shadow: 0px 2px 1px #eee; min-width: 80px;
+    }
+    /* Sidebar */
+    #sidebar {
+      position: fixed; top: 44px; left: 0; width: 160px; height: 100%;
+      background: #fff; border-right: 1px solid #ddd;
+      padding: 16px; box-sizing: border-box; font-size: 16px;
+      display: none; flex-direction: column; gap: 12px; z-index: 900;
+    }
+    #sidebar a, #sidebar .premium-btn {
+      display: block; text-decoration: none; color: #000;
+      margin-bottom: 12px; font-size: 16px;
+    }
+    #hamburger { display: none; font-size: 22px; cursor: pointer; margin-right: 12px; }
+    @media (max-width: 1599px) { #hamburger { display: block; } }
+    @media (min-width: 1600px) { #sidebar { display: flex; } }
+    #logo { content: url("boibylongdark.png"); height: 36px; }
+    .dark-mode #logo { content: url("boibylonglight.png"); }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="left">
+      <div id="hamburger">☰</div>
+      <img id="logo" src="boibylongdark.png" alt="Boiby Logo">
+      <nav>
+        <a href="#">Discover</a>
+        <a href="#">Catalog</a>
+        <a href="#">Develop</a>
+        <a href="#">Boibucks</a>
+      </nav>
+    </div>
+    <div class="right">
+      <div class="user-circle"></div>
+      <span id="username" style="font-weight:500;">f</span>
+      <img src="bgreen.png" alt="Boibucks"><span>0</span>
+    </div>
+  </header>
+
+  <div id="sidebar">
+    <a href="#">Home</a>
+    <a href="#">Profile</a>
+    <a href="#">Discover</a>
+    <a href="#">Catalog</a>
+    <a href="#">Friends</a>
+    <a href="#">Chat</a>
+    <a href="#">Trade</a>
+    <a href="#">Money</a>
+    <a href="#">Develop</a>
+    <a href="#">Premium</a>
+    <button style="display:none" class="premium-btn">Get Premium</button>
+  </div>
+
+  <div class="box">
+    <img src="uhoh.gif" alt="oops">
+    <h3 id="messageTitle">erm... something happened</h3>
+    <p id="messageItem">An error occurred.</p>
+    <button class="logout" onclick="if(document.referrer){history.back();}else{window.location.href='https://boibyban.github.io/home';}">
+      Back
+    </button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    const title = document.getElementById("messageTitle");
+    const message = document.getElementById("messageItem");
+
+    const errors = {
+      "400": { title: "Bad Request", text: "400 | The server could not understand your request." },
+      "403": { title: "Access Denied", text: "403 | You don't have permission to access this page." },
+      "404": { title: "Page Not Found", text: "404 | The page you are looking for does not exist." },
+      "501": { title: "Not Implemented", text: "501 | This feature or request is not supported." },
+      "userDeleted": {
+        title: "This user is deleted",
+        text: "We deleted this user because of repeated or serious rule-breaking."
+      }
+    };
+
+    if (errors[code]) {
+      title.textContent = errors[code].title;
+      message.textContent = errors[code].text;
+    } else {
+      title.textContent = "erm... something happened";
+      message.textContent = "An unknown error occurred.";
+    }
+  </script>
+</body>
+</html>
