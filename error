@@ -1,0 +1,22 @@
+<div class="box" style="ba: 100px;margin: 15% auto;max-width:300px!important;display: block;align-items: center;">
+        <img src="uhoh.gif" alt="oops" style="
+    max-width: 150px;
+    margin-left: 75px;
+    margin-bottom: 15px;
+    padding-right: ;
+    padding-top: ;
+    border-radius: 2%;
+    "><div class="messageLeft">
+            <div class="error-image">
+                
+            </div>
+            <h3 id="messageTitle" style="max-width: 300px;font-size: 20px;text-align: center;">erm... something happened</h3>
+            <p id="messageItem" style="max-width: 300px;margin-bottom: 20px!important;text-align: center;">404 | Page Not Found</p>
+        </div>
+        
+        <button class="logout" onclick="if(document.referrer){history.back();}else{window.location.href='https://boibyban.github.io/home';}" style="margin: auto;margin-top: 25px;border: 0px;box-shadow: 0px 2px 1px #eee;">
+  Back
+</button>
+
+
+</div>
