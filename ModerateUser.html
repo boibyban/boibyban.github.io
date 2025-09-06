@@ -106,11 +106,18 @@
           <div class="info-label">Preset Message to User</div>
           <select id="preset-message">
             <option value="">— choose preset —</option>
+              <option value="V2DirectingOffPlatform">V2 Directing Users Off-Platform</option>
+            <option value="V2IPViolation">V2 IP/Copyright Violation</option>
+            <option value="V2Illegal">V2 Illegal and Regulated Content</option>
   <option value="V2Scamming">V2 Scamming</option>
+            <option value="V2Profanity">V2 Profanity/Swearing</option>
 <option value="V2Contests">V2 Contests and Sweepstakes</option>
 <option value="V2Impersonation">V2 Impersonation</option>
+            <option value="V2Terrorism">V2 Terrorism/Extremism</option>
+            <option value="V2TerrorismPermanent">V2 Terrorism/Extremism (Permanent)</option>
 <option value="V2Tragedy">V2 Tragedy Content</option>
 <option value="V2Cheats">V2 Cheats</option>
+            <option value="V2ChildEndagerment">V2 Child Endangerment</option>
 <option value="V2Chargeback">V2 Chargeback</option>
 <option value="V2Threats">V2 Threats</option>
 <option value="V2Extortion">V2 Extortion</option>
@@ -253,7 +260,14 @@ document.getElementById("card-username").innerText = username || "";
 
 /* ---------- Preset messages mapping ---------- */
 const presets = {
+  "V2DirectingOffPlatform": "Boiby does not permit the use of off-site links of any kind. Links to YouTube, Facebook, Roblox, Reddit, Discord, Twitter, and Twitch must be wrapped in the applicable Policy API or listed in the Social Networks and Social Links settings of your profile or experience description page. Links that appear in locations where the API cannot be deployed - such as text chat - are prohibited.",
   "V2Scamming": "Boiby does not permit phishing or scamming links, requests for passwords, selling of accounts, uploading of unauthorized accounts, or selling assets for real money off platform.",
+  "V2Terrorism": "Boiby does not permit associations with terrorism or violent extremism.",
+  "V2IPViolation": "Boiby received a copyright removal request for one or more of your creations. After reviewing the request, our moderation team has removed your creation. If you believe you were reported by mistake, you can contest the removal request by submitting a counter-notice by following our rules and guidelines. You can find additional information in your verified email inbox and in Boiby Messages.",
+  "V2TerrorismPermanent": "Your account has been permanently banned due to violating our Terrorism and Violent Extremism Community Standard. Boiby prohibits this sort of content and behaviour. In circumstances where Boiby believes users may be at risk of harm, Boiby may file a report with relevant authorities.",
+  "V2ChildEndangerment": "Your account has been permanently banned due to violating our Child Endangerment and Exploitation Community Standard. Any form of harmful or illegal content or behaviour involving minors is strictly prohibited on Boiby. In circumstances where Boiby believes users may be at risk of harm, Boiby may file a report with relevant authorities.",
+  "V2Profanity": "Boiby does not permit the use profane language or slurs.",
+  "V2Illegal": "Boiby prohibits any form of illegal or regulated content. This can include alcohol, drugs, tobacco products, or bomb or weapon making.",
   "V2Contests": "Boiby does not permit contests or sweepstakes in the form of lottery style games or playing for free Boibucks.",
   "V2Impersonation": "Boiby does not permit users to mislead others by impersonating other people’s real- or virtual-world identity or affiliations.",
   "V2Tragedy": "Boiby does not permit content that recreates, mocks, or capitalizes off of specific real-world tragic events.",
@@ -270,7 +284,7 @@ const presets = {
   "V2PrivacyAskingPII": "Boiby does not permit the exchange of Personal Identifiable Information (PII) between community members.",
   "V2PrivacyGivingPII": "Boiby does not permit sharing Personal Identifiable Information in the form of full name, email address, passwords, physical address, phone numbers, images of themselves, or unauthorized voice recordings.",
   "V2Harassment": "Boiby does not permit bullying or harassment towards community members.",
-  "V2Dating": "Boiby does not permit dating or romantic exchanges between users.",
+  "V2Dating": "Boiby does not permit dating or romantic exchanges between users, or any content pertaining to or encouraging dating on the platform.",
   "V2Misusing": "Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.",
   "V2Enforcement": "You created or used an account to avoid an enforcement action taken against another account",
   "Scamming": "Scamming is a violation of our Terms of Use. Do not continue to scam on Boiby.",
@@ -396,12 +410,12 @@ document.getElementById('addClassicViolationBox').addEventListener('click', () =
       <option value="Misusing Boiby Systems">Misusing Boiby Systems</option>
       <option value="Terrorism/Extremism">Terrorism/Extremism</option>
       <option value="Political Content">Political Content</option>
-      <option value="Boiby Endangerment">Boiby Endangerment</option>
       <option value="Discriminatory Content">Discriminatory Content</option>
       <option value="Violent Content and Gore">Violent Content and Gore</option>
       <option value="Privacy: Giving PII">Privacy: Giving PII</option>
       <option value="Privacy: Asking for PII">Privacy: Asking for PII</option>
       <option value="Intellectual Property Violation">IP Violation</option>
+      <option value="Copyright Violation">Copyright Violation</option>
       <option value="Scamming">Scamming</option>
       <option value="Misinformation">Misinformation</option>
       <option value="Child Endangerment">Child Endangerment</option>
@@ -563,6 +577,7 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
 
 </body>
 </html>
+
 
 
 
