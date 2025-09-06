@@ -134,6 +134,7 @@
 <option value="V2Enforcement">V2 Enforcement/Ban Evasion</option>
             <option value="V2Misusing">V2 Misusing Boiby Systems</option>
             <option value="Scamming">Scamming</option>
+            <option value="Off-platform Links">Off-platform Links</option>
             <option value="PostingExploits">Posting about Exploits</option>
             <option value="Privacy">Privacy</option>
             <option value="DMCA Permanent">DMCA Permanent</option>
@@ -168,6 +169,8 @@
             <option value="Account for breaking rules">Account for breaking rules</option>
             <option value="Username">Username</option>
             <option value="Display name">Display name</option>
+            <option value="User blurb">User blurb</option>
+            <option value="UsernameOld">Username (Old)</option>
             <option value="Child endangerment (generic)">Child endangerment (generic)</option>
             <option value="Terrorism/Extremism">Terrorism/Extremism</option>
             <option value="Terrorism/Extremism (simplified)">Terrorism/Extremism (simplified)</option>
@@ -291,11 +294,11 @@ const presets = {
   "V2Dating": "Boiby does not permit dating or romantic exchanges between users, or any content pertaining to or encouraging dating on the platform.",
   "V2Misusing": "Boiby does not permit bypasses of our systems that keep our platform and community safe and secure.",
   "V2Enforcement": "You created or used an account to avoid an enforcement action taken against another account",
-  "Scamming": "Scamming is a violation of our Terms of Use. Do not continue to scam on Boiby.",
+  "Scamming": "Scamming is a violation of our Terms of Service. Do not continue to scam on Boiby.",
   "Privacy": "Do not ask for or give out personal, real-life, or private information on Boiby.",
-  "PostingExploits": "Posting information that claims to be able to exploit Roblox is a violation of our Terms of Service. If you continue to do so, your account will be subject to further moderation actions.",
+  "PostingExploits": "Posting information that claims to be able to exploit Boiby is a violation of our Terms of Service. If you continue to do so, your account will be subject to further moderation actions.",
   "Bad model in game": "Boiby doesn't allow the use of “Model Name or Link”. Your game “Game Name or Link” has been suspended for having inappropriate content. This is a violation of our terms of use.",
-  "DMCA Permanent": "Your account has been closed due to violations of our DMCA Repeat Infringer Policy. Please review our Terms of Use for additional information. You are prohibited from creating a new account on Boiby."
+  "DMCA Permanent": "Your account has been closed due to violations of our DMCA Repeat Infringer Policy. Please review our Terms of Service for additional information. You are prohibited from creating a new account on Boiby."
   "Free Boibucks Game": "Do not create games that offer Boibucks as a prize. These kinds of games are considered scams, as there is not an official system to guarantee a prize. If you persist in creating these games, your account will be subject to additional moderation actions.",
   "Inappropriate Content": "This content is not appropriate. Do not chat, post, or otherwise discuss inappropriate topics on Boiby.",
   "Harassment": "Do not harass other users. Do not say mean or inappropriate things on Boiby.",
@@ -315,9 +318,10 @@ const presets = {
   "Disputed charges": "Your account has been moderated due to unauthorized/disputed charges.",
   "Account/Asset Theft": "Your account has been moderated for violating our Terms of Use for theft of an account and/or assets.",
   "Account Theft": "Your account has been moderated for violating our Terms of Use for account theft.",
+  "Off-platform Links": "When using Boiby, you may not link to any external websites or services, except for: YouTube, Reddit, Facebook, Discord, Twitter, Roblox, and Twitch. Links to any of those approved sites must be wrapped in the applicable Policy API or listed in the Social Networks and Social Links settings of your profile or game description page. Links that appear in locations where the API cannot be deployed are prohibited.",
   "Poison": "Your account has been moderated for repeatedly violating the Terms of Use on multiple accounts.",
-  "Scam games (permanent)": "This account has been closed due to a violation of our Terms of Use. Do not create games or advertisements intended to scam other players.",
-  "Scam games (temporary)": "Your account has been moderated due to a violation of our Terms of Use. Do not create games or advertisements intended to scam other players. If you continue, additional action may be taken against your account.",
+  "Scam games (permanent)": "This account has been closed due to a violation of our Terms of Service. Do not create games or advertisements intended to scam other players.",
+  "Scam games (temporary)": "Your account has been moderated due to a violation of our Terms of Service. Do not create games or advertisements intended to scam other players. If you continue, additional action may be taken against your account.",
   "Exploiting": "Your account has been moderated for violating the Terms of Use for exploiting.",
   "Botting": "Your account has been moderated for violating the Terms of Use for botting and/or botting behavior.",
   "Off-platform purchases": "Your account has been moderated for buying or selling Boibybucks or virtual items on third-party sites or marketplaces.",
@@ -325,10 +329,12 @@ const presets = {
   "Tragic event": "Please do not create games, shirts, or post comments about this tragic event. We understand that you intended this to be a respectful memorial, but we cannot risk having other players behave in an inappropriate manner in or around the content you’re posting.",
   "Account for breaking rules": "Do not create accounts just for the purpose of breaking the rules.",
   "Username": "This username is not permitted on Boiby.",
+  "UsernameOld": "Your username contains inappropriate content and is not allowed on Boiby."
   "Display name": "This display name is not permitted on Boiby.",
+  "User blurb": "This user blurb is not permitted on Boiby.",
   "Child endangerment (generic)": "Your account has been moderated for violating the Terms of Use for inappropriate behavior/content.",
   "Terrorism/Extremism": "Your account has been moderated for creating, promoting, or participating in inappropriate behavior or content. Boiby strictly prohibits associations with terrorism and violent extremism. This is a violation of our Terms of Use.",
-  "Terrorism/Extremism (simplified)": "Boiby strictly prohibits associations with terrorism and extremism.",
+  "Terrorism/Extremism (simplified)": "Your account has been moderated for creating, promoting, or participating in content related to terrorism or violent extremism.",
   "Inappropriate Image": "This image is not appropriate. Please review our rules and only upload appropriate content.",
   "Inappropriate audio file": "This audio file contains content that is not appropriate for Boiby. Please review our rules and upload only appropriate content.",
   "Mod actions": "Do not post about your moderation actions, or additional moderation actions may be taken against your account. If you would like to discuss or appeal your bans, please use the Appeals Form to contact us.",
@@ -585,6 +591,7 @@ document.getElementById("submit-moderation").addEventListener("click", async () 
 
 </body>
 </html>
+
 
 
 
