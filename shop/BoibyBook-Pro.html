@@ -496,7 +496,7 @@
         },
         "B1 Pro": {
           price: 3199,
-          display: "14-inch Tandem OLED 240Hz VRR display",
+          display: "14-inch Tandem OLED 360Hz VRR display",
           ports: [
             "Three Thunderbolt 5 ports",
             "One  USB 3.1 Type-A port",
@@ -513,8 +513,8 @@
           }
         },
         "B1 Max": {
-          price: 4499,
-          display: "14-inch Tandem OLED 240Hz VRR display",
+          price: 4799,
+          display: "14-inch Tandem OLED 360Hz VRR display",
           ports: [
             "Three Thunderbolt 5 ports",
             "One USB 3.1 Type-A port",
@@ -526,30 +526,53 @@
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B1 Max chip with 16-core CPU and 38-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$800)"],
             memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
-            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
+            storage: ["2 TB SSD storage (base)", "4 TB SSD storage (+A$200)", "8 TB SSD storage (+A$600)", "12 TB SSD storage (+A$1400)"],
             adapter: ["135W USB-C Power Adapter (base)"]
           }
         }
       };
+  const template16 = {
+  "B1 Pro": {
+    price: 4299,
+    display: "16-inch Tandem OLED 360Hz VRR display",
+    ports: [
+      "Three Thunderbolt 5 ports",
+      "One USB 3.1 Type-A port",
+      "HDMI 2.2 + DisplayPort 2.1b",
+      "SD Express card reader",
+      "Audio Jack"
+    ],
+    upgrades: {
+      coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+      chip: ["Boiby B1 Pro chip with 14-core CPU and 24-core GPU (base)"],
+      memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)"/*,"64 GB unified memory (+A$400)"*/],
+      storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
+      adapter: ["135W USB-C Power Adapter (base)"]
+    }
+  },
+  "B1 Max": {
+    price: 5499,
+    display: "16-inch Tandem OLED 360Hz VRR display",
+    ports: [
+      "Three Thunderbolt 5 ports",
+      "One USB 3.1 Type-A port",
+      "HDMI 2.2 + DisplayPort 2.1b",
+      "SD Express card reader",
+      "Audio Jack"
+    ],
+    upgrades: {
+      coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+      chip: ["Boiby B1 Max chip with 16-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$800)"],
+      memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$800)"],
+      storage: ["2 TB SSD storage (base)", "4 TB SSD storage (+A$200)", "8 TB SSD storage (+A$600)", "12 TB SSD storage (+A$1400)"],
+      adapter: ["135W USB-C Power Adapter (base)"]
+    }
+  }
+};
 
-      const baseConfigs = { '14': {}, '16': {} };
-      baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
-      
-      // Create 16-inch models (excluding B1)
-      Object.keys(baseConfigs['14']).forEach(model => {
-        if (model === 'B1') return; // Skip B1 for 16-inch
-        
-        baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
-        baseConfigs['16'][model].price = baseConfigs['14'][model].price + 600;
-        
-        // For 16-inch models, set 135W adapter as default for Max only
-        if (model === "B1 Max") {
-          baseConfigs['16'][model].upgrades.adapter = ["135W USB-C Power Adapter (base)"];
-        }
-      });
-
-      // For 16-inch B1 Pro, set 12/19-core as default
-      baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"];
+const baseConfigs = { '14': {}, '16': {} };
+baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
+baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
 
       const addons = {
         mouse: ["Boiby Pro Mouse (+A$50)"],
