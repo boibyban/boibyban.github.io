@@ -452,7 +452,7 @@
     </div>
 
     <div class="confirmation" id="confirmation">
-      <h2 class="confirmation-title">Order Confirmed!</h2>
+      <h2 class="confirmation-title">Order Confirmed</h2>
       <div class="confirmation-image" id="confirmationImage"></div>
       <h3 class="confirmation-model" id="confirmationModel"></h3>
       <div class="confirmation-details">
@@ -460,7 +460,7 @@
         <ul class="confirmation-list" id="confirmationList"></ul>
         <div class="confirmation-total" id="confirmationTotal"></div>
       </div>
-      <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">← Back to Store</button>
+      <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">Back to Store</button>
     </div>
   </main>
 
@@ -478,7 +478,7 @@
       const template14 = {
         "B1": {
           price: 2499,
-          display: "14-inch Tandem OLED 120Hz display",
+          display: "14-inch Tandem OLED 240Hz VRR display",
           ports: [
             "Three Thunderbolt 4 ports",
             "Two USB 3.1 Type-A ports",
@@ -496,7 +496,7 @@
         },
         "B1 Pro": {
           price: 3199,
-          display: "14-inch Tandem OLED 120Hz display",
+          display: "14-inch Tandem OLED 240Hz VRR display",
           ports: [
             "Three Thunderbolt 5 ports",
             "Two USB 3.1 Type-A ports",
@@ -507,14 +507,14 @@
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$400)"],
-            memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$300)"],
+            memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)"/*, "64 GB unified memory (+A$300)"*/],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
           }
         },
         "B1 Max": {
           price: 4499,
-          display: "14-inch Tandem OLED 120Hz display",
+          display: "14-inch Tandem OLED 240Hz VRR display",
           ports: [
             "Three Thunderbolt 5 ports",
             "Two USB 3.1 Type-A ports",
@@ -548,7 +548,7 @@
         }
       });
 
-      // For 16-inch B1 Pro, set 12/19-core as default (not 14/24-core)
+      // For 16-inch B1 Pro, set 12/19-core as default
       baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"];
 
       const addons = {
@@ -813,13 +813,15 @@
 
           if (selectedModel === 'B1') {
             // No restrictions for B1 model
-          } else if (selectedModel === 'B1 Pro') {
+          }
+          /* else if (selectedModel === 'B1 Pro') {
             if (!chipFull.includes('14-core')) {
               memPills.forEach(p => {
                 if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
               });
             }
-          } else if (selectedModel === 'B1 Max') {
+          }*/
+          else if (selectedModel === 'B1 Max') {
             if (!chipFull.includes('48-core')) {
               memPills.forEach(p => {
                 if (p.dataset.value.includes('128 GB')) p.classList.add('disabled');
