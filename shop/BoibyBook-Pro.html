@@ -98,9 +98,9 @@
     .card-image {
       width: 140px;
       height: 140px;
-      border-radius: 8px;
+      border-radius: 0px;
       overflow: hidden;
-      background: #f5f5f7;
+      background: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -208,9 +208,9 @@
     .hero-image {
       width: 280px;
       flex-shrink: 0;
-      border-radius: 12px;
+      border-radius: 0px;
       overflow: hidden;
-      background: #f5f5f7;
+      background: #fff;
     }
     
     .hero-image img {
@@ -337,7 +337,7 @@
     .confirmation-image {
       width: 300px;
       margin: 0 auto 20px;
-      border-radius: 12px;
+      border-radius: 0px;
       overflow: hidden;
     }
     
@@ -542,14 +542,14 @@
         baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
         baseConfigs['16'][model].price = baseConfigs['14'][model].price + 500;
         
-        // For 16-inch models, set 135W adapter as default
-        if (model === "B1 Pro" || model === "B1 Max") {
+        // For 16-inch models, set 135W adapter as default for Max only
+        if (model === "B1 Max") {
           baseConfigs['16'][model].upgrades.adapter = ["135W USB-C Power Adapter (base)"];
         }
       });
 
-      // For 16-inch B1 Pro, set 14-core/24-core as default
-      baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 14-core CPU and 24-core GPU (base)"];
+      // For 16-inch B1 Pro, set 12/19-core as default (not 14/24-core)
+      baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"];
 
       const addons = {
         mouse: ["Boiby Pro Mouse (+A$50)"],
@@ -622,7 +622,7 @@
                 <img src="${imageUrl}" alt="${model} ${selectedColor}" id="card-image-${model.replace(/\s+/g, '-')}">
               </div>
               <div class="card-details">
-                <h2>${model}</h2>
+                <h2>${selectedSize}-inch BoibyBook Pro - ${model}</h2>
                 <p class="price">From ${formatPrice(cfg.price)}</p>
                 <ul>
                   <li>${cfg.display}</li>
@@ -743,12 +743,6 @@
             if (idx === 0) {
               pill.classList.add('selected');
               selectedOptions[category] = pill.dataset.value;
-            }
-
-            // Special case: 14-inch B1 Pro with 14-core chip should auto-select 135W adapter
-            if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
-                category === 'adapter' && opt.includes('135W')) {
-              // This will be handled in handleDependencies
             }
 
             group.appendChild(pill);
@@ -878,30 +872,6 @@
           }
           if (selectedOptions.storage) {
             storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.storage));
-          }
-        }
-
-        // ADAPTER: Special handling for 14-inch B1 Pro with 14-core chip
-        const adapterGroup = findGroupByName('adapter');
-        if (adapterGroup) {
-          const adapterPills = Array.from(adapterGroup.querySelectorAll('.pill'));
-          
-          // For 14-inch B1 Pro with 14-core chip, auto-select 135W and disable 90W
-          if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
-              chipFull.includes('14-core')) {
-            adapterPills.forEach(p => {
-              if (p.dataset.value.includes('90 W')) {
-                p.classList.add('disabled');
-              } else if (p.dataset.value.includes('135W')) {
-                p.classList.add('selected');
-                selectedOptions.adapter = p.dataset.value;
-              }
-            });
-          }
-          
-          // For all other cases, ensure proper selection
-          if (selectedOptions.adapter) {
-            adapterPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.adapter));
           }
         }
 
