@@ -540,7 +540,7 @@
         if (model === 'B1') return; // Skip B1 for 16-inch
         
         baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
-        baseConfigs['16'][model].price = baseConfigs['14'][model].price + 500;
+        baseConfigs['16'][model].price = baseConfigs['14'][model].price + 800;
         
         // For 16-inch models, set 135W adapter as default for Max only
         if (model === "B1 Max") {
