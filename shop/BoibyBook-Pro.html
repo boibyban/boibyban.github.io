@@ -249,10 +249,10 @@
       display: "14-inch Tandem OLED 120Hz display",
       upgrades: {
         coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-        chip: ["Boiby B1 Pro chip with 12-core CPU and 20-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
-        memory: ["32 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)", "96 GB unified memory (+A$600)"],
-        storage: ["512 GB SSD storage (base)", "1 TB SSD storage (+A$100)", "2 TB SSD storage (+A$200)", "4 TB SSD storage (+A$400)", "8 TB SSD storage (+A$800)"],
-        adapter: ["95 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"]
+        chip: ["Boiby B1 Pro chip with 13-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
+        memory: ["24 GB unified memory (base)", "36 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)"],
+        storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
+        adapter: ["90 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"]
       }
     },
     "B1 Max": {
@@ -261,9 +261,9 @@
       upgrades: {
         coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
         chip: ["Boiby B1 Max chip with 16-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$600)"],
-        memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1200)", "256 GB unified memory (+A$2400)"],
+        memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$800)"],
         storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
-        adapter: ["95 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"]
+        adapter: ["90 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"]
       }
     }
   };
@@ -466,14 +466,14 @@
       if (selectedModel === 'B1 Pro') {
         if (!chipFull.includes('14-core')) {
           memPills.forEach(p => {
-            if (p.dataset.value.includes('96 GB')) p.classList.add('disabled');
+            if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
           });
         }
       }
       if (selectedModel === 'B1 Max') {
         if (!chipFull.includes('48-core')) {
           memPills.forEach(p => {
-            if (p.dataset.value.includes('128 GB') || p.dataset.value.includes('256 GB')) p.classList.add('disabled');
+            if (p.dataset.value.includes('128 GB') p.classList.add('disabled');
           });
         }
       }
