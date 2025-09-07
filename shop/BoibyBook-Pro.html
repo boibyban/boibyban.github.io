@@ -4,216 +4,427 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Buy BoibyBook Pro</title>
- <style>
-  :root {
-    --blue: #0071e3;
-    --border: #d2d2d7;
-    --text: #1d1d1f;
-    --muted: #6e6e73;
-    --bg: #fff;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    transition: opacity 0.3s ease;
-  }
-
-  body.fade-out {
-    opacity: 0.5;
-  }
-
-  header {
-    text-align: center;
-    padding: 28px 16px;
-    border-bottom: 1px solid var(--border);
-    transition: all 0.3s ease;
-  }
-  h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .tabs {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
-    transition: opacity 0.3s ease;
-  }
-  .tab {
-    padding: 10px 22px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .tab.active {
-    background: var(--blue);
-    color: #fff;
-    border-color: var(--blue);
-  }
-
-  .models, .configurator {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-  }
-  .models {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .card {
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    background: #fff;
-    cursor: pointer;
-    transition: box-shadow .15s, transform .06s;
-  }
-  .card:hover {
-    border-color: var(--blue);
-    transform: translateY(-2px);
-  }
-  .card h2 {
-    font-size: 1.3rem;
-    margin: 0 0 6px;
-    font-weight: 600;
-  }
-  .price {
-    font-size: 1.05rem;
-    font-weight: 500;
-    margin: 6px 0 12px;
-    color: var(--muted);
-  }
-  .card ul {
-    margin: 0;
-    padding-left: 20px;
-    color: var(--muted);
-  }
-
-  .back-btn {
-    margin: 10px 0 20px;
-    padding: 8px 18px;
-    background: #f5f5f7;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 0.95rem;
-  }
-  .back-btn:hover { background: #e6e6e9; }
-
-  .hero { margin-bottom: 24px; }
-  .hero-title {
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin: 0 0 12px;
-  }
-  .hero-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    color: var(--muted);
-  }
-  .hero-list li {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 6px 0;
-  }
-
-  .group { margin: 24px 0; }
-  .group h3 {
-    font-size: 1.1rem;
-    margin: 0 0 10px;
-  }
-
-  .pill {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 28px 20px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin: 10px 0;
-    cursor: pointer;
-    background: #fff;
-    transition: border-color .12s, box-shadow .12s, transform .06s;
-  }
-  .pill:hover { border-color: var(--blue); transform: translateY(-2px); }
-  .pill.selected {
-    border: 2px solid var(--blue);
-    box-shadow: 0 4px 14px rgba(0,113,227,0.08);
-  }
-  .pill.disabled {
-    opacity: .6;
-    cursor: not-allowed;
-    background: #fbfbfb;
-  }
-  .pill .label { font-weight: 600; }
-  .pill .price-right { color: var(--muted); font-weight: 600; white-space: nowrap; }
-
-  .note {
-    font-size: .9rem;
-    color: var(--muted);
-    margin-top: 6px;
-  }
-
-  .checkout {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: auto;
-  max-width: 100vw;
-  box-sizing: border-box;
-  background: #fff;
-  border-top: 1px solid var(--border);
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  z-index: 100;
-  overflow-x: hidden;
-  padding-left: max(18px, env(safe-area-inset-left));
-  padding-right: max(18px, env(safe-area-inset-right));
-}
-  .total {
-    font-size: 1.4rem;
-    font-weight: 700;
-  }
-  .add-to-bag {
-    padding: 12px 22px;
-    font-size: 1.05rem;
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background .2s;
-  }
-  .add-to-bag:hover { background: #005bb5; }
-
-  @media (max-width: 600px) {
-    .pill { padding: 14px; }
-    .checkout {
-      flex-direction: column;
-      align-items: stretch;
-      text-align: center;
+  <style>
+    :root {
+      --blue: #0071e3;
+      --border: #d2d2d7;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --bg: #fff;
     }
-    .add-to-bag { width: 100%; }
-  }
-</style>
 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      transition: opacity 0.3s ease;
+    }
+
+    body.fade-out {
+      opacity: 0.5;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tab {
+      padding: 10px 22px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    
+    .tab.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .models, .configurator, .confirmation {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    
+    .models {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+    }
+    
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      background: #fff;
+      transition: box-shadow .15s, transform .06s;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card:hover {
+      border-color: var(--blue);
+      transform: translateY(-2px);
+    }
+    
+    .card-content {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .card-image {
+      width: 140px;
+      height: 140px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f5f5f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card-image img {
+      max-width: 100%;
+      max-height: 100%;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card-details {
+      flex: 1;
+    }
+    
+    .card h2 {
+      font-size: 1.3rem;
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    
+    .price {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin: 6px 0 12px;
+      color: var(--muted);
+    }
+    
+    .card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    .color-selector {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .color-pill {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    
+    .color-pill.selected {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    
+    .select-btn {
+      margin-top: auto;
+      padding: 10px 0;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    
+    .select-btn:hover {
+      background: #005bb5;
+    }
+
+    .back-btn {
+      margin: 10px 0 20px;
+      padding: 8px 18px;
+      background: #f5f5f7;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    
+    .back-btn:hover { 
+      background: #e6e6e9; 
+    }
+
+    .hero { 
+      margin-bottom: 24px; 
+    }
+    
+    .hero-title {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+    
+    .hero-content {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+    }
+    
+    .hero-image {
+      width: 280px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f7;
+    }
+    
+    .hero-image img {
+      width: 100%;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    
+    .hero-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: var(--muted);
+      flex: 1;
+    }
+    
+    .hero-list li {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 6px 0;
+    }
+
+    .group { 
+      margin: 24px 0; 
+    }
+    
+    .group h3 {
+      font-size: 1.1rem;
+      margin: 0 0 10px;
+    }
+
+    .pill {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 10px 0;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color .12s, box-shadow .12s, transform .06s;
+    }
+    
+    .pill:hover { 
+      border-color: var(--blue); 
+      transform: translateY(-2px); 
+    }
+    
+    .pill.selected {
+      border: 2px solid var(--blue);
+      box-shadow: 0 4px 14px rgba(0,113,227,0.08);
+    }
+    
+    .pill.disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      background: #fbfbfb;
+    }
+    
+    .pill .label { 
+      font-weight: 600; 
+    }
+    
+    .pill .price-right { 
+      color: var(--muted); 
+      font-weight: 600; 
+      white-space: nowrap; 
+    }
+
+    .note {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .checkout {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: auto;
+      max-width: 100vw;
+      box-sizing: border-box;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      z-index: 100;
+      overflow-x: hidden;
+      padding-left: max(18px, env(safe-area-inset-left));
+      padding-right: max(18px, env(safe-area-inset-right));
+    }
+    
+    .total {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    
+    .add-to-bag {
+      padding: 12px 22px;
+      font-size: 1.05rem;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    
+    .add-to-bag:hover { 
+      background: #005bb5; 
+    }
+
+    .confirmation {
+      text-align: center;
+      display: none;
+    }
+    
+    .confirmation-image {
+      width: 300px;
+      margin: 0 auto 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .confirmation-image img {
+      width: 100%;
+    }
+    
+    .confirmation-details {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    
+    .confirmation-title {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: #0071e3;
+    }
+    
+    .confirmation-model {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    
+    .confirmation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    
+    .confirmation-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .confirmation-total {
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .models {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
+      
+      .hero-content {
+        flex-direction: column;
+      }
+      
+      .hero-image {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pill { 
+        padding: 14px; 
+      }
+      
+      .checkout {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      
+      .add-to-bag { 
+        width: 100%; 
+      }
+      
+      .card-content {
+        flex-direction: column;
+      }
+      
+      .card-image {
+        width: 100%;
+        height: 180px;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -232,428 +443,601 @@
       <button class="back-btn" id="backBtn">← Back</button>
       <div class="hero">
         <h2 class="hero-title" id="heroTitle"></h2>
-        <ul class="hero-list" id="heroList"></ul>
+        <div class="hero-content">
+          <div class="hero-image" id="heroImage"></div>
+          <ul class="hero-list" id="heroList"></ul>
+        </div>
       </div>
       <div id="options"></div>
     </div>
+
+    <div class="confirmation" id="confirmation">
+      <h2 class="confirmation-title">Order Confirmed!</h2>
+      <div class="confirmation-image" id="confirmationImage"></div>
+      <h3 class="confirmation-model" id="confirmationModel"></h3>
+      <div class="confirmation-details">
+        <h4>Order Summary:</h4>
+        <ul class="confirmation-list" id="confirmationList"></ul>
+        <div class="confirmation-total" id="confirmationTotal"></div>
+      </div>
+      <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">← Back to Store</button>
+    </div>
   </main>
 
-  <div class="checkout">
+  <div class="checkout" id="checkout">
     <div class="total" id="finalPrice">Total: A$0</div>
     <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
   </div>
 
+  <script>
+    (function () {
+      const sizes = ['14','16'];
+      const colors = ['Black', 'Silver'];
+      let selectedColor = 'Black';
 
-<script>
-(function () {
-  const sizes = ['14','16'];
+      const template14 = {
+        "B1": {
+          price: 2499,
+          display: "14-inch Tandem OLED 120Hz display",
+          ports: [
+            "Three Thunderbolt 4 ports",
+            "Two USB 3.1 Type-A ports",
+            "HDMI 2.1 + DisplayPort 2.1a",
+            "SD Express card reader",
+            "Audio Jack"
+          ],
+          upgrades: {
+            coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+            chip: ["Boiby B1 chip with 10-core CPU and 12-core GPU (base)"],
+            memory: ["16 GB unified memory (base)", "24 GB unified memory (+A$100)", "32 GB unified memory (+A$200)"],
+            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)"],
+            adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
+          }
+        },
+        "B1 Pro": {
+          price: 3199,
+          display: "14-inch Tandem OLED 120Hz display",
+          ports: [
+            "Three Thunderbolt 5 ports",
+            "Two USB 3.1 Type-A ports",
+            "HDMI 2.2 + DisplayPort 2.1b",
+            "SD Express card reader",
+            "Audio Jack"
+          ],
+          upgrades: {
+            coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+            chip: ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
+            memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)"],
+            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
+            adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
+          }
+        },
+        "B1 Max": {
+          price: 4499,
+          display: "14-inch Tandem OLED 120Hz display",
+          ports: [
+            "Three Thunderbolt 5 ports",
+            "Two USB 3.1 Type-A ports",
+            "HDMI 2.2 + DisplayPort 2.1b",
+            "SD Express card reader",
+            "Audio Jack"
+          ],
+          upgrades: {
+            coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+            chip: ["Boiby B1 Max chip with 16-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$600)"],
+            memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$800)"],
+            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
+            adapter: ["135W USB-C Power Adapter (base)"]
+          }
+        }
+      };
 
-  const template14 = {
-    "B1": {
-      price: 2499,
-      display: "14-inch Tandem OLED 120Hz display",
-      upgrades: {
-        coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-        chip: ["Boiby B1 chip with 10-core CPU and 12-core GPU (base)"],
-        memory: ["16 GB unified memory (base)", "24 GB unified memory (+A$100)", "32 GB unified memory (+A$200)"],
-        storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)"],
-        adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
-      }
-    },
-    "B1 Pro": {
-      price: 3199,
-      display: "14-inch Tandem OLED 120Hz display",
-      upgrades: {
-        coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-        chip: ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
-        memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)"],
-        storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
-        adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
-      }
-    },
-    "B1 Max": {
-      price: 4499,
-      display: "14-inch Tandem OLED 120Hz display",
-      upgrades: {
-        coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-        chip: ["Boiby B1 Max chip with 16-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$600)"],
-        memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$800)"],
-        storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
-        adapter: ["135W USB-C Power Adapter (base)"]
-      }
-    }
-  };
-
-  const baseConfigs = { '14': {}, '16': {} };
-  baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
-  Object.keys(baseConfigs['14']).forEach(model => {
-    baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
-    baseConfigs['16'][model].price = baseConfigs['14'][model].price + 500;
-    
-    // For 16-inch models, set 135W adapter as default
-    if (model === "B1 Pro" || model === "B1 Max") {
-      baseConfigs['16'][model].upgrades.adapter = ["135W USB-C Power Adapter (base)"];
-    }
-  });
-
-  // For 16-inch B1 Pro, set 14-core/24-core as default
-  baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 14-core CPU and 24-core GPU (base)"];
-
-  const addons = {
-    mouse: ["Boiby Pro Mouse (+A$50)"],
-    keyboard: ["Boiby Pro Keyboard (+A$150)", "Boiby Pro Keyboard with Number Pad (+A$200)"],
-    monitor: ["Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)", "Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)"]
-  };
-
-  let selectedSize = '14';
-  let selectedModel = null;
-  let selectedOptions = {};
-
-  const $ = q => document.querySelector(q);
-  const $$ = q => Array.from(document.querySelectorAll(q));
-  const cleanLabel = opt => (opt||'').split("(")[0].trim();
-  const priceDelta = opt => {
-    if (!opt) return 0;
-    const m = opt.match(/\+A\$(\d+)/);
-    return m ? parseInt(m[1],10) : 0;
-  };
-  const formatPrice = n => `A$${n.toLocaleString('en-AU')}`;
-
-  function findGroupByName(name) {
-    const groups = $$('#options .group');
-    return groups.find(g => g.querySelector('h3') && g.querySelector('h3').innerText.toLowerCase() === name.toLowerCase());
-  }
-
-  function initTabs() {
-    const tabs = $$('.tab[data-size]');
-    if (!tabs.length) return;
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Fade effect
-        document.body.classList.add('fade-out');
+      const baseConfigs = { '14': {}, '16': {} };
+      baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
+      
+      // Create 16-inch models (excluding B1)
+      Object.keys(baseConfigs['14']).forEach(model => {
+        if (model === 'B1') return; // Skip B1 for 16-inch
         
-        setTimeout(() => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          const size = tab.getAttribute('data-size');
-          if (sizes.includes(size)) {
-            selectedSize = size;
-            // Update header
-            $('#headerTitle').textContent = `Buy BoibyBook Pro ${size}-inch`;
-            renderModels();
+        baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
+        baseConfigs['16'][model].price = baseConfigs['14'][model].price + 500;
+        
+        // For 16-inch models, set 135W adapter as default
+        if (model === "B1 Pro" || model === "B1 Max") {
+          baseConfigs['16'][model].upgrades.adapter = ["135W USB-C Power Adapter (base)"];
+        }
+      });
+
+      // For 16-inch B1 Pro, set 14-core/24-core as default
+      baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 14-core CPU and 24-core GPU (base)"];
+
+      const addons = {
+        mouse: ["Boiby Pro Mouse (+A$50)"],
+        keyboard: ["Boiby Pro Keyboard (+A$150)", "Boiby Pro Keyboard with Number Pad (+A$200)"],
+        monitor: ["Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)", "Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)"]
+      };
+
+      let selectedSize = '14';
+      let selectedModel = null;
+      let selectedOptions = {};
+
+      const $ = q => document.querySelector(q);
+      const $$ = q => Array.from(document.querySelectorAll(q));
+      const cleanLabel = opt => (opt||'').split("(")[0].trim();
+      const priceDelta = opt => {
+        if (!opt) return 0;
+        const m = opt.match(/\+A\$(\d+)/);
+        return m ? parseInt(m[1],10) : 0;
+      };
+      const formatPrice = n => `A$${n.toLocaleString('en-AU')}`;
+
+      function findGroupByName(name) {
+        const groups = $$('#options .group');
+        return groups.find(g => g.querySelector('h3') && g.querySelector('h3').innerText.toLowerCase() === name.toLowerCase());
+      }
+
+      function initTabs() {
+        const tabs = $$('.tab[data-size]');
+        if (!tabs.length) return;
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            // Fade effect
+            document.body.classList.add('fade-out');
+            
+            setTimeout(() => {
+              tabs.forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+              const size = tab.getAttribute('data-size');
+              if (sizes.includes(size)) {
+                selectedSize = size;
+                // Update header
+                $('#headerTitle').textContent = `Buy BoibyBook Pro ${size}-inch`;
+                renderModels();
+              }
+              
+              // Fade back in
+              document.body.classList.remove('fade-out');
+            }, 300);
+          });
+        });
+      }
+
+      function renderModels() {
+        const container = $('#models');
+        if (!container) return;
+        container.innerHTML = '';
+        const configs = baseConfigs[selectedSize];
+        Object.keys(configs).forEach(model => {
+          const cfg = configs[model];
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute('data-model', model);
+          
+          // Create image element
+          const imageUrl = `BoibyBookPro${selectedColor}.png`;
+          
+          card.innerHTML = `
+            <div class="card-content">
+              <div class="card-image">
+                <img src="${imageUrl}" alt="${model} ${selectedColor}" id="card-image-${model.replace(/\s+/g, '-')}">
+              </div>
+              <div class="card-details">
+                <h2>${model}</h2>
+                <p class="price">From ${formatPrice(cfg.price)}</p>
+                <ul>
+                  <li>${cfg.display}</li>
+                  <li>${cleanLabel(cfg.upgrades.chip[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.memory[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.storage[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.adapter[0])}</li>
+                </ul>
+                <p><strong>Ports:</strong></p>
+                <ul>
+                  ${cfg.ports.map(port => `<li>${port}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+            <div class="color-selector">
+              ${colors.map(color => `
+                <div class="color-pill ${color === selectedColor ? 'selected' : ''}" 
+                     data-color="${color}" data-model="${model}">
+                  ${color}
+                </div>
+              `).join('')}
+            </div>
+            <button class="select-btn" data-model="${model}">Select</button>
+          `;
+          
+          // Add color selection event
+          card.querySelectorAll('.color-pill').forEach(pill => {
+            pill.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const color = pill.getAttribute('data-color');
+              const model = pill.getAttribute('data-model');
+              
+              // Update all color pills for this model
+              card.querySelectorAll('.color-pill').forEach(p => {
+                p.classList.toggle('selected', p.getAttribute('data-color') === color);
+              });
+              
+              // Update image with fade effect
+              const image = card.querySelector('img');
+              image.style.opacity = 0;
+              
+              setTimeout(() => {
+                image.src = `BoibyBookPro${color}.png`;
+                image.style.opacity = 1;
+              }, 150);
+            });
+          });
+          
+          // Add select button event
+          card.querySelector('.select-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const model = e.target.getAttribute('data-model');
+            selectedModel = model;
+            
+            // Get selected color for this model
+            const selectedColorPill = card.querySelector('.color-pill.selected');
+            selectedColor = selectedColorPill ? selectedColorPill.getAttribute('data-color') : 'Black';
+            
+            const modelsEl = $('#models');
+            if (modelsEl) modelsEl.style.display = 'none';
+            $('#configurator').style.display = 'block';
+            // Hide size tabs when a model is selected
+            $('#sizeTabs').style.display = 'none';
+            showConfigurator();
+          });
+          
+          container.appendChild(card);
+        });
+      }
+
+      function showConfigurator() {
+        const cfg = baseConfigs[selectedSize][selectedModel];
+        const optionsDiv = $('#options');
+        optionsDiv.innerHTML = '';
+        selectedOptions = {};
+
+        $('#heroTitle').innerText = `Customise your BoibyBook Pro — ${selectedModel} ${selectedSize}"`;
+        
+        // Update hero image
+        const heroImage = $('#heroImage');
+        heroImage.innerHTML = `<img src="BoibyBookPro${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
+
+        // upgrades
+        Object.keys(cfg.upgrades).forEach(category => {
+          const group = document.createElement('div');
+          group.className = 'group';
+          const h3 = document.createElement('h3');
+          h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          group.appendChild(h3);
+
+          cfg.upgrades[category].forEach((opt, idx) => {
+            const pill = document.createElement('div');
+            pill.className = 'pill';
+            pill.dataset.cat = category;
+            pill.dataset.value = opt; // IMPORTANT: canonical full string
+            pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
+
+            pill.addEventListener('click', () => {
+              if (pill.classList.contains('disabled')) return;
+              if (category === 'addons') {
+                pill.classList.toggle('selected');
+                if (!selectedOptions.addons) selectedOptions.addons = [];
+                const full = pill.dataset.value;
+                if (pill.classList.contains('selected')) selectedOptions.addons.push(full);
+                else selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
+              } else {
+                // single-select logic
+                Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
+                pill.classList.add('selected');
+                selectedOptions[category] = pill.dataset.value;
+                if (category === 'chip') handleDependencies(); // re-evaluate when chip changes
+              }
+              renderHeroSummary();
+              updatePrice();
+            });
+
+            // Default selection logic
+            if (idx === 0) {
+              pill.classList.add('selected');
+              selectedOptions[category] = pill.dataset.value;
+            }
+
+            // Special case: 14-inch B1 Pro with 14-core chip should auto-select 135W adapter
+            if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
+                category === 'adapter' && opt.includes('135W')) {
+              // This will be handled in handleDependencies
+            }
+
+            group.appendChild(pill);
+          });
+
+          if (category === 'memory') {
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.innerText = 'Higher memory options require higher-end CPU/GPU selections.';
+            group.appendChild(note);
+          }
+
+          optionsDiv.appendChild(group);
+        });
+
+        // add-ons group
+        const addonsGroup = document.createElement('div');
+        addonsGroup.className = 'group';
+        const addonsTitle = document.createElement('h3');
+        addonsTitle.innerText = 'Add-ons';
+        addonsGroup.appendChild(addonsTitle);
+        Object.keys(addons).forEach(sub => {
+          const subTitle = document.createElement('div');
+          subTitle.style.fontWeight = '600';
+          subTitle.style.marginTop = '8px';
+          subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
+          addonsGroup.appendChild(subTitle);
+          addons[sub].forEach(opt => {
+            const pill = document.createElement('div');
+            pill.className = 'pill';
+            pill.dataset.cat = 'addons';
+            pill.dataset.value = opt;
+            pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
+            pill.addEventListener('click', () => {
+              pill.classList.toggle('selected');
+              if (!selectedOptions.addons) selectedOptions.addons = [];
+              const full = pill.dataset.value;
+              if (pill.classList.contains('selected')) selectedOptions.addons.push(full);
+              else selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
+              renderHeroSummary();
+              updatePrice();
+            });
+            addonsGroup.appendChild(pill);
+          });
+        });
+        optionsDiv.appendChild(addonsGroup);
+
+        // apply dependency logic (this will enable/disable and keep selections consistent)
+        handleDependencies();
+        renderHeroSummary();
+        updatePrice();
+      }
+
+      function handleDependencies() {
+        if (!selectedModel) return;
+        const cfg = baseConfigs[selectedSize][selectedModel];
+        const optionsDiv = $('#options');
+        if (!optionsDiv) return;
+
+        // canonical chip string (ensure we have one)
+        const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+
+        // MEMORY
+        const memoryGroup = findGroupByName('memory');
+        if (memoryGroup) {
+          const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
+          memPills.forEach(p => p.classList.remove('disabled'));
+
+          if (selectedModel === 'B1') {
+            // No restrictions for B1 model
+          } else if (selectedModel === 'B1 Pro') {
+            if (!chipFull.includes('14-core')) {
+              memPills.forEach(p => {
+                if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
+              });
+            }
+          } else if (selectedModel === 'B1 Max') {
+            if (!chipFull.includes('48-core')) {
+              memPills.forEach(p => {
+                if (p.dataset.value.includes('128 GB')) p.classList.add('disabled');
+              });
+            }
+          }
+
+          // if selected memory is disabled, pick first valid
+          if (selectedOptions.memory) {
+            const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
+            if (cur && cur.classList.contains('disabled')) {
+              memPills.forEach(p => p.classList.remove('selected'));
+              const firstValid = memPills.find(p => !p.classList.contains('disabled'));
+              if (firstValid) {
+                firstValid.classList.add('selected');
+                selectedOptions.memory = firstValid.dataset.value;
+              } else {
+                delete selectedOptions.memory;
+              }
+            }
+          }
+          // sync UI selected pill with selectedOptions.memory
+          if (selectedOptions.memory) {
+            memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
+          }
+        }
+
+        // STORAGE
+        const storageGroup = findGroupByName('storage');
+        if (storageGroup) {
+          const storPills = Array.from(storageGroup.querySelectorAll('.pill'));
+          storPills.forEach(p => p.classList.remove('disabled'));
+
+          if (selectedModel === 'B1 Max' && !chipFull.includes('48-core')) {
+            storPills.forEach(p => {
+              if (p.dataset.value.includes('12 TB')) p.classList.add('disabled');
+            });
+          }
+
+          if (selectedOptions.storage) {
+            const cur = storPills.find(p => p.dataset.value === selectedOptions.storage);
+            if (cur && cur.classList.contains('disabled')) {
+              storPills.forEach(p => p.classList.remove('selected'));
+              const firstValid = storPills.find(p => !p.classList.contains('disabled'));
+              if (firstValid) {
+                firstValid.classList.add('selected');
+                selectedOptions.storage = firstValid.dataset.value;
+              } else delete selectedOptions.storage;
+            }
+          }
+          if (selectedOptions.storage) {
+            storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.storage));
+          }
+        }
+
+        // ADAPTER: Special handling for 14-inch B1 Pro with 14-core chip
+        const adapterGroup = findGroupByName('adapter');
+        if (adapterGroup) {
+          const adapterPills = Array.from(adapterGroup.querySelectorAll('.pill'));
+          
+          // For 14-inch B1 Pro with 14-core chip, auto-select 135W and disable 90W
+          if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
+              chipFull.includes('14-core')) {
+            adapterPills.forEach(p => {
+              if (p.dataset.value.includes('90 W')) {
+                p.classList.add('disabled');
+              } else if (p.dataset.value.includes('135W')) {
+                p.classList.add('selected');
+                selectedOptions.adapter = p.dataset.value;
+              }
+            });
           }
           
-          // Fade back in
-          document.body.classList.remove('fade-out');
-        }, 300);
-      });
-    });
-  }
+          // For all other cases, ensure proper selection
+          if (selectedOptions.adapter) {
+            adapterPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.adapter));
+          }
+        }
 
-  function renderModels() {
-    const container = $('#models');
-    if (!container) return;
-    container.innerHTML = '';
-    const configs = baseConfigs[selectedSize];
-    Object.keys(configs).forEach(model => {
-      const cfg = configs[model];
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.setAttribute('data-model', model);
-      card.innerHTML = `
-        <h2>${model}</h2>
-        <p class="price">From ${formatPrice(cfg.price)}</p>
-        <ul>
-          <li>${cfg.display}</li>
-          <li>${cleanLabel(cfg.upgrades.chip[0])}</li>
-          <li>${cleanLabel(cfg.upgrades.memory[0])}</li>
-          <li>${cleanLabel(cfg.upgrades.storage[0])}</li>
-          <li>${cleanLabel(cfg.upgrades.adapter[0])}</li>
-        </ul>
-      `;
-      card.addEventListener('click', () => {
-        selectedModel = model;
-        const modelsEl = $('#models');
-        if (modelsEl) modelsEl.style.display = 'none';
-        $('#configurator').style.display = 'block';
-        // Hide size tabs when a model is selected
-        $('#sizeTabs').style.display = 'none';
-        showConfigurator();
-      });
-      container.appendChild(card);
-    });
-  }
-
-  function showConfigurator() {
-    const cfg = baseConfigs[selectedSize][selectedModel];
-    const optionsDiv = $('#options');
-    optionsDiv.innerHTML = '';
-    selectedOptions = {};
-
-    $('#heroTitle').innerText = `Customise your BoibyBook Pro — ${selectedModel} ${selectedSize}"`;
-
-    // upgrades
-    Object.keys(cfg.upgrades).forEach(category => {
-      const group = document.createElement('div');
-      group.className = 'group';
-      const h3 = document.createElement('h3');
-      h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-      group.appendChild(h3);
-
-      cfg.upgrades[category].forEach((opt, idx) => {
-        const pill = document.createElement('div');
-        pill.className = 'pill';
-        pill.dataset.cat = category;
-        pill.dataset.value = opt; // IMPORTANT: canonical full string
-        pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
-
-        pill.addEventListener('click', () => {
-          if (pill.classList.contains('disabled')) return;
-          if (category === 'addons') {
-            pill.classList.toggle('selected');
-            if (!selectedOptions.addons) selectedOptions.addons = [];
-            const full = pill.dataset.value;
-            if (pill.classList.contains('selected')) selectedOptions.addons.push(full);
-            else selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
+        // CHIP: ensure chip selection exists and UI is synced (use dataset.value comparisons)
+        const chipGroup = findGroupByName('chip');
+        if (chipGroup) {
+          const chipPills = Array.from(chipGroup.querySelectorAll('.pill'));
+          if (!selectedOptions.chip) {
+            const sel = chipPills.find(p => p.classList.contains('selected')) || chipPills[0];
+            if (sel) {
+              sel.classList.add('selected');
+              selectedOptions.chip = sel.dataset.value;
+            }
           } else {
-            // single-select logic
-            Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
-            pill.classList.add('selected');
-            selectedOptions[category] = pill.dataset.value;
-            if (category === 'chip') handleDependencies(); // re-evaluate when chip changes
+            chipPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.chip));
           }
-          renderHeroSummary();
-          updatePrice();
-        });
-
-        // Default selection logic
-        if (idx === 0) {
-          pill.classList.add('selected');
-          selectedOptions[category] = pill.dataset.value;
-        }
-
-        // Special case: 14-inch B1 Pro with 14-core chip should auto-select 135W adapter
-        if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
-            category === 'adapter' && opt.includes('135W')) {
-          // This will be handled in handleDependencies
-        }
-
-        group.appendChild(pill);
-      });
-
-      if (category === 'memory') {
-        const note = document.createElement('div');
-        note.className = 'note';
-        note.innerText = 'Higher memory options require higher-end CPU/GPU selections.';
-        group.appendChild(note);
-      }
-
-      optionsDiv.appendChild(group);
-    });
-
-    // add-ons group
-    const addonsGroup = document.createElement('div');
-    addonsGroup.className = 'group';
-    const addonsTitle = document.createElement('h3');
-    addonsTitle.innerText = 'Add-ons';
-    addonsGroup.appendChild(addonsTitle);
-    Object.keys(addons).forEach(sub => {
-      const subTitle = document.createElement('div');
-      subTitle.style.fontWeight = '600';
-      subTitle.style.marginTop = '8px';
-      subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
-      addonsGroup.appendChild(subTitle);
-      addons[sub].forEach(opt => {
-        const pill = document.createElement('div');
-        pill.className = 'pill';
-        pill.dataset.cat = 'addons';
-        pill.dataset.value = opt;
-        pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
-        pill.addEventListener('click', () => {
-          pill.classList.toggle('selected');
-          if (!selectedOptions.addons) selectedOptions.addons = [];
-          const full = pill.dataset.value;
-          if (pill.classList.contains('selected')) selectedOptions.addons.push(full);
-          else selectedOptions.addons = selectedOptions.addons.filter(a => a !== full);
-          renderHeroSummary();
-          updatePrice();
-        });
-        addonsGroup.appendChild(pill);
-      });
-    });
-    optionsDiv.appendChild(addonsGroup);
-
-    // apply dependency logic (this will enable/disable and keep selections consistent)
-    handleDependencies();
-    renderHeroSummary();
-    updatePrice();
-  }
-
-  function handleDependencies() {
-    if (!selectedModel) return;
-    const cfg = baseConfigs[selectedSize][selectedModel];
-    const optionsDiv = $('#options');
-    if (!optionsDiv) return;
-
-    // canonical chip string (ensure we have one)
-    const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
-
-    // MEMORY
-    const memoryGroup = findGroupByName('memory');
-    if (memoryGroup) {
-      const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
-      memPills.forEach(p => p.classList.remove('disabled'));
-
-      if (selectedModel === 'B1') {
-        // No restrictions for B1 model
-      } else if (selectedModel === 'B1 Pro') {
-        if (!chipFull.includes('14-core')) {
-          memPills.forEach(p => {
-            if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
-          });
-        }
-      } else if (selectedModel === 'B1 Max') {
-        if (!chipFull.includes('48-core')) {
-          memPills.forEach(p => {
-            if (p.dataset.value.includes('128 GB')) p.classList.add('disabled');
-          });
         }
       }
 
-      // if selected memory is disabled, pick first valid
-      if (selectedOptions.memory) {
-        const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
-        if (cur && cur.classList.contains('disabled')) {
-          memPills.forEach(p => p.classList.remove('selected'));
-          const firstValid = memPills.find(p => !p.classList.contains('disabled'));
-          if (firstValid) {
-            firstValid.classList.add('selected');
-            selectedOptions.memory = firstValid.dataset.value;
+      function renderHeroSummary() {
+        const list = $('#heroList');
+        if (!list) return;
+        list.innerHTML = '';
+        const cfg = baseConfigs[selectedSize][selectedModel];
+        list.appendChild(li(`${selectedModel} ${selectedSize}" — ${cfg.display}`));
+        list.appendChild(li(`Color: ${selectedColor}`));
+        
+        // Add ports information
+        list.appendChild(li("Ports:"));
+        cfg.ports.forEach(port => {
+          list.appendChild(li(`• ${port}`));
+        });
+        
+        const order = ['chip','memory','storage','adapter','coating'];
+        order.forEach(cat => {
+          if (selectedOptions[cat]) list.appendChild(li(cleanLabel(selectedOptions[cat])));
+        });
+        if (selectedOptions.addons && selectedOptions.addons.length) {
+          selectedOptions.addons.forEach(a => list.appendChild(li(cleanLabel(a))));
+        }
+      }
+
+      function updatePrice() {
+        const cfg = baseConfigs[selectedSize][selectedModel];
+        let price = cfg.price;
+        Object.keys(selectedOptions).forEach(cat => {
+          if (cat === 'addons') {
+            selectedOptions.addons.forEach(a => price += priceDelta(a));
           } else {
-            delete selectedOptions.memory;
-          }
-        }
-      }
-      // sync UI selected pill with selectedOptions.memory
-      if (selectedOptions.memory) {
-        memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
-      }
-    }
-
-    // STORAGE
-    const storageGroup = findGroupByName('storage');
-    if (storageGroup) {
-      const storPills = Array.from(storageGroup.querySelectorAll('.pill'));
-      storPills.forEach(p => p.classList.remove('disabled'));
-
-      if (selectedModel === 'B1 Max' && !chipFull.includes('48-core')) {
-        storPills.forEach(p => {
-          if (p.dataset.value.includes('12 TB')) p.classList.add('disabled');
-        });
-      }
-
-      if (selectedOptions.storage) {
-        const cur = storPills.find(p => p.dataset.value === selectedOptions.storage);
-        if (cur && cur.classList.contains('disabled')) {
-          storPills.forEach(p => p.classList.remove('selected'));
-          const firstValid = storPills.find(p => !p.classList.contains('disabled'));
-          if (firstValid) {
-            firstValid.classList.add('selected');
-            selectedOptions.storage = firstValid.dataset.value;
-          } else delete selectedOptions.storage;
-        }
-      }
-      if (selectedOptions.storage) {
-        storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.storage));
-      }
-    }
-
-    // ADAPTER: Special handling for 14-inch B1 Pro with 14-core chip
-    const adapterGroup = findGroupByName('adapter');
-    if (adapterGroup) {
-      const adapterPills = Array.from(adapterGroup.querySelectorAll('.pill'));
-      
-      // For 14-inch B1 Pro with 14-core chip, auto-select 135W and disable 90W
-      if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
-          chipFull.includes('14-core')) {
-        adapterPills.forEach(p => {
-          if (p.dataset.value.includes('90 W')) {
-            p.classList.add('disabled');
-          } else if (p.dataset.value.includes('135W')) {
-            p.classList.add('selected');
-            selectedOptions.adapter = p.dataset.value;
+            price += priceDelta(selectedOptions[cat]);
           }
         });
+        $('#finalPrice').innerText = `Total: ${formatPrice(price)}`;
       }
-      
-      // For all other cases, ensure proper selection
-      if (selectedOptions.adapter) {
-        adapterPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.adapter));
-      }
-    }
 
-    // CHIP: ensure chip selection exists and UI is synced (use dataset.value comparisons)
-    const chipGroup = findGroupByName('chip');
-    if (chipGroup) {
-      const chipPills = Array.from(chipGroup.querySelectorAll('.pill'));
-      if (!selectedOptions.chip) {
-        const sel = chipPills.find(p => p.classList.contains('selected')) || chipPills[0];
-        if (sel) {
-          sel.classList.add('selected');
-          selectedOptions.chip = sel.dataset.value;
+      function showConfirmation() {
+        const cfg = baseConfigs[selectedSize][selectedModel];
+        let price = cfg.price;
+        
+        // Hide configurator and checkout, show confirmation
+        $('#configurator').style.display = 'none';
+        $('#checkout').style.display = 'none';
+        $('#confirmation').style.display = 'block';
+        
+        // Set confirmation image
+        $('#confirmationImage').innerHTML = `<img src="BoibyBookPro${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
+        
+        // Set confirmation model text
+        $('#confirmationModel').textContent = `${selectedModel} ${selectedSize}" - ${selectedColor}`;
+        
+        // Build confirmation list
+        const list = $('#confirmationList');
+        list.innerHTML = '';
+        
+        list.appendChild(li(`Model: ${selectedModel} ${selectedSize}"`));
+        list.appendChild(li(`Color: ${selectedColor}`));
+        list.appendChild(li(cleanLabel(selectedOptions.chip || cfg.upgrades.chip[0])));
+        list.appendChild(li(cleanLabel(selectedOptions.memory || cfg.upgrades.memory[0])));
+        list.appendChild(li(cleanLabel(selectedOptions.storage || cfg.upgrades.storage[0])));
+        list.appendChild(li(cleanLabel(selectedOptions.adapter || cfg.upgrades.adapter[0])));
+        
+        if (selectedOptions.coating) {
+          list.appendChild(li(cleanLabel(selectedOptions.coating)));
         }
-      } else {
-        chipPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.chip));
+        
+        if (selectedOptions.addons && selectedOptions.addons.length) {
+          selectedOptions.addons.forEach(a => list.appendChild(li(cleanLabel(a))));
+        }
+        
+        // Calculate final price
+        Object.keys(selectedOptions).forEach(cat => {
+          if (cat === 'addons') {
+            selectedOptions.addons.forEach(a => price += priceDelta(a));
+          } else {
+            price += priceDelta(selectedOptions[cat]);
+          }
+        });
+        
+        $('#confirmationTotal').textContent = `Total: ${formatPrice(price)}`;
       }
-    }
-  }
 
-  function renderHeroSummary() {
-    const list = $('#heroList');
-    if (!list) return;
-    list.innerHTML = '';
-    const cfg = baseConfigs[selectedSize][selectedModel];
-    list.appendChild(li(`${selectedModel} ${selectedSize}" — ${cfg.display}`));
-    const order = ['chip','memory','storage','adapter','coating'];
-    order.forEach(cat => {
-      if (selectedOptions[cat]) list.appendChild(li(cleanLabel(selectedOptions[cat])));
-    });
-    if (selectedOptions.addons && selectedOptions.addons.length) {
-      selectedOptions.addons.forEach(a => list.appendChild(li(cleanLabel(a))));
-    }
-  }
-
-  function updatePrice() {
-    const cfg = baseConfigs[selectedSize][selectedModel];
-    let price = cfg.price;
-    Object.keys(selectedOptions).forEach(cat => {
-      if (cat === 'addons') {
-        selectedOptions.addons.forEach(a => price += priceDelta(a));
-      } else {
-        price += priceDelta(selectedOptions[cat]);
+      function li(text) { 
+        const el = document.createElement('li'); 
+        el.textContent = text; 
+        return el; 
       }
-    });
-    $('#finalPrice').innerText = `Total: ${formatPrice(price)}`;
-  }
 
-  function li(text) { const el = document.createElement('li'); el.textContent = text; return el; }
+      const backBtn = $('#backBtn');
+      if (backBtn) backBtn.addEventListener('click', () => {
+        $('#configurator').style.display = 'none';
+        $('#models').style.display = 'grid';
+        // Show size tabs again when going back
+        $('#sizeTabs').style.display = 'flex';
+      });
 
-  const backBtn = $('#backBtn');
-  if (backBtn) backBtn.addEventListener('click', () => {
-    $('#configurator').style.display = 'none';
-    $('#models').style.display = 'flex';
-    // Show size tabs again when going back
-    $('#sizeTabs').style.display = 'flex';
-  });
+      const confirmationBackBtn = $('#confirmationBackBtn');
+      if (confirmationBackBtn) confirmationBackBtn.addEventListener('click', () => {
+        $('#confirmation').style.display = 'none';
+        $('#models').style.display = 'grid';
+        $('#checkout').style.display = 'flex';
+        // Show size tabs again when going back
+        $('#sizeTabs').style.display = 'flex';
+      });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initTabs();
-    renderModels();
-    const tabs = $$('.tab[data-size]');
-    if (tabs.length) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-size') === selectedSize));
-  });
+      const addToBagBtn = $('#addToBagBtn');
+      if (addToBagBtn) addToBagBtn.addEventListener('click', showConfirmation);
 
-  window.__boiby_reloadModels = renderModels;
-})();
-</script>
-</body></html>
+      document.addEventListener('DOMContentLoaded', () => {
+        initTabs();
+        renderModels();
+        const tabs = $$('.tab[data-size]');
+        if (tabs.length) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-size') === selectedSize));
+      });
+
+      window.__boiby_reloadModels = renderModels;
+    })();
+  </script>
+</body>
+</html>
