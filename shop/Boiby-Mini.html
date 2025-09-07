@@ -195,8 +195,8 @@ const baseConfigs = {
     price: 1899,
     name: "Boiby mini B1 Pro",
     upgrades: {
-      chip: ["Boiby B1 Pro with 13-core CPU and 19-core GPU (base)", "Boiby B1 Pro with 14-core CPU and 24-core GPU (+A$300)"],
-      memory: ["24 GB unified memory (base)", "36 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$300)", "96 GB unified memory (+A$500)"],
+      chip: ["Boiby B1 Pro with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro with 14-core CPU and 24-core GPU (+A$300)"],
+      memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$300)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
       ethernet: ["2.5 Gbit Ethernet (base)", "10 Gbit Ethernet (+A$100)"]
     }
@@ -252,7 +252,7 @@ function showConfigurator() {
       pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
 
       // Disable 96GB initially for B1 Pro
-      if (selectedModel === "B1 Pro" && category === "memory" && opt.includes("96 GB")) {
+      if (selectedModel === "B1 Pro" && category === "memory" && opt.includes("64 GB")) {
         pill.classList.add("disabled");
       }
 
