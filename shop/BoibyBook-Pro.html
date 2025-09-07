@@ -20,12 +20,18 @@
     background: var(--bg);
     color: var(--text);
     -webkit-font-smoothing: antialiased;
+    transition: opacity 0.3s ease;
+  }
+
+  body.fade-out {
+    opacity: 0.5;
   }
 
   header {
     text-align: center;
     padding: 28px 16px;
     border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
   }
   h1 {
     font-size: 2rem;
@@ -38,6 +44,7 @@
     justify-content: center;
     gap: 12px;
     margin: 20px 0;
+    transition: opacity 0.3s ease;
   }
   .tab {
     padding: 10px 22px;
@@ -163,10 +170,10 @@
   position: sticky;
   bottom: 0;
   left: 0;
-  right: 0;                /* ensure the element anchors to both edges */
-  width: auto;             /* let left/right determine width instead of 100% */
-  max-width: 100vw;        /* never exceed viewport width */
-  box-sizing: border-box;  /* include padding within width */
+  right: 0;
+  width: auto;
+  max-width: 100vw;
+  box-sizing: border-box;
   background: #fff;
   border-top: 1px solid var(--border);
   padding: 18px;
@@ -176,9 +183,7 @@
   flex-wrap: wrap;
   gap: 12px;
   z-index: 100;
-  /* avoid horizontal overflow from internal shadows/padding on some browsers */
   overflow-x: hidden;
-  /* account for device safe area (iOS notch) */
   padding-left: max(18px, env(safe-area-inset-left));
   padding-right: max(18px, env(safe-area-inset-right));
 }
@@ -212,10 +217,10 @@
 </head>
 <body>
   <header>
-    <h1>Buy BoibyBook Pro</h1>
+    <h1 id="headerTitle">Buy BoibyBook Pro</h1>
   </header>
 
-  <div class="tabs">
+  <div class="tabs" id="sizeTabs">
     <div class="tab active" data-size="14">14-inch</div>
     <div class="tab" data-size="16">16-inch</div>
   </div>
@@ -244,15 +249,26 @@
   const sizes = ['14','16'];
 
   const template14 = {
+    "B1": {
+      price: 2499,
+      display: "14-inch Tandem OLED 120Hz display",
+      upgrades: {
+        coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
+        chip: ["Boiby B1 chip with 10-core CPU and 12-core GPU (base)"],
+        memory: ["16 GB unified memory (base)", "24 GB unified memory (+A$100)", "32 GB unified memory (+A$200)"],
+        storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)"],
+        adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
+      }
+    },
     "B1 Pro": {
-      price: 2999,
+      price: 3199,
       display: "14-inch Tandem OLED 120Hz display",
       upgrades: {
         coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
         chip: ["Boiby B1 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B1 Pro chip with 14-core CPU and 24-core GPU (+A$300)"],
         memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)"],
         storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
-        adapter: ["90 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"]
+        adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
       }
     },
     "B1 Max": {
@@ -263,7 +279,7 @@
         chip: ["Boiby B1 Max chip with 16-core CPU and 36-core GPU (base)", "Boiby B1 Max chip with 16-core CPU and 48-core GPU (+A$600)"],
         memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$800)"],
         storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
-        adapter: ["90 W USB-C Power Adapter (base)", "140W USB-C Power Adapter (+A$50)"]
+        adapter: ["135W USB-C Power Adapter (base)"]
       }
     }
   };
@@ -273,7 +289,15 @@
   Object.keys(baseConfigs['14']).forEach(model => {
     baseConfigs['16'][model] = JSON.parse(JSON.stringify(baseConfigs['14'][model]));
     baseConfigs['16'][model].price = baseConfigs['14'][model].price + 500;
+    
+    // For 16-inch models, set 135W adapter as default
+    if (model === "B1 Pro" || model === "B1 Max") {
+      baseConfigs['16'][model].upgrades.adapter = ["135W USB-C Power Adapter (base)"];
+    }
   });
+
+  // For 16-inch B1 Pro, set 14-core/24-core as default
+  baseConfigs['16']["B1 Pro"].upgrades.chip = ["Boiby B1 Pro chip with 14-core CPU and 24-core GPU (base)"];
 
   const addons = {
     mouse: ["Boiby Pro Mouse (+A$50)"],
@@ -305,13 +329,23 @@
     if (!tabs.length) return;
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const size = tab.getAttribute('data-size');
-        if (sizes.includes(size)) {
-          selectedSize = size;
-          renderModels();
-        }
+        // Fade effect
+        document.body.classList.add('fade-out');
+        
+        setTimeout(() => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const size = tab.getAttribute('data-size');
+          if (sizes.includes(size)) {
+            selectedSize = size;
+            // Update header
+            $('#headerTitle').textContent = `Buy BoibyBook Pro ${size}-inch`;
+            renderModels();
+          }
+          
+          // Fade back in
+          document.body.classList.remove('fade-out');
+        }, 300);
       });
     });
   }
@@ -342,6 +376,8 @@
         const modelsEl = $('#models');
         if (modelsEl) modelsEl.style.display = 'none';
         $('#configurator').style.display = 'block';
+        // Hide size tabs when a model is selected
+        $('#sizeTabs').style.display = 'none';
         showConfigurator();
       });
       container.appendChild(card);
@@ -390,10 +426,16 @@
           updatePrice();
         });
 
-        // default selected: first option
+        // Default selection logic
         if (idx === 0) {
           pill.classList.add('selected');
           selectedOptions[category] = pill.dataset.value;
+        }
+
+        // Special case: 14-inch B1 Pro with 14-core chip should auto-select 135W adapter
+        if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
+            category === 'adapter' && opt.includes('135W')) {
+          // This will be handled in handleDependencies
         }
 
         group.appendChild(pill);
@@ -462,14 +504,15 @@
       const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
       memPills.forEach(p => p.classList.remove('disabled'));
 
-      if (selectedModel === 'B1 Pro') {
+      if (selectedModel === 'B1') {
+        // No restrictions for B1 model
+      } else if (selectedModel === 'B1 Pro') {
         if (!chipFull.includes('14-core')) {
           memPills.forEach(p => {
             if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
           });
         }
-      }
-      if (selectedModel === 'B1 Max') {
+      } else if (selectedModel === 'B1 Max') {
         if (!chipFull.includes('48-core')) {
           memPills.forEach(p => {
             if (p.dataset.value.includes('128 GB')) p.classList.add('disabled');
@@ -525,6 +568,30 @@
       }
     }
 
+    // ADAPTER: Special handling for 14-inch B1 Pro with 14-core chip
+    const adapterGroup = findGroupByName('adapter');
+    if (adapterGroup) {
+      const adapterPills = Array.from(adapterGroup.querySelectorAll('.pill'));
+      
+      // For 14-inch B1 Pro with 14-core chip, auto-select 135W and disable 90W
+      if (selectedSize === '14' && selectedModel === 'B1 Pro' && 
+          chipFull.includes('14-core')) {
+        adapterPills.forEach(p => {
+          if (p.dataset.value.includes('90 W')) {
+            p.classList.add('disabled');
+          } else if (p.dataset.value.includes('135W')) {
+            p.classList.add('selected');
+            selectedOptions.adapter = p.dataset.value;
+          }
+        });
+      }
+      
+      // For all other cases, ensure proper selection
+      if (selectedOptions.adapter) {
+        adapterPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.adapter));
+      }
+    }
+
     // CHIP: ensure chip selection exists and UI is synced (use dataset.value comparisons)
     const chipGroup = findGroupByName('chip');
     if (chipGroup) {
@@ -575,6 +642,8 @@
   if (backBtn) backBtn.addEventListener('click', () => {
     $('#configurator').style.display = 'none';
     $('#models').style.display = 'flex';
+    // Show size tabs again when going back
+    $('#sizeTabs').style.display = 'flex';
   });
 
   document.addEventListener('DOMContentLoaded', () => {
