@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buy BoibyPhone 4 Series</title>
+  <style>
+    :root {
+      --blue: #0071e3;
+      --border: #d2d2d7;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --bg: #fff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      transition: opacity 0.3s ease;
+    }
+
+    body.fade-out {
+      opacity: 0.5;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 16px 0;
+      padding: 0 10px;
+      transition: opacity 0.3s ease;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .15s;
+      font-size: 0.9rem;
+    }
+    
+    .tab.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .models, .configurator, .confirmation {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px;
+    }
+    
+    .models {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+      transition: box-shadow .15s, transform .06s;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card:hover {
+      border-color: var(--blue);
+      transform: translateY(-2px);
+    }
+    
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 180px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card-image img {
+      max-width: 80%;
+      max-height: 80%;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card-details {
+      flex: 1;
+    }
+    
+    .card h2 {
+      font-size: 1.2rem;
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    
+    .price {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 6px 0 12px;
+      color: var(--muted);
+    }
+    
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    
+    .color-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    
+    .color-pill {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    
+    .color-pill.selected {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    
+    .select-btn {
+      margin-top: auto;
+      padding: 10px 0;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    
+    .select-btn:hover {
+      background: #005bb5;
+    }
+
+    .back-btn {
+      margin: 10px 0 20px;
+      padding: 8px 18px;
+      background: #f5f5f7;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    
+    .back-btn:hover { 
+      background: #e6e6e9; 
+    }
+
+    .hero { 
+      margin-bottom: 20px; 
+    }
+    
+    .hero-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+    
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    
+    .hero-image {
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f7;
+    }
+    
+    .hero-image img {
+      width: 100%;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    
+    .hero-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: var(--muted);
+      width: 100%;
+    }
+    
+    .hero-list li {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 8px 0;
+      padding-left: 0;
+    }
+
+    .group { 
+      margin: 20px 0; 
+    }
+    
+    .group h3 {
+      font-size: 1.1rem;
+      margin: 0 0 10px;
+    }
+
+    .pill {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 8px 0;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color .12s, box-shadow .12s, transform .06s;
+    }
+    
+    .pill:hover { 
+      border-color: var(--blue); 
+      transform: translateY(-2px); 
+    }
+    
+    .pill.selected {
+      border: 2px solid var(--blue);
+      box-shadow: 0 4px 14px rgba(0,113,227,0.08);
+    }
+    
+    .pill.disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      background: #fbfbfb;
+    }
+    
+    .pill .label { 
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    
+    .pill .price-right { 
+      color: var(--muted); 
+      font-weight: 600; 
+      white-space: nowrap; 
+      font-size: 0.95rem;
+    }
+
+    .note {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .checkout {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: auto;
+      max-width: 100vw;
+      box-sizing: border-box;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      z-index: 100;
+      overflow-x: hidden;
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+    
+    .total {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    
+    .add-to-bag {
+      padding: 12px 22px;
+      font-size: 1rem;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    
+    .add-to-bag:hover { 
+      background: #005bb5; 
+    }
+
+    .confirmation {
+      text-align: center;
+      display: none;
+    }
+    
+    .confirmation-image {
+      width: 250px;
+      margin: 0 auto 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f7;
+    }
+    
+    .confirmation-image img {
+      width: 100%;
+    }
+    
+    .confirmation-details {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    
+    .confirmation-title {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #0071e3;
+    }
+    
+    .confirmation-model {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    
+    .confirmation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    
+    .confirmation-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .confirmation-total {
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .models {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 16px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .tabs {
+        gap: 6px;
+      }
+      
+      .tab {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+      
+      .models, .configurator, .confirmation {
+        padding: 12px;
+      }
+      
+      .card {
+        padding: 12px;
+      }
+      
+      .pill { 
+        padding: 12px; 
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      
+      .pill .price-right {
+        margin-left: auto;
+      }
+      
+      .checkout {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 12px;
+      }
+      
+      .add-to-bag { 
+        width: 100%; 
+      }
+      
+      .hero-title {
+        font-size: 1.4rem;
+      }
+      
+      .confirmation-title {
+        font-size: 1.6rem;
+      }
+      
+      .confirmation-model {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="headerTitle">Buy BoibyPhone 4 Series</h1>
+  </header>
+
+  <div class="tabs" id="modelTabs">
+    <div class="tab active" data-model="4">BoibyPhone 4</div>
+    <div class="tab" data-model="4 Pro">BoibyPhone 4 Pro</div>
+    <div class="tab" data-model="4 Pro Max">BoibyPhone 4 Pro Max</div>
+  </div>
+
+  <main>
+    <div class="models" id="models"><!-- cards inserted by JS --></div>
+
+    <div class="configurator" id="configurator" style="display:none;">
+      <button class="back-btn" id="backBtn">← Back</button>
+      <div class="hero">
+        <h2 class="hero-title" id="heroTitle"></h2>
+        <div class="hero-content">
+          <div class="hero-image" id="heroImage"></div>
+          <ul class="hero-list" id="heroList"></ul>
+        </div>
+      </div>
+      <div id="options"></div>
+    </div>
+
+    <div class="confirmation" id="confirmation">
+      <h2 class="confirmation-title">Order Confirmed</h2>
+      <div class="confirmation-image" id="confirmationImage"></div>
+      <h3 class="confirmation-model" id="confirmationModel"></h3>
+      <div class="confirmation-details">
+        <h4>Order Summary:</h4>
+        <ul class="confirmation-list" id="confirmationList"></ul>
+        <div class="confirmation-total" id="confirmationTotal"></div>
+      </div>
+      <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">Back to Store</button>
+    </div>
+  </main>
+
+  <div class="checkout" id="checkout">
+    <div class="total" id="finalPrice">Total: A$0</div>
+    <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
+  </div>
+
+  <script>
+    (function () {
+      const models = ['4','4 Pro','4 Pro Max'];
+      const colors4 = ['Black', 'White', 'Deep Blue', 'Red', 'Mint', 'Purple'];
+      const colorsPro = ['Obsidian', 'Pearl', 'Titanium Grey', 'Light Gold', 'Pacific Blue'];
+      let selectedColor = 'Black';
+
+      const template = {
+        "4": {
+          price: 1399,
+          display: "6.3-inch 2340x1080 OLED display",
+          specs: [
+            "Adaptive 24-120Hz Refresh rate",
+            "Max sustained brightness 2000 nits, peak 3000 nits",
+            "Aluminium Side Rails and Body",
+            "Matte Glass Back - Gorilla Glass Victus 2",
+            "Screen - Boiby Ceramic Shield Glass",
+            "Boiby C16 Chip with 6-core CPU and 6-core GPU",
+            "256 GB UFS 4.0 Storage",
+            "12 GB Memory",
+            "4800 mAh Lithium Ion battery",
+            "50 MP Main Camera, 12 MP 0.5x Ultrawide, 12 MP 3x Telephoto",
+            "24 MP Front Camera (Holepunch)",
+            "Facial Unlock + Under-display ultrasonic fingerprint reader",
+            "Up to 50W wired, 25W wireless charging",
+            "USB 4 Type-C port, 3.5mm Audio Jack, Quad-speaker sound system"
+          ],
+          upgrades: {
+            storage: ["256 GB UFS 4.0 storage (base)", "512 GB UFS 4.0 storage (+A$100)"]
+          }
+        },
+        "4 Pro": {
+          price: 1999,
+          display: "6.4-inch 2795x1290 OLED display",
+          specs: [
+            "Adaptive 1-180Hz Refresh rate (LTPO3)",
+            "Max sustained brightness 2400 nits, peak 3600 nits",
+            "Titanium Side Rails and Body",
+            "Matte Glass Back - Gorilla Glass Victus 2",
+            "Screen - Boiby Ceramic Shield Glass",
+            "Boiby C16 Pro Chip with 6-core CPU and 8-core GPU",
+            "256 GB UFS 4.1 Storage",
+            "16 GB Memory",
+            "5100 mAh Lithium Ion battery",
+            "200 MP Main Camera, 50 MP 0.5x Ultrawide, 50 MP 5x Telephoto",
+            "48 MP Front Camera (Holepunch)",
+            "Facial Unlock + Under-display ultrasonic fingerprint reader",
+            "Up to 120W wired, 40W wireless charging",
+            "USB 4 Type-C port, 3.5mm Audio Jack, Quad-speaker sound system"
+          ],
+          upgrades: {
+            storage: ["256 GB UFS 4.1 storage (base)", "512 GB UFS 4.1 storage (+A$100)", "1 TB UFS 4.1 storage (+A$250)", "2 TB UFS 4.1 storage (+A$400)"],
+            memory: ["16 GB Memory (base)", "24 GB Memory (+A$100)"]
+          }
+        },
+        "4 Pro Max": {
+          price: 2199,
+          display: "6.9-inch 3120x1440 OLED display",
+          specs: [
+            "Adaptive 1-180Hz Refresh rate (LTPO3)",
+            "Max sustained brightness 2400 nits, peak 3600 nits",
+            "Titanium Side Rails and Body",
+            "Matte Glass Back - Gorilla Glass Victus 2",
+            "Screen - Boiby Ceramic Shield Glass",
+            "Boiby C16 Pro Chip with 6-core CPU and 8-core GPU",
+            "256 GB UFS 4.1 Storage",
+            "16 GB Memory",
+            "5900 mAh Lithium Ion battery",
+            "200 MP Main Camera, 50 MP 0.5x Ultrawide, 50 MP 5x Telephoto",
+            "48 MP Front Camera (Holepunch)",
+            "Facial Unlock + Under-display ultrasonic fingerprint reader",
+            "Up to 120W wired, 40W wireless charging",
+            "USB 4 Type-C port, 3.5mm Audio Jack, Quad-speaker sound system"
+          ],
+          upgrades: {
+            storage: ["256 GB UFS 4.1 storage (base)", "512 GB UFS 4.1 storage (+A$100)", "1 TB UFS 4.1 storage (+A$250)", "2 TB UFS 4.1 storage (+A$400)"],
+            memory: ["16 GB Memory (base)", "24 GB Memory (+A$100)"]
+          }
+        }
+      };
+
+      const baseConfigs = JSON.parse(JSON.stringify(template));
+
+      const addons = {
+        accessories: [
+          "45 W USB-C power adapter (included)",
+          "120 W USB-C power adapter (Pro models included)",
+          "USB-C to USB-C 1m charging cable (included)",
+          "Boiby Silicone Case (+A$49)",
+          "Boiby Leather Case (+A$79)",
+          "Boiby Screen Protector (+A$29)",
+          "AirPods Pro (+A$399)",
+          "AirPods Max (+A$899)"
+        ]
+      };
+
+      let selectedModel = '4';
+      let selectedOptions = {};
+
+      const $ = q => document.querySelector(q);
+      const $$ = q => Array.from(document.querySelectorAll(q));
+      const cleanLabel = opt => (opt||'').split("(")[0].trim();
+      const priceDelta = opt => {
+        if (!opt) return 0;
+        const m = opt.match(/\+A\$(\d+)/);
+        return m ? parseInt(m[1],10) : 0;
+      };
+      const formatPrice = n => `A$${n.toLocaleString('en-AU')}`;
+
+      function findGroupByName(name) {
+        const groups = $$('#options .group');
+        return groups.find(g => g.querySelector('h3') && g.querySelector('h3').innerText.toLowerCase() === name.toLowerCase());
+      }
+
+      function initTabs() {
+        const tabs = $$('.tab[data-model]');
+        if (!tabs.length) return;
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            // Fade effect
+            document.body.classList.add('fade-out');
+            
+            setTimeout(() => {
+              tabs.forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+              const model = tab.getAttribute('data-model');
+              if (models.includes(model)) {
+                selectedModel = model;
+                // Update header
+                $('#headerTitle').textContent = `Buy BoibyPhone ${model}`;
+                renderModels();
+              }
+              
+              // Fade back in
+              document.body.classList.remove('fade-out');
+            }, 300);
+          });
+        });
+      }
+
+      function renderModels() {
+        const container = $('#models');
+        if (!container) return;
+        container.innerHTML = '';
+        const cfg = baseConfigs[selectedModel];
+        const colors = selectedModel === '4' ? colors4 : colorsPro;
+        
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('data-model', selectedModel);
+        
+        // Create image element
+        const imageUrl = `BoibyPhone${selectedModel.replace(/\s+/g, '')}${selectedColor}.png`;
+        
+        card.innerHTML = `
+          <div class="card-content">
+            <div class="card-image">
+              <img src="${imageUrl}" alt="BoibyPhone ${selectedModel} ${selectedColor}" id="card-image-${selectedModel.replace(/\s+/g, '-')}">
+            </div>
+            <div class="card-details">
+              <h2>BoibyPhone ${selectedModel}</h2>
+              <p class="price">From ${formatPrice(cfg.price)}</p>
+              <ul>
+                <li>${cfg.display}</li>
+                <li>${cleanLabel(cfg.upgrades.storage[0])}</li>
+                <li>${cleanLabel(selectedModel === '4' ? '12 GB Memory' : '16 GB Memory')}</li>
+                <li>${selectedModel === '4' ? '4800 mAh' : selectedModel === '4 Pro' ? '5100 mAh' : '5900 mAh'} battery</li>
+                <li>Advanced camera system</li>
+              </ul>
+            </div>
+          </div>
+          <div class="color-selector">
+            ${colors.map(color => `
+              <div class="color-pill ${color === selectedColor ? 'selected' : ''}" 
+                   data-color="${color}" data-model="${selectedModel}">
+                ${color}
+              </div>
+            `).join('')}
+          </div>
+          <button class="select-btn" data-model="${selectedModel}">Select</button>
+        `;
+        
+        // Add color selection event
+        card.querySelectorAll('.color-pill').forEach(pill => {
+          pill.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const color = pill.getAttribute('data-color');
+            const model = pill.getAttribute('data-model');
+            
+            // Update all color pills for this model
+            card.querySelectorAll('.color-pill').forEach(p => {
+              p.classList.toggle('selected', p.getAttribute('data-color') === color);
+            });
+            
+            // Update image with fade effect
+            const image = card.querySelector('img');
+            image.style.opacity = 0;
+            
+            setTimeout(() => {
+              image.src = `BoibyPhone${model.replace(/\s+/g, '')}${color}.png`;
+              image.style.opacity = 1;
+            }, 150);
+          });
+        });
+        
+        // Add select button event
+        card.querySelector('.select-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          const model = e.target.getAttribute('data-model');
+          selectedModel = model;
+          
+          // Get selected color for this model
+          const selectedColorPill = card.querySelector('.color-pill.selected');
+          selectedColor = selectedColorPill ? selectedColorPill.getAttribute('data-color') : (model === '4' ? 'Black' : 'Obsidian');
+          
+          const modelsEl = $('#models');
+          if (modelsEl) modelsEl.style.display = 'none';
+          $('#configurator').style.display = 'block';
+          // Hide model tabs when a model is selected
+          $('#modelTabs').style.display = 'none';
+          showConfigurator();
+        });
+        
+        container.appendChild(card);
+      }
+
+      function showConfigurator() {
+        const cfg = baseConfigs[selectedModel];
+        const optionsDiv = $('#options');
+        optionsDiv.innerHTML = '';
+        selectedOptions = {};
+
+        $('#heroTitle').innerText = `Customise your BoibyPhone ${selectedModel}`;
+        
+        // Update hero image
+        const heroImage = $('#heroImage');
+        heroImage.innerHTML = `<img src="BoibyPhone${selectedModel.replace(/\s+/g, '')}${selectedColor}.png" alt="BoibyPhone ${selectedModel} ${selectedColor}">`;
+
+        // Create hero list with specs
+        const heroList = $('#heroList');
+        heroList.innerHTML = '';
+        cfg.specs.forEach(spec => {
+          const li = document.createElement('li');
+          li.textContent = spec;
+          heroList.appendChild(li);
+        });
+
+        // upgrades
+        Object.keys(cfg.upgrades).forEach(category => {
+          const group = document.createElement('div');
+          group.className = 'group';
+          const h3 = document.createElement('h3');
+          h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          group.appendChild(h3);
+
+          cfg.upgrades[category].forEach((opt, idx) => {
+            const pill = document.createElement('div');
+            pill.className = 'pill';
+            pill.dataset.cat = category;
+            pill.dataset.value = opt; // IMPORTANT: canonical full string
+            pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
+
+            pill.addEventListener('click', () => {
+              if (pill.classList.contains('disabled')) return;
+              
+              // single-select logic
+              Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
+              pill.classList.add('selected');
+              selectedOptions[category] = pill.dataset.value;
+              
+              renderHeroSummary();
+              updatePrice();
+            });
+
+            // Default selection logic
+            if (idx === 0) {
+              pill.classList.add('selected');
+              selectedOptions[category] = pill.dataset.value;
+            }
+
+            group.appendChild(pill);
+          });
+
+          optionsDiv.appendChild(group);
+        });
+
+        // add-ons group
+        const addonsGroup = document.createElement('div');
+        addonsGroup.className = 'group';
+        const addonsTitle = document.createElement('h3');
+        addonsTitle.innerText = 'Accessories';
+        addonsGroup.appendChild(addonsTitle);
+        
+        addons.accessories.forEach(opt => {
+          const pill = document.createElement('div');
+          pill.className = 'pill';
+          pill.dataset.cat = 'accessories';
+          pill.dataset.value = opt;
+          pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
+          
+          // Don't select included items by default
+          if (opt.includes('(included)')) {
+            pill.classList.add('selected');
+            if (!selectedOptions.accessories) selectedOptions.accessories = [];
+            selectedOptions.accessories.push(opt);
+          }
+          
+          pill.addEventListener('click', () => {
+            if (opt.includes('(included)')) return; // Can't deselect included items
+            
+            pill.classList.toggle('selected');
+            if (!selectedOptions.accessories) selectedOptions.accessories = [];
+            const full = pill.dataset.value;
+            if (pill.classList.contains('selected')) selectedOptions.accessories.push(full);
+            else selectedOptions.accessories = selectedOptions.accessories.filter(a => a !== full);
+            renderHeroSummary();
+            updatePrice();
+          });
+          addonsGroup.appendChild(pill);
+        });
+        optionsDiv.appendChild(addonsGroup);
+
+        renderHeroSummary();
+        updatePrice();
+      }
+
+      function renderHeroSummary() {
+        const list = $('#heroList');
+        if (!list) return;
+        list.innerHTML = '';
+        const cfg = baseConfigs[selectedModel];
+        
+        // Add specs
+        cfg.specs.forEach(spec => {
+          list.appendChild(li(spec));
+        });
+        
+        // Add selected options
+        list.appendChild(li(`Color: ${selectedColor}`));
+        
+        Object.keys(selectedOptions).forEach(cat => {
+          if (cat === 'accessories') {
+            selectedOptions.accessories.forEach(a => list.appendChild(li(cleanLabel(a))));
+          } else {
+            list.appendChild(li(cleanLabel(selectedOptions[cat])));
+          }
+        });
+      }
+
+      function updatePrice() {
+        const cfg = baseConfigs[selectedModel];
+        let price = cfg.price;
+        Object.keys(selectedOptions).forEach(cat => {
+          if (cat === 'accessories') {
+            selectedOptions.accessories.forEach(a => price += priceDelta(a));
+          } else {
+            price += priceDelta(selectedOptions[cat]);
+          }
+        });
+        $('#finalPrice').innerText = `Total: ${formatPrice(price)}`;
+      }
+
+      function showConfirmation() {
+        const cfg = baseConfigs[selectedModel];
+        let price = cfg.price;
+        
+        // Hide configurator and checkout, show confirmation
+        $('#configurator').style.display = 'none';
+        $('#checkout').style.display = 'none';
+        $('#confirmation').style.display = 'block';
+        
+        // Set confirmation image
+        $('#confirmationImage').innerHTML = `<img src="BoibyPhone${selectedModel.replace(/\s+/g, '')}${selectedColor}.png" alt="BoibyPhone ${selectedModel} ${selectedColor}">`;
+        
+        // Set confirmation model text
+        $('#confirmationModel').textContent = `BoibyPhone ${selectedModel} - ${selectedColor}`;
+        
+        // Build confirmation list
+        const list = $('#confirmationList');
+        list.innerHTML = '';
+        
+        list.appendChild(li(`Model: BoibyPhone ${selectedModel}`));
+        list.appendChild(li(`Color: ${selectedColor}`));
+        
+        Object.keys(selectedOptions).forEach(cat => {
+          if (cat === 'accessories') {
+            selectedOptions.accessories.forEach(a => list.appendChild(li(cleanLabel(a))));
+          } else {
+            list.appendChild(li(cleanLabel(selectedOptions[cat])));
+          }
+        });
+        
+        // Calculate final price
+        Object.keys(selectedOptions).forEach(cat => {
+          if (cat === 'accessories') {
+            selectedOptions.accessories.forEach(a => price += priceDelta(a));
+          } else {
+            price += priceDelta(selectedOptions[cat]);
+          }
+        });
+        
+        $('#confirmationTotal').textContent = `Total: ${formatPrice(price)}`;
+      }
+
+      function li(text) { 
+        const el = document.createElement('li'); 
+        el.textContent = text; 
+        return el; 
+      }
+
+      const backBtn = $('#backBtn');
+      if (backBtn) backBtn.addEventListener('click', () => {
+        $('#configurator').style.display = 'none';
+        $('#models').style.display = 'grid';
+        // Show model tabs again when going back
+        $('#modelTabs').style.display = 'flex';
+      });
+
+      const confirmationBackBtn = $('#confirmationBackBtn');
+      if (confirmationBackBtn) confirmationBackBtn.addEventListener('click', () => {
+        $('#confirmation').style.display = 'none';
+        $('#models').style.display = 'grid';
+        $('#checkout').style.display = 'flex';
+        // Show model tabs again when going back
+        $('#modelTabs').style.display = 'flex';
+      });
+
+      const addToBagBtn = $('#addToBagBtn');
+      if (addToBagBtn) addToBagBtn.addEventListener('click', showConfirmation);
+
+      document.addEventListener('DOMContentLoaded', () => {
+        initTabs();
+        renderModels();
+        const tabs = $$('.tab[data-model]');
+        if (tabs.length) tabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-model') === selectedModel));
+      });
+
+      window.__boiby_reloadModels = renderModels;
+    })();
+  </script>
+</body>
+</html>
