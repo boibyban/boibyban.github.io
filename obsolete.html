@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vintage · Obsolete · Historical — Boiby Products</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f12;
+      --panel:#0f1518;
+      --muted:#9aa6b2;
+      --accent:#8bd3ff;
+      --success:#7ee787;
+      --danger:#ff8b8b;
+      --glass: rgba(255,255,255,0.03);
+      --card-shadow: 0 6px 20px rgba(2,6,10,0.7);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,var(--bg),#051017 120%); color:#e6eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding:28px; font-size:15px; line-height:1.4;
+    }
+
+    .app{
+      max-width:1100px; margin:0 auto; display:grid; grid-template-columns: 1fr 360px; gap:20px;
+    }
+
+    header{grid-column:1/-1; display:flex; align-items:center; gap:16px; margin-bottom:6px}
+    .logo{width:56px;height:56px;background:linear-gradient(135deg,#13232b,#08242d);border-radius:12px;display:grid;place-items:center;box-shadow:var(--card-shadow)}
+    .logo strong{font-size:18px;letter-spacing:0.6px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted)}
+
+    .card{background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.02)); border-radius:12px; padding:18px; box-shadow:var(--card-shadow)}
+
+    .controls{display:flex; gap:8px; align-items:center; margin-top:12px}
+    .controls select, .controls input[type=date], .controls input[type=text]{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:inherit}
+    .btn{background:linear-gradient(180deg, rgba(139,211,255,0.14), rgba(139,211,255,0.06)); border:1px solid rgba(139,211,255,0.12); padding:8px 12px;border-radius:10px;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04)}
+
+    .legend{display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap}
+    .pill{padding:6px 10px;border-radius:999px;font-weight:600; font-size:13px}
+    .pill.vintage{background:linear-gradient(90deg, rgba(255,183,77,0.12), rgba(255,183,77,0.04)); color:#ffd9a3; border:1px solid rgba(255,183,77,0.08)}
+    .pill.obsolete{background:linear-gradient(90deg, rgba(255,109,109,0.08), rgba(255,109,109,0.03)); color:#ffb3b3; border:1px solid rgba(255,109,109,0.06)}
+    .pill.historical{background:linear-gradient(90deg, rgba(157,122,255,0.08), rgba(157,122,255,0.03)); color:#d9c9ff; border:1px solid rgba(157,122,255,0.06)}
+    .pill.active{background:linear-gradient(90deg, rgba(125,239,178,0.06), rgba(125,239,178,0.03)); color:#bff7d1}
+
+    /* lists */
+    .lists{display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
+    .list-col{display:flex; flex-direction:column; gap:12px}
+    .category{padding:12px;border-radius:10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03)}
+    .category h3{margin:0 0 8px 0; font-size:15px}
+    ul.products{list-style:none;margin:0;padding:0; display:flex;flex-direction:column; gap:8px}
+    li.product{display:flex; justify-content:space-between; gap:12px; padding:8px; border-radius:8px; align-items:center}
+    li.product .meta{color:var(--muted); font-size:13px}
+
+    .tag{padding:6px 8px;border-radius:8px;font-weight:700;font-size:12px}
+    .tag.vintage{background:rgba(255,183,77,0.08); color:#ffd9a3}
+    .tag.obsolete{background:rgba(255,109,109,0.06); color:#ffb3b3}
+    .tag.historical{background:rgba(157,122,255,0.06); color:#d9c9ff}
+    .tag.active{background:rgba(125,239,178,0.04); color:#bff7d1}
+
+    .sidebar .section{margin-bottom:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .muted-block{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+
+    footer{grid-column:1/-1;margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){
+      .app{grid-template-columns:1fr; padding:18px}
+      .lists{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo"><strong>Bb</strong></div>
+      <div>
+        <h1>Vintage · Obsolete · Historical — Boiby Products</h1>
+        <p class="lead">Automatically categorises products by their discontinued date. Thresholds: Vintage = 5y, Obsolete = 8y, Historical = 12y.</p>
+      </div>
+    </header>
+
+    <main class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
+        <div style="min-width:240px">
+          <label class="small">Add a product</label>
+          <div class="controls" style="margin-top:8px">
+            <input id="name" type="text" placeholder="Product name (eg. BoibyPhone 4)" />
+            <select id="family">
+              <option>BoibyPhone</option>
+              <option>BoibyPad</option>
+              <option>Boiby Laptops</option>
+              <option>Boiby Desktops</option>
+              <option>BoibyBuds</option>
+              <option>BoibyWatch</option>
+            </select>
+            <input id="date" type="date" title="Discontinued date" />
+            <button class="btn" id="add">Add</button>
+          </div>
+          <div class="legend" aria-hidden="true">
+            <div class="pill vintage">Vintage — ≥ 5 years</div>
+            <div class="pill obsolete">Obsolete — ≥ 8 years</div>
+            <div class="pill historical">Historical — ≥ 12 years</div>
+            <div class="pill active">Active — &lt; 5 years</div>
+          </div>
+        </div>
+
+        <div style="flex:1;min-width:260px">
+          <div class="small">Filters</div>
+          <div class="controls" style="margin-top:8px">
+            <select id="filterFamily">
+              <option value="all">All families</option>
+              <option>BoibyPhone</option>
+              <option>BoibyPad</option>
+              <option>Boiby Laptops</option>
+              <option>Boiby Desktops</option>
+              <option>BoibyBuds</option>
+              <option>BoibyWatch</option>
+            </select>
+            <button class="btn ghost" id="reset">Reset</button>
+          </div>
+          <div class="small" style="margin-top:10px">Legend & thresholds
+            <div class="muted-block" style="margin-top:8px">
+              <div>Vintage: not sold for <strong>5 years</strong></div>
+              <div>Obsolete: not sold for <strong>8 years</strong></div>
+              <div>Historical: not sold for <strong>12 years</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section style="margin-top:16px">
+        <div class="lists" id="lists">
+          <div class="list-col">
+            <div class="category card">
+              <h3>BoibyPhone</h3>
+              <ul class="products" data-family="BoibyPhone" id="BoibyPhone"></ul>
+            </div>
+
+            <div class="category card">
+              <h3>BoibyPad</h3>
+              <ul class="products" data-family="BoibyPad" id="BoibyPad"></ul>
+            </div>
+
+            <div class="category card">
+              <h3>Boiby Laptops</h3>
+              <ul class="products" data-family="Boiby Laptops" id="Boiby Laptops"></ul>
+            </div>
+          </div>
+
+          <div class="list-col">
+            <div class="category card">
+              <h3>Boiby Desktops</h3>
+              <ul class="products" data-family="Boiby Desktops" id="Boiby Desktops"></ul>
+            </div>
+
+            <div class="category card">
+              <h3>BoibyBuds</h3>
+              <ul class="products" data-family="BoibyBuds" id="BoibyBuds"></ul>
+            </div>
+
+            <div class="category card">
+              <h3>BoibyWatch</h3>
+              <ul class="products" data-family="BoibyWatch" id="BoibyWatch"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <template id="tpl">
+        <li class="product">
+          <div>
+            <div class="name"></div>
+            <div class="meta"></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center">
+            <div class="tag"></div>
+            <button class="btn ghost btn-remove">Remove</button>
+          </div>
+        </li>
+      </template>
+
+    </main>
+
+    <aside class="sidebar">
+      <div class="card section">
+        <div class="small">Summary</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px" id="summary">
+          <!-- counts injected -->
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="small">Sample data</div>
+        <div style="margin-top:10px" class="muted-block" id="sample">
+          Add sample products to see the categorisation quickly.
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn" id="seed">Fill sample data</button>
+        </div>
+      </div>
+
+      <div class="card section">
+        <div class="small">Notes</div>
+        <div class="muted-block" style="margin-top:8px">
+          <div>Dates are interpreted as the date the product was <em>discontinued</em>. The page uses the browser local date to calculate age.</div>
+          <div style="margin-top:6px">Vintage &ge; 5y · Obsolete &ge; 8y · Historical &ge; 12y</div>
+        </div>
+      </div>
+    </aside>
+
+    <footer class="small">Made with care · Dark theme · Inter</footer>
+  </div>
+
+  <script>
+    // thresholds in years
+    const THRESHOLDS = { vintage:5, obsolete:8, historical:12 };
+
+    const storeKey = 'boiby_products_v1';
+    const lists = document.querySelectorAll('ul.products');
+    const tpl = document.getElementById('tpl');
+
+    function load(){
+      const raw = localStorage.getItem(storeKey);
+      if(!raw) return [];
+      try{ return JSON.parse(raw); }catch(e){return []}
+    }
+    function save(arr){ localStorage.setItem(storeKey, JSON.stringify(arr)); }
+
+    function yearsBetween(dateStr){
+      if(!dateStr) return 0;
+      const d = new Date(dateStr + 'T00:00:00');
+      const now = new Date();
+      const diff = now - d; // ms
+      return diff / (1000*60*60*24*365.25);
+    }
+
+    function classification(years){
+      if(years >= THRESHOLDS.historical) return 'historical';
+      if(years >= THRESHOLDS.obsolete) return 'obsolete';
+      if(years >= THRESHOLDS.vintage) return 'vintage';
+      return 'active';
+    }
+
+    function formatDate(d){ if(!d) return '—'; const dt = new Date(d+'T00:00:00'); return dt.toLocaleDateString(); }
+
+    function render(){
+      // clear
+      lists.forEach(l => l.innerHTML='');
+      const products = load();
+      const filter = document.getElementById('filterFamily').value;
+      const counts = { historical:0, obsolete:0, vintage:0, active:0 };
+
+      products.forEach(p => {
+        if(filter !== 'all' && p.family !== filter) return;
+        const years = yearsBetween(p.discontinued);
+        const cat = classification(years);
+        counts[cat]++;
+        const node = tpl.content.firstElementChild.cloneNode(true);
+        node.querySelector('.name').textContent = p.name;
+        node.querySelector('.meta').textContent = p.family + ' — discontinued: ' + formatDate(p.discontinued) + ' (' + years.toFixed(1) + 'y)';
+        const tag = node.querySelector('.tag'); tag.className = 'tag ' + cat; tag.textContent = cat.toUpperCase();
+        node.querySelector('.btn-remove').addEventListener('click', ()=>{ removeProduct(p.id); });
+        document.getElementById(p.family).appendChild(node);
+      });
+
+      // summary
+      const summary = document.getElementById('summary'); summary.innerHTML='';
+      Object.entries(counts).forEach(([k,v])=>{
+        const el = document.createElement('div'); el.className='pill '+ (k==='active'?'active':k); el.style.marginRight='6px'; el.textContent = k + ': ' + v; summary.appendChild(el);
+      });
+    }
+
+    function addProduct(name,family,discontinued){
+      if(!name) return alert('Please provide a product name.');
+      const arr = load();
+      const id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+      arr.push({ id, name, family, discontinued });
+      save(arr); render();
+    }
+    function removeProduct(id){
+      const arr = load().filter(x=>x.id!==id); save(arr); render();
+    }
+
+    document.getElementById('add').addEventListener('click', ()=>{
+      const name = document.getElementById('name').value.trim();
+      const family = document.getElementById('family').value;
+      const date = document.getElementById('date').value;
+      addProduct(name,family,date);
+      document.getElementById('name').value=''; document.getElementById('date').value='';
+    });
+
+    document.getElementById('filterFamily').addEventListener('change', render);
+    document.getElementById('reset').addEventListener('click', ()=>{ localStorage.removeItem(storeKey); render(); });
+
+    document.getElementById('seed').addEventListener('click', ()=>{
+      const sample = [
+        {name:'BoibyPhone (Original)', family:'BoibyPhone', discontinued:'2011-09-01'},
+        {name:'BoibyPhone 2', family:'BoibyPhone', discontinued:'2012-09-09'},
+        {name:'BoibyPad Air (1st generation)', family:'BoibyPad', discontinued:'2014-11-05'},
+        {name:'BoibyPad Mini (1st generation)', family:'BoibyPad', discontinued:'2015-03-02'},
+        {name:'BoibyBook (12-inch, 2015)', family:'Boiby Laptops', discontinued:'2016-08-20'},
+        {name:'BoibyBook Pro (13-inch, 2017)', family:'Boiby Laptops', discontinued:'2018-06-12'},
+        {name:'Boiby mini (2016)', family:'Boiby Desktops', discontinued:'2018-08-14'},
+        {name:'BoibyBuds (1st generation)', family:'BoibyBuds', discontinued:'2018-09-05'},
+        {name:'BoibyWatch (original)', family:'BoibyWatch', discontinued:'2016-04-30'}
+      ];
+      // assign ids then save
+      const arr = sample.map(s=>({ id: Date.now().toString(36)+Math.random().toString(36).slice(2,6), ...s }));
+      save(arr); render();
+    });
+
+    // initialise demo products if none exist
+    if(!localStorage.getItem(storeKey)){
+      // don't auto-seed; leave empty. But we offer seed button.
+    }
+
+    // initial render
+    render();
+  </script>
+</body>
+</html>
