@@ -236,11 +236,33 @@
 
     .group { 
       margin: 24px 0; 
+      position: relative;
     }
     
     .group h3 {
       font-size: 1.1rem;
       margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--muted);
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .info-icon:hover {
+      background: var(--blue);
     }
 
     .pill {
@@ -286,6 +308,78 @@
       font-size: .9rem;
       color: var(--muted);
       margin-top: 6px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.visible .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    
+    .modal-content {
+      line-height: 1.6;
+    }
+    
+    .modal-content p {
+      margin: 0 0 16px;
+    }
+    
+    .modal-content ul {
+      margin: 0 0 16px;
+      padding-left: 20px;
     }
 
     .checkout {
@@ -462,6 +556,27 @@
       <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">← Back to Store</button>
     </div>
   </main>
+
+  <div class="modal-overlay" id="memoryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Memory Guide</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-content">
+        <p><strong>How much memory is right for you?</strong></p>
+        <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency.</p>
+        
+        <p><strong>16GB:</strong> Ideal for everyday tasks like web browsing, email, document editing, and light photo editing.</p>
+        
+        <p><strong>24GB:</strong> Recommended for users who work with large files, multitask with many apps, or do moderate video/photo editing.</p>
+        
+        <p><strong>32GB:</strong> Best for users working with high-resolution video, complex 3D models, virtual machines, or advanced programming.</p>
+        
+        <p>Memory can be upgraded afterwards, however it is more convenient and cheaper to purchase additional memory now if you think you'll need it. Boiby's unified memory uses a special formfactor that is not avaliable elsewhere.</p>
+      </div>
+    </div>
+  </div>
 
   <div class="checkout" id="checkout">
     <div class="total" id="finalPrice">Total: $0</div>
@@ -666,7 +781,14 @@
           const group = document.createElement('div');
           group.className = 'group';
           const h3 = document.createElement('h3');
-          h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          
+          // Add info icon for memory category
+          if (category === 'memory') {
+            h3.innerHTML = `Memory <span class="info-icon" data-category="memory">?</span>`;
+          } else {
+            h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          }
+          
           group.appendChild(h3);
 
           cfg.upgrades[category].forEach((opt, idx) => {
@@ -700,6 +822,12 @@
             note.className = 'note';
             note.innerText = 'Choose a memory upgrade if you need extra multitasking headroom.';
             group.appendChild(note);
+            
+            // Add event listener to the info icon
+            const infoIcon = h3.querySelector('.info-icon');
+            if (infoIcon) {
+              infoIcon.addEventListener('click', showMemoryModal);
+            }
           }
 
           optionsDiv.appendChild(group);
@@ -707,6 +835,35 @@
 
         renderHeroSummary();
         updatePrice();
+      }
+
+      function showMemoryModal() {
+        const modal = $('#memoryModal');
+        modal.classList.add('visible');
+        
+        // Add event listener to close button
+        const closeButton = modal.querySelector('.modal-close');
+        closeButton.addEventListener('click', hideMemoryModal);
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            hideMemoryModal();
+          }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function escHandler(e) {
+          if (e.key === 'Escape') {
+            hideMemoryModal();
+            document.removeEventListener('keydown', escHandler);
+          }
+        });
+      }
+      
+      function hideMemoryModal() {
+        const modal = $('#memoryModal');
+        modal.classList.remove('visible');
       }
 
       function renderHeroSummary() {
