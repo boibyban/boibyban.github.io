@@ -1,0 +1,317 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Approved</title>
+    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+* {
+    font-family: "Inter", serif;
+}
+        body {
+margin: 0!important;
+        }
+  header {
+    position: sticky;
+    box-sizing: border-box;
+    top: 0;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    background: #fff;
+    color: #000;
+    z-index: 1000;
+  }
+
+  .left, .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .left img {
+    height: 32px;
+    margin-right: 32px;
+  }
+
+  .left span {
+    font-weight: bold;
+    margin-right: 32px;
+    font-size: 16px;
+  }
+
+  .left nav a {
+    margin-right: 32px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+  }
+
+  .right .user-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #eee;
+    margin-right: 5px;
+  }
+
+  .right span, .right img {
+    font-size: 16px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+
+  .right img {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Dark mode */
+  header.dark {
+    background: #1F1F1F;
+    color: #eee;
+  }
+
+  header.dark .left nav a {
+    color: #eee;
+  }
+
+  header.dark .right .user-circle {
+    background: #555;
+  }
+        .warning-margin {
+            margin: 10px auto 0 auto!important;
+            margin-bottom: 12px!important;
+        }
+        .logout {
+            min-width: 80px;
+        }
+        .reactivate {
+            margin: 14px auto 1px auto;
+        }
+        .evidence-image {
+            max-width: 640px;
+            height: auto;
+            max-height: 300px;
+            display: flex;
+            margin-top: 8px;
+            max-width: 100%;
+        }
+        .margins-for-img {
+            margin-top: 2px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin-top: 8px;
+        }
+        .evidence-box {
+            margin-top: 12px!important;
+            padding: 12px;
+            display: block;
+            border-radius: 0px;
+        }
+        .inneritem {
+            display: block;
+            margin: 0px;
+        }
+        .violation-section {
+            margin-bottom: 0px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        .classic-violation {
+            margin-bottom: 20px;
+        }
+        .viol {
+            margin: 0px;
+        }
+        #evidenceheading {
+            margin: 0px;
+            line-height: 1em;
+            font-size: 18px;
+        }
+        #violationtype {
+            font-size: 14px;
+        }
+        .ban-box {
+            border-radius: 0px;
+            max-width: 840px !important;
+            box-sizing: border-box;
+        }
+        #abideRules {
+            line-height: 1;
+        }
+        .logoutlink {
+            color: #222;
+        }
+        #evidenceContainer {
+            border-left: 5px solid #c2c2c2;
+            padding-left: 12px;
+            margin-bottom: 14px;
+            margin-left: 1px;
+        }
+        .violation-text {
+            font-weight: 500;
+        }
+        .evidence-content {
+            font-weight: normal;
+            display: inline;
+        }
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0 5px 0;
+            font-family: "Noto Sans", serif;
+            font-size: 14px;
+        }
+        .label {
+            font-family: "Inter", serif;
+            color: #111;
+            font-size: 14px;
+        }
+        .agree-checkbox input {
+            margin-right: 8px;
+        }
+        .reactivate[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        #agreeContainer {
+            display: none;
+        }
+
+    /* Sidebar */
+#sidebar {
+  position: fixed;
+  top: 44px; /* below header */
+  left: 0;
+  width: 160px;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  display: none; /* default hidden for <1600px */
+  flex-direction: column;
+  gap: 12px;
+  z-index: 900;
+}
+
+#sidebar a, #sidebar .premium-btn {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.premium-btn {
+  margin-top: auto;
+  padding: 8px;
+  border: none;
+  background: #ffd633;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Dark mode */
+header.dark + #sidebar {
+  background: #1F1F1F;
+  border-right: 1px solid #444;
+}
+
+header.dark + #sidebar a,
+header.dark + #sidebar .premium-btn {
+  color: #eee;
+}
+
+/* Hamburger icon */
+#hamburger {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1599px) {
+  #sidebar {
+    display: none;
+  }
+  #hamburger {
+    display: block;
+  }
+}
+
+@media (min-width: 1600px) {
+  #sidebar {
+    display: flex;
+  }
+}
+#logo {
+  content: url("https://boibyban.github.io/boibylongdark.png");
+  height: 36px; /* adjust as needed */
+}
+
+/* If .dark-mode is applied to body or header, swap to light logo */
+.dark-mode #logo {
+  content: url("https://boibyban.github.io/boibylonglight.png");
+}
+
+    </style>
+</head><body><header id="header">
+  <div class="left">
+    <div id="hamburger">☰</div>
+    <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
+    <nav>
+      <a href="#">Discover</a>
+      <a href="#">Catalog</a>
+      <a href="#">Develop</a>
+      <a href="#">Boibucks</a>
+    </nav>
+  </div>
+
+  <div class="right">
+    <div class="user-circle"></div>
+    <span id="username" style="font-weight:500;">d</span>
+    <span> </span>
+    <span>?</span>
+  </div>
+</header>
+
+    <div id="sidebar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Discover</a>
+        <a href="#">Catalog</a>
+        <a href="#">Acquaintances</a>
+        <a href="#">Chat</a>
+        <a href="#">Trade</a>
+        <a href="#">Money</a>
+        <a href="#">Develop</a>
+        <a href="#">Premium</a>
+
+</div>
+
+    <div class="ban-box">
+        <h3 id="banDuration" style="font-size: 24px!important;">Account creation disabled</h3>
+        <p id="violationHeader">Your ability to create accounts has been temporarily or permanently disabled.</p>
+    </div>
+
+<script src="/translations-en.js"></script>
+
+</body></html>
