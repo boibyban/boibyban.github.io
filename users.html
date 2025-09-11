@@ -407,8 +407,8 @@ async function loadUser() {
         }
         if (!user) { window.location.href = "404.html"; return; }
         if (user.isDeleted && !forceShow) {
-            if (config.deletedUserRedirect === 2) { window.location.href = "error.html?code=404"; return; }
-            if (config.deletedUserRedirect === 3) { window.location.href = "error.html?code=userDeleted"; return; }
+            if (config.deletedUserRedirect === 2) { window.location.href = "404"; return; }
+            if (config.deletedUserRedirect === 3) { window.location.href = "userDeleted"; return; }
         }
         loadedUser = user;
 
