@@ -1,0 +1,636 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+* {
+    font-family: "Inter", serif;
+}
+        body {
+margin: 0!important;
+        }
+  header {
+    position: sticky;
+    box-sizing: border-box;
+    top: 0;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    background: #fff;
+    color: #000;
+    z-index: 1000;
+  }
+
+  .left, .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .left img {
+    height: 32px;
+    margin-right: 32px;
+  }
+
+  .left span {
+    font-weight: bold;
+    margin-right: 32px;
+    font-size: 16px;
+  }
+
+  .left nav a {
+    margin-right: 32px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+  }
+
+  .right .user-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #eee;
+    margin-right: 5px;
+  }
+
+  .right span, .right img {
+    font-size: 16px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+
+  .right img {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Dark mode */
+  header.dark {
+    background: #1F1F1F;
+    color: #eee;
+  }
+
+  header.dark .left nav a {
+    color: #eee;
+  }
+
+  header.dark .right .user-circle {
+    background: #555;
+  }
+        .warning-margin {
+            margin: 10px auto 0 auto!important;
+            margin-bottom: 12px!important;
+        }
+        .logout {
+            min-width: 80px;
+        }
+        .reactivate {
+            margin: 14px auto 1px auto;
+        }
+        .evidence-image {
+            max-width: 640px;
+            height: auto;
+            max-height: 300px;
+            display: flex;
+            margin-top: 8px;
+            max-width: 100%;
+        }
+        .margins-for-img {
+            margin-top: 2px;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin-top: 8px;
+        }
+        .evidence-box {
+            margin-top: 12px!important;
+            padding: 12px;
+            display: block;
+            border-radius: 0px;
+        }
+        .inneritem {
+            display: block;
+            margin: 0px;
+        }
+        .violation-section {
+            margin-bottom: 0px;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        .classic-violation {
+            margin-bottom: 20px;
+        }
+        .viol {
+            margin: 0px;
+        }
+        #evidenceheading {
+            margin: 0px;
+            line-height: 1em;
+            font-size: 18px;
+        }
+        #violationtype {
+            font-size: 14px;
+        }
+        .ban-box {
+            border-radius: 0px;
+            max-width: 840px !important;
+            box-sizing: border-box;
+        }
+        #abideRules {
+            line-height: 1;
+        }
+        .logoutlink {
+            color: #222;
+        }
+        #evidenceContainer {
+            border-left: 5px solid #c2c2c2;
+            padding-left: 12px;
+            margin-bottom: 14px;
+            margin-left: 1px;
+        }
+        .violation-text {
+            font-weight: 500;
+        }
+        .evidence-content {
+            font-weight: normal;
+            display: inline;
+        }
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0 5px 0;
+            font-family: "Noto Sans", serif;
+            font-size: 14px;
+        }
+        .label {
+            font-family: "Inter", serif;
+            color: #111;
+            font-size: 14px;
+        }
+        .agree-checkbox input {
+            margin-right: 8px;
+        }
+        .reactivate[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        #agreeContainer {
+            display: none;
+        }
+
+    /* Sidebar */
+#sidebar {
+  position: fixed;
+  top: 44px; /* below header */
+  left: 0;
+  width: 160px;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  display: none; /* default hidden for <1600px */
+  flex-direction: column;
+  gap: 12px;
+  z-index: 900;
+}
+
+#sidebar a, #sidebar .premium-btn {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.premium-btn {
+  margin-top: auto;
+  padding: 8px;
+  border: none;
+  background: #ffd633;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Dark mode */
+header.dark + #sidebar {
+  background: #1F1F1F;
+  border-right: 1px solid #444;
+}
+
+header.dark + #sidebar a,
+header.dark + #sidebar .premium-btn {
+  color: #eee;
+}
+
+/* Hamburger icon */
+#hamburger {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1599px) {
+  #sidebar {
+    display: none;
+  }
+  #hamburger {
+    display: block;
+  }
+}
+
+@media (min-width: 1600px) {
+  #sidebar {
+    display: flex;
+  }
+}
+#logo {
+  content: url("https://boibyban.github.io/boibylongdark.png");
+  height: 36px; /* adjust as needed */
+}
+
+/* If .dark-mode is applied to body or header, swap to light logo */
+.dark-mode #logo {
+  content: url("https://boibyban.github.io/boibylonglight.png");
+}
+
+    </style><title>Appeal a Decision - Boiby</title>
+    <style>
+        * {
+            font-family: "Inter", serif;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        header {
+            position: sticky;
+            box-sizing: border-box;
+            top: 0;
+            width: 100%;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            background: #fff;
+            color: #000;
+            z-index: 1000;
+            border-bottom: 1px solid #ddd;
+        }
+        .left, .right {
+            display: flex;
+            align-items: center;
+        }
+        .left img {
+            height: 32px;
+            margin-right: 32px;
+        }
+        .left span {
+            font-weight: bold;
+            margin-right: 32px;
+            font-size: 16px;
+        }
+        .left nav a {
+            margin-right: 32px;
+            text-decoration: none;
+            color: inherit;
+            font-size: 16px;
+        }
+        .right .user-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #eee;
+            margin-right: 5px;
+        }
+        .right span, .right img {
+            font-size: 16px;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+        .right img {
+            width: 32px;
+            height: 32px;
+        }
+        /* Dark mode */
+        header.dark {
+            background: #1F1F1F;
+            color: #eee;
+        }
+        header.dark .left nav a {
+            color: #eee;
+        }
+        header.dark .right .user-circle {
+            background: #555;
+        }
+        #logo {
+            content: url("https://boibyban.github.io/boibylongdark.png");
+            height: 36px;
+        }
+        .dark-mode #logo {
+            content: url("https://boibyban.github.io/boibylonglight.png");
+        }
+        
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            width: 160px;
+            height: 100%;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 16px;
+            box-sizing: border-box;
+            font-size: 16px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 900;
+        }
+        #sidebar a, #sidebar .premium-btn {
+            display: block;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .premium-btn {
+            margin-top: auto;
+            padding: 8px;
+            border: none;
+            background: #ffd633;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        header.dark + #sidebar {
+            background: #1F1F1F;
+            border-right: 1px solid #444;
+        }
+        header.dark + #sidebar a,
+        header.dark + #sidebar .premium-btn {
+            color: #eee;
+        }
+        #hamburger {
+            display: none;
+            font-size: 22px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        @media (max-width: 1599px) {
+            #sidebar {
+                display: none;
+            }
+            #hamburger {
+                display: block;
+            }
+        }
+        @media (min-width: 1600px) {
+            #sidebar {
+                display: flex;
+            }
+        }
+        
+        /* Main content */
+        .main-content {
+            margin-left: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        @media (min-width: 1600px) {
+            .main-content {
+                margin-left: 160px;
+            }
+        }
+        
+        /* Appeal form */
+        .appeal-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .appeal-title {
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input[type="email"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        input[type="email"]:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #3a7bc8;
+        }
+        
+        /* Success modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            display: none;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        .modal h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .modal p {
+            margin-bottom: 25px;
+            color: #666;
+        }
+        .modal-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .modal-btn:hover {
+            background-color: #3a7bc8;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="left">
+            <div id="hamburger">☰</div>
+            <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
+            <nav>
+                <a href="#">Discover</a>
+                <a href="#">Catalog</a>
+                <a href="#">Develop</a>
+                <a href="#">Boibucks</a>
+            </nav>
+        </div>
+        <div class="right">
+            <div class="user-circle"></div>
+            <span id="username" style="font-weight:500;">d</span>
+            <span> </span>
+            <img src="https://boibyban.github.io/bgreen.png" alt="Boibucks">
+            <span>?</span>
+        </div>
+    </header>
+
+    <div id="sidebar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Discover</a>
+        <a href="#">Catalog</a>
+        <a href="#">Acquaintances</a>
+        <a href="#">Chat</a>
+        <a href="#">Trade</a>
+        <a href="#">Money</a>
+        <a href="#">Develop</a>
+        <a href="#">Premium</a>
+        <button style="display:none" class="premium-btn">Get Premium</button>
+    </div>
+
+    <div class="main-content">
+        <div class="appeal-container">
+            <h2 class="appeal-title">Appeal a Decision</h2>
+            <form id="appealForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required="" placeholder="Your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmEmail">Confirm Email Address</label>
+                    <input type="email" id="confirmEmail" name="confirmEmail" required="" placeholder="Confirm your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="appealType">What decision would you like to appeal?</label>
+                    <select id="appealType" name="appealType" required="">
+                        <option value="">Please select an option</option>
+                        <option value="account">Account</option>
+                        <option value="altAccount">Alt account</option>
+                        <option value="chat">Chat</option>
+                        <option value="image">Image or other asset</option>
+                        <option value="avatar">Avatar</option>
+                        <option value="profilePicture">Profile picture</option>
+                        <option value="game">Game</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appealDescription">Description of your appeal</label>
+                    <textarea id="appealDescription" name="appealDescription" required="" placeholder="Please provide details about why you're appealing this decision"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Appeal</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <h2>We received your appeal</h2>
+            <p>Responses may take up to 5 business days.</p>
+            <button class="modal-btn" id="modalOkButton">Okay</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('appealForm');
+            const successModal = document.getElementById('successModal');
+            const okButton = document.getElementById('modalOkButton');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple validation for email matching
+                const email = document.getElementById('email').value;
+                const confirmEmail = document.getElementById('confirmEmail').value;
+                
+                if (email !== confirmEmail) {
+                    alert('Email addresses do not match. Please check and try again.');
+                    return;
+                }
+                
+                // Show success modal
+                successModal.style.display = 'flex';
+            });
+            
+            okButton.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+        });
+    </script>
+
+</body></html>
