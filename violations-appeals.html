@@ -1,120 +1,97 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Violations &amp; Appeals</title>
+  <title>Violations & Appeals</title>
   <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
   <style>
-    * {
-      font-family: "Inter", serif;
-    }
-    body {
-      margin: 0!important;
-      background: #f4f4f4;
-    }
+    * { font-family: "Inter", serif; box-sizing: border-box; }
+    body { margin: 0!important; background: #f4f4f4; color: #333; }
 
-    /* Reuse header and sidebar from your code */
     header {
-      position: sticky;
-      box-sizing: border-box;
-      top: 0;
-      width: 100%;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 10px;
-      background: #fff;
-      color: #000;
-      z-index: 1000;
-      border-bottom: 1px solid #ddd;
+      position: sticky; top: 0; width: 100%; height: 44px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 10px; background: #fff; border-bottom: 1px solid #ddd; z-index: 1000;
     }
     .left, .right { display: flex; align-items: center; }
     .left img { height: 32px; margin-right: 32px; }
-    .left span { font-weight: bold; margin-right: 32px; font-size: 16px; }
     .left nav a { margin-right: 32px; text-decoration: none; color: inherit; font-size: 16px; }
     .right .user-circle { width: 32px; height: 32px; border-radius: 50%; background: #eee; margin-right: 5px; }
-    .right span, .right img { font-size: 16px; margin-left: 5px; margin-right: 10px; }
-    .right img { width: 32px; height: 32px; }
+    .right img { width: 32px; height: 32px; margin-left: 5px; }
 
-    /* Sidebar */
     #sidebar {
-      position: fixed;
-      top: 44px;
-      left: 0;
-      width: 160px;
-      height: 100%;
-      background: #fff;
-      border-right: 1px solid #ddd;
-      padding: 16px;
-      box-sizing: border-box;
-      font-size: 16px;
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 900;
+      position: fixed; top: 44px; left: 0; width: 160px; height: 100%;
+      background: #fff; border-right: 1px solid #ddd; padding: 16px;
+      display: none; flex-direction: column; gap: 12px; z-index: 900;
     }
-    #sidebar a, #sidebar .premium-btn {
-      display: block;
-      text-decoration: none;
-      color: #000;
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-    .premium-btn {
-      margin-top: auto;
-      padding: 8px;
-      border: none;
-      background: #ffd633;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+    #sidebar a, #sidebar .premium-btn { display: block; margin-bottom: 12px; color: #000; text-decoration: none; }
+    .premium-btn { margin-top: auto; padding: 8px; border: none; background: #ffd633; border-radius: 4px; font-weight: 600; cursor: pointer; }
     #hamburger { display: none; font-size: 22px; cursor: pointer; margin-right: 12px; }
-    @media (max-width: 1599px) { #sidebar { display: none; } #hamburger { display: block; } }
-    @media (min-width: 1600px) { #sidebar { display: flex; } }
+    @media (max-width: 1599px){ #sidebar{display:none;} #hamburger{display:block;} }
+    @media (min-width: 1600px){ #sidebar{display:flex;} }
+
     #logo { content: url("https://boibyban.github.io/boibylongdark.png"); height: 36px; }
 
-    /* Main content box */
+    /* Main content centered */
     .main-container {
-      margin-left: 180px;
       padding: 20px;
       max-width: 900px;
+      margin: 30px auto;
     }
-    h2 {
-      margin-top: 0;
-      font-size: 32px;
-    }
+    h2 { font-size: 32px; margin-top: 0; }
 
     .card {
       background: #fff;
-      border-radius: 0;
-      padding: 16px 24px 16px 24px;
+      padding: 16px 24px;
       margin-bottom: 14px;
       cursor: pointer;
       transition: background 0.2s;
     }
-    .card:hover {
-      background: #f0f0f0;
+    .card:hover { background: #f0f0f0; }
+    .card h3 { margin: 0; font-size: 16px; font-weight: 600; }
+    .card p { margin: 4px 0 0; font-size: 14px; color: #555; }
+
+    .violation-box {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid #ddd;
     }
-    .card h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
+    .appeal-btn {
+      margin-top: 15px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      background: #4a90e2;
+      color: #fff;
+      cursor: pointer;
     }
-    .card p {
-      margin: 4px 0 0 0;
-      font-size: 14px;
-      color: #555;
+    .appeal-btn.received { background: #aaa; cursor: default; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.5);
+      display: none; align-items: center; justify-content: center;
+      z-index: 10000;
     }
-    .timestamp {
-      font-size: 12px;
-      color: #888;
-      float: right;
+    .modal {
+      background: #fff; border-radius: 8px; padding: 30px;
+      max-width: 500px; width: 90%; text-align: center;
+    }
+    .modal textarea {
+      width: 100%; padding: 10px; min-height: 120px;
+      border: 1px solid #ddd; border-radius: 6px;
+    }
+    .modal-btn {
+      margin-top: 15px; background: #4a90e2; color: #fff;
+      border: none; border-radius: 6px; padding: 10px 18px; cursor: pointer;
     }
   </style>
 </head>
 <body>
-<header id="header">
+<header>
   <div class="left">
     <div id="hamburger">☰</div>
     <img id="logo" src="boibylongdark.png" alt="Boiby Logo">
@@ -147,17 +124,89 @@
   <button style="display:none" class="premium-btn">Get Premium</button>
 </div>
 
-<div class="main-container" style="
-    margin-top: 30px;
-">
-  <h2>Violations &amp; Appeals</h2>
+<div class="main-container">
+  <h2>Violations & Appeals</h2>
   <p>View past violations and manage your appeals. All content and behavior must adhere to the Boiby Community Rules.</p>
+
+  <div id="cards"></div>
 
   <div class="card" onclick="window.location.href='/report-mistake'">
     <h3>Appeal a decision that is not shown</h3>
-    <p>You may requst an appeal for something that is not shown here.</p>
+    <p>You may request an appeal for something that is not shown here.</p>
+  </div>
+
+  <div id="violationDetails"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="appealModal">
+  <div class="modal">
+    <h2>Submit Appeal</h2>
+    <p>Please explain why you believe this was a mistake:</p>
+    <textarea id="appealText"></textarea>
+    <button class="modal-btn" id="submitAppeal">Submit</button>
   </div>
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cardsContainer = document.getElementById("cards");
+  const detailsContainer = document.getElementById("violationDetails");
+  const modal = document.getElementById("appealModal");
+  const submitBtn = document.getElementById("submitAppeal");
+  let activeAppealBtn = null;
 
-</body></html>
+  // Example localStorage violation data
+  // localStorage.setItem("violations", JSON.stringify({
+  //   modernViolations: [
+  //     { violationType: "Image", reason: "Inappropriate content", evidence: "https://via.placeholder.com/150" },
+  //     { violationType: "Model", reason: "Misuse of assets", evidence: "Cool Model" }
+  //   ],
+  //   classicViolations: []
+  // }));
+
+  const formData = JSON.parse(localStorage.getItem("violations") || "{}");
+  if (formData.modernViolations && formData.modernViolations.length > 0) {
+    formData.modernViolations.forEach((v, idx) => {
+      if (v.violationType === "General/Chat") return;
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<h3>Your ${v.violationType} broke the rules</h3><p>${v.reason}</p>`;
+      card.addEventListener("click", () => {
+        detailsContainer.innerHTML = `
+          <div class="violation-box">
+            <h3>Your ${v.violationType} broke the rules</h3>
+            <p><b>Reason:</b> ${v.reason}</p>
+            <p><b>Evidence:</b> ${v.evidence || "N/A"}</p>
+            <button class="appeal-btn">Request Appeal</button>
+          </div>
+        `;
+        const appealBtn = detailsContainer.querySelector(".appeal-btn");
+        appealBtn.addEventListener("click", () => {
+          if (appealBtn.classList.contains("received")) return;
+          activeAppealBtn = appealBtn;
+          modal.style.display = "flex";
+        });
+      });
+      cardsContainer.appendChild(card);
+    });
+  }
+
+  // Modal submit
+  submitBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    if (activeAppealBtn) {
+      activeAppealBtn.textContent = "Appeal received";
+      activeAppealBtn.classList.add("received");
+    }
+    document.getElementById("appealText").value = "";
+  });
+
+  // Close modal on outside click
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+});
+</script>
+</body>
+</html>
