@@ -7,7 +7,403 @@ document.addEventListener("DOMContentLoaded", () => {
   const modernViolations = formData?.modernViolations || [];
 
   // Always render default card
-  const defaultCard = document.createElement("div");
+  const defaultCard = document.createElement("div");a<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Violations & Appeals — Fixed</title>
+  <style>
+    * { box-sizing: border-box; font-family: "Inter", serif; }
+    body { margin: 0; background:#f4f4f4; color:#222; }
+
+    /* header / sidebar (kept from your design) */
+    header {
+      position: sticky; top: 0; width: 100%; height: 44px;
+      background:#fff; border-bottom:1px solid #ddd;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 10px; z-index:1000;
+    }
+    .left, .right { display:flex; align-items:center; }
+    .left img { height:32px; margin-right:32px; }
+    .left nav a { margin-right:22px; text-decoration:none; color:inherit; font-size:16px; }
+    .right .user-circle { width:32px; height:32px; border-radius:50%; background:#eee; margin-right:8px; }
+    .right img { width:32px; height:32px; margin-left:6px; }
+
+    #sidebar {
+      position:fixed; top:44px; left:0; width:160px; height:100%;
+      background:#fff; border-right:1px solid #ddd; padding:16px; display:none;
+      flex-direction:column; gap:12px; z-index:900;
+    }
+    #sidebar a { color:#000; text-decoration:none; font-size:16px; display:block; margin-bottom:8px; }
+    @media (min-width:1600px) { #sidebar{display:flex;} }
+    @media (max-width:1599px) { #hamburger{display:block;} }
+
+    /* center main content */
+    .main-container {
+      max-width:900px; margin: 30px auto; padding:20px;
+    }
+    h2 { font-size:32px; margin:0 0 6px 0; }
+    p.lead { color:#555; margin-top:6px; margin-bottom:18px; }
+
+    /* cards */
+    .card {
+      background:#fff; padding:16px 22px; margin-bottom:12px;
+      cursor:pointer; border-radius:6px; border:1px solid #e6e6e6;
+      transition:background .12s, transform .06s;
+    }
+    .card:hover { background:#f7f7f7; transform:translateY(-1px); }
+    .card h3 { margin:0; font-size:16px; font-weight:600; }
+    .card p { margin:6px 0 0 0; color:#555; font-size:14px; }
+
+    /* evidence box (modern violation rendering) */
+    .evidence-box {
+      background:#fff; padding:18px; margin-top:18px;
+      border:1px solid #e0e0e0; border-radius:6px;
+    }
+    .evidence-box p { margin:8px 0; font-size:15px; color:#333; }
+    .evidence-box b { font-weight:700; }
+
+    .evidence-image {
+      display:block; margin-top:8px; max-width:360px; height:auto; object-fit:contain;
+      border:1px solid #eee; border-radius:4px;
+    }
+
+    .appeal-btn {
+      display:inline-block; margin-top:12px; padding:10px 14px; border-radius:6px;
+      border:0; background:#4a90e2; color:white; cursor:pointer; font-weight:600;
+    }
+    .appeal-btn.received { background:#9aa0a6; cursor:default; }
+
+    /* modal */
+    .modal-overlay {
+      position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+      background:rgba(0,0,0,0.45); z-index:10000;
+    }
+    .modal {
+      background:#fff; width:90%; max-width:560px; border-radius:8px; padding:20px 22px;
+      box-shadow:0 6px 30px rgba(0,0,0,0.15); text-align:left;
+    }
+    .modal h3 { margin:0 0 8px 0; font-size:20px; }
+    .modal textarea { width:100%; min-height:120px; padding:10px; border-radius:6px; border:1px solid #ddd; resize:vertical; font-size:14px; }
+    .modal .row { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+    .btn { padding:9px 12px; border-radius:6px; border:0; cursor:pointer; font-weight:600; }
+    .btn.primary { background:#4a90e2; color:#fff; }
+    .btn.ghost { background:#f1f1f1; color:#333; }
+
+    /* small utilities */
+    pre.summary { white-space:pre-wrap; background:#fafafa; padding:12px; border-radius:6px; border:1px solid #eee; font-size:14px; color:#333; }
+  </style>
+</head>
+<body>
+
+<header id="header">
+  <div class="left">
+    <div id="hamburger" style="display:none">☰</div>
+    <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
+    <nav>
+      <a href="#">Discover</a>
+      <a href="#">Catalog</a>
+      <a href="#">Develop</a>
+      <a href="#">Boibucks</a>
+    </nav>
+  </div>
+  <div class="right">
+    <div class="user-circle"></div>
+    <span id="username" style="font-weight:500;">d</span>
+    <img src="https://boibyban.github.io/bgreen.png" alt="Boibucks">
+    <span>?</span>
+  </div>
+</header>
+
+<div id="sidebar">
+  <a href="#">Home</a>
+  <a href="#">Profile</a>
+  <a href="#">Discover</a>
+  <a href="#">Catalog</a>
+  <a href="#">Acquaintances</a>
+  <a href="#">Chat</a>
+  <a href="#">Trade</a>
+  <a href="#">Money</a>
+  <a href="#">Develop</a>
+  <a href="#">Premium</a>
+</div>
+
+<main class="main-container" id="main">
+  <h2>Violations &amp; Appeals</h2>
+  <p class="lead">View past violations and manage your appeals. All content and behavior must adhere to the Boiby Community Rules.</p>
+
+  <!-- Where cards are inserted -->
+  <div id="cards"></div>
+
+  <!-- Default "appeal something not shown" card (always present) -->
+  <div class="card" id="defaultAppeal">
+    <h3>Appeal a decision that is not shown</h3>
+    <p>You may request an appeal for something that is not shown here.</p>
+  </div>
+
+  <!-- Where the modern violation box will be rendered when card clicked -->
+  <div id="violationDetails"></div>
+</main>
+
+<!-- Modal overlay (reused for the two-step appeal flow) -->
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" id="modalContent">
+    <!-- content injected dynamically -->
+  </div>
+</div>
+
+<script>
+(function(){
+  /* small safe HTML escaper */
+  function esc(s){ return String(s === undefined || s === null ? '' : s)
+                    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+  // Sample format for localStorage (uncomment to test in console)
+  // localStorage.setItem('violations', JSON.stringify({
+  //   modernViolations: [
+  //     { violationType: "Image", reason: "Inappropriate content", evidence: "https://via.placeholder.com/360", assetId: "12345" },
+  //     { violationType: "Model", reason: "Misuse of assets", evidence: "MyModelName", assetId: "67890" }
+  //   ],
+  //   classicViolations: []
+  // }));
+
+  const data = JSON.parse(localStorage.getItem('violations') || '{}');
+  const modern = Array.isArray(data.modernViolations) ? data.modernViolations : [];
+  const cardsRoot = document.getElementById('cards');
+  const detailsRoot = document.getElementById('violationDetails');
+  const defaultAppeal = document.getElementById('defaultAppeal');
+
+  // default card -> go to report page
+  defaultAppeal.addEventListener('click', () => { window.location.href = '/report-mistake'; });
+
+  // no modern violations -> nothing to render (spec)
+  if (!modern.length) {
+    // done: only default card present
+    return;
+  }
+
+  // Create a card for each modern violation (skip general/chat)
+  modern.forEach((mv, idx) => {
+    if (!mv || mv.violationType === "General/Chat" || mv.violationType === "General / Chat") return;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<h3>Your ${esc(mv.violationType)} broke the rules</h3><p>${esc(mv.reason || '')}</p>`;
+    card.addEventListener('click', () => {
+      renderModernViolationBox(mv, idx);
+      // scroll to details
+      detailsRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    cardsRoot.appendChild(card);
+  });
+
+  // render modern violation box (same structure as your ban logic)
+  function renderModernViolationBox(violation, idx) {
+    detailsRoot.innerHTML = ''; // single-details replacement
+    const container = document.createElement('div');
+    container.className = 'evidence-box';
+
+    // Violation Reason
+    const reasonP = document.createElement('p');
+    reasonP.innerHTML = `Violation<br><b>${esc(violation.reason || 'Unknown reason')}</b>`;
+    container.appendChild(reasonP);
+
+    // Asset ID (if provided)
+    const idP = document.createElement('p');
+    idP.innerHTML = `Asset ID<br><b>${esc(violation.assetId || 'N/A')}</b>`;
+    container.appendChild(idP);
+
+    // Type-specific fields
+    const type = violation.violationType || '';
+    switch(type) {
+      case "Model": {
+        const modelNameP = document.createElement('p');
+        modelNameP.innerHTML = `Model Name<br><b>${esc(violation.evidence || 'N/A')}</b>`;
+        container.appendChild(modelNameP);
+
+        const modelLabel = document.createElement('p');
+        modelLabel.textContent = 'Model';
+        container.appendChild(modelLabel);
+        break;
+      }
+      case "UGC Bundle":
+      case "UGC Accessory": {
+        const bundleNameP = document.createElement('p');
+        bundleNameP.innerHTML = `${type === 'UGC Bundle' ? 'Bundle Name' : 'Accessory Name'}<br><b>${esc(violation.evidence || 'N/A')}</b>`;
+        container.appendChild(bundleNameP);
+
+        const bundleLabel = document.createElement('p');
+        bundleLabel.textContent = (type === 'UGC Bundle' ? 'Bundle' : 'Accessory');
+        container.appendChild(bundleLabel);
+        break;
+      }
+      case "Image":
+      case "Profile Picture": {
+        // ensure asset id already shown above; show image evidence
+        const imageLabelP = document.createElement('p');
+        imageLabelP.textContent = (type === 'Profile Picture' ? 'Profile Picture' : 'Image');
+        container.appendChild(imageLabelP);
+
+        const img = document.createElement('img');
+        img.className = 'evidence-image';
+        img.alt = esc(violation.reason || 'evidence image');
+        img.src = violation.evidence || ''; // if empty, it will be broken — we handle fallback below
+        img.onerror = function(){ this.style.display='none'; };
+        container.appendChild(img);
+        break;
+      }
+      default: {
+        // Generic fallback: show evidence text if present
+        if (violation.evidence) {
+          const evP = document.createElement('p');
+          evP.innerHTML = `Evidence<br><b>${esc(violation.evidence)}</b>`;
+          container.appendChild(evP);
+        }
+      }
+    }
+
+    // Appeal button (reflect persisted appeal state if any)
+    const appealBtn = document.createElement('button');
+    appealBtn.className = 'appeal-btn';
+    appealBtn.type = 'button';
+    const status = violation.appealStatus || '';
+    if (status === 'received') {
+      appealBtn.textContent = 'Appeal received';
+      appealBtn.classList.add('received');
+      appealBtn.disabled = true;
+    } else {
+      appealBtn.textContent = 'Request Appeal';
+      appealBtn.addEventListener('click', () => openAppealFlow(violation, idx, appealBtn));
+    }
+    container.appendChild(appealBtn);
+
+    detailsRoot.appendChild(container);
+  }
+
+  /* Modal two-step appeal flow:
+     1) textarea form
+     2) confirmation with text preview and final confirm
+     On confirm -> mark modern[idx].appealStatus = 'received', save text, persist to localStorage and update button UI
+  */
+  const overlay = document.getElementById('modalOverlay');
+  const modalContent = document.getElementById('modalContent');
+
+  function openAppealFlow(violation, idx, triggerBtn) {
+    // Step 1: description entry
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden','false');
+
+    modalContent.innerHTML = `
+      <h3>Submit Appeal</h3>
+      <p>Please explain why you believe this was a mistake:</p>
+      <textarea id="appealText" placeholder="Describe why this should be reviewed..."></textarea>
+      <div class="row">
+        <button class="btn ghost" id="cancelBtn">Cancel</button>
+        <button class="btn primary" id="toConfirmBtn">Continue</button>
+      </div>
+    `;
+
+    const cancelBtn = modalContent.querySelector('#cancelBtn');
+    const toConfirmBtn = modalContent.querySelector('#toConfirmBtn');
+    const textArea = modalContent.querySelector('#appealText');
+
+    cancelBtn.addEventListener('click', closeModalOnce);
+    overlay.addEventListener('click', overlayClickHandler);
+
+    toConfirmBtn.addEventListener('click', () => {
+      const text = (textArea.value || '').trim();
+      if (!text) { alert('Please enter some details for your appeal.'); return; }
+      // Step 2: confirmation
+      modalContent.innerHTML = `
+        <h3>Confirm Appeal</h3>
+        <p>You're about to submit this appeal. Review the text below and confirm.</p>
+        <pre class="summary">${esc(text)}</pre>
+        <div class="row">
+          <button class="btn ghost" id="backBtn">Back</button>
+          <button class="btn primary" id="finalConfirmBtn">Confirm & Submit</button>
+        </div>
+      `;
+
+      const backBtn = modalContent.querySelector('#backBtn');
+      const finalBtn = modalContent.querySelector('#finalConfirmBtn');
+
+      backBtn.addEventListener('click', () => {
+        // reopen entry step with previous text so the user can edit
+        openAppealFlow_withInitialText(violation, idx, triggerBtn, text);
+      });
+
+      finalBtn.addEventListener('click', () => {
+        // finalize appeal: persist and update UI
+        // update in-memory + localStorage
+        if (!Array.isArray(data.modernViolations)) data.modernViolations = modern;
+        data.modernViolations[idx] = data.modernViolations[idx] || {};
+        data.modernViolations[idx].appealStatus = 'received';
+        data.modernViolations[idx].appealText = text;
+        try { localStorage.setItem('violations', JSON.stringify(data)); } catch(e) { console.warn('Failed to persist appeal to localStorage', e); }
+
+        // update the button UI immediately
+        triggerBtn.textContent = 'Appeal received';
+        triggerBtn.classList.add('received');
+        triggerBtn.disabled = true;
+
+        // small success message inside modal
+        modalContent.innerHTML = `
+          <h3>We received your appeal</h3>
+          <p>Responses may take up to 5 business days.</p>
+          <div class="row">
+            <button class="btn primary" id="closeOk">Okay</button>
+          </div>
+        `;
+        modalContent.querySelector('#closeOk').addEventListener('click', closeModalOnce);
+      });
+    }, { once: true });
+  }
+
+  function openAppealFlow_withInitialText(violation, idx, triggerBtn, initialText) {
+    // restores the entry step preserving text
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden','false');
+
+    modalContent.innerHTML = `
+      <h3>Submit Appeal</h3>
+      <p>Please explain why you believe this was a mistake:</p>
+      <textarea id="appealText">${esc(initialText)}</textarea>
+      <div class="row">
+        <button class="btn ghost" id="cancelBtn">Cancel</button>
+        <button class="btn primary" id="toConfirmBtn">Continue</button>
+      </div>
+    `;
+
+    modalContent.querySelector('#cancelBtn').addEventListener('click', closeModalOnce, { once: true });
+    modalContent.querySelector('#toConfirmBtn').addEventListener('click', () => {
+      const t = (modalContent.querySelector('#appealText').value || '').trim();
+      if (!t) { alert('Please enter some details for your appeal.'); return; }
+      // go to confirmation step (reuse logic)
+      openAppealFlow(violation, idx, triggerBtn);
+      // prefill by simulating back button with initial text - simpler: call openAppealFlow_withInitialText again after openAppealFlow renders
+      // but to keep flow simple, re-call openAppealFlow_withInitialText with t
+      setTimeout(()=> openAppealFlow_withInitialText(violation, idx, triggerBtn, t), 0);
+    }, { once: true });
+  }
+
+  function closeModalOnce() {
+    overlay.style.display = 'none';
+    overlay.setAttribute('aria-hidden','true');
+    overlay.removeEventListener('click', overlayClickHandler);
+  }
+
+  function overlayClickHandler(e) {
+    if (e.target === overlay) closeModalOnce();
+  }
+
+})();
+</script>
+
+</body>
+</html>
+
   defaultCard.className = "card";
   defaultCard.innerHTML = `
     <h3>Appeal a decision that is not shown</h3>
