@@ -692,7 +692,7 @@ body.dark-mode .menu-dots:hover {
             </ul>
             
             <div class="modal-footer left-align">
-                <a href="/appeals-form" class="modal-button appeal-button">Report a mistake</a>
+                <a href="/report-mistake" class="modal-button appeal-button">Report a mistake</a>
             </div>
             
             <!-- Reactivate container only shown for warnings -->
@@ -959,7 +959,7 @@ function resetActionButtons() {
 	const formData = JSON.parse(localStorage.getItem('banFormData'));
 	if (formData && formData.state === "Delete") {
 		actionButtons.innerHTML = `
-                    <a href="/appeals-form" class="modal-button logout-button">Request appeal</a>
+                    <a href="/report-mistake" class="modal-button logout-button">Report a mistake</a>
                 `;
 	} else {
 		actionButtons.innerHTML = `
@@ -1052,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				continueBtn.remove();
 			}
 			const appealBtn = document.createElement('a');
-			appealBtn.href = '/appeals-form';
+			appealBtn.href = '/report-mistake';
 			appealBtn.className = 'modal-button permanent-appeal-button';
 			appealBtn.textContent = translations[language]["Action.ReportAMistake"] || "Report a mistake";
 			document.getElementById('actionButtons').prepend(appealBtn);
