@@ -30,6 +30,7 @@ window.translations = {
         "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
         "Text.AppealsMessage": "To request an appeal visit the {0}.",
         "Description.GoToAppeals": "If you wish to appeal, please go to the {0}.",
+        "Text.DidWeMistake": "Did we make a mistake? You may appeal this decision {0}."
         "Label.TermsOfUse": "Terms of Use",
         "Label.CommunityRules": "Boiby Community Rules",
         "Label.AppealsForm": "Appeals Form",
@@ -41,6 +42,8 @@ window.translations = {
         "Label.RecentViolation": "Recent Violation",
         "Label.ViolationDetails": "Violation Details",
         "Text.ParentReactivate": "Your parent or guardian must help you re-activate this account.",
+
+        "Label.Here": "here",
         
         "Button.Logout": "Logout",
         "Button.Reactivate": "Re-Activate Account",
