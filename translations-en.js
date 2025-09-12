@@ -24,13 +24,12 @@ window.translations = {
         "Description.Ban": "Your account has been disabled. You may re-activate it after {0}.",
         "Description.BanV2": "Your account was suspended due to a recent violation. You may re-activate it after {0}.",
         "Description.Delete": "Your account has been terminated.",
-        "Description.DeleteV2": "Your account has been permanently banned due to repeated or serious rule violations.",
       
         "Text.TermsMessage": "We have determined that your behaviour or actions on Boiby have been in violation of our {0}.",
         "Text.CommunityStandardMessage": "Please abide by the {0} so that Boiby can be a safe and enjoyable place for everyone.",
         "Text.AppealsMessage": "To request an appeal visit the {0}.",
-        "Description.GoToAppeals": "If you wish to appeal, please go to the {0}.",
         "Text.DidWeMistake": "Did we make a mistake? You may appeal this decision {0}.",
+        
         "Label.TermsOfUse": "Terms of Use",
         "Label.CommunityRules": "Boiby Community Rules",
         "Label.AppealsForm": "Appeals Form",
@@ -40,7 +39,7 @@ window.translations = {
         "Label.Reason": "Reason",
         "Label.OffensiveItem": "Offensive Item",
         "Label.RecentViolation": "Recent Violation",
-        "Label.ViolationDetails": "Violation Details",
+        
         "Text.ParentReactivate": "Your parent or guardian must help you re-activate this account.",
 
         "Label.Here": "here",
@@ -96,11 +95,9 @@ window.translations = {
         "Description.FollowTheRules": "Make sure you know and follow the rules. {0}",
 
         "Action.FollowRulesLink": "View rules",
-        "Action.RequestAppeal": "Request Appeal",
         "Action.Logout": "Logout",
         "Action.Continue": "Continue",
         "Action.ReportAMistake": "Report a mistake",
-        "Action.RequestAppealV2": "Request an appeal",
         "Action.Back": "Back"
     }
 };
