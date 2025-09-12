@@ -1,212 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Violations & Appeals</title>
-  <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
-  <style>
-    * { font-family: "Inter", serif; box-sizing: border-box; }
-    body { margin: 0!important; background: #f4f4f4; color: #333; }
-
-    header {
-      position: sticky; top: 0; width: 100%; height: 44px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 10px; background: #fff; border-bottom: 1px solid #ddd; z-index: 1000;
-    }
-    .left, .right { display: flex; align-items: center; }
-    .left img { height: 32px; margin-right: 32px; }
-    .left nav a { margin-right: 32px; text-decoration: none; color: inherit; font-size: 16px; }
-    .right .user-circle { width: 32px; height: 32px; border-radius: 50%; background: #eee; margin-right: 5px; }
-    .right img { width: 32px; height: 32px; margin-left: 5px; }
-
-    #sidebar {
-      position: fixed; top: 44px; left: 0; width: 160px; height: 100%;
-      background: #fff; border-right: 1px solid #ddd; padding: 16px;
-      display: none; flex-direction: column; gap: 12px; z-index: 900;
-    }
-    #sidebar a, #sidebar .premium-btn { display: block; margin-bottom: 12px; color: #000; text-decoration: none; }
-    .premium-btn { margin-top: auto; padding: 8px; border: none; background: #ffd633; border-radius: 4px; font-weight: 600; cursor: pointer; }
-    #hamburger { display: none; font-size: 22px; cursor: pointer; margin-right: 12px; }
-    @media (max-width: 1599px){ #sidebar{display:none;} #hamburger{display:block;} }
-    @media (min-width: 1600px){ #sidebar{display:flex;} }
-
-    #logo { content: url("https://boibyban.github.io/boibylongdark.png"); height: 36px; }
-
-    /* Main content centered */
-    .main-container {
-      padding: 20px;
-      max-width: 900px;
-      margin: 30px auto;
-    }
-    h2 { font-size: 32px; margin-top: 0; }
-
-    .card {
-      background: #fff;
-      padding: 16px 24px;
-      margin-bottom: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .card:hover { background: #f0f0f0; }
-    .card h3 { margin: 0; font-size: 16px; font-weight: 600; }
-    .card p { margin: 4px 0 0; font-size: 14px; color: #555; }
-
-    .violation-box {
-      background: #fff;
-      padding: 20px;
-      margin-top: 20px;
-      border: 1px solid #ddd;
-    }
-    .appeal-btn {
-      margin-top: 15px;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      background: #4a90e2;
-      color: #fff;
-      cursor: pointer;
-    }
-    .appeal-btn.received { background: #aaa; cursor: default; }
-
-    /* Modal */
-    .modal-overlay {
-      position: fixed; top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.5);
-      display: none; align-items: center; justify-content: center;
-      z-index: 10000;
-    }
-    .modal {
-      background: #fff; border-radius: 8px; padding: 30px;
-      max-width: 500px; width: 90%; text-align: center;
-    }
-    .modal textarea {
-      width: 100%; padding: 10px; min-height: 120px;
-      border: 1px solid #ddd; border-radius: 6px;
-    }
-    .modal-btn {
-      margin-top: 15px; background: #4a90e2; color: #fff;
-      border: none; border-radius: 6px; padding: 10px 18px; cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-<header>
-  <div class="left">
-    <div id="hamburger">☰</div>
-    <img id="logo" src="boibylongdark.png" alt="Boiby Logo">
-    <nav>
-      <a href="#">Discover</a>
-      <a href="#">Catalog</a>
-      <a href="#">Develop</a>
-      <a href="#">Boibucks</a>
-    </nav>
-  </div>
-  <div class="right">
-    <div class="user-circle"></div>
-    <span id="username" style="font-weight:500;">d</span>
-    <img src="https://boibyban.github.io/bgreen.png" alt="Boibucks">
-    <span>?</span>
-  </div>
-</header>
-
-<div id="sidebar">
-  <a href="#">Home</a>
-  <a href="#">Profile</a>
-  <a href="#">Discover</a>
-  <a href="#">Catalog</a>
-  <a href="#">Acquaintances</a>
-  <a href="#">Chat</a>
-  <a href="#">Trade</a>
-  <a href="#">Money</a>
-  <a href="#">Develop</a>
-  <a href="#">Premium</a>
-  <button style="display:none" class="premium-btn">Get Premium</button>
-</div>
-
-<div class="main-container">
-  <h2>Violations & Appeals</h2>
-  <p>View past violations and manage your appeals. All content and behavior must adhere to the Boiby Community Rules.</p>
-
-  <div id="cards"></div>
-
-  <div class="card" onclick="window.location.href='/report-mistake'">
-    <h3>Appeal a decision that is not shown</h3>
-    <p>You may request an appeal for something that is not shown here.</p>
-  </div>
-
-  <div id="violationDetails"></div>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="appealModal">
-  <div class="modal">
-    <h2>Submit Appeal</h2>
-    <p>Please explain why you believe this was a mistake:</p>
-    <textarea id="appealText"></textarea>
-    <button class="modal-btn" id="submitAppeal">Submit</button>
-  </div>
-</div>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const cardsContainer = document.getElementById("cards");
-  const detailsContainer = document.getElementById("violationDetails");
-  const modal = document.getElementById("appealModal");
-  const submitBtn = document.getElementById("submitAppeal");
-  let activeAppealBtn = null;
+  const mainContainer = document.querySelector(".main-container");
 
-  // Example localStorage violation data
-  // localStorage.setItem("violations", JSON.stringify({
-  //   modernViolations: [
-  //     { violationType: "Image", reason: "Inappropriate content", evidence: "https://via.placeholder.com/150" },
-  //     { violationType: "Model", reason: "Misuse of assets", evidence: "Cool Model" }
-  //   ],
-  //   classicViolations: []
-  // }));
-
+  // Load violations from localStorage
   const formData = JSON.parse(localStorage.getItem("violations") || "{}");
-  if (formData.modernViolations && formData.modernViolations.length > 0) {
-    formData.modernViolations.forEach((v, idx) => {
-      if (v.violationType === "General/Chat") return;
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<h3>Your ${v.violationType} broke the rules</h3><p>${v.reason}</p>`;
-      card.addEventListener("click", () => {
-        detailsContainer.innerHTML = `
-          <div class="violation-box">
-            <h3>Your ${v.violationType} broke the rules</h3>
-            <p><b>Reason:</b> ${v.reason}</p>
-            <p><b>Evidence:</b> ${v.evidence || "N/A"}</p>
-            <button class="appeal-btn">Request Appeal</button>
-          </div>
-        `;
-        const appealBtn = detailsContainer.querySelector(".appeal-btn");
-        appealBtn.addEventListener("click", () => {
-          if (appealBtn.classList.contains("received")) return;
-          activeAppealBtn = appealBtn;
-          modal.style.display = "flex";
-        });
-      });
-      cardsContainer.appendChild(card);
-    });
+  const modernViolations = formData?.modernViolations || [];
+
+  // Always render default card
+  const defaultCard = document.createElement("div");
+  defaultCard.className = "card";
+  defaultCard.innerHTML = `
+    <h3>Appeal a decision that is not shown</h3>
+    <p>You may request an appeal for something that is not shown here.</p>
+  `;
+  defaultCard.onclick = () => (window.location.href = "/report-mistake");
+  mainContainer.appendChild(defaultCard);
+
+  // If no modern violations, stop here
+  if (!modernViolations.length) return;
+
+  // Create a section for rendered violation details
+  const violationDetails = document.createElement("div");
+  violationDetails.id = "violationDetails";
+  violationDetails.style.marginTop = "20px";
+  mainContainer.appendChild(violationDetails);
+
+  // Render a card for each modern violation
+  modernViolations.forEach((violation, idx) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>Your ${violation.violationType} broke the rules</h3>
+      <p>${violation.reason}</p>
+    `;
+
+    card.onclick = () => {
+      renderViolationBox(violation);
+    };
+
+    mainContainer.insertBefore(card, violationDetails);
+  });
+
+  // Function to render violation details box
+  function renderViolationBox(violation) {
+    violationDetails.innerHTML = ""; // clear previous
+
+    const box = document.createElement("div");
+    box.className = "evidence-box";
+    box.style.cssText = `
+      background: #fff;
+      padding: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    `;
+
+    const reason = document.createElement("p");
+    reason.innerHTML = `Violation<br><b>${violation.reason}</b>`;
+    box.appendChild(reason);
+
+    const id = document.createElement("p");
+    id.innerHTML = `Asset ID<br><b>${violation.assetId || "N/A"}</b>`;
+    box.appendChild(id);
+
+    // Name / type-specific labels
+    if (violation.violationType === "Model") {
+      const modelName = document.createElement("p");
+      modelName.innerHTML = `Model Name<br><b>${violation.evidence || "N/A"}</b>`;
+      box.appendChild(modelName);
+      const label = document.createElement("p");
+      label.textContent = "Model";
+      box.appendChild(label);
+    }
+    if (violation.violationType === "UGC Bundle") {
+      const bundleName = document.createElement("p");
+      bundleName.innerHTML = `Bundle Name<br><b>${violation.evidence || "N/A"}</b>`;
+      box.appendChild(bundleName);
+      const label = document.createElement("p");
+      label.textContent = "Bundle";
+      box.appendChild(label);
+    }
+    if (violation.violationType === "Image" || violation.violationType === "Profile Picture") {
+      const label = document.createElement("p");
+      label.textContent = violation.violationType;
+      box.appendChild(label);
+
+      const img = document.createElement("img");
+      img.className = "evidence-image";
+      img.src = violation.evidence;
+      img.style.maxWidth = "360px";
+      img.style.marginTop = "8px";
+      box.appendChild(img);
+    }
+
+    // Appeal button
+    const appealBtn = document.createElement("button");
+    appealBtn.textContent = "Request Appeal";
+    appealBtn.style.cssText = `
+      margin-top: 20px;
+      padding: 10px 16px;
+      background: #4a90e2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    `;
+    appealBtn.onclick = () => openAppealModal(appealBtn);
+    box.appendChild(appealBtn);
+
+    violationDetails.appendChild(box);
   }
 
-  // Modal submit
-  submitBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-    if (activeAppealBtn) {
-      activeAppealBtn.textContent = "Appeal received";
-      activeAppealBtn.classList.add("received");
-    }
-    document.getElementById("appealText").value = "";
-  });
+  // Modal logic
+  const modalOverlay = document.createElement("div");
+  modalOverlay.className = "modal-overlay";
+  modalOverlay.style.display = "none";
+  modalOverlay.innerHTML = `
+    <div class="modal">
+      <h2>Submit Appeal</h2>
+      <textarea id="appealDescription" placeholder="Enter your appeal description" style="width:100%;min-height:100px;margin-bottom:12px;"></textarea>
+      <button id="submitAppeal" class="modal-btn">Submit</button>
+    </div>
+  `;
+  document.body.appendChild(modalOverlay);
 
-  // Close modal on outside click
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) modal.style.display = "none";
-  });
+  function openAppealModal(btn) {
+    modalOverlay.style.display = "flex";
+    modalOverlay.querySelector("#submitAppeal").onclick = () => {
+      modalOverlay.querySelector(".modal").innerHTML = `
+        <h2>We received your appeal</h2>
+        <p>Responses may take up to 5 business days.</p>
+        <button class="modal-btn" id="closeModal">Okay</button>
+      `;
+      modalOverlay.querySelector("#closeModal").onclick = () => {
+        modalOverlay.style.display = "none";
+        btn.textContent = "Appeal received";
+        btn.disabled = true;
+        btn.style.background = "#aaa";
+      };
+    };
+  }
 });
 </script>
-</body>
-</html>
