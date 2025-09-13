@@ -204,4 +204,33 @@
   const interventionElem = qs("#interventionIdItem");
   if(interventionElem) interventionElem.textContent = data.uuid;
 
+  async function checkBannedDevice() {
+  try {
+    const bannedDevices = await fetch("/device_database.json")
+      .then(r => r.json())
+      .catch(() => []);
+    
+    const match = bannedDevices.some(ban => {
+      const cpuMatch = ban.cpu ? data.browserName + " " + data.logicalCPUCores === ban.cpu || data.cpuName === ban.cpu : true;
+      const ramMatch = ban.ram ? data.deviceMemoryGB >= ban.ram : true;
+      const gpuMatch = ban.gpu
+        ? (data.gpu.renderer && data.gpu.renderer.includes(ban.gpu.renderer)) &&
+          (data.gpu.vendor && data.gpu.vendor.includes(ban.gpu.vendor))
+        : true;
+      return cpuMatch && ramMatch && gpuMatch;
+    });
+
+    if(match){
+      const path = window.location.pathname;
+      const restrictedPaths = ["/not-approved","/Membership/NotApproved","/users"];
+      if(restrictedPaths.some(p => path.startsWith(p))){
+        window.location.href = "/device-restricted.html";
+      }
+    }
+  } catch(e){ console.error("Banned device check failed:", e); }
+}
+
+// Run check
+checkBannedDevice();
+
 })();
