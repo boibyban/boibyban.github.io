@@ -774,7 +774,7 @@
     upgrades: {
       coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
       chip: ["Boiby B5 Pro chip with 14-core CPU and 24-core GPU (base)"],
-      memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)"/*,"64 GB unified memory (+A$400)"*/],
+      memory: ["24 GB unified memory (base)", "32 GB unified memory (+A$100)", "48 GB unified memory (+A$200)" ,"64 GB unified memory (+A$300)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
       adapter: ["135W USB-C Power Adapter (base)"]
     }
@@ -841,9 +841,11 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
           
           <p><strong>24 GB:</strong> Good for users with standard or relatively intensive workflows, good for multitasking with multiple apps, productivity, and moderate creative work. Ideal for those who do light to moderate video editing, gaming, graphic design, or programming, but don't push those to the extreme.</p>
           
-          <p><strong>36 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
+          <p><strong>32 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
           
           <p><strong>48 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
+
+          <p><strong>64 GB:</strong> Ideal for power users and creative professionals, such as those working with large and highly complex 3D models, editing multi-layer 8K video, or handling complex simulations and data analysis. This memory amount should handle running multiple virtual machines or advanced software development environments.</p>
         `,
         'B5 Max': `
           <p><strong>How much memory is right for you?</strong></p>
@@ -1158,71 +1160,99 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       }
       
       function handleDependencies() {
-        if (!selectedModel) return;
-        const cfg = baseConfigs[selectedSize][selectedModel];
-        const optionsDiv = $('#options');
-        if (!optionsDiv) return;
+  if (!selectedModel) return;
+  const cfg = baseConfigs[selectedSize][selectedModel];
+  const optionsDiv = $('#options');
+  if (!optionsDiv) return;
+
+  // canonical chip string (ensure we have one)
+  const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+
+  // MEMORY
+  const memoryGroup = findGroupByName('memory');
+  if (memoryGroup) {
+    const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
+    memPills.forEach(p => p.classList.remove('disabled'));
+
+    if (selectedModel === 'B5') {
+      // No restrictions for B5 model
+    }
+    else if (selectedModel === 'B5 Pro') {
+      // For B5 Pro, check if full chip is selected (14-core CPU and 24-core GPU)
+      const hasFullChip = chipFull.includes('14-core CPU and 24-core GPU');
       
-        // canonical chip string (ensure we have one)
-        const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
-      
-        // MEMORY
-        const memoryGroup = findGroupByName('memory');
-        if (memoryGroup) {
-          const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
-          memPills.forEach(p => p.classList.remove('disabled'));
-      
-          if (selectedModel === 'B5') {
-            // No restrictions for B5 model
-          }
-          else if (selectedModel === 'B5 Pro') {
-            // Existing B5 Pro restrictions
-          }
-          else if (selectedModel === 'B5 Max') {
-            // For B5 Max, enable/disable options based on chip selection
-            const hasBaseChip = chipFull.includes('38-core'); // Base chip
-            const hasTopChip = chipFull.includes('48-core');  // Full/upgraded chip
-            
-            memPills.forEach(p => {
-              // 48GB and 96GB only available with base chip
-              if (p.dataset.value.includes('48 GB') || p.dataset.value.includes('96 GB')) {
-                if (hasBaseChip && !hasTopChip) {
-                  p.classList.remove('disabled');
-                } else {
-                  p.classList.add('disabled');
-                }
-              }
-              // 64GB and 128GB only available with top chip
-              else if (p.dataset.value.includes('64 GB') || p.dataset.value.includes('128 GB')) {
-                if (hasTopChip) {
-                  p.classList.remove('disabled');
-                } else {
-                  p.classList.add('disabled');
-                }
-              }
-            });
-      
-            // If selected memory is disabled, pick first valid option
-            if (selectedOptions.memory) {
-              const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
-              if (cur && cur.classList.contains('disabled')) {
-                memPills.forEach(p => p.classList.remove('selected'));
-                const firstValid = memPills.find(p => !p.classList.contains('disabled'));
-                if (firstValid) {
-                  firstValid.classList.add('selected');
-                  selectedOptions.memory = firstValid.dataset.value;
-                } else {
-                  delete selectedOptions.memory;
-                }
-              }
-            }
-          }
-      
-          // sync UI selected pill with selectedOptions.memory
-          if (selectedOptions.memory) {
-            memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
+      memPills.forEach(p => {
+        // Enable all options except 64GB for base chip
+        if (p.dataset.value.includes('64 GB')) {
+          if (hasFullChip) {
+            p.classList.remove('disabled');
+          } else {
+            p.classList.add('disabled');
           }
         }
+      });
+
+      // If selected memory is disabled, pick first valid option
+      if (selectedOptions.memory) {
+        const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
+        if (cur && cur.classList.contains('disabled')) {
+          memPills.forEach(p => p.classList.remove('selected'));
+          const firstValid = memPills.find(p => !p.classList.contains('disabled'));
+          if (firstValid) {
+            firstValid.classList.add('selected');
+            selectedOptions.memory = firstValid.dataset.value;
+          } else {
+            delete selectedOptions.memory;
+          }
+        }
+      }
+    }
+    else if (selectedModel === 'B5 Max') {
+      // For B5 Max, check which chip is selected
+      const hasBaseChip = chipFull.includes('16-core CPU and 38-core GPU');
+      const hasFullChip = chipFull.includes('18-core CPU and 48-core GPU');
+      
+      memPills.forEach(p => {
+        // 48GB and 96GB only available with base chip
+        if (p.dataset.value.includes('48 GB') || p.dataset.value.includes('96 GB')) {
+          if (hasBaseChip) {
+            p.classList.remove('disabled');
+          } else {
+            p.classList.add('disabled');
+          }
+        }
+        // 64GB and 128GB only available with full chip
+        else if (p.dataset.value.includes('64 GB') || p.dataset.value.includes('128 GB')) {
+          if (hasFullChip) {
+            p.classList.remove('disabled');
+          } else {
+            p.classList.add('disabled');
+          }
+        }
+      });
+
+      // If selected memory is disabled, pick first valid option
+      if (selectedOptions.memory) {
+        const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
+        if (cur && cur.classList.contains('disabled')) {
+          memPills.forEach(p => p.classList.remove('selected'));
+          const firstValid = memPills.find(p => !p.classList.contains('disabled'));
+          if (firstValid) {
+            firstValid.classList.add('selected');
+            selectedOptions.memory = firstValid.dataset.value;
+          } else {
+            delete selectedOptions.memory;
+          }
+        }
+      }
+    }
+
+    // sync UI selected pill with selectedOptions.memory
+    if (selectedOptions.memory) {
+      memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
+    }
+  }
+
 
 
         // STORAGE
