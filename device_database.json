@@ -1,0 +1,10 @@
+[
+  {
+    "cpu": "AMD Ryzen 5 5600X",
+    "gpu": {
+      "renderer": "NVIDIA GeForce RTX 3060",
+      "vendor": "NVIDIA"
+    },
+    "ram": 32
+  }
+]
