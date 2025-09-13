@@ -1163,23 +1163,27 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
   // canonical chip string (ensure we have one)
   const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
 
-  // MEMORY - Fixed to work exactly like storage
+  // MEMORY - Completely rewritten to match storage logic
   const memoryGroup = findGroupByName('memory');
   if (memoryGroup) {
     const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
+    
+    // First remove disabled class from all memory options
     memPills.forEach(p => p.classList.remove('disabled'));
-
+    
+    // Apply model-specific restrictions
     if (selectedModel === 'B5 Pro') {
       // For B5 Pro, 64GB only available with full chip (14-core CPU and 24-core GPU)
       const hasFullChip = chipFull.includes('14-core CPU and 24-core GPU');
       
       memPills.forEach(p => {
         if (p.dataset.value.includes('64 GB')) {
-          p.classList.toggle('disabled', !hasFullChip);
+          if (!hasFullChip) {
+            p.classList.add('disabled');
+          }
         }
       });
-    }
-    else if (selectedModel === 'B5 Max') {
+    } else if (selectedModel === 'B5 Max') {
       // For B5 Max, check which chip is selected
       const hasBaseChip = chipFull.includes('16-core CPU and 38-core GPU');
       const hasTopChip = chipFull.includes('18-core CPU and 48-core GPU');
@@ -1187,20 +1191,27 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       memPills.forEach(p => {
         // 48GB and 96GB only available with base chip
         if (p.dataset.value.includes('48 GB') || p.dataset.value.includes('96 GB')) {
-          p.classList.toggle('disabled', !hasBaseChip);
+          if (!hasBaseChip) {
+            p.classList.add('disabled');
+          }
         }
         // 64GB and 128GB only available with top chip
         else if (p.dataset.value.includes('64 GB') || p.dataset.value.includes('128 GB')) {
-          p.classList.toggle('disabled', !hasTopChip);
+          if (!hasTopChip) {
+            p.classList.add('disabled');
+          }
         }
       });
     }
 
-    // If selected memory is disabled, pick first valid option - FIXED to work like storage
+    // If selected memory is disabled, pick first valid option
     if (selectedOptions.memory) {
       const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
       if (cur && cur.classList.contains('disabled')) {
+        // Remove selection from all memory options
         memPills.forEach(p => p.classList.remove('selected'));
+        
+        // Find first available option
         const firstValid = memPills.find(p => !p.classList.contains('disabled'));
         if (firstValid) {
           firstValid.classList.add('selected');
@@ -1211,13 +1222,13 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       }
     }
 
-    // sync UI selected pill with selectedOptions.memory - FIXED to work like storage
-    if (selectedOptions.memory) {
-      memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
-    }
+    // Ensure UI matches selectedOptions.memory
+    memPills.forEach(p => {
+      p.classList.toggle('selected', p.dataset.value === selectedOptions.memory);
+    });
   }
 
-  // STORAGE (keeping this as reference since it works)
+  // STORAGE (working section - keeping as is)
   const storageGroup = findGroupByName('storage');
   if (storageGroup) {
     const storPills = Array.from(storageGroup.querySelectorAll('.pill'));
