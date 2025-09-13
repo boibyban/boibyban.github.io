@@ -1167,6 +1167,14 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
   const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
 
   // MEMORY - Fixed logic
+  function handleDependencies() {
+  if (!selectedModel) return;
+  const cfg = baseConfigs[selectedSize][selectedModel];
+  
+  // Get chip selection
+  const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+  
+  // MEMORY - Fixed logic
   const memoryGroup = findGroupByName('memory');
   if (memoryGroup) {
     const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
@@ -1223,6 +1231,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       p.classList.toggle('selected', p.dataset.value === selectedOptions.memory);
     });
   }
+}
 
   // STORAGE (working section - keeping as is)
   const storageGroup = findGroupByName('storage');
