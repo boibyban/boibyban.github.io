@@ -1032,6 +1032,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
                 selectedOptions[category] = pill.dataset.value;
                 if (category === 'chip') handleDependencies(); // re-evaluate when chip changes
               }
+              handleDependencies();
               renderHeroSummary();
               updatePrice();
             });
@@ -1097,6 +1098,8 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
         handleDependencies();
         renderHeroSummary();
         updatePrice();
+
+        setTimeout(handleDependencies, 0);
       }
 
       function showMemoryModal(model) {
