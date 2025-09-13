@@ -1163,7 +1163,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
   // canonical chip string (ensure we have one)
   const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
 
-  // MEMORY - Completely rewritten to exactly match storage logic
+  // MEMORY - Fixed logic
   const memoryGroup = findGroupByName('memory');
   if (memoryGroup) {
     const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
@@ -1173,7 +1173,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     
     // Apply restrictions based on chip selection
     if (selectedModel === 'B5 Pro') {
-      // 64GB only available with full chip
+      // 64GB only available with full chip (14-core CPU and 24-core GPU)
       const hasFullChip = chipFull.includes('14-core CPU and 24-core GPU');
       memPills.forEach(p => {
         if (p.dataset.value.includes('64 GB') && !hasFullChip) {
@@ -1228,7 +1228,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     storPills.forEach(p => p.classList.remove('disabled'));
 
     if (selectedModel === 'B5 Max') {
-      const hasTopChip = chipFull.includes('48-core');
+      const hasTopChip = chipFull.includes('18-core CPU and 48-core GPU');
       storPills.forEach(p => {
         if (p.dataset.value.includes('12 TB')) {
           p.classList.toggle('disabled', !hasTopChip);
