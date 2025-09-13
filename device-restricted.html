@@ -1,0 +1,922 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boiby</title>
+    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+	<style>
+* {
+	font-family: "Inter", serif!important;
+}
+.modal-button.disabled-button {
+    border: 2px solid #ccc; /* Outline */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+}
+
+
+.suspension-text {
+    font-weight: bold; 
+}
+.view-toggle {
+	display:none;
+}
+.evidence-content {
+    display: block;
+    margin-top: 0px;
+    margin-bottom: 4px;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.evidence-content.hidden {
+    max-height: 0;
+    opacity: 0;
+}
+
+		
+.evidence-content.visible {
+    max-height: 100px;
+    opacity: 1;
+}
+
+.view-toggle {
+    color: #0066cc;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+.view-toggle:hover {
+    text-decoration: underline;
+}
+</style>
+     <style>
+.ban-modal {
+  width: 600px;
+  max-width: 92%
+}
+
+/* Mobile tweaks */
+@media (max-width: 775px) {
+  .ban-modal {
+    max-width: 92%!important;
+  }
+
+  /* Hide nav items if they don’t fit */
+  nav {
+    display: none!important;
+  }
+}
+		.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none; /* Prevent clicking when hidden */
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+  max-width: 100%;
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+		header {
+    position: fixed;
+    box-sizing: border-box;
+    top: 0;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    background: #fff;
+    color: #000;
+    z-index: 500;
+  }
+
+  .left, .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .left img {
+    height: 32px;
+    margin-right: 32px;
+  }
+
+  .left span {
+    font-weight: bold;
+    margin-right: 32px;
+    font-size: 16px;
+  }
+
+  .left nav a {
+    margin-right: 32px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+  }
+
+  .right .user-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #eee;
+    margin-right: 5px;
+  }
+
+  .right span, .right img {
+    font-size: 16px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+
+  .right img {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Dark mode */
+  header.dark {
+    background: #1F1F1F;
+    color: #eee;
+  }
+
+  header.dark .left nav a {
+    color: #eee;
+  }
+
+  header.dark .right .user-circle {
+    background: #555;
+  }
+		   /* Sidebar */
+#sidebar {
+  position: fixed;
+  top: 44px; /* below header */
+  left: 0;
+  width: 160px;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  display: none; /* default hidden for <1600px */
+  flex-direction: column;
+  gap: 12px;
+  z-index: 900;
+}
+
+#sidebar a, #sidebar .premium-btn {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.premium-btn {
+  margin-top: auto;
+  padding: 8px;
+  border: none;
+  background: #ffd633;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Dark mode */
+header.dark + #sidebar {
+  background: #1F1F1F;
+  border-right: 1px solid #444;
+}
+
+header.dark + #sidebar a,
+header.dark + #sidebar .premium-btn {
+  color: #eee;
+}
+
+/* Hamburger icon */
+#hamburger {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1599px) {
+  #sidebar {
+    display: none;
+  }
+  #hamburger {
+    display: block;
+  }
+}
+
+@media (min-width: 1600px) {
+  #sidebar {
+    display: flex;
+  }
+}
+#logo {
+  content: url("boibylongdark.png");
+  height: 36px; /* adjust as needed */
+}
+
+/* If .dark-mode is applied to body or header, swap to light logo */
+.dark-mode #logo {
+  content: url("boibylonglight.png");
+}
+
+            body.dark-mode {
+        background-color: #111 !important;
+    }
+
+    body.dark-mode .modal {
+        background: #1e1e1e !important;
+        color: #eee !important;
+    }
+
+    body.dark-mode .modal-header h2,
+    body.dark-mode .rules-broken,
+    body.dark-mode .permanent-ban-message,
+    body.dark-mode .latest-activity,
+    body.dark-mode .violation-text,
+    body.dark-mode #evidenceContainer p,
+    body.dark-mode #evidenceContainer b {
+        color: #eee !important;
+    }
+    
+    body.dark-mode a:visited {
+        text-decoration: none;
+        color: #eee;
+    }
+
+    body.dark-mode .modal-button.logout-button,
+    body.dark-mode .modal-button.rules-button,
+    body.dark-mode .modal-button.appeal-button,
+    body.dark-mode .modal-button.back-button {
+        background-color: #2a2a2a !important;
+        color: #eee !important;
+    }
+
+    body.dark-mode .reactivate-button:disabled,
+    body.dark-mode .disabled-button {
+        background-color: #333 !important;
+        color: #999 !important;
+    }
+		body.dark-mode .evidence-container,
+		body.dark-mode #evidenceContainer {
+			background-color: #292929!important;
+		}
+		body.dark-mode .interventionId {
+			color: #444!important;
+    		font-weight: 400;
+    		font-size: 14px;
+    		margin-top: 6px;
+		}
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7f7f8;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .modal {
+            width: 600px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 24px;
+            box-sizing: border-box;
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+            margin-top: 8px;
+            gap: 6px;
+            position: relative;
+        }
+        
+        .modal-header svg {
+            width: 20px;
+            height: 20px;
+            fill: #d32f2f;
+        }
+        
+        .permanent-ban-icon {
+            width: 20px;
+    height: 20px;
+    fill: #d32f2f;
+    margin-right: 3px;
+        }
+        
+        .modal-header h2 {
+            font-size: 21px;
+            font-weight: 600;
+            margin: 0;
+            color: #212121;
+        }
+        
+        .rules-broken {
+            color: #212121;
+            margin-bottom: 20px;
+        }
+        
+        .permanent-ban-message {
+            color: #212121;
+            margin-bottom: 20px;
+        }
+        
+        .latest-activity {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #212121;
+        }
+        
+        .violation-box {
+            border-bottom: 1px solid grey;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .evidence-container {
+    margin-bottom: 0;
+  padding: 15px;
+  background-color: #f5f5f5;
+  box-shadow: 0px 0px 1px 1px #eee;
+  border-radius: 8px;
+        }
+        .interventionId {
+			color: #ddd;
+    		font-weight: 400;
+    		font-size: 14px;
+    		margin-top: 6px;
+		}
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .modal-footer.left-align {
+            justify-content: flex-start;
+        }
+        
+        .modal-footer.dual-buttons {
+            justify-content: space-between;
+        }
+
+		.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); 
+  z-index: 999; 
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* sits above backdrop */
+}
+
+        .violation-text {
+            font-weight: 600!important;
+        }
+        
+        .modal-button {
+                padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 525;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+        }
+        
+        .continue-button {
+            background-color: #149b6c;
+            color: white;
+        }
+        
+        .reactivate-button {
+            background-color: #149b6c;
+            color: white;
+        }
+        
+        .reactivate-button:disabled {
+            background-color: #f5f5f5;
+            color: #444;
+            cursor: not-allowed;
+        }
+        
+        .logout-button, .rules-button, .appeal-button, .back-button {
+            background-color: #eee!important;
+            color: #212121;
+        }
+        
+        .permanent-appeal-button {
+            background-color: #eee!important;
+            color: #212121;
+			padding: 8px 16px;
+			border: none
+        }
+        
+        .disabled-button {
+            background-color: #f5f5f5;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
+        #evidenceContainer p {
+            margin: 0;
+        }
+        
+        #evidenceContainer b {
+            font-weight: 600;
+            display: block;
+            margin-top: 4px;
+        }
+		
+        .appeal-content {
+            display: none;
+        }
+        
+        .appeal-content b {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .appeal-content li {
+            margin-bottom: 8px;
+        }
+        
+        .agree-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .reactivate-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        /* Three dots menu styles */
+        .menu-dots {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
+    user-select: none;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.menu-dots:hover {
+    background-color: #f0f0f0;
+}
+
+body.dark-mode .menu-dots:hover {
+    background-color: #3a3a3a;
+}
+        
+        .menu-dropdown {
+    position: absolute;
+    top: 100%; /* Position below the menu dots */
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    display: none;
+    z-index: 1010;
+    min-width: 120px;
+    margin-top: 5px; /* Add small gap from the dots */
+}
+        
+        .menu-dropdown.show {
+            display: block;
+        }
+        
+        .menu-dropdown a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #212121;
+            font-size: 14px;
+        }
+        
+        .menu-dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        body.dark-mode .menu-dropdown {
+            background: #2a2a2a;
+        }
+        
+        body.dark-mode .menu-dropdown a {
+            color: #eee;
+        }
+        
+        body.dark-mode .menu-dropdown a:hover {
+            background-color: #3a3a3a;
+        }
+    </style>
+	
+<style id="__web-inspector-hide-shortcut-style__">
+.__web-inspector-hide-shortcut__, .__web-inspector-hide-shortcut__ *
+{
+    visibility: hidden !important;
+}
+</style></head>
+<body>
+
+	<header id="header">
+  <div class="left">
+    <div id="hamburger">☰</div>
+    <img id="logo" src="boibylongdark.png" alt="Boiby Logo">
+    <nav>
+      <a href="#">Discover</a>
+      <a href="#">Catalog</a>
+      <a href="#">Develop</a>
+      <a href="#">Boibucks</a>
+    </nav>
+  </div>
+
+  <div class="right">
+    <div class="user-circle"></div>
+    <span id="username" style="font-weight:500;">f</span>
+    <span> </span>
+    <img src="bgreen.png" alt="Boibucks">
+    <span>?</span>
+  </div>
+</header>
+	<div id="sidebar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Discover</a>
+        <a href="#">Catalog</a>
+        <a href="#">Acquaintances</a>
+        <a href="#">Chat</a>
+        <a href="#">Trade</a>
+        <a href="#">Money</a>
+        <a href="#">Develop</a>
+        <a href="#">Premium</a>
+
+
+  <button style="display:none" class="premium-btn">Get Premium</button>
+
+
+</div>
+	<div class="modal-backdrop show"></div>	
+    <div class="modal show">
+        <div class="modal-header" id="modalHeader"><svg class="permanent-ban-icon" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><img class="permanent-ban-icon" src="https://upload.wikimedia.org/wikipedia/commons/d/d5/No_sign.svg" alt="Permanent Ban"></svg>
+            
+            <h2 id="banHeader">Device Banned</h2>
+            
+            
+            
+            
+        </div>
+        
+        <div id="mainContent">
+            <p id="rulesMessage" class="permanent-ban-message">This device has been permanently banned from Boiby due to severe or repeated violations of our Community Rules.</p>
+            
+            
+            
+            
+			<p id="rulesMessage" class="permanent-ban-message">To appeal or check your appeal status, log into the account that is associated with this violation, or request an appeal below.</p><p id="interventionIdItem" class="interventionId" style="
+    color: #ddd;
+    font-weight: 400;
+    font-size: 15px;
+    margin-top: 6px;
+">65e5c7ff-1d08-4e95-b80b-398b18dc44a3</p>
+			<div class="mistake-box" style="display:none; margin-bottom:64px; margin-top:20px;">
+    <b class="makeAMistake" style="padding-bottom: 12px;">
+        Did we make a mistake?
+    </b>
+    <p class="makeAMistake" style="margin-top: 8px;">
+        You can request an appeal or ask us to review this decision below.
+    </p>
+</div>
+        </div>
+        
+        <div id="appealContent" class="appeal-content">
+            <b>Rule violations add up</b>
+            <ul>
+                <li>We may give you a longer suspension - or even ban your account - if you keep breaking the rules.</li>
+                <li>Make sure you know the rules and follow them.</li>
+            </ul>
+            
+            <div class="modal-footer left-align">
+                <a href="/info/community-rules" class="modal-button rules-button">View rules</a>
+            </div>
+            
+            <b>Did we make a mistake?</b>
+            <ul>
+                <li>You can request an appeal or ask us to review this decision here:</li>
+            </ul>
+            
+            <div class="modal-footer left-align">
+                <a href="/report-mistake" class="modal-button appeal-button">Report a mistake</a>
+            </div>
+            
+            <!-- Reactivate container only shown for warnings -->
+            <div id="warningReactivateContainer" class="reactivate-container" style="display: none;">
+                <div class="agree-checkbox">
+                    <input type="checkbox" id="reactivateAgreeCheckbox">
+                    <label for="reactivateAgreeCheckbox">I agree to know and follow the rules.</label>
+                </div>
+                <button id="reactivateAccountButton" class="modal-button reactivate-button" disabled="">
+                    Re-activate my account
+                </button>
+            </div>
+        </div>
+        
+        <div class="modal-footer" id="actionButtons" style="margin-top: 56px;"><a href="/report-mistake" class="modal-button permanent-appeal-button">Report a mistake</a>
+            
+        </div>
+    </div>
+
+    <script src="/translations-en.js"></script>
+    <script>
+(async function collectAndShowSystemInfo() {
+  // Helpers
+  const qs = sel => document.querySelector(sel);
+  const createEl = (tag, props = {}) => {
+    const e = document.createElement(tag);
+    Object.assign(e, props);
+    return e;
+  };
+
+  // Safe access helpers
+  const safe = fn => { try { return fn(); } catch { return undefined; } };
+
+  // Browser info (UA raw + parsed name/version)
+  function parseBrowser(ua = navigator.userAgent) {
+    const raw = ua || 'Unknown';
+    let name = 'Unknown', version = 'Unknown';
+    // crude parsing - covers main browsers
+    const rules = [
+      [/Edg\/([\d\.]+)/i, 'Edge'],
+      [/OPR\/([\d\.]+)/i, 'Opera'],
+      [/Chrome\/([\d\.]+)/i, 'Chrome'],
+      [/Firefox\/([\d\.]+)/i, 'Firefox'],
+      [/Version\/([\d\.]+).*Safari/i, 'Safari'],
+      [/MSIE\s([\d\.]+)/i, 'IE'],
+      [/Trident.*rv:([\d\.]+)/i, 'IE']
+    ];
+    for (const [re, n] of rules) {
+      const m = ua.match(re);
+      if (m) { name = n; version = m[1] || 'Unknown'; break; }
+    }
+    return { raw, name, version };
+  }
+
+  // GPU detection via WebGL
+  function detectGPU() {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) return { renderer: 'Unavailable', vendor: 'Unavailable' };
+      const ext = gl.getExtension('WEBGL_debug_renderer_info');
+      const renderer = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : 'Unknown';
+      const vendor = ext ? gl.getParameter(ext.UNMASKED_VENDOR_WEBGL) : 'Unknown';
+      // list supported extensions for capability info
+      const extensions = gl.getSupportedExtensions ? gl.getSupportedExtensions() : [];
+      return { renderer, vendor, extensions };
+    } catch (e) {
+      return { renderer: 'Unavailable', vendor: 'Unavailable' };
+    }
+  }
+
+  // Deterministic UUID from SHA-256 of data string
+  async function uuidFromDataString(str) {
+    if (window.crypto && crypto.subtle && crypto.subtle.digest) {
+      const enc = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', enc);
+      const hash = new Uint8Array(hashBuffer);
+      // Use first 16 bytes to format UUID. Set version=4 and variant bits properly.
+      const b = Array.from(hash.slice(0, 16));
+      b[6] = (b[6] & 0x0f) | 0x40; // version 4
+      b[8] = (b[8] & 0x3f) | 0x80; // variant
+      const hex = n => (n + 0x100).toString(16).slice(1);
+      const parts = [
+        b.slice(0,4).map(hex).join(''),
+        b.slice(4,6).map(hex).join(''),
+        b.slice(6,8).map(hex).join(''),
+        b.slice(8,10).map(hex).join(''),
+        b.slice(10,16).map(hex).join('')
+      ];
+      return parts.join('-');
+    } else {
+      // Fallback: non-crypto deterministic hash -> UUID-like
+      let h = 2166136261 >>> 0;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619) >>> 0;
+      }
+      function hexPad(n, len=8){ let s = n.toString(16); return s.padStart(len,'0'); }
+      const part1 = hexPad(h,8);
+      const part2 = hexPad((h >>> 0) ^ 0x12345678,4).slice(0,4);
+      const part3 = '4' + hexPad((h >>> 0) & 0x0fff,3).slice(-3); // version 4 marker
+      const part4 = ((h>>>0) & 0x3fff).toString(16).padStart(4,'0');
+      const part5 = hexPad((~h)>>>0,12).slice(0,12);
+      return `${part1}-${part2}-${part3}-${part4}-${part5}`;
+    }
+  }
+
+  // Collect info (with fallbacks)
+  const browser = parseBrowser(navigator.userAgent);
+  const gpu = detectGPU();
+
+  const data = {
+    timestamp: new Date().toISOString(),
+    // memory
+    deviceMemoryGB: safe(() => navigator.deviceMemory) ?? 'Unknown',
+    // cpu
+    logicalCPUCores: safe(() => navigator.hardwareConcurrency) ?? 'Unknown',
+    // screen/display
+    screenWidth: safe(() => window.screen.width) ?? 'Unknown',
+    screenHeight: safe(() => window.screen.height) ?? 'Unknown',
+    availWidth: safe(() => window.screen.availWidth) ?? 'Unknown',
+    availHeight: safe(() => window.screen.availHeight) ?? 'Unknown',
+    colorDepth: safe(() => window.screen.colorDepth) ?? 'Unknown',
+    pixelRatio: safe(() => window.devicePixelRatio) ?? 1,
+    orientation: safe(() => (screen.orientation && screen.orientation.type) || (typeof window.orientation !== 'undefined' ? window.orientation : 'Unknown')) ?? 'Unknown',
+    // browser & plugins
+    userAgentString: navigator.userAgent || 'Unknown',
+    browserName: browser.name,
+    browserVersion: browser.version,
+    plugins: (safe(() => Array.from(navigator.plugins).map(p => p.name)) || []),
+    cookieEnabled: safe(() => navigator.cookieEnabled) ?? false,
+    // network
+    online: safe(() => navigator.onLine) ?? true,
+    connection: (function() {
+      const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!c) return { available: false };
+      return {
+        available: true,
+        effectiveType: c.effectiveType || 'Unknown',
+        downlink: c.downlink || 'Unknown',
+        rtt: c.rtt || 'Unknown',
+        saveData: c.saveData || false,
+        type: c.type || 'Unknown'
+      };
+    })(),
+    // battery
+    battery: { supported: false },
+    // locale & timezone
+    language: navigator.language || 'Unknown',
+    languages: navigator.languages || [],
+    timezone: safe(() => Intl.DateTimeFormat().resolvedOptions().timeZone) || 'Unknown',
+    // OS/Platform
+    platform: navigator.platform || 'Unknown',
+    // GPU info
+    gpu,
+    // touch support
+    touch: {
+      maxTouchPoints: safe(() => navigator.maxTouchPoints) ?? 0,
+      touchEvent: 'ontouchstart' in window,
+    }
+  };
+
+  // battery (async)
+  try {
+    if (navigator.getBattery) {
+      const batt = await navigator.getBattery();
+      data.battery = {
+        supported: true,
+        charging: batt.charging,
+        chargingTime: batt.chargingTime,
+        dischargingTime: batt.dischargingTime,
+        level: batt.level
+      };
+    }
+  } catch (e) {
+    data.battery = { supported: false, error: 'error reading battery' };
+  }
+
+  // Make a deterministic string for hashing (sorted keys for stable order)
+  function stableStringify(obj) {
+    if (obj === null || typeof obj !== 'object') return JSON.stringify(obj);
+    if (Array.isArray(obj)) return '[' + obj.map(stableStringify).join(',') + ']';
+    const keys = Object.keys(obj).sort();
+    return '{' + keys.map(k => JSON.stringify(k) + ':' + stableStringify(obj[k])).join(',') + '}';
+  }
+
+  const dataString = stableStringify(data);
+
+  // Generate UUID
+  let uuid;
+  try {
+    uuid = await uuidFromDataString(dataString);
+  } catch (e) {
+    // fallback non-async
+    uuid = 'uuid-fallback-' + Math.random().toString(36).slice(2,12);
+  }
+  data.uuid = uuid;
+
+  // Store in localStorage
+  try {
+    localStorage.setItem('systemData', JSON.stringify(data));
+    localStorage.setItem('systemDataString', dataString);
+  } catch (e) {
+    // ignore storage errors
+  }
+
+  // Display the info: prefer existing .interventionId element for UUID
+  const interventionEl = qs('.interventionId') || qs('#interventionIdItem') || null;
+  if (interventionEl) {
+    interventionEl.textContent = uuid;
+    interventionEl.dataset.systemInfo = 'stored';
+    // style slightly so it stands out if not already styled
+    interventionEl.style.fontFamily = 'monospace';
+    interventionEl.title = 'UUID derived from client system information';
+  } else {
+    // create and append to mainContent
+    const main = qs('#mainContent') || document.body;
+    const idEl = createEl('p', { className: 'interventionId' });
+    idEl.textContent = uuid;
+    idEl.style.fontFamily = 'monospace';
+    idEl.style.marginTop = '10px';
+    main.appendChild(idEl);
+  }
+
+  // Also append a collapsible info box with the gathered fields
+  const box = createEl('div', { id: 'systemInfoBox' });
+  box.style.marginTop = '18px';
+  box.style.padding = '12px';
+  box.style.borderRadius = '8px';
+  box.style.background = 'rgba(0,0,0,0.03)';
+  box.style.maxHeight = '360px';
+  box.style.overflow = 'auto';
+  box.style.fontSize = '13px';
+  box.style.lineHeight = '1.5';
+  box.innerHTML = `<strong>Collected system info (saved to localStorage)</strong>
+    <div style="margin-top:8px;font-family:monospace, monospace; white-space:pre-wrap;">${JSON.stringify(data, null, 2)}</div>`;
+
+  const mainContent = qs('#mainContent') || document.body;
+  mainContent.appendChild(box);
+
+  // expose to window for debugging
+  window.__collectedSystemData = data;
+})();
+</script>
+
+
+
+</body></html>
