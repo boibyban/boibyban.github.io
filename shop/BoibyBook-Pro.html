@@ -1179,10 +1179,10 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
           const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
           memPills.forEach(p => p.classList.remove('disabled'));
 
-          if (selectedModel === 'B5') {
+          //if (selectedModel === 'B5') {
             // No restrictions for B5 model
-          }
-          else if (selectedModel === 'B5 Pro') {
+          //}
+          if (selectedModel === 'B5 Pro') {
             if (!chipFull.includes('14-core')) {
               memPills.forEach(p => {
                 if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
