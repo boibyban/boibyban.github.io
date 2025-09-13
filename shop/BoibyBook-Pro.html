@@ -1165,101 +1165,106 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       }
 
       function handleDependencies() {
-        if (!selectedModel) return;
-        const cfg = baseConfigs[selectedSize][selectedModel];
-        const optionsDiv = $('#options');
-        if (!optionsDiv) return;
+  if (!selectedModel) return;
+  const cfg = baseConfigs[selectedSize][selectedModel];
+  const optionsDiv = $('#options');
+  if (!optionsDiv) return;
 
-        // canonical chip string (ensure we have one)
-        const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+  // canonical chip string (ensure we have one)
+  const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
 
-        // MEMORY
-        const memoryGroup = findGroupByName('memory');
-        if (memoryGroup) {
-          const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
-          memPills.forEach(p => p.classList.remove('disabled'));
+  // MEMORY
+  const memoryGroup = findGroupByName('memory');
+  if (memoryGroup) {
+    const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
+    memPills.forEach(p => p.classList.remove('disabled'));
 
-          //if (selectedModel === 'B5') {
-            // No restrictions for B5 model
-          //}
-          if (selectedModel === 'B5 Pro') {
-            if (!chipFull.includes('14-core')) {
-              memPills.forEach(p => {
-                if (p.dataset.value.includes('64 GB')) p.classList.add('disabled');
-              });
-            }
-          }
-          else if (selectedModel === 'B5 Max') {
-            if (!chipFull.includes('48-core')) {
-              memPills.forEach(p => {
-                if (p.dataset.value.includes('128 GB')) p.classList.add('disabled');
-              });
-            }
-          }
-
-          // if selected memory is disabled, pick first valid
-          if (selectedOptions.memory) {
-            const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
-            if (cur && cur.classList.contains('disabled')) {
-              memPills.forEach(p => p.classList.remove('selected'));
-              const firstValid = memPills.find(p => !p.classList.contains('disabled'));
-              if (firstValid) {
-                firstValid.classList.add('selected');
-                selectedOptions.memory = firstValid.dataset.value;
-              } else {
-                delete selectedOptions.memory;
-              }
-            }
-          }
-          // sync UI selected pill with selectedOptions.memory
-          if (selectedOptions.memory) {
-            memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
-          }
+    if (selectedModel === 'B5 Pro') {
+      // Only enable 64GB if the upgraded chip (14-core) is selected
+      const hasUpgradedChip = chipFull.includes('14-core CPU');
+      memPills.forEach(p => {
+        if (p.dataset.value.includes('64 GB')) {
+          p.classList.toggle('disabled', !hasUpgradedChip);
         }
-
-        // STORAGE
-        const storageGroup = findGroupByName('storage');
-        if (storageGroup) {
-          const storPills = Array.from(storageGroup.querySelectorAll('.pill'));
-          storPills.forEach(p => p.classList.remove('disabled'));
-
-          if (selectedModel === 'B5 Max' && !chipFull.includes('48-core')) {
-            storPills.forEach(p => {
-              if (p.dataset.value.includes('12 TB')) p.classList.add('disabled');
-            });
-          }
-
-          if (selectedOptions.storage) {
-            const cur = storPills.find(p => p.dataset.value === selectedOptions.storage);
-            if (cur && cur.classList.contains('disabled')) {
-              storPills.forEach(p => p.classList.remove('selected'));
-              const firstValid = storPills.find(p => !p.classList.contains('disabled'));
-              if (firstValid) {
-                firstValid.classList.add('selected');
-                selectedOptions.storage = firstValid.dataset.value;
-              } else delete selectedOptions.storage;
-            }
-          }
-          if (selectedOptions.storage) {
-            storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.storage));
-          }
+      });
+    }
+    else if (selectedModel === 'B5 Max') {
+      // Only enable 128GB if the upgraded chip (48-core) is selected
+      const hasUpgradedChip = chipFull.includes('48-core GPU');
+      memPills.forEach(p => {
+        if (p.dataset.value.includes('128 GB')) {
+          p.classList.toggle('disabled', !hasUpgradedChip);
         }
+      });
+    }
 
-        // CHIP: ensure chip selection exists and UI is synced (use dataset.value comparisons)
-        const chipGroup = findGroupByName('chip');
-        if (chipGroup) {
-          const chipPills = Array.from(chipGroup.querySelectorAll('.pill'));
-          if (!selectedOptions.chip) {
-            const sel = chipPills.find(p => p.classList.contains('selected')) || chipPills[0];
-            if (sel) {
-              sel.classList.add('selected');
-              selectedOptions.chip = sel.dataset.value;
-            }
-          } else {
-            chipPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.chip));
-          }
+    // if selected memory is disabled, pick first valid
+    if (selectedOptions.memory) {
+      const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
+      if (cur && cur.classList.contains('disabled')) {
+        memPills.forEach(p => p.classList.remove('selected'));
+        const firstValid = memPills.find(p => !p.classList.contains('disabled'));
+        if (firstValid) {
+          firstValid.classList.add('selected');
+          selectedOptions.memory = firstValid.dataset.value;
+        } else {
+          delete selectedOptions.memory;
         }
       }
+    }
+    // sync UI selected pill with selectedOptions.memory
+    if (selectedOptions.memory) {
+      memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
+    }
+  }
+
+  // STORAGE
+  const storageGroup = findGroupByName('storage');
+  if (storageGroup) {
+    const storPills = Array.from(storageGroup.querySelectorAll('.pill'));
+    storPills.forEach(p => p.classList.remove('disabled'));
+
+    if (selectedModel === 'B5 Max') {
+      // Only enable 12TB if the upgraded chip (48-core) is selected
+      const hasUpgradedChip = chipFull.includes('48-core GPU');
+      storPills.forEach(p => {
+        if (p.dataset.value.includes('12 TB')) {
+          p.classList.toggle('disabled', !hasUpgradedChip);
+        }
+      });
+    }
+
+    if (selectedOptions.storage) {
+      const cur = storPills.find(p => p.dataset.value === selectedOptions.storage);
+      if (cur && cur.classList.contains('disabled')) {
+        storPills.forEach(p => p.classList.remove('selected'));
+        const firstValid = storPills.find(p => !p.classList.contains('disabled'));
+        if (firstValid) {
+          firstValid.classList.add('selected');
+          selectedOptions.storage = firstValid.dataset.value;
+        } else delete selectedOptions.storage;
+      }
+    }
+    if (selectedOptions.storage) {
+      storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.storage));
+    }
+  }
+
+  // CHIP: ensure chip selection exists and UI is synced (use dataset.value comparisons)
+  const chipGroup = findGroupByName('chip');
+  if (chipGroup) {
+    const chipPills = Array.from(chipGroup.querySelectorAll('.pill'));
+    if (!selectedOptions.chip) {
+      const sel = chipPills.find(p => p.classList.contains('selected')) || chipPills[0];
+      if (sel) {
+        sel.classList.add('selected');
+        selectedOptions.chip = sel.dataset.value;
+      }
+    } else {
+      chipPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.chip));
+    }
+  }
+}
 
       function renderHeroSummary() {
         const list = $('#heroList');
