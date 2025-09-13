@@ -6,5 +6,11 @@
       "vendor": "NVIDIA"
     },
     "ram": 32
+  },
+  {
+    "ram": 8,
+    "screenWidth": 1504,
+    "screenHeight": 1003,
+    "logicalCPUCores": 12
   }
 ]
