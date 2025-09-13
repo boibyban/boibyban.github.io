@@ -1157,15 +1157,6 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
         });
       }
       
-      function handleDependencies() {
-  if (!selectedModel) return;
-  const cfg = baseConfigs[selectedSize][selectedModel];
-  const optionsDiv = $('#options');
-  if (!optionsDiv) return;
-
-  // canonical chip string (ensure we have one)
-  const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
-
   // MEMORY - Fixed logic
   function handleDependencies() {
   if (!selectedModel) return;
