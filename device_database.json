@@ -1,6 +1,6 @@
 [
   {
-    "ram": 32
+    "logicalCPUCores": 12
   },
   {
     "ram": 8,
