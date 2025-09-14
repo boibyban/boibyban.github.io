@@ -825,8 +825,8 @@ function setTheme(theme) {
 }
 
 function showAppealContent() {
-	document.getElementById('modalHeader').style.display = 'block';
-	document.getElementById('mainContent').style.display = 'block';
+	document.getElementById('modalHeader').style.display = 'none';
+	document.getElementById('mainContent').style.display = 'none';
 	document.getElementById('appealContent').style.display = 'block';
 
 	const formData = JSON.parse(localStorage.getItem('banFormData'));
