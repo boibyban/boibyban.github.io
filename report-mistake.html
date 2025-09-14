@@ -289,22 +289,28 @@
     <div class="main-content">
         <div class="appeal-container">
             <h2 class="appeal-title">Report a mistake</h2>
-            <p class="" style="
-    margin-bottom: 20px;
-">Did we make a mistake? You may request an appeal here.</p><form id="appealForm">
+            <p style="margin-bottom: 20px;">Did we make a mistake? You may request an appeal here.</p>
+
+            <form id="appealForm">
+                <!-- Username field -->
+                <div class="form-group">
+                    <label for="usernameField">Username</label>
+                    <input type="text" id="usernameField" name="username" required placeholder="Your username">
+                </div>
+
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required="" placeholder="Your email address">
+                    <input type="email" id="email" name="email" required placeholder="Your email address">
                 </div>
                 
                 <div class="form-group">
                     <label for="confirmEmail">Confirm Email Address</label>
-                    <input type="email" id="confirmEmail" name="confirmEmail" required="" placeholder="Confirm your email address">
+                    <input type="email" id="confirmEmail" name="confirmEmail" required placeholder="Confirm your email address">
                 </div>
                 
                 <div class="form-group">
                     <label for="appealType">What decision would you like to appeal?</label>
-                    <select id="appealType" name="appealType" required="">
+                    <select id="appealType" name="appealType" required>
                         <option value="">Please select an option</option>
                         <option value="account">Account</option>
                         <option value="altAccount">Alt account</option>
@@ -317,10 +323,21 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
+
+                <!-- Conditional Appeal ID -->
+                <div class="form-group" id="idGroup" style="display: none;">
+                    <label for="appealId" id="idLabel">ID</label>
+                    <input type="number" id="appealId" name="appealId" placeholder="Enter ID">
+                </div>
+
+                <!-- Conditional Reason Options -->
+                <div class="form-group" id="reasonGroup" style="display: none;">
+                    <select id="reasonSelect" name="reasonSelect" required></select>
+                </div>
                 
                 <div class="form-group">
                     <label for="appealDescription">Description of your appeal</label>
-                    <textarea id="appealDescription" name="appealDescription" required="" placeholder="Please provide details about why you're appealing this decision"></textarea>
+                    <textarea id="appealDescription" name="appealDescription" required placeholder="Please provide details about why you're appealing this decision"></textarea>
                 </div>
                 
                 <button type="submit" class="submit-btn">Submit Appeal</button>
@@ -331,7 +348,7 @@
     <div class="modal-overlay" id="successModal">
         <div class="modal">
             <h2>We received your appeal</h2>
-            <p>Responses may take up to 5 business days.</p>
+            <p>Thank your for contacting Boiby Appeals about your moderation concern. We will review your appeal request and let you know if we make a decision. Please understand responses may take up to 5 business days.</p>
             <button class="modal-btn" id="modalOkButton">Okay</button>
         </div>
     </div>
@@ -341,11 +358,88 @@
             const form = document.getElementById('appealForm');
             const successModal = document.getElementById('successModal');
             const okButton = document.getElementById('modalOkButton');
-            
+            const appealType = document.getElementById('appealType');
+            const idGroup = document.getElementById('idGroup');
+            const idLabel = document.getElementById('idLabel');
+            const appealId = document.getElementById('appealId');
+            const reasonGroup = document.getElementById('reasonGroup');
+            const reasonSelect = document.getElementById('reasonSelect');
+            const usernameField = document.getElementById('usernameField');
+
+            // Autofill username from localStorage
+            const storedUsername = localStorage.getItem("ModPanelUsername");
+            if (storedUsername) {
+                usernameField.value = storedUsername;
+            }
+
+            // Possible reasons mapping
+            const reasonOptions = {
+                device: [
+                    "My device was banned and I don't know why",
+                    "My device was banned because my account was wrongfully banned"
+                ],
+                altAccount: [
+                    "My alt account was banned and I don't know why",
+                    "My alt account was incorrectly banned because of someone else's ban",
+                    "My alt account was banned because another account of mine was wrongfully banned"
+                ],
+                account: [
+                    "My account was moderated wrongfully",
+                    "Someone compromised my account and got it banned"
+                ],
+                game: [
+                    "My game and/or account were wrongfully moderated",
+                    "My game was wrongfully moderated for having an inaccurate content maturity label",
+                    "I need help restoring my game after it was moderated"
+                ]
+            };
+
+            // Show/hide ID + Reason fields
+            appealType.addEventListener('change', function() {
+                const value = appealType.value;
+
+                // ID logic
+                if (value === 'image') {
+                    idLabel.textContent = "Asset ID";
+                    appealId.placeholder = "Enter Asset ID";
+                    idGroup.style.display = 'block';
+                    appealId.required = true;
+                } else if (value === 'game') {
+                    idLabel.textContent = "Game ID";
+                    appealId.placeholder = "Enter Game ID";
+                    idGroup.style.display = 'block';
+                    appealId.required = true;
+                } else if (value === 'bundle') {
+                    idLabel.textContent = "Bundle ID";
+                    appealId.placeholder = "Enter Bundle ID";
+                    idGroup.style.display = 'block';
+                    appealId.required = true;
+                } else {
+                    idGroup.style.display = 'none';
+                    appealId.required = false;
+                }
+
+                // Reason logic
+                if (reasonOptions[value]) {
+                    reasonSelect.innerHTML = ""; // clear old options
+                    reasonOptions[value].forEach(opt => {
+                        const optionEl = document.createElement("option");
+                        optionEl.value = opt;
+                        optionEl.textContent = opt;
+                        reasonSelect.appendChild(optionEl);
+                    });
+                    reasonGroup.style.display = 'block';
+                    reasonSelect.required = true;
+                } else {
+                    reasonGroup.style.display = 'none';
+                    reasonSelect.required = false;
+                }
+            });
+
+            // Form submit
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Simple validation for email matching
                 const email = document.getElementById('email').value;
                 const confirmEmail = document.getElementById('confirmEmail').value;
                 
@@ -363,5 +457,4 @@
             });
         });
     </script>
-</body>
-</html>
+</body></html>
