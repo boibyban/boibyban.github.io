@@ -203,43 +203,52 @@
   console.log(JSON.stringify(data, null, 2));
 
   // --- Banned device check + modal redirect ---
-  async function checkBannedDeviceAndRedirect(){
-    try{
-      const bannedDevices=await fetch("/device_database.json").then(r=>r.json()).catch(()=>[]);
-      const match=bannedDevices.some(ban=>{
-        const cpuMatch=ban.cpu?data.cpuName===ban.cpu:true;
-        const ramMatch=ban.ram?data.deviceMemoryGB>=ban.ram:true;
-        const gpuMatch=ban.gpu?(data.gpu.renderer?.includes(ban.gpu.renderer) && data.gpu.vendor?.includes(ban.gpu.vendor)):true;
-        const screenMatch=(ban.screenWidth?data.screenWidth===ban.screenWidth:true) && (ban.screenHeight?data.screenHeight===ban.screenHeight:true);
-        const coreMatch=ban.logicalCPUCores?data.logicalCPUCores===ban.logicalCPUCores:true;
-        return cpuMatch && ramMatch && gpuMatch && screenMatch && coreMatch;
-      });
-      console.log("match");
+  async function checkBannedDeviceAndRedirect() {
+  try {
+    const bannedDevices = await fetch("/device_database.json").then(r => r.json()).catch(() => []);
+    const match = bannedDevices.some(ban => {
+      const cpuMatch = ban.cpu ? data.cpuName === ban.cpu : true;
+      const ramMatch = ban.ram ? data.deviceMemoryGB === ban.ram : true;  // exact match instead of >=
+      const gpuMatch = ban.gpu 
+        ? (data.gpu.renderer === ban.gpu.renderer && data.gpu.vendor === ban.gpu.vendor) 
+        : true;  // exact GPU match
+      const screenMatch = 
+        (ban.screenWidth ? data.screenWidth === ban.screenWidth : true) && 
+        (ban.screenHeight ? data.screenHeight === ban.screenHeight : true);
+      const coreMatch = ban.logicalCPUCores ? data.logicalCPUCores === ban.logicalCPUCores : true;
+      return cpuMatch && ramMatch && gpuMatch && screenMatch && coreMatch;
+    });
 
-      const path=window.location.pathname;
-      const restrictedPaths=["/not-approved","/Membership/NotApproved","/users"];
-      if(match){
-        console.log("Redirecting to /device-restricted");
-        if(restrictedPaths.some(p=>path.startsWith(p))){
-          window.location.href="/device-restricted";
-        }
-      } else {
-        console.log("Device not banned, redirecting to /home");
-        const modal=qs(".modal");
-        const backdrop=qs(".modal-backdrop");
-        if(modal)modal.style.display="none";
-        if(backdrop)backdrop.style.display="none";
-        if(!restrictedPaths.some(p=>path.startsWith(p))){
-          window.location.href="/home";
-        }
+    console.log("match found");
+
+    const path = window.location.pathname;
+    const restrictedPaths = ["/not-approved", "/Membership/NotApproved", "/users"];
+
+    if (match) {
+      console.log("Redirecting to /device-restricted");
+      if (restrictedPaths.some(p => path.startsWith(p))) {
+        window.location.href = "/device-restricted";
       }
-      // Update UUID silently
-      const uuidElem=qs("#interventionIdItem");
-      if(uuidElem)uuidElem.textContent=data.uuid;
-    }catch(e){
-      console.error("Device check failed",e);
+    } else {
+      console.log("Device not banned");
+      const modal = qs(".modal");
+      const backdrop = qs(".modal-backdrop");
+      if (modal) modal.style.display = "none";
+      if (backdrop) backdrop.style.display = "none";
+      if (!restrictedPaths.some(p => path.startsWith(p))) {
+        window.location.href = "/not-approved";
+      }
     }
+
+    // Update UUID silently
+    const uuidElem = qs("#interventionIdItem");
+    if (uuidElem) uuidElem.textContent = data.uuid;
+
+  } catch (e) {
+    console.error("Device check failed", e);
   }
+}
+
 
   checkBannedDeviceAndRedirect();
 })();
