@@ -1,8 +1,5 @@
 [
   {
-    "ram": 4,
-    "screenWidth": 1504,
-    "screenHeight": 1003,
-    "logicalCPUCores": 12
+    "ram": 4
   }
 ]
