@@ -8,7 +8,8 @@
 	font-family: "Inter", serif!important;
 }
 h2 {
-	font-size: 24px;
+	font-size: 22px;
+    text-align: center;
 }
 .modal-button.disabled-button {
     border: 2px solid #ccc; /* Outline */
@@ -57,7 +58,7 @@ h2 {
 </style>
      <style>
 .ban-modal {
-  width: 600px;
+  width: 580px;
   max-width: 92%
 }
 
@@ -325,9 +326,11 @@ header.dark + #sidebar .premium-btn {
         }
         
         .modal-header {
-                display: flex;
+                display: block;
     align-items: center;
+    margin-left: auto;
     margin-bottom: 20px;
+    margin-right: auto;
     padding-bottom: 16px;
     border-bottom: 1px solid #999;
     margin-top: 0px;
@@ -349,8 +352,10 @@ header.dark + #sidebar .premium-btn {
         }
         
         .modal-header h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
+			text-align: center;
+			padding-bottom: 2px;
             margin: 0;
             color: #212121;
         }
@@ -460,10 +465,13 @@ header.dark + #sidebar .premium-btn {
         }
         
         .permanent-appeal-button {
-            background-color: #eee!important;
-            color: #212121;
-			padding: 8px 16px;
-			border: none
+            background-color: #ededed !important;
+    		color: #212121;
+			width: 500px;
+			border-radius: 12px;
+    		text-align: center;
+    		padding: 10px 16px;
+    		border: none;
         }
         
         .disabled-button {
@@ -678,7 +686,7 @@ body.dark-mode .menu-dots:hover {
             </div>
         </div>
         
-        <div class="modal-footer" id="actionButtons" style="margin-top: 56px;"><a href="/report-mistake" class="modal-button permanent-appeal-button">Report a mistake</a>
+        <div class="modal-footer" id="actionButtons" style="margin-top: 40px;"><a href="/report-mistake" class="modal-button permanent-appeal-button">Report a mistake</a>
             
         </div>
     </div>
