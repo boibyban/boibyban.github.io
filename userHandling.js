@@ -1,189 +1,204 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const path = window.location.pathname.toLowerCase();
+// userHandling.js - hardened, drop-in replacement
+if (!window.__userHandlingInitialized) {
+  window.__userHandlingInitialized = true;
 
-  // --- Get username from localStorage ---
-  const storedUsername = localStorage.getItem("username");
+  document.addEventListener("DOMContentLoaded", async () => {
+    const path = window.location.pathname.toLowerCase();
 
-  // --- Logout function ---
-  function logout() {
-    localStorage.removeItem("username");
-    localStorage.removeItem("ModPanelUsername");
-    localStorage.removeItem("banFormData");
-    localStorage.setItem("logoutTime", new Date().toISOString());
-    window.location.href = "/login";
-  }
+    // --- Get username from localStorage ---
+    const storedUsername = localStorage.getItem("username");
 
-  // Attach logout listeners (covers all static/dynamic cases)
-  const logoutSelectors = [".logout", ".logoutlink", "#dropdownLogout"];
-  logoutSelectors.forEach(selector => {
-    document.querySelectorAll(selector).forEach(el => {
-      el.addEventListener("click", e => {
-        e.preventDefault();
-        logout();
-      });
-    });
-  });
-
-  // --- No username stored, treat as logged out ---
-  if (!storedUsername) {
-    if (path.includes("/users")) {
-      const headerUser = document.querySelector(".right");
-      if (headerUser) headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
-    } else if (path.includes("/home")) {
+    // --- Logout function ---
+    function logout() {
+      localStorage.removeItem("username");
+      localStorage.removeItem("ModPanelUsername");
+      localStorage.removeItem("banFormData");
+      localStorage.setItem("logoutTime", new Date().toISOString());
       window.location.href = "/login";
     }
-    // /404.html is accessible even if not logged in
-    return;
-  }
 
-  // --- Fetch user JSON ---
-  let users;
-  try {
-    const res = await fetch("/users.json");
-    if (!res.ok) throw new Error("Failed to fetch users.json");
-    users = await res.json();
-  } catch (err) {
-    console.error("Error fetching users:", err);
-    return;
-  }
+    // Attach logout listeners (covers all static/dynamic cases)
+    const logoutSelectors = [".logout", ".logoutlink", "#dropdownLogout"];
+    logoutSelectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => {
+        el.addEventListener("click", e => {
+          e.preventDefault();
+          logout();
+        });
+      });
+    });
 
-  // --- Find current user by username ---
-  let currentUser = null;
-  for (const id in users) {
-    if (users[id].username === storedUsername) {
-      currentUser = users[id];
-      break;
+    // --- No username stored, treat as logged out ---
+    if (!storedUsername) {
+      if (path.includes("/users")) {
+        const headerUser = document.querySelector(".right");
+        if (headerUser) headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
+      } else if (path.includes("/home")) {
+        window.location.href = "/login";
+      }
+      // /404.html is accessible even if not logged in
+      return;
     }
-  }
 
-  if (!currentUser) {
-    // Username in localStorage no longer exists in JSON
-    logout();
-    return;
-  }
+    // --- Fetch user JSON (no-store to avoid stale/cached edge responses) ---
+    let users;
+    try {
+      const res = await fetch("/users.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch users.json: " + res.status);
+      users = await res.json();
+    } catch (err) {
+      console.error("Error fetching users:", err);
+      return;
+    }
 
-  // --- Normalize isDeleted flag ---
-  const isDeleted = currentUser.isDeleted === true || currentUser.isDeleted === "true";
+    // --- Find current user by username (safe) ---
+    let currentUser = null;
+    try {
+      if (users && typeof users === "object") {
+        currentUser = Object.values(users).find(u => u && u.username === storedUsername) || null;
+      }
+    } catch (err) {
+      console.error("Error searching users object:", err);
+    }
 
-  
-  // --- Handle deleted/banned users ---
-  if (isDeleted) {
-    if (currentUser.banFormData) {
+    if (!currentUser) {
+      // Username in localStorage no longer exists in JSON
+      logout();
+      return;
+    }
+
+    // --- Normalize isDeleted flag (ONLY consider OWN properties) ---
+    const hasOwnIsDeleted = Object.prototype.hasOwnProperty.call(currentUser, "isDeleted");
+    const rawIsDeleted = hasOwnIsDeleted ? currentUser.isDeleted : undefined;
+    const isDeleted = hasOwnIsDeleted && (
+      rawIsDeleted === true ||
+      rawIsDeleted === "true" ||
+      rawIsDeleted === 1 ||
+      rawIsDeleted === "1" ||
+      (typeof rawIsDeleted === "string" && rawIsDeleted.toLowerCase() === "yes")
+    );
+
+    // --- Handle deleted/banned users (defensive redirect) ---
+    if (isDeleted) {
+      // Save banFormData into localStorage if present (and parse if necessary)
+      if (currentUser.banFormData) {
+        try {
+          const banData = typeof currentUser.banFormData === "string"
+            ? JSON.parse(currentUser.banFormData)
+            : currentUser.banFormData;
+          localStorage.setItem("banFormData", JSON.stringify(banData));
+        } catch (err) {
+          console.error("Failed to parse banFormData:", err);
+        }
+      }
+
+      // Prevent accidental double-redirects
+      if (!path.includes("/not-approved") && !window.__redirectingToNotApproved) {
+        window.__redirectingToNotApproved = true;
+        console.warn("Redirecting to /not-approved because currentUser.isDeleted is true (own property).");
+        console.log({ currentUserHasOwnIsDeleted: hasOwnIsDeleted, rawIsDeleted });
+        console.trace();
+        window.location.href = "/not-approved";
+        return;
+      }
+    } else {
+      // Not deleted → remove any leftover banFormData
+      localStorage.removeItem("banFormData");
+    }
+
+    // --- Display username in header ---
+    const usernameElement = document.getElementById("username");
+    if (usernameElement) usernameElement.textContent = currentUser.username;
+
+    // --- Display profile picture ---
+    const userCircle = document.querySelector(".user-circle");
+    if (currentUser.profilePicture && userCircle && !isDeleted) {
       try {
-        const banData = typeof currentUser.banFormData === "string"
-          ? JSON.parse(currentUser.banFormData)
-          : currentUser.banFormData;
-        localStorage.setItem("banFormData", JSON.stringify(banData));
+        const profileImg = document.createElement("img");
+        profileImg.src = currentUser.profilePicture;
+        profileImg.alt = "Profile Picture";
+        profileImg.style.width = "32px";
+        profileImg.style.height = "32px";
+        profileImg.style.borderRadius = "50%";
+        profileImg.style.objectFit = "cover";
+        userCircle.replaceWith(profileImg);
       } catch (err) {
-        console.error("Failed to parse banFormData:", err);
+        console.warn("Failed to set profile picture:", err);
       }
     }
 
-    // Redirect banned users unless on /not-approved
-    if (!path.includes("/not-approved")) {
-      window.location.href = "/not-approved";
-      return;
+    // --- Sidebar links ---
+    const homeLink = document.getElementById("homeLink");
+    const profileLink = document.getElementById("profileLink");
+    const acquaintancesLink = document.getElementById("acquaintancesLink");
+    if (homeLink) homeLink.href = "/home";
+    if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
+    if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
+
+    // --- Home page greeting ---
+    const greetingText = document.getElementById("greetingText");
+    const profilePic = document.getElementById("profilePic");
+    if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
+    if (profilePic && currentUser.profilePicture) {
+      profilePic.style.backgroundImage = `url('${currentUser.profilePicture}')`;
+      profilePic.style.backgroundSize = "cover";
+      profilePic.style.backgroundPosition = "center";
     }
-  } else {
-    // Not deleted → remove any leftover banFormData
-    localStorage.removeItem("banFormData");
-  }
-console.group("AUTH DEBUG");
-console.log("path:", path);
-console.log("storedUsername:", storedUsername);
-console.log("currentUser (raw):", currentUser);
-console.log("currentUser.isDeleted (access):", currentUser && currentUser.isDeleted);
-console.log("hasOwn isDeleted:", Object.prototype.hasOwnProperty.call(currentUser || {}, "isDeleted"));
-console.log("Object.prototype.isDeleted:", Object.prototype.isDeleted);
-console.log("currentUser prototype:", Object.getPrototypeOf(currentUser));
-console.trace();
-console.groupEnd();
 
-  // --- Display username in header ---
-  const usernameElement = document.getElementById("username");
-  if (usernameElement) usernameElement.textContent = currentUser.username;
+    // --- 3-dot menu for logout ---
+    try {
+      const menuWrapper = document.createElement("div");
+      menuWrapper.style.position = "relative";
+      menuWrapper.style.display = "inline-block";
+      menuWrapper.style.marginLeft = "8px";
 
-  // --- Display profile picture ---
-  const userCircle = document.querySelector(".user-circle");
-  if (currentUser.profilePicture && userCircle && !isDeleted) {
-    const profileImg = document.createElement("img");
-    profileImg.src = currentUser.profilePicture;
-    profileImg.alt = "Profile Picture";
-    profileImg.style.width = "32px";
-    profileImg.style.height = "32px";
-    profileImg.style.borderRadius = "50%";
-    profileImg.style.objectFit = "cover";
-    userCircle.replaceWith(profileImg);
-  }
+      const menuButton = document.createElement("button");
+      menuButton.textContent = "⋮";
+      menuButton.style.background = "transparent";
+      menuButton.style.border = "none";
+      menuButton.style.cursor = "pointer";
+      menuButton.style.fontSize = "18px";
+      menuButton.style.color = "black";
 
-  // --- Sidebar links ---
-  const homeLink = document.getElementById("homeLink");
-  const profileLink = document.getElementById("profileLink");
-  const acquaintancesLink = document.getElementById("acquaintancesLink");
-  if (homeLink) homeLink.href = "/home";
-  if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
-  if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
+      const dropdown = document.createElement("div");
+      dropdown.style.display = "none";
+      dropdown.style.position = "absolute";
+      dropdown.style.top = "100%";
+      dropdown.style.right = "0";
+      dropdown.style.background = "#333";
+      dropdown.style.borderRadius = "4px";
+      dropdown.style.minWidth = "100px";
+      dropdown.style.boxShadow = "0 2px 5px rgba(0,0,0,0.3)";
+      dropdown.style.zIndex = "9999";
 
-  // --- Home page greeting ---
-  const greetingText = document.getElementById("greetingText");
-  const profilePic = document.getElementById("profilePic");
-  if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
-  if (profilePic && currentUser.profilePicture) {
-    profilePic.style.backgroundImage = `url('${currentUser.profilePicture}')`;
-    profilePic.style.backgroundSize = "cover";
-    profilePic.style.backgroundPosition = "center";
-  }
+      const logoutButton = document.createElement("button");
+      logoutButton.textContent = "Logout";
+      logoutButton.style.background = "transparent";
+      logoutButton.style.color = "white";
+      logoutButton.style.border = "none";
+      logoutButton.style.padding = "8px 12px";
+      logoutButton.style.width = "100%";
+      logoutButton.style.textAlign = "left";
+      logoutButton.style.cursor = "pointer";
+      logoutButton.addEventListener("click", logout);
 
-  // --- 3-dot menu for logout ---
-  const menuWrapper = document.createElement("div");
-  menuWrapper.style.position = "relative";
-  menuWrapper.style.display = "inline-block";
-  menuWrapper.style.marginLeft = "8px";
+      dropdown.appendChild(logoutButton);
+      menuWrapper.appendChild(menuButton);
+      menuWrapper.appendChild(dropdown);
 
-  const menuButton = document.createElement("button");
-  menuButton.textContent = "⋮";
-  menuButton.style.background = "transparent";
-  menuButton.style.border = "none";
-  menuButton.style.cursor = "pointer";
-  menuButton.style.fontSize = "18px";
-  menuButton.style.color = "black";
+      if (usernameElement && usernameElement.parentNode) {
+        usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
+      }
 
-  const dropdown = document.createElement("div");
-  dropdown.style.display = "none";
-  dropdown.style.position = "absolute";
-  dropdown.style.top = "100%";
-  dropdown.style.right = "0";
-  dropdown.style.background = "#333";
-  dropdown.style.borderRadius = "4px";
-  dropdown.style.minWidth = "100px";
-  dropdown.style.boxShadow = "0 2px 5px rgba(0,0,0,0.3)";
-  dropdown.style.zIndex = "9999";
+      menuButton.addEventListener("click", () => {
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+      });
 
-  const logoutButton = document.createElement("button");
-  logoutButton.textContent = "Logout";
-  logoutButton.style.background = "transparent";
-  logoutButton.style.color = "white";
-  logoutButton.style.border = "none";
-  logoutButton.style.padding = "8px 12px";
-  logoutButton.style.width = "100%";
-  logoutButton.style.textAlign = "left";
-  logoutButton.style.cursor = "pointer";
-  logoutButton.addEventListener("click", logout);
-
-  dropdown.appendChild(logoutButton);
-  menuWrapper.appendChild(menuButton);
-  menuWrapper.appendChild(dropdown);
-
-  if (usernameElement && usernameElement.parentNode) {
-    usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
-  }
-
-  // Toggle dropdown
-  menuButton.addEventListener("click", () => {
-    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+      document.addEventListener("click", e => {
+        if (!menuWrapper.contains(e.target)) dropdown.style.display = "none";
+      });
+    } catch (err) {
+      console.warn("Could not attach menu:", err);
+    }
   });
-
-  document.addEventListener("click", e => {
-    if (!menuWrapper.contains(e.target)) dropdown.style.display = "none";
-  });
-});
+}
