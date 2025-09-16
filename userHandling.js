@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                         userCircle.style.color = '#666';
                         userCircle.style.fontWeight = 'bold';
                     }
+                    
+                    // Redirect deleted users to NotApproved page
+                    window.location.href = '/Membership/NotApproved';
                 }
             }
         } catch (error) {
@@ -85,5 +88,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         // Add logout button next to username
         usernameElement.parentNode.insertBefore(logoutButton, usernameElement.nextSibling);
+    } else {
+        // If no user is logged in, redirect to login page
+        window.location.href = '/login';
     }
 });
