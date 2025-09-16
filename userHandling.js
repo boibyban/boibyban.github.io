@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const path = window.location.pathname.toLowerCase();
 
-  // --- Get current user from localStorage ---
-  let currentUser = localStorage.getItem("currentUser");
-  if (currentUser) currentUser = JSON.parse(currentUser);
+  // --- Get current username from localStorage ---
+  let storedUsername = localStorage.getItem("username");
 
   // --- Logout function ---
   function logout() {
-    localStorage.removeItem("currentUser");
     localStorage.removeItem("username");
     localStorage.removeItem("ModPanelUsername");
     localStorage.removeItem("banFormData");
@@ -15,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  // Attach logout listeners for any pre-existing buttons
+  // Attach logout listeners for any existing buttons
   document.querySelectorAll(".logout, .logoutlink").forEach(btn => {
     btn.addEventListener("click", e => {
       e.preventDefault();
@@ -24,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // --- No user logged in ---
-  if (!currentUser) {
+  if (!storedUsername) {
     if (path.includes("/users")) {
       const headerUser = document.querySelector(".right");
       if (headerUser) {
@@ -36,11 +34,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     return; // stop further execution
   }
 
-  // --- Logged-in user ---
-  const usernameElement = document.getElementById("username");
-  const userCircle = document.querySelector(".user-circle");
+  // --- Fetch users JSON ---
+  let users;
+  try {
+    const response = await fetch("/users.json");
+    if (!response.ok) throw new Error("Failed to fetch users.json");
+    users = await response.json();
+  } catch (err) {
+    console.error("Error fetching users.json:", err);
+    return;
+  }
 
-  // --- Handle banned/deleted users ---
+  // --- Find the current user from username ---
+  let currentUser = Object.values(users).find(u => u.username === storedUsername);
+  if (!currentUser) {
+    // User no longer exists → log out
+    logout();
+    return;
+  }
+
+  // --- Handle deleted/banned users ---
   if (currentUser.isDeleted) {
     if (currentUser.banFormData) {
       try {
@@ -52,35 +65,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Failed to parse banFormData:", e);
       }
     }
-
     if (!path.includes("/not-approved")) {
       window.location.href = "/not-approved";
       return;
     }
   } else {
-    // User has banFormData but is not marked deleted → treat as normal
-    if (currentUser.banFormData) {
-      try {
-        const banData = typeof currentUser.banFormData === "string"
-          ? JSON.parse(currentUser.banFormData)
-          : currentUser.banFormData;
-        localStorage.setItem("banFormData", JSON.stringify(banData));
-      } catch (e) {
-        console.error("Failed to parse banFormData:", e);
-      }
-    }
-  }
-
-  // --- Ensure username is stored ---
-  if (currentUser.username) {
-    localStorage.setItem("username", currentUser.username);
-    localStorage.setItem("ModPanelUsername", currentUser.username);
+    // Normal user → clear any stale banFormData
+    localStorage.removeItem("banFormData");
   }
 
   // --- Display username ---
+  const usernameElement = document.getElementById("username");
   if (usernameElement) usernameElement.textContent = currentUser.username;
 
   // --- Display profile picture ---
+  const userCircle = document.querySelector(".user-circle");
   if (currentUser.profilePicture && !currentUser.isDeleted && userCircle) {
     const profileImg = document.createElement("img");
     profileImg.src = currentUser.profilePicture;
@@ -104,7 +103,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --- Home page greeting ---
   const greetingText = document.getElementById("greetingText");
   const profilePic = document.getElementById("profilePic");
-
   if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
   if (profilePic && currentUser.profilePicture) {
     profilePic.style.backgroundImage = `url('${currentUser.profilePicture}')`;
@@ -156,7 +154,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
   }
 
-  // --- Toggle dropdown ---
   menuButton.addEventListener("click", () => {
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
   });
