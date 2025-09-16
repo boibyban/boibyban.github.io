@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const path = window.location.pathname.toLowerCase();
+
+  // --- Get username from localStorage ---
   const storedUsername = localStorage.getItem("username");
 
+  // --- Logout function ---
   function logout() {
     localStorage.removeItem("username");
     localStorage.removeItem("ModPanelUsername");
@@ -10,30 +13,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  // Logout listeners
-  [".logout", ".logoutlink", "#dropdownLogout"].forEach(sel => {
-    document.querySelectorAll(sel).forEach(el => el.addEventListener("click", e => {
-      e.preventDefault();
-      logout();
-    }));
+  // Attach logout listeners (covers all static/dynamic cases)
+  const logoutSelectors = [".logout", ".logoutlink", "#dropdownLogout"];
+  logoutSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener("click", e => {
+        e.preventDefault();
+        logout();
+      });
+    });
   });
 
-  // If no user is stored
+  // --- No username stored, treat as logged out ---
   if (!storedUsername) {
-    // /users pages show login link
     if (path.includes("/users")) {
       const headerUser = document.querySelector(".right");
       if (headerUser) headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
-    } 
-    // /home requires login
-    else if (path.includes("/home")) {
+    } else if (path.includes("/home")) {
       window.location.href = "/login";
     }
-    // /404.html: allow access even if not logged in
+    // /404.html is accessible even if not logged in
     return;
   }
 
-  // Fetch users JSON
+  // --- Fetch user JSON ---
   let users;
   try {
     const res = await fetch("/users.json");
@@ -44,14 +47,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Find current user
-  const currentUser = Object.values(users).find(u => u.username === storedUsername);
-  if (!currentUser) { logout(); return; }
+  // --- Find current user by username ---
+  let currentUser = null;
+  for (const id in users) {
+    if (users[id].username === storedUsername) {
+      currentUser = users[id];
+      break;
+    }
+  }
 
-  // Normalize isDeleted (convert string -> boolean)
+  if (!currentUser) {
+    // Username in localStorage no longer exists in JSON
+    logout();
+    return;
+  }
+
+  // --- Normalize isDeleted flag ---
   const isDeleted = currentUser.isDeleted === true || currentUser.isDeleted === "true";
 
-  // Redirect deleted users to /not-approved (except /404.html)
+  // --- Handle deleted/banned users ---
   if (isDeleted) {
     if (currentUser.banFormData) {
       try {
@@ -64,19 +78,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
-    if (!path.includes("/not-approved") && !path.includes("/404.html")) {
+    // Redirect banned users unless on /not-approved
+    if (!path.includes("/not-approved")) {
       window.location.href = "/not-approved";
       return;
     }
   } else {
+    // Not deleted → remove any leftover banFormData
     localStorage.removeItem("banFormData");
   }
 
-  // Display username
+  // --- Display username in header ---
   const usernameElement = document.getElementById("username");
   if (usernameElement) usernameElement.textContent = currentUser.username;
 
-  // Display profile picture
+  // --- Display profile picture ---
   const userCircle = document.querySelector(".user-circle");
   if (currentUser.profilePicture && userCircle && !isDeleted) {
     const profileImg = document.createElement("img");
@@ -89,7 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     userCircle.replaceWith(profileImg);
   }
 
-  // Sidebar links
+  // --- Sidebar links ---
   const homeLink = document.getElementById("homeLink");
   const profileLink = document.getElementById("profileLink");
   const acquaintancesLink = document.getElementById("acquaintancesLink");
@@ -97,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
   if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
 
-  // Home page greeting
+  // --- Home page greeting ---
   const greetingText = document.getElementById("greetingText");
   const profilePic = document.getElementById("profilePic");
   if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
@@ -107,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     profilePic.style.backgroundPosition = "center";
   }
 
-  // 3-dot logout menu
+  // --- 3-dot menu for logout ---
   const menuWrapper = document.createElement("div");
   menuWrapper.style.position = "relative";
   menuWrapper.style.display = "inline-block";
@@ -151,9 +167,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
   }
 
+  // Toggle dropdown
   menuButton.addEventListener("click", () => {
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
   });
+
   document.addEventListener("click", e => {
     if (!menuWrapper.contains(e.target)) dropdown.style.display = "none";
   });
