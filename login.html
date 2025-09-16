@@ -1,4 +1,284 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+        * {
+            font-family: "Inter", serif;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        header {
+            position: sticky;
+            box-sizing: border-box;
+            top: 0;
+            width: 100%;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            background: #fff;
+            color: #000;
+            z-index: 1000;
+            border-bottom: 1px solid #ddd;
+        }
+        .left, .right {
+            display: flex;
+            align-items: center;
+        }
+        .left img {
+            height: 32px;
+            margin-right: 32px;
+        }
+        .left span {
+            font-weight: bold;
+            margin-right: 32px;
+            font-size: 16px;
+        }
+        .left nav a {
+            margin-right: 32px;
+            text-decoration: none;
+            color: inherit;
+            font-size: 16px;
+        }
+        .right .user-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #eee;
+            margin-right: 5px;
+        }
+        .right span, .right img {
+            font-size: 16px;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+        .right img {
+            width: 32px;
+            height: 32px;
+        }
+        /* Dark mode */
+        header.dark {
+            background: #1F1F1F;
+            color: #eee;
+        }
+        header.dark .left nav a {
+            color: #eee;
+        }
+        header.dark .right .user-circle {
+            background: #555;
+        }
+        #logo {
+            content: url("https://boibyban.github.io/boibylongdark.png");
+            height: 36px;
+        }
+        .dark-mode #logo {
+            content: url("https://boibyban.github.io/boibylonglight.png");
+        }
+        
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            width: 160px;
+            height: 100%;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 16px;
+            box-sizing: border-box;
+            font-size: 16px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 900;
+        }
+        #sidebar a, #sidebar .premium-btn {
+            display: block;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .premium-btn {
+            margin-top: auto;
+            padding: 8px;
+            border: none;
+            background: #ffd633;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        header.dark + #sidebar {
+            background: #1F1F1F;
+            border-right: 1px solid #444;
+        }
+        header.dark + #sidebar a,
+        header.dark + #sidebar .premium-btn {
+            color: #eee;
+        }
+        #hamburger {
+            display: none;
+            font-size: 22px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        @media (max-width: 1599px) {
+            #sidebar {
+                display: none;
+            }
+            #hamburger {
+                display: block;
+            }
+        }
+        @media (min-width: 1600px) {
+            #sidebar {
+                display: flex;
+            }
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Login form */
+        .login-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+        .login-title {
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        .login-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+        .login-btn:hover {
+            background-color: #3a7bc8;
+        }
+        .error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+    <title>Login to Boiby</title>
+</head>
+<body>
+    <header id="header">
+        <div class="left">
+            <div id="hamburger">☰</div>
+            <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
+            <nav>
+                <a href="#">Discover</a>
+                <a href="#">Catalog</a>
+                <a href="#">Develop</a>
+                <a href="#">Boibucks</a>
+            </nav>
+        </div>
+        <div class="right">
+            <div class="user-circle"></div>
+            <span id="username" style="font-weight:500;">Guest</span>
+            <span> </span>
+            <img src="https://boibyban.github.io/bgreen.png" alt="Boibucks">
+            <span>0</span>
+        </div>
+    </header>
+
+    <div id="sidebar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Discover</a>
+        <a href="#">Catalog</a>
+        <a href="#">Acquaintances</a>
+        <a href="#">Chat</a>
+        <a href="#">Trade</a>
+        <a href="#">Money</a>
+        <a href="#">Develop</a>
+        <a href="#">Premium</a>
+        <button style="display:none" class="premium-btn">Get Premium</button>
+    </div>
+
+    <div class="main-content">
+        <div class="login-container">
+            <h2 class="login-title">Login to Boiby</h2>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="usernameInput" name="username" required placeholder="Enter your username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+                
+                <div class="error-message" id="errorMessage">
+                    Invalid username or password
+                </div>
+                
+                <div class="loading" id="loading">
+                    Logging in...
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const errorMessage = document.getElementById('errorMessage');
@@ -57,3 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+    <script src="/userHandling.js"></script>
+</body>
+</html><
