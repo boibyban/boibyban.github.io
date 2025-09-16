@@ -69,6 +69,31 @@ document.addEventListener("DOMContentLoaded", async () => {
       userCircle.replaceWith(profileImg);
     }
 
+    // After currentUser is loaded and verified in userHandling.js
+if (currentUser) {
+  // Sidebar links
+  const homeLink = document.getElementById("homeLink");
+  const profileLink = document.getElementById("profileLink");
+  const acquaintancesLink = document.getElementById("acquaintancesLink");
+
+  if (homeLink) homeLink.href = "/home";
+  if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
+  if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
+
+  // Update greeting with profile picture
+  const greetingText = document.getElementById("greetingText");
+  const profilePic = document.getElementById("profilePic");
+
+  if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
+
+  if (profilePic && currentUser.profilePicture) {
+    profilePic.style.backgroundImage = `url('${currentUser.profilePicture}')`;
+    profilePic.style.backgroundSize = "cover";
+    profilePic.style.backgroundPosition = "center";
+  }
+}
+
+
     // Create 3-dot menu
     const menuWrapper = document.createElement("div");
     menuWrapper.style.position = "relative";
