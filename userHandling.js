@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --- Normalize isDeleted flag ---
   const isDeleted = currentUser.isDeleted === true || currentUser.isDeleted === "true";
 
+  
   // --- Handle deleted/banned users ---
   if (isDeleted) {
     if (currentUser.banFormData) {
@@ -87,6 +88,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Not deleted → remove any leftover banFormData
     localStorage.removeItem("banFormData");
   }
+console.group("AUTH DEBUG");
+console.log("path:", path);
+console.log("storedUsername:", storedUsername);
+console.log("currentUser (raw):", currentUser);
+console.log("currentUser.isDeleted (access):", currentUser && currentUser.isDeleted);
+console.log("hasOwn isDeleted:", Object.prototype.hasOwnProperty.call(currentUser || {}, "isDeleted"));
+console.log("Object.prototype.isDeleted:", Object.prototype.isDeleted);
+console.log("currentUser prototype:", Object.getPrototypeOf(currentUser));
+console.trace();
+console.groupEnd();
 
   // --- Display username in header ---
   const usernameElement = document.getElementById("username");
