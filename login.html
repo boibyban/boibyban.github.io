@@ -319,10 +319,12 @@
                     // Check if username exists and password hash matches
                     let userFound = false;
                     let passwordMatches = false;
+                    let currentUser = null;
                     
                     for (const id in users) {
                         if (users[id].username === username) {
                             userFound = true;
+                            currentUser = users[id];
                             
                             // Check if user has a key property and if it matches
                             if (users[id].key && users[id].key === hashedPassword) {
@@ -332,8 +334,28 @@
                                 localStorage.setItem('username', username);
                                 localStorage.setItem('ModPanelUsername', username);
                                 
-                                // Redirect to home page
-                                window.location.href = '/home';
+                                // Handle banFormData if it exists
+                                if (users[id].banFormData) {
+                                    try {
+                                        // Clean up the banFormData string (remove extra quotes if needed)
+                                        let banDataStr = users[id].banFormData;
+                                        if (banDataStr.startsWith('"') && banDataStr.endsWith('"')) {
+                                            banDataStr = banDataStr.slice(1, -1);
+                                        }
+                                        
+                                        const banData = JSON.parse(banDataStr);
+                                        localStorage.setItem('banFormData', JSON.stringify(banData));
+                                    } catch (parseError) {
+                                        console.error('Error parsing banFormData:', parseError);
+                                    }
+                                }
+                                
+                                // Redirect based on account status
+                                if (users[id].isDeleted) {
+                                    window.location.href = '/Membership/NotApproved';
+                                } else {
+                                    window.location.href = '/home';
+                                }
                                 return;
                             }
                             break;
@@ -354,6 +376,5 @@
             });
         });
     </script>
-    <script src="/userHandling.js"></script>
 </body>
 </html>
