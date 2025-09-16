@@ -297,24 +297,42 @@ header.dark + #sidebar .premium-btn {
 </header>
 </head>
 <body>
-    <div id="sidebar">
-        <a href="#">Home</a>
-        <a href="#">Profile</a>
-        <a href="#">Discover</a>
-        <a href="#">Catalog</a>
-        <a href="#">Acquaintances</a>
-        <a href="#">Chat</a>
-        <a href="#">Trade</a>
-        <a href="#">Money</a>
-        <a href="#">Develop</a>
-        <a href="#">Premium</a>
+  <div id="sidebar">
+    <a id="homeLink" href="#">Home</a>
+    <a id="profileLink" href="#">Profile</a>
+    <a href="#">Discover</a>
+    <a href="#">Catalog</a>
+    <a id="acquaintancesLink" href="#">Acquaintances</a>
+    <a href="#">Chat</a>
+    <a href="#">Trade</a>
+    <a href="#">Money</a>
+    <a href="#">Develop</a>
+    <a href="#">Premium</a>
+    <button style="display:none" class="premium-btn">Get Premium</button>
+  </div>
 
+  <div class="main-content" style="margin-left:180px; padding:20px;">
+    <div id="greeting" style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+      <div id="profilePic" style="width:48px; height:48px; border-radius:50%; background:#eee;"></div>
+      <span id="greetingText" style="font-size:18px; font-weight:500;">Hello!</span>
+    </div>
 
-  <button style="display:none" class="premium-btn">Get Premium</button>
+    <button id="addAcquaintancesBtn" style="padding:10px 20px; border:none; background:#4a90e2; color:white; border-radius:6px; cursor:pointer;">
+      Add Acquaintances
+    </button>
+  </div>
 
-</div>
-<br><h2 style="margin-left:15px">Home</h2>
-    <script src="/device.js"></script>
-    <script src="/userHandling.js"></script>
+  <script src="/device.js"></script>
+  <script src="/userHandling.js"></script>
+
+  <script>
+    // Add Acquaintances button click
+    const addBtn = document.getElementById("addAcquaintancesBtn");
+    if (addBtn) {
+      addBtn.addEventListener("click", () => {
+        window.location.href = "/users.html?id=1";
+      });
+    }
+  </script>
 </body>
 </html>
