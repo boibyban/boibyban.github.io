@@ -2,6 +2,7 @@
   "1": {
     "username": "boiby",
     "displayName": "",
+    "key": "9b0d478e86e0df8d0674f9aa33b38dd9650201aa90c334c57c1b0b03bbd2c34f",
     "profilePicture": "/boiby.png",
     "isDeleted": false,
     "joinDate": "2024-01-08",
@@ -14,6 +15,7 @@
   "2": {
     "username": "JohnDoherty",
     "displayName": "",
+    "key": "9b0d478e86e0df8d0674f9aa33b38dd9650201aa90c334c57c1b0b03bbd2c34f",
     "profilePicture": "/boiby.png",
     "isDeleted": false,
     "joinDate": "2024-05-12",
@@ -26,6 +28,7 @@
   "3": {
     "username": "JaneDoherty",
     "displayName": "",
+    "key": "9b0d478e86e0df8d0674f9aa33b38dd9650201aa90c334c57c1b0b03bbd2c34f",
     "profilePicture": "/boiby.png",
     "isDeleted": false,
     "joinDate": "2024-09-04",
@@ -38,8 +41,24 @@
   "4": {
     "username": "boiby_user_4",
     "displayName": "",
+    "key": "9b0d478e86e0df8d0674f9aa33b38dd9650201aa90c334c57c1b0b03bbd2c34f",
     "profilePicture": "/ogno.png",
     "isDeleted": true,
+    "banFormData": {
+        "state": "Delete",
+        "banStartDate": "31/08/2025, 9:02:38",
+        "note": "nonote",
+        "customNote": "This username is not permitted on Boiby.",
+        "internalNote": "",
+        "cautionWarning": "none",
+        "automation": "manual",
+        "theme": "light",
+        "botBan": false,
+        "parentChargeback": false,
+        "classicViolations": [],
+        "modernViolations": [],
+        "caseID": "cc2fa5f3-5e9d-40c0-a96d-5d7b6ad128d0"
+    },
     "joinDate": "2024-09-07",
     "isAdmin": false,
     "friends": [2, 12],
