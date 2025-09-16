@@ -1,11 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const path = window.location.pathname.toLowerCase();
 
-  // --- Get current user from storage ---
+  // --- Get current user from localStorage ---
   let currentUser = localStorage.getItem("currentUser");
-  if (currentUser) {
-    currentUser = JSON.parse(currentUser);
-  }
+  if (currentUser) currentUser = JSON.parse(currentUser);
 
   // --- Logout function ---
   function logout() {
@@ -17,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  // Attach logout listeners to buttons/links
+  // Attach logout listeners
   document.querySelectorAll(".logout, .logoutlink").forEach(btn => {
     btn.addEventListener("click", e => {
       e.preventDefault();
@@ -25,14 +23,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // --- Handle logged-in users ---
+  // --- Logged-in users ---
   if (currentUser) {
     const usernameElement = document.getElementById("username");
     const userCircle = document.querySelector(".user-circle");
 
-    // Redirect banned users to NotApproved
+    // Redirect deleted/banned users to /not-approved
     if (currentUser.isDeleted) {
-      // Store banFormData if exists
       if (currentUser.banFormData) {
         try {
           const banData =
@@ -44,20 +41,19 @@ document.addEventListener("DOMContentLoaded", async () => {
           console.error("Failed to parse banFormData:", e);
         }
       }
-
       if (
-        !path.includes("/membership/notapproved") &&
+        !path.includes("/not-approved") &&
         !path.includes("/login") &&
         !path.includes("/device-restricted")
       ) {
-        window.location.href = "/Membership/NotApproved";
+        window.location.href = "/not-approved";
       }
     }
 
-    // Show username in header
+    // Show username
     if (usernameElement) usernameElement.textContent = currentUser.username;
 
-    // Show profile picture if available
+    // Show profile picture
     if (currentUser.profilePicture && !currentUser.isDeleted && userCircle) {
       const profileImg = document.createElement("img");
       profileImg.src = currentUser.profilePicture;
@@ -69,32 +65,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       userCircle.replaceWith(profileImg);
     }
 
-    // After currentUser is loaded and verified in userHandling.js
-if (currentUser) {
-  // Sidebar links
-  const homeLink = document.getElementById("homeLink");
-  const profileLink = document.getElementById("profileLink");
-  const acquaintancesLink = document.getElementById("acquaintancesLink");
+    // Sidebar links
+    const homeLink = document.getElementById("homeLink");
+    const profileLink = document.getElementById("profileLink");
+    const acquaintancesLink = document.getElementById("acquaintancesLink");
 
-  if (homeLink) homeLink.href = "/home";
-  if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
-  if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
+    if (homeLink) homeLink.href = "/home";
+    if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
+    if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
 
-  // Update greeting with profile picture
-  const greetingText = document.getElementById("greetingText");
-  const profilePic = document.getElementById("profilePic");
+    // Home page greeting and profile picture
+    const greetingText = document.getElementById("greetingText");
+    const profilePic = document.getElementById("profilePic");
 
-  if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
+    if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
+    if (profilePic && currentUser.profilePicture) {
+      profilePic.style.backgroundImage = `url('${currentUser.profilePicture}')`;
+      profilePic.style.backgroundSize = "cover";
+      profilePic.style.backgroundPosition = "center";
+    }
 
-  if (profilePic && currentUser.profilePicture) {
-    profilePic.style.backgroundImage = `url('${currentUser.profilePicture}')`;
-    profilePic.style.backgroundSize = "cover";
-    profilePic.style.backgroundPosition = "center";
-  }
-}
-
-
-    // Create 3-dot menu
+    // 3-dot menu
     const menuWrapper = document.createElement("div");
     menuWrapper.style.position = "relative";
     menuWrapper.style.display = "inline-block";
@@ -138,17 +129,15 @@ if (currentUser) {
       usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
     }
 
-    // Toggle menu
+    // Toggle dropdown
     menuButton.addEventListener("click", () => {
       dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
     });
 
-    // Close menu when clicking outside
     document.addEventListener("click", e => {
-      if (!menuWrapper.contains(e.target)) {
-        dropdown.style.display = "none";
-      }
+      if (!menuWrapper.contains(e.target)) dropdown.style.display = "none";
     });
+
   } else {
     // --- Logged-out users ---
     if (path.includes("/users")) {
@@ -157,6 +146,7 @@ if (currentUser) {
         headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
       }
     } else if (path.includes("/home")) {
+      // Redirect logged-out users to login
       window.location.href = "/login";
     }
   }
