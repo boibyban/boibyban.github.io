@@ -344,9 +344,8 @@
                     }
                 }
                 
-                // ✅ Redirect based on account status
                 if (currentUser.isDeleted) {
-                    window.location.href = '/Membership/Not-Approved';
+                    window.location.href = '/Membership/NotApproved';
                 } else {
                     window.location.href = '/home';
                 }
