@@ -279,86 +279,81 @@
         </div>
     </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const loginForm = document.getElementById('loginForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const loading = document.getElementById('loading');
-        
-        // Simple SHA-256 hashing function
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-        
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('usernameInput').value.trim();
-            const password = document.getElementById('password').value;
-            
-            loading.style.display = 'block';
-            errorMessage.style.display = 'none';
-            
-            try {
-                const response = await fetch('/users.json');
-                if (!response.ok) throw new Error('Failed to fetch user data');
-                
-                const users = await response.json();
-                const hashedPassword = await sha256(password);
-                
-                let currentUser = null;
-                for (const id in users) {
-                    if (users[id].username === username) {
-                        currentUser = users[id];
-                        break;
-                    }
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const loading = document.getElementById('loading');
+
+    // Simple SHA-256 hashing function
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('usernameInput').value.trim();
+        const password = document.getElementById('password').value;
+
+        loading.style.display = 'block';
+        errorMessage.style.display = 'none';
+
+        try {
+            const response = await fetch('/users.json');
+            if (!response.ok) throw new Error('Failed to fetch user data');
+
+            const users = await response.json();
+            const hashedPassword = await sha256(password);
+
+            let currentUser = null;
+            for (const id in users) {
+                if (users[id].username === username) {
+                    currentUser = users[id];
+                    break;
                 }
-                
-                if (!currentUser) {
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-                
-                if (currentUser.key !== hashedPassword) {
-                    errorMessage.style.display = 'block';
-                    return;
-                }
-                
-                // ✅ Save username
-                localStorage.setItem('username', username);
-                localStorage.setItem('ModPanelUsername', username);
-                
-                // ✅ Save banFormData if it exists
-                if (currentUser.banFormData) {
-                    try {
-                        const banData = 
-                            typeof currentUser.banFormData === "string"
-                            ? JSON.parse(currentUser.banFormData)
-                            : currentUser.banFormData;
-                        
-                        localStorage.setItem('banFormData', JSON.stringify(banData));
-                    } catch (err) {
-                        console.error("Error parsing banFormData:", err);
-                    }
-                }
-                
-                if (currentUser.isDeleted) {
-                    window.location.href = '/not-approved';
-                } else {
-                    window.location.href = '/home';
-                }
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                errorMessage.textContent = 'Login service unavailable. Please try again later.';
-                errorMessage.style.display = 'block';
-            } finally {
-                loading.style.display = 'none';
             }
-        });
+
+            if (!currentUser || currentUser.key !== hashedPassword) {
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            localStorage.setItem('username', currentUser.username);
+            localStorage.setItem('ModPanelUsername', currentUser.username);
+
+            if (currentUser.banFormData) {
+                try {
+                    const banData = typeof currentUser.banFormData === "string"
+                        ? JSON.parse(currentUser.banFormData)
+                        : currentUser.banFormData;
+                    localStorage.setItem('banFormData', JSON.stringify(banData));
+                } catch (err) {
+                    console.error("Error parsing banFormData:", err);
+                }
+            } else {
+                localStorage.removeItem('banFormData'); // ensure it's cleared if none exists
+            }
+
+            if (currentUser.isDeleted) {
+                window.location.href = '/not-approved';
+            } else {
+                window.location.href = '/home';
+            }
+
+        } catch (error) {
+            console.error('Login error:', error);
+            errorMessage.textContent = 'Login service unavailable. Please try again later.';
+            errorMessage.style.display = 'block';
+        } finally {
+            loading.style.display = 'none';
+        }
     });
+});
 </script>
     <script src="/userHandling.js"></script>
 </body>
