@@ -1470,5 +1470,29 @@ if (formData) {
 });
     </script>
 	    <script src="/userHandling.js"></script>
+	<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const logoutBtn = document.getElementById("dropdownLogout");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            localStorage.removeItem("banFormData");
+            localStorage.removeItem("username");
+
+            sessionStorage.removeItem("banFormData");
+            sessionStorage.removeItem("username");
+
+            if (window.currentUser) {
+                window.currentUser.banFormData = null;
+                window.currentUser.username = null;
+            }
+
+            console.log("banFormData and username cleared on logout.");
+        });
+    }
+});
+</script>
+
 </body>
+	
 </html>
