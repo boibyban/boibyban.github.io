@@ -47,12 +47,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                     // Check if we should redirect
                     const path = window.location.pathname.toLowerCase();
                     if (
-                        !path.includes('/membership') &&
+                        !path.includes('/Membership') &&
                         !path.includes('/not-approved') &&
                         !path.includes('/device-restricted') &&
                         !path.includes('/login')
                     ) {
-                        window.location.href = '/Membership/NotApproved';
+                        window.location.href = '/not-approved';
                     }
                 }
             }
@@ -167,10 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentUser.isDeleted) {
       if (
         !path.includes("/Membership/NotApproved") &&
+        !path.includes("/not-approved") &&
         !path.includes("/login") &&
         !path.includes("/device-restricted")
       ) {
-        window.location.href = "/Membership/NotApproved";
+        window.location.href = "/not-approved";
       }
     }
   }
