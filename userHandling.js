@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  // Attach logout listeners
+  // Attach logout listeners for any pre-existing buttons
   document.querySelectorAll(".logout, .logoutlink").forEach(btn => {
     btn.addEventListener("click", e => {
       e.preventDefault();
@@ -26,13 +26,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --- No user logged in ---
   if (!currentUser) {
     if (path.includes("/users")) {
-      // Show login button instead of user info
       const headerUser = document.querySelector(".right");
       if (headerUser) {
         headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
       }
     } else if (path.includes("/home")) {
-      // Redirect logged-out users to login
       window.location.href = "/login";
     }
     return; // stop further execution
@@ -42,44 +40,47 @@ document.addEventListener("DOMContentLoaded", async () => {
   const usernameElement = document.getElementById("username");
   const userCircle = document.querySelector(".user-circle");
 
-  // Redirect banned/deleted users
-if (currentUser.isDeleted) {
+  // --- Handle banned/deleted users ---
+  if (currentUser.isDeleted) {
     if (currentUser.banFormData) {
-        try {
-            const banData = typeof currentUser.banFormData === "string"
-                ? JSON.parse(currentUser.banFormData)
-                : currentUser.banFormData;
-            localStorage.setItem("banFormData", JSON.stringify(banData));
-        } catch (e) {
-            console.error("Failed to parse banFormData:", e);
-        }
+      try {
+        const banData = typeof currentUser.banFormData === "string"
+          ? JSON.parse(currentUser.banFormData)
+          : currentUser.banFormData;
+        localStorage.setItem("banFormData", JSON.stringify(banData));
+      } catch (e) {
+        console.error("Failed to parse banFormData:", e);
+      }
     }
 
     if (!path.includes("/not-approved")) {
-        window.location.href = "/not-approved";
-        return;
+      window.location.href = "/not-approved";
+      return;
     }
-} else {
-    // User has banFormData but is not marked deleted
-    // Treat as normal user
+  } else {
+    // User has banFormData but is not marked deleted → treat as normal
     if (currentUser.banFormData) {
-        try {
-            const banData = typeof currentUser.banFormData === "string"
-                ? JSON.parse(currentUser.banFormData)
-                : currentUser.banFormData;
-            // Optional: keep it in localStorage for reference
-            localStorage.setItem("banFormData", JSON.stringify(banData));
-        } catch (e) {
-            console.error("Failed to parse banFormData:", e);
-        }
+      try {
+        const banData = typeof currentUser.banFormData === "string"
+          ? JSON.parse(currentUser.banFormData)
+          : currentUser.banFormData;
+        localStorage.setItem("banFormData", JSON.stringify(banData));
+      } catch (e) {
+        console.error("Failed to parse banFormData:", e);
+      }
     }
-}
+  }
 
+  // --- Ensure username is stored ---
+  if (currentUser.username) {
+    localStorage.setItem("username", currentUser.username);
+    localStorage.setItem("ModPanelUsername", currentUser.username);
+  }
 
-  // Show username
+  // --- Display username ---
   if (usernameElement) usernameElement.textContent = currentUser.username;
 
-  // Show profile picture
+  // --- Display profile picture ---
   if (currentUser.profilePicture && !currentUser.isDeleted && userCircle) {
     const profileImg = document.createElement("img");
     profileImg.src = currentUser.profilePicture;
@@ -91,7 +92,7 @@ if (currentUser.isDeleted) {
     userCircle.replaceWith(profileImg);
   }
 
-  // Sidebar links
+  // --- Sidebar links ---
   const homeLink = document.getElementById("homeLink");
   const profileLink = document.getElementById("profileLink");
   const acquaintancesLink = document.getElementById("acquaintancesLink");
@@ -100,7 +101,7 @@ if (currentUser.isDeleted) {
   if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
   if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
 
-  // Home page greeting
+  // --- Home page greeting ---
   const greetingText = document.getElementById("greetingText");
   const profilePic = document.getElementById("profilePic");
 
@@ -111,7 +112,7 @@ if (currentUser.isDeleted) {
     profilePic.style.backgroundPosition = "center";
   }
 
-  // 3-dot menu
+  // --- 3-dot menu ---
   const menuWrapper = document.createElement("div");
   menuWrapper.style.position = "relative";
   menuWrapper.style.display = "inline-block";
@@ -155,7 +156,7 @@ if (currentUser.isDeleted) {
     usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
   }
 
-  // Toggle dropdown
+  // --- Toggle dropdown ---
   menuButton.addEventListener("click", () => {
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
   });
