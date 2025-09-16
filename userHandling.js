@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         menuButton.style.border = 'none';
         menuButton.style.cursor = 'pointer';
         menuButton.style.fontSize = '18px';
-        menuButton.style.color = 'white';
+        menuButton.style.color = 'black';
 
         // Dropdown menu
         const dropdown = document.createElement('div');
