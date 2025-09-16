@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const path = window.location.pathname.toLowerCase();
 
   // --- Get username from localStorage ---
-  let storedUsername = localStorage.getItem("username");
+  const storedUsername = localStorage.getItem("username");
 
   // --- Logout function ---
   function logout() {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  // Attach logout listeners (covers all cases, including static a#dropdownLogout)
+  // Attach logout listeners (covers all static and dynamic cases)
   const logoutSelectors = [".logout", ".logoutlink", "#dropdownLogout"];
   logoutSelectors.forEach(selector => {
     document.querySelectorAll(selector).forEach(el => {
@@ -61,9 +61,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // --- Check if user is deleted ---
+  // --- Check if user is deleted first ---
   if (currentUser.isDeleted) {
-    // Only store banFormData if user is deleted
     if (currentUser.banFormData) {
       try {
         const banData = typeof currentUser.banFormData === "string"
@@ -80,11 +79,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
   } else {
-    // Not deleted → ignore banFormData completely
+    // Not deleted → ignore banFormData
     localStorage.removeItem("banFormData");
   }
 
-  // --- Display username ---
+  // --- Display username in header ---
   const usernameElement = document.getElementById("username");
   if (usernameElement) usernameElement.textContent = currentUser.username;
 
