@@ -126,3 +126,52 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.location.href = '/login';
     }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const path = window.location.pathname;
+
+  // --- Logout function ---
+  function logout() {
+    if (currentUser) {
+      // Remove banFormData if it exists
+      if (currentUser.banFormData) {
+        delete currentUser.banFormData;
+      }
+
+      // Clear login session
+      localStorage.removeItem("currentUser");
+      localStorage.setItem("logoutTime", new Date().toISOString());
+    }
+
+    // Redirect to login page
+    window.location.href = "/login";
+  }
+
+  // Attach logout listeners to buttons/links
+  const logoutBtns = document.querySelectorAll(".logout, .logoutlink");
+  logoutBtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      logout();
+    });
+  });
+
+  // --- Page routing logic ---
+  if (!currentUser) {
+    if (path.includes("/users")) {
+      // Replace header user info with Login button
+      const headerUser = document.querySelector(".header-user");
+      if (headerUser) {
+        headerUser.innerHTML = `<a href="/login" class="login-btn">Login</a>`;
+      }
+    } else if (path.includes("/home")) {
+      // Redirect to login if not logged in
+      window.location.href = "/login";
+    }
+  } else {
+    // If account is deleted, redirect
+    if (currentUser.isDeleted) {
+      window.location.href = "/Membership/NotApproved";
+    }
+  }
+});
