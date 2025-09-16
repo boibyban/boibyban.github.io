@@ -208,49 +208,10 @@
             text-align: center;
             display: none;
         }
-        
-        /* Success modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
+        .loading {
             display: none;
-        }
-        .modal {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-        .modal h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        .modal p {
-            margin-bottom: 25px;
-            color: #666;
-        }
-        .modal-btn {
-            background-color: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .modal-btn:hover {
-            background-color: #3a7bc8;
+            margin-top: 15px;
         }
     </style>
     <title>Login to Boiby</title>
@@ -310,86 +271,86 @@
                 <div class="error-message" id="errorMessage">
                     Invalid username or password
                 </div>
+                
+                <div class="loading" id="loading">
+                    Logging in...
+                </div>
             </form>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="successModal">
-        <div class="modal">
-            <h2>Login Successful</h2>
-            <p>Welcome back to Boiby! You are now being redirected.</p>
-            <button class="modal-btn" id="modalOkButton">Okay</button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const loginForm = document.getElementById('loginForm');
-            const successModal = document.getElementById('successModal');
-            const okButton = document.getElementById('modalOkButton');
             const errorMessage = document.getElementById('errorMessage');
+            const loading = document.getElementById('loading');
             
-            // Sample user data (in a real implementation, this would come from /users.json)
-            const users = {
-                "1": {
-                    "username": "boiby",
-                    "displayName": "",
-                    "profilePicture": "/boiby.png",
-                    "isDeleted": false,
-                    "joinDate": "2024-01-08",
-                    "isAdmin": true,
-                    "friends": [2, 3, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 26],
-                    "followers": 10,
-                    "following": 9,
-                    "bio": "CEO of Boiby Corporation. If you require help, email boibyboiby3@gmail.com."
-                },
-                "2": {
-                    "username": "JohnDoherty",
-                    "displayName": "",
-                    "profilePicture": "/boiby.png",
-                    "isDeleted": false,
-                    "joinDate": "2024-05-12",
-                    "isAdmin": false,
-                    "friends": [1, 4, 5, 7, 8, 9, 10, 24, 25, 26],
-                    "followers": 2,
-                    "following": 3,
-                    "bio": ""
-                }
-            };
+            // Simple SHA-256 hashing function
+            async function sha256(message) {
+                const msgBuffer = new TextEncoder().encode(message);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
             
             // Form submit
-            loginForm.addEventListener('submit', function(e) {
+            loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const username = document.getElementById('usernameInput').value;
                 const password = document.getElementById('password').value;
                 
-                // Check if username exists (any password is accepted as requested)
-                let userExists = false;
-                for (const id in users) {
-                    if (users[id].username === username) {
-                        userExists = true;
-                        break;
-                    }
-                }
+                // Show loading, hide error
+                loading.style.display = 'block';
+                errorMessage.style.display = 'none';
                 
-                if (userExists) {
-                    // Store username in localStorage
-                    localStorage.setItem('username', username);
-                    localStorage.setItem('ModPanelUsername', username);
+                try {
+                    // Fetch users from users.json
+                    const response = await fetch('/users.json');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user data');
+                    }
                     
-                    // Show success modal
-                    successModal.style.display = 'flex';
-                } else {
-                    // Show error message
+                    const users = await response.json();
+                    
+                    // Hash the entered password
+                    const hashedPassword = await sha256(password);
+                    
+                    // Check if username exists and password hash matches
+                    let userFound = false;
+                    let passwordMatches = false;
+                    
+                    for (const id in users) {
+                        if (users[id].username === username) {
+                            userFound = true;
+                            
+                            // Check if user has a key property and if it matches
+                            if (users[id].key && users[id].key === hashedPassword) {
+                                passwordMatches = true;
+                                
+                                // Store username in localStorage
+                                localStorage.setItem('username', username);
+                                localStorage.setItem('ModPanelUsername', username);
+                                
+                                // Redirect to home page
+                                window.location.href = '/home';
+                                return;
+                            }
+                            break;
+                        }
+                    }
+                    
+                    // If we get here, login failed
+                    if (!userFound || !passwordMatches) {
+                        errorMessage.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    errorMessage.textContent = 'Login service unavailable. Please try again later.';
                     errorMessage.style.display = 'block';
+                } finally {
+                    loading.style.display = 'none';
                 }
-            });
-            
-            okButton.addEventListener('click', function() {
-                successModal.style.display = 'none';
-                // Redirect to home page or previous page
-                window.location.href = '/';
             });
         });
     </script>
