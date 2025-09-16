@@ -18,18 +18,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     }));
   });
 
-  // Not logged in
+  // If no user is stored
   if (!storedUsername) {
+    // /users pages show login link
     if (path.includes("/users")) {
       const headerUser = document.querySelector(".right");
       if (headerUser) headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
-    } else if (path.includes("/home")) {
+    } 
+    // /home requires login
+    else if (path.includes("/home")) {
       window.location.href = "/login";
     }
+    // /404.html: allow access even if not logged in
     return;
   }
 
-  // Fetch users
+  // Fetch users JSON
   let users;
   try {
     const res = await fetch("/users.json");
@@ -47,8 +51,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Normalize isDeleted (convert string -> boolean)
   const isDeleted = currentUser.isDeleted === true || currentUser.isDeleted === "true";
 
+  // Redirect deleted users to /not-approved (except /404.html)
   if (isDeleted) {
-    // Store banFormData if present
     if (currentUser.banFormData) {
       try {
         const banData = typeof currentUser.banFormData === "string"
@@ -59,12 +63,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Failed to parse banFormData:", err);
       }
     }
-    if (!path.includes("/not-approved")) {
+
+    if (!path.includes("/not-approved") && !path.includes("/404.html")) {
       window.location.href = "/not-approved";
       return;
     }
   } else {
-    // Not deleted → remove banFormData
     localStorage.removeItem("banFormData");
   }
 
@@ -93,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
   if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
 
-  // Greeting
+  // Home page greeting
   const greetingText = document.getElementById("greetingText");
   const profilePic = document.getElementById("profilePic");
   if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
@@ -103,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     profilePic.style.backgroundPosition = "center";
   }
 
-  // 3-dot menu
+  // 3-dot logout menu
   const menuWrapper = document.createElement("div");
   menuWrapper.style.position = "relative";
   menuWrapper.style.display = "inline-block";
