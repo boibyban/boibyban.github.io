@@ -1472,24 +1472,32 @@ if (formData) {
 	    <script src="/userHandling.js"></script>
 	<script>
 document.addEventListener("DOMContentLoaded", () => {
-    const logoutBtn = document.getElementById("dropdownLogout");
+  function logout() {
+    localStorage.removeItem("username");
+    localStorage.removeItem("ModPanelUsername");
+    localStorage.removeItem("banFormData");
+    localStorage.setItem("logoutTime", new Date().toISOString());
+    // Redirect to login
+    window.location.href = "/login";
+  }
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("banFormData");
-            localStorage.removeItem("username");
+  // Attach to all known logout triggers
+  const logoutSelectors = [
+    ".logout",
+    ".logoutlink",
+    "#dropdownLogout",
+    "button.logout",
+    "a.logout"
+  ];
 
-            sessionStorage.removeItem("banFormData");
-            sessionStorage.removeItem("username");
-
-            if (window.currentUser) {
-                window.currentUser.banFormData = null;
-                window.currentUser.username = null;
-            }
-
-            console.log("banFormData and username cleared on logout.");
-        });
-    }
+  logoutSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener("click", e => {
+        e.preventDefault();
+        logout();
+      });
+    });
+  });
 });
 </script>
 
