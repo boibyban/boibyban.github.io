@@ -1,4 +1,4 @@
-// userHandling.js - hardened, drop-in replacement
+// userHandling.js - hardened, drop-in replacement (updated per request)
 if (!window.__userHandlingInitialized) {
   window.__userHandlingInitialized = true;
 
@@ -10,9 +10,20 @@ if (!window.__userHandlingInitialized) {
 
     // --- Logout function ---
     function logout() {
+      // Only remove banFormData if it was sourced from this logged-in user
+      try {
+        const banSource = localStorage.getItem("banFormDataSource");
+        if (banSource && banSource === storedUsername) {
+          localStorage.removeItem("banFormData");
+          localStorage.removeItem("banFormDataSource");
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
+
       localStorage.removeItem("username");
       localStorage.removeItem("ModPanelUsername");
-      localStorage.removeItem("banFormData");
+      // keep other unrelated local banFormData if present
       localStorage.setItem("logoutTime", new Date().toISOString());
       window.location.href = "/login";
     }
@@ -87,13 +98,17 @@ if (!window.__userHandlingInitialized) {
             ? JSON.parse(currentUser.banFormData)
             : currentUser.banFormData;
           localStorage.setItem("banFormData", JSON.stringify(banData));
+          // mark the source so we don't clobber unrelated local ban data
+          localStorage.setItem("banFormDataSource", storedUsername);
         } catch (err) {
           console.error("Failed to parse banFormData:", err);
         }
       }
 
       // Prevent accidental double-redirects
-      if (!path.includes("/not-approved") && !window.__redirectingToNotApproved) {
+      // treat both '/not-approved' and '/membership/notapproved' as "already on not-approved"
+      const onNotApproved = path.includes("/not-approved") || path.includes("/membership/notapproved");
+      if (!onNotApproved && !window.__redirectingToNotApproved) {
         window.__redirectingToNotApproved = true;
         console.warn("Redirecting to /not-approved because currentUser.isDeleted is true (own property).");
         console.log({ currentUserHasOwnIsDeleted: hasOwnIsDeleted, rawIsDeleted });
@@ -102,8 +117,19 @@ if (!window.__userHandlingInitialized) {
         return;
       }
     } else {
-      // Not deleted → remove any leftover banFormData
-      localStorage.removeItem("banFormData");
+      // Not deleted → remove any leftover banFormData **only if** it was sourced from this logged-in user.
+      try {
+        const localBanSource = localStorage.getItem("banFormDataSource");
+        if (localBanSource && localBanSource === storedUsername) {
+          localStorage.removeItem("banFormData");
+          localStorage.removeItem("banFormDataSource");
+        } else {
+          // if local ban data exists but was not created by this logged-in user, leave it alone.
+          // this preserves unrelated local banFormData for manual navigation to the not-approved pages.
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
     }
 
     // --- Display username in header ---
