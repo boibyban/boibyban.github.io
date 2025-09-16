@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         !path.includes('/device-restricted') &&
                         !path.includes('/login')
                     ) {
-                        window.location.href = '/Membership/Not-Approved';
+                        window.location.href = '/Membership/NotApproved';
                     }
                 }
             }
