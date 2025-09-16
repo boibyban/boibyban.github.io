@@ -155,21 +155,9 @@
     "displayName": "",
     "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
     "profilePicture": "/content-deleted.png",
-    "isDeleted": false,
+    "isDeleted": true,
     "banFormData": {
-        "state": "Delete",
-        "banStartDate": "16/09/2025, 11:02:38",
-        "note": "nonote",
-        "customNote": "Your account has been moderated for creating, promoting, or participating in inappropriate behaviour or content. This is a violation of our Terms of Use.",
-        "internalNote": "",
-        "cautionWarning": "none",
-        "automation": "manual",
-        "theme": "light",
-        "botBan": false,
-        "parentChargeback": false,
-        "classicViolations": [],
-        "modernViolations": [],
-        "caseID": "65a830c1-6206-49e3-9c56-98f4c67dce4a"
+        "state":"Delete","banStartDate":"16/09/2025, 12:54:04","note":"nonote","customNote":"Boiby does not permit discriminatory language, behaviour, or content of any kind.","internalNote":"Discriminatory Content","cautionWarning":"none","automation":"manual","theme":"light","botBan":false,"parentChargeback":false,"classicViolations":[{"violationType":"General/Chat","reason":"Discriminatory Content","evidence":"Asset Name:uno revers card Asset ID:773","location":""}],"modernViolations":[],"caseID":"b41363de-91ff-4e5d-8d6a-99166584653a"
     },
     "joinDate": "2025-08-29",
     "isAdmin": false,
