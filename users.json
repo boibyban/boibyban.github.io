@@ -339,7 +339,7 @@
     "displayName": "ArcadiysTrash",
     "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
     "profilePicture": "/content-deleted.png",
-    "isDeleted": true,
+    "isDeleted": false,
     "banFormData": {
         "state": "Delete",
         "banStartDate": "16/09/2025, 11:02:38",
