@@ -128,26 +128,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 document.addEventListener("DOMContentLoaded", () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const path = window.location.pathname;
+  const path = window.location.pathname.toLowerCase();
 
   // --- Logout function ---
   function logout() {
-    if (currentUser) {
-      // Remove banFormData if it exists
-      if (currentUser.banFormData) {
-        delete currentUser.banFormData;
-      }
-
-      // Clear login session
-      localStorage.removeItem("currentUser");
-      localStorage.setItem("logoutTime", new Date().toISOString());
-    }
+    // Clear login info and banFormData
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("banFormData");
+    localStorage.setItem("logoutTime", new Date().toISOString());
 
     // Redirect to login page
     window.location.href = "/login";
   }
 
-  // Attach logout listeners to buttons/links
+  // Attach logout listeners to buttons and links
   const logoutBtns = document.querySelectorAll(".logout, .logoutlink");
   logoutBtns.forEach(btn => {
     btn.addEventListener("click", e => {
@@ -156,22 +150,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Page routing logic ---
+  // --- Page handling ---
   if (!currentUser) {
     if (path.includes("/users")) {
-      // Replace header user info with Login button
-      const headerUser = document.querySelector(".header-user");
+      // Show login button in header instead of user info
+      const headerUser = document.querySelector(".right");
       if (headerUser) {
-        headerUser.innerHTML = `<a href="/login" class="login-btn">Login</a>`;
+        headerUser.innerHTML = `<a href="/login" class="login-btn" style="color:white;">Login</a>`;
       }
     } else if (path.includes("/home")) {
       // Redirect to login if not logged in
       window.location.href = "/login";
     }
   } else {
-    // If account is deleted, redirect
+    // Redirect deleted users to NotApproved
     if (currentUser.isDeleted) {
-      window.location.href = "/Membership/NotApproved";
+      if (
+        !path.includes("/Membership/NotApproved") &&
+        !path.includes("/login") &&
+        !path.includes("/device-restricted")
+      ) {
+        window.location.href = "/Membership/NotApproved";
+      }
     }
   }
 });
