@@ -43,23 +43,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   const userCircle = document.querySelector(".user-circle");
 
   // Redirect banned/deleted users
-  if (currentUser.isDeleted) {
+if (currentUser.isDeleted) {
     if (currentUser.banFormData) {
-      try {
-        const banData = typeof currentUser.banFormData === "string"
-          ? JSON.parse(currentUser.banFormData)
-          : currentUser.banFormData;
-        localStorage.setItem("banFormData", JSON.stringify(banData));
-      } catch (e) {
-        console.error("Failed to parse banFormData:", e);
-      }
+        try {
+            const banData = typeof currentUser.banFormData === "string"
+                ? JSON.parse(currentUser.banFormData)
+                : currentUser.banFormData;
+            localStorage.setItem("banFormData", JSON.stringify(banData));
+        } catch (e) {
+            console.error("Failed to parse banFormData:", e);
+        }
     }
 
     if (!path.includes("/not-approved")) {
-      window.location.href = "/not-approved";
-      return;
+        window.location.href = "/not-approved";
+        return;
     }
-  }
+} else {
+    // User has banFormData but is not marked deleted
+    // Treat as normal user
+    if (currentUser.banFormData) {
+        try {
+            const banData = typeof currentUser.banFormData === "string"
+                ? JSON.parse(currentUser.banFormData)
+                : currentUser.banFormData;
+            // Optional: keep it in localStorage for reference
+            localStorage.setItem("banFormData", JSON.stringify(banData));
+        } catch (e) {
+            console.error("Failed to parse banFormData:", e);
+        }
+    }
+}
+
 
   // Show username
   if (usernameElement) usernameElement.textContent = currentUser.username;
