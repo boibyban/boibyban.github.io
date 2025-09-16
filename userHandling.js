@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const path = window.location.pathname.toLowerCase();
-
-  // --- Get username from localStorage ---
   const storedUsername = localStorage.getItem("username");
 
-  // --- Logout function ---
   function logout() {
     localStorage.removeItem("username");
     localStorage.removeItem("ModPanelUsername");
@@ -13,18 +10,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  // Attach logout listeners (covers all static and dynamic cases)
-  const logoutSelectors = [".logout", ".logoutlink", "#dropdownLogout"];
-  logoutSelectors.forEach(selector => {
-    document.querySelectorAll(selector).forEach(el => {
-      el.addEventListener("click", e => {
-        e.preventDefault();
-        logout();
-      });
-    });
+  // Logout listeners
+  [".logout", ".logoutlink", "#dropdownLogout"].forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => el.addEventListener("click", e => {
+      e.preventDefault();
+      logout();
+    }));
   });
 
-  // --- No username stored, treat as logged out ---
+  // Not logged in
   if (!storedUsername) {
     if (path.includes("/users")) {
       const headerUser = document.querySelector(".right");
@@ -35,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // --- Fetch user JSON ---
+  // Fetch users
   let users;
   try {
     const res = await fetch("/users.json");
@@ -46,23 +40,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // --- Find current user by username ---
-  let currentUser = null;
-  for (const id in users) {
-    if (users[id].username === storedUsername) {
-      currentUser = users[id];
-      break;
-    }
-  }
+  // Find current user
+  const currentUser = Object.values(users).find(u => u.username === storedUsername);
+  if (!currentUser) { logout(); return; }
 
-  if (!currentUser) {
-    // Username in localStorage no longer exists in JSON
-    logout();
-    return;
-  }
+  // Normalize isDeleted (convert string -> boolean)
+  const isDeleted = currentUser.isDeleted === true || currentUser.isDeleted === "true";
 
-  // --- Check if user is deleted first ---
-  if (currentUser.isDeleted) {
+  if (isDeleted) {
+    // Store banFormData if present
     if (currentUser.banFormData) {
       try {
         const banData = typeof currentUser.banFormData === "string"
@@ -73,23 +59,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Failed to parse banFormData:", err);
       }
     }
-
     if (!path.includes("/not-approved")) {
       window.location.href = "/not-approved";
       return;
     }
   } else {
-    // Not deleted → ignore banFormData
+    // Not deleted → remove banFormData
     localStorage.removeItem("banFormData");
   }
 
-  // --- Display username in header ---
+  // Display username
   const usernameElement = document.getElementById("username");
   if (usernameElement) usernameElement.textContent = currentUser.username;
 
-  // --- Display profile picture ---
+  // Display profile picture
   const userCircle = document.querySelector(".user-circle");
-  if (currentUser.profilePicture && userCircle && !currentUser.isDeleted) {
+  if (currentUser.profilePicture && userCircle && !isDeleted) {
     const profileImg = document.createElement("img");
     profileImg.src = currentUser.profilePicture;
     profileImg.alt = "Profile Picture";
@@ -100,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     userCircle.replaceWith(profileImg);
   }
 
-  // --- Sidebar links ---
+  // Sidebar links
   const homeLink = document.getElementById("homeLink");
   const profileLink = document.getElementById("profileLink");
   const acquaintancesLink = document.getElementById("acquaintancesLink");
@@ -108,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
   if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
 
-  // --- Home page greeting ---
+  // Greeting
   const greetingText = document.getElementById("greetingText");
   const profilePic = document.getElementById("profilePic");
   if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
@@ -118,7 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     profilePic.style.backgroundPosition = "center";
   }
 
-  // --- 3-dot menu for logout ---
+  // 3-dot menu
   const menuWrapper = document.createElement("div");
   menuWrapper.style.position = "relative";
   menuWrapper.style.display = "inline-block";
@@ -162,11 +147,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     usernameElement.parentNode.insertBefore(menuWrapper, usernameElement.nextSibling);
   }
 
-  // Toggle dropdown
   menuButton.addEventListener("click", () => {
     dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
   });
-
   document.addEventListener("click", e => {
     if (!menuWrapper.contains(e.target)) dropdown.style.display = "none";
   });
