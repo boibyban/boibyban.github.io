@@ -5,44 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BoibyLink ISP Plans</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      background-color: #f9f9f9;
+      background: linear-gradient(180deg, #e0f2ff 0%, #f9f9f9 100%);
       color: #333;
-      line-height: 1.5;
+      overflow-x: hidden;
     }
 
     header {
-      background-color: #1e88e5;
-      color: white;
+      background: linear-gradient(135deg, #1e88e5, #42a5f5);
+      color: #fff;
       text-align: center;
-      padding: 30px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 80px 20px 40px;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
     header h1 {
-      margin-bottom: 10px;
-      font-size: 2rem;
+      font-size: 3rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.25);
+    }
+
+    header p {
+      font-size: 1.25rem;
+      font-weight: 500;
+      max-width: 600px;
+      margin: 0 auto;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
     }
 
     main {
       max-width: 1200px;
-      margin: 40px auto;
+      margin: -60px auto 60px;
       padding: 0 20px;
       position: relative;
     }
 
     h2.subsection {
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      color: #1e88e5;
       text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: #1e88e5;
+      font-weight: 700;
     }
 
     .carousel-container {
@@ -52,10 +67,11 @@
 
     .plans {
       display: flex;
-      gap: 20px;
+      gap: 30px;
       overflow-x: auto;
       scroll-behavior: smooth;
-      padding-bottom: 10px;
+      padding-bottom: 20px;
+      scroll-snap-type: x mandatory;
     }
 
     .plans::-webkit-scrollbar {
@@ -63,202 +79,194 @@
     }
 
     .plan {
-      flex: 0 0 300px;
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      flex: 0 0 280px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 30px 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      position: relative;
+      scroll-snap-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .plan:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      transform: translateY(-15px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
 
     .plan h3 {
+      text-align: center;
+      font-size: 1.5rem;
       margin-bottom: 10px;
-      font-size: 1.4rem;
       color: #1e88e5;
+      font-weight: 600;
     }
 
     .download {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 5px;
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: #1e88e5;
+      margin-bottom: 5px;
     }
 
     .upload {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 10px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #777;
+      margin-bottom: 12px;
     }
 
     .plan p {
-      margin-bottom: 5px;
-      font-size: 1.1rem;
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 15px;
     }
 
     .price {
-      font-size: 1.4rem;
-      font-weight: bold;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
       color: #1e88e5;
-      text-align: right;
+      margin-top: 5px;
     }
 
-    .glow {
-      box-shadow: 0 0 15px 2px #1e88e5;
-      border: 1px solid #1e88e5;
-    }
+    /* Tier colors */
+    .tier-low { border-top: 5px solid #4caf50; }
+    .tier-mid { border-top: 5px solid #ff9800; }
+    .tier-high { border-top: 5px solid #f44336; }
+    .tier-gigabit { border-top: 5px solid #1e88e5; box-shadow: 0 0 20px 4px #1e88e5; }
 
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background-color: rgba(30,136,229,0.8);
+      background-color: rgba(30,136,229,0.85);
       border: none;
       color: white;
       font-size: 2rem;
-      padding: 10px;
-      cursor: pointer;
+      padding: 14px;
       border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
       z-index: 10;
     }
 
-    .arrow-left {
-      left: -20px;
+    .arrow:hover {
+      background-color: #42a5f5;
+      transform: translateY(-50%) scale(1.1);
     }
 
-    .arrow-right {
-      right: -20px;
-    }
+    .arrow-left { left: -40px; }
+    .arrow-right { right: -40px; }
 
     @media (max-width: 768px) {
-      .plan {
-        flex: 0 0 250px;
-      }
-
-      .arrow {
-        font-size: 1.5rem;
-        padding: 8px;
-      }
-
-      .arrow-left {
-        left: -10px;
-      }
-
-      .arrow-right {
-        right: -10px;
-      }
+      .plan { flex: 0 0 240px; }
+      .arrow-left { left: -20px; }
+      .arrow-right { right: -20px; }
     }
 
     footer {
       text-align: center;
-      padding: 20px 0;
-      background-color: #333;
+      padding: 40px 20px;
+      background: #1e88e5;
       color: white;
-      margin-top: 40px;
+      font-weight: 500;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>BoibyLink ISP Plans</h1>
-    <p>Choose a plan that fits your speed needs</p>
-  </header>
+<header>
+  <h1>BoibyLink ISP</h1>
+  <p>Superfast fibre internet plans for every home and business — pick your speed and enjoy unmatched reliability.</p>
+</header>
 
-  <main>
-    <h2 class="subsection">Fibre Internet Plans</h2>
-    <div class="carousel-container">
-      <button class="arrow arrow-left">&#8592;</button>
-      <div class="plans" id="plans">
-        <div class="plan">
-          <h3>Basic</h3>
-          <div class="download">50 Mbps</div>
-          <div class="upload">Upload: 20 Mbps</div>
-          <p>Light browsing, email, HD streaming.</p>
-          <div class="price">$24/mo</div>
-        </div>
-
-        <div class="plan">
-          <h3>Standard</h3>
-          <div class="download">150 Mbps</div>
-          <div class="upload">Upload: 50 Mbps</div>
-          <p>Families, multiple HD streams, casual gaming.</p>
-          <div class="price">$31/mo</div>
-        </div>
-
-        <div class="plan">
-          <h3>Fast</h3>
-          <div class="download">300 Mbps</div>
-          <div class="upload">Upload: 100 Mbps</div>
-          <p>Power users, 4K streaming, smart home devices.</p>
-          <div class="price">$44/mo</div>
-        </div>
-
-        <div class="plan">
-          <h3>Superfast</h3>
-          <div class="download">500 Mbps</div>
-          <div class="upload">Upload: 200 Mbps</div>
-          <p>Heavy gaming, multiple simultaneous users.</p>
-          <div class="price">$59/mo</div>
-        </div>
-
-        <div class="plan">
-          <h3>Superfast Plus</h3>
-          <div class="download">750 Mbps</div>
-          <div class="upload">Upload: 300 Mbps</div>
-          <p>Upper prosumer tier, multiple high-bandwidth devices.</p>
-          <div class="price">$74/mo</div>
-        </div>
-
-        <div class="plan glow">
-          <h3>Hyperfast</h3>
-          <div class="download">1000 Mbps</div>
-          <div class="upload">Upload: 400 Mbps</div>
-          <p>Premium home / small business tier.</p>
-          <div class="price">$99/mo</div>
-        </div>
-
-        <div class="plan glow">
-          <h3>Pro Hyperfast</h3>
-          <div class="download">1 Gbps</div>
-          <div class="upload">Upload: 1 Gbps</div>
-          <p>Business / fibre elite tier with full symmetry.</p>
-          <div class="price">$119/mo</div>
-        </div>
-
-        <div class="plan glow">
-          <h3>Ultrafast</h3>
-          <div class="download">2 Gbps</div>
-          <div class="upload">Upload: 2 Gbps</div>
-          <p>Ultra-premium symmetric tier for advanced users.</p>
-          <div class="price">$165/mo</div>
-        </div>
+<main>
+  <h2 class="subsection">Fibre Internet Plans</h2>
+  <div class="carousel-container">
+    <button class="arrow arrow-left">&#8592;</button>
+    <div class="plans" id="plans">
+      <div class="plan tier-low">
+        <h3>Basic</h3>
+        <div class="download">50 Mbps</div>
+        <div class="upload">Upload: 20 Mbps</div>
+        <p>Light browsing, email, HD streaming.</p>
+        <div class="price">$24/mo</div>
       </div>
-      <button class="arrow arrow-right">&#8594;</button>
+      <div class="plan tier-low">
+        <h3>Standard</h3>
+        <div class="download">150 Mbps</div>
+        <div class="upload">Upload: 50 Mbps</div>
+        <p>Families, multiple HD streams, casual gaming.</p>
+        <div class="price">$31/mo</div>
+      </div>
+      <div class="plan tier-mid">
+        <h3>Fast</h3>
+        <div class="download">300 Mbps</div>
+        <div class="upload">Upload: 100 Mbps</div>
+        <p>Power users, 4K streaming, smart home devices.</p>
+        <div class="price">$44/mo</div>
+      </div>
+      <div class="plan tier-mid">
+        <h3>Superfast</h3>
+        <div class="download">500 Mbps</div>
+        <div class="upload">Upload: 200 Mbps</div>
+        <p>Heavy gaming, multiple simultaneous users.</p>
+        <div class="price">$59/mo</div>
+      </div>
+      <div class="plan tier-high">
+        <h3>Superfast Plus</h3>
+        <div class="download">750 Mbps</div>
+        <div class="upload">Upload: 300 Mbps</div>
+        <p>Upper prosumer tier, multiple high-bandwidth devices.</p>
+        <div class="price">$74/mo</div>
+      </div>
+      <div class="plan tier-gigabit">
+        <h3>Hyperfast</h3>
+        <div class="download">1000 Mbps</div>
+        <div class="upload">Upload: 400 Mbps</div>
+        <p>Premium home / small business tier.</p>
+        <div class="price">$99/mo</div>
+      </div>
+      <div class="plan tier-gigabit">
+        <h3>Pro Hyperfast</h3>
+        <div class="download">1 Gbps</div>
+        <div class="upload">Upload: 1 Gbps</div>
+        <p>Business / fibre elite tier with full symmetry.</p>
+        <div class="price">$119/mo</div>
+      </div>
+      <div class="plan tier-gigabit">
+        <h3>Ultrafast</h3>
+        <div class="download">2 Gbps</div>
+        <div class="upload">Upload: 2 Gbps</div>
+        <p>Ultra-premium symmetric tier for advanced users.</p>
+        <div class="price">$165/mo</div>
+      </div>
     </div>
-  </main>
+    <button class="arrow arrow-right">&#8594;</button>
+  </div>
+</main>
 
-  <footer>
-    <p>&copy; 2025 BoibyLink ISP. All rights reserved.</p>
-  </footer>
+<footer>
+  <p>&copy; 2025 BoibyLink ISP. All rights reserved.</p>
+</footer>
 
-  <script>
-    const plans = document.getElementById('plans');
-    const leftArrow = document.querySelector('.arrow-left');
-    const rightArrow = document.querySelector('.arrow-right');
+<script>
+  const plans = document.getElementById('plans');
+  const leftArrow = document.querySelector('.arrow-left');
+  const rightArrow = document.querySelector('.arrow-right');
 
-    leftArrow.addEventListener('click', () => {
-      plans.scrollBy({ left: -320, behavior: 'smooth' });
-    });
+  leftArrow.addEventListener('click', () => {
+    plans.scrollBy({ left: -320, behavior: 'smooth' });
+  });
 
-    rightArrow.addEventListener('click', () => {
-      plans.scrollBy({ left: 320, behavior: 'smooth' });
-    });
-  </script>
+  rightArrow.addEventListener('click', () => {
+    plans.scrollBy({ left: 320, behavior: 'smooth' });
+  });
+</script>
 
 </body>
 </html>
