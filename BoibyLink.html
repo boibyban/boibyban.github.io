@@ -216,6 +216,17 @@
             padding: 2rem 0;
             margin-top: 4rem;
         }
+
+        .plan-card.gigabit {
+            border: 2px solid #0aa885; /* optional base border */
+            box-shadow: 0 0 15px 5px rgba(10, 168, 133, 0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .plan-card.gigabit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px 10px rgba(10, 168, 133, 0.9);
+        }
         
         @media (max-width: 768px) {
             .scroll-btn {
@@ -318,7 +329,7 @@
                 </div>
                 
                 <!-- Plan 7 -->
-                <div class="plan-card">
+                <div class="plan-card gigabit">
                     <div class="tier-name">Gigafast</div>
                     <div class="download-speed">1 Gbps</div>
                     <div class="upload-speed">1 Gbps</div>
@@ -332,7 +343,7 @@
                 </div>
                 
                 <!-- Plan 8 -->
-                <div class="plan-card">
+                <div class="plan-card gigabit">
                     <div class="tier-name">Gigafast Plus</div>
                     <div class="download-speed">2 Gbps</div>
                     <div class="upload-speed">2 Gbps</div>
@@ -347,7 +358,7 @@
 
                 <!-- Plan 8 -->
                 <!--
-                <div class="plan-card">
+                <div class="plan-card gigabit">
                     <div class="tier-name">Gigafast Ultra</div>
                     <div class="download-speed">5 Gbps</div>
                     <div class="upload-speed">5 Gbps</div>
@@ -387,20 +398,7 @@
                 <div class="plan-card">
                     <div class="download-speed">75 Mbps</div>
                     <div class="upload-speed">25 Mbps</div>
-                    <div class="price">$29/month</div>
-                    <ul class="plan-features">
-                        <li>Unlimited Data</li>
-                        <li>Free Installation</li>
-                        <li>24/7 Support</li>
-                    </ul>
-                    <a href="#signup" class="btn">Sign Up Now</a>
-                </div>
-
-                <!-- Part Fibre Plan 3 -->
-                <div class="plan-card">
-                    <div class="download-speed">150 Mbps</div>
-                    <div class="upload-speed">40 Mbps</div>
-                    <div class="price">$39/month</div>
+                    <div class="price">$26/month</div>
                     <ul class="plan-features">
                         <li>Unlimited Data</li>
                         <li>Free Installation</li>
