@@ -32,23 +32,25 @@
     }
 
     main {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 40px auto;
       padding: 0 20px;
     }
 
     .plans {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 20px;
     }
 
     .plan {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background-color: white;
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
@@ -57,21 +59,51 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     }
 
+    .plan-content {
+      flex: 1;
+    }
+
     .plan h2 {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       font-size: 1.5rem;
       color: #1e88e5;
     }
 
     .plan p {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       font-size: 1.1rem;
     }
 
-    .plan .speed {
+    .speed {
       font-weight: bold;
       font-size: 1.3rem;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+    }
+
+    .price {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #1e88e5;
+      min-width: 100px;
+      text-align: right;
+    }
+
+    /* Glow for gigabit+ tiers */
+    .glow {
+      box-shadow: 0 0 15px 2px #1e88e5;
+      border: 1px solid #1e88e5;
+    }
+
+    @media (max-width: 768px) {
+      .plan {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .price {
+        text-align: left;
+        margin-top: 10px;
+      }
     }
 
     footer {
@@ -93,45 +125,77 @@
   <main>
     <div class="plans">
       <div class="plan">
-        <h2>Basic</h2>
-        <p class="speed">50 / 20 Mbps</p>
-        <p>Light browsing, email, HD streaming.</p>
+        <div class="plan-content">
+          <h2>Basic</h2>
+          <p class="speed">50 / 20 Mbps</p>
+          <p>Light browsing, email, HD streaming.</p>
+        </div>
+        <div class="price">$24/mo</div>
       </div>
+
       <div class="plan">
-        <h2>Standard</h2>
-        <p class="speed">150 / 50 Mbps</p>
-        <p>Families, multiple HD streams, casual gaming.</p>
+        <div class="plan-content">
+          <h2>Standard</h2>
+          <p class="speed">150 / 50 Mbps</p>
+          <p>Families, multiple HD streams, casual gaming.</p>
+        </div>
+        <div class="price">$31/mo</div>
       </div>
+
       <div class="plan">
-        <h2>Fast</h2>
-        <p class="speed">300 / 100 Mbps</p>
-        <p>Power users, 4K streaming, smart home devices.</p>
+        <div class="plan-content">
+          <h2>Fast</h2>
+          <p class="speed">300 / 100 Mbps</p>
+          <p>Power users, 4K streaming, smart home devices.</p>
+        </div>
+        <div class="price">$44/mo</div>
       </div>
+
       <div class="plan">
-        <h2>Superfast</h2>
-        <p class="speed">500 / 200 Mbps</p>
-        <p>Heavy gaming, multiple simultaneous users.</p>
+        <div class="plan-content">
+          <h2>Superfast</h2>
+          <p class="speed">500 / 200 Mbps</p>
+          <p>Heavy gaming, multiple simultaneous users.</p>
+        </div>
+        <div class="price">$59/mo</div>
       </div>
+
       <div class="plan">
-        <h2>Superfast Plus</h2>
-        <p class="speed">750 / 300 Mbps</p>
-        <p>Upper prosumer tier, multiple high-bandwidth devices.</p>
+        <div class="plan-content">
+          <h2>Superfast Plus</h2>
+          <p class="speed">750 / 300 Mbps</p>
+          <p>Upper prosumer tier, multiple high-bandwidth devices.</p>
+        </div>
+        <div class="price">$74/mo</div>
       </div>
-      <div class="plan">
-        <h2>Hyperfast</h2>
-        <p class="speed">1000 / 400 Mbps</p>
-        <p>Premium home / small business tier.</p>
+
+      <div class="plan glow">
+        <div class="plan-content">
+          <h2>Hyperfast</h2>
+          <p class="speed">1000 / 400 Mbps</p>
+          <p>Premium home / small business tier.</p>
+        </div>
+        <div class="price">$99/mo</div>
       </div>
-      <div class="plan">
-        <h2>Pro Hyperfast</h2>
-        <p class="speed">1000 / 1000 Mbps</p>
-        <p>Business / fibre elite tier with full symmetry.</p>
+
+      <div class="plan glow">
+        <div class="plan-content">
+          <h2>Pro Hyperfast</h2>
+          <p class="speed">1 Gbps / 1 Gbps</p>
+          <p>Business / fibre elite tier with full symmetry.</p>
+        </div>
+        <div class="price">$119/mo</div>
       </div>
-      <div class="plan">
-        <h2>Pro Ultrafast</h2>
-        <p class="speed">2000 / 2000 Mbps</p>
-        <p>Ultra-premium symmetric tier for advanced users.</p>
+
+      <div class="plan glow">
+        <div class="plan-content">
+          <h2>Ultrafast</h2>
+          <p class="speed">2 Gbps / 2 Gbps</p>
+          <p>Ultra-premium symmetric tier for advanced users.</p>
+        </div>
+        <div class="price">$165/mo</div>
       </div>
+
     </div>
   </main>
 
