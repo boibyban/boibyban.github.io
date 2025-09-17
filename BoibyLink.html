@@ -35,6 +35,7 @@
       max-width: 1200px;
       margin: 40px auto;
       padding: 0 20px;
+      position: relative;
     }
 
     h2.subsection {
@@ -44,16 +45,25 @@
       text-align: center;
     }
 
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+    }
+
     .plans {
       display: flex;
-      flex-direction: column;
       gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 10px;
+    }
+
+    .plans::-webkit-scrollbar {
+      display: none;
     }
 
     .plan {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex: 0 0 300px;
       background-color: white;
       padding: 20px;
       border-radius: 12px;
@@ -64,10 +74,6 @@
     .plan:hover {
       transform: translateY(-5px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
-
-    .plan-content {
-      flex: 1;
     }
 
     .plan h3 {
@@ -98,25 +104,52 @@
       font-size: 1.4rem;
       font-weight: bold;
       color: #1e88e5;
-      min-width: 100px;
       text-align: right;
     }
 
-    /* Glow for gigabit+ tiers */
     .glow {
       box-shadow: 0 0 15px 2px #1e88e5;
       border: 1px solid #1e88e5;
     }
 
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(30,136,229,0.8);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .arrow-left {
+      left: -20px;
+    }
+
+    .arrow-right {
+      right: -20px;
+    }
+
     @media (max-width: 768px) {
       .plan {
-        flex-direction: column;
-        align-items: flex-start;
+        flex: 0 0 250px;
       }
 
-      .price {
-        text-align: left;
-        margin-top: 10px;
+      .arrow {
+        font-size: 1.5rem;
+        padding: 8px;
+      }
+
+      .arrow-left {
+        left: -10px;
+      }
+
+      .arrow-right {
+        right: -10px;
       }
     }
 
@@ -138,93 +171,94 @@
 
   <main>
     <h2 class="subsection">Fibre Internet Plans</h2>
-    <div class="plans">
-      <div class="plan">
-        <div class="plan-content">
+    <div class="carousel-container">
+      <button class="arrow arrow-left">&#8592;</button>
+      <div class="plans" id="plans">
+        <div class="plan">
           <h3>Basic</h3>
           <div class="download">50 Mbps</div>
           <div class="upload">Upload: 20 Mbps</div>
           <p>Light browsing, email, HD streaming.</p>
+          <div class="price">$24/mo</div>
         </div>
-        <div class="price">$24/mo</div>
-      </div>
 
-      <div class="plan">
-        <div class="plan-content">
+        <div class="plan">
           <h3>Standard</h3>
           <div class="download">150 Mbps</div>
           <div class="upload">Upload: 50 Mbps</div>
           <p>Families, multiple HD streams, casual gaming.</p>
+          <div class="price">$31/mo</div>
         </div>
-        <div class="price">$31/mo</div>
-      </div>
 
-      <div class="plan">
-        <div class="plan-content">
+        <div class="plan">
           <h3>Fast</h3>
           <div class="download">300 Mbps</div>
           <div class="upload">Upload: 100 Mbps</div>
           <p>Power users, 4K streaming, smart home devices.</p>
+          <div class="price">$44/mo</div>
         </div>
-        <div class="price">$44/mo</div>
-      </div>
 
-      <div class="plan">
-        <div class="plan-content">
+        <div class="plan">
           <h3>Superfast</h3>
           <div class="download">500 Mbps</div>
           <div class="upload">Upload: 200 Mbps</div>
           <p>Heavy gaming, multiple simultaneous users.</p>
+          <div class="price">$59/mo</div>
         </div>
-        <div class="price">$59/mo</div>
-      </div>
 
-      <div class="plan">
-        <div class="plan-content">
+        <div class="plan">
           <h3>Superfast Plus</h3>
           <div class="download">750 Mbps</div>
           <div class="upload">Upload: 300 Mbps</div>
           <p>Upper prosumer tier, multiple high-bandwidth devices.</p>
+          <div class="price">$74/mo</div>
         </div>
-        <div class="price">$74/mo</div>
-      </div>
 
-      <div class="plan glow">
-        <div class="plan-content">
+        <div class="plan glow">
           <h3>Hyperfast</h3>
           <div class="download">1000 Mbps</div>
           <div class="upload">Upload: 400 Mbps</div>
           <p>Premium home / small business tier.</p>
+          <div class="price">$99/mo</div>
         </div>
-        <div class="price">$99/mo</div>
-      </div>
 
-      <div class="plan glow">
-        <div class="plan-content">
+        <div class="plan glow">
           <h3>Pro Hyperfast</h3>
           <div class="download">1 Gbps</div>
           <div class="upload">Upload: 1 Gbps</div>
           <p>Business / fibre elite tier with full symmetry.</p>
+          <div class="price">$119/mo</div>
         </div>
-        <div class="price">$119/mo</div>
-      </div>
 
-      <div class="plan glow">
-        <div class="plan-content">
+        <div class="plan glow">
           <h3>Ultrafast</h3>
           <div class="download">2 Gbps</div>
           <div class="upload">Upload: 2 Gbps</div>
           <p>Ultra-premium symmetric tier for advanced users.</p>
+          <div class="price">$165/mo</div>
         </div>
-        <div class="price">$165/mo</div>
       </div>
-
+      <button class="arrow arrow-right">&#8594;</button>
     </div>
   </main>
 
   <footer>
     <p>&copy; 2025 BoibyLink ISP. All rights reserved.</p>
   </footer>
+
+  <script>
+    const plans = document.getElementById('plans');
+    const leftArrow = document.querySelector('.arrow-left');
+    const rightArrow = document.querySelector('.arrow-right');
+
+    leftArrow.addEventListener('click', () => {
+      plans.scrollBy({ left: -320, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', () => {
+      plans.scrollBy({ left: 320, behavior: 'smooth' });
+    });
+  </script>
 
 </body>
 </html>
