@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About My Mac</title>
+  <link rel="stylesheet" href="https://boibyban.github.io/aboutMyMac/style.css">
+</head>
+<body>
+  <h1>About My Mac</h1>
+
+  <form id="macForm">
+    <label for="model">Model:</label>
+    <select id="model" required></select>
+
+    <label for="cpu">CPU:</label>
+    <select id="cpu" required></select>
+
+    <label for="gpu">Graphics:</label>
+    <select id="gpu" required></select>
+
+    <label for="memory">Memory:</label>
+    <select id="memory" required></select>
+
+    <label for="os">macOS:</label>
+    <select id="os" required></select>
+    <br>
+    <label>
+      <input type="checkbox" id="showUnsupported"> Show unsupported macOS versions
+    </label>
+    <br><br>
+    <button type="submit">Show About This Mac</button>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>
