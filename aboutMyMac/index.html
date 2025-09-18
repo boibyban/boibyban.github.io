@@ -2,35 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About My Mac</title>
-  <link rel="stylesheet" href="https://boibyban.github.io/aboutMyMac/style.css">
+  <title>About My Mac - Selector</title>
+  <link rel="stylesheet" href="/aboutMyMac/style.css">
 </head>
 <body>
-  <h1>About My Mac</h1>
+  <div class="container">
+    <h1>About My Mac</h1>
 
-  <form id="macForm">
-    <label for="model">Model:</label>
-    <select id="model" required></select>
+    <form id="mac-form">
+      <label for="model">Model</label>
+      <select id="model" name="model"></select>
 
-    <label for="cpu">CPU:</label>
-    <select id="cpu" required></select>
+      <label for="cpu">Processor / Chip</label>
+      <select id="cpu" name="cpu"></select>
 
-    <label for="gpu">Graphics:</label>
-    <select id="gpu" required></select>
+      <label for="gpu">Graphics</label>
+      <select id="gpu" name="gpu"></select>
 
-    <label for="memory">Memory:</label>
-    <select id="memory" required></select>
+      <label for="memory">Memory</label>
+      <select id="memory" name="memory"></select>
 
-    <label for="os">macOS:</label>
-    <select id="os" required></select>
-    <br>
-    <label>
-      <input type="checkbox" id="showUnsupported"> Show unsupported macOS versions
-    </label>
-    <br><br>
-    <button type="submit">Show About This Mac</button>
-  </form>
+      <label for="os">macOS Version</label>
+      <div class="os-select">
+        <select id="os" name="os"></select>
+        <label><input type="checkbox" id="show-unsupported"> Show unsupported versions</label>
+      </div>
 
-  <script src="https://boibyban.github.io/script.js"></script>
+      <button type="submit">Show About This Mac</button>
+    </form>
+  </div>
+
+  <script src="/aboutMyMac/script.js"></script>
 </body>
 </html>
