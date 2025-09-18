@@ -381,5 +381,21 @@
     "followers": 2,
     "following": 1,
     "bio": ""
+  },
+  "28": {
+    "username": "BillNyeScienceGu_y",
+    "displayName": "",
+    "key": "623210167553939c87ed8c5f2bfe0b3e0684e12c3a3dd2513613c4e67263b5a1",
+    "profilePicture": "/content-deleted.png",
+    "isDeleted": true,
+    "banFormData": {
+        {"state":"Delete","banStartDate":"19/09/2025, 09:54:54","note":"nonote","customNote":"This username is not permitted on Boiby.","internalNote":"","cautionWarning":"none","automation":"manual","theme":"light","botBan":false,"parentChargeback":false,"classicViolations":[{"violationType":"General/Chat","reason":"Harassment","evidence":"Science is our only God","location":""},{"violationType":"General/Chat","reason":"Cheats and Exploits","evidence":"Hacker Jenna was a hoax.","location":""},{"violationType":"General/Chat","reason":"Harassment","evidence":"SCIENCE RULES!","location":""},{"violationType":"General/Chat","reason":"Spam","evidence":"BILL!","location":""},{"violationType":"General/Chat","reason":"Harassment","evidence":"BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL! BILL!","location":""},{"violationType":"General/Chat","reason":"Harassment","evidence":"The more you find out about the world, the more opportunities there are to laugh at it.","location":""},{"violationType":"General/Chat","reason":"Scamming","evidence":"Inertia is a property of matter.","location":""},{"violationType":"General/Chat","reason":"Directing Users Off-Platform","evidence":"Get off your computer and talk a walk!","location":""}],"modernViolations":[],"caseID":"91e99a5f-ca98-4627-951e-b2a05c66e324"}
+    },
+    "joinDate": "2025-09-19",
+    "isAdmin": false,
+    "friends": [],
+    "followers": 0,
+    "following": 0,
+    "bio": "BILL!"
   }
 }
