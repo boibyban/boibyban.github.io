@@ -1,229 +1,38 @@
 {
-  "macbook_pro": {
-    "mbp_13_late2011": {
-      "display": "13-inch, Late 2011",
-      "cpu": ["2.5GHz dual-core Intel Core i5-2435M (up to 3.1GHz)", "2.9GHz dual-core Intel Core i7-3520M (up to 3.1GHz)"],
-      "memory": ["4 GB DDR3-1600 SODIMM", "8 GB DDR3-1600 SODIMM", "Upgradeable to 16 GB"],
-      "graphics": ["Intel HD Graphics 3000 384 MB", "Intel HD Graphics 4000 768 MB"],
-      "storage": ["500 GB 5400-RPM HDD", "750 GB 5400-RPM HDD", "1 TB 5400-RPM HDD", "128 GB SATA SSD", "256 GB SATA SSD", "512 GB SATA SSD"]
-    },
-    "mbp_13_mid2012": {
-      "display": "13-inch, Mid 2012",
-      "cpu": ["2.5GHz dual-core Intel Core i5-3210M (up to 3.1GHz)", "2.9GHz dual-core Intel Core i7-3520M (up to 3.1GHz)"],
-      "memory": ["4 GB DDR3-1600 SODIMM", "8 GB DDR3-1600 SODIMM"],
-      "graphics": ["Intel HD Graphics 4000 512 MB", "Intel HD Graphics 4000 768 MB"]
-    },
-    "mbp_15_mid2012": {
-      "display": "15-inch, Mid 2012",
-      "cpu": ["2.3GHz quad-core Intel Core i7-3615QM (up to 3.3GHz)", "2.6GHz quad-core Intel Core i7-3720QM (up to 3.6GHz)", "2.7GHz quad-core Intel Core i7-3820QM (up to 3.7GHz)"],
-      "memory": ["4 GB DDR3-1600 SODIMM", "8 GB DDR3-1600 SODIMM"],
-      "graphics": ["Intel HD Graphics 4000 + NVIDIA GeForce GT 650M 512 MB", "Intel HD Graphics 4000 + NVIDIA GeForce GT 650M 1 GB"]
-    },
-    "mbp_15_retina_mid2012": {
-      "display": "Retina, 15-inch, Mid 2012",
-      "cpu": ["2.3GHz quad-core Intel Core i7-3615QM (up to 3.3GHz)", "2.6GHz quad-core Intel Core i7-3720QM (up to 3.6GHz)", "2.7GHz quad-core Intel Core i7-3820QM (up to 3.7GHz)"],
-      "memory": ["8 GB DDR3L-1600 Soldered", "16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel HD Graphics 4000 + NVIDIA GeForce GT 650M 1 GB"]
-    },
-    "mbp_13_retina_late2012": {
-      "display": "Retina, 13-inch, Late 2012",
-      "cpu": ["2.5GHz dual-core Intel Core i5-3210M (up to 3.1GHz)", "2.9GHz dual-core Intel Core i7-3520M (up to 3.1GHz)"],
-      "memory": ["8 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel HD Graphics 4000 768 MB"]
-    },
-    "mbp_13_retina_early2013": {
-      "display": "Retina, 13-inch, Early 2013",
-      "cpu": ["2.6GHz dual-core Intel Core i5-3230M (up to 3.2GHz)", "3.0GHz dual-core Intel Core i7-3540M (up to 3.7GHz)"],
-      "memory": ["8 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel HD Graphics 4000 768 MB"]
-    },
-    "mbp_15_retina_early2013": {
-      "display": "Retina, 15-inch, Early 2013",
-      "cpu": ["2.4GHz quad-core Intel Core i7-3635QM (up to 3.4GHz)", "2.7GHz quad-core Intel Core i7-3740QM (up to 3.7GHz)", "2.8GHz quad-core Intel Core i7-3840QM (up to 3.8GHz)"],
-      "memory": ["8 GB DDR3L-1600 Soldered", "16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel HD Graphics 4000 + NVIDIA GeForce GT 650M 1 GB"]
-    },
-    "mbp_13_retina_late2013": {
-      "display": "Retina, 13-inch, Late 2013",
-      "cpu": ["2.4GHz dual-core Intel Core i5-4258U (up to 2.9GHz)", "2.6GHz dual-core Intel Core i5-4288U (up to 3.1GHz)", "2.8GHz dual-core Intel Core i7-4558U (up to 3.3GHz)"],
-      "memory": ["4 GB DDR3L-1600 Soldered", "8 GB DDR3L-1600 Soldered", "16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel Iris 5100 1.5 GB"]
-    },
-    "mbp_15_retina_late2013": {
-      "display": "Retina, 15-inch, Late 2013",
-      "cpu": ["2.0GHz quad-core Intel Core i7-4750HQ (up to 3.2GHz)", "2.3GHz quad-core Intel Core i7-4850HQ (up to 3.5GHz)", "2.6GHz quad-core Intel Core i7-4960HQ (up to 3.8GHz)"],
-      "memory": ["8 GB DDR3L-1600 Soldered", "16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel Iris Pro 5200 1.5 GB", "Intel Iris Pro 5200 + NVIDIA GeForce GT 750M 2 GB"]
-    },
-    "mbp_13_retina_mid2014": {
-      "display": "Retina, 13-inch, Mid 2014",
-      "cpu": ["2.6GHz dual-core Intel Core i5-4278U (up to 3.1GHz)", "2.8GHz dual-core Intel Core i5-4308U (up to 3.3GHz)", "3.0GHz dual-core Intel Core i7-4578U (up to 3.5GHz)"],
-      "memory": ["8 GB DDR3L-1600 Soldered", "16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel Iris 5100 1.5 GB"]
-    },
-    "mbp_15_retina_mid2014": {
-      "display": "Retina, 15-inch, Mid 2014",
-      "cpu": ["2.2GHz quad-core Intel Core i7-4770HQ (up to 3.4GHz)", "2.5GHz quad-core Intel Core i7-4870HQ (up to 3.7GHz)", "2.8GHz quad-core Intel Core i7-4980HQ (up to 4.0GHz)"],
-      "memory": ["16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel Iris Pro 5200 1.5 GB", "Intel Iris Pro 5200 + NVIDIA GeForce GT 750M 2 GB"]
-    },
-    "mbp_13_retina_early2015": {
-      "display": "Retina, 13-inch, Early 2015",
-      "cpu": ["2.7GHz dual-core Intel Core i5-5257U (up to 3.1GHz)", "2.9GHz dual-core Intel Core i5-5287U (up to 3.3GHz)", "3.1GHz dual-core Intel Core i7-5557U (up to 3.4GHz)"],
-      "memory": ["8 GB LPDDR3-1866 Soldered", "16 GB LPDDR3-1866 Soldered"],
-      "graphics": ["Intel Iris 6100 1.5 GB"]
-    },
-    "mbp_15_retina_mid2015": {
-      "display": "Retina, 15-inch, Mid 2015",
-      "cpu": ["2.2GHz quad-core Intel Core i7-4770HQ (up to 3.4GHz)", "2.5GHz quad-core Intel Core i7-4870HQ (up to 3.7GHz)", "2.8GHz quad-core Intel Core i7-4980HQ (up to 4.0GHz)"],
-      "memory": ["16 GB DDR3L-1600 Soldered"],
-      "graphics": ["Intel Iris Pro 5200 1.5 GB", "Intel Iris Pro 5200 + AMD Radeon R9 M370X 2 GB"],
-      "storage": ["256 GB PCIe SSD", "512 GB PCIe SSD", "1 TB PCIe SSD"]
-    },
-    "mbp_13_2016_2tb_ports": {
-      "display": "13-inch, 2016, Two Thunderbolt 3 ports",
-      "cpu": ["2.0GHz dual-core Intel Core i5", "2.4GHz dual-core Intel Core i7", "3.1GHz dual-core Intel Core i7"],
-      "memory": ["8 GB 1866 MHz LPDDR3", "16 GB 1866 MHz LPDDR3"],
-      "graphics": ["Intel Iris Graphics 540 1536 MB"]
-    },
-    "mbp_13_2016_4tb_touchbar": {
-      "display": "13-inch, 2016, Four Thunderbolt 3 ports + Touchbar",
-      "cpu": ["2.9GHz dual-core Intel Core i5", "3.1GHz dual-core Intel Core i5", "3.3GHz dual-core Intel Core i7"],
-      "memory": ["8 GB 2133 MHz LPDDR3", "16 GB 2133 MHz LPDDR3"],
-      "graphics": ["Intel Iris Graphics 550 1536 MB"]
-    },
-    "mbp_15_2016_touchbar": {
-      "display": "15-inch, 2016, Touchbar",
-      "cpu": ["2.6GHz quad-core Intel Core i7", "2.7GHz quad-core Intel Core i7", "2.9GHz quad-core Intel Core i7"],
-      "memory": ["16 GB 2133 MHz LPDDR3"],
-      "graphics": ["Radeon Pro 450 2 GB", "Radeon Pro 455 2 GB", "Radeon Pro 460 4 GB"]
-    },
-    "mbp_13_2017_2tb_ports": {
-      "display": "13-inch, 2017, Two Thunderbolt 3 ports",
-      "cpu": ["2.3GHz dual-core Intel Core i5", "2.5GHz dual-core Intel Core i7"],
-      "memory": ["8 GB 1866 MHz LPDDR3", "16 GB 1866 MHz LPDDR3"],
-      "graphics": ["Intel Iris Plus Graphics 640"]
-    },
-    "mbp_13_2017_4tb_touchbar": {
-      "display": "13-inch, 2017, Four Thunderbolt 3 ports + Touchbar",
-      "cpu": ["3.1GHz dual-core Intel Core i5", "3.3GHz dual-core Intel Core i5", "3.5GHz dual-core Intel Core i7"],
-      "memory": ["8 GB 2133 MHz LPDDR3", "16 GB 2133 MHz LPDDR3"],
-      "graphics": ["Intel Iris Plus Graphics 650"]
-    },
-    "mbp_15_2017_touchbar": {
-      "display": "15-inch, 2017, Touchbar",
-      "cpu": ["2.8GHz quad-core Intel Core i7", "2.9GHz quad-core Intel Core i7", "3.1GHz quad-core Intel Core i7"],
-      "memory": ["16 GB 2133 MHz LPDDR3"],
-      "graphics": ["Intel HD Graphics 630 + AMD Radeon Pro 555 2 GB", "Intel HD Graphics 630 + AMD Radeon Pro 560 4 GB"]
-    },
-    "mbp_13_2018_4tb_ports": {
-      "display": "13-inch, 2018, Four Thunderbolt 3 ports",
-      "cpu": ["2.3GHz quad-core Intel Core i5", "2.7GHz quad-core Intel Core i7"],
-      "memory": ["8 GB 2133 MHz LPDDR3", "16 GB 2133 MHz LPDDR3"],
-      "graphics": ["Intel Iris Plus Graphics 655"]
-    },
-    "mbp_15_2018": {
-      "display": "15-inch, 2018",
-      "cpu": ["2.6GHz 6-core Intel Core i7", "2.9GHz 6-core Intel Core i7"],
-      "memory": ["16 GB 2400 MHz DDR4", "32 GB 2400 MHz DDR4"],
-      "graphics": ["Radeon Pro 555X 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro 560X 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro Vega 16 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro Vega 20 4 GB"]
-    },
-    "mbp_13_2019_2tb_ports": {
-      "display": "13-inch, 2019, Two Thunderbolt 3 ports",
-      "cpu": ["1.4GHz quad-core Intel Core i5-8257U (up to 3.9GHz)", "1.7GHz quad-core Intel Core i7-8557U (up to 4.5GHz)"],
-      "memory": ["8 GB LPDDR3-2133 Soldered", "16 GB LPDDR3-2133 Soldered"],
-      "graphics": ["Intel Iris Plus Graphics 645"]
-    },
-    "mbp_13_2019_4tb_ports": {
-      "display": "13-inch, 2019, Four Thunderbolt 3 ports",
-      "cpu": ["2.4GHz quad-core Intel Core i5-8279U (up to 4.1GHz)", "2.8GHz quad-core Intel Core i7-8569U (up to 4.7GHz)"],
-      "memory": ["8 GB LPDDR3-2133 Soldered", "16 GB LPDDR3-2133 Soldered"],
-      "graphics": ["Intel Iris Plus Graphics 655"]
-    },
-    "mbp_15_2019": {
-      "display": "15-inch, 2019",
-      "cpu": ["2.6GHz 6-core Intel Core i7-9750H (up to 4.5GHz)", "2.3GHz 8-core Intel Core i9-9880H (up to 4.8GHz)", "2.4GHz 8-core Intel Core i9-9980HK (up to 5.0GHz)"],
-      "memory": ["16 GB DDR4-2400 Soldered", "32 GB DDR4-2400 Soldered"],
-      "graphics": ["Intel UHD Graphics 630 + AMD Radeon Pro 555X 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro 560X 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro Vega 16 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro Vega 20 4 GB"]
-    },
-    "mbp_16_2019": {
-      "display": "16-inch, 2019",
-      "cpu": ["2.6GHz 6-core Intel Core i7-9750H (up to 4.5GHz)", "2.3GHz 8-core Intel Core i9-9880H (up to 4.8GHz)", "2.4GHz 8-core Intel Core i9-9980HK (up to 5.0GHz)"],
-      "memory": ["16 GB DDR4-2666 Soldered", "32 GB DDR4-2666 Soldered", "64 GB DDR4-2666 Soldered"],
-      "graphics": ["Intel UHD Graphics 630 + AMD Radeon Pro 5300M 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro 5500M 4 GB", "Intel UHD Graphics 630 + AMD Radeon Pro 5500M 8 GB", "Intel UHD Graphics 630 + AMD Radeon Pro 5600M 8 GB"]
-    },
-    "mbp_13_2020_intel_2tb_ports": {
-      "display": "13-inch, 2020, Intel, Two Thunderbolt 3 ports",
-      "cpu": ["1.4GHz quad-core Intel Core i5-8257U (up to 3.9GHz)", "1.7GHz quad-core Intel Core i7-8557U (up to 4.5GHz)"],
-      "memory": ["8 GB LPDDR3-2133 Soldered", "16 GB LPDDR3-2133 Soldered"],
-      "graphics": ["Intel Iris Plus Graphics 645"]
-    },
-    "mbp_13_2020_intel_4tb_ports": {
-      "display": "13-inch, 2020, Intel, Four Thunderbolt 3 ports",
-      "cpu": ["2.0GHz quad-core Intel Core i5-1038NG7 (up to 3.8GHz)", "2.8GHz quad-core Intel Core i7-1068NG7 (up to 4.7GHz)"],
-      "memory": ["16 GB LPDDR4X-3733 Soldered", "32 GB LPDDR4X-3733 Soldered"],
-      "graphics": ["Intel Iris Plus"]
-    },
-    "mbp_13_2020_m1": {
-      "display": "13-inch, M1, 2020",
-      "cpu": ["Apple M1 8-core CPU and 8-core GPU"],
-      "memory": ["8 GB LPDDR4X-4266 unified", "16 GB LPDDR4X-4266 unified"]
-    },
-    "mbp_14_16_2021_m1_pro": {
-      "display": "14-inch/16-inch, M1 Pro, 2021",
-      "cpu": ["Apple M1 Pro 8-core CPU and 14-core GPU", "Apple M1 Pro 10-core CPU and 14-core GPU", "Apple M1 Pro 10-core CPU and 16-core GPU"],
-      "memory": ["16 GB LPDDR5-6400 unified", "32 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_16_2021_m1_max": {
-      "display": "14-inch/16-inch, M1 Max, 2021",
-      "cpu": ["Apple M1 Max 10-core CPU and 24-core GPU", "Apple M1 Max 10-core CPU and 32-core GPU"],
-      "memory": ["32 GB LPDDR5-6400 unified", "64 GB LPDDR5-6400 unified"]
-    },
-    "mbp_13_2022_m2": {
-      "display": "13-inch, M2, 2022",
-      "cpu": ["Apple M2 8-core CPU and 10-core GPU"],
-      "memory": ["8 GB LPDDR5-6400 unified", "16 GB LPDDR5-6400 unified", "24 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_16_2023_m2_pro": {
-      "display": "14-inch/16-inch, M2 Pro, 2023",
-      "cpu": ["Apple M2 Pro 10-core CPU and 16-core GPU", "Apple M2 Pro 12-core CPU and 19-core GPU"],
-      "memory": ["16 GB LPDDR5-6400 unified", "32 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_16_2023_m2_max": {
-      "display": "14-inch/16-inch, M2 Max, 2023",
-      "cpu": ["Apple M2 Max 12-core CPU and 30-core GPU", "Apple M2 Max 12-core CPU and 38-core GPU"],
-      "memory": ["32 GB LPDDR5-6400 unified", "64 GB LPDDR5-6400 unified", "96 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_2023_m3": {
-      "display": "14-inch, M3, Nov 2023",
-      "cpu": ["Apple M3 8-core CPU and 10-core GPU"],
-      "memory": ["8 GB LPDDR5-6400 unified", "16 GB LPDDR5-6400 unified", "24 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_16_2023_m3_pro": {
-      "display": "14-inch/16-inch, M3 Pro, Nov 2023",
-      "cpu": ["Apple M3 Pro 11-core CPU and 14-core GPU", "Apple M3 Pro 12-core CPU and 18-core GPU"],
-      "memory": ["18 GB LPDDR5-6400 unified", "36 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_16_2023_m3_max": {
-      "display": "14-inch/16-inch, M3 Max, Nov 2023",
-      "cpu": ["Apple M3 Max 14-core CPU and 30-core GPU", "Apple M3 Max 16-core CPU and 40-core GPU"],
-      "memory": ["36 GB LPDDR5-6400 unified", "48 GB LPDDR5-6400 unified", "64 GB LPDDR5-6400 unified", "96 GB LPDDR5-6400 unified", "128 GB LPDDR5-6400 unified"]
-    },
-    "mbp_14_2024_m4": {
-      "display": "14-inch, M4, 2024",
-      "cpu": ["Apple M4 10-core CPU and 10-core GPU"],
-      "memory": ["16 GB LPDDR5X-7500 unified", "24 GB LPDDR5X-7500 unified", "32 GB LPDDR5X-7500 unified"]
-    },
-    "mbp_14_16_2024_m4_pro": {
-      "display": "14-inch/16-inch, M4 Pro, 2024",
-      "cpu": ["Apple M4 Pro 12-core CPU and 16-core GPU", "Apple M4 Pro 14-core CPU and 20-core GPU"],
-      "memory": ["24 GB LPDDR5X-8533 unified", "48 GB LPDDR5X-8533 unified"]
-    },
-    "mbp_14_16_2024_m4_max": {
-      "display": "14-inch/16-inch, M4 Max, 2024",
-      "cpu": ["Apple M4 Max 14-core CPU and 32-core GPU", "Apple M4 Max 16-core CPU and 40-core GPU"],
-      "memory": ["36 GB LPDDR5X-8533 unified", "48 GB LPDDR5X-8533 unified", "64 GB LPDDR5X-8533 unified", "128 GB LPDDR5X-8533 unified"]
+  "MacBook Pro (Retina, 13-inch, Mid 2014)": {
+    "cpus": [
+      {
+        "clock": "2.6",
+        "boost": "3.1",
+        "generation": "4th",
+        "type": "Intel",
+        "model": "Core i5"
+      },
+      {
+        "clock": "2.8",
+        "boost": "3.3",
+        "generation": "4th",
+        "type": "Intel",
+        "model": "Core i5"
+      },
+      {
+        "clock": "3.0",
+        "boost": "3.5",
+        "generation": "4th",
+        "type": "Intel",
+        "model": "Core i7"
+      }
+    ],
+    "memory": [
+      { "amount": 8, "type": "DDR3 1600 MHz" },
+      { "amount": 16, "type": "DDR3 1600 MHz" }
+    ],
+    "graphics": [
+      { "gpu": "Intel Iris 5100", "vram": "1536 MB" }
+    ],
+    "os": {
+      "supported": ["OS X Yosemite 10.10", "OS X El Capitan 10.11", "macOS Sierra 10.12", "macOS Mojave 10.14", "macOS Catalina 10.15", "macOS Big Sur 11", "macOS Monterey 12"],
+      "unsupported": ["macOS Ventura 13", "macOS Sonoma 14", "macOS Sequoia 15"]
     }
-}
   }
 }
