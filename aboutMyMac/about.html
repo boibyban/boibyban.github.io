@@ -4,28 +4,57 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>About This Mac</title>
-  <link rel="stylesheet" href="/aboutMyMac/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="modal-body">
-  <div class="about-modal" id="about-modal">
-    <img src="" alt="Apple logo" class="logo" id="about-logo" aria-hidden="true">
-    <h3 id="about-model"></h3>
-    <span id="about-submodel" class="muted"></span>
+<body class="about-page">
+  <div class="window-shell" role="dialog" aria-label="About This Mac">
+    <div class="traffic">
+      <span class="circle red"></span>
+      <span class="circle yellow"></span>
+      <span class="circle green"></span>
+    </div>
 
-    <p id="cpu-title">Processor</p>
-    <b id="about-cpu" class="hover-expand"></b>
+    <div class="about-modal" id="about-modal">
+      <!-- simple laptop illustration (inline SVG) -->
+      <div class="laptop-wrap" aria-hidden="true">
+        <svg width="260" height="150" viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <defs>
+            <linearGradient id="screenGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#6fb8ff"/>
+              <stop offset="1" stop-color="#1ea0ff"/>
+            </linearGradient>
+            <linearGradient id="baseGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#d7d9db"/>
+              <stop offset="1" stop-color="#bfc3c6"/>
+            </linearGradient>
+          </defs>
+          <!-- screen -->
+          <rect x="18" y="12" rx="6" ry="6" width="224" height="110" fill="url(#screenGrad)" stroke="#000" stroke-opacity="0.35" stroke-width="2"/>
+          <!-- notch -->
+          <rect x="122" y="12" width="16" height="8" rx="2" fill="#111"/>
+          <!-- base -->
+          <rect x="0" y="118" rx="8" ry="8" width="260" height="18" fill="url(#baseGrad)"/>
+          <!-- hinge -->
+          <rect x="40" y="126" rx="2" width="180" height="6" fill="#9aa0a4"/>
+        </svg>
+      </div>
 
-    <p id="gpu-title">Graphics</p>
-    <b id="about-gpu"></b>
+      <h1 id="about-model">MacBook Pro</h1>
+      <div id="about-submodel" class="submodel">16-inch, 2021</div>
 
-    <p>Memory</p>
-    <b id="about-memory"></b>
+      <div class="info-grid" id="info-grid">
+        <!-- rows injected by script -->
+      </div>
 
-    <p>Serial</p>
-    <b id="about-serial" title="Click to copy" style="cursor:pointer;"></b>
+      <div style="margin-top:18px;">
+        <button id="more-info" class="btn-more">More Info…</button>
+      </div>
 
-    <p>macOS</p>
-    <b id="about-os"></b>
+      <div class="footer">
+        <a href="#" class="muted">Regulatory Certification</a>
+        <div class="muted small">™ and © 1983-2024 Apple Inc. All Rights Reserved.</div>
+      </div>
+    </div>
   </div>
 
   <script src="/aboutMyMac/script.js"></script>
