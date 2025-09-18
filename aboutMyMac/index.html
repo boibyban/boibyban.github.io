@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>About My Mac - Selector</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About My Mac — Selector</title>
   <link rel="stylesheet" href="/aboutMyMac/style.css">
 </head>
 <body>
   <div class="container">
     <h1>About My Mac</h1>
 
-    <form id="mac-form">
+    <form id="mac-form" autocomplete="off">
       <label for="model">Model</label>
-      <select id="model" name="model"></select>
+      <select id="model" name="model" required></select>
 
       <label for="cpu">Processor / Chip</label>
-      <select id="cpu" name="cpu"></select>
+      <select id="cpu" name="cpu" required></select>
 
       <label for="gpu">Graphics</label>
-      <select id="gpu" name="gpu"></select>
+      <select id="gpu" name="gpu" required></select>
 
       <label for="memory">Memory</label>
-      <select id="memory" name="memory"></select>
+      <select id="memory" name="memory" required></select>
 
       <label for="os">macOS Version</label>
       <div class="os-select">
-        <select id="os" name="os"></select>
-        <label><input type="checkbox" id="show-unsupported"> Show unsupported versions</label>
+        <select id="os" name="os" required></select>
+        <label class="checkbox-inline"><input type="checkbox" id="show-unsupported"> Show unsupported macOS versions</label>
       </div>
 
-      <button type="submit">Show About This Mac</button>
+      <button type="submit" class="btn-primary">Show About This Mac</button>
+      <p class="muted small">Tip: open the About window in a new tab. Serial is randomly generated.</p>
     </form>
   </div>
 
