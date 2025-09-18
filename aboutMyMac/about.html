@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>About This Mac</title>
   <link rel="stylesheet" href="/aboutMyMac/style.css">
 </head>
 <body class="modal-body">
   <div class="about-modal" id="about-modal">
-    <img src="apple-logo.png" alt="Apple Logo" class="logo">
+    <img src="" alt="Apple logo" class="logo" id="about-logo" aria-hidden="true">
     <h3 id="about-model"></h3>
-    <span id="about-submodel"></span>
+    <span id="about-submodel" class="muted"></span>
 
-    <p>Processor / Chip</p>
+    <p id="cpu-title">Processor</p>
     <b id="about-cpu" class="hover-expand"></b>
 
-    <p id="gpu-label">Graphics</p>
+    <p id="gpu-title">Graphics</p>
     <b id="about-gpu"></b>
 
     <p>Memory</p>
     <b id="about-memory"></b>
 
     <p>Serial</p>
-    <b id="about-serial"></b>
+    <b id="about-serial" title="Click to copy" style="cursor:pointer;"></b>
 
     <p>macOS</p>
     <b id="about-os"></b>
   </div>
+
   <script src="/aboutMyMac/script.js"></script>
 </body>
 </html>
