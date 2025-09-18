@@ -1,4 +1,4 @@
-// userHandling.js - hardened, drop-in replacement (updated per request)
+
 if (!window.__userHandlingInitialized) {
   window.__userHandlingInitialized = true;
 
@@ -18,7 +18,6 @@ if (!window.__userHandlingInitialized) {
           localStorage.removeItem("banFormDataSource");
         }
       } catch (e) {
-        // ignore storage errors
       }
 
       localStorage.removeItem("username");
@@ -113,7 +112,7 @@ if (!window.__userHandlingInitialized) {
         console.warn("Redirecting to /not-approved because currentUser.isDeleted is true (own property).");
         console.log({ currentUserHasOwnIsDeleted: hasOwnIsDeleted, rawIsDeleted });
         console.trace();
-        window.location.href = "/not-approved";
+        window.location.href = "/Membership/NotApproved";
         return;
       }
     } else {
