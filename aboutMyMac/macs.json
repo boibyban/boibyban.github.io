@@ -1,27 +1,9 @@
 {
   "MacBook Pro (Retina, 13-inch, Mid 2014)": {
     "cpus": [
-      {
-        "clock": "2.6",
-        "boost": "3.1",
-        "generation": "4th",
-        "type": "Intel",
-        "model": "Core i5"
-      },
-      {
-        "clock": "2.8",
-        "boost": "3.3",
-        "generation": "4th",
-        "type": "Intel",
-        "model": "Core i5"
-      },
-      {
-        "clock": "3.0",
-        "boost": "3.5",
-        "generation": "4th",
-        "type": "Intel",
-        "model": "Core i7"
-      }
+      { "clock": 2.6, "boost": 3.1, "generation": "4th", "type": "Intel", "model": "Core i5" },
+      { "clock": 2.8, "boost": 3.3, "generation": "4th", "type": "Intel", "model": "Core i5" },
+      { "clock": 3.0, "boost": 3.5, "generation": "4th", "type": "Intel", "model": "Core i7" }
     ],
     "memory": [
       { "amount": 8, "type": "DDR3 1600 MHz" },
@@ -31,8 +13,43 @@
       { "gpu": "Intel Iris 5100", "vram": "1536 MB" }
     ],
     "os": {
-      "supported": ["OS X Yosemite 10.10", "OS X El Capitan 10.11", "macOS Sierra 10.12", "macOS Mojave 10.14", "macOS Catalina 10.15", "macOS Big Sur 11", "macOS Monterey 12"],
-      "unsupported": ["macOS Ventura 13", "macOS Sonoma 14", "macOS Sequoia 15"]
+      "supported": ["OS X Yosemite 10.10", "OS X El Capitan 10.11", "macOS Sierra 10.12", "macOS High Sierra 10.13", "macOS Mojave 10.14", "macOS Catalina 10.15", "macOS Big Sur 11", "macOS Monterey 12"],
+      "unsupported": ["macOS Ventura 13", "macOS Sonoma 14"]
+    }
+  },
+
+  "MacBook Pro (Retina, 13-inch, Early 2015)": {
+    "cpus": [
+      { "clock": 2.7, "boost": 3.1, "generation": "5th", "type": "Intel", "model": "Core i5" },
+      { "clock": 3.1, "boost": 3.4, "generation": "5th", "type": "Intel", "model": "Core i7" }
+    ],
+    "memory": [
+      { "amount": 8, "type": "DDR3 1600 MHz" },
+      { "amount": 16, "type": "DDR3 1600 MHz" }
+    ],
+    "graphics": [
+      { "gpu": "Intel Iris 6100", "vram": "1536 MB" }
+    ],
+    "os": {
+      "supported": ["OS X Yosemite 10.10", "OS X El Capitan 10.11", "macOS Sierra 10.12", "macOS High Sierra 10.13", "macOS Mojave 10.14"],
+      "unsupported": ["macOS Catalina 10.15", "macOS Big Sur 11", "macOS Monterey 12", "macOS Ventura 13"]
+    }
+  },
+
+  "MacBook Air (M1, 2020)": {
+    "cpus": [
+      { "clock": null, "boost": null, "generation": "", "type": "Apple", "model": "M1", "gpu_cores": 7 }
+    ],
+    "memory": [
+      { "amount": 8, "type": "LPDDR4X" },
+      { "amount": 16, "type": "LPDDR4X" }
+    ],
+    "graphics": [
+      { "gpu": "Apple M1 integrated", "gpu_cores": 7 }
+    ],
+    "os": {
+      "supported": ["macOS Big Sur 11", "macOS Monterey 12", "macOS Ventura 13", "macOS Sonoma 14"],
+      "unsupported": []
     }
   }
 }
