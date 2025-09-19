@@ -327,6 +327,7 @@
     },
     "16": {
         "username": "BigSmellyAss",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "displayName": "",
         "profilePicture": "/boiby.png",
         "isDeleted": true,
@@ -437,6 +438,7 @@
     "21": {
         "username": "Whats9Plus10",
         "displayName": "",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/ab67616d00001e021e03f2bcbe33c3b733820ef3.jpg",
         "isDeleted": false,
         "joinDate": "2025-08-30",
@@ -454,6 +456,7 @@
     "22": {
         "username": "mma",
         "displayName": "",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/dd395c7331270333a159f95412579632.png",
         "isDeleted": false,
         "joinDate": "2025-08-30",
@@ -466,12 +469,28 @@
         "bio": ""
     },
     "23": {
-        "username": "Explode",
+        "username": "ExplodeWasTaken",
         "displayName": "",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/explode.png",
         "isDeleted": false,
         "joinDate": "2025-08-30",
         "isAdmin": false,
+        "banFormData": {
+            "state": "Delete",
+            "banStartDate": "19/09/2025, 10:11:07",
+            "note": "nonote",
+            "customNote": "Your account has been deleted for creating, promoting, or participating in inappropriate behaviour or content. This is a violation of our Terms of Use.",
+            "internalNote": "",
+            "cautionWarning": "none",
+            "automation": "manual",
+            "theme": "light",
+            "botBan": false,
+            "parentChargeback": false,
+            "classicViolations": [],
+            "modernViolations": [],
+            "caseID": "ba960a82-7be5-45f9-8a0f-d787ad268ba9"
+        },
         "friends": [
             1,
             8,
