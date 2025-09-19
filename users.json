@@ -473,7 +473,7 @@
         "displayName": "",
         "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/explode.png",
-        "isDeleted": false,
+        "isDeleted": true,
         "joinDate": "2025-08-30",
         "isAdmin": false,
         "banFormData": {
@@ -684,5 +684,34 @@
         "followers": 0,
         "following": 0,
         "bio": "BILL!"
+    },
+    "29": {
+        "username": "ExplodeNotTaken",
+        "displayName": "",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+        "profilePicture": "/explode.png",
+        "isDeleted": true,
+        "joinDate": "2025-09-18",
+        "isAdmin": false,
+        "banFormData": {
+            "state": "Delete",
+            "banStartDate": "19/09/2025, 10:11:07",
+            "note": "nonote",
+            "customNote": "You created or used an account to avoid an enforcement action taken against another account",
+            "internalNote": "",
+            "cautionWarning": "none",
+            "automation": "manual",
+            "theme": "light",
+            "botBan": false,
+            "parentChargeback": false,
+            "classicViolations": [],
+            "modernViolations": [],
+            "caseID": "ba960a82-7be5-45f9-8a0f-d787ad268ba9"
+        },
+        "friends": [
+        ]
+        "followers": 0,
+        "following": 0,
+        "bio": ""
     }
 }
