@@ -1758,5 +1758,67 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       window.__boiby_reloadModels = renderModels;
     })();
   </script>
+  <script>
+  // Animate sections on scroll
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate the main title
+    setTimeout(() => {
+      const learnMoreTitle = document.querySelector('.learn-more h2');
+      if (learnMoreTitle) {
+        learnMoreTitle.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        learnMoreTitle.style.opacity = '1';
+        learnMoreTitle.style.transform = 'translateY(0)';
+      }
+    }, 200);
+    
+    // Animate sections with delay
+    const sections = document.querySelectorAll('.info-section');
+    sections.forEach((section, index) => {
+      setTimeout(() => {
+        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        section.style.opacity = '1';
+        section.style.transform = 'translateY(0)';
+      }, 400 + (index * 200));
+    });
+    
+    // Add hover effects to chip cards
+    const chipCards = document.querySelectorAll('.chip-card');
+    chipCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px)';
+        card.style.boxShadow = '0 12px 24px rgba(0,0,0,0.1)';
+        const img = card.querySelector('img');
+        if (img) img.style.transform = 'scale(1.05)';
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = 'none';
+        const img = card.querySelector('img');
+        if (img) img.style.transform = 'scale(1)';
+      });
+    });
+    
+    // Add performance button event listeners
+    const performanceBtns = document.querySelectorAll('.performance-btn');
+    performanceBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const chipType = this.parentElement.querySelector('h4').textContent.trim();
+        openPerformanceModal(chipType);
+      });
+    });
+    
+    // Tab switching in modal
+    const modalTabs = document.querySelectorAll('#performanceModal .tab');
+    modalTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        modalTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        const tabName = this.getAttribute('data-tab');
+        updatePerformanceContent(tabName);
+      });
+    });
+  });
+</script>
 </body>
 </html>
