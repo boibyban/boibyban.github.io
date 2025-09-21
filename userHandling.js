@@ -1,10 +1,12 @@
-
 if (!window.__userHandlingInitialized) {
   window.__userHandlingInitialized = true;
 
   document.addEventListener("DOMContentLoaded", async () => {
     const path = window.location.pathname.toLowerCase();
 
+    // --- Check for existing device tag ---
+    const existingDeviceTag = localStorage.getItem("deviceTag");
+    
     // --- Get username from localStorage ---
     const storedUsername = localStorage.getItem("username");
 
@@ -75,6 +77,32 @@ if (!window.__userHandlingInitialized) {
       // Username in localStorage no longer exists in JSON
       logout();
       return;
+    }
+
+    // --- Check deviceBlocked status ---
+    const deviceBlockedStatus = currentUser.deviceBlocked;
+    
+    // Handle device blocking logic
+    if (deviceBlockedStatus === "alt") {
+      // Redirect to device blocked page
+      if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
+        window.__redirectingToDeviceBlocked = true;
+        window.location.href = "/Membership/DeviceBlocked.html";
+        return;
+      }
+    } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
+      // Generate and store a device tag UUID
+      const deviceTag = generateUUID();
+      localStorage.setItem("deviceTag", deviceTag);
+    } else if (deviceBlockedStatus === false || deviceBlockedStatus === "false") {
+      // No action needed for false values
+    } else if (existingDeviceTag && deviceBlockedStatus !== "root") {
+      // If device has a tag but current user is not "root", redirect to blocked page
+      if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
+        window.__redirectingToDeviceBlocked = true;
+        window.location.href = "/Membership/DeviceBlocked.html";
+        return;
+      }
     }
 
     // --- Normalize isDeleted flag (ONLY consider OWN properties) ---
@@ -225,5 +253,14 @@ if (!window.__userHandlingInitialized) {
     } catch (err) {
       console.warn("Could not attach menu:", err);
     }
+  });
+}
+
+// Helper function to generate UUID
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
   });
 }
