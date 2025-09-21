@@ -1,11 +1,28 @@
 if (!window.__userHandlingInitialized) {
   window.__userHandlingInitialized = true;
 
+  // Helper function to generate UUID
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  // Normalized path-check helpers
+  function isDeviceBlockedPath(pathnameLower) {
+    return pathnameLower.includes('/membership/deviceblocked') || pathnameLower.includes('/membership/deviceblocked.html');
+  }
+  function isNotApprovedPath(pathnameLower) {
+    return pathnameLower.includes('/not-approved') || pathnameLower.includes('/membership/notapproved') || pathnameLower.includes('/membership/notapproved.html');
+  }
+
   // --- Immediate device blocking check (runs before DOMContentLoaded) ---
   (async () => {
     const storedUsername = localStorage.getItem("username");
     if (!storedUsername) return; // No user logged in
-    
+
     // --- Fetch user JSON immediately ---
     let users;
     try {
@@ -34,43 +51,56 @@ if (!window.__userHandlingInitialized) {
     const deviceBlockedStatus = currentUser.deviceBlocked;
     
     // If we're already on the DeviceBlocked page, don't redirect again
-    const isOnDeviceBlockedPage = window.location.pathname.toLowerCase().includes('/membership/deviceblocked');
-    
+    const pathnameLower = window.location.pathname.toLowerCase();
+    const isOnDeviceBlockedPage = isDeviceBlockedPath(pathnameLower);
+
     if (deviceBlockedStatus === "alt" && !isOnDeviceBlockedPage) {
-      // Redirect to device blocked page
+      // Redirect to device blocked page (use replace to avoid a history loop)
       if (!window.__redirectingToDeviceBlocked) {
         window.__redirectingToDeviceBlocked = true;
-        window.location.href = "/Membership/DeviceBlocked.html";
+        window.location.replace("/Membership/DeviceBlocked.html");
       }
       return; // STOP further execution
     } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
-      // Generate and store a device tag UUID
+      // Generate and store a device tag UUID *and* mark source so later checks know we created it.
       const deviceTag = generateUUID();
       localStorage.setItem("deviceTag", deviceTag);
+      // remember who this tag belongs to - prevents immediate subsequent logic from treating it as an earlier device
+      localStorage.setItem("deviceTagSource", storedUsername);
+
+      // IMPORTANT: stop further immediate processing — this prevents the rest of the IIFE from redirecting
+      return;
     } else if (existingDeviceTag && deviceBlockedStatus !== "root" && !isOnDeviceBlockedPage) {
-      // Redirect to device blocked page
+      // Redirect to device blocked page (use replace to avoid a history loop)
       if (!window.__redirectingToDeviceBlocked) {
         window.__redirectingToDeviceBlocked = true;
-        window.location.href = "/Membership/DeviceBlocked.html";
+        window.location.replace("/Membership/DeviceBlocked.html");
       }
       return; // STOP further execution
     }
 
-    // --- If device is blocked and we're on the DeviceBlocked page, prevent further processing ---
+    // If we are on the DeviceBlocked page and the device is blocked (either 'alt' or non-root tag), mark and stop
     if (isOnDeviceBlockedPage && (deviceBlockedStatus === "alt" || (existingDeviceTag && deviceBlockedStatus !== "root"))) {
       // Set a flag to prevent the DOMContentLoaded handler from processing this user
       window.__deviceBlockedUser = true;
+      return;
     }
   })();
 
   // --- Regular DOMContentLoaded handling ---
   document.addEventListener("DOMContentLoaded", async () => {
+    // Quick path: if we detect we're on the deviceblocked page, just bail out early
+    const path = window.location.pathname.toLowerCase();
+    if (isDeviceBlockedPath(path)) {
+      // If the immediate IIFE didn't already set the flag, set it now so the remainder won't run
+      window.__deviceBlockedUser = true;
+      return;
+    }
+
     // Skip processing if this is a device-blocked user (already handled above)
     if (window.__deviceBlockedUser) {
       return;
     }
-
-    const path = window.location.pathname.toLowerCase();
 
     // --- Check for existing device tag ---
     const existingDeviceTag = localStorage.getItem("deviceTag");
@@ -80,19 +110,16 @@ if (!window.__userHandlingInitialized) {
 
     // --- Logout function ---
     function logout() {
-      // Only remove banFormData if it was sourced from this logged-in user
       try {
         const banSource = localStorage.getItem("banFormDataSource");
         if (banSource && banSource === storedUsername) {
           localStorage.removeItem("banFormData");
           localStorage.removeItem("banFormDataSource");
         }
-      } catch (e) {
-      }
+      } catch (e) { /* ignore */ }
 
       localStorage.removeItem("username");
       localStorage.removeItem("ModPanelUsername");
-      // keep other unrelated local banFormData if present
       localStorage.setItem("logoutTime", new Date().toISOString());
       window.location.href = "/login";
     }
@@ -116,7 +143,6 @@ if (!window.__userHandlingInitialized) {
       } else if (path.includes("/home")) {
         window.location.href = "/login";
       }
-      // /404.html is accessible even if not logged in
       return;
     }
 
@@ -160,28 +186,23 @@ if (!window.__userHandlingInitialized) {
 
     // --- Handle deleted/banned users (defensive redirect) ---
     if (isDeleted) {
-      // Save banFormData into localStorage if present (and parse if necessary)
       if (currentUser.banFormData) {
         try {
           const banData = typeof currentUser.banFormData === "string"
             ? JSON.parse(currentUser.banFormData)
             : currentUser.banFormData;
           localStorage.setItem("banFormData", JSON.stringify(banData));
-          // mark the source so we don't clobber unrelated local ban data
           localStorage.setItem("banFormDataSource", storedUsername);
         } catch (err) {
           console.error("Failed to parse banFormData:", err);
         }
       }
 
-      // Prevent accidental double-redirects
-      // treat both '/not-approved' and '/membership/notapproved' as "already on not-approved"
-      const onNotApproved = path.includes("/not-approved") || path.includes("/membership/notapproved");
+      const onNotApproved = isNotApprovedPath(path);
       if (!onNotApproved && !window.__redirectingToNotApproved) {
         window.__redirectingToNotApproved = true;
-        console.warn("Redirecting to /not-approved because currentUser.isDeleted is true (own property).");
-        console.log({ currentUserHasOwnIsDeleted: hasOwnIsDeleted, rawIsDeleted });
-        window.location.href = "/Membership/NotApproved";
+        console.warn("Redirecting to /Membership/NotApproved because currentUser.isDeleted is true (own property).");
+        window.location.replace("/Membership/NotApproved");
         return;
       }
     } else {
@@ -191,20 +212,16 @@ if (!window.__userHandlingInitialized) {
         if (localBanSource && localBanSource === storedUsername) {
           localStorage.removeItem("banFormData");
           localStorage.removeItem("banFormDataSource");
-        } else {
-          // if local ban data exists but was not created by this logged-in user, leave it alone.
-          // this preserves unrelated local banFormData for manual navigation to the not-approved pages.
         }
       } catch (e) {
         // ignore storage errors
       }
     }
 
-    // --- Display username in header ---
+    // --- Display username/profile (rest of your code unchanged) ---
     const usernameElement = document.getElementById("username");
     if (usernameElement) usernameElement.textContent = currentUser.username;
 
-    // --- Display profile picture ---
     const userCircle = document.querySelector(".user-circle");
     if (currentUser.profilePicture && userCircle && !isDeleted) {
       try {
@@ -221,7 +238,6 @@ if (!window.__userHandlingInitialized) {
       }
     }
 
-    // --- Sidebar links ---
     const homeLink = document.getElementById("homeLink");
     const profileLink = document.getElementById("profileLink");
     const acquaintancesLink = document.getElementById("acquaintancesLink");
@@ -229,7 +245,6 @@ if (!window.__userHandlingInitialized) {
     if (profileLink) profileLink.href = `/users?id=${currentUser.id || currentUser.userId || ""}`;
     if (acquaintancesLink) acquaintancesLink.href = "/users.html?id=1";
 
-    // --- Home page greeting ---
     const greetingText = document.getElementById("greetingText");
     const profilePic = document.getElementById("profilePic");
     if (greetingText) greetingText.textContent = `Hello, ${currentUser.username}!`;
@@ -239,7 +254,7 @@ if (!window.__userHandlingInitialized) {
       profilePic.style.backgroundPosition = "center";
     }
 
-    // --- 3-dot menu for logout ---
+    // 3-dot menu code left unchanged (your original)
     try {
       const menuWrapper = document.createElement("div");
       menuWrapper.style.position = "relative";
@@ -294,14 +309,5 @@ if (!window.__userHandlingInitialized) {
     } catch (err) {
       console.warn("Could not attach menu:", err);
     }
-  });
-}
-
-// Helper function to generate UUID
-function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
   });
 }
