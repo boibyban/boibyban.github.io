@@ -1759,6 +1759,35 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     })();
   </script>
   <script>
+  // Performance Modal Functions
+  function openPerformanceModal(chipType) {
+    document.getElementById('modalTitle').textContent = `${chipType} Performance`;
+    document.getElementById('performanceModal').style.display = 'flex';
+    setTimeout(() => {
+      document.getElementById('performanceModal').classList.add('visible');
+    }, 10);
+    
+    // Set initial tab content
+    updatePerformanceContent('cpu');
+  }
+  
+  function closePerformanceModal() {
+    document.getElementById('performanceModal').classList.remove('visible');
+    setTimeout(() => {
+      document.getElementById('performanceModal').style.display = 'none';
+    }, 300);
+  }
+  
+  function getTabTitle(tabName) {
+    switch(tabName) {
+      case 'cpu': return 'CPU (Cinebench 2024)';
+      case 'compile': return 'Code Compiling (Chromium)';
+      case 'gaming': return 'Gaming';
+      case 'video': return 'Video Editing';
+      default: return '';
+    }
+  }
+
   // Animate sections on scroll
   document.addEventListener('DOMContentLoaded', function() {
     // Animate the main title
