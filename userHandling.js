@@ -1,83 +1,12 @@
 if (!window.__userHandlingInitialized) {
   window.__userHandlingInitialized = true;
 
-  // Device blocking check function (runs first)
-  async function checkDeviceBlocking() {
-    // Check for existing device tag
-    const existingDeviceTag = localStorage.getItem("deviceTag");
-    
-    // Fetch users.json to check device blocking status
-    let users;
-    try {
-      const res = await fetch("/users.json", { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to fetch users.json: " + res.status);
-      users = await res.json();
-    } catch (err) {
-      console.error("Error fetching users for device check:", err);
-      return false; // Continue with normal flow if we can't check
-    }
-    
-    const path = window.location.pathname.toLowerCase();
-    const storedUsername = localStorage.getItem("username");
-    
-    // If we have a username, check if that user has device blocking
-    if (storedUsername && users) {
-      let currentUser = null;
-      try {
-        if (users && typeof users === "object") {
-          currentUser = Object.values(users).find(u => u && u.username === storedUsername) || null;
-        }
-      } catch (err) {
-        console.error("Error searching users object for device check:", err);
-      }
-      
-      if (currentUser) {
-        const deviceBlockedStatus = currentUser.deviceBlocked;
-        
-        // Handle device blocking logic
-        if (deviceBlockedStatus === "alt") {
-          // Redirect to device blocked page
-          if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
-            window.__redirectingToDeviceBlocked = true;
-            window.location.href = "/Membership/DeviceBlocked.html";
-            return true; // Blocking occurred
-          }
-        } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
-          // Generate and store a device tag UUID
-          const deviceTag = generateUUID();
-          localStorage.setItem("deviceTag", deviceTag);
-        } else if (existingDeviceTag && deviceBlockedStatus !== "root") {
-          // If device has a tag but current user is not "root", redirect to blocked page
-          if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
-            window.__redirectingToDeviceBlocked = true;
-            window.location.href = "/Membership/DeviceBlocked.html";
-            return true; // Blocking occurred
-          }
-        }
-      }
-    }
-    
-    return false; // No blocking occurred
-  }
-
-  // Helper function to generate UUID
-  function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", async () => {
     const path = window.location.pathname.toLowerCase();
-    
-    // Run device blocking check first
-    const deviceBlocked = await checkDeviceBlocking();
-    if (deviceBlocked) {
-      return; // Stop execution if device is blocked
-    }
 
+    // --- Check for existing device tag ---
+    const existingDeviceTag = localStorage.getItem("deviceTag");
+    
     // --- Get username from localStorage ---
     const storedUsername = localStorage.getItem("username");
 
@@ -148,6 +77,32 @@ if (!window.__userHandlingInitialized) {
       // Username in localStorage no longer exists in JSON
       logout();
       return;
+    }
+
+    // --- Check deviceBlocked status ---
+    const deviceBlockedStatus = currentUser.deviceBlocked;
+    
+    // Handle device blocking logic
+    if (deviceBlockedStatus === "alt") {
+      // Redirect to device blocked page
+      if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
+        window.__redirectingToDeviceBlocked = true;
+        window.location.href = "/Membership/DeviceBlocked.html";
+        return;
+      }
+    } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
+      // Generate and store a device tag UUID
+      const deviceTag = generateUUID();
+      localStorage.setItem("deviceTag", deviceTag);
+    } else if (deviceBlockedStatus === false || deviceBlockedStatus === "false") {
+      // No action needed for false values
+    } else if (existingDeviceTag && deviceBlockedStatus !== "root") {
+      // If device has a tag but current user is not "root", redirect to blocked page
+      if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
+        window.__redirectingToDeviceBlocked = true;
+        window.location.href = "/Membership/DeviceBlocked.html";
+        return;
+      }
     }
 
     // --- Normalize isDeleted flag (ONLY consider OWN properties) ---
@@ -298,5 +253,14 @@ if (!window.__userHandlingInitialized) {
     } catch (err) {
       console.warn("Could not attach menu:", err);
     }
+  });
+}
+
+// Helper function to generate UUID
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
   });
 }
