@@ -763,7 +763,7 @@
         "displayName": "Chip",
         "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/content-deleted.png",
-        "isDeleted": true,
+        "isDeleted": false,
         "joinDate": "2025-09-21",
         "isAdmin": false,
         "friends": [
@@ -778,7 +778,7 @@
         "displayName": "Chip2",
         "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/content-deleted.png",
-        "isDeleted": true,
+        "isDeleted": false,
         "joinDate": "2025-09-21",
         "isAdmin": false,
         "friends": [
