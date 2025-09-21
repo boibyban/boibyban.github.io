@@ -668,11 +668,11 @@
         <h4 style="margin-top: 0; color: var(--blue); text-align: center;">Boiby B5</h4>
         <p style="text-align: center; font-style: italic; margin-bottom: 15px;">B5 brings serious speed to the 14-inch BoibyBook Pro, which comes standard with 16 GB of unified memory. With the B5 chip, you can multitask seamlessly across everyday apps, and power through memory-intensive tasks, such as editing high-resolution video.</p>
         <ul style="padding-left: 20px; margin-bottom: 20px;">
-          <li>Up to 10-core CPU (8 performance, 2 efficiency)</li>
+          <li>Up to 10-core CPU (6 performance, 4 efficiency)</li>
           <li>Up to 12-core GPU</li>
           <li>16-core Neural Engine</li>
           <li>Supports up to 32GB unified memory</li>
-          <li>Media engine with ProRes encode/decode</li>
+          <li>Media engine with BoibyRes encode/decode</li>
         </ul>
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
           <p style="margin: 5px 0;"><strong>Best for:</strong> Students, professionals, content creators</p>
@@ -691,9 +691,9 @@
         <ul style="padding-left: 20px; margin-bottom: 20px;">
           <li>Up to 14-core CPU (10 performance, 4 efficiency)</li>
           <li>Up to 24-core GPU</li>
-          <li>32-core Neural Engine</li>
+          <li>24-core Neural Engine</li>
           <li>Supports up to 64GB unified memory</li>
-          <li>Enhanced media engine with dual ProRes encode/decode</li>
+          <li>Enhanced media engine with BoibyRes encode/decode</li>
         </ul>
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
           <p style="margin: 5px 0;"><strong>Best for:</strong> Developers, video professionals, 3D artists</p>
@@ -712,9 +712,9 @@
         <ul style="padding-left: 20px; margin-bottom: 20px;">
           <li>Up to 18-core CPU (14 performance, 4 efficiency)</li>
           <li>Up to 48-core GPU</li>
-          <li>48-core Neural Engine</li>
+          <li>24-core Neural Engine</li>
           <li>Supports up to 128GB unified memory</li>
-          <li>Advanced media engine with quad ProRes encode/decode</li>
+          <li>Media engine with dual BoibyRes encode/decode</li>
         </ul>
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
           <p style="margin: 5px 0;"><strong>Best for:</strong> AI researchers, 8K video editors, scientific computing</p>
@@ -844,139 +844,98 @@
   </div>
 </section>
 
-<!-- Animation and Performance Modal Script -->
+<!-- Replace the entire performanceModal section with this updated code -->
+<div id="performanceModal" class="modal-overlay" style="display: none;">
+  <div class="modal" style="max-width: 800px;">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modalTitle">Performance Comparison</h3>
+      <button class="modal-close" onclick="closePerformanceModal()">×</button>
+    </div>
+    <div class="modal-content">
+      <div class="tabs" style="margin-bottom: 20px;">
+        <div class="tab active" data-tab="cpu">CPU Performance</div>
+        <div class="tab" data-tab="compile">Code Compiling</div>
+        <div class="tab" data-tab="gaming">Gaming</div>
+        <div class="tab" data-tab="video">Video Editing</div>
+      </div>
+      <div id="performanceContent">
+        <!-- Content will be dynamically inserted -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Replace the performanceData object and updatePerformanceContent function with this code -->
 <script>
-  // Animate sections on scroll
-  document.addEventListener('DOMContentLoaded', function() {
-    // Animate the main title
-    setTimeout(() => {
-      document.querySelector('.learn-more h2').style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-      document.querySelector('.learn-more h2').style.opacity = '1';
-      document.querySelector('.learn-more h2').style.transform = 'translateY(0)';
-    }, 200);
-    
-    // Animate sections with delay
-    const sections = document.querySelectorAll('.info-section');
-    sections.forEach((section, index) => {
-      setTimeout(() => {
-        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        section.style.opacity = '1';
-        section.style.transform = 'translateY(0)';
-      }, 400 + (index * 200));
-    });
-    
-    // Add hover effects to chip cards
-    const chipCards = document.querySelectorAll('.chip-card');
-    chipCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-8px)';
-        card.style.boxShadow = '0 12px 24px rgba(0,0,0,0.1)';
-        card.querySelector('img').style.transform = 'scale(1.05)';
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0)';
-        card.style.boxShadow = 'none';
-        card.querySelector('img').style.transform = 'scale(1)';
-      });
-    });
-    
-    // Add performance button event listeners
-    const performanceBtns = document.querySelectorAll('.performance-btn');
-    performanceBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const chipType = this.parentElement.querySelector('h4').textContent.trim();
-        openPerformanceModal(chipType);
-      });
-    });
-    
-    // Tab switching in modal
-    const modalTabs = document.querySelectorAll('#performanceModal .tab');
-    modalTabs.forEach(tab => {
-      tab.addEventListener('click', function() {
-        modalTabs.forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        const tabName = this.getAttribute('data-tab');
-        updatePerformanceContent(tabName);
-      });
-    });
-  });
-  
-  // Performance data (simplified for example)
+  // Performance data with multipliers
   const performanceData = {
     'Boiby B5': {
       cpu: {
-        labels: ['AMD Ryzen 5 4500U', 'BoibyBook Pro 13" B1', 'Boiby B5'],
-        values: [100, 130, 210]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'BoibyBook Pro 13" B1', 'Boiby B5'],
+        values: [100, 130, 210],
+        multipliers: ['1.0x', '1.3x', '2.1x']
       },
       compile: {
-        labels: ['AMD Ryzen 5 4500U', 'BoibyBook Pro 13" B1', 'Boiby B5'],
-        values: [100, 125, 195]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'BoibyBook Pro 13" B1', 'Boiby B5'],
+        values: [100, 125, 195],
+        multipliers: ['1.0x', '1.25x', '1.95x']
       },
       gaming: {
-        labels: ['AMD Ryzen 5 4500U', 'BoibyBook Pro 13" B1', 'Boiby B5'],
-        values: [100, 140, 220]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'BoibyBook Pro 13" B1', 'Boiby B5'],
+        values: [100, 140, 220],
+        multipliers: ['1.0x', '1.4x', '2.2x']
       },
       video: {
-        labels: ['AMD Ryzen 5 4500U', 'BoibyBook Pro 13" B1', 'Boiby B5'],
-        values: [100, 150, 230]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'BoibyBook Pro 13" B1', 'Boiby B5'],
+        values: [100, 150, 230],
+        multipliers: ['1.0x', '1.5x', '2.3x']
       }
     },
     'Boiby B5 Pro': {
       cpu: {
-        labels: ['AMD Ryzen 5 4500U', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
-        values: [100, 180, 210, 280]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
+        values: [100, 180, 210, 280],
+        multipliers: ['1.0x', '1.8x', '2.1x', '2.8x']
       },
       compile: {
-        labels: ['AMD Ryzen 5 4500U', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
-        values: [100, 175, 205, 270]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
+        values: [100, 175, 205, 270],
+        multipliers: ['1.0x', '1.75x', '2.05x', '2.7x']
       },
       gaming: {
-        labels: ['AMD Ryzen 5 4500U', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
-        values: [100, 190, 230, 310]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
+        values: [100, 190, 230, 310],
+        multipliers: ['1.0x', '1.9x', '2.3x', '3.1x']
       },
       video: {
-        labels: ['AMD Ryzen 5 4500U', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
-        values: [100, 185, 240, 320]
+        labels: ['AMD Ryzen 5 4500U (Baseline)', 'AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Pro', 'Boiby B5 Pro'],
+        values: [100, 185, 240, 320],
+        multipliers: ['1.0x', '1.85x', '2.4x', '3.2x']
       }
     },
     'Boiby B5 Max': {
       cpu: {
-        labels: ['AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
-        values: [100, 220, 320]
+        labels: ['AMD Ryzen 9 4900H (Baseline)', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
+        values: [100, 220, 320],
+        multipliers: ['1.0x', '2.2x', '3.2x']
       },
       compile: {
-        labels: ['AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
-        values: [100, 215, 310]
+        labels: ['AMD Ryzen 9 4900H (Baseline)', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
+        values: [100, 215, 310],
+        multipliers: ['1.0x', '2.15x', '3.1x']
       },
       gaming: {
-        labels: ['AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
-        values: [100, 240, 350]
+        labels: ['AMD Ryzen 9 4900H (Baseline)', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
+        values: [100, 240, 350],
+        multipliers: ['1.0x', '2.4x', '3.5x']
       },
       video: {
-        labels: ['AMD Ryzen 9 4900H', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
-        values: [100, 250, 370]
+        labels: ['AMD Ryzen 9 4900H (Baseline)', 'BoibyBook Pro B1 Max', 'Boiby B5 Max'],
+        values: [100, 250, 370],
+        multipliers: ['1.0x', '2.5x', '3.7x']
       }
     }
   };
-  
-  function openPerformanceModal(chipType) {
-    document.getElementById('modalTitle').textContent = `${chipType} Performance`;
-    document.getElementById('performanceModal').style.display = 'flex';
-    setTimeout(() => {
-      document.getElementById('performanceModal').classList.add('visible');
-    }, 10);
-    
-    // Set initial tab content
-    updatePerformanceContent('cpu');
-  }
-  
-  function closePerformanceModal() {
-    document.getElementById('performanceModal').classList.remove('visible');
-    setTimeout(() => {
-      document.getElementById('performanceModal').style.display = 'none';
-    }, 300);
-  }
   
   function updatePerformanceContent(tabName) {
     const chipType = document.getElementById('modalTitle').textContent.replace(' Performance', '');
@@ -985,17 +944,24 @@
     
     let html = `<div style="margin-top: 20px;">
       <h4 style="margin-bottom: 15px;">${getTabTitle(tabName)} Performance</h4>
-      <div style="height: 300px; display: flex; align-items: flex-end; gap: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px;">`;
+      <div style="padding: 20px; background: #f9f9f9; border-radius: 8px;">`;
     
     const maxValue = Math.max(...data.values);
     
     data.values.forEach((value, index) => {
-      const height = (value / maxValue) * 250;
+      const width = (value / maxValue) * 100;
+      const isBaseline = data.labels[index].includes('(Baseline)') || data.labels[index].includes('AMD Ryzen') || data.labels[index].includes('B1');
+      const barColor = isBaseline ? '#888' : 'var(--blue)';
+      
       html += `
-        <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
-          <div style="width: 100%; background: linear-gradient(to top, var(--blue), #00a2ff); height: ${height}px; border-radius: 4px 4px 0 0;"></div>
-          <div style="margin-top: 10px; text-align: center; font-weight: 600;">${data.labels[index]}</div>
-          <div style="margin-top: 5px; font-size: 0.9em;">${value}%</div>
+        <div style="margin-bottom: 25px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <div style="font-weight: ${isBaseline ? '400' : '600'}; color: ${isBaseline ? '#666' : 'var(--text)'};">${data.labels[index]}</div>
+            <div style="font-weight: 600; color: ${isBaseline ? '#666' : 'var(--blue)'};">${data.multipliers[index]}</div>
+          </div>
+          <div style="width: 100%; height: 24px; background: #e0e0e0; border-radius: 12px; overflow: hidden; position: relative;">
+            <div style="width: ${width}%; height: 100%; background: ${barColor}; border-radius: 12px; transition: width 1s ease;"></div>
+          </div>
         </div>
       `;
     });
@@ -1003,17 +969,26 @@
     html += `</div></div>`;
     contentDiv.innerHTML = html;
   }
-  
-  function getTabTitle(tabName) {
-    switch(tabName) {
-      case 'cpu': return 'CPU (Cinebench 2024)';
-      case 'compile': return 'Code Compiling (Chromium)';
-      case 'gaming': return 'Gaming';
-      case 'video': return 'Video Editing';
-      default: return '';
-    }
-  }
 </script>
+
+<!-- Add these CSS styles for the horizontal bars -->
+<style>
+  /* Animation for horizontal bars */
+  #performanceContent div[style*="background: var(--blue);"] {
+    animation: growBar 1s ease-out forwards;
+    transform-origin: left center;
+  }
+  
+  #performanceContent div[style*="background: #888;"] {
+    animation: growBar 1s ease-out forwards;
+    transform-origin: left center;
+  }
+  
+  @keyframes growBar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+</style>
 <style>
   .learn-more .chip-card:hover {
     transform: translateY(-8px);
