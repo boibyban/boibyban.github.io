@@ -230,6 +230,7 @@
         "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/content-deleted.png",
         "isDeleted": true,
+        "deviceBlocked": "alt",
         "banFormData": {
             "state": "Delete",
             "banStartDate": "16/09/2025, 12:54:04",
@@ -542,6 +543,7 @@
     "26": {
         "username": "ArcadiysTrash",
         "displayName": "ArcadiysTrash",
+        "deviceBlocked": "root",
         "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/content-deleted.png",
         "isDeleted": true,
@@ -708,6 +710,44 @@
             "classicViolations": [],
             "modernViolations": [],
             "caseID": "ba960a82-7be5-45f9-8a0f-d787ad268ba9"
+        },
+        "friends": [
+            1
+        ],
+        "followers": 0,
+        "following": 0,
+        "bio": ""
+    },
+    "30": {
+        "username": "memesgilore5551",
+        "displayName": "",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+        "profilePicture": "/content-deleted.png",
+        "isDeleted": true,
+        "deviceBlocked": "root",
+        "joinDate": "2025-09-21",
+        "isAdmin": false,
+        "banFormData": {
+            "state": "Delete",
+            "banStartDate": "21/09/2025, 13:55:29",
+            "note": "nonote",
+            "customNote": "Your account has been permanently banned due to violating our Child Endangerment and Exploitation Community Standard. Any form of harmful or illegal content or behaviour involving minors is strictly prohibited on Boiby. In circumstances where Boiby believes users may be at risk of harm, Boiby may file a report with relevant authorities.",
+            "internalNote": "",
+            "cautionWarning": "none",
+            "automation": "manual",
+            "theme": "light",
+            "botBan": false,
+            "parentChargeback": false,
+            "classicViolations": [
+                {
+                    "violationType": "Game",
+                    "reason": "Child Endangerment",
+                    "evidence": "[ Content Deleted ]",
+                    "location": ""
+                }
+            ],
+            "modernViolations": [],
+            "caseID": "e6492637-54fd-4640-a146-ec12cd140720"
         },
         "friends": [
             1
