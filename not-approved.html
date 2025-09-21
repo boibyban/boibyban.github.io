@@ -771,8 +771,15 @@ body.dark-mode .menu-dots:hover {
 function formatDate(dateInput) {
     let date;
     
-    // Handle various date input formats
-    if (typeof dateInput === 'string') {
+    // First try to get banStartDate from form data
+    const formData = JSON.parse(localStorage.getItem('banFormData'));
+    if (formData && formData.banStartDate) {
+        const [datePart, timePart] = formData.banStartDate.split(', ');
+        const [day, month, year] = datePart.split('/');
+        date = new Date(`${year}-${month}-${day}T${timePart}`);
+    }
+    // If no banStartDate, handle various date input formats
+    else if (typeof dateInput === 'string') {
         // Try to parse the date string from the form (DD/MM/YYYY, HH:MM:SS format)
         if (dateInput.includes('/') && dateInput.includes(',')) {
             const [datePart, timePart] = dateInput.split(', ');
