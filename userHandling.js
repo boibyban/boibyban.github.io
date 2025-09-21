@@ -10,12 +10,25 @@ if (!window.__userHandlingInitialized) {
     });
   }
 
-  // Normalized path-check helpers
+  // Paths where redirects are allowed (only these pages may be redirected)
+  const ALLOWED_REDIRECT_SEGMENTS = [
+    "/home",
+    "/users",
+    "/not-approved",
+    "/membership/notapproved"
+  ];
+
+  function isAllowedRedirectPath(pathnameLower) {
+    // Normalize and only allow if one of the important segments appears in the pathname.
+    // This also accommodates .html, querystrings, trailing slashes, etc.
+    return ALLOWED_REDIRECT_SEGMENTS.some(seg => pathnameLower.includes(seg));
+  }
+
   function isDeviceBlockedPath(pathnameLower) {
-    return pathnameLower.includes('/membership/deviceblocked') || pathnameLower.includes('/membership/deviceblocked.html');
+    return pathnameLower.includes('/membership/deviceblocked');
   }
   function isNotApprovedPath(pathnameLower) {
-    return pathnameLower.includes('/not-approved') || pathnameLower.includes('/membership/notapproved') || pathnameLower.includes('/membership/notapproved.html');
+    return pathnameLower.includes('/not-approved') || pathnameLower.includes('/membership/notapproved');
   }
 
   // --- Immediate device blocking check (runs before DOMContentLoaded) ---
@@ -46,15 +59,15 @@ if (!window.__userHandlingInitialized) {
 
     if (!currentUser) return; // User not found
 
-    // --- DEVICE BLOCKING CHECK - IMMEDIATE AND UNCONDITIONAL ---
-    const existingDeviceTag = localStorage.getItem("deviceTag");
-    const deviceBlockedStatus = currentUser.deviceBlocked;
-    
-    // If we're already on the DeviceBlocked page, don't redirect again
     const pathnameLower = window.location.pathname.toLowerCase();
+    const allowedRedirect = isAllowedRedirectPath(pathnameLower);
     const isOnDeviceBlockedPage = isDeviceBlockedPath(pathnameLower);
 
-    if (deviceBlockedStatus === "alt" && !isOnDeviceBlockedPage) {
+    // --- DEVICE BLOCKING CHECK - IMMEDIATE AND UNCONDITIONAL (but only redirect on allowed pages) ---
+    const existingDeviceTag = localStorage.getItem("deviceTag");
+    const deviceBlockedStatus = currentUser.deviceBlocked;
+
+    if (deviceBlockedStatus === "alt" && !isOnDeviceBlockedPage && allowedRedirect) {
       // Redirect to device blocked page (use replace to avoid a history loop)
       if (!window.__redirectingToDeviceBlocked) {
         window.__redirectingToDeviceBlocked = true;
@@ -62,15 +75,13 @@ if (!window.__userHandlingInitialized) {
       }
       return; // STOP further execution
     } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
-      // Generate and store a device tag UUID *and* mark source so later checks know we created it.
+      // Generate and store a device tag UUID *and* mark source
       const deviceTag = generateUUID();
       localStorage.setItem("deviceTag", deviceTag);
-      // remember who this tag belongs to - prevents immediate subsequent logic from treating it as an earlier device
       localStorage.setItem("deviceTagSource", storedUsername);
-
-      // IMPORTANT: stop further immediate processing — this prevents the rest of the IIFE from redirecting
+      // Do not attempt any redirect here — return to avoid further immediate checks treating this tag as previous evidence
       return;
-    } else if (existingDeviceTag && deviceBlockedStatus !== "root" && !isOnDeviceBlockedPage) {
+    } else if (existingDeviceTag && deviceBlockedStatus !== "root" && !isOnDeviceBlockedPage && allowedRedirect) {
       // Redirect to device blocked page (use replace to avoid a history loop)
       if (!window.__redirectingToDeviceBlocked) {
         window.__redirectingToDeviceBlocked = true;
@@ -79,9 +90,8 @@ if (!window.__userHandlingInitialized) {
       return; // STOP further execution
     }
 
-    // If we are on the DeviceBlocked page and the device is blocked (either 'alt' or non-root tag), mark and stop
+    // If we are on the DeviceBlocked page and the device is actually blocked, mark and stop further DOM processing
     if (isOnDeviceBlockedPage && (deviceBlockedStatus === "alt" || (existingDeviceTag && deviceBlockedStatus !== "root"))) {
-      // Set a flag to prevent the DOMContentLoaded handler from processing this user
       window.__deviceBlockedUser = true;
       return;
     }
@@ -89,22 +99,22 @@ if (!window.__userHandlingInitialized) {
 
   // --- Regular DOMContentLoaded handling ---
   document.addEventListener("DOMContentLoaded", async () => {
-    // Quick path: if we detect we're on the deviceblocked page, just bail out early
     const path = window.location.pathname.toLowerCase();
+
+    // If we're on the deviceblocked page, bail early (no more processing)
     if (isDeviceBlockedPath(path)) {
-      // If the immediate IIFE didn't already set the flag, set it now so the remainder won't run
       window.__deviceBlockedUser = true;
       return;
     }
 
-    // Skip processing if this is a device-blocked user (already handled above)
+    // Skip processing if flagged as a device-blocked user
     if (window.__deviceBlockedUser) {
       return;
     }
 
     // --- Check for existing device tag ---
     const existingDeviceTag = localStorage.getItem("deviceTag");
-    
+
     // --- Get username from localStorage ---
     const storedUsername = localStorage.getItem("username");
 
@@ -199,7 +209,9 @@ if (!window.__userHandlingInitialized) {
       }
 
       const onNotApproved = isNotApprovedPath(path);
-      if (!onNotApproved && !window.__redirectingToNotApproved) {
+      const allowedRedirect = isAllowedRedirectPath(path);
+      // Only redirect to NotApproved when we are on an allowed redirect path.
+      if (!onNotApproved && !window.__redirectingToNotApproved && allowedRedirect) {
         window.__redirectingToNotApproved = true;
         console.warn("Redirecting to /Membership/NotApproved because currentUser.isDeleted is true (own property).");
         window.location.replace("/Membership/NotApproved");
@@ -218,7 +230,7 @@ if (!window.__userHandlingInitialized) {
       }
     }
 
-    // --- Display username/profile (rest of your code unchanged) ---
+    // --- Display username/profile (rest unchanged) ---
     const usernameElement = document.getElementById("username");
     if (usernameElement) usernameElement.textContent = currentUser.username;
 
@@ -254,7 +266,7 @@ if (!window.__userHandlingInitialized) {
       profilePic.style.backgroundPosition = "center";
     }
 
-    // 3-dot menu code left unchanged (your original)
+    // 3-dot menu code (unchanged)
     try {
       const menuWrapper = document.createElement("div");
       menuWrapper.style.position = "relative";
