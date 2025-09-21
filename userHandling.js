@@ -1,7 +1,75 @@
 if (!window.__userHandlingInitialized) {
   window.__userHandlingInitialized = true;
 
+  // --- Immediate device blocking check (runs before DOMContentLoaded) ---
+  (async () => {
+    const storedUsername = localStorage.getItem("username");
+    if (!storedUsername) return; // No user logged in
+    
+    // --- Fetch user JSON immediately ---
+    let users;
+    try {
+      const res = await fetch("/users.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch users.json: " + res.status);
+      users = await res.json();
+    } catch (err) {
+      console.error("Error fetching users:", err);
+      return;
+    }
+
+    // --- Find current user by username ---
+    let currentUser = null;
+    try {
+      if (users && typeof users === "object") {
+        currentUser = Object.values(users).find(u => u && u.username === storedUsername) || null;
+      }
+    } catch (err) {
+      console.error("Error searching users object:", err);
+    }
+
+    if (!currentUser) return; // User not found
+
+    // --- DEVICE BLOCKING CHECK - IMMEDIATE AND UNCONDITIONAL ---
+    const existingDeviceTag = localStorage.getItem("deviceTag");
+    const deviceBlockedStatus = currentUser.deviceBlocked;
+    
+    // If we're already on the DeviceBlocked page, don't redirect again
+    const isOnDeviceBlockedPage = window.location.pathname.toLowerCase().includes('/membership/deviceblocked');
+    
+    if (deviceBlockedStatus === "alt" && !isOnDeviceBlockedPage) {
+      // Redirect to device blocked page
+      if (!window.__redirectingToDeviceBlocked) {
+        window.__redirectingToDeviceBlocked = true;
+        window.location.href = "/Membership/DeviceBlocked.html";
+      }
+      return; // STOP further execution
+    } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
+      // Generate and store a device tag UUID
+      const deviceTag = generateUUID();
+      localStorage.setItem("deviceTag", deviceTag);
+    } else if (existingDeviceTag && deviceBlockedStatus !== "root" && !isOnDeviceBlockedPage) {
+      // Redirect to device blocked page
+      if (!window.__redirectingToDeviceBlocked) {
+        window.__redirectingToDeviceBlocked = true;
+        window.location.href = "/Membership/DeviceBlocked.html";
+      }
+      return; // STOP further execution
+    }
+
+    // --- If device is blocked and we're on the DeviceBlocked page, prevent further processing ---
+    if (isOnDeviceBlockedPage && (deviceBlockedStatus === "alt" || (existingDeviceTag && deviceBlockedStatus !== "root"))) {
+      // Set a flag to prevent the DOMContentLoaded handler from processing this user
+      window.__deviceBlockedUser = true;
+    }
+  })();
+
+  // --- Regular DOMContentLoaded handling ---
   document.addEventListener("DOMContentLoaded", async () => {
+    // Skip processing if this is a device-blocked user (already handled above)
+    if (window.__deviceBlockedUser) {
+      return;
+    }
+
     const path = window.location.pathname.toLowerCase();
 
     // --- Check for existing device tag ---
@@ -79,31 +147,6 @@ if (!window.__userHandlingInitialized) {
       return;
     }
 
-    // --- DEVICE BLOCKING CHECK - MOVED TO TOP AND ALWAYS EXECUTES ---
-    const deviceBlockedStatus = currentUser.deviceBlocked;
-    
-    // Handle device blocking logic - ALWAYS check regardless of current page
-    if (deviceBlockedStatus === "alt") {
-      // Redirect to device blocked page - ALWAYS redirect no matter what page we're on
-      if (!window.__redirectingToDeviceBlocked) {
-        window.__redirectingToDeviceBlocked = true;
-        window.location.href = "/Membership/DeviceBlocked.html";
-        return;
-      }
-    } else if (deviceBlockedStatus === "root" && !existingDeviceTag) {
-      // Generate and store a device tag UUID
-      const deviceTag = generateUUID();
-      localStorage.setItem("deviceTag", deviceTag);
-    } else if (existingDeviceTag && deviceBlockedStatus !== "root") {
-      // If device has a tag but current user is not "root", redirect to blocked page - ALWAYS redirect
-      if (!window.__redirectingToDeviceBlocked) {
-        window.__redirectingToDeviceBlocked = true;
-        window.location.href = "/Membership/DeviceBlocked.html";
-        return;
-      }
-    }
-    // No action needed for false values or other cases
-
     // --- Normalize isDeleted flag (ONLY consider OWN properties) ---
     const hasOwnIsDeleted = Object.prototype.hasOwnProperty.call(currentUser, "isDeleted");
     const rawIsDeleted = hasOwnIsDeleted ? currentUser.isDeleted : undefined;
@@ -138,7 +181,6 @@ if (!window.__userHandlingInitialized) {
         window.__redirectingToNotApproved = true;
         console.warn("Redirecting to /not-approved because currentUser.isDeleted is true (own property).");
         console.log({ currentUserHasOwnIsDeleted: hasOwnIsDeleted, rawIsDeleted });
-        console.trace();
         window.location.href = "/Membership/NotApproved";
         return;
       }
