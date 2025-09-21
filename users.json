@@ -27,7 +27,9 @@
             23,
             26,
             27,
-            29
+            29,
+            31,
+            32
         ],
         "followers": 10,
         "following": 9,
@@ -755,5 +757,35 @@
         "followers": 0,
         "following": 0,
         "bio": ""
-    }
+    },
+    "31": {
+        "username": "Chip",
+        "displayName": "Chip",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+        "profilePicture": "/content-deleted.png",
+        "isDeleted": true,
+        "joinDate": "2025-09-21",
+        "isAdmin": false,
+        "friends": [
+            1
+        ],
+        "followers": 0,
+        "following": 0,
+        "bio": ""
+    },
+    "32": {
+        "username": "Chip2",
+        "displayName": "Chip2",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+        "profilePicture": "/content-deleted.png",
+        "isDeleted": true,
+        "joinDate": "2025-09-21",
+        "isAdmin": false,
+        "friends": [
+            1
+        ],
+        "followers": 0,
+        "following": 0,
+        "bio": ""
+    },
 }
