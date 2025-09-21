@@ -21,9 +21,6 @@
 .suspension-text {
     font-weight: bold; 
 }
-.view-toggle {
-	display:none;
-}
 .evidence-content {
     display: block;
     margin-top: 0px;
@@ -723,39 +720,24 @@ body.dark-mode .menu-dots:hover {
         e.preventDefault();
         
         const button = document.getElementById('viewMoreButton');
-        const violationBox = document.querySelector('.violation-box');
-        const isExpanded = violationBox.classList.contains('expanded');
+        const evidenceItems = document.querySelectorAll('.evidence-content');
+        const isExpanded = button.textContent === 'View less';
         
         if (!isExpanded) {
             // Show all hidden items
-            document.querySelectorAll('.evidence-content.hidden').forEach(item => {
+            evidenceItems.forEach(item => {
                 item.classList.remove('hidden');
                 item.classList.add('visible');
             });
-            
-            // Update all view toggles to "View less"
-            document.querySelectorAll('.view-toggle').forEach(toggle => {
-                toggle.textContent = 'View less';
-            });
-            
-            violationBox.classList.add('expanded');
             button.textContent = 'View less';
         } else {
             // Hide items beyond the first 5
-            document.querySelectorAll('.evidence-content').forEach((item, index) => {
+            evidenceItems.forEach((item, index) => {
                 if (index >= 5) {
                     item.classList.remove('visible');
                     item.classList.add('hidden');
                 }
             });
-            
-            // Update all view toggles to "View more"
-            document.querySelectorAll('.view-toggle').forEach(toggle => {
-                const items = toggle.previousElementSibling.querySelectorAll('.evidence-content');
-                toggle.textContent = `View more (${items.length - 5} more)`;
-            });
-            
-            violationBox.classList.remove('expanded');
             button.textContent = 'View more';
         }
     }
@@ -1394,39 +1376,19 @@ if (formData) {
         </div>
     `;
     evidenceContainerEl.innerHTML += buttonHTML;
-    
-    // Add event listeners for view toggles (for classic violations)
-    document.querySelectorAll('.view-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function() {
-            const reason = this.getAttribute('data-reason');
-            const container = this.previousElementSibling;
-            const items = container.querySelectorAll('.evidence-content');
-            let allVisible = true;
-            
-            // Check if any items are hidden
-            items.forEach(item => {
-                if (item.classList.contains('hidden')) {
-                    allVisible = false;
-                }
-            });
-            
-            // Toggle visibility
-            items.forEach(item => {
-                if (allVisible && parseInt(item.getAttribute('data-index')) >= 5) {
-                    item.classList.remove('visible');
-                    item.classList.add('hidden');
-                } else {
-                    item.classList.remove('hidden');
-                    item.classList.add('visible');
-                }
-            });
-            
-            // Update toggle text
-            this.textContent = allVisible 
-                ? `View more (${items.length - 5} more)` 
-                : 'View less';
-        });
-    });
+    // Hide items beyond the first 5 initially
+document.querySelectorAll('.evidence-content').forEach((item, index) => {
+    if (index >= 5) {
+        item.classList.remove('visible');
+        item.classList.add('hidden');
+    }
+});
+
+// Update view more button text if there are more than 5 items
+const evidenceItems = document.querySelectorAll('.evidence-content');
+if (evidenceItems.length > 5) {
+    document.getElementById('viewMoreButton').textContent = `View more (${evidenceItems.length - 5} more)`;
+}
 
         // If image violation, handle layout positioning
         if (hasImageViolation) {
