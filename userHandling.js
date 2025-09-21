@@ -79,13 +79,13 @@ if (!window.__userHandlingInitialized) {
       return;
     }
 
-    // --- Check deviceBlocked status ---
+    // --- DEVICE BLOCKING CHECK - MOVED TO TOP AND ALWAYS EXECUTES ---
     const deviceBlockedStatus = currentUser.deviceBlocked;
     
-    // Handle device blocking logic
+    // Handle device blocking logic - ALWAYS check regardless of current page
     if (deviceBlockedStatus === "alt") {
-      // Redirect to device blocked page
-      if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
+      // Redirect to device blocked page - ALWAYS redirect no matter what page we're on
+      if (!window.__redirectingToDeviceBlocked) {
         window.__redirectingToDeviceBlocked = true;
         window.location.href = "/Membership/DeviceBlocked.html";
         return;
@@ -94,16 +94,15 @@ if (!window.__userHandlingInitialized) {
       // Generate and store a device tag UUID
       const deviceTag = generateUUID();
       localStorage.setItem("deviceTag", deviceTag);
-    } else if (deviceBlockedStatus === false || deviceBlockedStatus === "false") {
-      // No action needed for false values
     } else if (existingDeviceTag && deviceBlockedStatus !== "root") {
-      // If device has a tag but current user is not "root", redirect to blocked page
-      if (!path.includes("/membership/deviceblocked") && !window.__redirectingToDeviceBlocked) {
+      // If device has a tag but current user is not "root", redirect to blocked page - ALWAYS redirect
+      if (!window.__redirectingToDeviceBlocked) {
         window.__redirectingToDeviceBlocked = true;
         window.location.href = "/Membership/DeviceBlocked.html";
         return;
       }
     }
+    // No action needed for false values or other cases
 
     // --- Normalize isDeleted flag (ONLY consider OWN properties) ---
     const hasOwnIsDeleted = Object.prototype.hasOwnProperty.call(currentUser, "isDeleted");
