@@ -11,8 +11,11 @@
       --text: #1d1d1f;
       --muted: #6e6e73;
       --bg: #fff;
+      --page-max: 1200px;
+      --page-padding: 18px;
     }
 
+    /* Page layout */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       margin: 0;
@@ -32,7 +35,17 @@
 
     h1 { font-size: 2rem; font-weight: 600; margin: 0; }
 
-    .models { max-width: 1200px; margin: auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+    /* center content and prevent edge-to-edge stretching */
+    .container {
+      max-width: var(--page-max);
+      margin: 0 auto;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+
+    main { padding: 20px 0 90px; } /* bottom space so checkout doesn't overlap content */
+
+    .models { margin: 0 auto; padding: 20px 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
 
     .card { border: 1px solid var(--border); border-radius: 16px; padding: 20px; background: #fff; transition: box-shadow .15s, transform .06s; display: flex; flex-direction: column; }
     .card:hover { border-color: var(--blue); transform: translateY(-2px); }
@@ -57,8 +70,6 @@
     .hero-list li { font-size: 1rem; line-height: 1.6; margin: 6px 0; }
     .group { margin: 24px 0; position: relative; }
     .group h3 { font-size: 1.1rem; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
-    .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--muted); color: white; font-size: 12px; cursor: pointer; transition: background 0.2s; }
-    .info-icon:hover { background: var(--blue); }
     .pill { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border: 1px solid var(--border); border-radius: 12px; margin: 10px 0; cursor: pointer; background: #fff; transition: border-color .12s, box-shadow .12s, transform .06s; }
     .pill:hover { border-color: var(--blue); transform: translateY(-2px); }
     .pill.selected { border: 2px solid var(--blue); box-shadow: 0 4px 14px rgba(0,113,227,0.08); }
@@ -80,7 +91,32 @@
     .chip-card h4 { margin: 0 0 10px; font-size: 1.1rem; color: var(--blue); }
     .chip-card ul { text-align: left; margin: 0; padding-left: 20px; font-size: 0.9rem; }
     .chip-specs { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 0.9rem; }
-    .checkout { position: sticky; bottom: 0; left: 0; right: 0; width: auto; max-width: 100vw; box-sizing: border-box; background: #fff; border-top: 1px solid var(--border); padding: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; z-index: 100; overflow-x: hidden; padding-left: max(18px, env(safe-area-inset-left)); padding-right: max(18px, env(safe-area-inset-right)); }
+
+    /* Checkout is full-width visually but content is constrained via .container inside it */
+    .checkout {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      box-sizing: border-box;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 12px 0;
+      z-index: 100;
+      overflow-x: hidden;
+    }
+    .checkout .inner {
+      max-width: var(--page-max);
+      margin: 0 auto;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
     .total { font-size: 1.4rem; font-weight: 700; }
     .add-to-bag { padding: 12px 22px; font-size: 1.05rem; background: var(--blue); color: #fff; border: none; border-radius: 999px; cursor: pointer; transition: background .2s; }
     .add-to-bag:hover { background: #005bb5; }
@@ -95,7 +131,7 @@
     .confirmation-total { font-size: 1.6rem; font-weight: 700; text-align: center; margin-top: 20px; }
 
     @media (max-width: 900px) { .models { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); } .hero-content { flex-direction: column; } .hero-image { width: 100%; max-width: 320px; margin: 0 auto; } .chip-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 600px) { .pill { padding: 14px; } .checkout { flex-direction: column; align-items: stretch; text-align: center; } .add-to-bag { width: 100%; } .card-content { flex-direction: column; } .card-image { width: 100%; height: 180px; margin-bottom: 15px; } }
+    @media (max-width: 600px) { .pill { padding: 14px; } .checkout .inner { flex-direction: column; align-items: stretch; text-align: center; } .add-to-bag { width: 100%; } .card-content { flex-direction: column; } .card-image { width: 100%; height: 180px; margin-bottom: 15px; } }
   </style>
 </head>
 <body>
@@ -104,80 +140,47 @@
   </header>
 
   <main>
-    <div class="models" id="models"><!-- cards inserted by JS --></div>
+    <!-- center the page contents so pills/selectors don't touch the screen edges -->
+    <div class="container">
+      <div class="models" id="models"><!-- cards inserted by JS --></div>
 
-    <div class="chip-info-link">
-      <a id="chipInfoLink">Which Accelerator / NPU? →</a>
-    </div>
+      <div class="chip-info-link">
+        <a id="chipInfoLink" style="cursor:default;">Which Accelerator / NPU? →</a>
+      </div>
 
-    <div class="configurator" id="configurator" style="display:none;">
-      <button class="back-btn" id="backBtn">← Back</button>
-      <div class="hero">
-        <h2 class="hero-title" id="heroTitle"></h2>
-        <div class="hero-content">
-          <div class="hero-image" id="heroImage"></div>
-          <ul class="hero-list" id="heroList"></ul>
+      <div class="configurator" id="configurator" style="display:none;">
+        <button class="back-btn" id="backBtn">← Back</button>
+        <div class="hero">
+          <h2 class="hero-title" id="heroTitle"></h2>
+          <div class="hero-content">
+            <div class="hero-image" id="heroImage"></div>
+            <ul class="hero-list" id="heroList"></ul>
+          </div>
         </div>
+        <div id="options"></div>
       </div>
-      <div id="options"></div>
-    </div>
 
-    <div class="confirmation" id="confirmation">
-      <h2 class="confirmation-title">Order Confirmed</h2>
-      <div class="confirmation-image" id="confirmationImage"></div>
-      <h3 class="confirmation-model" id="confirmationModel"></h3>
-      <div class="confirmation-details">
-        <h4>Order Summary:</h4>
-        <ul class="confirmation-list" id="confirmationList"></ul>
-        <div class="confirmation-total" id="confirmationTotal"></div>
+      <div class="confirmation" id="confirmation">
+        <h2 class="confirmation-title">Order Confirmed</h2>
+        <div class="confirmation-image" id="confirmationImage"></div>
+        <h3 class="confirmation-model" id="confirmationModel"></h3>
+        <div class="confirmation-details">
+          <h4>Order Summary:</h4>
+          <ul class="confirmation-list" id="confirmationList"></ul>
+          <div class="confirmation-total" id="confirmationTotal"></div>
+        </div>
+        <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">Back to Store</button>
       </div>
-      <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">Back to Store</button>
     </div>
   </main>
 
-  <!-- Memory / NPU Modal -->
-  <div class="modal-overlay" id="memoryModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="memoryModalTitle">Memory & NPU Guide</h3>
-        <button class="modal-close">&times;</button>
-      </div>
-      <div class="modal-content" id="memoryModalContent"></div>
-    </div>
-  </div>
-
-  <!-- Chip / NPU Modal -->
-  <div class="modal-overlay" id="chipModal">
-    <div class="modal" style="max-width:700px">
-      <div class="modal-header">
-        <h3 class="modal-title">Which NPU is Right for You?</h3>
-        <button class="modal-close">&times;</button>
-      </div>
-      <div class="modal-content">
-        <p>High-performance NPUs accelerate machine learning and inference workloads. Choose based on model sizes and throughput you need.</p>
-        <div class="chip-grid">
-          <div class="chip-card">
-            <h4>Boiby N1X</h4>
-            <ul>
-              <li>36-core NPU, 48 GB HBM3 memory</li>
-              <li>Good for medium-scale inference and model development</li>
-            </ul>
-          </div>
-          <div class="chip-card">
-            <h4>Boiby N1X Plus</h4>
-            <ul>
-              <li>48-core NPU, 64 GB HBM3 memory</li>
-              <li>For high-throughput inference and larger models</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Removed Memory / NPU Modal and Chip Modal as requested -->
 
   <div class="checkout" id="checkout">
-    <div class="total" id="finalPrice">Total: A$0</div>
-    <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
+    <div class="inner">
+      <div class="total" id="finalPrice">Total: A$0</div>
+      <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
+    </div>
   </div>
 
   <script>
@@ -281,8 +284,8 @@
             ],
             npu: [
               "None (base)",
-              "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$3500)",
-              "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$7000)"
+              "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$4000)",
+              "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$8000)"
             ],
             io: [
               "None (base)",
@@ -319,17 +322,6 @@
         return m ? parseInt(m[1],10) : 0;
       };
       const formatPrice = n => `A$${n.toLocaleString('en-AU')}`;
-
-      const memoryGuides = {
-        'B5 Ultra': `
-          <p><strong>B5 Ultra memory guidance</strong></p>
-          <p>For large datasets, render farms, and professional compute workloads.</p>
-        `,
-        'B5 Extreme': `
-          <p><strong>B5 Extreme memory guidance</strong></p>
-          <p>Built for enormous memory footprints. Choose the higher tiers for multi-node compute, very large in-memory databases, or very large-scale ML training.</p>
-        `
-      };
 
       function findGroupByName(name) {
         const groups = $$('#options .group');
@@ -373,6 +365,8 @@
             selectedModel = e.target.getAttribute('data-model');
             const modelsEl = $('#models'); if (modelsEl) modelsEl.style.display = 'none';
             $('#configurator').style.display = 'block';
+            // scroll configurator into view neatly
+            setTimeout(() => { document.getElementById('heroTitle')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
             showConfigurator();
           });
 
@@ -395,14 +389,8 @@
           group.className = 'group';
           const h3 = document.createElement('h3');
 
-          if (category === 'memory') {
-            h3.innerHTML = `Memory <span class="info-icon" data-category="memory">?</span>`;
-          } else if (category === 'npu') {
-            h3.innerHTML = `Neural Accelerator <span class="info-icon" data-category="npu">?</span>`;
-          } else {
-            h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-          }
-
+          // keep headings simple (no info icons / modals)
+          h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
           group.appendChild(h3);
 
           cfg.upgrades[category].forEach((opt, idx) => {
@@ -414,16 +402,10 @@
 
             pill.addEventListener('click', () => {
               if (pill.classList.contains('disabled')) return;
-              if (category === 'gpu' || category === 'display' || category === 'io' || category === 'chassis') {
-                // single-select but allow later adding multiple via addons (not implemented)
-                Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
-                pill.classList.add('selected');
-                selectedOptions[category] = pill.dataset.value;
-              } else {
-                Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
-                pill.classList.add('selected');
-                selectedOptions[category] = pill.dataset.value;
-              }
+              // single-select behavior for all categories
+              Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
+              pill.classList.add('selected');
+              selectedOptions[category] = pill.dataset.value;
               renderHeroSummary(); updatePrice();
             });
 
@@ -433,31 +415,11 @@
             group.appendChild(pill);
           });
 
-          if (category === 'memory' || category === 'npu') {
-            const note = document.createElement('div'); note.className = 'note'; note.innerText = 'Use the memory/NPU guide for help.'; group.appendChild(note);
-            const infoIcon = h3.querySelector('.info-icon'); if (infoIcon) {
-              infoIcon.addEventListener('click', () => showMemoryModal(selectedModel));
-            }
-          }
-
           optionsDiv.appendChild(group);
         });
 
         renderHeroSummary(); updatePrice();
       }
-
-      function showMemoryModal(model) {
-        const modal = $('#memoryModal'); const title = $('#memoryModalTitle'); const content = $('#memoryModalContent');
-        title.textContent = `${model} Memory & NPU Guide`;
-        content.innerHTML = memoryGuides[model] || memoryGuides['B5 Ultra'];
-        modal.classList.add('visible');
-        const closeButton = modal.querySelector('.modal-close'); closeButton.addEventListener('click', hideMemoryModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) hideMemoryModal(); });
-        document.addEventListener('keydown', function escHandler(e) { if (e.key === 'Escape') { hideMemoryModal(); document.removeEventListener('keydown', escHandler); } });
-      }
-      function hideMemoryModal() { $('#memoryModal').classList.remove('visible'); }
-      function showChipModal() { $('#chipModal').classList.add('visible'); const closeButton = $('#chipModal').querySelector('.modal-close'); closeButton.addEventListener('click', hideChipModal); $('#chipModal').addEventListener('click', (e) => { if (e.target === $('#chipModal')) hideChipModal(); }); document.addEventListener('keydown', function escHandler(e) { if (e.key === 'Escape') { hideChipModal(); document.removeEventListener('keydown', escHandler); } }); }
-      function hideChipModal() { $('#chipModal').classList.remove('visible'); }
 
       function renderHeroSummary() {
         const list = $('#heroList'); if (!list) return; list.innerHTML = '';
@@ -492,10 +454,9 @@
 
       function li(text) { const el = document.createElement('li'); el.textContent = text; return el; }
 
-      const backBtn = $('#backBtn'); if (backBtn) backBtn.addEventListener('click', () => { $('#configurator').style.display = 'none'; $('#models').style.display = 'grid'; });
-      const confirmationBackBtn = $('#confirmationBackBtn'); if (confirmationBackBtn) confirmationBackBtn.addEventListener('click', () => { $('#confirmation').style.display = 'none'; $('#models').style.display = 'grid'; $('#checkout').style.display = 'flex'; });
+      const backBtn = $('#backBtn'); if (backBtn) backBtn.addEventListener('click', () => { $('#configurator').style.display = 'none'; $('#models').style.display = 'grid'; window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      const confirmationBackBtn = $('#confirmationBackBtn'); if (confirmationBackBtn) confirmationBackBtn.addEventListener('click', () => { $('#confirmation').style.display = 'none'; $('#models').style.display = 'grid'; $('#checkout').style.display = 'block'; window.scrollTo({ top: 0, behavior: 'smooth' }); });
       const addToBagBtn = $('#addToBagBtn'); if (addToBagBtn) addToBagBtn.addEventListener('click', showConfirmation);
-      const chipInfoLink = $('#chipInfoLink'); if (chipInfoLink) chipInfoLink.addEventListener('click', showChipModal);
 
       document.addEventListener('DOMContentLoaded', () => { renderModels(); });
       window.__boiby_pro_reloadModels = renderModels;
