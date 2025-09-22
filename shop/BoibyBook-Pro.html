@@ -1515,17 +1515,8 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
     memPills.forEach(p => p.classList.remove('disabled'));
 
-    if (selectedModel === 'B5 Pro') {
-      // Only enable 64GB if the upgraded chip (14-core) is selected
-      const hasUpgradedChip = chipFull.includes('14-core CPU');
-      memPills.forEach(p => {
-        if (p.dataset.value.includes('64 GB')) {
-          p.classList.toggle('disabled', !hasUpgradedChip);
-        }
-      });
-    }
-    else if (selectedModel === 'B5 Max') {
-      // Only enable 128GB if the upgraded chip (48-core) is selected
+    if (selectedModel === 'B5 Max') {
+      // Only enable 12TB if the upgraded chip (48-core) is selected
       const hasUpgradedChip = chipFull.includes('48-core GPU');
       memPills.forEach(p => {
         if (p.dataset.value.includes('128 GB')) {
@@ -1534,23 +1525,19 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       });
     }
 
-    // if selected memory is disabled, pick first valid
     if (selectedOptions.memory) {
-      const cur = memPills.find(p => p.dataset.value === selectedOptions.memory);
+      const cur = storPills.find(p => p.dataset.value === selectedOptions.memory);
       if (cur && cur.classList.contains('disabled')) {
         memPills.forEach(p => p.classList.remove('selected'));
-        const firstValid = memPills.find(p => !p.classList.contains('disabled'));
+        const firstValid = storPills.find(p => !p.classList.contains('disabled'));
         if (firstValid) {
           firstValid.classList.add('selected');
           selectedOptions.memory = firstValid.dataset.value;
-        } else {
-          delete selectedOptions.memory;
-        }
+        } else delete selectedOptions.memory;
       }
     }
-    // sync UI selected pill with selectedOptions.memory
     if (selectedOptions.memory) {
-      memPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
+      storPills.forEach(p => p.classList.toggle('selected', p.dataset.value === selectedOptions.memory));
     }
   }
 
