@@ -1,478 +1,505 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boiby Pro - Purchase</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buy Boiby Pro (Tower)</title>
   <style>
-    :root{
-  --blue:#0071e3;
-  --border:#d2d2d7;
-  --text:#1d1d1f;
-  --muted:#6e6e73;
-  --bg:#fff;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
+    :root {
+      --blue: #0071e3;
+      --border: #d2d2d7;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --bg: #fff;
+    }
 
-/* Header */
-header{ text-align:center; padding:28px 16px; border-bottom:1px solid var(--border); }
-h1{ font-size:1.9rem; margin:0; font-weight:700; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      transition: opacity 0.3s ease;
+    }
 
-/* Models (list of cards) */
-.models{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  padding:20px;
-  max-width:720px;
-  margin:18px auto;
-}
-.card{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:18px;
-  background:#fff;
-  cursor:pointer;
-  transition:box-shadow .12s,transform .08s,border-color .12s;
-}
-.card:hover{ border-color:var(--blue); transform:translateY(-2px); }
-.card h2{ margin:0 0 8px; font-size:1.25rem; font-weight:600; }
-.price{ color:var(--muted); margin:6px 0 12px; font-weight:500; }
-.card ul{ margin:0; padding-left:20px; color:var(--muted); }
+    header {
+      text-align: center;
+      padding: 28px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
 
-/* Configurator container */
-.configurator{ max-width:920px; margin:18px auto; padding:18px; }
+    h1 { font-size: 2rem; font-weight: 600; margin: 0; }
 
-/* Back button */
-.back-btn{
-  margin-bottom:16px;
-  padding:8px 16px;
-  border-radius:999px;
-  border:none;
-  background:#f5f5f7;
-  cursor:pointer;
-}
-.back-btn:hover{ background:#e8e8eb; }
+    .models { max-width: 1200px; margin: auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
 
-/* Hero */
-.hero{ margin-bottom:18px; }
-.hero-title{ font-size:clamp(1.6rem,4vw,2.4rem); margin:0 0 8px; font-weight:700; }
-.hero-list{ list-style:none; padding:0; margin:0; color:var(--muted); }
-.hero-list li{ margin:6px 0; font-size:1rem; line-height:1.6; }
+    .card { border: 1px solid var(--border); border-radius: 16px; padding: 20px; background: #fff; transition: box-shadow .15s, transform .06s; display: flex; flex-direction: column; }
+    .card:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .card-content { display: flex; gap: 15px; margin-bottom: 15px; }
+    .card-image { width: 140px; height: 140px; border-radius: 0px; overflow: hidden; background: #fff; display: flex; align-items: center; justify-content: center; }
+    .card-image img { max-width: 100%; max-height: 100%; transition: opacity 0.3s ease; }
+    .card-details { flex: 1; }
+    .card h2 { font-size: 1.3rem; margin: 0 0 6px; font-weight: 600; }
+    .price { font-size: 1.05rem; font-weight: 500; margin: 6px 0 12px; color: var(--muted); }
+    .card ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 0.9rem; }
+    .color-display { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; font-size: 0.9rem; margin: 10px 0; text-align: center; background: #f9f9f9; }
+    .select-btn { margin-top: auto; padding: 10px 0; background: var(--blue); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: background .2s; }
+    .select-btn:hover { background: #005bb5; }
+    .back-btn { margin: 10px 0 20px; padding: 8px 18px; background: #f5f5f7; border: none; border-radius: 999px; cursor: pointer; font-size: 0.95rem; }
+    .back-btn:hover { background: #e6e6e9; }
+    .hero { margin-bottom: 24px; }
+    .hero-title { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 12px; }
+    .hero-content { display: flex; gap: 30px; align-items: flex-start; }
+    .hero-image { width: 320px; flex-shrink: 0; border-radius: 0px; overflow: hidden; background: #fff; }
+    .hero-image img { width: 100%; display: block; transition: opacity 0.3s ease; }
+    .hero-list { list-style: none; padding: 0; margin: 0; color: var(--muted); flex: 1; }
+    .hero-list li { font-size: 1rem; line-height: 1.6; margin: 6px 0; }
+    .group { margin: 24px 0; position: relative; }
+    .group h3 { font-size: 1.1rem; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+    .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--muted); color: white; font-size: 12px; cursor: pointer; transition: background 0.2s; }
+    .info-icon:hover { background: var(--blue); }
+    .pill { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border: 1px solid var(--border); border-radius: 12px; margin: 10px 0; cursor: pointer; background: #fff; transition: border-color .12s, box-shadow .12s, transform .06s; }
+    .pill:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .pill.selected { border: 2px solid var(--blue); box-shadow: 0 4px 14px rgba(0,113,227,0.08); }
+    .pill.disabled { opacity: .6; cursor: not-allowed; background: #fbfbfb; }
+    .pill .label { font-weight: 600; }
+    .pill .price-right { color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .note { font-size: .9rem; color: var(--muted); margin-top: 6px; }
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+    .modal-overlay.visible { opacity: 1; visibility: visible; }
+    .modal { background: white; border-radius: 16px; padding: 24px; max-width: 800px; width: 92%; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transform: translateY(20px); transition: transform 0.3s ease; }
+    .modal-overlay.visible .modal { transform: translateY(0); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .modal-title { font-size: 1.4rem; font-weight: 600; margin: 0; }
+    .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); }
+    .modal-content { line-height: 1.6; }
+    .modal-content p { margin: 0 0 16px; }
+    .chip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; }
+    .chip-card { border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+    .chip-card h4 { margin: 0 0 10px; font-size: 1.1rem; color: var(--blue); }
+    .chip-card ul { text-align: left; margin: 0; padding-left: 20px; font-size: 0.9rem; }
+    .chip-specs { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 0.9rem; }
+    .checkout { position: sticky; bottom: 0; left: 0; right: 0; width: auto; max-width: 100vw; box-sizing: border-box; background: #fff; border-top: 1px solid var(--border); padding: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; z-index: 100; overflow-x: hidden; padding-left: max(18px, env(safe-area-inset-left)); padding-right: max(18px, env(safe-area-inset-right)); }
+    .total { font-size: 1.4rem; font-weight: 700; }
+    .add-to-bag { padding: 12px 22px; font-size: 1.05rem; background: var(--blue); color: #fff; border: none; border-radius: 999px; cursor: pointer; transition: background .2s; }
+    .add-to-bag:hover { background: #005bb5; }
+    .confirmation { text-align: center; display: none; }
+    .confirmation-image { width: 300px; margin: 0 auto 20px; border-radius: 0px; overflow: hidden; }
+    .confirmation-image img { width: 100%; }
+    .confirmation-details { max-width: 800px; margin: 0 auto; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 12px; }
+    .confirmation-title { font-size: 2.2rem; margin-bottom: 10px; color: #0071e3; }
+    .confirmation-model { font-size: 1.4rem; margin-bottom: 20px; }
+    .confirmation-list { list-style: none; padding: 0; margin: 0 0 20px; }
+    .confirmation-list li { padding: 8px 0; border-bottom: 1px solid #eee; }
+    .confirmation-total { font-size: 1.6rem; font-weight: 700; text-align: center; margin-top: 20px; }
 
-/* Groups */
-.group{ margin:20px 0; }
-.group h3{ margin:0 0 10px; font-size:1.05rem; }
-
-/* Pills (options) */
-.pill{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:28px 20px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  margin:8px 0;
-  background:#fff;
-  cursor:pointer;
-  transition:box-shadow .12s,border-color .12s,transform .06s;
-  font-size:1.02rem;
-}
-.pill:hover{ border-color:var(--blue); transform:translateY(-2px); }
-.pill.selected{ border:2px solid var(--blue); box-shadow:0 4px 14px rgba(0,113,227,0.08); }
-.pill.disabled{ opacity:.6; cursor:not-allowed; background:#fbfbfb; }
-.pill .label{ font-weight:600; }
-.pill .price-right{ color:var(--muted); font-weight:600; white-space:nowrap; }
-
-/* Notes */
-.note{ color:var(--muted); font-size:.92rem; margin-top:6px; }
-
-/* Checkout */
-.checkout{
-  position:sticky;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:linear-gradient(#fff,#fff);
-  border-top:1px solid var(--border);
-  padding:18px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  justify-content:space-between;
-  z-index:40;
-  box-shadow:0 -4px 10px rgba(0,0,0,0.04);
-}
-.total{ font-size:1.4rem; font-weight:700; }
-.add-to-bag{
-  background:var(--blue);
-  color:#fff;
-  border:none;
-  padding:12px 22px;
-  border-radius:999px;
-  font-size:1.05rem;
-  cursor:pointer;
-}
-.add-to-bag:hover{ background:#005bb5; }
-
-/* Small screens */
-@media (max-width:600px){
-  .pill{ padding:14px; }
-  .models{ padding:12px; }
-  .configurator{ padding:12px; }
-  .checkout{ flex-direction:column; align-items:stretch; text-align:center; }
-  .add-to-bag{ width:100%; }
-}
+    @media (max-width: 900px) { .models { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); } .hero-content { flex-direction: column; } .hero-image { width: 100%; max-width: 320px; margin: 0 auto; } .chip-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .pill { padding: 14px; } .checkout { flex-direction: column; align-items: stretch; text-align: center; } .add-to-bag { width: 100%; } .card-content { flex-direction: column; } .card-image { width: 100%; height: 180px; margin-bottom: 15px; } }
   </style>
 </head>
 <body>
   <header>
-    <h1>Buy Boiby Pro</h1>
+    <h1 id="headerTitle">Buy Boiby Pro (Tower)</h1>
   </header>
 
-  <div class="models" id="models">
-    <div class="card" data-model="B4 Ultra + GX4 Ultra">
-      <h2>Boiby B4 Ultra + GX4 Ultra</h2>
-      <p class="price">From A$9999</p>
-      <ul>
-        <li>Boiby B4 Ultra with 28-core CPU</li>
-        <li>128 GB (4x32 GB) DDR5 ECC Memory</li>
-        <li>Boiby GX4 Ultra 80-core GPU with 32 GB GDDR7</li>
-        <li>2 TB SSD storage</li>
-      </ul>
+  <main>
+    <div class="models" id="models"><!-- cards inserted by JS --></div>
+
+    <div class="chip-info-link">
+      <a id="chipInfoLink">Which Accelerator / NPU? →</a>
     </div>
 
-    <div class="card" data-model="B4 Extreme + GX4 Extreme">
-      <h2>Boiby B4 Extreme + GX4 Extreme</h2>
-      <p class="price">From A$21999</p>
-      <ul>
-        <li>Boiby B4 Extreme with 64-core CPU</li>
-        <li>256 GB (4x64 GB) DDR5 ECC Memory</li>
-        <li>Boiby GX4 Extreme 112-core GPU with 32 GB GDDR7</li>
-        <li>4 TB SSD storage</li>
-      </ul>
+    <div class="configurator" id="configurator" style="display:none;">
+      <button class="back-btn" id="backBtn">← Back</button>
+      <div class="hero">
+        <h2 class="hero-title" id="heroTitle"></h2>
+        <div class="hero-content">
+          <div class="hero-image" id="heroImage"></div>
+          <ul class="hero-list" id="heroList"></ul>
+        </div>
+      </div>
+      <div id="options"></div>
+    </div>
+
+    <div class="confirmation" id="confirmation">
+      <h2 class="confirmation-title">Order Confirmed</h2>
+      <div class="confirmation-image" id="confirmationImage"></div>
+      <h3 class="confirmation-model" id="confirmationModel"></h3>
+      <div class="confirmation-details">
+        <h4>Order Summary:</h4>
+        <ul class="confirmation-list" id="confirmationList"></ul>
+        <div class="confirmation-total" id="confirmationTotal"></div>
+      </div>
+      <button class="back-btn" id="confirmationBackBtn" style="margin-top: 30px;">Back to Store</button>
+    </div>
+  </main>
+
+  <!-- Memory / NPU Modal -->
+  <div class="modal-overlay" id="memoryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="memoryModalTitle">Memory & NPU Guide</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-content" id="memoryModalContent"></div>
     </div>
   </div>
 
-  <div class="configurator" id="configurator" style="display:none;">
-    <button class="back-btn" id="backBtn">← Back</button>
-
-    <div class="hero">
-      <h2 class="hero-title" id="heroTitle"></h2>
-      <ul class="hero-list" id="heroList"></ul>
-    </div>
-
-    <div id="options"></div>
-
-    <div class="checkout">
-      <div class="total" id="finalPrice"></div>
-      <button class="add-to-bag">Add to Bag</button>
+  <!-- Chip / NPU Modal -->
+  <div class="modal-overlay" id="chipModal">
+    <div class="modal" style="max-width:700px">
+      <div class="modal-header">
+        <h3 class="modal-title">Which NPU is Right for You?</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-content">
+        <p>High-performance NPUs accelerate machine learning and inference workloads. Choose based on model sizes and throughput you need.</p>
+        <div class="chip-grid">
+          <div class="chip-card">
+            <h4>Boiby N1X</h4>
+            <ul>
+              <li>36-core NPU, 48 GB HBM3 memory</li>
+              <li>Good for medium-scale inference and model development</li>
+            </ul>
+          </div>
+          <div class="chip-card">
+            <h4>Boiby N1X Plus</h4>
+            <ul>
+              <li>48-core NPU, 64 GB HBM3 memory</li>
+              <li>For high-throughput inference and larger models</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-<script>
-const baseConfigs = {
-  "B4 Ultra + GX4 Ultra": {
-    price: 9999,
-    name: "Boiby B4 Ultra + GX4 Ultra",
-    upgrades: {
-      cpu: [
-        "Boiby B4 Ultra with 28-core CPU (base)", 
-        "Boiby B4 Ultra with 32-core CPU (+A$600)"
-      ],
-      memory: [
-        "128 GB (4x32 GB) DDR5 ECC Memory (base)", 
-        "256 GB (8x32 GB) DDR5 ECC memory (+A$1000)", 
-        "384 GB (8x48 GB) DDR5 ECC memory (+A$2000)", 
-        "512 GB (8x64 GB) DDR5 ECC memory (+A$3000)", 
-        "768 GB (16x48 GB) DDR5 ECC memory (+A$5000)", 
-        "1 TB (16x64 GB) DDR5 ECC memory (+A$7000)"
-      ],
-      gpu: [
-        "Boiby GX4 Ultra 80-core GPU with 32 GB GDDR7 (base)",
-        "Boiby GX4 Ultra 96-core GPU with 48 GB GDDR7 (+A$2500)",
-        "Dual Boiby GX4 Ultra 96-core GPUs with 96GB GDDR7 (+A$5000) (combined)"
-      ],
-      storage: [
-        "2 TB SSD storage (base)", 
-        "4 TB SSD storage (+A$200)", 
-        "8 TB SSD storage (+A$600)", 
-        "16 TB SSD storage (+A$1600)", 
-        "32 TB SSD storage (+A$3600)"
-      ],
-      accelerator: [
-        "No Encoding Accelerator",
-        "Boiby Encoding Accelerator Pro (+A$3000)"
-      ]
-    }
-  },
-  "B4 Extreme + GX4 Extreme": {
-    price: 21999,
-    name: "Boiby B4 Extreme + GX4 Extreme",
-    upgrades: {
-      cpu: [
-        "Boiby B4 Extreme with 64-core CPU (base)", 
-        "Boiby B4 Extreme with 80-core CPU (+A$3000)"
-      ],
-      memory: [
-        "256 GB (4x64 GB) DDR5 ECC Memory (base)", 
-        "384 GB (8x48 GB) DDR5 ECC memory (+A$1500)", 
-        "512 GB (8x64 GB) DDR5 ECC memory (+A$3000)", 
-        "768 GB (16x48 GB) DDR5 ECC memory (+A$6000)", 
-        "1 TB (16x64 GB) DDR5 ECC memory (+A$9000)", 
-        "1.5 TB (16x96 GB) DDR5 ECC memory (+A$12000)", 
-        "2 TB (16x128 GB) DDR5 ECC memory (+A$18000)", 
-        "3 TB (16x192 GB) DDR5 ECC memory (+A$27000)"
-      ],
-      gpu: [
-        "Boiby GX4 Extreme 112-core GPU with 32 GB GDDR7 (base)",
-        "Boiby GX4 Extreme 144-core GPU with 48 GB HBM3 (+A$3000)",
-        "Boiby GX4 Extreme 192-core GPU with 64 GB HBM3 (+A$7000)",
-        "Boiby GX4 Omega 320-core GPU with 128 GB HBM3 (+A$21000)",
-        "Boiby GX4 Omega 384-core GPU with 256 GB HBM3 (+A$32000)",
-        "Dual Boiby GX4 Omega 384-core GPU with 512 GB HBM3 combined (+A$62500)",
-        "Quad Boiby GX4 Omega 384-core GPU with 1 TB HBM3 combined (+A$125000)"
-      ],
-      storage: [
-        "4 TB SSD storage (base)", 
-        "8 TB SSD storage (+A$400)", 
-        "16 TB SSD storage (+A$1400)", 
-        "32 TB SSD storage (+A$3400)", 
-        "64 TB SSD storage (+A$7400)"
-      ],
-      accelerator: [
-        "No Encoding Accelerator",
-        "Boiby Encoding Accelerator Pro (+A$3000)"
-      ]
-    }
-  }
-};
+  <div class="checkout" id="checkout">
+    <div class="total" id="finalPrice">Total: A$0</div>
+    <button class="add-to-bag" id="addToBagBtn">Add to Bag</button>
+  </div>
 
-const addons = {
-  mouse: ["Boiby Pro Mouse (+A$50)"],
-  keyboard: ["Boiby Pro Keyboard (+A$150)", "Boiby Pro Keyboard with Number Pad (+A$200)"],
-  monitor: [
-    "Boiby HDR Display 27-inch (IPS 1440p 240Hz) (+A$499)", 
-    "Boiby Studio Display OLED 27-inch (1440p 360Hz) (+A$1199)",
-    "Boiby Pro Display OLED 32-inch (6K OLED 240Hz) (+A$9999)"
-  ]
-};
+  <script>
+    (function () {
+      const selectedColor = 'Silver';
 
-let selectedModel = null;
-let selectedOptions = {};
-
-const cleanLabel = opt => opt.split("(")[0].trim();
-const rightPrice = opt => {
-  const m = opt.match(/\+A\$\d+/);
-  return m ? m[0].replace('+','+ ') : '';
-};
-
-document.querySelectorAll(".card").forEach(card => {
-  card.addEventListener("click", () => {
-    selectedModel = card.getAttribute("data-model");
-    document.getElementById("models").style.display = "none";
-    showConfigurator();
-  });
-});
-
-document.getElementById("backBtn").addEventListener("click", () => {
-  document.getElementById("configurator").style.display = "none";
-  document.getElementById("models").style.display = "flex";
-});
-
-function showConfigurator() {
-  const config = baseConfigs[selectedModel];
-  const optionsDiv = document.getElementById("options");
-  optionsDiv.innerHTML = "";
-  selectedOptions = {};
-  document.getElementById("heroTitle").innerText = `Customise your Boiby Pro — ${selectedModel}`;
-
-  // Render upgrade groups
-  for (let category in config.upgrades) {
-    const group = document.createElement("div");
-    group.className = "group";
-    const h3 = document.createElement("h3");
-    h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
-    group.appendChild(h3);
-
-    config.upgrades[category].forEach((opt, idx) => {
-      const pill = document.createElement("div");
-      pill.className = "pill";
-      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
-
-      // Handle dependencies for B4 Extreme
-      if (selectedModel === "B4 Extreme + GX4 Extreme") {
-        // 2TB and 3TB memory only available with 80-core CPU
-        if (category === "memory" && (opt.includes("2 TB") || opt.includes("3 TB"))) {
-          pill.classList.add("disabled");
-        }
-      }
-
-      pill.addEventListener("click", () => {
-        if (pill.classList.contains("disabled")) return;
-
-        group.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
-        pill.classList.add("selected");
-        selectedOptions[category] = opt;
-
-        // Handle dependencies when CPU is selected for B4 Extreme
-        if (selectedModel === "B4 Extreme + GX4 Extreme" && category === "cpu") {
-          const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
-            .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
-          
-          // Enable/disable memory options based on CPU selection
-          if (memoryGroup) {
-            const memory2TB = Array.from(memoryGroup.querySelectorAll(".pill"))
-              .find(p => p.textContent.includes("2 TB"));
-            const memory3TB = Array.from(memoryGroup.querySelectorAll(".pill"))
-              .find(p => p.textContent.includes("3 TB"));
-            
-            if (opt.includes("80-core")) {
-              if (memory2TB) memory2TB.classList.remove("disabled");
-              if (memory3TB) memory3TB.classList.remove("disabled");
-            } else {
-              if (memory2TB) memory2TB.classList.add("disabled");
-              if (memory3TB) memory3TB.classList.add("disabled");
-              
-              // If current selection is now disabled, select the first available option
-              if (selectedOptions.memory && 
-                  (selectedOptions.memory.includes("2 TB") || selectedOptions.memory.includes("3 TB"))) {
-                memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
-                const firstAvailable = memoryGroup.querySelector(".pill:not(.disabled)");
-                if (firstAvailable) {
-                  firstAvailable.classList.add("selected");
-                  selectedOptions.memory = config.upgrades.memory.find(m => 
-                    m.includes(firstAvailable.querySelector(".label").textContent)
-                  );
-                }
-              }
-            }
+      const template = {
+        "B5 Ultra": {
+          price: 9999,
+          ports: [
+            "Eight Thunderbolt 5 (USB-C) ports",
+            "Four USB 3.1 (Type-A) ports",
+            "Two 10 Gigabit Ethernet ports",
+            "Three 3.5mm Audio Jacks (Combo Front + In/Out Rear)"
+          ],
+          upgrades: {
+            chip: [
+              "Boiby B5 Ultra 32-core CPU (base)",
+              "Boiby B5 Ultra 40-core CPU (+A$2500)"
+            ],
+            memory: [
+              "64 GB (4 x 16 GB) DDR5-6000 ECC Memory (base)",
+              "96 GB (6 x 16 GB) DDR5-6000 ECC Memory (+A$400)",
+              "192 GB (6 x 32 GB) DDR5-6000 ECC Memory (+A$1200)",
+              "384 GB (6 x 64 GB) DDR5-6000 ECC Memory (+A$2800)",
+              "768 GB (6 x 128 GB) DDR5-6000 ECC Memory (+A$6000)"
+            ],
+            storage: [
+              "2 TB PCIe Gen 5 SSD storage (base)",
+              "4 TB PCIe Gen 5 SSD storage (+A$400)",
+              "8 TB PCIe Gen 5 SSD storage (+A$1200)",
+              "16 TB PCIe Gen 5 SSD storage (+A$3600)",
+              "32 TB PCIe Gen 5 SSD storage (+A$8400)"
+            ],
+            gpu: [
+              "AMD Radeon PRO W7600 with 8 GB Video Memory (base)",
+              "AMD Radeon PRO W7700 with 16 GB Video Memory (+A$1000)",
+              "AMD Radeon PRO W7800 with 32 GB Video Memory (+A$2000)",
+              "AMD Radeon PRO W7900 with 48 GB Video Memory (+A$5500)",
+              "AMD Radeon PRO W7900 Duo with 96 GB Video Memory (+A$9000)",
+              "2x AMD Radeon PRO W7900 Duo with 192 GB Video Memory (+A$17000)"
+            ],
+            npu: [
+              "None (base)",
+              "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$3500)",
+              "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$7000)"
+            ],
+            io: [
+              "None (base)",
+              "4 Thunderbolt 5 port PCIe card (+A$800)"
+            ],
+            display: [
+              "Boiby Studio Display - 27-inch 5K OLED, 120Hz (+A$2199)",
+              "Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$7499)",
+              "Dual Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$14998)",
+              "Boiby Ultra Display - 36-inch 7K Tandem OLED, 120Hz (+A$15999)",
+              "Dual Boiby Ultra Displays - 36-inch 7K Tandem OLED, 120Hz (+A$31998)"
+            ],
+            chassis: [
+              "Standard feet (base)",
+              "Add elevated feet (+A$99)",
+              "Add wheels (+A$249)"
+            ]
+          }
+        },
+        "B5 Extreme": {
+          price: 17999,
+          ports: [
+            "Ten Thunderbolt 5 (USB-C) ports",
+            "Four USB 3.1 (Type-A) ports",
+            "Two 10 Gigabit Ethernet ports",
+            "Three 3.5mm Audio Jacks (Combo Front + In/Out Rear)"
+          ],
+          upgrades: {
+            chip: [
+              "Boiby B5 Extreme 64-core CPU (base)",
+              "Boiby B5 Extreme 80-core CPU (+A$4500)"
+            ],
+            memory: [
+              "128 GB (4 x 16 GB) DDR5-6000 ECC Memory (base)",
+              "192 GB (6 x 32 GB) DDR5-6000 ECC Memory (+A$800)",
+              "384 GB (6 x 64 GB) DDR5-6000 ECC Memory (+A$2400)",
+              "768 GB (6 x 128 GB) DDR5-6000 ECC Memory (+A$5600)",
+              "1.5 TB (12 x 128 GB) DDR5-6000 ECC Memory (+A$12000)",
+              "3 TB (12 x 256 GB) DDR5-6000 ECC Memory (+A$24000)"
+            ],
+            storage: [
+              "2 TB PCIe Gen 5 SSD storage (base)",
+              "4 TB PCIe Gen 5 SSD storage (+A$400)",
+              "8 TB PCIe Gen 5 SSD storage (+A$1200)",
+              "16 TB PCIe Gen 5 SSD storage (+A$3600)",
+              "32 TB PCIe Gen 5 SSD storage (+A$8400)"
+            ],
+            gpu: [
+              "AMD Radeon PRO W7600 with 8 GB Video Memory (base)",
+              "AMD Radeon PRO W7700 with 16 GB Video Memory (+A$1000)",
+              "AMD Radeon PRO W7800 with 32 GB Video Memory (+A$2000)",
+              "AMD Radeon PRO W7900 with 48 GB Video Memory (+A$5500)",
+              "AMD Radeon PRO W7900 Duo with 96 GB Video Memory (+A$9000)",
+              "2x AMD Radeon PRO W7900 Duo with 192 GB Video Memory (+A$17000)"
+            ],
+            npu: [
+              "None (base)",
+              "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$3500)",
+              "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$7000)"
+            ],
+            io: [
+              "None (base)",
+              "4 Thunderbolt 5 port PCIe card (+A$800)"
+            ],
+            display: [
+              "Boiby Studio Display - 27-inch 5K OLED, 120Hz (+A$2199)",
+              "Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$7499)",
+              "Dual Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$14998)",
+              "Boiby Ultra Display - 36-inch 7K Tandem OLED, 120Hz (+A$15999)",
+              "Dual Boiby Ultra Displays - 36-inch 7K Tandem OLED, 120Hz (+A$31998)"
+            ],
+            chassis: [
+              "Standard feet (base)",
+              "Add elevated feet (+A$99)",
+              "Add wheels (+A$249)"
+            ]
           }
         }
+      };
 
-        renderHeroSummary();
-        updatePrice();
-      });
+      const addons = {};
 
-      // Select first option by default, except disabled options
-      if (idx === 0 && !pill.classList.contains("disabled")) {
-        pill.classList.add("selected");
-        selectedOptions[category] = opt;
+      const baseConfigs = JSON.parse(JSON.stringify(template));
+      let selectedModel = null;
+      let selectedOptions = {};
+
+      const $ = q => document.querySelector(q);
+      const $$ = q => Array.from(document.querySelectorAll(q));
+      const cleanLabel = opt => (opt||'').split("(+A$")[0].replace(/\s+\(base\)/i,'').trim();
+      const priceDelta = opt => {
+        if (!opt) return 0;
+        const m = opt.match(/\+A\$(\d+)/);
+        return m ? parseInt(m[1],10) : 0;
+      };
+      const formatPrice = n => `A$${n.toLocaleString('en-AU')}`;
+
+      const memoryGuides = {
+        'B5 Ultra': `
+          <p><strong>B5 Ultra memory guidance</strong></p>
+          <p>For large datasets, render farms, and professional compute workloads.</p>
+        `,
+        'B5 Extreme': `
+          <p><strong>B5 Extreme memory guidance</strong></p>
+          <p>Built for enormous memory footprints. Choose the higher tiers for multi-node compute, very large in-memory databases, or very large-scale ML training.</p>
+        `
+      };
+
+      function findGroupByName(name) {
+        const groups = $$('#options .group');
+        return groups.find(g => g.querySelector('h3') && g.querySelector('h3').innerText.toLowerCase() === name.toLowerCase());
       }
 
-      group.appendChild(pill);
-    });
+      function renderModels() {
+        const container = $('#models');
+        if (!container) return;
+        container.innerHTML = '';
+        const configs = baseConfigs;
+        Object.keys(configs).forEach(model => {
+          const cfg = configs[model];
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute('data-model', model);
 
-    // Add notes for dependencies
-    if (selectedModel === "B4 Extreme + GX4 Extreme" && category === "memory") {
-      const note = document.createElement("div");
-      note.className = "note";
-      note.innerText = "2TB and 3TB memory available on B4 Extreme with 80-core CPU.";
-      group.appendChild(note);
-    }
+          const imageUrl = `BoibyPro${model.replace(/\s+/g,'')}.png`;
 
-    optionsDiv.appendChild(group);
-  }
+          card.innerHTML = `
+            <div class="card-content">
+              <div class="card-image">
+                <img src="${imageUrl}" alt="${model} ${selectedColor}" id="card-image-${model.replace(/\s+/g, '-')}">
+              </div>
+              <div class="card-details">
+                <h2>Boiby Pro - ${model}</h2>
+                <p class="price">From ${formatPrice(cfg.price)}</p>
+                <ul>
+                  <li>Ports: ${cfg.ports.slice(0,1)}</li>
+                  <li>${cleanLabel(cfg.upgrades.chip[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.memory[0])}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="color-display">Color: ${selectedColor}</div>
+            <button class="select-btn" data-model="${model}">Select</button>
+          `;
 
-  // Add-ons
-  const addonsGroup = document.createElement("div");
-  addonsGroup.className = "group";
-  const addonsTitle = document.createElement("h3");
-  addonsTitle.innerText = "Add-ons";
-  addonsGroup.appendChild(addonsTitle);
+          card.querySelector('.select-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectedModel = e.target.getAttribute('data-model');
+            const modelsEl = $('#models'); if (modelsEl) modelsEl.style.display = 'none';
+            $('#configurator').style.display = 'block';
+            showConfigurator();
+          });
 
-  for (let sub in addons) {
-    const subTitle = document.createElement("h4");
-    subTitle.innerText = sub.charAt(0).toUpperCase() + sub.slice(1);
-    addonsGroup.appendChild(subTitle);
+          container.appendChild(card);
+        });
+      }
 
-    addons[sub].forEach(opt => {
-      const pill = document.createElement("div");
-      pill.className = "pill";
-      pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
-      pill.addEventListener("click", () => {
-        pill.classList.toggle("selected");
-        if (!selectedOptions.addons) selectedOptions.addons = [];
-        if (pill.classList.contains("selected")) {
-          selectedOptions.addons.push(opt);
-        } else {
-          selectedOptions.addons = selectedOptions.addons.filter(a => a !== opt);
-        }
-        renderHeroSummary();
-        updatePrice();
-      });
-      addonsGroup.appendChild(pill);
-    });
-  }
+      function showConfigurator() {
+        const cfg = baseConfigs[selectedModel];
+        const optionsDiv = $('#options');
+        optionsDiv.innerHTML = '';
+        selectedOptions = {};
 
-  optionsDiv.appendChild(addonsGroup);
-  document.getElementById("configurator").style.display = "block";
+        $('#heroTitle').innerText = `Customise your Boiby Pro — ${selectedModel}`;
+        $('#heroImage').innerHTML = `<img src="BoibyPro${selectedModel.replace(/\s+/g,'')}.png" alt="${selectedModel} ${selectedColor}">`;
 
-  renderHeroSummary();
-  updatePrice();
-}
+        // Upgrades rendering
+        Object.keys(cfg.upgrades).forEach(category => {
+          const group = document.createElement('div');
+          group.className = 'group';
+          const h3 = document.createElement('h3');
 
-function renderHeroSummary() {
-  const list = document.getElementById("heroList");
-  list.innerHTML = "";
+          if (category === 'memory') {
+            h3.innerHTML = `Memory <span class="info-icon" data-category="memory">?</span>`;
+          } else if (category === 'npu') {
+            h3.innerHTML = `Neural Accelerator <span class="info-icon" data-category="npu">?</span>`;
+          } else {
+            h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          }
 
-  if (selectedModel === "B4 Ultra + GX4 Ultra") {
-    list.appendChild(li(cleanLabel(selectedOptions.cpu || 'Boiby B4 Ultra with 28-core CPU')));
-    list.appendChild(li(cleanLabel(selectedOptions.memory || '128 GB (4x32 GB) DDR5 ECC Memory')));
-    list.appendChild(li(cleanLabel(selectedOptions.gpu || 'Boiby GX4 Ultra 80-core GPU with 32 GB GDDR7')));
-    list.appendChild(li(cleanLabel(selectedOptions.storage || '2 TB SSD storage')));
-    if (selectedOptions.accelerator && selectedOptions.accelerator !== "No Encoding Accelerator") {
-      list.appendChild(li(cleanLabel(selectedOptions.accelerator)));
-    }
-  } else if (selectedModel === "B4 Extreme + GX4 Extreme") {
-    list.appendChild(li(cleanLabel(selectedOptions.cpu || 'Boiby B4 Extreme with 64-core CPU')));
-    list.appendChild(li(cleanLabel(selectedOptions.memory || '256 GB (4x64 GB) DDR5 ECC Memory')));
-    list.appendChild(li(cleanLabel(selectedOptions.gpu || 'Boiby GX4 Extreme 112-core GPU with 32 GB GDDR7')));
-    list.appendChild(li(cleanLabel(selectedOptions.storage || '4 TB SSD storage')));
-    if (selectedOptions.accelerator && selectedOptions.accelerator !== "No Encoding Accelerator") {
-      list.appendChild(li(cleanLabel(selectedOptions.accelerator)));
-    }
-  }
+          group.appendChild(h3);
 
-  if (selectedOptions.addons && selectedOptions.addons.length > 0) {
-    selectedOptions.addons.forEach(addon => {
-      list.appendChild(li(cleanLabel(addon)));
-    });
-  }
-}
+          cfg.upgrades[category].forEach((opt, idx) => {
+            const pill = document.createElement('div');
+            pill.className = 'pill';
+            pill.dataset.cat = category;
+            pill.dataset.value = opt;
+            pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${priceDelta(opt) ? ('+A$' + priceDelta(opt)) : ''}</span>`;
 
-function updatePrice() {
-  let price = baseConfigs[selectedModel].price;
+            pill.addEventListener('click', () => {
+              if (pill.classList.contains('disabled')) return;
+              if (category === 'gpu' || category === 'display' || category === 'io' || category === 'chassis') {
+                // single-select but allow later adding multiple via addons (not implemented)
+                Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
+                pill.classList.add('selected');
+                selectedOptions[category] = pill.dataset.value;
+              } else {
+                Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
+                pill.classList.add('selected');
+                selectedOptions[category] = pill.dataset.value;
+              }
+              renderHeroSummary(); updatePrice();
+            });
 
-  for (let category in selectedOptions) {
-    const val = selectedOptions[category];
-    if (Array.isArray(val)) {
-      val.forEach(opt => {
-        const match = opt.match(/\+A\$(\d+)/);
-        if (match) price += parseInt(match[1], 10);
-      });
-    } else {
-      const match = val.match(/\+A\$(\d+)/);
-      if (match) price += parseInt(match[1], 10);
-    }
-  }
+            // Default selection
+            if (idx === 0) { pill.classList.add('selected'); selectedOptions[category] = pill.dataset.value; }
 
-  document.getElementById("finalPrice").innerText = `Total: A$${price.toLocaleString()}`;
-}
+            group.appendChild(pill);
+          });
 
-function li(text) {
-  const el = document.createElement('li');
-  el.textContent = text;
-  return el;
-}
-</script>
+          if (category === 'memory' || category === 'npu') {
+            const note = document.createElement('div'); note.className = 'note'; note.innerText = 'Use the memory/NPU guide for help.'; group.appendChild(note);
+            const infoIcon = h3.querySelector('.info-icon'); if (infoIcon) {
+              infoIcon.addEventListener('click', () => showMemoryModal(selectedModel));
+            }
+          }
+
+          optionsDiv.appendChild(group);
+        });
+
+        renderHeroSummary(); updatePrice();
+      }
+
+      function showMemoryModal(model) {
+        const modal = $('#memoryModal'); const title = $('#memoryModalTitle'); const content = $('#memoryModalContent');
+        title.textContent = `${model} Memory & NPU Guide`;
+        content.innerHTML = memoryGuides[model] || memoryGuides['B5 Ultra'];
+        modal.classList.add('visible');
+        const closeButton = modal.querySelector('.modal-close'); closeButton.addEventListener('click', hideMemoryModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) hideMemoryModal(); });
+        document.addEventListener('keydown', function escHandler(e) { if (e.key === 'Escape') { hideMemoryModal(); document.removeEventListener('keydown', escHandler); } });
+      }
+      function hideMemoryModal() { $('#memoryModal').classList.remove('visible'); }
+      function showChipModal() { $('#chipModal').classList.add('visible'); const closeButton = $('#chipModal').querySelector('.modal-close'); closeButton.addEventListener('click', hideChipModal); $('#chipModal').addEventListener('click', (e) => { if (e.target === $('#chipModal')) hideChipModal(); }); document.addEventListener('keydown', function escHandler(e) { if (e.key === 'Escape') { hideChipModal(); document.removeEventListener('keydown', escHandler); } }); }
+      function hideChipModal() { $('#chipModal').classList.remove('visible'); }
+
+      function renderHeroSummary() {
+        const list = $('#heroList'); if (!list) return; list.innerHTML = '';
+        const cfg = baseConfigs[selectedModel];
+        list.appendChild(li(`Boiby Pro — ${selectedModel}`));
+        list.appendChild(li(`Color: ${selectedColor}`));
+        list.appendChild(li('Ports:'));
+        cfg.ports.forEach(port => list.appendChild(li(`• ${port}`)));
+        const order = ['chip','memory','storage','gpu','npu','io','display','chassis'];
+        order.forEach(cat => { if (selectedOptions[cat]) list.appendChild(li(cleanLabel(selectedOptions[cat]))); });
+      }
+
+      function updatePrice() {
+        const cfg = baseConfigs[selectedModel]; let price = cfg.price;
+        Object.keys(selectedOptions).forEach(cat => {
+          price += priceDelta(selectedOptions[cat]);
+        });
+        $('#finalPrice').innerText = `Total: ${formatPrice(price)}`;
+      }
+
+      function showConfirmation() {
+        const cfg = baseConfigs[selectedModel]; let price = cfg.price;
+        $('#configurator').style.display = 'none'; $('#checkout').style.display = 'none'; $('#confirmation').style.display = 'block';
+        $('#confirmationImage').innerHTML = `<img src="BoibyPro${selectedModel.replace(/\s+/g,'')}.png" alt="${selectedModel} ${selectedColor}">`;
+        $('#confirmationModel').textContent = `Boiby Pro ${selectedModel} - ${selectedColor}`;
+        const list = $('#confirmationList'); list.innerHTML = '';
+        list.appendChild(li(`Model: Boiby Pro ${selectedModel}`)); list.appendChild(li(`Color: ${selectedColor}`));
+        ['chip','memory','storage','gpu','npu','io','display','chassis'].forEach(k => { if (selectedOptions[k]) list.appendChild(li(cleanLabel(selectedOptions[k]))); });
+        Object.keys(selectedOptions).forEach(cat => { price += priceDelta(selectedOptions[cat]); });
+        $('#confirmationTotal').textContent = `Total: ${formatPrice(price)}`;
+      }
+
+      function li(text) { const el = document.createElement('li'); el.textContent = text; return el; }
+
+      const backBtn = $('#backBtn'); if (backBtn) backBtn.addEventListener('click', () => { $('#configurator').style.display = 'none'; $('#models').style.display = 'grid'; });
+      const confirmationBackBtn = $('#confirmationBackBtn'); if (confirmationBackBtn) confirmationBackBtn.addEventListener('click', () => { $('#confirmation').style.display = 'none'; $('#models').style.display = 'grid'; $('#checkout').style.display = 'flex'; });
+      const addToBagBtn = $('#addToBagBtn'); if (addToBagBtn) addToBagBtn.addEventListener('click', showConfirmation);
+      const chipInfoLink = $('#chipInfoLink'); if (chipInfoLink) chipInfoLink.addEventListener('click', showChipModal);
+
+      document.addEventListener('DOMContentLoaded', () => { renderModels(); });
+      window.__boiby_pro_reloadModels = renderModels;
+    })();
+  </script>
 </body>
 </html>
