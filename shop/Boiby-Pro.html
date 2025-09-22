@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Buy Boiby Pro (Tower)</title>
+  <title>Buy Boiby Pro</title>
   <style>
     :root {
       --blue: #0071e3;
@@ -136,17 +136,13 @@
 </head>
 <body>
   <header>
-    <h1 id="headerTitle">Buy Boiby Pro (Tower)</h1>
+    <h1 id="headerTitle">Buy Boiby Pro</h1>
   </header>
 
   <main>
     <!-- center the page contents so pills/selectors don't touch the screen edges -->
     <div class="container">
       <div class="models" id="models"><!-- cards inserted by JS --></div>
-
-      <div class="chip-info-link">
-        <a id="chipInfoLink" style="cursor:default;">Which Accelerator / NPU? →</a>
-      </div>
 
       <div class="configurator" id="configurator" style="display:none;">
         <button class="back-btn" id="backBtn">← Back</button>
@@ -174,7 +170,7 @@
     </div>
   </main>
 
-  <!-- Removed Memory / NPU Modal and Chip Modal as requested -->
+  <!-- Accelerator/NPU tooltip removed as requested -->
 
   <div class="checkout" id="checkout">
     <div class="inner">
@@ -228,11 +224,16 @@
               "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$3500)",
               "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$7000)"
             ],
+            media_accelerator: [
+              "None (base)",
+              "Boiby Media Encode Accelerator (+A$2000)"
+            ],
             io: [
               "None (base)",
               "4 Thunderbolt 5 port PCIe card (+A$800)"
             ],
             display: [
+              "None (base)",
               "Boiby Studio Display - 27-inch 5K OLED, 120Hz (+A$2199)",
               "Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$7499)",
               "Dual Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$14998)",
@@ -243,6 +244,11 @@
               "Standard feet (base)",
               "Add elevated feet (+A$99)",
               "Add wheels (+A$249)"
+            ],
+            accessories: [
+              "None (base)",
+              "Boiby Pro Keyboard (+A$200)",
+              "Boiby Pro Mouse (+A$100)"
             ]
           }
         },
@@ -284,14 +290,19 @@
             ],
             npu: [
               "None (base)",
-              "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$4000)",
-              "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$8000)"
+              "Boiby N1X (36-core NPU) with 48 GB HBM3 memory (+A$3500)",
+              "Boiby N1X Plus (48-core NPU) with 64 GB HBM3 memory (+A$7000)"
+            ],
+            media_accelerator: [
+              "None (base)",
+              "Boiby Media Encode Accelerator (+A$2000)"
             ],
             io: [
               "None (base)",
               "4 Thunderbolt 5 port PCIe card (+A$800)"
             ],
             display: [
+              "None (base)",
               "Boiby Studio Display - 27-inch 5K OLED, 120Hz (+A$2199)",
               "Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$7499)",
               "Dual Boiby Pro Displays - 32-inch 6K OLED, 120Hz (+A$14998)",
@@ -302,6 +313,11 @@
               "Standard feet (base)",
               "Add elevated feet (+A$99)",
               "Add wheels (+A$249)"
+            ],
+            accessories: [
+              "None (base)",
+              "Boiby Pro Keyboard (+A$200)",
+              "Boiby Pro Mouse (+A$100)"
             ]
           }
         }
@@ -389,7 +405,7 @@
           group.className = 'group';
           const h3 = document.createElement('h3');
 
-          // keep headings simple (no info icons / modals)
+          // simple headings (no tooltips)
           h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
           group.appendChild(h3);
 
@@ -428,7 +444,7 @@
         list.appendChild(li(`Color: ${selectedColor}`));
         list.appendChild(li('Ports:'));
         cfg.ports.forEach(port => list.appendChild(li(`• ${port}`)));
-        const order = ['chip','memory','storage','gpu','npu','io','display','chassis'];
+        const order = ['chip','memory','storage','gpu','npu','io','display','chassis','accessories','media_accelerator'];
         order.forEach(cat => { if (selectedOptions[cat]) list.appendChild(li(cleanLabel(selectedOptions[cat]))); });
       }
 
@@ -447,7 +463,7 @@
         $('#confirmationModel').textContent = `Boiby Pro ${selectedModel} - ${selectedColor}`;
         const list = $('#confirmationList'); list.innerHTML = '';
         list.appendChild(li(`Model: Boiby Pro ${selectedModel}`)); list.appendChild(li(`Color: ${selectedColor}`));
-        ['chip','memory','storage','gpu','npu','io','display','chassis'].forEach(k => { if (selectedOptions[k]) list.appendChild(li(cleanLabel(selectedOptions[k]))); });
+        ['chip','memory','storage','gpu','npu','io','display','chassis','accessories','media_accelerator'].forEach(k => { if (selectedOptions[k]) list.appendChild(li(cleanLabel(selectedOptions[k]))); });
         Object.keys(selectedOptions).forEach(cat => { price += priceDelta(selectedOptions[cat]); });
         $('#confirmationTotal').textContent = `Total: ${formatPrice(price)}`;
       }
