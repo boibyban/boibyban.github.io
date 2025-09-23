@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Internet Speed Simulator</title>
+  <style>
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0;padding:24px;background:#000;color:#eee;display:flex;align-items:center;justify-content:center;height:100vh}
+    .card{width:780px;max-width:96vw;background:#222;padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.6)}
+    h1{margin:0 0 6px;font-size:20px}
+    p.lead{margin:0 0 20px;color:#aaa;font-size:13px}
+
+    form.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+    label{display:block;font-size:13px;color:#aaa;margin-bottom:6px}
+    input[type="number"], input[type="text"], select{width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#111;color:inherit;outline:none;font-size:14px}
+    .row{display:flex;gap:12px}
+    .full{grid-column:1/-1}
+    .controls{display:flex;gap:10px;align-items:center}
+    .btn{background:#444;color:white;padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:600}
+    .btn.secondary{background:transparent;border:1px solid #555}
+    .progress-wrap{background:#111;padding:14px;border-radius:10px;border:1px solid #333}
+    .file-name{font-weight:700;margin-bottom:8px}
+
+    .bar{height:18px;background:#333;border-radius:999px;overflow:hidden;position:relative}
+    .bar .fill{height:100%;width:0%;background:linear-gradient(90deg,#3b82f6 0%, #06b6d4 100%);transition:width 0.4s linear}
+    .meta{margin-top:10px;color:#aaa;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+
+    .finished{background:#111;border:1px solid #333;padding:16px;border-radius:10px}
+    footer{margin-top:12px;color:#777;font-size:12px}
+
+    @media (max-width:600px){.card{padding:16px}.grid{grid-template-columns:1fr}.row{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Internet Speed Simulator</h1>
+    <p class="lead">Enter a desired speed and file size, or choose a preset. The simulator ramps up and fluctuates slightly (typically 2–5% above the entered speed). Updates occur every 0.5s.</p>
+
+    <form id="sim-form" class="grid" onsubmit="return false;">
+
+      <div>
+        <label for="preset">Presets</label>
+        <select id="preset">
+          <option value="">— pick a preset —</option>
+          <option value="Boiby's Secondary Hard Drive|1520|GB">Boiby's Secondary Hard Drive — 1.5 TB</option>
+          <option value="macOS_Sequoia_15-7_Installer.dmg|15.7|GB">macOS_Sequoia_15-7_Installer.dmg — 15.7 GB</option>
+          <option value="macOS_Sonoma_14-8_Installer.dmg|13.7|GB">macOS_Sonoma_14-8_Installer.dmg — 13.7 GB</option>
+          <option value="macOS_Ventura_13-7-8_Installer.dmg|12.2|GB">macOS_Ventura_13-7-8_Installer.dmg — 12.2 GB</option>
+          <option value="en_us_windows_11_25h2-v1.iso|7.2|GB">en_us_windows_11_25h2-v1.iso — 7.2 GB</option>
+          <option value="en_us_windows_10_22h2-v1.iso|5.5|GB">en_us_windows_10_22h2-v1.iso — 5.5 GB</option>
+          <option value="linux_mint_22.2_cinnamon_64-bit.iso|2.8|GB">linux_mint_22.2_cinnamon_64-bit.iso — 2.8 GB</option>
+          <option value="ForzaHorizon5.zip|94.2|GB">ForzaHorizon5.zip — 94.2 GB</option>
+          <option value="arch-linux_2025-09-01_x86-64.iso|1.4|GB">arch-linux_2025-09-01_x86-64.iso — 1.4 GB</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="speed">Desired speed (Mbps)</label>
+        <input id="speed" type="number" min="0" step="0.1" value="50" required />
+      </div>
+
+      <div>
+        <label for="filename">File name</label>
+        <input id="filename" type="text" placeholder="example.iso" value="ubuntu-24.04.iso" required />
+      </div>
+
+      <div>
+        <label for="size">Desired file size</label>
+        <div class="row">
+          <input id="filesize" type="number" min="0.1" step="0.1" value="5" />
+          <select id="unit">
+            <option value="MB">MB</option>
+            <option value="GB" selected>GB</option>
+            <option value="TB">TB</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label>&nbsp;</label>
+        <div style="display:flex;align-items:center;gap:10px">
+          <input id="showmbs" type="checkbox" />
+          <label for="showmbs" style="margin:0;font-size:13px;color:#aaa">Check to show in Mbps/Gbps (default shows MB/s/GB/s)</label>
+        </div>
+      </div>
+
+      <div class="full controls">
+        <button id="startBtn" class="btn">Start Simulation</button>
+        <button id="cancelBtn" class="btn secondary" type="button">Reset</button>
+      </div>
+    </form>
+
+    <div id="simArea"></div>
+    <footer>Tip: MB/s ≈ Mbps / 8. The simulator uses decimal Mbps for realism and displays sensible units for both bits and bytes.</footer>
+  </div>
+
+<script>
+(function(){
+  const preset = document.getElementById('preset');
+  const startBtn = document.getElementById('startBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const simArea = document.getElementById('simArea');
+
+  preset.addEventListener('change', ()=>{
+    const v = preset.value;
+    if (!v) return;
+    const parts = v.split('|');
+    document.getElementById('filename').value = parts[0];
+    document.getElementById('filesize').value = parts[1];
+    document.getElementById('unit').value = parts[2] || 'GB';
+  });
+
+  let sim = null;
+
+  function humanTime(seconds){
+    if (!isFinite(seconds) || seconds < 0) return '--:--';
+    const mins = Math.floor(seconds/60);
+    const secs = Math.floor(seconds%60);
+
+    // If 1 day or more -> show days, hours, minutes
+    if (mins >= 60*24){
+      const days = Math.floor(mins / (60*24));
+      const hours = Math.floor((mins % (60*24)) / 60);
+      const m = mins % 60;
+      return `${days}d ${hours}h ${m}m`;
+    }
+
+    if (mins >= 60){
+      const h = Math.floor(mins/60);
+      const m = mins % 60;
+      return `${h}h ${m}m`;
+    }
+
+    return `${mins}m ${secs}s`;
+  }
+
+  // format sizes (bytes) with KB/MB/GB/TB using 1024-based units for human readability
+  function formatSize(bytes){
+    if (!isFinite(bytes) || bytes < 0) return '--';
+    const tb = bytes / (1024**4);
+    if (tb >= 1) return tb.toFixed(2) + ' TB';
+    const gb = bytes / (1024**3);
+    if (gb >= 1) return gb.toFixed(2) + ' GB';
+    const mb = bytes / (1024**2);
+    if (mb >= 1) return mb.toFixed(2) + ' MB';
+    const kb = bytes / 1024;
+    return kb.toFixed(0) + ' KB';
+  }
+
+  // convert input size + unit into bytes
+  function bytesFrom(size, unit){
+    const n = Number(size) || 0;
+    if (unit === 'TB') return n * 1024 * 1024 * 1024 * 1024;
+    if (unit === 'GB') return n * 1024 * 1024 * 1024;
+    return n * 1024 * 1024;
+  }
+
+  // conversions (we keep Mbps decimal as before)
+  function mbpsToBytesPerSec(mbps){ return (mbps * 1000 * 1000) / 8; } // decimal megabits
+  function bytesPerSecToMbps(bps){ return (bps * 8) / (1000*1000); }   // returns Mbps (decimal)
+
+  // format speed intelligently:
+  // - when showing bits (showInBits=true): prefer Gbps if >= 1000 Mbps
+  // - when showing bytes (showInBits=false): prefer GB/s if >= 1024 MB/s
+  function formatSpeed(bps, showInBits){
+    if (!isFinite(bps) || bps <= 0) {
+      return showInBits ? '0 Mbps' : '0 MB/s';
+    }
+
+    if (showInBits){
+      // convert to Mbps using decimal
+      const mbps = bytesPerSecToMbps(bps);
+      if (mbps >= 1000) {
+        const gbps = mbps / 1000;
+        return gbps.toFixed(2) + ' Gbps';
+      }
+      if (mbps >= 1) return mbps.toFixed(2) + ' Mbps';
+      // smaller than 1 Mbps -> show Kbps
+      const kbps = mbps * 1000;
+      return kbps.toFixed(0) + ' Kbps';
+    } else {
+      // show bytes/sec in MB/s / GB/s
+      const mbs = bps / (1024*1024); // MB/s (binary)
+      if (mbs >= 1024) {
+        const gbs = mbs / 1024;
+        return gbs.toFixed(2) + ' GB/s';
+      }
+      if (mbs >= 1) return mbs.toFixed(2) + ' MB/s';
+      const kbs = bps / 1024;
+      return kbs.toFixed(0) + ' KB/s';
+    }
+  }
+
+  function createSimUI(fileName, totalBytes){
+    simArea.innerHTML = '';
+    const wrap = document.createElement('div'); wrap.className = 'progress-wrap';
+    const title = document.createElement('div'); title.className = 'file-name'; title.textContent = fileName;
+    const bar = document.createElement('div'); bar.className = 'bar';
+    const fill = document.createElement('div'); fill.className = 'fill'; bar.appendChild(fill);
+    const meta = document.createElement('div'); meta.className = 'meta';
+    const remaining = document.createElement('div'); remaining.id = 'remaining';
+    const right = document.createElement('div'); right.id = 'right';
+    meta.appendChild(remaining); meta.appendChild(right);
+
+    wrap.appendChild(title); wrap.appendChild(bar); wrap.appendChild(meta);
+    simArea.appendChild(wrap);
+
+    // initial values
+    remaining.textContent = `-- remaining - 0 / ${formatSize(totalBytes)}`;
+    right.textContent = '--';
+
+    return {fill, remaining, right, title};
+  }
+
+  function startSimulation(opts){
+    if (sim) stopSimulation();
+    const {speedMbps, totalBytes, showBits, filename} = opts;
+
+    const ui = createSimUI(filename, totalBytes);
+    const overshoot = 1 + (Math.random() * 0.03 + 0.02); // 2-5% overshoot
+    const baseTargetMbps = speedMbps * overshoot;
+
+    let downloaded = 0;
+    let start = performance.now();
+    let rampDuration = 3000 + Math.random() * 2000; // 3-5s to ramp
+    let stopped = false;
+
+    function tick(){
+      if (stopped) return;
+      const now = performance.now();
+      const timeSinceStart = (now - start);
+      const rampT = Math.min(1, timeSinceStart / rampDuration);
+      const rampFactor = (-Math.cos(Math.PI * rampT) + 1)/2; // ease
+
+      // fluctuation within +/-5-8%
+      const fluct = 1 + (Math.random() - 0.5) * (0.05 + Math.random()*0.03);
+
+      const currentMbps = baseTargetMbps * (0.6 + 0.4 * rampFactor) * fluct;
+      const bps = mbpsToBytesPerSec(currentMbps);
+
+      // we update every 0.5s
+      downloaded += bps * 0.5;
+      if (downloaded > totalBytes) downloaded = totalBytes;
+
+      const percent = Math.min(100, (downloaded / totalBytes) * 100);
+      ui.fill.style.width = percent.toFixed(3) + '%';
+
+      const remainingBytes = Math.max(0, totalBytes - downloaded);
+      const etaSec = remainingBytes / (bps || 1);
+
+      // show downloaded and total with their own human units (e.g. "330.4 GB / 1.43 TB")
+      const downloadedStr = formatSize(downloaded);
+      const totalStr = formatSize(totalBytes);
+
+      ui.remaining.textContent = `${humanTime(etaSec)} remaining - ${downloadedStr} / ${totalStr} (${formatSpeed(bps, showBits)})`;
+      ui.right.textContent = formatSpeed(bps, showBits);
+
+      if (downloaded >= totalBytes - 0.0001){
+        finished();
+        return;
+      }
+
+      sim._timer = setTimeout(tick, 500);
+    }
+
+    function finished(){
+      stopped = true;
+      clearTimeout(sim._timer);
+      const end = performance.now();
+      const totalSeconds = Math.round((end - start)/1000);
+      simArea.innerHTML = '';
+      const f = document.createElement('div'); f.className = 'finished';
+      const t = document.createElement('div'); t.className = 'file-name'; t.textContent = filename;
+      const msg = document.createElement('div'); msg.style.marginTop='6px'; msg.textContent = `Downloaded (${humanTime(totalSeconds)}) - ${formatSize(totalBytes)}`;
+      f.appendChild(t); f.appendChild(msg);
+      simArea.appendChild(f);
+      sim = null;
+    }
+
+    sim = {
+      _timer: setTimeout(tick, 500),
+      stop(){ stopped = true; clearTimeout(this._timer); }
+    };
+  }
+
+  function stopSimulation(){
+    if (!sim) return;
+    try{ sim.stop(); }catch(e){}
+    sim = null;
+    simArea.innerHTML = '';
+  }
+
+  startBtn.addEventListener('click', ()=>{
+    const speed = Number(document.getElementById('speed').value) || 0;
+    const fname = document.getElementById('filename').value || 'file.bin';
+    const fsizeVal = Number(document.getElementById('filesize').value) || 0.1;
+    const unit = document.getElementById('unit').value;
+    const showBits = document.getElementById('showmbs').checked; // checked => show bits (Mbps/Gbps), unchecked => bytes (MB/s/GB/s)
+
+    if (speed <= 0 || fsizeVal <= 0){ alert('Please enter a positive speed and file size.'); return; }
+
+    const totalBytes = bytesFrom(fsizeVal, unit);
+    startSimulation({speedMbps: speed, totalBytes, showBits, filename: fname});
+  });
+
+  cancelBtn.addEventListener('click', ()=>{ stopSimulation(); });
+})();
+</script>
+
+</body>
+</html>
