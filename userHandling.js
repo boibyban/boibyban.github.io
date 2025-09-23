@@ -254,8 +254,8 @@ if (!window.__userHandlingInitialized) {
     const profileLink = document.getElementById("profileLink");
     const acquaintancesLink = document.getElementById("acquaintancesLink");
     if (homeLink) homeLink.href = "/home";
-    if (profileLink) profileLink.href = `/users?id=22`;
-    if (acquaintancesLink) acquaintancesLink.href = `/users?id=22`;
+    if (profileLink) profileLink.href = `/users?id=2`;
+    if (acquaintancesLink) acquaintancesLink.href = `/users?id=2`;
 
     const greetingText = document.getElementById("greetingText");
     const profilePic = document.getElementById("profilePic");
