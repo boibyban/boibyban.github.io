@@ -528,8 +528,79 @@
     "25": {
         "username": "AssTwaats",
         "displayName": "AssTwaats",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
         "profilePicture": "/content-deleted.png",
         "isDeleted": true,
+        "banFormData": {
+            "state": "Delete",
+            "banStartDate": "23/09/2025, 8:39:08 pm",
+            "note": "nonote",
+            "customNote": "Do not create accounts just for the purpose of breaking the rules.",
+            "internalNote": "Bad account",
+            "cautionWarning": "none",
+            "automation": "manual",
+            "theme": "light",
+            "botBan": false,
+            "parentChargeback": false,
+            "classicViolations": [
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Sexual Content",
+                    "evidence": "AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats AssTwaats  AssTwaats AssTwaats AssTwaats",
+                    "location": ""
+                }
+            ],
+            "modernViolations": [],
+            "caseID": "1ae13a4a-a51e-49d9-a953-7cf9370d8c53"
+        },
         "joinDate": "2025-08-31",
         "isAdmin": false,
         "friends": [
