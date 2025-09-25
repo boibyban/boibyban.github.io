@@ -201,7 +201,7 @@ h1{ font-size:1.9rem; margin:0; font-weight:700; }
       <h2>Boiby Studio - B5 Max</h2>
       <p class="price">From A$3499</p>
       <ul>
-        <li>Boiby B5 Max with 14-core CPU and 36-core GPU</li>
+        <li>Boiby B5 Max with 14-core CPU and 38-core GPU</li>
         <li>48 GB unified memory</li>
         <li>1 TB SSD storage</li>
         <li>10 Gbit Ethernet</li>
@@ -212,7 +212,7 @@ h1{ font-size:1.9rem; margin:0; font-weight:700; }
       <h2>Boiby Studio - B5 Ultra</h2>
       <p class="price">From A$7199</p>
       <ul>
-        <li>Boiby B5 Ultra with 28-core CPU and 72-core GPU</li>
+        <li>Boiby B5 Ultra with 28-core CPU and 76-core GPU</li>
         <li>96 GB unified memory</li>
         <li>2 TB SSD storage</li>
         <li>10 Gbit Ethernet</li>
@@ -256,7 +256,7 @@ const baseConfigs = {
     name: "Boiby Studio - B5 Max",
     upgrades: {
       chip: [
-        "Boiby B5 Max with 14-core CPU and 36-core GPU (base)", 
+        "Boiby B5 Max with 14-core CPU and 38-core GPU (base)", 
         "Boiby B5 Max with 18-core CPU and 48-core GPU (+A$800)"
       ],
       memory: ["48 GB unified memory (base)", "64 GB unified memory (+$200)", "96 GB unified memory (+$400)", "128 GB unified memory (+$700)"],
@@ -277,7 +277,7 @@ const baseConfigs = {
     name: "Boiby Studio - B5 Ultra",
     upgrades: {
       chip: [
-        "Boiby B5 Ultra with 28-core CPU and 72-core GPU (base)", 
+        "Boiby B5 Ultra with 28-core CPU and 76-core GPU (base)", 
         "Boiby B5 Ultra with 36-core CPU and 96-core GPU (+A$1600)"
       ],
       memory: [
@@ -533,12 +533,12 @@ function renderHeroSummary() {
   list.innerHTML = "";
 
   if (selectedModel === "B5 Max") {
-    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B5 Max with 14-core CPU and 36-core GPU')));
+    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B5 Max with 14-core CPU and 38-core GPU')));
     list.appendChild(li(cleanLabel(selectedOptions.memory || '48 GB unified memory')));
     list.appendChild(li(cleanLabel(selectedOptions.storage || '1 TB SSD storage')));
     list.appendChild(li(cleanLabel(selectedOptions.ethernet || '10 Gbit Ethernet')));
   } else if (selectedModel === "B5 Ultra") {
-    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B5 Ultra with 28-core CPU and 72-core GPU')));
+    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B5 Ultra with 28-core CPU and 76-core GPU')));
     list.appendChild(li(cleanLabel(selectedOptions.memory || '96 GB unified memory')));
     list.appendChild(li(cleanLabel(selectedOptions.storage || '2 TB SSD storage')));
     list.appendChild(li(cleanLabel(selectedOptions.ethernet || '10 Gbit Ethernet')));
