@@ -1523,13 +1523,19 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
         return;
     }
 
+    // Helper to get clean text for a pill
+    const getPillText = (pill) => {
+        const label = pill.querySelector('.label');
+        return (label ? label.textContent : pill.textContent).trim();
+    }
+
+    // Helper to find a pill by text
+    const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
+
     // Remove all disabled classes first
     memoryPills.forEach(p => p.classList.remove('disabled'));
 
-    // Helper to find pill by text
-    const findPill = (text) => memoryPills.find(p => p.textContent.includes(text));
-
-    // Handle dependencies based on model and chip selection
+    // --- Handle dependencies based on model ---
     if (selectedModel === 'B5 Pro') {
         const mem64 = findPill('64 GB');
 
@@ -1540,14 +1546,14 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
             console.log('64GB memory disabled for B5 Pro');
             if (mem64) mem64.classList.add('disabled');
 
-            // Auto-select first available memory if current is disabled
+            // Auto-select first available memory if current selection is disabled
             if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
                 memoryPills.forEach(p => p.classList.remove('selected'));
                 const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
                     firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m =>
-                        m.includes(firstAvailable.textContent)
+                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                        m.includes(getPillText(firstAvailable))
                     );
                     console.log('Memory auto-selected:', selectedOptions.memory);
                 }
@@ -1558,7 +1564,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
         const mem96 = findPill('96 GB');
         const mem128 = findPill('128 GB');
 
-        // 64GB and 128GB require 18-core CPU + 48-core GPU
+        // 64GB & 128GB require 18-core CPU + 48-core GPU
         if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
             if (mem64) mem64.classList.remove('disabled');
             if (mem128) mem128.classList.remove('disabled');
@@ -1573,8 +1579,8 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
                 const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
                     firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m =>
-                        m.includes(firstAvailable.textContent)
+                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                        m.includes(getPillText(firstAvailable))
                     );
                     console.log('Memory auto-selected:', selectedOptions.memory);
                 }
@@ -1594,8 +1600,8 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
                 const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
                     firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m =>
-                        m.includes(firstAvailable.textContent)
+                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                        m.includes(getPillText(firstAvailable))
                     );
                     console.log('Memory auto-selected:', selectedOptions.memory);
                 }
