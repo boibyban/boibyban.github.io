@@ -1511,15 +1511,10 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     console.log('Selected model:', selectedModel);
     console.log('Selected chip:', chipFull);
 
-    const memoryGroup = findGroupByName('memory');
-    if (!memoryGroup) {
-        console.warn('Memory group not found');
-        return;
-    }
-
-    const memoryPills = Array.from(memoryGroup.querySelectorAll('.pill'));
+    // Select all memory pills directly using data-cat="memory"
+    const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
     if (!memoryPills.length) {
-        console.warn('No memory pills found in group');
+        console.warn('No memory pills found');
         return;
     }
 
@@ -1612,6 +1607,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     renderHeroSummary();
     updatePrice();
 }
+
 
 
       function renderHeroSummary() {
