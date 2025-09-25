@@ -178,6 +178,19 @@ h1{ font-size:1.9rem; margin:0; font-weight:700; }
     </div>
   </div>
 
+  <div class="confirmation" id="confirmation" style="display:none;">
+    <div class="confirmation-image">
+      <img src="studio-placeholder.png" alt="Boiby Studio">
+    </div>
+    <h2 class="confirmation-title">Order Placed!</h2>
+    <p class="confirmation-model" id="confirmationModel"></p>
+    <div class="confirmation-details">
+      <ul class="confirmation-list" id="confirmationList"></ul>
+      <p class="confirmation-total" id="confirmationTotal"></p>
+    </div>
+  </div>
+
+
 <script>
 const baseConfigs = {
   "B5 Max": {
@@ -501,6 +514,7 @@ function updatePrice() {
   }
 
   document.getElementById("finalPrice").innerText = `Total: A$${price}`;
+  
 }
 
 function li(text) {
@@ -508,6 +522,34 @@ function li(text) {
   el.textContent = text;
   return el;
 }
+  
+document.querySelector(".add-to-bag").addEventListener("click", () => {
+  // Hide configurator
+  document.getElementById("configurator").style.display = "none";
+  // Show confirmation
+  document.getElementById("confirmation").style.display = "block";
+
+  // Set model name
+  document.getElementById("confirmationModel").innerText = selectedModel;
+
+  // Build confirmation list
+  const list = document.getElementById("confirmationList");
+  list.innerHTML = "";
+  for (let category in selectedOptions) {
+    if (Array.isArray(selectedOptions[category])) {
+      selectedOptions[category].forEach(opt => {
+        list.appendChild(li(cleanLabel(opt)));
+      });
+    } else {
+      list.appendChild(li(cleanLabel(selectedOptions[category])));
+    }
+  }
+
+  // Show total price
+  document.getElementById("confirmationTotal").innerText =
+    document.getElementById("finalPrice").innerText;
+});
+
 </script>
 </body>
 </html>
