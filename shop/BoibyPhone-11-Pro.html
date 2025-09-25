@@ -653,7 +653,9 @@
             heroImg.style.opacity = 0;
             
             setTimeout(() => {
-              heroImg.src = `BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor}.png`;
+              let colorFilename = selectedColor;
+              if (selectedColor === 'Pacific Blue') colorFilename = 'PacificBlue';
+              heroImg.src = `BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${colorFilename}.png`;
               heroImg.alt = `${selectedModel} ${selectedColor}`;
               heroImg.style.opacity = 1;
             }, 150);
