@@ -43,6 +43,64 @@ h1{ font-size:1.9rem; margin:0; font-weight:700; }
   cursor:pointer;
   transition:box-shadow .12s,transform .08s,border-color .12s;
 }
+    /* --- Confirmation Screen --- */
+.confirmation {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.confirmation-image img {
+  max-width: 250px;
+  margin-bottom: 20px;
+}
+
+.confirmation-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.confirmation-model {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.confirmation-details {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+  background: #f7f7f8;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.confirmation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+.confirmation-list li {
+  margin-bottom: 8px;
+  padding-left: 12px;
+  border-left: 3px solid #0071e3;
+}
+
+.confirmation-total {
+  font-size: 1.4em;
+  font-weight: bold;
+  text-align: right;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .card:hover{ border-color:var(--blue); transform:translateY(-2px); }
 .card h2{ margin:0 0 8px; font-size:1.25rem; font-weight:600; }
 .price{ color:var(--muted); margin:6px 0 12px; font-weight:500; }
