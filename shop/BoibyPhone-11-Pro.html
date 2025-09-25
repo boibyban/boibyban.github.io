@@ -626,7 +626,7 @@
 
         $('#heroTitle').innerText = `Customise your ${selectedModel}`;
         const heroImage = $('#heroImage');
-        heroImage.innerHTML = `<img src="BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor.replace(/\s+/g, '')}.png" alt="${selectedModel} ${selectedColor}" style="width: 100%;">`;
+        heroImage.innerHTML = `<img src="BoibyPhone11Pro${selectedColor.replace(/\s+/g, '')}.png" alt="${selectedModel} ${selectedColor}" style="width: 100%;">`;
         
         // Color selection in the configurator
         const colorGroup = document.createElement('div');
