@@ -34,7 +34,7 @@
       border-bottom: 1px solid var(--border);
       transition: all 0.3s ease;
     }
-
+    
     h1 {
       font-size: 1.9rem;
       margin: 0;
@@ -46,13 +46,13 @@
       margin: auto;
       padding: 20px;
     }
-
+    
     .models {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 25px;
     }
-
+    
     .card {
       border: 1px solid var(--border);
       border-radius: 16px;
@@ -62,21 +62,21 @@
       display: flex;
       flex-direction: column;
     }
-
+    
     .card:hover {
       border-color: var(--blue);
       transform: translateY(-2px);
     }
-
+    
     .card-content {
       display: flex;
       gap: 15px;
       margin-bottom: 15px;
     }
-
+    
     .card-image {
-      width: 260px;
-      height: 160px;
+      width: 140px;
+      height: 140px;
       border-radius: 8px;
       overflow: hidden;
       background: #f5f5f7;
@@ -84,37 +84,37 @@
       align-items: center;
       justify-content: center;
     }
-
+    
     .card-image img {
       max-width: 100%;
       max-height: 100%;
       transition: opacity 0.3s ease;
     }
-
+    
     .card-details {
       flex: 1;
     }
-
+    
     .card h2 {
       font-size: 1.3rem;
       margin: 0 0 6px;
       font-weight: 600;
     }
-
+    
     .price {
       font-size: 1.05rem;
       font-weight: 500;
       margin: 6px 0 12px;
       color: var(--muted);
     }
-
+    
     .card ul {
       margin: 0;
       padding-left: 20px;
       color: var(--muted);
       font-size: 0.9rem;
     }
-
+    
     .select-btn {
       margin-top: auto;
       padding: 10px 0;
@@ -126,7 +126,7 @@
       font-weight: 600;
       transition: background .2s;
     }
-
+    
     .select-btn:hover {
       background: #005bb5;
     }
@@ -140,15 +140,15 @@
       cursor: pointer;
       font-size: 0.95rem;
     }
-
-    .back-btn:hover {
-      background: #e6e6e9;
+    
+    .back-btn:hover { 
+      background: #e6e6e9; 
     }
 
-    .hero {
-      margin-bottom: 24px;
+    .hero { 
+      margin-bottom: 24px; 
     }
-
+    
     .hero-title {
       font-size: clamp(1.8rem, 4vw, 2.4rem);
       font-weight: 700;
@@ -156,26 +156,26 @@
       line-height: 1.2;
       margin: 0 0 12px;
     }
-
+    
     .hero-content {
       display: flex;
       gap: 30px;
       align-items: flex-start;
     }
-
+    
     .hero-image {
-      width: 360px;
+      width: 280px;
       flex-shrink: 0;
       border-radius: 0;
       overflow: hidden;
     }
-
+    
     .hero-image img {
       width: 100%;
       display: block;
       transition: opacity 0.3s ease;
     }
-
+    
     .hero-list {
       list-style: none;
       padding: 0;
@@ -183,18 +183,18 @@
       color: var(--muted);
       flex: 1;
     }
-
+    
     .hero-list li {
       font-size: 1rem;
       line-height: 1.6;
       margin: 6px 0;
     }
 
-    .group {
-      margin: 24px 0;
+    .group { 
+      margin: 24px 0; 
       position: relative;
     }
-
+    
     .group h3 {
       font-size: 1.1rem;
       margin: 0 0 10px;
@@ -202,12 +202,30 @@
       align-items: center;
       gap: 8px;
     }
+    
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--muted);
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .info-icon:hover {
+      background: var(--blue);
+    }
 
     .pill {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 16px;
+      padding: 28px 20px;
       border: 1px solid var(--border);
       border-radius: 12px;
       margin: 10px 0;
@@ -215,31 +233,31 @@
       background: #fff;
       transition: border-color .12s, box-shadow .12s, transform .06s;
     }
-
-    .pill:hover {
-      border-color: var(--blue);
-      transform: translateY(-2px);
+    
+    .pill:hover { 
+      border-color: var(--blue); 
+      transform: translateY(-2px); 
     }
-
+    
     .pill.selected {
       border: 2px solid var(--blue);
       box-shadow: 0 4px 14px rgba(0,113,227,0.08);
     }
-
+    
     .pill.disabled {
       opacity: .6;
       cursor: not-allowed;
       background: #fbfbfb;
     }
-
-    .pill .label {
-      font-weight: 600;
+    
+    .pill .label { 
+      font-weight: 600; 
     }
-
-    .pill .price-right {
-      color: var(--muted);
-      font-weight: 600;
-      white-space: nowrap;
+    
+    .pill .price-right { 
+      color: var(--muted); 
+      font-weight: 600; 
+      white-space: nowrap; 
     }
 
     .note {
@@ -263,12 +281,12 @@
       visibility: hidden;
       transition: all 0.3s ease;
     }
-
+    
     .modal-overlay.visible {
       opacity: 1;
       visibility: visible;
     }
-
+    
     .modal {
       background: white;
       border-radius: 16px;
@@ -280,6 +298,44 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       transform: translateY(20px);
       transition: transform 0.3s ease;
+    }
+    
+    .modal-overlay.visible .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    
+    .modal-content {
+      line-height: 1.6;
+    }
+    
+    .modal-content p {
+      margin: 0 0 16px;
+    }
+    
+    .modal-content ul {
+      margin: 0 0 16px;
+      padding-left: 20px;
     }
 
     .checkout {
@@ -301,12 +357,12 @@
       z-index: 100;
       overflow-x: hidden;
     }
-
+    
     .total {
       font-size: 1.4rem;
       font-weight: 700;
     }
-
+    
     .add-to-bag {
       padding: 12px 22px;
       font-size: 1.05rem;
@@ -317,27 +373,27 @@
       cursor: pointer;
       transition: background .2s;
     }
-
-    .add-to-bag:hover {
-      background: #005bb5;
+    
+    .add-to-bag:hover { 
+      background: #005bb5; 
     }
 
     .confirmation {
       text-align: center;
       display: none;
     }
-
+    
     .confirmation-image {
       width: 300px;
       margin: 0 auto 20px;
       border-radius: 12px;
       overflow: hidden;
     }
-
+    
     .confirmation-image img {
       width: 100%;
     }
-
+    
     .confirmation-details {
       max-width: 600px;
       margin: 0 auto;
@@ -346,22 +402,45 @@
       padding: 20px;
       border-radius: 12px;
     }
-
+    
     .confirmation-title {
       font-size: 2.2rem;
       margin-bottom: 10px;
       color: #0071e3;
+    }
+    
+    .confirmation-model {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    
+    .confirmation-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    
+    .confirmation-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .confirmation-total {
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
     }
 
     @media (max-width: 900px) {
       .models {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       }
-
+      
       .hero-content {
         flex-direction: column;
       }
-
+      
       .hero-image {
         width: 100%;
         max-width: 300px;
@@ -370,24 +449,24 @@
     }
 
     @media (max-width: 600px) {
-      .pill {
-        padding: 14px;
+      .pill { 
+        padding: 14px; 
       }
-
+      
       .checkout {
         flex-direction: column;
         align-items: stretch;
         text-align: center;
       }
-
-      .add-to-bag {
-        width: 100%;
+      
+      .add-to-bag { 
+        width: 100%; 
       }
-
+      
       .card-content {
         flex-direction: column;
       }
-
+      
       .card-image {
         width: 100%;
         height: 180px;
@@ -439,13 +518,14 @@
         <p><strong>How much memory is right for you?</strong></p>
         <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
         
-        <p><strong>16 GB:</strong> Good for general users, students, and users with standard workloads. This configuration is ideal for those who primarily browse the web, stream content, use productivity apps, do light video and photo editing, and perform multitasking.</p>
+        <p><strong>16 GB:</strong> Good for general users, students, and users with standard workloads. This configuration is ideal for those who primarily browse the web, stream content, use productivity apps, do light video and photo editing, and perform multitasking</p>
         
         <p><strong>24 GB:</strong> Good for users who need slightly more headroom for multitasking and moderate creative work. Ideal for those who do light to moderate video editing, gaming, graphic design, or programming, but don't push those to the extreme. Good for users who run multiple intensive apps simultaneously and perform more multitasking.</p>
         
         <p><strong>32 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
       </div>
     </div>
+  </div>
 
   <div class="checkout" id="checkout">
     <div class="total" id="finalPrice">Total: $0</div>
@@ -454,36 +534,35 @@
 
   <script>
     (function () {
-      // bDesk single-product configuration
-      const colors = ['Silver']; // Silver only
+      const colors = ['Silver']; // Only Silver available for bDesk
+      let selectedColor = 'Silver';
 
-      // bDesk uses same chips/specs as BoibyBook Air but different base price and desktop-specific options
       const template = {
-        "bDesk": {
+        "B5": {
           price: 1899,
           display: "24-inch 4.5K IPS display",
           ports: [
-            "3 × Thunderbolt 5 (USB-C)",
-            "2 × USB 3.0 Type-A",
+            "3 Thunderbolt 5 (USB Type-C) ports",
+            "2 USB 3 (Type-A) ports",
             "Headphone Jack",
-            "Gigabit Ethernet (built-in)"
+            "Gigabit Ethernet"
           ],
           upgrades: {
-            // No external display choices — display is fixed
-            chip: ["Boiby B5 chip with 9-core CPU and 9-core GPU (base)", "Boiby B5 chip with 10-core CPU and 12-core GPU (+$150)"] ,
+            display: ["24-inch 4.5K IPS display (base)"],
+            chip: ["Boiby B5 chip with 9-core CPU and 10-core GPU (base)", "Boiby B5 chip with 10-core CPU and 12-core GPU (+$100)"],
             memory: ["16 GB unified memory (base)", "24 GB unified memory (+$100)", "32 GB unified memory (+$200)"],
             storage: ["512 GB SSD storage (base)", "1 TB SSD storage (+$100)", "2 TB SSD storage (+$200)"],
-            coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
             ethernet: ["Gigabit Ethernet (base)", "2.5 Gigabit Ethernet (+$50)"],
-            peripherals: ["Included: Pro Keyboard with Touch ID and Pro Mouse (base)", "Extra Numpad (+$50)", "Pro Trackpad + Pro Mouse (+$50)"]
+            coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
+            keyboard: ["Pro Keyboard with Touch ID (base)", "Pro Keyboard with Touch ID + Numpad (+$50)"],
+            mouse: ["Pro Mouse (base)", "Pro Trackpad + Pro Mouse (+$50)"]
           }
         }
       };
 
-      const baseConfigs = { 'bDesk': JSON.parse(JSON.stringify(template.bDesk) ) };
+      const baseConfigs = JSON.parse(JSON.stringify(template));
 
-      let selectedModel = 'bDesk';
-      let selectedColor = 'Silver';
+      let selectedModel = null;
       let selectedOptions = {};
 
       const $ = q => document.querySelector(q);
@@ -500,49 +579,57 @@
         const container = $('#models');
         if (!container) return;
         container.innerHTML = '';
-        const cfg = baseConfigs[selectedModel];
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.setAttribute('data-model', selectedModel);
-
-        const imageUrl = `bDesk${selectedColor}.png`;
-
-        card.innerHTML = `
-          <div class="card-content">
-            <div class="card-image">
-              <img src="${imageUrl}" alt="${selectedModel} ${selectedColor}" id="card-image-${selectedModel}">
+        const configs = baseConfigs;
+        Object.keys(configs).forEach(model => {
+          const cfg = configs[model];
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute('data-model', model);
+          
+          // Create image element
+          const imageUrl = `bDeskSilver.png`;
+          
+          card.innerHTML = `
+            <div class="card-content">
+              <div class="card-image">
+                <img src="${imageUrl}" alt="${model} ${selectedColor}" id="card-image-${model.replace(/\s+/g, '-')}">
+              </div>
+              <div class="card-details">
+                <h2>bDesk - ${model}</h2>
+                <p class="price">From ${formatPrice(cfg.price)}</p>
+                <ul>
+                  <li>${cfg.display}</li>
+                  <li>${cleanLabel(cfg.upgrades.chip[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.memory[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.storage[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.ethernet[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.coating[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.keyboard[0])}</li>
+                  <li>${cleanLabel(cfg.upgrades.mouse[0])}</li>
+                </ul>
+                <p><strong>Ports:</strong></p>
+                <ul>
+                  ${cfg.ports.map(port => `<li>${port}</li>`).join('')}
+                </ul>
+              </div>
             </div>
-            <div class="card-details">
-              <h2>bDesk — ${selectedModel}</h2>
-              <p class="price">From ${formatPrice(cfg.price)}</p>
-              <ul>
-                <li>${cfg.display}</li>
-                <li>${cleanLabel(cfg.upgrades.chip[0])}</li>
-                <li>${cleanLabel(cfg.upgrades.memory[0])}</li>
-                <li>${cleanLabel(cfg.upgrades.storage[0])}</li>
-                <li>${cleanLabel(cfg.upgrades.coating[0])}</li>
-              </ul>
-              <p><strong>Ports:</strong></p>
-              <ul>
-                ${cfg.ports.map(port => `<li>${port}</li>`).join('')}
-              </ul>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:center;margin-top:12px;">
-            <div style="padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:#fff;font-weight:600;">Silver</div>
-            <button class="select-btn" data-model="${selectedModel}">Configure</button>
-          </div>
-        `;
-
-        card.querySelector('.select-btn').addEventListener('click', (e) => {
-          selectedModel = e.target.getAttribute('data-model');
-          $('#models').style.display = 'none';
-          $('#configurator').style.display = 'block';
-          showConfigurator();
+            <button class="select-btn" data-model="${model}">Select</button>
+          `;
+          
+          // Add select button event
+          card.querySelector('.select-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const model = e.target.getAttribute('data-model');
+            selectedModel = model;
+            
+            const modelsEl = $('#models');
+            if (modelsEl) modelsEl.style.display = 'none';
+            $('#configurator').style.display = 'block';
+            showConfigurator();
+          });
+          
+          container.appendChild(card);
         });
-
-        container.appendChild(card);
       }
 
       function showConfigurator() {
@@ -552,17 +639,24 @@
         selectedOptions = {};
 
         $('#heroTitle').innerText = `Customise your bDesk — ${selectedModel}`;
-
+        
+        // Update hero image
         const heroImage = $('#heroImage');
-        heroImage.innerHTML = `<img src="bDesk${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
+        heroImage.innerHTML = `<img src="bDeskSilver.png" alt="${selectedModel} ${selectedColor}">`;
 
-        // Build upgrade groups
+        // upgrades
         Object.keys(cfg.upgrades).forEach(category => {
           const group = document.createElement('div');
           group.className = 'group';
           const h3 = document.createElement('h3');
-
-          h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          
+          // Add info icon for memory category
+          if (category === 'memory') {
+            h3.innerHTML = `Memory <span class="info-icon" data-category="memory">?</span>`;
+          } else {
+            h3.innerText = category.charAt(0).toUpperCase() + category.slice(1);
+          }
+          
           group.appendChild(h3);
 
           cfg.upgrades[category].forEach((opt, idx) => {
@@ -574,7 +668,7 @@
 
             pill.addEventListener('click', () => {
               if (pill.classList.contains('disabled')) return;
-              // single-select per category
+              // single-select logic
               Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
               pill.classList.add('selected');
               selectedOptions[category] = pill.dataset.value;
@@ -582,7 +676,7 @@
               updatePrice();
             });
 
-            // Default selection is first item
+            // Default selection logic
             if (idx === 0) {
               pill.classList.add('selected');
               selectedOptions[category] = pill.dataset.value;
@@ -591,19 +685,17 @@
             group.appendChild(pill);
           });
 
-          // Add notes for peripherals and ethernet
-          if (category === 'peripherals') {
+          if (category === 'memory') {
             const note = document.createElement('div');
             note.className = 'note';
-            note.innerText = 'Base includes Pro Keyboard with Touch ID and Pro Mouse. These extras are optional add-ons.';
+            note.innerText = 'Choose a memory upgrade if you need extra multitasking headroom.';
             group.appendChild(note);
-          }
-
-          if (category === 'ethernet') {
-            const note = document.createElement('div');
-            note.className = 'note';
-            note.innerText = 'Gigabit Ethernet is included by default. Select 2.5 Gigabit Ethernet to upgrade (+$50).';
-            group.appendChild(note);
+            
+            // Add event listener to the info icon
+            const infoIcon = h3.querySelector('.info-icon');
+            if (infoIcon) {
+              infoIcon.addEventListener('click', showMemoryModal);
+            }
           }
 
           optionsDiv.appendChild(group);
@@ -613,18 +705,50 @@
         updatePrice();
       }
 
+      function showMemoryModal() {
+        const modal = $('#memoryModal');
+        modal.classList.add('visible');
+        
+        // Add event listener to close button
+        const closeButton = modal.querySelector('.modal-close');
+        closeButton.addEventListener('click', hideMemoryModal);
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            hideMemoryModal();
+          }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function escHandler(e) {
+          if (e.key === 'Escape') {
+            hideMemoryModal();
+            document.removeEventListener('keydown', escHandler);
+          }
+        });
+      }
+      
+      function hideMemoryModal() {
+        const modal = $('#memoryModal');
+        modal.classList.remove('visible');
+      }
+
       function renderHeroSummary() {
         const list = $('#heroList');
         if (!list) return;
         list.innerHTML = '';
         const cfg = baseConfigs[selectedModel];
-        list.appendChild(li(`${selectedModel} — ${cfg.display}`));
+        list.appendChild(li(`bDesk — ${selectedModel}`));
         list.appendChild(li(`Color: ${selectedColor}`));
-
-        list.appendChild(li('Ports:'));
-        cfg.ports.forEach(port => list.appendChild(li(`• ${port}`)));
-
-        const order = ['chip', 'memory', 'storage', 'coating', 'ethernet', 'peripherals'];
+        
+        // Add ports information
+        list.appendChild(li("Ports:"));
+        cfg.ports.forEach(port => {
+          list.appendChild(li(`• ${port}`));
+        });
+        
+        const order = ['display', 'chip', 'memory', 'storage', 'ethernet', 'coating', 'keyboard', 'mouse'];
         order.forEach(cat => {
           if (selectedOptions[cat]) list.appendChild(li(cleanLabel(selectedOptions[cat])));
         });
@@ -642,37 +766,45 @@
       function showConfirmation() {
         const cfg = baseConfigs[selectedModel];
         let price = cfg.price;
-
+        
+        // Hide configurator and checkout, show confirmation
         $('#configurator').style.display = 'none';
         $('#checkout').style.display = 'none';
         $('#confirmation').style.display = 'block';
-
-        $('#confirmationImage').innerHTML = `<img src="bDesk${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
-        $('#confirmationModel').textContent = `${selectedModel} - ${selectedColor}`;
-
+        
+        // Set confirmation image
+        $('#confirmationImage').innerHTML = `<img src="bDeskSilver.png" alt="${selectedModel} ${selectedColor}">`;
+        
+        // Set confirmation model text
+        $('#confirmationModel').textContent = `bDesk - ${selectedModel} - ${selectedColor}`;
+        
+        // Build confirmation list
         const list = $('#confirmationList');
         list.innerHTML = '';
-
-        list.appendChild(li(`Model: ${selectedModel}`));
+        
+        list.appendChild(li(`Model: bDesk - ${selectedModel}`));
         list.appendChild(li(`Color: ${selectedColor}`));
+        list.appendChild(li(cleanLabel(selectedOptions.display || cfg.upgrades.display[0])));
         list.appendChild(li(cleanLabel(selectedOptions.chip || cfg.upgrades.chip[0])));
         list.appendChild(li(cleanLabel(selectedOptions.memory || cfg.upgrades.memory[0])));
         list.appendChild(li(cleanLabel(selectedOptions.storage || cfg.upgrades.storage[0])));
-        list.appendChild(li(cleanLabel(selectedOptions.coating || cfg.upgrades.coating[0])));
         list.appendChild(li(cleanLabel(selectedOptions.ethernet || cfg.upgrades.ethernet[0])));
-        list.appendChild(li(cleanLabel(selectedOptions.peripherals || cfg.upgrades.peripherals[0])));
-
+        list.appendChild(li(cleanLabel(selectedOptions.coating || cfg.upgrades.coating[0])));
+        list.appendChild(li(cleanLabel(selectedOptions.keyboard || cfg.upgrades.keyboard[0])));
+        list.appendChild(li(cleanLabel(selectedOptions.mouse || cfg.upgrades.mouse[0])));
+        
+        // Calculate final price
         Object.keys(selectedOptions).forEach(cat => {
           price += priceDelta(selectedOptions[cat]);
         });
-
+        
         $('#confirmationTotal').textContent = `Total: ${formatPrice(price)}`;
       }
 
-      function li(text) {
-        const el = document.createElement('li');
-        el.textContent = text;
-        return el;
+      function li(text) { 
+        const el = document.createElement('li'); 
+        el.textContent = text; 
+        return el; 
       }
 
       const backBtn = $('#backBtn');
