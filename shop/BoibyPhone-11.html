@@ -525,8 +525,7 @@
             "USB-C to USB-C 1m braided charging cable",
             "45 W USB-C power adapter",
             "SIM ejector tool",
-            "Documentation",
-            "Boiby Stickers"
+            "Documentation & Boiby Stickers",
           ]
         }
       };
@@ -574,16 +573,14 @@
         selectedOptions = {};
 
         $('#heroTitle').innerText = `Customise your BoibyPhone 11`;
-        
-        // Update hero image
         const heroImage = $('#heroImage');
-        heroImage.innerHTML = `<img src="BoibyPhone11${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
+        heroImage.innerHTML = `<img src="BoibyPhone11-${selectedColor}.png" alt="${selectedModel} ${selectedColor}" style="width: 100%;">`;
 
-        // Color selection
+        // Color selection in the configurator
         const colorGroup = document.createElement('div');
         colorGroup.className = 'group';
         const colorTitle = document.createElement('h3');
-        colorTitle.innerText = 'Color';
+        colorTitle.innerText = 'Colour';
         colorGroup.appendChild(colorTitle);
         
         const colorSelector = document.createElement('div');
@@ -596,18 +593,28 @@
           colorPill.innerText = color;
           
           colorPill.addEventListener('click', () => {
-            colorSelector.querySelectorAll('.color-pill').forEach(p => p.classList.remove('selected'));
+            colorSelector.querySelectorAll('.color-pill').forEach(p => p.classList.remove('selected'));    
             colorPill.classList.add('selected');
             selectedColor = color;
-            
-            // Update hero image
+
             const heroImg = heroImage.querySelector('img');
             heroImg.style.opacity = 0;
+            
             setTimeout(() => {
-              heroImg.src = `BoibyPhone11${selectedColor}.png`;
+              heroImg.src = `BoibyPhone11-${selectedColor}.png`;
+              heroImg.alt = `BoibyPhone 11 ${selectedColor}`;
               heroImg.style.opacity = 1;
             }, 150);
             
+            const mainImage = document.querySelector('#heroImage img');
+            if (mainImage) {
+              mainImage.style.opacity = 0;
+              setTimeout(() => {
+                mainImage.src = `BoibyPhone11-${selectedColor}.png`;
+                mainImage.alt = `BoibyPhone 11 ${selectedColor}`;
+                mainImage.style.opacity = 1;
+              }, 150);
+            }
             renderHeroSummary();
           });
           
@@ -661,7 +668,7 @@
         const cfg = baseConfigs[selectedModel];
         
         list.appendChild(li(`BoibyPhone 11 — ${cfg.display}`));
-        list.appendChild(li(`Color: ${selectedColor}`));
+        list.appendChild(li(`Colour: ${selectedColor}`));
         
         // Add specifications
         cfg.specs.forEach(spec => {
