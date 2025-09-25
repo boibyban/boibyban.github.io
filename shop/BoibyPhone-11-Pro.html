@@ -579,7 +579,7 @@
           card.setAttribute('data-model', model);
           
           // Create image element
-          const imageUrl = `BoibyPhone11Pro${model.includes('Max') ? 'Max' : ''}${selectedColor.replace(/\s+/g, '')}.png`;       
+          const imageUrl = `BoibyPhone11Pro${colorFilename}.png`;
           
           card.innerHTML = `
             <div class="card-content">
@@ -655,7 +655,7 @@
             setTimeout(() => {
               let colorFilename = selectedColor;
               if (selectedColor === 'Pacific Blue') colorFilename = 'PacificBlue';
-              heroImg.src = `BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${colorFilename}.png`;
+              heroImg.src = `BoibyPhone11Pro${colorFilename}.png`;
               heroImg.alt = `${selectedModel} ${selectedColor}`;
               heroImg.style.opacity = 1;
             }, 150);
@@ -751,7 +751,7 @@
         $('#checkout').style.display = 'none';
         $('#confirmation').style.display = 'block';
         
-        $('#confirmationImage').innerHTML = `<img src="BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor.replace(/\s+/g, '')}.png" alt="${selectedModel} ${selectedColor}">`;        
+        $('#confirmationImage').innerHTML = `<img src="BoibyPhone11Pro${colorFilename}.png" alt="${selectedModel} ${selectedColor}">`;
         
         const storageOption = selectedOptions.storage || cfg.upgrades.storage[0];
         let storageSize = '256GB';
