@@ -532,40 +532,40 @@
 
       const template = {
         "B5 Pro": {
-          price: 3999,
+          price: 3799,
           display: "30-inch 5.5K Mini-LED display",
           ports: [
             "6 Thunderbolt 5 (USB Type-C) ports",
             "4 USB 3 (Type-A) ports",
             "Headphone Jack",
-            "2.5 Gigabit Ethernet"
+            "Gigabit Ethernet"
           ],
           upgrades: {
             display: ["30-inch 5.5K Mini-LED display (base)"],
             chip: ["Boiby B5 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B5 Pro chip with 14-core CPU and 24-core GPU (+$400)"],
             memory: ["24 GB unified memory (base)", "48 GB unified memory (+$200)", "64 GB unified memory (+$300)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+$100)", "4 TB SSD storage (+$300)", "8 TB SSD storage (+$700)"],
-            ethernet: ["2.5 Gigabit Ethernet (base)", "10 Gigabit Ethernet (+$50)"],
+            ethernet: ["Gigabit Ethernet (base)", "2.5 Gigabit Ethernet (+$50)"],
             coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
             keyboard: ["Pro Keyboard with Touch ID (base)", "Pro Keyboard with Touch ID + Numpad (+$50)"],
             mouse: ["Pro Mouse (base)", "Pro Trackpad + Pro Mouse (+$50)"]
           }
         },
         "B5 Max": {
-          price: 5999,
+          price: 5499,
           display: "30-inch 5.5K Mini-LED display",
           ports: [
             "6 Thunderbolt 5 (USB Type-C) ports",
             "4 USB 3 (Type-A) ports",
             "Headphone Jack",
-            "2.5 Gigabit Ethernet"
+            "Gigabit Ethernet"
           ],
           upgrades: {
             display: ["30-inch 5.5K Mini-LED display (base)"],
             chip: ["Boiby B5 Max chip with 14-core CPU and 38-core GPU (base)", "Boiby B5 Max chip with 18-core CPU and 48-core GPU (+$800)"],
             memory: ["48 GB unified memory (base)", "64 GB unified memory (+$200)", "96 GB unified memory (+$400)", "128 GB unified memory (+$700)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+$100)", "4 TB SSD storage (+$300)", "8 TB SSD storage (+$700)", "12 TB SSD storage (+$1500)"],
-            ethernet: ["2.5 Gigabit Ethernet (base)", "10 Gigabit Ethernet (+$50)"],
+            ethernet: ["Gigabit Ethernet (base)", "2.5 Gigabit Ethernet (+$50)"],
             coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
             keyboard: ["Pro Keyboard with Touch ID (base)", "Pro Keyboard with Touch ID + Numpad (+$50)"],
             mouse: ["Pro Mouse (base)", "Pro Trackpad + Pro Mouse (+$50)"]
@@ -707,6 +707,7 @@
               Array.from(group.querySelectorAll('.pill')).forEach(s => s.classList.remove('selected'));
               pill.classList.add('selected');
               selectedOptions[category] = pill.dataset.value;
+              if (category === 'chip') handleDependencies(); // re-evaluate when chip changes
               renderHeroSummary();
               updatePrice();
             });
@@ -723,7 +724,7 @@
           if (category === 'memory') {
             const note = document.createElement('div');
             note.className = 'note';
-            note.innerText = 'Choose a memory upgrade if you need extra multitasking headroom.';
+            note.innerText = 'Higher memory options require higher-end CPU/GPU selections.';
             group.appendChild(note);
             
             // Add event listener to the info icon
@@ -735,6 +736,116 @@
 
           optionsDiv.appendChild(group);
         });
+
+        // Apply dependency logic
+        handleDependencies();
+        renderHeroSummary();
+        updatePrice();
+      }
+
+      function handleDependencies() {
+        if (!selectedModel) return;
+
+        const cfg = baseConfigs[selectedModel];
+        const optionsDiv = $('#options');
+        if (!optionsDiv) return;
+
+        const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+        console.log('Selected model:', selectedModel);
+        console.log('Selected chip:', chipFull);
+
+        // Select all memory pills directly using data-cat="memory"
+        const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
+        if (!memoryPills.length) {
+            console.warn('No memory pills found');
+            return;
+        }
+
+        // Helper to get clean text for a pill
+        const getPillText = (pill) => {
+            const label = pill.querySelector('.label');
+            return (label ? label.textContent : pill.textContent).trim();
+        }
+
+        // Helper to find a pill by text
+        const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
+
+        // Remove all disabled classes first
+        memoryPills.forEach(p => p.classList.remove('disabled'));
+
+        // --- Handle dependencies based on model ---
+        if (selectedModel === 'B5 Pro') {
+            const mem64 = findPill('64 GB');
+
+            if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
+                console.log('64GB memory enabled for B5 Pro');
+                if (mem64) mem64.classList.remove('disabled');
+            } else {
+                console.log('64GB memory disabled for B5 Pro');
+                if (mem64) mem64.classList.add('disabled');
+
+                // Auto-select first available memory if current selection is disabled
+                if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
+                    memoryPills.forEach(p => p.classList.remove('selected'));
+                    const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                    if (firstAvailable) {
+                        firstAvailable.classList.add('selected');
+                        selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                            m.includes(getPillText(firstAvailable))
+                        );
+                        console.log('Memory auto-selected:', selectedOptions.memory);
+                    }
+                }
+            }
+        } else if (selectedModel === 'B5 Max') {
+            const mem64 = findPill('64 GB');
+            const mem96 = findPill('96 GB');
+            const mem128 = findPill('128 GB');
+
+            // 64GB & 128GB require 18-core CPU + 48-core GPU
+            if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
+                if (mem64) mem64.classList.remove('disabled');
+                if (mem128) mem128.classList.remove('disabled');
+                console.log('64GB & 128GB memory enabled for B5 Max');
+            } else {
+                if (mem64) mem64.classList.add('disabled');
+                if (mem128) mem128.classList.add('disabled');
+                console.log('64GB & 128GB memory disabled for B5 Max');
+
+                if (selectedOptions.memory && (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB'))) {
+                    memoryPills.forEach(p => p.classList.remove('selected'));
+                    const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                    if (firstAvailable) {
+                        firstAvailable.classList.add('selected');
+                        selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                            m.includes(getPillText(firstAvailable))
+                        );
+                        console.log('Memory auto-selected:', selectedOptions.memory);
+                    }
+                }
+            }
+
+            // 96GB requires 14-core CPU + 38-core GPU
+            if (chipFull.includes('14-core') && chipFull.includes('38-core')) {
+                if (mem96) mem96.classList.remove('disabled');
+                console.log('96GB memory enabled for B5 Max');
+            } else {
+                if (mem96) mem96.classList.add('disabled');
+                console.log('96GB memory disabled for B5 Max');
+
+                if (selectedOptions.memory && selectedOptions.memory.includes('96 GB')) {
+                    memoryPills.forEach(p => p.classList.remove('selected'));
+                    const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                    if (firstAvailable) {
+                        firstAvailable.classList.add('selected');
+                        selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                            m.includes(getPillText(firstAvailable))
+                        );
+                        console.log('Memory auto-selected:', selectedOptions.memory);
+                    }
+                }
+            }
+        }
 
         renderHeroSummary();
         updatePrice();
