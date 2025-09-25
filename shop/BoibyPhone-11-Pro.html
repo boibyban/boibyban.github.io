@@ -579,7 +579,7 @@
           card.setAttribute('data-model', model);
           
           // Create image element
-          const imageUrl = `BoibyPhone11Pro${model.includes('Max') ? 'Max' : ''}${selectedColor}.png`;
+          const imageUrl = `BoibyPhone11Pro${model.includes('Max') ? 'Max' : ''}${selectedColor.replace(/\s+/g, '')}.png`;       
           
           card.innerHTML = `
             <div class="card-content">
@@ -626,8 +626,8 @@
 
         $('#heroTitle').innerText = `Customise your ${selectedModel}`;
         const heroImage = $('#heroImage');
-        heroImage.innerHTML = `<img src="BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor}.png" alt="${selectedModel} ${selectedColor}" style="width: 100%;">`;
-
+        heroImage.innerHTML = `<img src="BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor.replace(/\s+/g, '')}.png" alt="${selectedModel} ${selectedColor}" style="width: 100%;">`;
+        
         // Color selection in the configurator
         const colorGroup = document.createElement('div');
         colorGroup.className = 'group';
@@ -745,22 +745,18 @@
         const cfg = baseConfigs[selectedModel];
         let price = cfg.price;
         
-        // Hide configurator and checkout, show confirmation
         $('#configurator').style.display = 'none';
         $('#checkout').style.display = 'none';
         $('#confirmation').style.display = 'block';
         
-        // Set confirmation image
-        $('#confirmationImage').innerHTML = `<img src="BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
+        $('#confirmationImage').innerHTML = `<img src="BoibyPhone11Pro${selectedModel.includes('Max') ? 'Max' : ''}${selectedColor.replace(/\s+/g, '')}.png" alt="${selectedModel} ${selectedColor}">`;        
         
-        // Extract storage size from selected option
         const storageOption = selectedOptions.storage || cfg.upgrades.storage[0];
         let storageSize = '256GB';
         if (storageOption.includes('512')) storageSize = '512GB';
         else if (storageOption.includes('1 TB')) storageSize = '1TB';
         else if (storageOption.includes('2 TB')) storageSize = '2TB';
-        
-        // Set confirmation model text with format: "BoibyPhone 11 Pro 512GB Obsidian"
+
         $('#confirmationModel').textContent = `${selectedModel} ${storageSize} ${selectedColor}`;
         
         // Build confirmation list
@@ -771,14 +767,12 @@
         list.appendChild(li(`Color: ${selectedColor}`));
         list.appendChild(li(cleanLabel(storageOption)));
         
-        // Add included items
         list.appendChild(li(""));
         list.appendChild(li("Included in the box:"));
         cfg.included.forEach(item => {
           list.appendChild(li(`• ${item}`));
         });
         
-        // Calculate final price
         Object.keys(selectedOptions).forEach(cat => {
           price += priceDelta(selectedOptions[cat]);
         });
