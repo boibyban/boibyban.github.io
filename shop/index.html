@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Boiby Store</title>
+  <style>
+    :root {
+      --blue: #0071e3;
+      --border: #d2d2d7;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --bg: #fff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .category {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .category-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .product-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      background: #fff;
+      transition: box-shadow .15s, transform .06s;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .product-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-2px);
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f5f5f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    .product-image img {
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: contain;
+    }
+    
+    .product-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+    
+    .product-price {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 0;
+    }
+    
+    .subcategory {
+      margin: 40px 0 20px;
+    }
+    
+    .subcategory-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      
+      .category-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Boiby Store</h1>
+  </header>
+
+  <main>
+    <!-- Phones Section -->
+    <section class="category">
+      <h2 class="category-title">Phones</h2>
+      <div class="products-grid">
+        <a href="/BoibyPhone-11" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyPhone11Blue.png" alt="BoibyPhone 11">
+          </div>
+          <h3 class="product-name">BoibyPhone 11</h3>
+          <p class="product-price">From A$1,399</p>
+        </a>
+        
+        <a href="/BoibyPhone-11-Pro" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyPhone11ProPacificBlue.png" alt="BoibyPhone 11 Pro">
+          </div>
+          <h3 class="product-name">BoibyPhone 11 Pro</h3>
+          <p class="product-price">From A$2,199</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Computers Section -->
+    <section class="category">
+      <h2 class="category-title">Computers</h2>
+      
+      <div class="subcategory">
+        <h3 class="subcategory-title">Notebooks</h3>
+        <div class="products-grid">
+          <a href="/BoibyBook-Air" class="product-card">
+            <div class="product-image">
+              <img src="/BoibyBookAirBlue.png" alt="BoibyBook Air">
+            </div>
+            <h3 class="product-name">BoibyBook Air</h3>
+            <p class="product-price">From A$1,699</p>
+          </a>
+          
+          <a href="/BoibyBook-Pro" class="product-card">
+            <div class="product-image">
+              <img src="/BoibyBookProBlack.png" alt="BoibyBook Pro">
+            </div>
+            <h3 class="product-name">BoibyBook Pro</h3>
+            <p class="product-price">From A$2,399</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="subcategory">
+        <h3 class="subcategory-title">Desktops</h3>
+        <div class="products-grid">
+          <a href="/Boiby-mini" class="product-card">
+            <div class="product-image">
+              <img src="/BoibyMini.png" alt="Boiby mini">
+            </div>
+            <h3 class="product-name">Boiby mini</h3>
+            <p class="product-price">From A$899</p>
+          </a>
+          
+          <a href="/Boiby-Studio" class="product-card">
+            <div class="product-image">
+              <img src="/BoibyStudio.png" alt="Boiby Studio">
+            </div>
+            <h3 class="product-name">Boiby Studio</h3>
+            <p class="product-price">From A$3,499</p>
+          </a>
+          
+          <a href="/Boiby-Pro" class="product-card">
+            <div class="product-image">
+              <img src="/BoibyPro.png" alt="Boiby Pro">
+            </div>
+            <h3 class="product-name">Boiby Pro</h3>
+            <p class="product-price">From A$7,999</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="subcategory">
+        <h3 class="subcategory-title">All-in-one Desktops</h3>
+        <div class="products-grid">
+          <a href="/bDesk" class="product-card">
+            <div class="product-image">
+              <img src="/bDeskSilver.png" alt="bDesk">
+            </div>
+            <h3 class="product-name">bDesk</h3>
+            <p class="product-price">From A$1,899</p>
+          </a>
+          
+          <a href="/bDesk-Pro" class="product-card">
+            <div class="product-image">
+              <img src="/bDeskProBlack.png" alt="bDesk Pro">
+            </div>
+            <h3 class="product-name">bDesk Pro</h3>
+            <p class="product-price">From A$3,499</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monitors Section -->
+    <section class="category">
+      <h2 class="category-title">Monitors</h2>
+      <div class="products-grid">
+        <a href="/Boiby-Display-SE" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyDisplaySE.png" alt="Boiby Display SE">
+          </div>
+          <h3 class="product-name">Boiby Display SE</h3>
+          <p class="product-price">A$549</p>
+        </a>
+        
+        <a href="/Boiby-Studio-Display" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyStudioDisplay.png" alt="Boiby Studio Display 5K">
+          </div>
+          <h3 class="product-name">Boiby Studio Display 5K</h3>
+          <p class="product-price">From A$1,499</p>
+        </a>
+        
+        <a href="/Boiby-Pro-Display" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyProDisplay.png" alt="Boiby Pro Display 6K">
+          </div>
+          <h3 class="product-name">Boiby Pro Display 6K</h3>
+          <p class="product-price">From A$5,999</p>
+        </a>
+        
+        <a href="/Boiby-Pro-Display" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyProDisplay.png" alt="Boiby Ultra Display 7K">
+          </div>
+          <h3 class="product-name">Boiby Ultra Display 7K</h3>
+          <p class="product-price">From A$13,499</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- BoibyBuds Section -->
+    <section class="category">
+      <h2 class="category-title">BoibyBuds</h2>
+      <div class="products-grid">
+        <a href="/BoibyBuds3" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyBuds3.png" alt="BoibyBuds 3">
+          </div>
+          <h3 class="product-name">BoibyBuds 3</h3>
+          <p class="product-price">From A$219</p>
+        </a>
+        
+        <a href="/BoibyBuds3Pro" class="product-card">
+          <div class="product-image">
+            <img src="/BoibyBuds3Pro.png" alt="BoibyBuds 3 Pro">
+          </div>
+          <h3 class="product-name">BoibyBuds 3 Pro</h3>
+          <p class="product-price">A$399</p>
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
