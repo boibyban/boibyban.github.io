@@ -1502,96 +1502,111 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
 
       function handleDependencies() {
     if (!selectedModel) return;
+
     const cfg = baseConfigs[selectedSize][selectedModel];
     const optionsDiv = $('#options');
     if (!optionsDiv) return;
-    
+
     const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+    console.log('Selected model:', selectedModel);
+    console.log('Selected chip:', chipFull);
+
     const memoryGroup = findGroupByName('memory');
-    
-    if (!memoryGroup) return;
-    
+    if (!memoryGroup) {
+        console.warn('Memory group not found');
+        return;
+    }
+
+    const memoryPills = Array.from(memoryGroup.querySelectorAll('.pill'));
+    if (!memoryPills.length) {
+        console.warn('No memory pills found in group');
+        return;
+    }
+
     // Remove all disabled classes first
-    memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('disabled'));
-    
+    memoryPills.forEach(p => p.classList.remove('disabled'));
+
+    // Helper to find pill by text
+    const findPill = (text) => memoryPills.find(p => p.textContent.includes(text));
+
     // Handle dependencies based on model and chip selection
     if (selectedModel === 'B5 Pro') {
-        // 64GB memory only available with 14-core CPU and 24-core GPU
-        const memory64 = Array.from(memoryGroup.querySelectorAll('.pill'))
-            .find(p => p.textContent.includes('64 GB'));
-        
+        const mem64 = findPill('64 GB');
+
         if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
-            if (memory64) memory64.classList.remove('disabled');
+            console.log('64GB memory enabled for B5 Pro');
+            if (mem64) mem64.classList.remove('disabled');
         } else {
-            if (memory64) memory64.classList.add('disabled');
-            
-            // If current selection is now disabled, select the first available option
+            console.log('64GB memory disabled for B5 Pro');
+            if (mem64) mem64.classList.add('disabled');
+
+            // Auto-select first available memory if current is disabled
             if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
-                memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-                const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
+                memoryPills.forEach(p => p.classList.remove('selected'));
+                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
                     firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                        m.includes(firstAvailable.querySelector('.label').textContent)
+                    selectedOptions.memory = cfg.upgrades.memory.find(m =>
+                        m.includes(firstAvailable.textContent)
                     );
+                    console.log('Memory auto-selected:', selectedOptions.memory);
                 }
             }
         }
     } else if (selectedModel === 'B5 Max') {
-        // 64GB and 128GB memory only available with 18-core CPU and 48-core GPU
-        const memory64 = Array.from(memoryGroup.querySelectorAll('.pill'))
-            .find(p => p.textContent.includes('64 GB'));
-        const memory128 = Array.from(memoryGroup.querySelectorAll('.pill'))
-            .find(p => p.textContent.includes('128 GB'));
-        
-        // 96GB memory only available with 14-core CPU and 38-core GPU  
-        const memory96 = Array.from(memoryGroup.querySelectorAll('.pill'))
-            .find(p => p.textContent.includes('96 GB'));
-        
+        const mem64 = findPill('64 GB');
+        const mem96 = findPill('96 GB');
+        const mem128 = findPill('128 GB');
+
+        // 64GB and 128GB require 18-core CPU + 48-core GPU
         if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
-            if (memory64) memory64.classList.remove('disabled');
-            if (memory128) memory128.classList.remove('disabled');
+            if (mem64) mem64.classList.remove('disabled');
+            if (mem128) mem128.classList.remove('disabled');
+            console.log('64GB & 128GB memory enabled for B5 Max');
         } else {
-            if (memory64) memory64.classList.add('disabled');
-            if (memory128) memory128.classList.add('disabled');
-            
-            // If current selection is now disabled, select the first available option
-            if (selectedOptions.memory && 
-                (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB'))) {
-                memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-                const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
+            if (mem64) mem64.classList.add('disabled');
+            if (mem128) mem128.classList.add('disabled');
+            console.log('64GB & 128GB memory disabled for B5 Max');
+
+            if (selectedOptions.memory && (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB'))) {
+                memoryPills.forEach(p => p.classList.remove('selected'));
+                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
                     firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                        m.includes(firstAvailable.querySelector('.label').textContent)
+                    selectedOptions.memory = cfg.upgrades.memory.find(m =>
+                        m.includes(firstAvailable.textContent)
                     );
+                    console.log('Memory auto-selected:', selectedOptions.memory);
                 }
             }
         }
-        
-        // Handle 96GB dependency
+
+        // 96GB requires 14-core CPU + 38-core GPU
         if (chipFull.includes('14-core') && chipFull.includes('38-core')) {
-            if (memory96) memory96.classList.remove('disabled');
+            if (mem96) mem96.classList.remove('disabled');
+            console.log('96GB memory enabled for B5 Max');
         } else {
-            if (memory96) memory96.classList.add('disabled');
-            
-            // If current selection is now disabled, select the first available option
+            if (mem96) mem96.classList.add('disabled');
+            console.log('96GB memory disabled for B5 Max');
+
             if (selectedOptions.memory && selectedOptions.memory.includes('96 GB')) {
-                memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-                const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
+                memoryPills.forEach(p => p.classList.remove('selected'));
+                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
                     firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                        m.includes(firstAvailable.querySelector('.label').textContent)
+                    selectedOptions.memory = cfg.upgrades.memory.find(m =>
+                        m.includes(firstAvailable.textContent)
                     );
+                    console.log('Memory auto-selected:', selectedOptions.memory);
                 }
             }
         }
     }
-    
+
     renderHeroSummary();
     updatePrice();
 }
+
 
       function renderHeroSummary() {
         const list = $('#heroList');
