@@ -702,26 +702,30 @@
         const cfg = baseConfigs[selectedModel];
         let price = cfg.price;
         
-        // Hide configurator and checkout, show confirmation
         $('#configurator').style.display = 'none';
         $('#checkout').style.display = 'none';
         $('#confirmation').style.display = 'block';
         
-        // Set confirmation image
         $('#confirmationImage').innerHTML = `<img src="BoibyPhone11${selectedColor}.png" alt="${selectedModel} ${selectedColor}">`;
         
-        // Set confirmation model text
-        $('#confirmationModel').textContent = `BoibyPhone 11 - ${selectedColor}`;
+        const storageOption = selectedOptions.storage || cfg.upgrades.storage[0];
+        const storageSize = storageOption.includes('256') ? '256GB' : '512GB';
         
-        // Build confirmation list
+        $('#confirmationModel').textContent = `BoibyPhone 11 ${storageSize} ${selectedColor}`;
+        
         const list = $('#confirmationList');
         list.innerHTML = '';
         
-        list.appendChild(li(`Model: BoibyPhone 11`));
-        list.appendChild(li(`Color: ${selectedColor}`));
-        list.appendChild(li(cleanLabel(selectedOptions.storage || cfg.upgrades.storage[0])));
+        list.appendChild(li(`BoibyPhone 11`));
+        list.appendChild(li(`${selectedColor}`));
+        list.appendChild(li(cleanLabel(storageOption)));
         
-        // Calculate final price
+        list.appendChild(li(""));
+        list.appendChild(li("Included in the box:"));
+        cfg.included.forEach(item => {
+          list.appendChild(li(`• ${item}`));
+        });
+        
         Object.keys(selectedOptions).forEach(cat => {
           price += priceDelta(selectedOptions[cat]);
         });
