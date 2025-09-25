@@ -139,22 +139,22 @@ h1{ font-size:1.9rem; margin:0; font-weight:700; }
   </header>
 
   <div class="models" id="models">
-    <div class="card" data-model="B1 Max">
-      <h2>Boiby Studio - B1 Max</h2>
+    <div class="card" data-model="B5 Max">
+      <h2>Boiby Studio - B5 Max</h2>
       <p class="price">From A$3499</p>
       <ul>
-        <li>Boiby B1 Max with 14-core CPU and 36-core GPU</li>
+        <li>Boiby B5 Max with 14-core CPU and 36-core GPU</li>
         <li>48 GB unified memory</li>
         <li>1 TB SSD storage</li>
-        <li>2.5 Gbit Ethernet</li>
+        <li>10 Gbit Ethernet</li>
       </ul>
     </div>
 
-    <div class="card" data-model="B1 Ultra">
-      <h2>Boiby Studio - B1 Ultra</h2>
+    <div class="card" data-model="B5 Ultra">
+      <h2>Boiby Studio - B5 Ultra</h2>
       <p class="price">From A$7199</p>
       <ul>
-        <li>Boiby B1 Ultra with 28-core CPU and 72-core GPU</li>
+        <li>Boiby B5 Ultra with 28-core CPU and 72-core GPU</li>
         <li>96 GB unified memory</li>
         <li>2 TB SSD storage</li>
         <li>10 Gbit Ethernet</li>
@@ -180,20 +180,18 @@ h1{ font-size:1.9rem; margin:0; font-weight:700; }
 
 <script>
 const baseConfigs = {
-  "B1 Max": {
+  "B5 Max": {
     price: 3499,
-    name: "Boiby Studio - B1 Max",
+    name: "Boiby Studio - B5 Max",
     upgrades: {
       chip: [
-        "Boiby B1 Max with 14-core CPU and 36-core GPU (base)", 
-        "Boiby B1 Max with 16-core CPU and 48-core GPU (+A$600)"
+        "Boiby B5 Max with 14-core CPU and 36-core GPU (base)", 
+        "Boiby B5 Max with 18-core CPU and 48-core GPU (+A$800)"
       ],
       memory: [
         "48 GB unified memory (base)", 
-        "64 GB unified memory (+A$200)", 
         "96 GB unified memory (+A$600)", 
         "128 GB unified memory (+A$1000)", 
-        "256 GB unified memory (+A$2600)"
       ],
       storage: [
         "1 TB SSD storage (base)", 
@@ -203,27 +201,22 @@ const baseConfigs = {
         "12 TB SSD storage (+A$1200)"
       ],
       ethernet: [
-        "2.5 Gbit Ethernet (base)", 
-        "10 Gbit Ethernet (+A$100)", 
-        "25 Gbit Ethernet (+A$300)"
+        "10 Gbit Ethernet (+A$100)"
       ]
     }
   },
-  "B1 Ultra": {
-    price: 7199,
-    name: "Boiby Studio - B1 Ultra",
+  "B5 Ultra": {
+    price: 6999,
+    name: "Boiby Studio - B5 Ultra",
     upgrades: {
       chip: [
-        "Boiby B1 Ultra with 28-core CPU and 72-core GPU (base)", 
-        "Boiby B1 Ultra with 32-core CPU and 96-core GPU (+A$1600)"
+        "Boiby B5 Ultra with 28-core CPU and 72-core GPU (base)", 
+        "Boiby B5 Ultra with 36-core CPU and 96-core GPU (+A$1600)"
       ],
       memory: [
         "96 GB unified memory (base)", 
-        "128 GB unified memory (+A$400)", 
         "256 GB unified memory (+A$2000)", 
-        "384 GB unified memory (+A$3600)", 
-        "512 GB unified memory (+A$5200)", 
-        "1 TB unified memory (+A$15600)"
+        "512 GB unified memory (+A$5000)", 
       ],
       storage: [
         "2 TB SSD storage (base)", 
@@ -234,7 +227,6 @@ const baseConfigs = {
       ],
       ethernet: [
         "10 Gbit Ethernet (base)", 
-        "25 Gbit Ethernet (+A$200)"
       ]
     }
   }
@@ -289,14 +281,14 @@ function showConfigurator() {
       pill.innerHTML = `<span class="label">${cleanLabel(opt)}</span><span class="price-right">${rightPrice(opt)}</span>`;
 
       // Handle dependencies
-      if (selectedModel === "B1 Max") {
-        // 128GB and 256GB memory only available with 16-core CPU
-        if (category === "memory" && (opt.includes("128 GB") || opt.includes("256 GB"))) {
+      if (selectedModel === "B5 Max") {
+        // 128GB memory only available with 18-core CPU
+        if (category === "memory" && opt.includes("128 GB")) {
           pill.classList.add("disabled");
         }
-      } else if (selectedModel === "B1 Ultra") {
-        // 512GB and 1TB memory only available with 32-core CPU
-        if (category === "memory" && (opt.includes("512 GB") || opt.includes("1 TB"))) {
+      } else if (selectedModel === "B5 Ultra") {
+        // 512GB memory only available with 36-core CPU
+        if (category === "memory" && opt.includes("512 GB")) {
           pill.classList.add("disabled");
         }
         // 16TB storage only available with 32-core CPU
@@ -313,7 +305,7 @@ function showConfigurator() {
         selectedOptions[category] = opt;
 
         // Handle dependencies when chip is selected
-        if (selectedModel === "B1 Max" && category === "chip") {
+        if (selectedModel === "B5 Max" && category === "chip") {
           const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
             .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
           
@@ -321,19 +313,15 @@ function showConfigurator() {
           if (memoryGroup) {
             const memory128 = Array.from(memoryGroup.querySelectorAll(".pill"))
               .find(p => p.textContent.includes("128 GB"));
-            const memory256 = Array.from(memoryGroup.querySelectorAll(".pill"))
-              .find(p => p.textContent.includes("256 GB"));
             
-            if (opt.includes("16-core")) {
+            if (opt.includes("18-core")) {
               if (memory128) memory128.classList.remove("disabled");
-              if (memory256) memory256.classList.remove("disabled");
             } else {
               if (memory128) memory128.classList.add("disabled");
-              if (memory256) memory256.classList.add("disabled");
               
               // If current selection is now disabled, select the first available option
               if (selectedOptions.memory && 
-                  (selectedOptions.memory.includes("128 GB") || selectedOptions.memory.includes("256 GB"))) {
+                  selectedOptions.memory.includes("128 GB")) {
                 memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
                 const firstAvailable = memoryGroup.querySelector(".pill:not(.disabled)");
                 if (firstAvailable) {
@@ -345,7 +333,7 @@ function showConfigurator() {
               }
             }
           }
-        } else if (selectedModel === "B1 Ultra" && category === "chip") {
+        } else if (selectedModel === "B5 Ultra" && category === "chip") {
           const memoryGroup = Array.from(optionsDiv.querySelectorAll(".group"))
             .find(g => g.querySelector("h3").innerText.toLowerCase() === "memory");
           const storageGroup = Array.from(optionsDiv.querySelectorAll(".group"))
@@ -355,19 +343,15 @@ function showConfigurator() {
           if (memoryGroup) {
             const memory512 = Array.from(memoryGroup.querySelectorAll(".pill"))
               .find(p => p.textContent.includes("512 GB"));
-            const memory1TB = Array.from(memoryGroup.querySelectorAll(".pill"))
-              .find(p => p.textContent.includes("1 TB"));
             
-            if (opt.includes("32-core")) {
+            if (opt.includes("36-core")) {
               if (memory512) memory512.classList.remove("disabled");
-              if (memory1TB) memory1TB.classList.remove("disabled");
             } else {
               if (memory512) memory512.classList.add("disabled");
-              if (memory1TB) memory1TB.classList.add("disabled");
               
               // If current selection is now disabled, select the first available option
               if (selectedOptions.memory && 
-                  (selectedOptions.memory.includes("512 GB") || selectedOptions.memory.includes("1 TB"))) {
+                selectedOptions.memory.includes("512 GB")) {
                 memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
                 const firstAvailable = memoryGroup.querySelector(".pill:not(.disabled)");
                 if (firstAvailable) {
@@ -385,7 +369,7 @@ function showConfigurator() {
             const storage16TB = Array.from(storageGroup.querySelectorAll(".pill"))
               .find(p => p.textContent.includes("16 TB"));
             
-            if (opt.includes("32-core")) {
+            if (opt.includes("36-core")) {
               if (storage16TB) storage16TB.classList.remove("disabled");
             } else {
               if (storage16TB) storage16TB.classList.add("disabled");
@@ -419,20 +403,20 @@ function showConfigurator() {
     });
 
     // Add notes for dependencies
-    if (selectedModel === "B1 Max" && category === "memory") {
+    if (selectedModel === "B5 Max" && category === "memory") {
       const note = document.createElement("div");
       note.className = "note";
-      note.innerText = "128GB and 256GB unified memory available on B1 Max with 16-core CPU and 48-core GPU.";
+      note.innerText = "128GB unified memory available on B5 Max with 18-core CPU and 48-core GPU.";
       group.appendChild(note);
-    } else if (selectedModel === "B1 Ultra" && category === "memory") {
+    } else if (selectedModel === "B5 Ultra" && category === "memory") {
       const note = document.createElement("div");
       note.className = "note";
-      note.innerText = "512GB and 1TB unified memory available on B1 Ultra with 32-core CPU and 96-core GPU.";
+      note.innerText = "512GB unified memory available on B5 Ultra with 36-core CPU and 96-core GPU.";
       group.appendChild(note);
-    } else if (selectedModel === "B1 Ultra" && category === "storage") {
+    } else if (selectedModel === "B5 Ultra" && category === "storage") {
       const note = document.createElement("div");
       note.className = "note";
-      note.innerText = "16TB SSD storage available on B1 Ultra with 32-core CPU and 96-core GPU.";
+      note.innerText = "16TB SSD storage available on B5 Ultra with 36-core CPU and 96-core GPU.";
       group.appendChild(note);
     }
 
@@ -481,13 +465,13 @@ function renderHeroSummary() {
   const list = document.getElementById("heroList");
   list.innerHTML = "";
 
-  if (selectedModel === "B1 Max") {
-    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B1 Max with 14-core CPU and 36-core GPU')));
+  if (selectedModel === "B5 Max") {
+    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B5 Max with 14-core CPU and 36-core GPU')));
     list.appendChild(li(cleanLabel(selectedOptions.memory || '48 GB unified memory')));
     list.appendChild(li(cleanLabel(selectedOptions.storage || '1 TB SSD storage')));
-    list.appendChild(li(cleanLabel(selectedOptions.ethernet || '2.5 Gbit Ethernet')));
-  } else if (selectedModel === "B1 Ultra") {
-    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B1 Ultra with 28-core CPU and 72-core GPU')));
+    list.appendChild(li(cleanLabel(selectedOptions.ethernet || '10 Gbit Ethernet')));
+  } else if (selectedModel === "B5 Ultra") {
+    list.appendChild(li(cleanLabel(selectedOptions.chip || 'Boiby B5 Ultra with 28-core CPU and 72-core GPU')));
     list.appendChild(li(cleanLabel(selectedOptions.memory || '96 GB unified memory')));
     list.appendChild(li(cleanLabel(selectedOptions.storage || '2 TB SSD storage')));
     list.appendChild(li(cleanLabel(selectedOptions.ethernet || '10 Gbit Ethernet')));
