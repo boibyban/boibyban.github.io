@@ -1501,56 +1501,97 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       }
 
       function handleDependencies() {
-          if (!selectedModel) return;
-          const cfg = baseConfigs[selectedSize][selectedModel];
-          const optionsDiv = $('#options');
-          if (!optionsDiv) return;
+    if (!selectedModel) return;
+    const cfg = baseConfigs[selectedSize][selectedModel];
+    const optionsDiv = $('#options');
+    if (!optionsDiv) return;
+  
+    const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+    const memoryGroup = findGroupByName('memory');
+    
+    if (!memoryGroup) return;
+    
+    // Remove all disabled classes first
+    memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('disabled'));
+    
+    // Handle dependencies based on model and chip selection
+    if (selectedModel === 'B5 Pro') {
+      // 64GB memory only available with 14-core CPU and 24-core GPU
+      const memory64 = Array.from(memoryGroup.querySelectorAll('.pill'))
+        .find(p => p.textContent.includes('64 GB'));
+      
+      if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
+        if (memory64) memory64.classList.remove('disabled');
+      } else {
+        if (memory64) memory64.classList.add('disabled');
         
-          const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
-        
-          // MEMORY DEPENDENCIES
-          const memoryGroup = findGroupByName('memory');
-          if (memoryGroup) {
-            const memPills = Array.from(memoryGroup.querySelectorAll('.pill'));
-            memPills.forEach(p => p.classList.remove('disabled'));
-        
-            if (selectedModel === 'B5 Pro') {
-              // 64GB requires 14-core CPU / 24-core GPU
-              memPills.forEach(p => {
-                if (p.dataset.value.includes('64 GB')) {
-                  const allowed = chipFull.includes('14-core CPU') && chipFull.includes('24-core GPU');
-                  p.classList.toggle('disabled', !allowed);
-                }
-              });
-            }
-        
-            if (selectedModel === 'B5 Max') {
-              memPills.forEach(p => {
-                if (p.dataset.value.includes('64 GB') || p.dataset.value.includes('128 GB')) {
-                  const allowed = chipFull.includes('18-core CPU') && chipFull.includes('48-core GPU');
-                  p.classList.toggle('disabled', !allowed);
-                }
-                if (p.dataset.value.includes('96 GB')) {
-                  const allowed = chipFull.includes('14-core CPU') && chipFull.includes('38-core GPU');
-                  p.classList.toggle('disabled', !allowed);
-                }
-              });
-            }
-        
-            // If the currently selected memory got disabled, reset it to the first available
-            const selectedMem = memoryGroup.querySelector('.pill.selected');
-            if (selectedMem && selectedMem.classList.contains('disabled')) {
-              memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-              const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
-              if (firstAvailable) {
-                firstAvailable.classList.add('selected');
-                selectedOptions.memory = cfg.upgrades.memory.find(m =>
-                  m.includes(firstAvailable.querySelector('.label').textContent)
-                );
-              }
-            }
+        // If current selection is now disabled, select the first available option
+        if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
+          memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+          const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
+          if (firstAvailable) {
+            firstAvailable.classList.add('selected');
+            selectedOptions.memory = cfg.upgrades.memory.find(m => 
+              m.includes(firstAvailable.querySelector('.label').textContent)
+            );
           }
         }
+      }
+    } else if (selectedModel === 'B5 Max') {
+      // 64GB and 128GB memory only available with 18-core CPU and 48-core GPU
+      const memory64 = Array.from(memoryGroup.querySelectorAll('.pill'))
+        .find(p => p.textContent.includes('64 GB'));
+      const memory128 = Array.from(memoryGroup.querySelectorAll('.pill'))
+        .find(p => p.textContent.includes('128 GB'));
+      
+      // 96GB memory only available with 14-core CPU and 38-core GPU  
+      const memory96 = Array.from(memoryGroup.querySelectorAll('.pill'))
+        .find(p => p.textContent.includes('96 GB'));
+      
+      if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
+        if (memory64) memory64.classList.remove('disabled');
+        if (memory128) memory128.classList.remove('disabled');
+      } else {
+        if (memory64) memory64.classList.add('disabled');
+        if (memory128) memory128.classList.add('disabled');
+        
+        // If current selection is now disabled, select the first available option
+        if (selectedOptions.memory && 
+            (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB'))) {
+          memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+          const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
+          if (firstAvailable) {
+            firstAvailable.classList.add('selected');
+            selectedOptions.memory = cfg.upgrades.memory.find(m => 
+              m.includes(firstAvailable.querySelector('.label').textContent)
+            );
+          }
+        }
+      }
+      
+      // Handle 96GB dependency
+      if (chipFull.includes('14-core') && chipFull.includes('38-core')) {
+        if (memory96) memory96.classList.remove('disabled');
+      } else {
+        if (memory96) memory96.classList.add('disabled');
+        
+        // If current selection is now disabled, select the first available option
+        if (selectedOptions.memory && selectedOptions.memory.includes('96 GB')) {
+          memoryGroup.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+          const firstAvailable = memoryGroup.querySelector('.pill:not(.disabled)');
+          if (firstAvailable) {
+            firstAvailable.classList.add('selected');
+            selectedOptions.memory = cfg.upgrades.memory.find(m => 
+              m.includes(firstAvailable.querySelector('.label').textContent)
+            );
+          }
+        }
+      }
+    }
+    
+    renderHeroSummary();
+    updatePrice();
+}
 
       function renderHeroSummary() {
         const list = $('#heroList');
