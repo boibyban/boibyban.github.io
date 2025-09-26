@@ -731,7 +731,43 @@ document.addEventListener('click', function(e) {
         window.location.href = '/report-mistake';
     }
 });
-			
+
+document.addEventListener('click', function(e) {
+    // Handle the blue "View more" toggle button
+    if (e.target.classList.contains('view-toggle')) {
+        e.preventDefault();
+        
+        const button = e.target;
+        const evidenceItems = document.querySelectorAll('.evidence-content');
+        const isExpanded = button.textContent.includes('View less');
+        
+        if (!isExpanded) {
+            // Show all hidden items
+            evidenceItems.forEach(item => {
+                item.classList.remove('hidden');
+                item.classList.add('visible');
+            });
+            button.textContent = 'View less';
+        } else {
+            // Hide items beyond the first 5
+            evidenceItems.forEach((item, index) => {
+                if (index >= 5) {
+                    item.classList.remove('visible');
+                    item.classList.add('hidden');
+                }
+            });
+            // Update the count text
+            const hiddenCount = evidenceItems.length - 5;
+            button.textContent = `View more (${hiddenCount} more)`;
+        }
+    }
+    
+    // Keep your existing bottom button handler
+    if (e.target.id === 'viewMoreButton' || e.target.parentElement.id === 'viewMoreButton') {
+        e.preventDefault();
+        window.location.href = '/report-mistake';
+    }
+});
   // Show modal on load
   setTimeout(() => {
     modal.classList.add('show');
