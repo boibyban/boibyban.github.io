@@ -1004,5 +1004,52 @@
         "followers": 1,
         "following": 0,
         "bio": ""
+    },
+    "45": {
+        "username": "TheJackAss99",
+        "displayName": "",
+        "key": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+        "profilePicture": "/content-deleted.png",
+        "isDeleted": true,
+        "banFormData": {
+            "state": "Delete",
+            "banStartDate": "26/09/2025, 1:20:32 pm",
+            "note": "nonote",
+            "customNote": "This username is not permitted on Boiby.",
+            "internalNote": "",
+            "cautionWarning": "none",
+            "automation": "manual",
+            "theme": "light",
+            "botBan": false,
+            "parentChargeback": false,
+            "classicViolations": [
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Harassment",
+                    "evidence": "TheJackAss99",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Harassment",
+                    "evidence": "TheJackAss99",
+                    "location": ""
+                },
+                {
+                    "violationType": "General/Chat",
+                    "reason": "Profanity",
+                    "evidence": "Lol Boiby mods suck because I have this username!",
+                    "location": ""
+                }
+            ],
+            "modernViolations": [],
+            "caseID": "fa254099-5663-4112-9b44-dc14f3b17bcd"
+        },
+        "joinDate": "2025-09-26",
+        "isAdmin": false,
+        "friends": [],
+        "followers": 1,
+        "following": 0,
+        "bio": "Lol Boiby mods suck because I have this username"
     }
 }
