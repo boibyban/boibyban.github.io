@@ -386,13 +386,6 @@
             const appealId = document.getElementById('appealId');
             const reasonGroup = document.getElementById('reasonGroup');
             const reasonSelect = document.getElementById('reasonSelect');
-            const usernameField = document.getElementById('usernameField');
-
-            // Autofill username from localStorage
-            const storedUsername = localStorage.getItem("ModPanelUsername");
-            if (storedUsername) {
-                usernameField.value = storedUsername;
-            }
 
             // Possible reasons mapping
             const reasonOptions = {
