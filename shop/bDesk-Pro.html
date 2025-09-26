@@ -531,8 +531,8 @@
       let selectedColor = 'Space Grey';
 
       const template = {
-        "B5 Pro": {
-          price: 3799,
+        "B5 Ultra": {
+          price: 9199,
           display: "30-inch 5.5K Mini-LED display",
           ports: [
             "6 Thunderbolt 5 (USB Type-C) ports",
@@ -542,9 +542,9 @@
           ],
           upgrades: {
             display: ["30-inch 5.5K Mini-LED display (base)"],
-            chip: ["Boiby B5 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B5 Pro chip with 14-core CPU and 24-core GPU (+$400)"],
-            memory: ["24 GB unified memory (base)", "48 GB unified memory (+$200)", "64 GB unified memory (+$300)"],
-            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+$100)", "4 TB SSD storage (+$300)", "8 TB SSD storage (+$700)"],
+            chip: ["Boiby B5 Ultra chip with 28-core CPU and 76-core GPU (base)", "Boiby B5 Ultra chip with 36-core CPU and 96-core GPU (+$1600)"],
+            memory: ["96 GB unified memory (base)", "128 GB unified memory (+$800)", "256 GB unified memory (+$2000)"],
+            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+$100)", "4 TB SSD storage (+$300)", "8 TB SSD storage (+$700)", "12 TB SSD storage (+$1500)"],
             ethernet: ["Gigabit Ethernet (base)", "2.5 Gigabit Ethernet (+$50)"],
             coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
             keyboard: ["Pro Keyboard with Touch ID (base)", "Pro Keyboard with Touch ID + Numpad (+$50)"],
@@ -577,15 +577,17 @@
 
       // Memory guide content for different models
       const memoryGuides = {
-        'B5 Pro': `
+        'B5 Ultra': `
           <p><strong>How much memory is right for you?</strong></p>
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
-          <p><strong>24 GB:</strong> Good for users with standard or relatively intensive workflows, good for multitasking with multiple apps, productivity, and moderate creative work. Ideal for those who do light to moderate video editing, gaming, graphic design, or programming, but don't push those to the extreme.</p>
+          <p><strong>96 GB:</strong> Ideal for professionals with extremely demanding workflows. Perfect for 8K video editing, complex 3D rendering, large-scale machine learning projects, and running multiple virtual machines simultaneously.</p>
           
-          <p><strong>48 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
+          <p><strong>128 GB:</strong> Best for specialized professionals working on the most demanding projects. Suitable for high-end visual effects work, scientific simulations, and large-scale data analysis that requires keeping massive datasets in memory.</p>
           
-          <p><strong>64 GB:</strong> For professionals in specialized fields like high-budget film editing, data science, engineering, or machine learning. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory.</p>
+          <p><strong>256 GB:</strong> For the most extreme workloads in fields like film production, scientific research, and enterprise-level applications. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory.</p>
+          
+          <p><strong>Note:</strong> The 36-core CPU and 96-core GPU upgrade unlocks access to 128 GB and 256 GB memory configurations.</p>
         `,
         'B5 Max': `
           <p><strong>How much memory is right for you?</strong></p>
@@ -774,18 +776,22 @@
         memoryPills.forEach(p => p.classList.remove('disabled'));
 
         // --- Handle dependencies based on model ---
-        if (selectedModel === 'B5 Pro') {
-            const mem64 = findPill('64 GB');
+        if (selectedModel === 'B5 Ultra') {
+            const mem128 = findPill('128 GB');
+            const mem256 = findPill('256 GB');
 
-            if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
-                console.log('64GB memory enabled for B5 Pro');
-                if (mem64) mem64.classList.remove('disabled');
+            // 128GB and 256GB require 36-core CPU + 96-core GPU
+            if (chipFull.includes('36-core') && chipFull.includes('96-core')) {
+                console.log('128GB and 256GB memory enabled for B5 Ultra');
+                if (mem128) mem128.classList.remove('disabled');
+                if (mem256) mem256.classList.remove('disabled');
             } else {
-                console.log('64GB memory disabled for B5 Pro');
-                if (mem64) mem64.classList.add('disabled');
+                console.log('128GB and 256GB memory disabled for B5 Ultra');
+                if (mem128) mem128.classList.add('disabled');
+                if (mem256) mem256.classList.add('disabled');
 
                 // Auto-select first available memory if current selection is disabled
-                if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
+                if (selectedOptions.memory && (selectedOptions.memory.includes('128 GB') || selectedOptions.memory.includes('256 GB'))) {
                     memoryPills.forEach(p => p.classList.remove('selected'));
                     const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                     if (firstAvailable) {
@@ -808,7 +814,7 @@
                 if (mem64) mem64.classList.remove('disabled');
                 if (mem128) mem128.classList.remove('disabled');
                 if (mem256) mem256.classList.remove('disabled');
-                console.log('64GB, 128GB & 256GB memory disabled for B5 Max');
+                console.log('64GB, 128GB & 256GB memory enabled for B5 Max');
             } else {
                 if (mem64) mem64.classList.add('disabled');
                 if (mem128) mem128.classList.add('disabled');
@@ -861,7 +867,7 @@
         
         // Set title and content based on model
         title.textContent = `${model} Memory Guide`;
-        content.innerHTML = memoryGuides[model] || memoryGuides['B5 Pro'];
+        content.innerHTML = memoryGuides[model] || memoryGuides['B5 Max'];
         
         modal.classList.add('visible');
         
