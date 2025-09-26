@@ -853,7 +853,19 @@ function formatDate(dateInput) {
     if (formData && formData.banStartDate) {
         const [datePart, timePart] = formData.banStartDate.split(', ');
         const [day, month, year] = datePart.split('/');
-        date = new Date(`${year}-${month}-${day}T${timePart}`);
+        
+        // Convert 12-hour format to 24-hour format for proper parsing
+        let [time, modifier] = timePart.split(' ');
+        let [hours, minutes, seconds] = time.split(':');
+        
+        if (modifier === 'PM' && hours !== '12') {
+            hours = String(parseInt(hours, 10) + 12);
+        } else if (modifier === 'AM' && hours === '12') {
+            hours = '00';
+        }
+        
+        // Create ISO format string for reliable parsing
+        date = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
     }
     // If no banStartDate, handle various date input formats
     else if (typeof dateInput === 'string') {
@@ -880,20 +892,27 @@ function formatDate(dateInput) {
         date = new Date();
     }
 
+    // Format to "September 26 2025 at 1:55 PM"
     const options = {
         month: 'long',
         day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
+        year: 'numeric'
     };
     
-    return date.toLocaleString('en-US', options)
-        .replace(',', '')
-        .replace(/(\d+:\d+)/, '$1');
+    const dateStr = date.toLocaleDateString('en-US', options);
+    
+    // Format time to 12-hour format without leading zeros
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Convert 0 to 12
+    
+    const timeStr = `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    
+    return `${dateStr} at ${timeStr}`;
 }
-
 function setTheme(theme) {
 	const themeStylesheet = document.getElementById('themeStylesheet');
 	themeStylesheet.href = theme === "dark" ? "/ban-new-dark.css" : "/ban-new.css";
