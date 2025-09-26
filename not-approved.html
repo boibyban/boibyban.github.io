@@ -98,7 +98,7 @@ body.dark-mode #actionButtons {
 
 .div-outer-scroll-box::-webkit-scrollbar-track {
   background: transparent;
-  margin: 8px 0;
+  margin: 1px 0; /* 8px 0 */
 }
 
 .div-outer-scroll-box::-webkit-scrollbar-thumb {
@@ -178,7 +178,7 @@ body.dark-mode .div-outer-scroll-box {
     display: none!important;
   }
 }
-		.modal {
+.modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -213,7 +213,7 @@ body.dark-mode .div-outer-scroll-box {
   pointer-events: auto;
 }
 
-		header {
+header {
     position: fixed;
     box-sizing: border-box;
     top: 0;
@@ -283,7 +283,6 @@ body.dark-mode .div-outer-scroll-box {
   header.dark .right .user-circle {
     background: #555;
   }
-		   /* Sidebar */
 #sidebar {
   position: fixed;
   top: 44px; /* below header */
@@ -295,7 +294,7 @@ body.dark-mode .div-outer-scroll-box {
   padding: 16px;
   box-sizing: border-box;
   font-size: 16px;
-  display: none; /* default hidden for <1600px */
+  display: none;
   flex-direction: column;
   gap: 12px;
   z-index: 900;
@@ -815,7 +814,7 @@ body.dark-mode .menu-dots:hover {
         </div>
         
 	</div>
-		<div class="modal-footer" id="actionButtons" style="margin-top:72px">
+		<div class="modal-footer" id="actionButtons" style="margin-top:12px">
             <button id="continueButton" class="modal-button continue-button">Continue</button>
         </div>
 </div>
