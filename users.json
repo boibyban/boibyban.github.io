@@ -235,7 +235,7 @@
         "deviceBlocked": "alt",
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "16/09/2025, 12:54:04",
+            "banStartDate": "16/09/2025, 12:54:04 PM",
             "note": "nonote",
             "customNote": "Boiby does not permit discriminatory language, behaviour, or content of any kind.",
             "internalNote": "Discriminatory Content",
@@ -356,7 +356,7 @@
         "isDeleted": false,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "17/09/2025, 23:01:04",
+            "banStartDate": "17/09/2025, 11:01:04 PM",
             "note": "nonote",
             "customNote": "You created or used an account to avoid an enforcement action taken against another account",
             "internalNote": "",
@@ -482,7 +482,7 @@
         "isAdmin": false,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "19/09/2025, 10:11:07",
+            "banStartDate": "19/09/2025, 10:11:07 AM",
             "note": "nonote",
             "customNote": "Your account has been deleted for creating, promoting, or participating in inappropriate behaviour or content. This is a violation of our Terms of Use.",
             "internalNote": "",
@@ -533,7 +533,7 @@
         "isDeleted": true,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "23/09/2025, 8:39:08 pm",
+            "banStartDate": "23/09/2025, 8:39:08 PM",
             "note": "nonote",
             "customNote": "Do not create accounts just for the purpose of breaking the rules.",
             "internalNote": "Bad account",
@@ -622,7 +622,7 @@
         "isDeleted": true,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "16/09/2025, 12:54:04",
+            "banStartDate": "16/09/2025, 12:54:04 PM",
             "note": "nonote",
             "customNote": "You created or used an account to avoid an enforcement action taken against another account",
             "internalNote": "",
@@ -655,7 +655,7 @@
         "isDeleted": true,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "17/09/2025, 23:01:04",
+            "banStartDate": "17/09/2025, 11:01:04 PM",
             "note": "nonote",
             "customNote": "Boiby does not permit associations with terrorism or violent extremism. Our policies prohibit this sort of content and behaviour.",
             "internalNote": "Terrorism/Extremism",
@@ -692,7 +692,7 @@
         "isDeleted": true,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "19/09/2025, 09:54:54",
+            "banStartDate": "19/09/2025, 9:54:54 AM",
             "note": "nonote",
             "customNote": "This username is not permitted on Boiby.",
             "internalNote": "bad",
@@ -771,7 +771,7 @@
         "isAdmin": false,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "19/09/2025, 10:11:07",
+            "banStartDate": "19/09/2025, 10:11:07 AM",
             "note": "nonote",
             "customNote": "You created or used an account to avoid an enforcement action taken against another account",
             "internalNote": "",
@@ -802,7 +802,7 @@
         "isAdmin": false,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "21/09/2025, 13:55:29",
+            "banStartDate": "21/09/2025, 1:55:29 PM",
             "note": "nonote",
             "customNote": "Your account has been permanently banned due to violating our Child Endangerment and Exploitation Community Standard. Any form of harmful or illegal content or behaviour involving minors is strictly prohibited on Boiby. In circumstances where Boiby believes users may be at risk of harm, Boiby may file a report with relevant authorities.",
             "internalNote": "",
@@ -870,7 +870,7 @@
         "isAdmin": false,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "20/11/2024, 08:55:29",
+            "banStartDate": "20/11/2024, 8:55:29 AM",
             "note": "nonote",
             "customNote": "Your account has been permanently banned due to violating our Child Endangerment and Exploitation Community Standard. Any form of harmful or illegal content or behaviour involving minors is strictly prohibited on Boiby. In circumstances where Boiby believes users may be at risk of harm, Boiby may file a report with relevant authorities.",
             "internalNote": "",
@@ -1013,7 +1013,7 @@
         "isDeleted": true,
         "banFormData": {
             "state": "Delete",
-            "banStartDate": "26/09/2025, 1:20:32 pm",
+            "banStartDate": "26/09/2025, 1:20:32 PM",
             "note": "nonote",
             "customNote": "This username is not permitted on Boiby.",
             "internalNote": "",
