@@ -17,6 +17,7 @@
     gap: 8px; /* Space between icon and text */
 }
 
+/* Make the modal relative positioning for sticky footer */
 .modal {
   position: fixed;
   top: 50%;
@@ -34,7 +35,8 @@
   padding: 24px;
   box-sizing: border-box;
   max-height: 85vh;
-  overflow: hidden; /* Keep as hidden */
+  display: flex; /* Add flexbox */
+  flex-direction: column; /* Stack children vertically */
 }
 
 .modal.show {
@@ -44,21 +46,51 @@
   max-width: 100%;
 }
 
-/* Fix the scroll container height */
+/* Scrollable content area */
 .div-outer-scroll-box {
-  width: 100%;
-  max-height: calc(85vh - 48px); /* Account for modal padding (24px top + 24px bottom) */
+  flex: 1; /* Take up all available space */
   overflow-y: auto;
   padding-right: 8px;
   box-sizing: border-box;
+  position: relative; /* For fade effect positioning */
 }
 
-/* Ensure content can grow beyond container if needed */
-.div-outer-scroll-box > * {
-  min-height: min-content;
+/* Sticky footer with fade effect */
+#actionButtons {
+  position: sticky;
+  bottom: 0;
+  background: #fff; /* Solid background */
+  padding: 16px 0 8px 0; /* Add some padding */
+  margin-top: auto; /* Push to bottom in flex container */
+  z-index: 10; /* Ensure it stays above content */
+  
+  /* Fade effect using pseudo-element */
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Position above the buttons */
+    left: -24px; /* Extend to modal edges */
+    right: -8px; /* Account for scrollbar */
+    height: 30px; /* Fade height */
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      #fff 100%);
+    pointer-events: none;
+  }
 }
 
-/* Custom scrollbar */
+/* Dark mode support */
+body.dark-mode #actionButtons {
+  background: #1e1e1e;
+}
+
+body.dark-mode #actionButtons::before {
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    #1e1e1e 100%);
+}
+
+/* Custom scrollbar (keep your existing styles) */
 .div-outer-scroll-box::-webkit-scrollbar {
   width: 8px;
 }
@@ -781,10 +813,10 @@ body.dark-mode .menu-dots:hover {
             </div>
         </div>
         
-        <div class="modal-footer" id="actionButtons" style="margin-top:72px">
+	</div>
+		<div class="modal-footer" id="actionButtons" style="margin-top:72px">
             <button id="continueButton" class="modal-button continue-button">Continue</button>
         </div>
-	</div>
 </div>
 
 <script src="/translations-en.js"></script>
