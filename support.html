@@ -3,67 +3,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
-    <style>
-        * { font-family: "Inter", serif; box-sizing: border-box; }
-        body { margin: 0; background-color: #f5f5f5; color: #333; }
-        header { position: sticky; top:0; width:100%; height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 10px; background:#fff; color:#000; z-index:1000; border-bottom:1px solid #ddd; }
-        .left, .right { display:flex; align-items:center; }
-        .left img { height:32px; margin-right:32px; }
-        .left span { font-weight:bold; margin-right:32px; font-size:16px; }
-        .left nav a { margin-right:32px; text-decoration:none; color:inherit; font-size:16px; }
-        .right .user-circle { width:32px; height:32px; border-radius:50%; background:#eee; margin-right:5px; }
-        .right span, .right img { font-size:16px; margin-left:5px; margin-right:10px; }
-        .right img { width:32px; height:32px; }
-        header.dark { background:#1F1F1F; color:#eee; }
-        header.dark .left nav a { color:#eee; }
-        header.dark .right .user-circle { background:#555; }
-        #logo { content:url("https://boibyban.github.io/boibylongdark.png"); height:36px; }
-        .dark-mode #logo { content:url("https://boibyban.github.io/boibylonglight.png"); }
-        #sidebar { position:fixed; top:44px; left:0; width:160px; height:100%; background:#fff; border-right:1px solid #ddd; padding:16px; box-sizing:border-box; font-size:16px; display:none; flex-direction:column; gap:12px; z-index:900; }
-        #sidebar a, #sidebar .premium-btn { display:block; text-decoration:none; color:#000; margin-bottom:12px; font-size:16px; }
-        .premium-btn { margin-top:auto; padding:8px; border:none; background:#ffd633; border-radius:4px; cursor:pointer; font-weight:600; }
-        header.dark + #sidebar { background:#1F1F1F; border-right:1px solid #444; }
-        header.dark + #sidebar a, header.dark + #sidebar .premium-btn { color:#eee; }
-        #hamburger { display:none; font-size:22px; cursor:pointer; margin-right:12px; }
-        @media (max-width:1599px){ #sidebar{display:none;} #hamburger{display:block;} }
-        @media (min-width:1600px){ #sidebar{display:flex;} }
-        .main-content { padding:20px; max-width:800px; margin:0 auto; }
-        .appeal-container { background-color:white; border-radius:8px; padding:30px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-top:20px; }
-        .appeal-title { font-size:30px; margin-top:0; margin-bottom:20px; color:#333; }
-        .form-group { margin-bottom:20px; }
-        label { display:block; margin-bottom:8px; font-weight:500; }
-        input[type="text"], input[type="email"], select, textarea { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px; transition:border-color 0.2s; }
-        input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus { border-color:#4a90e2; outline:none; box-shadow:0 0 0 2px rgba(74,144,226,0.2); }
-        textarea { min-height:150px; resize:vertical; }
-        .submit-btn { background-color:#4a90e2; color:white; border:none; border-radius:8px; padding:12px 24px; font-size:16px; cursor:pointer; float:right; transition:background-color 0.2s; }
-        .submit-btn:hover { background-color:#3a7bc8; }
-        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:10000; display:none; }
-        .modal { background-color:white; border-radius:8px; padding:30px; max-width:500px; width:90%; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
-        .modal h2 { margin-top:0; color:#333; }
-        .modal p { margin-bottom:25px; color:#666; }
-        .modal-btn { background-color:#4a90e2; color:white; border:none; border-radius:8px; padding:10px 20px; font-size:16px; cursor:pointer; }
-        .modal-btn:hover { background-color:#3a7bc8; }
-        .moderation-notice { background:#ffebcc; border:1px solid #ffd633; border-radius:6px; padding:15px; margin-bottom:20px; display:none; }
+     <style>
+        * {
+            font-family: "Inter", serif;
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        header {
+            position: sticky;
+            box-sizing: border-box;
+            top: 0;
+            width: 100%;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            background: #fff;
+            color: #000;
+            z-index: 1000;
+            border-bottom: 1px solid #ddd;
+        }
+        .left, .right {
+            display: flex;
+            align-items: center;
+        }
+        .left img {
+            height: 32px;
+            margin-right: 32px;
+        }
+        .left span {
+            font-weight: bold;
+            margin-right: 32px;
+            font-size: 16px;
+        }
+        .left nav a {
+            margin-right: 32px;
+            text-decoration: none;
+            color: inherit;
+            font-size: 16px;
+        }
+        .right .user-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #eee;
+            margin-right: 5px;
+        }
+        .right span, .right img {
+            font-size: 16px;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+        .right img {
+            width: 32px;
+            height: 32px;
+        }
+        /* Dark mode */
+        header.dark {
+            background: #1F1F1F;
+            color: #eee;
+        }
+        header.dark .left nav a {
+            color: #eee;
+        }
+        header.dark .right .user-circle {
+            background: #555;
+        }
+        #logo {
+            content: url("https://boibyban.github.io/boibylongdark.png");
+            height: 36px;
+        }
+        .dark-mode #logo {
+            content: url("https://boibyban.github.io/boibylonglight.png");
+        }
+        
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 44px;
+            left: 0;
+            width: 160px;
+            height: 100%;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 16px;
+            box-sizing: border-box;
+            font-size: 16px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 900;
+        }
+        #sidebar a, #sidebar .premium-btn {
+            display: block;
+            text-decoration: none;
+            color: #000;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .premium-btn {
+            margin-top: auto;
+            padding: 8px;
+            border: none;
+            background: #ffd633;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        header.dark + #sidebar {
+            background: #1F1F1F;
+            border-right: 1px solid #444;
+        }
+        header.dark + #sidebar a,
+        header.dark + #sidebar .premium-btn {
+            color: #eee;
+        }
+        #hamburger {
+            display: none;
+            font-size: 22px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        @media (max-width: 1599px) {
+            #sidebar {
+                display: none;
+            }
+            #hamburger {
+                display: block;
+            }
+        }
+        @media (min-width: 1600px) {
+            #sidebar {
+                display: flex;
+            }
+        }
+        
+        /* Main content - UPDATED TO ALWAYS BE CENTERED */
+        .main-content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Appeal form */
+        .appeal-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            padding-bottom: 80px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .appeal-title {
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input[type="email"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        input[type="email"]:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        input[type="number"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        input[type="number"]:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #3a7bc8;
+        }
+        
+        /* Success modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            display: none;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        .modal h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .modal p {
+            margin-bottom: 25px;
+            color: #666;
+        }
+        .modal-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .modal-btn:hover {
+            background-color: #3a7bc8;
+        }
     </style>
-    <title>Contact Support</title>
+    <title>Appeal a decision</title>
 </head>
 <body>
-<header id="header">
-    <div class="left">
-        <div id="hamburger">☰</div>
-        <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
-    </div>
-    <div class="right">
-        <div class="user-circle"></div>
-        <span id="username">d</span>
-    </div>
-</header>
+    <header id="header">
+        <div class="left">
+            <div id="hamburger">☰</div>
+            <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
+            <nav>
+                <a href="#">Discover</a>
+                <a href="#">Catalog</a>
+                <a href="#">Develop</a>
+                <a href="#">Boibucks</a>
+            </nav>
+        </div>
+        <div class="right">
+            <div class="user-circle"></div>
+            <span id="username" style="font-weight:500;">d</span>
+            <span> </span>
+            <img src="https://boibyban.github.io/bgreen.png" alt="Boibucks">
+            <span>?</span>
+        </div>
+    </header>
 
-<div id="sidebar">
-    <a href="#">Home</a>
-    <a href="#">Profile</a>
-    <a href="#">Discover</a>
-</div>
+    <div id="sidebar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Discover</a>
+        <a href="#">Catalog</a>
+        <a href="#">Acquaintances</a>
+        <a href="#">Chat</a>
+        <a href="#">Trade</a>
+        <a href="#">Money</a>
+        <a href="#">Develop</a>
+        <a href="#">Premium</a>
+        <button style="display:none" class="premium-btn">Get Premium</button>
+    </div>
 
 <div class="main-content">
     <div class="appeal-container">
@@ -72,15 +319,15 @@
             <!-- Contact Info -->
             <div class="form-group">
                 <label for="usernameField">Username (optional)</label>
-                <input type="text" id="usernameField" name="username">
+                <input type="text" id="usernameField" name="username" placeholder="Username (optional)">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Email Address" required>
             </div>
             <div class="form-group">
                 <label for="confirmEmail">Confirm Email</label>
-                <input type="email" id="confirmEmail" name="confirmEmail" required>
+                <input type="email" id="confirmEmail" name="confirmEmail" placeholder="Confirm Email Address" required>
             </div>
 
             <!-- Device Info -->
@@ -132,13 +379,16 @@
             <!-- Issue Description -->
             <div class="form-group" id="descriptionGroup">
                 <label for="issueDescription">Please describe your issue</label>
-                <textarea id="issueDescription" name="issueDescription" required></textarea>
+                <textarea id="issueDescription" name="issueDescription" placeholder="Provide as much detail as possible about your issue" required></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">Submit</button>
+            <div style="margin-top:20px; display:flex; justify-content:flex-end;">
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
         </form>
     </div>
 </div>
+
 
 <div class="modal-overlay" id="successModal">
     <div class="modal">
