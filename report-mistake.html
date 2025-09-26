@@ -318,12 +318,6 @@
             <p style="margin-bottom: 20px;">Did we make a mistake? You may request an appeal here.</p>
 
             <form id="appealForm">
-                <!-- Username field -->
-                <div class="form-group">
-                    <label for="usernameField">Username</label>
-                    <input type="text" id="usernameField" name="username" required placeholder="Your username">
-                </div>
-
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="Your email address">
@@ -335,15 +329,17 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="appealType">What type of decision would you like to appeal?</label>
+                    <label for="appealType">What kind of decision would you like to appeal?</label>
                     <select id="appealType" name="appealType" required>
                         <option value="">Please select an option</option>
                         <option value="account">Account</option>
-                        <option value="altAccount">Alt account</option>
-                        <option value="device">Device</option>
+                        <option value="altAccount">Alt Account</option>
+                        <option value="child">Child's Account</option>
+                        <option value="device">Device Ban</option>
+                        <option value="billing">Billing</option>
+                        <option value="cheating">Cheating</option>
                         <option value="chat">Chat</option>
                         <option value="image">Image or other asset</option>
-                        <option value="bundle">Bundle</option>
                         <option value="profilePicture">Profile picture</option>
                         <option value="game">Game</option>
                         <option value="other">Other</option>
@@ -417,6 +413,17 @@
                     "My game and/or account were moderated",
                     "My game was moderated for having an inaccurate content maturity label",
                     "I need help restoring my game after it was moderated"
+                ],
+                billing: [
+                    "My account was moderated due to a chargeback or unauthorized payment",
+                    "My child's account was moderated due to a chargeback or unauthorized payment",
+                    "My account was moderated due to an error from the card holder",
+                ],
+                child: [
+                    "My child's account was moderated for their behaviour",
+                    "My child's account was moderated for the behaviour of a relative",
+                    "My child's account was moderated due to a chargeback or unauthorized payment",
+                    "My child's account was moderated incorrectly",
                 ]
             };
 
