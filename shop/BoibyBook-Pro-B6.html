@@ -1537,7 +1537,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
               const mem48 = findPill('48 GB');
               const mem64 = findPill('64 GB');
       
-              if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
+              if (chipFull.includes('16-core') && chipFull.includes('28-core')) {
                   // Full B6 Pro: 24 GB, 48 GB, 64 GB
                   console.log('Full B6 Pro - enabling 24GB, 48GB, 64GB');
                   if (mem24) mem24.classList.remove('disabled');
@@ -1556,9 +1556,9 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
               const mem96 = findPill('96 GB');
               const mem128 = findPill('128 GB');
       
-              if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
+              if (chipFull.includes('20-core') && chipFull.includes('56-core')) {
                   // Full B6 Max: 48 GB, 96 GB, 128 GB 
-                  console.log('Full B6 Max - enabling 48GB, 64GB, 128GB);
+                  console.log('Full B6 Max - enabling 48GB, 64GB, 128GB');
                   if (mem48) mem48.classList.remove('disabled');
                   if (mem96) mem96.classList.remove('disabled');
                   if (mem128) mem128.classList.remove('disabled');
