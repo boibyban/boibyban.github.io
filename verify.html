@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Verification</title>
+    <style>
+        /* Base styles from the provided code */
+        * {
+            font-family: "Inter", serif !important;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7f7f8;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .modal {
+            width: 600px;
+            max-width: 92%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 24px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+            z-index: 1000;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+        
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+        
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 28px;
+            margin-top: 8px;
+            gap: 6px;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            font-size: 21px;
+            font-weight: 600;
+            margin: 0;
+            color: #212121;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .modal-button {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 525;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .continue-button {
+            background-color: #149b6c;
+            color: white;
+        }
+        
+        .logout-button, .rules-button, .appeal-button, .back-button {
+            background-color: #eee !important;
+            color: #212121;
+        }
+        
+        .disabled-button {
+            background-color: #f5f5f5;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
+        /* Age verification specific styles */
+        .age-check-content {
+            text-align: center;
+        }
+        
+        .age-check-content h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #212121;
+        }
+        
+        .age-check-content p {
+            margin-bottom: 24px;
+            color: #555;
+        }
+        
+        .selfie-container {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .selfie-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .selfie-circle img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #212121;
+            font-weight: 500;
+        }
+        
+        .upload-label:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .age-input-container {
+            margin: 20px 0;
+        }
+        
+        .age-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .loading-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #149b6c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results-container {
+            text-align: center;
+        }
+        
+        .results-container h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: #212121;
+        }
+        
+        .results-container p {
+            margin-bottom: 16px;
+            color: #555;
+        }
+        
+        .estimated-age {
+            font-size: 28px;
+            font-weight: bold;
+            color: #149b6c;
+            margin: 10px 0;
+        }
+        
+        .dual-buttons {
+            justify-content: space-between;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-backdrop show"></div>
+    <div class="modal show" id="ageVerificationModal">
+        <!-- Step 1: Landing Page -->
+        <div id="step1" class="age-check-content">
+            <div class="modal-header">
+                <h2>Age Check</h2>
+            </div>
+            
+            <h3>Let's check your age</h3>
+            <p>Get ready to take a selfie</p>
+            
+            <div class="modal-footer">
+                <button id="continueToStep2" class="modal-button continue-button">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Step 2: Selfie Upload -->
+        <div id="step2" class="age-check-content hidden">
+            <div class="modal-header">
+                <h2>Take a Selfie</h2>
+            </div>
+            
+            <div class="selfie-container">
+                <div class="selfie-circle" id="selfiePreview">
+                    <span>Your selfie will appear here</span>
+                </div>
+                
+                <input type="file" id="selfieUpload" accept="image/*" class="hidden">
+                <label for="selfieUpload" class="upload-label">Upload Selfie</label>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="backToStep1" class="modal-button back-button">Back</button>
+                <button id="continueToStep3" class="modal-button continue-button" disabled>Continue</button>
+            </div>
+        </div>
+        
+        <!-- Step 3: Age Input -->
+        <div id="step3" class="age-check-content hidden">
+            <div class="modal-header">
+                <h2>Enter Your Age</h2>
+            </div>
+            
+            <p>Please enter your actual age for verification purposes</p>
+            
+            <div class="age-input-container">
+                <input type="number" id="ageInput" class="age-input" placeholder="Enter your age" min="1" max="120">
+            </div>
+            
+            <div class="modal-footer">
+                <button id="backToStep2" class="modal-button back-button">Back</button>
+                <button id="continueToStep4" class="modal-button continue-button" disabled>Continue</button>
+            </div>
+        </div>
+        
+        <!-- Step 4: Processing -->
+        <div id="step4" class="age-check-content hidden">
+            <div class="modal-header">
+                <h2>Checking Your Age</h2>
+            </div>
+            
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Please hang tight while we verify your age</p>
+            </div>
+        </div>
+        
+        <!-- Step 5: Results -->
+        <div id="step5" class="age-check-content hidden">
+            <div class="modal-header">
+                <h2>Results</h2>
+            </div>
+            
+            <div class="results-container">
+                <p>We estimate your age to be</p>
+                <div class="estimated-age" id="estimatedAge">25 years old</div>
+                <p id="resultMessage">You now have access to additional features including voice chat and expressive one-on-one chat.</p>
+            </div>
+            
+            <div class="modal-footer" id="resultButtons">
+                <!-- This will be populated dynamically based on the result -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const modal = document.getElementById('ageVerificationModal');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            const step4 = document.getElementById('step4');
+            const step5 = document.getElementById('step5');
+            
+            // Buttons
+            const continueToStep2 = document.getElementById('continueToStep2');
+            const backToStep1 = document.getElementById('backToStep1');
+            const continueToStep3 = document.getElementById('continueToStep3');
+            const backToStep2 = document.getElementById('backToStep2');
+            const continueToStep4 = document.getElementById('continueToStep4');
+            
+            // Inputs
+            const selfieUpload = document.getElementById('selfieUpload');
+            const selfiePreview = document.getElementById('selfiePreview');
+            const ageInput = document.getElementById('ageInput');
+            
+            // Results
+            const estimatedAge = document.getElementById('estimatedAge');
+            const resultMessage = document.getElementById('resultMessage');
+            const resultButtons = document.getElementById('resultButtons');
+            
+            // State
+            let userAge = null;
+            let selfieUploaded = false;
+            
+            // Step Navigation
+            function showStep(stepToShow) {
+                // Hide all steps
+                step1.classList.add('hidden');
+                step2.classList.add('hidden');
+                step3.classList.add('hidden');
+                step4.classList.add('hidden');
+                step5.classList.add('hidden');
+                
+                // Show the requested step
+                stepToShow.classList.remove('hidden');
+            }
+            
+            // Step 1 -> Step 2
+            continueToStep2.addEventListener('click', function() {
+                showStep(step2);
+            });
+            
+            // Step 2 -> Step 1
+            backToStep1.addEventListener('click', function() {
+                showStep(step1);
+            });
+            
+            // Step 2 -> Step 3
+            continueToStep3.addEventListener('click', function() {
+                showStep(step3);
+            });
+            
+            // Step 3 -> Step 2
+            backToStep2.addEventListener('click', function() {
+                showStep(step2);
+            });
+            
+            // Step 3 -> Step 4
+            continueToStep4.addEventListener('click', function() {
+                userAge = parseInt(ageInput.value);
+                showStep(step4);
+                
+                // Simulate age verification processing
+                setTimeout(showResults, Math.random() * 5000 + 10000); // 10-15 seconds
+            });
+            
+            // Selfie Upload Handling
+            selfieUpload.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        selfiePreview.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        selfiePreview.appendChild(img);
+                        selfieUploaded = true;
+                        updateStep2ContinueButton();
+                    }
+                    
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            // Age Input Validation
+            ageInput.addEventListener('input', function() {
+                updateStep3ContinueButton();
+            });
+            
+            // Update Continue Button States
+            function updateStep2ContinueButton() {
+                continueToStep3.disabled = !selfieUploaded;
+            }
+            
+            function updateStep3ContinueButton() {
+                const age = parseInt(ageInput.value);
+                continueToStep4.disabled = !age || age < 1 || age > 120;
+            }
+            
+            // Age Estimation Algorithm
+            function estimateAge(userAge) {
+                const random = Math.random();
+                
+                if (random < 0.5) {
+                    // 50% of the time: same age or ±1 year
+                    return userAge + Math.floor(Math.random() * 3) - 1;
+                } else if (random < 0.9) {
+                    // 40% of the time: random with radius of 10
+                    const min = Math.max(1, userAge - 10);
+                    const max = Math.min(120, userAge + 10);
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                } else {
+                    // 10% of the time: random between 2 and 100
+                    return Math.floor(Math.random() * 99) + 2;
+                }
+            }
+            
+            // Show Results
+            function showResults() {
+                const estimated = estimateAge(userAge);
+                estimatedAge.textContent = `${estimated} years old`;
+                
+                // Determine result type
+                if (estimated < 18) {
+                    // Under 18 - restricted access
+                    resultMessage.textContent = "Because of this, some features on your account have been disabled. If you think this is a mistake, you can try again or use an ID to verify.";
+                    
+                    resultButtons.innerHTML = `
+                        <button id="iUnderstand" class="modal-button back-button">I understand</button>
+                        <button id="tryAgain" class="modal-button continue-button">Try again</button>
+                    `;
+                    
+                    // Add event listeners for result buttons
+                    document.getElementById('iUnderstand').addEventListener('click', function() {
+                        alert("Account restrictions applied based on age estimation.");
+                        // In a real implementation, this would redirect or update the account
+                    });
+                    
+                    document.getElementById('tryAgain').addEventListener('click', function() {
+                        // Reset and start over
+                        resetVerification();
+                        showStep(step1);
+                    });
+                } else {
+                    // 18 or over - full access
+                    resultMessage.textContent = "You now have access to additional features including voice chat and expressive one-on-one chat.";
+                    
+                    resultButtons.innerHTML = `
+                        <button id="continueToApp" class="modal-button continue-button">Continue</button>
+                    `;
+                    
+                    // Add event listener for continue button
+                    document.getElementById('continueToApp').addEventListener('click', function() {
+                        alert("Age verification complete! Full access granted.");
+                        // In a real implementation, this would redirect to the main app
+                    });
+                }
+                
+                showStep(step5);
+            }
+            
+            // Reset verification process
+            function resetVerification() {
+                selfieUpload.value = '';
+                selfiePreview.innerHTML = '<span>Your selfie will appear here</span>';
+                ageInput.value = '';
+                selfieUploaded = false;
+                userAge = null;
+                updateStep2ContinueButton();
+                updateStep3ContinueButton();
+            }
+            
+            // Initialize
+            showStep(step1);
+        });
+    </script>
+</body>
+</html>
