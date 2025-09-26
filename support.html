@@ -1,0 +1,221 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="themeStylesheet" href="/ban-new.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+        * { font-family: "Inter", serif; box-sizing: border-box; }
+        body { margin: 0; background-color: #f5f5f5; color: #333; }
+        header { position: sticky; top:0; width:100%; height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 10px; background:#fff; color:#000; z-index:1000; border-bottom:1px solid #ddd; }
+        .left, .right { display:flex; align-items:center; }
+        .left img { height:32px; margin-right:32px; }
+        .left span { font-weight:bold; margin-right:32px; font-size:16px; }
+        .left nav a { margin-right:32px; text-decoration:none; color:inherit; font-size:16px; }
+        .right .user-circle { width:32px; height:32px; border-radius:50%; background:#eee; margin-right:5px; }
+        .right span, .right img { font-size:16px; margin-left:5px; margin-right:10px; }
+        .right img { width:32px; height:32px; }
+        header.dark { background:#1F1F1F; color:#eee; }
+        header.dark .left nav a { color:#eee; }
+        header.dark .right .user-circle { background:#555; }
+        #logo { content:url("https://boibyban.github.io/boibylongdark.png"); height:36px; }
+        .dark-mode #logo { content:url("https://boibyban.github.io/boibylonglight.png"); }
+        #sidebar { position:fixed; top:44px; left:0; width:160px; height:100%; background:#fff; border-right:1px solid #ddd; padding:16px; box-sizing:border-box; font-size:16px; display:none; flex-direction:column; gap:12px; z-index:900; }
+        #sidebar a, #sidebar .premium-btn { display:block; text-decoration:none; color:#000; margin-bottom:12px; font-size:16px; }
+        .premium-btn { margin-top:auto; padding:8px; border:none; background:#ffd633; border-radius:4px; cursor:pointer; font-weight:600; }
+        header.dark + #sidebar { background:#1F1F1F; border-right:1px solid #444; }
+        header.dark + #sidebar a, header.dark + #sidebar .premium-btn { color:#eee; }
+        #hamburger { display:none; font-size:22px; cursor:pointer; margin-right:12px; }
+        @media (max-width:1599px){ #sidebar{display:none;} #hamburger{display:block;} }
+        @media (min-width:1600px){ #sidebar{display:flex;} }
+        .main-content { padding:20px; max-width:800px; margin:0 auto; }
+        .appeal-container { background-color:white; border-radius:8px; padding:30px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-top:20px; }
+        .appeal-title { font-size:30px; margin-top:0; margin-bottom:20px; color:#333; }
+        .form-group { margin-bottom:20px; }
+        label { display:block; margin-bottom:8px; font-weight:500; }
+        input[type="text"], input[type="email"], select, textarea { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px; transition:border-color 0.2s; }
+        input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus { border-color:#4a90e2; outline:none; box-shadow:0 0 0 2px rgba(74,144,226,0.2); }
+        textarea { min-height:150px; resize:vertical; }
+        .submit-btn { background-color:#4a90e2; color:white; border:none; border-radius:8px; padding:12px 24px; font-size:16px; cursor:pointer; float:right; transition:background-color 0.2s; }
+        .submit-btn:hover { background-color:#3a7bc8; }
+        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; z-index:10000; display:none; }
+        .modal { background-color:white; border-radius:8px; padding:30px; max-width:500px; width:90%; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
+        .modal h2 { margin-top:0; color:#333; }
+        .modal p { margin-bottom:25px; color:#666; }
+        .modal-btn { background-color:#4a90e2; color:white; border:none; border-radius:8px; padding:10px 20px; font-size:16px; cursor:pointer; }
+        .modal-btn:hover { background-color:#3a7bc8; }
+        .moderation-notice { background:#ffebcc; border:1px solid #ffd633; border-radius:6px; padding:15px; margin-bottom:20px; display:none; }
+    </style>
+    <title>Contact Support</title>
+</head>
+<body>
+<header id="header">
+    <div class="left">
+        <div id="hamburger">☰</div>
+        <img id="logo" src="https://boibyban.github.io/boibylongdark.png" alt="Boiby Logo">
+    </div>
+    <div class="right">
+        <div class="user-circle"></div>
+        <span id="username">d</span>
+    </div>
+</header>
+
+<div id="sidebar">
+    <a href="#">Home</a>
+    <a href="#">Profile</a>
+    <a href="#">Discover</a>
+</div>
+
+<div class="main-content">
+    <div class="appeal-container">
+        <h2 class="appeal-title">Contact Support</h2>
+        <form id="supportForm">
+            <!-- Contact Info -->
+            <div class="form-group">
+                <label for="usernameField">Username (optional)</label>
+                <input type="text" id="usernameField" name="username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmEmail">Confirm Email</label>
+                <input type="email" id="confirmEmail" name="confirmEmail" required>
+            </div>
+
+            <!-- Device Info -->
+            <div class="form-group">
+                <label for="device">What device are you experiencing the issue on? (optional)</label>
+                <select id="device" name="device">
+                    <option value="">Select a device</option>
+                    <option>Mac</option>
+                    <option>Windows</option>
+                    <option>Linux</option>
+                    <option>iPad</option>
+                    <option>iPhone</option>
+                    <option>Chromebook</option>
+                    <option>Android Phone</option>
+                    <option>Android Tablet</option>
+                </select>
+            </div>
+
+            <!-- Help Category -->
+            <div class="form-group">
+                <label for="category">Type of help</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="account">Account Hacked or Can't Log In</option>
+                    <option value="billing">Billing and Payments</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="dmca">DMCA</option>
+                    <option value="ideas">Ideas & Suggestions</option>
+                    <option value="moderation">Moderation</option>
+                    <option value="abuse">Report Abuse</option>
+                    <option value="safety">User Safety Concern</option>
+                    <option value="tech">Technical Support</option>
+                    <option value="delete">I want to Delete My Account</option>
+                    <option value="privacy">Data Privacy/Info Requests</option>
+                </select>
+            </div>
+
+            <!-- Subcategory -->
+            <div class="form-group" id="subcategoryGroup" style="display:none;">
+                <label for="subcategory">Subcategory</label>
+                <select id="subcategory" name="subcategory"></select>
+            </div>
+
+            <!-- Moderation Notice -->
+            <div class="moderation-notice" id="moderationNotice">
+                This form doesn't send this type of appeal anymore. To ensure a review, visit <a href="/report-mistake">Appeal a Decision</a>. We’ll automatically close appeals sent under the wrong type on this form.
+            </div>
+
+            <!-- Issue Description -->
+            <div class="form-group" id="descriptionGroup">
+                <label for="issueDescription">Please describe your issue</label>
+                <textarea id="issueDescription" name="issueDescription" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="successModal">
+    <div class="modal">
+        <h2>We received your request</h2>
+        <p>Thank you for contacting Boiby Support. We will review your issue and respond as soon as possible, typically within 5 business days.</p>
+        <button class="modal-btn" id="modalOkButton">Okay</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('supportForm');
+    const successModal = document.getElementById('successModal');
+    const okButton = document.getElementById('modalOkButton');
+
+    const category = document.getElementById('category');
+    const subcategoryGroup = document.getElementById('subcategoryGroup');
+    const subcategory = document.getElementById('subcategory');
+    const moderationNotice = document.getElementById('moderationNotice');
+    const descriptionGroup = document.getElementById('descriptionGroup');
+
+    const reasonMap = {
+        account: ["Account Hacked","Forgot Password","Other Login Issues"],
+        billing: ["I made a purchase and didn't receive it","I want to report an unauthorized charge","My purchase was declined","I have a billing question","I want to cancel my membership"],
+        bug: ["Website bug report","App bug report"],
+        dmca: ["Report phishing site","Asset Removal Request","Owner DMCA Claim"],
+        ideas: ["Feedback","Feature Suggestion"],
+        moderation: ["I was moderated for my behaviour or the behaviour of an alternate account","I was moderated for content or assets I created"],
+        abuse: ["I was scammed by a user","I want to report a user that is breaking the rules","I want to report content that is breaking the rules"],
+        safety: ["Inappropriate Content or User behaviour","A user is at risk of imminent harm"],
+        tech: ["Cannot download Boiby App","Boiby App will not open","Boiby App crashing","Website issues"],
+        delete: ["I want to Delete My Account"],
+        privacy: ["Right to be forgotten (RTBF)","Right of access (ROA)","Digital cookies & other trackers","Other Privacy request or inquiry"]
+    };
+
+    category.addEventListener('change', function() {
+        const value = category.value;
+        if(value) {
+            subcategory.innerHTML = "";
+            reasonMap[value].forEach(opt => {
+                const optionEl = document.createElement("option");
+                optionEl.value = opt;
+                optionEl.textContent = opt;
+                subcategory.appendChild(optionEl);
+            });
+            subcategoryGroup.style.display = "block";
+        } else {
+            subcategoryGroup.style.display = "none";
+        }
+
+        // Handle moderation notice
+        if(value === "moderation") {
+            moderationNotice.style.display = "block";
+            descriptionGroup.style.display = "none";
+            subcategoryGroup.style.display = "none";
+        } else {
+            moderationNotice.style.display = "none";
+            descriptionGroup.style.display = "block";
+        }
+    });
+
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const confirmEmail = document.getElementById('confirmEmail').value;
+        if(email !== confirmEmail){
+            alert('Email addresses do not match. Please check and try again.');
+            return;
+        }
+        successModal.style.display = 'flex';
+    });
+
+    okButton.addEventListener('click', function(){
+        successModal.style.display = 'none';
+        form.reset();
+    });
+});
+</script>
+</body>
+</html>
