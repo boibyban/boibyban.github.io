@@ -18,13 +18,77 @@
 }
 
 .modal {
-  max-height: 85vh; /* Limit modal height to 85% of viewport */
-  overflow-y: auto; /* Enable vertical scrolling when needed */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  width: 600px;
+  max-width: 92%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 24px;
+  box-sizing: border-box;
+  max-height: 85vh;
+  overflow: hidden; /* Changed from auto to hidden */
 }
 
-/* Ensure modal content doesn't get cut off */
-.modal-content {
-  min-height: auto;
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+  max-width: 100%;
+}
+
+/* Create a scrollable container INSIDE the modal */
+.div-outer-scroll-box {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 8px; /* Space for scrollbar */
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar that respects rounded corners */
+.div-outer-scroll-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.div-outer-scroll-box::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 8px 0; /* Add margin to respect rounded corners */
+}
+
+.div-outer-scroll-box::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.div-outer-scroll-box::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Firefox scrollbar */
+.div-outer-scroll-box {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+/* Dark mode scrollbar */
+body.dark-mode .div-outer-scroll-box::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+body.dark-mode .div-outer-scroll-box::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+body.dark-mode .div-outer-scroll-box {
+  scrollbar-color: #555 transparent;
 }
 		
 .suspension-text {
@@ -627,6 +691,7 @@ body.dark-mode .menu-dots:hover {
 </div>
 	<div class="modal-backdrop"></div>	
     <div class="modal">
+		<div class="div-outer-scroll-box">
         <div class="modal-header" id="modalHeader">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M12 5.99 19.53 19H4.47L12 5.99M12 2 1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"/>
@@ -716,13 +781,15 @@ body.dark-mode .menu-dots:hover {
         <div class="modal-footer" id="actionButtons" style="margin-top:72px">
             <button id="continueButton" class="modal-button continue-button">Continue</button>
         </div>
-    </div>
+	</div>
+</div>
 
-    <script src="/translations-en.js"></script>
-    <script>
-		document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.querySelector('.modal');
-  const backdrop = document.querySelector('.modal-backdrop');
+<script src="/translations-en.js"></script>
+<script>
+	
+document.addEventListener('DOMContentLoaded', () => {
+const modal = document.querySelector('.modal');
+const backdrop = document.querySelector('.modal-backdrop');
 			
 document.addEventListener('click', function(e) {
     if (e.target.id === 'viewMoreButton' || e.target.parentElement.id === 'viewMoreButton') {
