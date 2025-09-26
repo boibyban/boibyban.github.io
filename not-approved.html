@@ -17,7 +17,16 @@
     gap: 8px; /* Space between icon and text */
 }
 
+.modal {
+  max-height: 85vh; /* Limit modal height to 85% of viewport */
+  overflow-y: auto; /* Enable vertical scrolling when needed */
+}
 
+/* Ensure modal content doesn't get cut off */
+.modal-content {
+  min-height: auto;
+}
+		
 .suspension-text {
     font-weight: bold; 
 }
@@ -714,32 +723,12 @@ body.dark-mode .menu-dots:hover {
 		document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('.modal');
   const backdrop = document.querySelector('.modal-backdrop');
-
-			document.addEventListener('click', function(e) {
+			
+document.addEventListener('click', function(e) {
     if (e.target.id === 'viewMoreButton' || e.target.parentElement.id === 'viewMoreButton') {
         e.preventDefault();
-        
-        const button = document.getElementById('viewMoreButton');
-        const evidenceItems = document.querySelectorAll('.evidence-content');
-        const isExpanded = button.textContent === 'View less';
-        
-        if (!isExpanded) {
-            // Show all hidden items
-            evidenceItems.forEach(item => {
-                item.classList.remove('hidden');
-                item.classList.add('visible');
-            });
-            button.textContent = 'View less';
-        } else {
-            // Hide items beyond the first 5
-            evidenceItems.forEach((item, index) => {
-                if (index >= 5) {
-                    item.classList.remove('visible');
-                    item.classList.add('hidden');
-                }
-            });
-            button.textContent = 'View more';
-        }
+        // Simply redirect to report mistake page
+        window.location.href = '/report-mistake';
     }
 });
 			
@@ -1385,9 +1374,7 @@ document.querySelectorAll('.evidence-content').forEach((item, index) => {
 
 // Update view more button text if there are more than 5 items
 const evidenceItems = document.querySelectorAll('.evidence-content');
-if (evidenceItems.length > 5) {
-    document.getElementById('viewMoreButton').textContent = `View more (${evidenceItems.length - 5} more)`;
-}
+document.getElementById('viewMoreButton').textContent = 'View more';
 
         // If image violation, handle layout positioning
         if (hasImageViolation) {
