@@ -79,7 +79,22 @@
   position: relative;
   z-index: 3;
 }
+/* Remove fade effect when dual-buttons class is present */
+.modal-footer.dual-buttons ~ .div-outer-scroll-box::after,
+#actionButtons.dual-buttons ~ .div-outer-scroll-box::after {
+  display: none;
+}
 
+/* Alternative if the above doesn't work due to specificity */
+.div-outer-scroll-box:has(~ .modal-footer.dual-buttons)::after,
+.div-outer-scroll-box:has(~ #actionButtons.dual-buttons)::after {
+  display: none;
+}
+
+/* Fallback using JavaScript data attribute approach */
+.div-outer-scroll-box[data-no-fade="true"]::after {
+  display: none;
+}
 /* Dark mode support */
 body.dark-mode .div-outer-scroll-box::after {
   background: linear-gradient(to top, 
