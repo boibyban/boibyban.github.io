@@ -1,4 +1,4 @@
-2<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -692,7 +692,7 @@
           <li>Up to 14-core CPU (10 performance, 4 efficiency)</li>
           <li>Up to 24-core GPU</li>
           <li>24-core Neural Engine</li>
-          <li>Supports up to 64 GB unified memory</li>
+          <li>Supports up to 48 GB unified memory</li>
           <li>Enhanced media engine with BoibyRes encode/decode</li>
         </ul>
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
@@ -995,7 +995,7 @@
               <p><strong>Up to:</strong><br>
               10-core CPU<br>
               12-core GPU<br>
-              32 GB unified memory</p>
+              32GB unified memory</p>
               <p>Up to two 5K or three 4K external displays</p>
             </div>
           </div>
@@ -1011,7 +1011,7 @@
               <p><strong>Up to:</strong><br>
               14-core CPU<br>
               24-core GPU<br>
-              64 GB unified memory</p>
+              64GB unified memory</p>
               <p>Up to three 8K or four 6K external displays</p>
             </div>
           </div>
@@ -1028,7 +1028,7 @@
               <p><strong>Up to:</strong><br>
               18-core CPU<br>
               48-core GPU<br>
-              128 GB unified memory</p>
+              128GB unified memory</p>
               <p>Up to four 8K external displays</p>
             </div>
           </div>
@@ -1080,7 +1080,7 @@
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B5 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B5 Pro chip with 14-core CPU and 24-core GPU (+A$400)"],
-            memory: ["24 GB unified memory (base)", "36 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$350)"],
+            memory: ["24 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$300)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
           }
@@ -1098,7 +1098,7 @@
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B5 Max chip with 14-core CPU and 38-core GPU (base)", "Boiby B5 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
-            memory: ["36 GB unified memory (base)", "48 GB unified memory (+A$100)", "64 GB unified memory (+A$250)", "96 GB unified memory (+A$550)", "128 GB unified memory (+A$850)"],
+            memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$700)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
             adapter: ["135W USB-C Power Adapter (base)"]
           }
@@ -1106,7 +1106,7 @@
       };
   const template16 = {
   "B5 Pro": {
-    price: 3799,
+    price: 3999,
     display: "16.2-inch Tandem OLED 240Hz VRR 3840x2464 display (peak 1600 nits)",
     ports: [
       "Three Thunderbolt 5 ports",
@@ -1117,14 +1117,14 @@
     ],
     upgrades: {
       coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-      chip: ["Boiby B5 Pro chip with 12-core CPU and 19-core GPU (base)", "Boiby B5 Pro chip with 14-core CPU and 24-core GPU (+A$400)"],
-      memory: ["24 GB unified memory (base)", "36 GB unified memory (+A$100)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$350)"],
+      chip: ["Boiby B5 Pro chip with 14-core CPU and 24-core GPU (base)"],
+      memory: ["24 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$300)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
       adapter: ["135W USB-C Power Adapter (base)"]
     }
   },
   "B5 Max": {
-    price: 5399,
+    price: 5499,
     display: "16.2-inch Tandem OLED 240Hz VRR 3840x2464 display (peak 1600 nits)",
     ports: [
       "Three Thunderbolt 5 ports",
@@ -1136,7 +1136,7 @@
     upgrades: {
       coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
       chip: ["Boiby B5 Max chip with 14-core CPU and 38-core GPU (base)", "Boiby B5 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
-      memory: ["36 GB unified memory (base)", "48 GB unified memory (+A$100)", "64 GB unified memory (+A$250)", "96 GB unified memory (+A$550)", "128 GB unified memory (+A$850)"],
+      memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$700)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
       adapter: ["135W USB-C Power Adapter (base)"]
     }
@@ -1184,17 +1184,13 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
           <p><strong>24 GB:</strong> Good for users with standard or relatively intensive workflows, good for multitasking with multiple apps, productivity, and moderate creative work. Ideal for those who do light to moderate video editing, gaming, graphic design, or programming, but don't push those to the extreme.</p>
-
-          <p><strong>36 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
-
-          <p><strong>48 GB or 64 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
+          
+          <p><strong>48 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
         `,
         'B5 Max': `
           <p><strong>How much memory is right for you?</strong></p>
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
-
-          <p><strong>36 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
-
+          
           <p><strong>48 GB or 64 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
           
           <p><strong>96 GB or 128 GB:</strong> For professionals in specialized fields like high-budget film editing, data science, engineering, or machine learning. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory. It is perfect for those working on high-resolution visual effects in cinema, simulation-based software, or advanced scientific computations.</p>
@@ -1505,102 +1501,113 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       }
 
       function handleDependencies() {
-          if (!selectedModel) return;
-      
-          const cfg = baseConfigs[selectedSize][selectedModel];
-          const optionsDiv = $('#options');
-          if (!optionsDiv) return;
-      
-          const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
-          console.log('Selected model:', selectedModel);
-          console.log('Selected chip:', chipFull);
-      
-          // Select all memory pills directly using data-cat="memory"
-          const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
-          if (!memoryPills.length) {
-              console.warn('No memory pills found');
-              return;
-          }
-      
-          // Helper to get clean text for a pill
-          const getPillText = (pill) => {
-              const label = pill.querySelector('.label');
-              return (label ? label.textContent : pill.textContent).trim();
-          }
-      
-          // Helper to find a pill by text
-          const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
-      
-          // Remove all disabled classes first
-          memoryPills.forEach(p => p.classList.remove('disabled'));
-      
-          // --- NEW MEMORY RULES ---
-          
-          if (selectedModel === 'B5 Pro') {
-              const mem24 = findPill('24 GB');
-              const mem36 = findPill('36 GB');
-              const mem48 = findPill('48 GB');
-              const mem64 = findPill('64 GB');
-      
-              if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
-                  // Full B5 Pro: 24 GB, 48 GB, 64 GB (NO 36 GB)
-                  console.log('Full B5 Pro - enabling 24GB, 48GB, 64GB; disabling 36GB');
-                  if (mem24) mem24.classList.remove('disabled');
-                  if (mem48) mem48.classList.remove('disabled');
-                  if (mem64) mem64.classList.remove('disabled');
-                  if (mem36) mem36.classList.add('disabled');
-              } else {
-                  // Base B5 Pro: 24 GB, 36 GB, 48 GB (NO 64 GB)
-                  console.log('Base B5 Pro - enabling 24GB, 36GB, 48GB; disabling 64GB');
-                  if (mem24) mem24.classList.remove('disabled');
-                  if (mem36) mem36.classList.remove('disabled');
-                  if (mem48) mem48.classList.remove('disabled');
-                  if (mem64) mem64.classList.add('disabled');
-              }
-      
-          } else if (selectedModel === 'B5 Max') {
-              const mem36 = findPill('36 GB');
-              const mem48 = findPill('48 GB');
-              const mem64 = findPill('64 GB');
-              const mem96 = findPill('96 GB');
-              const mem128 = findPill('128 GB');
-      
-              if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
-                  // Full B5 Max: 48 GB, 64 GB, 128 GB (NO 36 GB or 96 GB)
-                  console.log('Full B5 Max - enabling 48GB, 64GB, 128GB; disabling 36GB, 96GB');
-                  if (mem48) mem48.classList.remove('disabled');
-                  if (mem64) mem64.classList.remove('disabled');
-                  if (mem128) mem128.classList.remove('disabled');
-                  if (mem36) mem36.classList.add('disabled');
-                  if (mem96) mem96.classList.add('disabled');
-              } else {
-                  // Base B5 Max: 36 GB, 48 GB, 96 GB (NO 64 GB or 128 GB)
-                  console.log('Base B5 Max - enabling 36GB, 48GB, 96GB; disabling 64GB, 128GB');
-                  if (mem36) mem36.classList.remove('disabled');
-                  if (mem48) mem48.classList.remove('disabled');
-                  if (mem96) mem96.classList.remove('disabled');
-                  if (mem64) mem64.classList.add('disabled');
-                  if (mem128) mem128.classList.add('disabled');
-              }
-          }
-      
-          // Auto-select first available memory if current selection is disabled
-          const currentMemoryPill = memoryPills.find(p => p.classList.contains('selected'));
-          if (currentMemoryPill && currentMemoryPill.classList.contains('disabled')) {
-              memoryPills.forEach(p => p.classList.remove('selected'));
-              const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
-              if (firstAvailable) {
-                  firstAvailable.classList.add('selected');
-                  selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                      m.includes(getPillText(firstAvailable))
-                  );
-                  console.log('Memory auto-selected:', selectedOptions.memory);
-              }
-          }
-      
-          renderHeroSummary();
-          updatePrice();
-      }
+    if (!selectedModel) return;
+
+    const cfg = baseConfigs[selectedSize][selectedModel];
+    const optionsDiv = $('#options');
+    if (!optionsDiv) return;
+
+    const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+    console.log('Selected model:', selectedModel);
+    console.log('Selected chip:', chipFull);
+
+    // Select all memory pills directly using data-cat="memory"
+    const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
+    if (!memoryPills.length) {
+        console.warn('No memory pills found');
+        return;
+    }
+
+    // Helper to get clean text for a pill
+    const getPillText = (pill) => {
+        const label = pill.querySelector('.label');
+        return (label ? label.textContent : pill.textContent).trim();
+    }
+
+    // Helper to find a pill by text
+    const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
+
+    // Remove all disabled classes first
+    memoryPills.forEach(p => p.classList.remove('disabled'));
+
+    // --- Handle dependencies based on model ---
+    if (selectedModel === 'B5 Pro') {
+        const mem64 = findPill('64 GB');
+
+        if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
+            console.log('64GB memory enabled for B5 Pro');
+            if (mem64) mem64.classList.remove('disabled');
+        } else {
+            console.log('64GB memory disabled for B5 Pro');
+            if (mem64) mem64.classList.add('disabled');
+
+            // Auto-select first available memory if current selection is disabled
+            if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
+                memoryPills.forEach(p => p.classList.remove('selected'));
+                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                if (firstAvailable) {
+                    firstAvailable.classList.add('selected');
+                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                        m.includes(getPillText(firstAvailable))
+                    );
+                    console.log('Memory auto-selected:', selectedOptions.memory);
+                }
+            }
+        }
+    } else if (selectedModel === 'B5 Max') {
+        const mem64 = findPill('64 GB');
+        const mem96 = findPill('96 GB');
+        const mem128 = findPill('128 GB');
+
+        // 64GB & 128GB require 18-core CPU + 48-core GPU
+        if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
+            if (mem64) mem64.classList.remove('disabled');
+            if (mem128) mem128.classList.remove('disabled');
+            console.log('64GB & 128GB memory enabled for B5 Max');
+        } else {
+            if (mem64) mem64.classList.add('disabled');
+            if (mem128) mem128.classList.add('disabled');
+            console.log('64GB & 128GB memory disabled for B5 Max');
+
+            if (selectedOptions.memory && (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB'))) {
+                memoryPills.forEach(p => p.classList.remove('selected'));
+                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                if (firstAvailable) {
+                    firstAvailable.classList.add('selected');
+                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                        m.includes(getPillText(firstAvailable))
+                    );
+                    console.log('Memory auto-selected:', selectedOptions.memory);
+                }
+            }
+        }
+
+        // 96GB requires 14-core CPU + 38-core GPU
+        if (chipFull.includes('14-core') && chipFull.includes('38-core')) {
+            if (mem96) mem96.classList.remove('disabled');
+            console.log('96GB memory enabled for B5 Max');
+        } else {
+            if (mem96) mem96.classList.add('disabled');
+            console.log('96GB memory disabled for B5 Max');
+
+            if (selectedOptions.memory && selectedOptions.memory.includes('96 GB')) {
+                memoryPills.forEach(p => p.classList.remove('selected'));
+                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                if (firstAvailable) {
+                    firstAvailable.classList.add('selected');
+                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                        m.includes(getPillText(firstAvailable))
+                    );
+                    console.log('Memory auto-selected:', selectedOptions.memory);
+                }
+            }
+        }
+    }
+
+    renderHeroSummary();
+    updatePrice();
+}
+
 
 
       function renderHeroSummary() {
