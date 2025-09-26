@@ -275,7 +275,7 @@
             background-color: #3a7bc8;
         }
     </style>
-    <title>Report a mistake</title>
+    <title>Appeal a decision</title>
 </head>
 <body>
     <header id="header">
@@ -335,7 +335,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="appealType">What decision would you like to appeal?</label>
+                    <label for="appealType">What type of decision would you like to appeal?</label>
                     <select id="appealType" name="appealType" required>
                         <option value="">Please select an option</option>
                         <option value="account">Account</option>
@@ -362,11 +362,11 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="appealDescription">Description of your appeal</label>
+                    <label for="appealDescription">Why are you appealing this decision?</label>
                     <textarea id="appealDescription" name="appealDescription" required placeholder="Please provide details about why you're appealing this decision"></textarea>
                 </div>
                 
-                <button type="submit" class="submit-btn">Submit Appeal</button>
+                <button type="submit" class="submit-btn">Submit</button>
             </form>
         </div>
     </div>
@@ -401,21 +401,21 @@
             // Possible reasons mapping
             const reasonOptions = {
                 device: [
-                    "My device was banned and I don't know why",
-                    "My device was banned because my account was wrongfully banned"
+                    "My device was banned for my behaviour",
+                    "My device was banned and I don't know why"
                 ],
                 altAccount: [
-                    "My alt account was banned and I don't know why",
-                    "My alt account was incorrectly banned because of someone else's ban",
-                    "My alt account was banned because another account of mine was wrongfully banned"
+                    "My alt account was moderated because of another user",
+                    "My alt account was moderated because another account of mine was moderated"
                 ],
                 account: [
-                    "My account was moderated wrongfully",
-                    "Someone compromised my account and got it banned"
+                    "My account was moderated for content or assets I created",
+                    "My account was moderated for my behaviour or the behaviour of an alternate account",
+                    "My account was moderated after it was compromised or hacked"
                 ],
                 game: [
-                    "My game and/or account were wrongfully moderated",
-                    "My game was wrongfully moderated for having an inaccurate content maturity label",
+                    "My game and/or account were moderated",
+                    "My game was moderated for having an inaccurate content maturity label",
                     "I need help restoring my game after it was moderated"
                 ]
             };
