@@ -689,7 +689,7 @@
         <h4 style="margin-top: 0; color: #ff9500; text-align: center;">Boiby B6 Pro</h4>
         <p style="text-align: center; font-style: italic; margin-bottom: 15px;">For those who need more power, like researchers, engineers, developers and creative pros, B6 Pro speeds up everything from database design and data modelling to DNA sequencing. Whether you choose the 14- or 16-inch model, BoibyBook Pro with B6 Pro delivers immense graphics performance, so 3D rendering and animation are so much faster.</p>
         <ul style="padding-left: 20px; margin-bottom: 20px;">
-          <li>Up to 16-core CPU (10 performance, 6 efficiency)</li>
+          <li>Up to 14-core CPU (10 performance, 4 efficiency)</li>
           <li>Up to 28-core GPU</li>
           <li>24-core Neural Engine</li>
           <li>Supports up to 64 GB unified memory</li>
@@ -1009,7 +1009,7 @@
             </ul>
             <div class="chip-specs">
               <p><strong>Up to:</strong><br>
-              16-core CPU<br>
+              14-core CPU<br>
               28-core GPU<br>
               64 GB unified memory</p>
               <p>Up to three 8K or four 6K external displays</p>
@@ -1079,7 +1079,7 @@
           ],
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-            chip: ["Boiby B6 Pro chip with 13-core CPU and 22-core GPU (base)", "Boiby B6 Pro chip with 16-core CPU and 28-core GPU (+A$400)"],
+            chip: ["Boiby B6 Pro chip with 13-core CPU and 22-core GPU (base)", "Boiby B6 Pro chip with 14-core CPU and 28-core GPU (+A$400)"],
             memory: ["24 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$350)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
@@ -1097,7 +1097,7 @@
           ],
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-            chip: ["Boiby B6 Max chip with 14-core CPU and 38-core GPU (base)", "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
+            chip: ["Boiby B6 Max chip with 16-core CPU and 38-core GPU (base)", "Boiby B6 Max chip with 20-core CPU and 48-core GPU (+A$800)"],
             memory: ["48 GB unified memory (+A$100)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$7000)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
             adapter: ["135W USB-C Power Adapter (base)"]
@@ -1117,7 +1117,7 @@
     ],
     upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-            chip: ["Boiby B6 Pro chip with 13-core CPU and 22-core GPU (base)", "Boiby B6 Pro chip with 16-core CPU and 28-core GPU (+A$400)"],
+            chip: ["Boiby B6 Pro chip with 13-core CPU and 22-core GPU (base)", "Boiby B6 Pro chip with 14-core CPU and 28-core GPU (+A$400)"],
             memory: ["24 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$350)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
@@ -1135,7 +1135,7 @@
     ],
     upgrades: {
       coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-      chip: ["Boiby B6 Max chip with 14-core CPU and 38-core GPU (base)", "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
+      chip: ["Boiby B6 Max chip with 16-core CPU and 44-core GPU (base)", "Boiby B6 Max chip with 20-core CPU and 56-core GPU (+A$800)"],
       memory: ["48 GB unified memory (+A$100)", "96 GB unified memory (+A$400)", "128 GB unified memory (+A$7000)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
       adapter: ["135W USB-C Power Adapter (base)"]
@@ -1537,7 +1537,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
               const mem48 = findPill('48 GB');
               const mem64 = findPill('64 GB');
       
-              if (chipFull.includes('16-core') && chipFull.includes('28-core')) {
+              if (chipFull.includes('14-core') && chipFull.includes('28-core')) {
                   // Full B6 Pro: 24 GB, 48 GB, 64 GB
                   console.log('Full B6 Pro - enabling 24GB, 48GB, 64GB');
                   if (mem24) mem24.classList.remove('disabled');
