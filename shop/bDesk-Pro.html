@@ -543,7 +543,7 @@
           upgrades: {
             display: ["30-inch 5.5K Mini-LED display (base)"],
             chip: ["Boiby B5 Ultra chip with 28-core CPU and 76-core GPU (base)", "Boiby B5 Ultra chip with 36-core CPU and 96-core GPU (+$1600)"],
-            memory: ["96 GB unified memory (base)", "128 GB unified memory (+$800)", "256 GB unified memory (+$2000)"],
+            memory: ["96 GB unified memory (base)", "128 GB unified memory (+$800)", "256 GB unified memory (+$2000)", "512 GB unified memory (+$4200)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+$100)", "4 TB SSD storage (+$300)", "8 TB SSD storage (+$700)", "12 TB SSD storage (+$1500)"],
             ethernet: ["Gigabit Ethernet (base)", "2.5 Gigabit Ethernet (+$50)"],
             coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
@@ -563,7 +563,7 @@
           upgrades: {
             display: ["30-inch 5.5K Mini-LED display (base)"],
             chip: ["Boiby B5 Max chip with 14-core CPU and 38-core GPU (base)", "Boiby B5 Max chip with 18-core CPU and 48-core GPU (+$800)"],
-            memory: ["48 GB unified memory (base)", "64 GB unified memory (+$200)", "96 GB unified memory (+$400)", "128 GB unified memory (+$700)", "256 GB unified memory (+$1800)"],
+            memory: ["48 GB unified memory (base)", "64 GB unified memory (+$200)", "96 GB unified memory (+$400)", "128 GB unified memory (+$700)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+$100)", "4 TB SSD storage (+$300)", "8 TB SSD storage (+$700)", "12 TB SSD storage (+$1500)"],
             ethernet: ["Gigabit Ethernet (base)", "2.5 Gigabit Ethernet (+$50)"],
             coating: ["No anti-reflective coating (base)", "Anti-reflective coating (+$150)"],
@@ -585,9 +585,9 @@
           
           <p><strong>128 GB:</strong> Best for specialized professionals working on the most demanding projects. Suitable for high-end visual effects work, scientific simulations, and large-scale data analysis that requires keeping massive datasets in memory.</p>
           
-          <p><strong>256 GB:</strong> For the most extreme workloads in fields like film production, scientific research, and enterprise-level applications. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory.</p>
+          <p><strong>256 GB or more:</strong> For the most extreme workloads in fields like film production, scientific research, and enterprise-level applications. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory.</p>
           
-          <p><strong>Note:</strong> The 36-core CPU and 96-core GPU upgrade unlocks access to 128 GB and 256 GB memory configurations.</p>
+          <p><strong>Note:</strong> The 36-core CPU and 96-core GPU upgrade unlocks access to 128 GB and 512 GB memory configurations.</p>
         `,
         'B5 Max': `
           <p><strong>How much memory is right for you?</strong></p>
@@ -779,16 +779,20 @@
         if (selectedModel === 'B5 Ultra') {
             const mem128 = findPill('128 GB');
             const mem256 = findPill('256 GB');
+            const mem512 = findPill('512 GB');
+
 
             // 128GB and 256GB require 36-core CPU + 96-core GPU
             if (chipFull.includes('36-core') && chipFull.includes('96-core')) {
                 console.log('128GB and 256GB memory enabled for B5 Ultra');
                 if (mem128) mem128.classList.remove('disabled');
                 if (mem256) mem256.classList.remove('disabled');
+                if (mem512) mem512.classList.remove('disabled');
             } else {
                 console.log('128GB and 256GB memory disabled for B5 Ultra');
-                if (mem128) mem128.classList.add('disabled');
-                if (mem256) mem256.classList.add('disabled');
+                if (mem128) mem128.classList.remove('disabled');
+                if (mem256) mem256.classList.remove('disabled');
+                if (mem512) mem512.classList.add('disabled');
 
                 // Auto-select first available memory if current selection is disabled
                 if (selectedOptions.memory && (selectedOptions.memory.includes('128 GB') || selectedOptions.memory.includes('256 GB'))) {
@@ -807,19 +811,16 @@
             const mem64 = findPill('64 GB');
             const mem96 = findPill('96 GB');
             const mem128 = findPill('128 GB');
-            const mem256 = findPill('256 GB');
 
             // 64GB & 128GB require 18-core CPU + 48-core GPU
             if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
                 if (mem64) mem64.classList.remove('disabled');
                 if (mem128) mem128.classList.remove('disabled');
-                if (mem256) mem256.classList.remove('disabled');
-                console.log('64GB, 128GB & 256GB memory enabled for B5 Max');
+                console.log('64GB, 128GB memory enabled for B5 Max');
             } else {
                 if (mem64) mem64.classList.add('disabled');
                 if (mem128) mem128.classList.add('disabled');
-                if (mem256) mem256.classList.add('disabled');
-                console.log('64GB, 128GB & 256GB memory disabled for B5 Max');
+                console.log('64GB, 128GB memory disabled for B5 Max');
 
                 if (selectedOptions.memory && (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB')|| selectedOptions.memory.includes('256 GB'))) {
                     memoryPills.forEach(p => p.classList.remove('selected'));
