@@ -441,11 +441,18 @@ function formatDate(date, includeTime = true) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
+    
     if (includeTime) {
-        const hours = String(date.getHours()).padStart(2, '0');
+        let hours = date.getHours();
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
-        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        hours = String(hours).padStart(2, '0');
+        
+        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} ${ampm}`;
     }
     return `${day}/${month}/${year}`;
 }
@@ -505,7 +512,22 @@ reviewedContainer.appendChild(boldDate);
             Ban1Year: 8760
         };
         const banDurationHours = banDurationHoursMap[formData.state] || 0;
-        const reactivateDate = new Date(now.setHours(now.getHours() + banDurationHours));
+        
+        // Calculate reactivate date based on the ban start date
+        let reactivateDate;
+        if (formData.banStartDate) {
+            // Parse the banStartDate to create a Date object
+            const [datePart, timePart] = formData.banStartDate.split(', ');
+            const [day, month, year] = datePart.split('/');
+            const [hours, minutes, seconds] = timePart.split(':');
+            reactivateDate = new Date(year, month - 1, day, hours, minutes, seconds);
+            reactivateDate.setHours(reactivateDate.getHours() + banDurationHours);
+        } else {
+            // Fallback to current time
+            reactivateDate = new Date();
+            reactivateDate.setHours(reactivateDate.getHours() + banDurationHours);
+        }
+        
         document.getElementById('reactivateMessage').textContent = formatString(translations[language]["Description.BanV2"], formatDate(reactivateDate));
         document.getElementById('reactivateButton').style.display = "none";
     }
