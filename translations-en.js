@@ -76,7 +76,6 @@ window.translations = {
         "Heading.Suspend60Days": "Suspended for 60 days",
         "Heading.Suspend6Months": "Suspended for 6 months",
         "Heading.Suspend1Year": "Suspended for 1 year",
-        "Heading.BannedPermanently": "Banned permanently",
         "Heading.Banned": "Banned",
 
         "Label.LatestActivity": "Latest activity we reviewed",
