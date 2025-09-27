@@ -130,8 +130,40 @@
     <button id="closeModalBtn" style="position:absolute; top:10px; right:10px; background:transparent; border:none; font-size:18px; cursor:pointer;">×</button>
   </div>
 </div>
+<!-- Modal -->
+<div id="downloadModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10000; justify-content: center; align-items: center;">
+  <div style="background:#fff; padding:20px; border-radius:8px; max-width:450px; width:90%; text-align:center; position:relative;">
+    <h2>Download the Boiby App</h2>
+    <p id="osRequirements">Requires macOS 11 or later</p>
+    
+    <!-- Main OS Download -->
+    <button id="osDownloadBtn" style="padding:10px 20px; border:none; background:#4CAF50; color:white; border-radius:6px; cursor:pointer;">Download for macOS (Version 3.0)</button>
+    
+    <!-- Another OS toggle -->
+    <div style="margin-top:12px;">
+      <button id="showOtherOS" style="background:transparent; border:none; color:#4a90e2; cursor:pointer; font-size:14px; text-decoration:underline;">Download for another OS</button>
+      <div id="otherOSOptions" style="display:none; margin-top:10px;">
+        <button id="winDownloadBtn" style="padding:8px 16px; border:none; background:#4CAF50; color:white; border-radius:6px; cursor:pointer; margin:5px 0;">Download for Windows (Version 3.0)</button>
+        <button id="linuxDownloadBtn" style="padding:8px 16px; border:none; background:#4CAF50; color:white; border-radius:6px; cursor:pointer; margin:5px 0;">Download for Linux (Version 3.0)</button>
+      </div>
+    </div>
+    
+    <!-- Steps -->
+    <div id="downloadSteps" style="display:none; text-align:left; margin-top:20px;">
+      <h3>Next Steps:</h3>
+      <ol style="padding-left:20px; margin-top:8px;">
+        <li>Open the downloaded file.</li>
+        <li>Follow the installation prompts.</li>
+        <li>Launch Boiby from your Applications or Start Menu.</li>
+        <li>Log in with your Boiby account.</li>
+      </ol>
+    </div>
+    
+    <button id="closeModalBtn" style="position:absolute; top:10px; right:10px; background:transparent; border:none; font-size:18px; cursor:pointer;">×</button>
+  </div>
+</div>
+
 <script>
-  // OS Detection
   function detectOS() {
     const platform = navigator.userAgent || navigator.platform;
     if (/Mac/i.test(platform)) return 'macOS';
@@ -147,35 +179,47 @@
   const closeModalBtn = document.getElementById('closeModalBtn');
   const osDownloadBtn = document.getElementById('osDownloadBtn');
   const osRequirements = document.getElementById('osRequirements');
+  const showOtherOS = document.getElementById('showOtherOS');
+  const otherOSOptions = document.getElementById('otherOSOptions');
+  const winDownloadBtn = document.getElementById('winDownloadBtn');
+  const linuxDownloadBtn = document.getElementById('linuxDownloadBtn');
+  const steps = document.getElementById('downloadSteps');
+
+  let downloadLink = '#';
 
   downloadBtn.addEventListener('click', () => {
     const os = detectOS();
     let minVersionText = '';
-    let downloadLink = '#';
 
     switch(os) {
       case 'macOS':
-        minVersionText = 'Requires macOS 11 or later';
-        downloadLink = '/downloads/boiby-mac.dmg';
+        minVersionText = 'Requires macOS 11 or later and Metal capable GPU';
+        downloadLink = 'https://boiby.itch.io/boiby';
         break;
       case 'Windows':
-        minVersionText = 'Requires Windows 10 or later';
-        downloadLink = '/downloads/boiby-windows.exe';
+        minVersionText = 'Requires Windows 10 or later with Vulkan supported GPU';
+        downloadLink = 'https://boiby.itch.io/boiby';
         break;
       case 'Linux':
-        minVersionText = 'Requires a modern Linux distribution';
-        downloadLink = '/downloads/boiby-linux.AppImage';
+        minVersionText = 'Requires modern distro wih Vulkan supported GPU';
+        downloadLink = 'https://boiby.itch.io/boiby';
         break;
       default:
         minVersionText = 'Download for your platform';
-        downloadLink = '/downloads/';
+        downloadLink = 'https://boiby.itch.io/boiby';
         break;
     }
 
     osRequirements.textContent = minVersionText;
-    osDownloadBtn.textContent = `Download for ${os}`;
-    osDownloadBtn.onclick = () => { window.location.href = downloadLink; };
+    osDownloadBtn.textContent = `Download for ${os} (Version 3.0)`;
+    osDownloadBtn.onclick = () => { 
+      window.location.href = downloadLink; 
+      steps.style.display = 'block';
+    };
+
     modal.style.display = 'flex';
+    steps.style.display = 'none'; // reset
+    otherOSOptions.style.display = 'none'; // reset
   });
 
   closeModalBtn.addEventListener('click', () => {
@@ -185,14 +229,21 @@
   window.addEventListener('click', (e) => {
     if(e.target == modal) modal.style.display = 'none';
   });
+
+  showOtherOS.addEventListener('click', () => {
+    otherOSOptions.style.display = otherOSOptions.style.display === 'none' ? 'block' : 'none';
+  });
+
+  winDownloadBtn.onclick = () => {
+    window.location.href = '/downloads/boiby-windows.exe';
+    steps.style.display = 'block';
+  };
+
+  linuxDownloadBtn.onclick = () => {
+    window.location.href = '/downloads/boiby-linux.AppImage';
+    steps.style.display = 'block';
+  };
 </script>
-  <script src="/userHandling.js"></script>
-  <script>
-    // Add Acquaintances button
-    const addBtn = document.getElementById("addAcquaintancesBtn");
-    if (addBtn) addBtn.addEventListener("click", () => {
-      window.location.href = "/users.html?id=2";
-    });
-  </script>
+
 </body>
 </html>
