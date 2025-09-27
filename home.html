@@ -244,6 +244,13 @@
     steps.style.display = 'block';
   };
 </script>
-
+<script src="/userHandling.js"></script>
+<script>
+    // Add Acquaintances button
+    const addBtn = document.getElementById("addAcquaintancesBtn");
+    if (addBtn) addBtn.addEventListener("click", () => {
+      window.location.href = "/users.html?id=2";
+    });
+</script>
 </body>
 </html>
