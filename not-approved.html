@@ -844,12 +844,12 @@ document.addEventListener('click', function(e) {
     if (e.target.id === 'viewMoreButton' || e.target.parentElement.id === 'viewMoreButton') {
         e.preventDefault();
         // Simply redirect to report mistake page
-        window.location.href = '/report-mistake';
+        window.location.href = '#';
     }
 });
 
 document.addEventListener('click', function(e) {
-    // Handle the blue "View more" toggle button
+    // Handle the "View more" toggle button
     if (e.target.classList.contains('view-toggle')) {
         e.preventDefault();
         
