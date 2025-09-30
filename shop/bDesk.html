@@ -595,8 +595,8 @@
             ],
             memory: [
               "32 GB unified memory (base)",
-              "48 GB unified memory (+$400)",
-              "64 GB unified memory (+$600)"
+              "48 GB unified memory (+$200)",
+              "64 GB unified memory (+$400)"
             ],
             storage: [
               "1 TB SSD storage (base)",
@@ -810,15 +810,21 @@
         memoryPills.forEach(p => p.classList.remove('disabled'));
 
         if (selectedModel === '24-inch') {
+            const mem16 = findPill('16 GB');
+            const mem24 = findPill('24 GB');
             const mem48 = findPill('48 GB');
             const mem64 = findPill('64 GB');
 
             // 48GB & 64GB require B6 Pro chip
             if (chipFull.includes('B6 Pro')) {
+                if (mem16) mem16.classList.add('disabled');
+                if (mem24) mem24.classList.add('disabled');
                 if (mem48) mem48.classList.remove('disabled');
                 if (mem64) mem64.classList.remove('disabled');
             } else {
                 // B6 chips can only go up to 32GB
+                if (mem16) mem16.classList.remove('disabled');
+                if (mem24) mem24.classList.remove('disabled');
                 if (mem48) mem48.classList.add('disabled');
                 if (mem64) mem64.classList.add('disabled');
 
