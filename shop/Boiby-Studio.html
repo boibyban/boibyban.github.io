@@ -359,7 +359,7 @@ function showConfigurator() {
         }
       } else if (selectedModel === "B5 Ultra") {
         // 512GB memory only available with 36-core CPU
-        if (category === "memory" && opt.includes("512 GB")) {
+        if (category === "memory" && opt.includes("384 GB")) {
           pill.classList.add("disabled");
         }
         // 16TB storage only available with 32-core CPU
@@ -477,17 +477,17 @@ function showConfigurator() {
     if (selectedModel === "B5 Max" && category === "memory") {
       const note = document.createElement("div");
       note.className = "note";
-      note.innerText = "128GB unified memory available on B5 Max with 18-core CPU and 48-core GPU.";
+      note.innerText = "128 GB unified memory available on B5 Max with 18-core CPU and 48-core GPU.";
       group.appendChild(note);
     } else if (selectedModel === "B5 Ultra" && category === "memory") {
       const note = document.createElement("div");
       note.className = "note";
-      note.innerText = "512GB unified memory available on B5 Ultra with 36-core CPU and 96-core GPU.";
+      note.innerText = "384 GB unified memory available on B5 Ultra with 36-core CPU and 96-core GPU.";
       group.appendChild(note);
     } else if (selectedModel === "B5 Ultra" && category === "storage") {
       const note = document.createElement("div");
       note.className = "note";
-      note.innerText = "16TB SSD storage available on B5 Ultra with 36-core CPU and 96-core GPU.";
+      note.innerText = "16 TB SSD storage available on B5 Ultra with 36-core CPU and 96-core GPU.";
       group.appendChild(note);
     }
 
