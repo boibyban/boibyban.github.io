@@ -795,7 +795,9 @@
         
         // Select all memory pills directly using data-cat="memory"
         const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
-        if (!memoryPills.length) return;
+        const storagePills = Array.from(document.querySelectorAll('.pill[data-cat="storage"]'));
+        
+        if (!memoryPills.length || !storagePills.length) return;
 
         // Helper to get clean text for a pill
         const getPillText = (pill) => {
@@ -804,83 +806,86 @@
         }
 
         // Helper to find a pill by text
-        const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
+        const findPill = (pills, text) => pills.find(p => getPillText(p).includes(text));
 
         // Remove all disabled classes first
         memoryPills.forEach(p => p.classList.remove('disabled'));
+        storagePills.forEach(p => p.classList.remove('disabled'));
 
         if (selectedModel === '24-inch') {
-            const mem16 = findPill('16 GB');
-            const mem24 = findPill('24 GB');
-            const mem48 = findPill('48 GB');
-            const mem64 = findPill('64 GB');
+            const mem16 = findPill(memoryPills, '16 GB');
+            const mem24 = findPill(memoryPills, '24 GB');
+            const mem32 = findPill(memoryPills, '32 GB');
+            const mem48 = findPill(memoryPills, '48 GB');
+            const mem64 = findPill(memoryPills, '64 GB');
 
-            // 48GB & 64GB require B6 Pro chip
-            if (chipFull.includes('B6 Pro')) {
+            const storage512 = findPill(storagePills, '512 GB');
+            const storage4TB = findPill(storagePills, '4 TB');
+            const storage8TB = findPill(storagePills, '8 TB');
+
+            const isB6Pro = chipFull.includes('B6 Pro');
+
+            // Memory rules: B6 can have 16/24/32GB, B6 Pro can have 32/48/64GB
+            if (isB6Pro) {
+                // B6 Pro: Enable 32/48/64GB, disable 16/24GB
                 if (mem16) mem16.classList.add('disabled');
                 if (mem24) mem24.classList.add('disabled');
+                if (mem32) mem32.classList.remove('disabled');
                 if (mem48) mem48.classList.remove('disabled');
                 if (mem64) mem64.classList.remove('disabled');
             } else {
-                // B6 chips can only go up to 32GB
+                // B6: Enable 16/24/32GB, disable 48/64GB
                 if (mem16) mem16.classList.remove('disabled');
                 if (mem24) mem24.classList.remove('disabled');
+                if (mem32) mem32.classList.remove('disabled');
                 if (mem48) mem48.classList.add('disabled');
                 if (mem64) mem64.classList.add('disabled');
-
-                // Auto-select lower memory if current selection is invalid
-                if (selectedOptions.memory && 
-                    (selectedOptions.memory.includes('48 GB') || selectedOptions.memory.includes('64 GB'))) {
-                    memoryPills.forEach(p => p.classList.remove('selected'));
-                    const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
-                    if (firstAvailable) {
-                        firstAvailable.classList.add('selected');
-                        selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                            m.includes(getPillText(firstAvailable))
-                        );
-                    }
-                }
             }
 
-            // Handle storage dependencies
-            const storagePills = Array.from(document.querySelectorAll('.pill[data-cat="storage"]'));
-            const storage4TB = storagePills.find(p => getPillText(p).includes('4 TB'));
-            const storage8TB = storagePills.find(p => getPillText(p).includes('8 TB'));
-
-            // 4TB and 8TB are only available on B6 Pro chips
-            if (chipFull.includes('B6 Pro')) {
+            // Storage rules: 512GB only on B6, 4TB/8TB only on B6 Pro
+            if (isB6Pro) {
+                // B6 Pro: Disable 512GB, enable 4TB/8TB
+                if (storage512) storage512.classList.add('disabled');
                 if (storage4TB) storage4TB.classList.remove('disabled');
                 if (storage8TB) storage8TB.classList.remove('disabled');
             } else {
+                // B6: Enable 512GB, disable 4TB/8TB
+                if (storage512) storage512.classList.remove('disabled');
                 if (storage4TB) storage4TB.classList.add('disabled');
                 if (storage8TB) storage8TB.classList.add('disabled');
-
-                // Auto-select lower storage if current selection is invalid
-                if (selectedOptions.storage && 
-                    (selectedOptions.storage.includes('4 TB') || selectedOptions.storage.includes('8 TB'))) {
-                    storagePills.forEach(p => p.classList.remove('selected'));
-                    const firstAvailable = storagePills.find(p => !p.classList.contains('disabled'));
-                    if (firstAvailable) {
-                        firstAvailable.classList.add('selected');
-                        selectedOptions.storage = cfg.upgrades.storage.find(s => 
-                            s.includes(getPillText(firstAvailable))
-                        );
-                    }
-                }
             }
+
+            // Auto-select valid options if current selections are invalid
+            autoSelectValidOption(memoryPills, 'memory', cfg.upgrades.memory);
+            autoSelectValidOption(storagePills, 'storage', cfg.upgrades.storage);
         }
 
         renderHeroSummary();
         updatePrice();
       }
 
+      function autoSelectValidOption(pills, category, availableOptions) {
+        const currentValue = selectedOptions[category];
+        const currentPill = pills.find(p => p.dataset.value === currentValue);
+        
+        if (currentPill && currentPill.classList.contains('disabled')) {
+            // Current selection is invalid, find first available option
+            pills.forEach(p => p.classList.remove('selected'));
+            const firstAvailable = pills.find(p => !p.classList.contains('disabled'));
+            if (firstAvailable) {
+                firstAvailable.classList.add('selected');
+                selectedOptions[category] = firstAvailable.dataset.value;
+                console.log(`Auto-selected ${category}:`, selectedOptions[category]);
+            }
+        }
+      }
+
       function showMemoryModal(model) {
         const modal = $('#memoryModal');
-        const title = $('#memoryModal').querySelector('.modal-title');
         const content = $('#memoryModal').querySelector('.modal-content');
         
         // Set content based on model
-        content.innerHTML = memoryGuides[model] || memoryGuides['B6/Pro'];
+        content.innerHTML = memoryGuides[model] || memoryGuides['24-inch'];
         
         modal.classList.add('visible');
         
