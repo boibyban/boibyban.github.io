@@ -538,7 +538,7 @@
       let selectedColor = 'Silver';
 
       const template = {
-        "B6/Pro": {
+        "24-inch": {
           price: 1899,
           display: "24-inch 4.5K IPS display",
           ports: [
@@ -577,7 +577,7 @@
             mouse: ["Pro Mouse (base)", "Pro Trackpad + Pro Mouse (+$50)"]
           }
         },
-        "B6 Pro": {
+        "28-inch": {
           price: 2999,
           display: "28-inch 5K IPS display",
           ports: [
@@ -629,7 +629,7 @@
 
       // Memory guide for combined B6/Pro model
       const memoryGuides = {
-        'B6/Pro': `
+        '24-inch': `
           <p><strong>How much memory is right for you?</strong></p>
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
@@ -641,7 +641,7 @@
           
           <p><strong>48 GB or more:</strong> For professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, or moderate machine learning workloads.</p>
         `,
-        'B6 Pro': `
+        '28-inch': `
           <p><strong>How much memory is right for you?</strong></p>
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
@@ -809,7 +809,7 @@
         // Remove all disabled classes first
         memoryPills.forEach(p => p.classList.remove('disabled'));
 
-        if (selectedModel === 'B6/Pro') {
+        if (selectedModel === '24-inch') {
             const mem48 = findPill('48 GB');
             const mem64 = findPill('64 GB');
 
