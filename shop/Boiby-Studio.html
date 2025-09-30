@@ -269,8 +269,7 @@ const baseConfigs = {
         "1 TB SSD storage (base)", 
         "2 TB SSD storage (+A$100)", 
         "4 TB SSD storage (+A$300)", 
-        "8 TB SSD storage (+A$700)", 
-        "12 TB SSD storage (+A$1200)"
+        "8 TB SSD storage (+A$700)"
       ],
       ethernet: [
         "10 Gbit Ethernet (base)"
@@ -286,16 +285,16 @@ const baseConfigs = {
         "Boiby B5 Ultra with 36-core CPU and 96-core GPU (+A$1600)"
       ],
       memory: [
-        "96 GB unified memory (base)", 
-        "256 GB unified memory (+A$1500)", 
-        "512 GB unified memory (+A$3500)", 
+        "96 GB unified memory (base)",
+        "128 GB unified memory (+A$300)",
+        "256 GB unified memory (+A$1500)",
+        "384 GB unified memory (+A$2700)",
       ],
       storage: [
         "2 TB SSD storage (base)", 
         "4 TB SSD storage (+A$300)", 
         "8 TB SSD storage (+A$700)", 
-        "12 TB SSD storage (+A$1200)", 
-        "16 TB SSD storage (+A$2000)"
+        "16 TB SSD storage (+A$1500)"
       ],
       ethernet: [
         "10 Gbit Ethernet (base)", 
@@ -413,17 +412,17 @@ function showConfigurator() {
           
           // Enable/disable memory options based on chip selection
           if (memoryGroup) {
-            const memory512 = Array.from(memoryGroup.querySelectorAll(".pill"))
-              .find(p => p.textContent.includes("512 GB"));
+            const memory384 = Array.from(memoryGroup.querySelectorAll(".pill"))
+              .find(p => p.textContent.includes("384 GB"));
             
             if (opt.includes("36-core")) {
-              if (memory512) memory512.classList.remove("disabled");
+              if (memory384) memory384.classList.remove("disabled");
             } else {
-              if (memory512) memory512.classList.add("disabled");
+              if (memory384) memory384.classList.add("disabled");
               
               // If current selection is now disabled, select the first available option
               if (selectedOptions.memory && 
-                selectedOptions.memory.includes("512 GB")) {
+                selectedOptions.memory.includes("384 GB")) {
                 memoryGroup.querySelectorAll(".pill").forEach(p => p.classList.remove("selected"));
                 const firstAvailable = memoryGroup.querySelector(".pill:not(.disabled)");
                 if (firstAvailable) {
