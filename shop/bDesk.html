@@ -539,7 +539,7 @@
 
       const template = {
         "24-inch": {
-          price: 1899,
+          price: 1799,
           display: "24-inch 4.5K IPS display",
           ports: [
             "3 Thunderbolt 5 (USB Type-C) ports",
@@ -844,16 +844,8 @@
 
             // Handle storage dependencies
             const storagePills = Array.from(document.querySelectorAll('.pill[data-cat="storage"]'));
-            const storage512 = storagePills.find(p => getPillText(p).includes('512 GB'));
             const storage4TB = storagePills.find(p => getPillText(p).includes('4 TB'));
             const storage8TB = storagePills.find(p => getPillText(p).includes('8 TB'));
-
-            // 512GB is only available on B6 chips
-            if (chipFull.includes('B6 Pro')) {
-                if (storage512) storage512.classList.add('disabled');
-            } else {
-                if (storage512) storage512.classList.remove('disabled');
-            }
 
             // 4TB and 8TB are only available on B6 Pro chips
             if (chipFull.includes('B6 Pro')) {
