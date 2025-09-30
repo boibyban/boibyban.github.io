@@ -1062,7 +1062,7 @@
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B6 chip with 10-core CPU and 12-core GPU (base)"],
-            memory: ["16 GB unified memory (base)", "24 GB unified memory (+A$100)", "32 GB unified memory (+A$200)"],
+            memory: ["16 GB unified memory (base)", "32 GB unified memory (+A$200)"],
             storage: ["512 GB SSD storage (base)", "1 TB SSD storage (+A$100)", "2 TB SSD storage (+A$200)", "4 TB SSD storage (+A$400)"],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
           }
@@ -1080,7 +1080,7 @@
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B6 Pro chip with 13-core CPU and 20-core GPU (base)", "Boiby B6 Pro chip with 14-core CPU and 24-core GPU (+A$400)"],
-            memory: ["32 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)"],
+            memory: ["32 GB unified memory (base)", "64 GB unified memory (+A$400)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
           }
@@ -1098,7 +1098,7 @@
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
             chip: ["Boiby B6 Max chip with 14-core CPU and 40-core GPU (base)", "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
-            memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
+            memory: ["48 GB unified memory (base)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
             storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
             adapter: ["135W USB-C Power Adapter (base)"]
           }
@@ -1117,8 +1117,8 @@
     ],
     upgrades: {
       coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-      chip: ["Boiby B6 Pro chip with 16-core CPU and 29-core GPU (base)"],
-      memory: ["32 GB unified memory (base)", "48 GB unified memory (+A$200)", "64 GB unified memory (+A$400)"],
+      chip: ["Boiby B6 Pro chip with 14-core CPU and 24-core GPU (base)"],
+      memory: ["32 GB unified memory (base)", "64 GB unified memory (+A$400)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
       adapter: ["135W USB-C Power Adapter (base)"]
     }
@@ -1136,7 +1136,7 @@
     upgrades: {
       coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
       chip: ["Boiby B6 Max chip with 14-core CPU and 40-core GPU (base)", "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
-      memory: ["48 GB unified memory (base)", "64 GB unified memory (+A$200)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
+      memory: ["48 GB unified memory (base)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
       storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
       adapter: ["135W USB-C Power Adapter (base)"]
     }
@@ -1175,8 +1175,6 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
           
           <p><strong>16 GB:</strong> Good for general users, students, and users with standard workloads. This configuration is ideal for those who primarily browse the web, stream content, use productivity apps, do light video and photo editing, and perform multitasking</p>
 
-          <p><strong>24 GB:</strong> Good for users with standard or relatively intensive workflows, good for multitasking with multiple apps, productivity, and moderate creative work. Ideal for those who do light to moderate video editing, gaming, graphic design, or programming, but don't push those to the extreme.</p>
-
           <p><strong>32 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
         `,
         'B6 Pro': `
@@ -1185,13 +1183,13 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
           
           <p><strong>32 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
           
-          <p><strong>48 GB or 64 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
+          <p><strong>64 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
         `,
         'B6 Max': `
           <p><strong>How much memory is right for you?</strong></p>
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
-          <p><strong>48 GB or 64 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
+          <p><strong>48 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
           
           <p><strong>96 GB or 128 GB:</strong> For professionals in specialized fields like high-budget film editing, data science, engineering, or machine learning. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory. It is perfect for those working on high-resolution visual effects in cinema, simulation-based software, or advanced scientific computations.</p>
         `
@@ -1530,67 +1528,18 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
     // Remove all disabled classes first
     memoryPills.forEach(p => p.classList.remove('disabled'));
 
-    // --- Handle dependencies based on model ---
-    if (selectedModel === 'B6 Pro') {
-        const mem64 = findPill('64 GB');
-
-        if (chipFull.includes('14-core') && chipFull.includes('24-core')) {
-            console.log('64GB memory enabled for B6 Pro');
-            if (mem64) mem64.classList.remove('disabled');
-        } else {
-            console.log('64GB memory disabled for B6 Pro');
-            if (mem64) mem64.classList.add('disabled');
-
-            // Auto-select first available memory if current selection is disabled
-            if (selectedOptions.memory && selectedOptions.memory.includes('64 GB')) {
-                memoryPills.forEach(p => p.classList.remove('selected'));
-                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
-                if (firstAvailable) {
-                    firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                        m.includes(getPillText(firstAvailable))
-                    );
-                    console.log('Memory auto-selected:', selectedOptions.memory);
-                }
-            }
-        }
-    } else if (selectedModel === 'B6 Max') {
-        const mem64 = findPill('64 GB');
-        const mem96 = findPill('96 GB');
+    if (selectedModel === 'B6 Max') {
         const mem128 = findPill('128 GB');
 
         // 64GB & 128GB require 18-core CPU + 48-core GPU
         if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
-            if (mem64) mem64.classList.remove('disabled');
             if (mem128) mem128.classList.remove('disabled');
-            console.log('64GB & 128GB memory enabled for B6 Max');
+            console.log('128GB memory enabled for B6 Max');
         } else {
-            if (mem64) mem64.classList.add('disabled');
             if (mem128) mem128.classList.add('disabled');
-            console.log('64GB & 128GB memory disabled for B6 Max');
+            console.log('128GB memory disabled for B6 Max');
 
-            if (selectedOptions.memory && (selectedOptions.memory.includes('64 GB') || selectedOptions.memory.includes('128 GB'))) {
-                memoryPills.forEach(p => p.classList.remove('selected'));
-                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
-                if (firstAvailable) {
-                    firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                        m.includes(getPillText(firstAvailable))
-                    );
-                    console.log('Memory auto-selected:', selectedOptions.memory);
-                }
-            }
-        }
-
-        // 96GB requires 14-core CPU + 38-core GPU
-        if (chipFull.includes('14-core') && chipFull.includes('40-core')) {
-            if (mem96) mem96.classList.remove('disabled');
-            console.log('96GB memory enabled for B6 Max');
-        } else {
-            if (mem96) mem96.classList.add('disabled');
-            console.log('96GB memory disabled for B6 Max');
-
-            if (selectedOptions.memory && selectedOptions.memory.includes('96 GB')) {
+            if (selectedOptions.memory && selectedOptions.memory.includes('128 GB')) {
                 memoryPills.forEach(p => p.classList.remove('selected'));
                 const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
                 if (firstAvailable) {
