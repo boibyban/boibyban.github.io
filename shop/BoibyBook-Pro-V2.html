@@ -1048,6 +1048,7 @@
       const colors = ['Black', 'Silver'];
       let selectedColor = 'Black';
 
+      // Updated template with combined B6 Pro/Max model
       const template14 = {
         "B6": {
           price: 2399,
@@ -1067,7 +1068,7 @@
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
           }
         },
-        "B6 Pro": {
+        "B6 Pro/Max": {
           price: 3199,
           display: "14.2-inch Tandem OLED 240Hz VRR 3456x2224 display (peak 1600 nits)",
           ports: [
@@ -1079,15 +1080,35 @@
           ],
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-            chip: ["Boiby B6 Pro chip with 13-core CPU and 20-core GPU (base)", "Boiby B6 Pro chip with 14-core CPU and 24-core GPU (+A$400)"],
-            memory: ["32 GB unified memory (base)", "64 GB unified memory (+A$400)"],
-            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
+            chip: [
+              // B6 Pro configurations
+              "Boiby B6 Pro chip with 13-core CPU and 20-core GPU (base)", 
+              "Boiby B6 Pro chip with 14-core CPU and 24-core GPU (+A$300)",
+              // B6 Max configurations
+              "Boiby B6 Max chip with 14-core CPU and 40-core GPU (+A$1000)",
+              "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$1600)"
+            ],
+            memory: [
+              "32 GB unified memory (base)",
+              "64 GB unified memory (+A$300)",
+              "96 GB unified memory (+A$600)",
+              "128 GB unified memory (+A$900)"
+            ],
+            storage: [
+              "1 TB SSD storage (base)", 
+              "2 TB SSD storage (+A$100)", 
+              "4 TB SSD storage (+A$300)", 
+              "8 TB SSD storage (+A$700)", 
+            ],
             adapter: ["90 W USB-C Power Adapter (base)", "135W USB-C Power Adapter (+A$50)"]
           }
-        },
-        "B6 Max": {
-          price: 4799,
-          display: "14.2-inch Tandem OLED 240Hz VRR 3456x2224 display (peak 1600 nits)",
+        }
+      };
+
+      const template16 = {
+        "B6 Pro/Max": {
+          price: 3999,
+          display: "16.2-inch Tandem OLED 240Hz VRR 3840x2464 display (peak 1600 nits)",
           ports: [
             "Three Thunderbolt 5 ports",
             "One USB 3.1 Type-A port",
@@ -1097,55 +1118,33 @@
           ],
           upgrades: {
             coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-            chip: ["Boiby B6 Max chip with 14-core CPU and 40-core GPU (base)", "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
-            memory: ["48 GB unified memory (base)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
-            storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
+            chip: [
+              // B6 Pro configurations
+              "Boiby B6 Pro chip with 14-core CPU and 24-core GPU (base)",
+              // B6 Max configurations
+              "Boiby B6 Max chip with 14-core CPU and 40-core GPU (+A$700)",
+              "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$1300)"
+            ],
+            memory: [
+              "32 GB unified memory (base)", 
+              "64 GB unified memory (+A$300)",
+              "96 GB unified memory (+A$600)",
+              "128 GB unified memory (+A$900)"
+            ],
+            storage: [
+              "1 TB SSD storage (base)", 
+              "2 TB SSD storage (+A$100)", 
+              "4 TB SSD storage (+A$300)", 
+              "8 TB SSD storage (+A$700)", 
+            ],
             adapter: ["135W USB-C Power Adapter (base)"]
           }
         }
       };
-  const template16 = {
-  "B6 Pro": {
-    price: 3999,
-    display: "16.2-inch Tandem OLED 240Hz VRR 3840x2464 display (peak 1600 nits)",
-    ports: [
-      "Three Thunderbolt 5 ports",
-      "One USB 3.1 Type-A port",
-      "HDMI 2.2 + DisplayPort 2.1b",
-      "SD Express card reader",
-      "Audio Jack"
-    ],
-    upgrades: {
-      coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-      chip: ["Boiby B6 Pro chip with 14-core CPU and 24-core GPU (base)"],
-      memory: ["32 GB unified memory (base)", "64 GB unified memory (+A$400)"],
-      storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)"],
-      adapter: ["135W USB-C Power Adapter (base)"]
-    }
-  },
-  "B6 Max": {
-    price: 5499,
-    display: "16.2-inch Tandem OLED 240Hz VRR 3840x2464 display (peak 1600 nits)",
-    ports: [
-      "Three Thunderbolt 5 ports",
-      "One USB 3.1 Type-A port",
-      "HDMI 2.2 + DisplayPort 2.1b",
-      "SD Express card reader",
-      "Audio Jack"
-    ],
-    upgrades: {
-      coating: ["No anti-reflective coating (base)", "Anti-reflective display coating (+A$100)"],
-      chip: ["Boiby B6 Max chip with 14-core CPU and 40-core GPU (base)", "Boiby B6 Max chip with 18-core CPU and 48-core GPU (+A$800)"],
-      memory: ["48 GB unified memory (base)", "96 GB unified memory (+A$600)", "128 GB unified memory (+A$1000)"],
-      storage: ["1 TB SSD storage (base)", "2 TB SSD storage (+A$100)", "4 TB SSD storage (+A$300)", "8 TB SSD storage (+A$700)", "12 TB SSD storage (+A$1500)"],
-      adapter: ["135W USB-C Power Adapter (base)"]
-    }
-  }
-};
 
-const baseConfigs = { '14': {}, '16': {} };
-baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
-baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
+      const baseConfigs = { '14': {}, '16': {} };
+      baseConfigs['14'] = JSON.parse(JSON.stringify(template14));
+      baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
 
       const addons = {
         mouse: ["Boiby Pro Mouse (+A$100)"],
@@ -1167,7 +1166,7 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       };
       const formatPrice = n => `A$${n.toLocaleString('en-AU')}`;
 
-      // Memory guide content for different models
+      // Updated memory guide for combined B6 Pro/Max model
       const memoryGuides = {
         'B6': `
           <p><strong>How much memory is right for you?</strong></p>
@@ -1177,21 +1176,15 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
 
           <p><strong>32 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
         `,
-        'B6 Pro': `
+        'B6 Pro/Max': `
           <p><strong>How much memory is right for you?</strong></p>
           <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
           <p><strong>32 GB:</strong> Best for users engaging in more intensive workflows, such as video editing in 4K, music production with multiple tracks, large-scale coding projects, working with 3D models, playing memory-intensive simulator games, or using virtual machines.</p>
           
           <p><strong>64 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with very complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
-        `,
-        'B6 Max': `
-          <p><strong>How much memory is right for you?</strong></p>
-          <p>Our unified memory architecture allows the CPU and GPU to access the same memory pool, improving performance and efficiency. Here is a general guide to how much you might need:</p>
           
-          <p><strong>48 GB:</strong> Best for professionals who have highly memory-intensive workflows. Ideal for multi-layer 4K video editing, multiple virtual machines, compiling very large projects, working with complex 3D models and animations, running simulations, moderate machine learning workloads, or playing highly memory-intensive simulator games.</p>
-          
-          <p><strong>96 GB or 128 GB:</strong> For professionals in specialized fields like high-budget film editing, data science, engineering, or machine learning. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory. It is perfect for those working on high-resolution visual effects in cinema, simulation-based software, or advanced scientific computations.</p>
+          <p><strong>96 GB or 128 GB:</strong> For professionals in specialized fields like high-budget film editing, data science, engineering, or machine learning. Designed for workflows that involve enormous projects and require huge amounts of data to be kept in active memory. It is perfect for those working on high-resolution visual effects in cinema, simulation-based software, or advanced scientific computations. <strong>Note:</strong> 128GB requires B6 Max chip configuration.</p>
         `
       };
 
@@ -1433,6 +1426,95 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
         updatePrice();
       }
 
+      function handleDependencies() {
+        if (!selectedModel) return;
+
+        const cfg = baseConfigs[selectedSize][selectedModel];
+        const optionsDiv = $('#options');
+        if (!optionsDiv) return;
+
+        const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
+        
+        // Select all memory pills directly using data-cat="memory"
+        const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
+        if (!memoryPills.length) {
+            console.warn('No memory pills found');
+            return;
+        }
+
+        // Helper to get clean text for a pill
+        const getPillText = (pill) => {
+            const label = pill.querySelector('.label');
+            return (label ? label.textContent : pill.textContent).trim();
+        }
+
+        // Helper to find a pill by text
+        const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
+
+        // Remove all disabled classes first
+        memoryPills.forEach(p => p.classList.remove('disabled'));
+
+        if (selectedModel === 'B6 Pro/Max') {
+            const mem32 = findPill('32 GB');
+            const mem64 = findPill('64 GB');
+            const mem96 = findPill('96 GB');
+            const mem128 = findPill('128 GB');
+
+            // B6 Pro chips (any configuration) can have 32GB or 64GB
+            if (chipFull.includes('B6 Pro')) {
+                // Enable 32GB and 64GB
+                if (mem32) mem32.classList.remove('disabled');
+                if (mem64) mem64.classList.remove('disabled');
+                // Disable 96GB and 128GB
+                if (mem96) mem96.classList.add('disabled');
+                if (mem128) mem128.classList.add('disabled');
+                console.log('B6 Pro: 32GB and 64GB enabled, 96GB and 128GB disabled');
+            }
+            // B6 Max 14/40-core can have 64GB or 96GB
+            else if (chipFull.includes('14-core CPU') && chipFull.includes('40-core GPU')) {
+                // Enable 64GB and 96GB
+                if (mem64) mem64.classList.remove('disabled');
+                if (mem96) mem96.classList.remove('disabled');
+                // Disable 32GB and 128GB
+                if (mem32) mem32.classList.add('disabled');
+                if (mem128) mem128.classList.add('disabled');
+                console.log('B6 Max 14/40: 64GB and 96GB enabled, 32GB and 128GB disabled');
+            }
+            // B6 Max 18/48-core can have 64GB, 96GB, or 128GB
+            else if (chipFull.includes('18-core CPU') && chipFull.includes('48-core GPU')) {
+                // Enable 64GB, 96GB, and 128GB
+                if (mem64) mem64.classList.remove('disabled');
+                if (mem96) mem96.classList.remove('disabled');
+                if (mem128) mem128.classList.remove('disabled');
+                // Disable 32GB
+                if (mem32) mem32.classList.add('disabled');
+                console.log('B6 Max 18/48: 64GB, 96GB, and 128GB enabled, 32GB disabled');
+            }
+
+            // Auto-select appropriate memory if current selection is invalid
+            if (selectedOptions.memory) {
+                const currentMemoryPill = memoryPills.find(p => 
+                    p.dataset.value === selectedOptions.memory
+                );
+                
+                if (currentMemoryPill && currentMemoryPill.classList.contains('disabled')) {
+                    memoryPills.forEach(p => p.classList.remove('selected'));
+                    const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
+                    if (firstAvailable) {
+                        firstAvailable.classList.add('selected');
+                        selectedOptions.memory = cfg.upgrades.memory.find(m => 
+                            m.includes(getPillText(firstAvailable))
+                        );
+                        console.log('Memory auto-selected:', selectedOptions.memory);
+                    }
+                }
+            }
+        }
+
+        renderHeroSummary();
+        updatePrice();
+      }
+
       function showMemoryModal(model) {
         const modal = $('#memoryModal');
         const title = $('#memoryModalTitle');
@@ -1497,67 +1579,6 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
         const modal = $('#chipModal');
         modal.classList.remove('visible');
       }
-
-      function handleDependencies() {
-    if (!selectedModel) return;
-
-    const cfg = baseConfigs[selectedSize][selectedModel];
-    const optionsDiv = $('#options');
-    if (!optionsDiv) return;
-
-    const chipFull = selectedOptions.chip || cfg.upgrades.chip[0];
-    console.log('Selected model:', selectedModel);
-    console.log('Selected chip:', chipFull);
-
-    // Select all memory pills directly using data-cat="memory"
-    const memoryPills = Array.from(document.querySelectorAll('.pill[data-cat="memory"]'));
-    if (!memoryPills.length) {
-        console.warn('No memory pills found');
-        return;
-    }
-
-    // Helper to get clean text for a pill
-    const getPillText = (pill) => {
-        const label = pill.querySelector('.label');
-        return (label ? label.textContent : pill.textContent).trim();
-    }
-
-    // Helper to find a pill by text
-    const findPill = (text) => memoryPills.find(p => getPillText(p).includes(text));
-
-    // Remove all disabled classes first
-    memoryPills.forEach(p => p.classList.remove('disabled'));
-
-    if (selectedModel === 'B6 Max') {
-        const mem128 = findPill('128 GB');
-
-        // 64GB & 128GB require 18-core CPU + 48-core GPU
-        if (chipFull.includes('18-core') && chipFull.includes('48-core')) {
-            if (mem128) mem128.classList.remove('disabled');
-            console.log('128GB memory enabled for B6 Max');
-        } else {
-            if (mem128) mem128.classList.add('disabled');
-            console.log('128GB memory disabled for B6 Max');
-
-            if (selectedOptions.memory && selectedOptions.memory.includes('128 GB')) {
-                memoryPills.forEach(p => p.classList.remove('selected'));
-                const firstAvailable = memoryPills.find(p => !p.classList.contains('disabled'));
-                if (firstAvailable) {
-                    firstAvailable.classList.add('selected');
-                    selectedOptions.memory = cfg.upgrades.memory.find(m => 
-                        m.includes(getPillText(firstAvailable))
-                    );
-                    console.log('Memory auto-selected:', selectedOptions.memory);
-                }
-            }
-        }
-    }
-
-    renderHeroSummary();
-    updatePrice();
-}
-
-
 
       function renderHeroSummary() {
         const list = $('#heroList');
@@ -1680,96 +1701,5 @@ baseConfigs['16'] = JSON.parse(JSON.stringify(template16));
       window.__boiby_reloadModels = renderModels;
     })();
   </script>
-  <script>
-  // Performance Modal Functions
-  function openPerformanceModal(chipType) {
-    document.getElementById('modalTitle').textContent = `${chipType} Performance`;
-    document.getElementById('performanceModal').style.display = 'flex';
-    setTimeout(() => {
-      document.getElementById('performanceModal').classList.add('visible');
-    }, 10);
-    
-    // Set initial tab content
-    updatePerformanceContent('cpu');
-  }
-  
-  function closePerformanceModal() {
-    document.getElementById('performanceModal').classList.remove('visible');
-    setTimeout(() => {
-      document.getElementById('performanceModal').style.display = 'none';
-    }, 300);
-  }
-  
-  function getTabTitle(tabName) {
-    switch(tabName) {
-      case 'cpu': return 'CPU (Cinebench 2024)';
-      case 'compile': return 'Code Compiling (Chromium)';
-      case 'gaming': return 'Gaming';
-      case 'video': return 'Video Editing';
-      default: return '';
-    }
-  }
-
-  // Animate sections on scroll
-  document.addEventListener('DOMContentLoaded', function() {
-    // Animate the main title
-    setTimeout(() => {
-      const learnMoreTitle = document.querySelector('.learn-more h2');
-      if (learnMoreTitle) {
-        learnMoreTitle.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        learnMoreTitle.style.opacity = '1';
-        learnMoreTitle.style.transform = 'translateY(0)';
-      }
-    }, 200);
-    
-    // Animate sections with delay
-    const sections = document.querySelectorAll('.info-section');
-    sections.forEach((section, index) => {
-      setTimeout(() => {
-        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        section.style.opacity = '1';
-        section.style.transform = 'translateY(0)';
-      }, 400 + (index * 200));
-    });
-    
-    // Add hover effects to chip cards
-    const chipCards = document.querySelectorAll('.chip-card');
-    chipCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-8px)';
-        card.style.boxShadow = '0 12px 24px rgba(0,0,0,0.1)';
-        const img = card.querySelector('img');
-        if (img) img.style.transform = 'scale(1.05)';
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0)';
-        card.style.boxShadow = 'none';
-        const img = card.querySelector('img');
-        if (img) img.style.transform = 'scale(1)';
-      });
-    });
-    
-    // Add performance button event listeners
-    const performanceBtns = document.querySelectorAll('.performance-btn');
-    performanceBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const chipType = this.parentElement.querySelector('h4').textContent.trim();
-        openPerformanceModal(chipType);
-      });
-    });
-    
-    // Tab switching in modal
-    const modalTabs = document.querySelectorAll('#performanceModal .tab');
-    modalTabs.forEach(tab => {
-      tab.addEventListener('click', function() {
-        modalTabs.forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        const tabName = this.getAttribute('data-tab');
-        updatePerformanceContent(tabName);
-      });
-    });
-  });
-</script>
 </body>
 </html>
