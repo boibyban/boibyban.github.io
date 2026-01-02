@@ -416,7 +416,7 @@ if (formData) {
         Ban60Days: translations[language]["Title.Ban60Days"],
         Ban6Months: translations[language]["Title.Ban6Months"],
         Ban1Year: translations[language]["Title.Ban1Year"],
-        Delete: translations[language]["Title.Delete"]
+        Delete: translations[language]["Title.Terminate"]
     }; 
 
     
@@ -865,47 +865,6 @@ function formatDateForBan(timestamp) {
         }
     }
 })();
-
-document.addEventListener('DOMContentLoaded', function() {
-    const formData = JSON.parse(localStorage.getItem('banFormData') || '{}');
-    
-    const enforcementTracker = localStorage.getItem('browserEnforcementTracker');
-    
-    if (enforcementTracker && Math.random() < 0.4) {
-        if (!formData.customNote || !formData.customNote.includes("avoid an enforcement action")) {
-            const randomTimestamp = generateRandomTimestamp();
-            
-            const updatedFormData = {
-                "state": "Delete",
-                "banStartDate": formatDateForBan(randomTimestamp),
-                "note": "nonote",
-                "customNote": "You created or used an account to avoid an enforcement action taken against another account. This offense was determined by considering your account information, such as your account email, phone number, device identifier, or other factors.",
-                "internalNote": "",
-                "cautionWarning": "none",
-                "automation": "manual",
-                "theme": formData.theme || "light",
-                "botBan": false,
-                "parentChargeback": false,
-                "classicViolations": [],
-                "modernViolations": [],
-                "caseID": generateUUID()
-            };
-            
-            localStorage.setItem('banFormData', JSON.stringify(updatedFormData));
-            window.location.reload();
-        }
-    }
-    
-    if (formData.state === "Delete") {
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'e' || event.key === 'E') {
-                const timestamp = Math.floor(Date.now() / 1000);
-                localStorage.setItem('browserEnforcementTracker', timestamp.toString());
-                console.log("Browser enforcement tracker activated");
-            }
-        });
-    }
-});
 </script>
         <script src="/userHandling.js"></script>
 </body>
